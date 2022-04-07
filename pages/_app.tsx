@@ -12,6 +12,7 @@ import { store } from "@/store/index";
 import BlogHeader from "@/components/blog/BlogHeader";
 import BlogFooter from "@/components/blog/BlogFooter";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
+import Head from "next/head";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -50,6 +51,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <BlogHeader />
+        <Head>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
+        </Head>
         <TestLayout>
           <Component {...pageProps} />
         </TestLayout>
