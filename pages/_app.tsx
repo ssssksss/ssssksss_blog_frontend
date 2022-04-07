@@ -52,10 +52,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <BlogHeader />
         <Head>
-          <meta
+          {/*<meta
             httpEquiv="Content-Security-Policy"
             content="upgrade-insecure-requests"
-          />
+          />*/}
         </Head>
         <TestLayout>
           <Component {...pageProps} />
