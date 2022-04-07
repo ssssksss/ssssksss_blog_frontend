@@ -11,7 +11,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store/index";
 import BlogHeader from "@/components/blog/BlogHeader";
 import BlogFooter from "@/components/blog/BlogFooter";
-import axios from "axios";
+import AxiosInstance from "@/utils/axios/AxiosInstance";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,20 +27,23 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     console.log("app.tsx");
-    axios({
-      baseURL: "http://localhost:8080",
+    //visitFunc();
+  }, []);
+
+  const visitFunc = async () => {
+    await AxiosInstance({
       url: "/ssssksss/visit",
       method: "GET",
-      //headers: { "X-Forwarded-For": "client" },
     })
       .then((response) => {
-        let res = response.data;
-        console.log(res);
+        console.log(response.data);
+        console.log("성공??");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("에러");
+        console.log("실패??");
       });
-  }, []);
+  };
 
   return getLayout(
     <Provider store={store}>
