@@ -23,9 +23,9 @@ const CreateEditor = () => {
   const changeHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
-    console.log(getContent_md);
+    //console.log(getContent_md);
     const getContent_html = editorInstance?.getHTML();
-    console.log(getContent_html);
+    //console.log(getContent_html);
   };
   const locationHref = window.location.pathname;
   const handlerSubmit = () => {
