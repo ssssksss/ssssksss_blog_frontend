@@ -112,7 +112,7 @@ const PostView = () => {
                 )
               }
             >
-              취소
+              목록으로
             </CancelButton>
           </SubSpace>
           <MyBlock>
@@ -175,20 +175,21 @@ const LikeNumber = styled.button`
   position: absolute;
   border-radius: 10px;
   border: none;
-  right: 205px;
+  right: 225px;
   ${Button}
 `;
 const RemoveButton = styled.button`
-  right: 75px;
+  right: 95px;
   ${Button}
 `;
 const UpdateButton = styled.a`
-  right: 140px;
+  right: 160px;
   ${Button}
 `;
 const CancelButton = styled.button`
   right: 10px;
   ${Button}
+  width: 80px;
 `;
 const Title = styled.h2`
   width: 100%;

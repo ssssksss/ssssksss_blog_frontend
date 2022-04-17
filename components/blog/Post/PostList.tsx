@@ -63,7 +63,9 @@ const PostList = () => {
               as={i.second_href + "/" + i.id}
             >
               <Item>
-                <p> {i.title} </p>
+                <p>
+                  [{i.position}] {i.title}{" "}
+                </p>
                 <MenuDate> {i.modified_at.substring(0, 10)} </MenuDate>
                 <Description> {i.description} </Description>
                 <div> 👍 {i.like_number} </div>

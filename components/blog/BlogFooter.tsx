@@ -12,6 +12,8 @@ const BlogFooter = () => {
 export default BlogFooter;
 
 const Container = styled.footer`
-  width: 100%;
+  max-width: ${({ theme }) => theme.customScreen.maxWidth};
   height: 300px;
+  background: #eaeaea;
+  margin-top: 10px;
 `;

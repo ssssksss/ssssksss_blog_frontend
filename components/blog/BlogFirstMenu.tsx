@@ -104,7 +104,9 @@ const BlogFirstMenu = () => {
                 <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
                   <MenuItem
                     active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() => firstCategoryHandler(i.name)}
+                    onClick={() =>
+                      firstCategoryHandler(i.firstHref.split("/")[1])
+                    }
                   >
                     {i.name}
                   </MenuItem>
@@ -119,7 +121,9 @@ const BlogFirstMenu = () => {
                 <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
                   <MenuItem
                     active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() => firstCategoryHandler(i.name)}
+                    onClick={() =>
+                      firstCategoryHandler(i.firstHref.split("/")[1])
+                    }
                   >
                     {i.name}
                   </MenuItem>
@@ -134,7 +138,9 @@ const BlogFirstMenu = () => {
                 <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
                   <MenuItem
                     active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() => firstCategoryHandler(i.name)}
+                    onClick={() =>
+                      firstCategoryHandler(i.firstHref.split("/")[1])
+                    }
                   >
                     {i.name}{" "}
                   </MenuItem>
@@ -149,10 +155,11 @@ const BlogFirstMenu = () => {
                 <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
                   <MenuItem
                     active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() => firstCategoryHandler(i.name)}
+                    onClick={() =>
+                      firstCategoryHandler(i.firstHref.split("/")[1])
+                    }
                   >
-                    {" "}
-                    {i.name}{" "}
+                    {i.name}
                   </MenuItem>
                 </Link>
               )
