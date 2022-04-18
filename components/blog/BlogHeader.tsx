@@ -8,17 +8,19 @@ const BlogHeader = () => {
 
   return (
     <Header>
+      <HitsContainer>
+        <p> 오늘 조회수 : </p>
+        <p> 전체 조회수 : </p>
+      </HitsContainer>
       <Link href="/">
         <a>
           <Img alt="logo" src="/img/logo.svg"></Img>
         </a>
       </Link>
-      <div>
-        <p> 오늘 조회수 : </p>
-        <p> 전체 조회수 : </p>
-      </div>
-      <SigninButton> 로그인 </SigninButton>
-      <SignupButton> 회원가입 </SignupButton>
+      <ButtonContainer>
+        <SigninButton> 로그인 </SigninButton>
+        <SignupButton> 회원가입 </SignupButton>
+      </ButtonContainer>
     </Header>
   );
 };
@@ -33,7 +35,10 @@ const Header = styled.header`
   background: #aeaeae;
   padding: 0px 10px;
   position: relative;
-  ${({ theme }) => theme.flex.flexLeft};
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: space-between;
+  align-items: center;
 `;
 const rotation = keyframes`
 0%,100%{
@@ -54,18 +59,25 @@ const Img = styled.img`
   top: 5px;
   animation: ${rotation} 8s ease-in-out infinite;
 `;
+const HitsContainer = styled.div``;
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-flow: nowrap row;
+  gap: 0px 5px;
+`;
 const CommonButton = css`
   ${({ theme }) => theme.customButton};
   width: 80px;
   height: 50px;
-  position: absolute;
-  top: 5px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    width: 60px;
+    font-size: 0.6rem;
+  }
 `;
 const SigninButton = styled.button`
   ${CommonButton}
-  right: 100px;
 `;
 const SignupButton = styled.button`
   ${CommonButton}
-  right: 10px;
 `;

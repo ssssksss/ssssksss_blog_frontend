@@ -15,5 +15,5 @@ const Container = styled.footer`
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   height: 300px;
   background: #eaeaea;
-  margin-top: 10px;
+  margin: 10px auto 0px;
 `;

@@ -86,42 +86,48 @@ const PostView = () => {
         <Container>
           <Title> {post?.title} </Title>
           <SubSpace>
-            <ModifiedAt> {post?.modifiedAt.substring(0, 10)} </ModifiedAt>
-            <UserId> {post?.userId} </UserId>
-            <LikeNumber> 👍 {post?.likeNumber} </LikeNumber>
-            <RemoveButton onClick={() => removePostHandler()}>
-              삭제
-            </RemoveButton>
-            <Link
-              href={"/[firstCategory]/[secondCategory]/[post]/update"}
-              as={
-                router.asPath.substring(0, router.asPath.lastIndexOf("/")) +
-                "/post/update?id=" +
-                post?.id
-              }
-            >
-              <UpdateButton> 수정</UpdateButton>
-            </Link>
-            <CancelButton
-              onClick={() =>
-                router.push(
-                  "/" +
-                    router.asPath.split("/")[1] +
+            <PostContainer1>
+              <ModifiedAt>
+                작성일 : {post?.modifiedAt.substring(0, 10)}{" "}
+              </ModifiedAt>
+              <UserId> 작성자 : {post?.userId} </UserId>
+            </PostContainer1>
+            <PostContainer2>
+              <LikeNumber> 👍 {post?.likeNumber} </LikeNumber>
+              <Link
+                href={"/[firstCategory]/[secondCategory]/[post]/update"}
+                as={
+                  router.asPath.substring(0, router.asPath.lastIndexOf("/")) +
+                  "/post/update?id=" +
+                  post?.id
+                }
+              >
+                <UpdateButton> 수정</UpdateButton>
+              </Link>
+              <RemoveButton onClick={() => removePostHandler()}>
+                삭제
+              </RemoveButton>
+              <CancelButton
+                onClick={() =>
+                  router.push(
                     "/" +
-                    router.asPath.split("/")[2]
-                )
-              }
-            >
-              목록으로
-            </CancelButton>
+                      router.asPath.split("/")[1] +
+                      "/" +
+                      router.asPath.split("/")[2]
+                  )
+                }
+              >
+                목록으로
+              </CancelButton>
+            </PostContainer2>
           </SubSpace>
-          <MyBlock>
+          <ViewerContainer>
             <Viewer
               initialValue={post?.content}
               theme="black"
               ref={editorRef}
             />
-          </MyBlock>
+          </ViewerContainer>
         </Container>
       )}
     </>
@@ -145,16 +151,29 @@ const SubSpace = styled.div`
   font-size: 20px;
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   background: white;
-  position: relative;
-  padding: 4px;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-between;
 `;
-const ModifiedAt = styled.div`
-  font-size: 16px;
-  position: absolute;
+const PostContainer1 = styled.div`
+  height: 60px;
+  display: flex;
+  flex-flow: wrap column;
+  justify-content: space-evenly;
+  padding: 0px 10px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    font-size: 0.8rem;
+  }
 `;
-const UserId = styled.div`
-  position: absolute;
-  top: 30px;
+const ModifiedAt = styled.div``;
+const UserId = styled.div``;
+const PostContainer2 = styled.div`
+  display: flex;
+  flex-flow: nowrap row;
+  align-items: center;
+  padding: 0px 10px;
+  gap: 5px;
 `;
 const Button = css`
   width: 60px;
@@ -169,25 +188,23 @@ const Button = css`
   &:hover {
     background: white;
   }
-  position: absolute;
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    width: 40px;
+    font-size: 0.8rem;
+  }
 `;
 const LikeNumber = styled.button`
-  position: absolute;
   border-radius: 10px;
   border: none;
-  right: 225px;
   ${Button}
 `;
 const RemoveButton = styled.button`
-  right: 95px;
   ${Button}
 `;
 const UpdateButton = styled.a`
-  right: 160px;
   ${Button}
 `;
 const CancelButton = styled.button`
-  right: 10px;
   ${Button}
   width: 80px;
 `;
@@ -203,7 +220,7 @@ const Title = styled.h2`
   ${({ theme }) => theme.flex.flexCenter};
 `;
 
-const MyBlock = styled.div`
+const ViewerContainer = styled.div`
   min-height: 600px;
   margin-top: 10px;
   background: white;
