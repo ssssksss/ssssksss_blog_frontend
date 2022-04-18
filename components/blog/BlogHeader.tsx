@@ -33,7 +33,7 @@ const Header = styled.header`
   border-radius: 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   background: #aeaeae;
-  padding: 0px 10px;
+  padding: 0px 5px;
   position: relative;
   display: flex;
   flex-flow: wrap row;

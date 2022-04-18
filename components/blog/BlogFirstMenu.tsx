@@ -204,14 +204,17 @@ const MenuContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 25%);
   border-radius: 0px 0px 10px 10px;
-  padding: 4px 0px;
+  padding: 4px;
 `;
 const MenuList = styled.div`
   display: grid;
   grid-template-rows: repeat(1fr);
   min-width: 80px;
-  padding: 4px;
-  grid-gap: 10px;
+  gap: 6px;
+
+  &:nth-child(n + 2) {
+    border-left: dashed 1px white;
+  }
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     a {
@@ -220,7 +223,7 @@ const MenuList = styled.div`
   }
 `;
 const MenuItem = styled.a<{ active: boolean }>`
-  box-shadow: 1px 1px 0px 0px grey, -1px -1px 1px 1px grey, inset 1px 1px grey;
+  //box-shadow: 1px 1px 0px 0px grey, -1px -1px 1px 0px grey, inset 1px 1px grey;
   ${({ theme }) => theme.flex.flexCenter};
   background: ${(props) =>
     props.active ? "white" : ({ theme }) => theme.customColors.first};
@@ -232,7 +235,7 @@ const MenuItem = styled.a<{ active: boolean }>`
   &:hover {
     color: ${({ theme }) => theme.customColors.first};
     background: white;
-    box-shadow: 0px 0px 1px 1px grey, inset 1px 1px grey;
-    transform: translate(-2px, -2px);
+    //box-shadow: 0px 0px 1px 1px grey, inset 1px 1px grey;
+    //transform: translate(-2px, -2px);
   }
 `;

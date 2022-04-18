@@ -106,6 +106,10 @@ const BlogSecondMenu = () => {
 
 export default BlogSecondMenu;
 
+const Container = styled.div`
+  margin: 10px auto;
+  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+`;
 const MenuTitle = styled.div`
   background: ${({ theme }) => theme.customColors.secondTitle};
   color: white;
@@ -134,13 +138,16 @@ const MenuContainer = styled.div`
   padding: 10px 4px;
   font-size: 12px;
 `;
-const Container = styled.div`
-  margin: 10px auto;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
-`;
+
 const MenuItem = styled.a<{ active: boolean }>`
   height: 24px;
-  box-shadow: 1px 1px 0px 0px grey, -1px -1px 1px 1px grey, inset 1px 1px grey;
+
+  &:nth-child(4n + 2),
+  &:nth-child(4n + 3),
+  &:nth-child(4n + 4) {
+    border-left: dashed 1px white;
+  }
+
   ${({ theme }) => theme.flex.flexCenter};
   background: ${(props) =>
     props.active ? "white" : ({ theme }) => theme.customColors.second};
@@ -152,7 +159,5 @@ const MenuItem = styled.a<{ active: boolean }>`
   &:hover {
     color: ${({ theme }) => theme.customColors.second};
     background: white;
-    box-shadow: 0px 0px 1px 1px grey, inset 1px 1px grey;
-    transform: translate(-2px, -2px);
   }
 `;
