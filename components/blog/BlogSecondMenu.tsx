@@ -42,26 +42,29 @@ const BlogSecondMenu = () => {
 
   useEffect(() => {
     console.log("BlogSecondMenu.tsx");
-    if (
-      window.location.pathname.split("/")[1] !== undefined &&
-      window.location.pathname.split("/")[1] !== null
-    ) {
-      AxiosInstance({
-        url: "/ssssksss/second-category/read",
-        method: "GET",
-        params: {
-          firstHref: firstCategory,
-        },
-      })
-        .then((response) => {
-          let res = response.data.data.secondCategory;
-          setSecondCategory(res);
-          console.log("두번째 카테고리를 성공적으로 받음");
+    async function func() {
+      if (
+        window.location.pathname.split("/")[1] !== undefined &&
+        window.location.pathname.split("/")[1] !== null
+      ) {
+        await AxiosInstance({
+          url: "/ssssksss/second-category/read",
+          method: "GET",
+          params: {
+            firstHref: firstCategory,
+          },
         })
-        .catch((error) => {
-          console.log(error);
-        });
+          .then((response) => {
+            let res = response.data.data.secondCategory;
+            setSecondCategory(res);
+            console.log("두번째 카테고리를 성공적으로 받음");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
+    func();
   }, [categoryChange, firstCategory]);
 
   const modalHandler = (e: any) => {
