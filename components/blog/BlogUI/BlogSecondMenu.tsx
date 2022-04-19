@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Link from "next/link";
-import ModalSecondCategory from "../Modal/ModalSecondCategory";
+import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/reducers";
 import { SECOND_CATEGORY_ACTION } from "@/store/category/actions";
@@ -119,7 +119,7 @@ const MenuTitle = styled.div`
   height: 40px;
   font-size: 20px;
   border-radius: 10px 10px 0px 0px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   ${({ theme }) => theme.flex.flexCenter};
 
   button {
@@ -128,7 +128,7 @@ const MenuTitle = styled.div`
   }
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 14px;
+    font-size: 0.8rem;
   }
 `;
 const MenuContainer = styled.div`
@@ -136,19 +136,23 @@ const MenuContainer = styled.div`
   color: white;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
+  gap: 4px 0px;
   border-radius: 0px 0px 10px 10px;
   padding: 10px 4px;
-  font-size: 12px;
+  font-size: 1rem;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    font-size: 0.6rem;
+  }
 `;
 
 const MenuItem = styled.a<{ active: boolean }>`
-  height: 24px;
+  height: 30px;
 
   &:nth-child(4n + 2),
   &:nth-child(4n + 3),
   &:nth-child(4n + 4) {
-    border-left: dashed 1px white;
+    border-left: dashed 1px black;
   }
 
   ${({ theme }) => theme.flex.flexCenter};
@@ -156,7 +160,7 @@ const MenuItem = styled.a<{ active: boolean }>`
     props.active ? "white" : ({ theme }) => theme.customColors.second};
   color: ${(props) =>
     props.active ? ({ theme }) => theme.customColors.second : "white"};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   cursor: pointer;
 
   &:hover {

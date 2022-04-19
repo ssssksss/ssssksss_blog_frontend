@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import ModalFirstCategory from "../Modal/ModalFirstCategory";
+import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/store/category/actions";
 import { SECOND_CATEGORY_ACTION } from "@/store/category/actions";
 import { useDispatch } from "react-redux";
@@ -83,17 +83,17 @@ const BlogFirstMenu = () => {
       <MenuTitle>
         {modalOpen && <ModalFirstCategory modalHandler={modalHandler} />}
         {firstCategoryTitles.map((i) => (
-          <span key={i.position}>
+          <Title key={i.position}>
             {i.name}
-            <button
+            <PlusButton
               value={i.position}
               onClick={() => {
                 setModalOpen(true);
               }}
             >
               +
-            </button>
-          </span>
+            </PlusButton>
+          </Title>
         ))}
       </MenuTitle>
       <MenuContainer>
@@ -182,19 +182,40 @@ const MenuTitle = styled.div`
   height: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  text-align: center;
-  align-content: center;
   font-size: 20px;
   border-radius: 10px 10px 0px 0px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-
-  button {
-    border-radius: 10px;
-    margin-left: 4px;
-  }
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 14px;
+  }
+`;
+const Title = styled.div`
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    font-size: 0.8rem;
+  }
+`;
+const PlusButton = styled.button`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 4px;
+  background-color: white;
+  border: none;
+  ${({ theme }) => theme.flex.flexCenter};
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    width: 10px;
+    height: 10px;
+    right: 4px;
+    font-size: 0.8rem;
   }
 `;
 const MenuContainer = styled.div`
@@ -229,7 +250,7 @@ const MenuItem = styled.a<{ active: boolean }>`
     props.active ? "white" : ({ theme }) => theme.customColors.first};
   color: ${(props) =>
     props.active ? ({ theme }) => theme.customColors.first : "white"};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   cursor: pointer;
 
   &:hover {
