@@ -1,6 +1,6 @@
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import styled from "styled-components";
-import { useState } from "react";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 
 const ModalFirstCategory = (modalHandler: any) => {
   const [name, setName] = useState("");
@@ -54,68 +54,77 @@ const ModalFirstCategory = (modalHandler: any) => {
   };
 
   return (
-    <>
-      <Overlay
-        onClick={(e: React.MouseEvent) => {
-          modalHandler.modalHandler();
-        }}
-      ></Overlay>
+    <React.Fragment>
+      <Overlay></Overlay>
       <Container>
         <FormContainer>
-          <div>
-            <p>name :</p>
-            <input
+          <Title> 첫번째 카테고리 </Title>
+          <InputContainer>
+            <Label>
+              <span> 첫번째 카테고리명 </span>
+            </Label>
+            <InputCommon
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
               placeholder="카테고리명을 입력하세요."
             />
-          </div>
-          <div>
-            <p> firstHref : </p>
-            <input
+          </InputContainer>
+          <InputContainer>
+            <Label>
+              <span> 첫번째 카테고리 경로 </span>
+            </Label>
+            <InputCommon
               value={firstHref}
               onChange={(e) => {
                 setFirstHref(e.target.value);
               }}
-              placeholder="경로를 입력하세요."
+              placeholder="영어와'_'만 이용해서 경로를 입력하세요"
             />
-          </div>
-          <div>
-            <p> line : </p>
-            <input
+          </InputContainer>
+          <InputContainer>
+            <Label>
+              <span> 1: 프론트, 2:백엔드, 3:서버, 4:기타 </span>
+            </Label>
+            <InputCommon
               value={line}
               onChange={(e) => {
                 setLine(Number(e.target.value));
               }}
               placeholder="1~4까지의 수를 입력하세요."
             />
-          </div>
-          <button onClick={() => submitHandler()}> 제출 </button>
-          <button
-            onClick={(e: React.MouseEvent) => {
-              modalHandler.modalHandler();
-            }}
-          >
-            취소
-          </button>
-          <div>
-            <p> firstHref :</p>
-            <input
+          </InputContainer>
+          <SubmitContainer>
+            <SubmitButton onClick={() => submitHandler()}> 제출 </SubmitButton>
+            <CancelButton onClick={() => modalHandler.modalHandler()}>
+              취소
+            </CancelButton>
+          </SubmitContainer>
+          <InputContainer>
+            <Label>
+              <span> 첫번째 카테고리를 삭제할 경로 </span>
+            </Label>
+            <InputCommon
               value={removeFirstHref}
               onChange={(e) => {
                 setRemoveFirstHref(e.target.value);
               }}
               placeholder="삭제할 URL경로를 입력하세요."
             />
-          </div>
-          <button onClick={() => removeHandler()}> 삭제 </button>
+          </InputContainer>
+          <SubmitContainer>
+            <SubmitButton onClick={() => removeHandler()}> 삭제 </SubmitButton>
+            <CancelButton onClick={() => modalHandler.modalHandler()}>
+              취소
+            </CancelButton>
+          </SubmitContainer>
         </FormContainer>
       </Container>
-    </>
+    </React.Fragment>
   );
 };
+
 export default ModalFirstCategory;
 
 const Overlay = styled.div`
@@ -125,34 +134,111 @@ const Overlay = styled.div`
   left: 0;
   top: 0;
   background: rgba(174, 174, 174, 0.8);
-  cursor: pointer;
   border: 0px;
-  z-index: auto;
+  z-index: 2;
 `;
 const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  background: white;
-  width: 60%;
-  height: calc(100% - 100px);
   transform: translate(-50%, -50%);
+  background: ${({ theme }) => theme.customColors.first};
+  width: 30%;
+  min-width: 300px;
+  height: 60%;
+  min-height: 400px;
   border: 0px;
-  color: black;
-  font-size: 16px;
-  ${({ theme }) => theme.flex.flexLeftTop};
+  z-index: 3;
 `;
 const FormContainer = styled.div`
-  margin: 40px auto;
-  width: 80%;
-  height: calc(100% - 80px);
-  background: #aeaeae;
-  padding: 20px 20px 0px 0px;
+  margin: auto;
+  margin: 20px;
+  height: calc(100% - 40px);
+  background: white;
+  display: grid;
+  grid-template-columns: repeat(minmax(60px, 7fr));
+`;
+const Title = styled.div`
+  background: ${({ theme }) => theme.customColors.second};
+  color: white;
+  ${({ theme }) => theme.flex.flexCenter};
+  font-size: 1.4rem;
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 
-  div {
-    height: 40px;
-    ${({ theme }) => theme.flex.flexLeft};
-    display: grid;
-    grid-template-columns: 120px calc(100% - 120px);
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.lg}) {
+    font-size: 1rem;
   }
+`;
+const InputContainer = styled.div`
+  display: grid;
+  grid-template-rows: repeat(1, 3fr 2fr);
+  color: ${({ theme }) => theme.customColors.second};
+`;
+const Label = styled.div`
+  color: ${({ theme }) => theme.customColors.second};
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: 800;
+
+  span {
+    padding-left: 5px;
+    ${({ theme }) => theme.flex.flexLeft};
+  }
+  span:nth-child(1) {
+    border-right: dashed ${({ theme }) => theme.customColors.second} 1px;
+
+    @media only screen and (max-width: ${({ theme }) =>
+        theme.customScreen.sm}) {
+      font-size: 0.6rem;
+    }
+  }
+  span:nth-child(2) {
+    color: red;
+    font-size: 0.8rem;
+
+    @media only screen and (max-width: ${({ theme }) =>
+        theme.customScreen.lg}) {
+      font-size: 0.6rem;
+    }
+  }
+`;
+const InputCommon = styled.input`
+  ${({ theme }) => theme.flex.flexLeft};
+  padding-left: 10px;
+  border: none;
+  background: #f4f4f4;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &::-webkit-input-placeholder {
+    color: ${({ theme }) => theme.customColors.first};
+  }
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    font-size: 0.8rem;
+  }
+`;
+const SubmitContainer = styled.div``;
+const ButtonCommon = css`
+  height: 100%;
+  border: none;
+  background: ${({ theme }) => theme.customColors.second};
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 800;
+  pointer: cursor;
+  &:hover {
+    color: ${({ theme }) => theme.customColors.second};
+    background: white;
+  }
+`;
+const SubmitButton = styled.button`
+  width: 50%;
+  ${ButtonCommon}
+`;
+const CancelButton = styled.button`
+  width: 50%;
+  ${ButtonCommon}
 `;

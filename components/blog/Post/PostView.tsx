@@ -81,7 +81,7 @@ const PostView = () => {
   return (
     <>
       {loading ? (
-        <div> 로딩중 ... </div>
+        <Container> 로딩중 ... </Container>
       ) : (
         <Container>
           <Title> {post?.title} </Title>
@@ -210,13 +210,13 @@ const CancelButton = styled.button`
 `;
 const Title = styled.h2`
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   font-size: 20px;
   color: white;
   border-radius: 10px 10px 0px 0px;
   background: ${({ theme }) => theme.customColors.thirdTitle};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 140px;
+  padding: 0px 10px;
   ${({ theme }) => theme.flex.flexCenter};
 `;
 

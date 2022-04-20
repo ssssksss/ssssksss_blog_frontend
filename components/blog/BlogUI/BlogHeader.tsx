@@ -19,8 +19,18 @@ const BlogHeader = () => {
     <Header>
       {modalOpen && <ModalSignup modalHandler={modalHandler} />}
       <HitsContainer>
-        <p> 오늘 조회수 : </p>
-        <p> 전체 조회수 : </p>
+        <HitsItem>
+          <span> 0 </span>
+          <span> 어제 </span>
+        </HitsItem>
+        <HitsItem>
+          <span> 0 </span>
+          <span> 오늘 </span>
+        </HitsItem>
+        <HitsItem>
+          <span> 0 </span>
+          <span> 전체 </span>
+        </HitsItem>
       </HitsContainer>
       <Logo>
         <Link href="/">
@@ -74,10 +84,18 @@ const Img = styled.img`
   background: #ffffff;
   border-radius: 30px;
   //애니메이션을 사용하면 css 그리는 순서때문에? 모달창에서 위로보이는 문제 발생
-  //animation: ${rotation} 8s ease-in-out infinite;
+  animation: ${rotation} 8s ease-in-out infinite;
 `;
 const HitsContainer = styled.div`
   padding-left: 5px;
+  ${({ theme }) => theme.flex.flexBetween};
+`;
+const HitsItem = styled.div`
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px 0px;
 `;
 const ButtonContainer = styled.div`
   display: flex;

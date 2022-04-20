@@ -10,7 +10,7 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 //2번째 카테고리 경로
 const PostList = () => {
   const router = useRouter();
-  const secondPath = useSelector(
+  const secondCategory = useSelector(
     (state: RootState) => state.category.secondCategoryPath
   );
   const [posts, setPosts] = useState<PostsTypes[]>([]);
@@ -28,29 +28,32 @@ const PostList = () => {
   };
 
   useEffect(() => {
-    if (
-      window.location.pathname.split("/")[2] !== "" &&
-      window.location.pathname.split("/")[2] !== "undefined"
-    ) {
-      AxiosInstance({
-        url: "/ssssksss/post/read",
-        method: "GET",
-        params: {
-          firstHref: window.location.pathname.split("/")[1],
-          secondHref: window.location.pathname.split("/")[2],
-        },
-      })
-        .then((response) => {
-          let res = response.data.data.posts;
-          //console.log(res);
-          setPosts(res);
-          //console.log("세번째 카테고리를 성공적으로 받음");
+    //console.log("PostList.tsx");
+    if (secondCategory !== "") {
+      if (
+        window.location.pathname.split("/")[2] !== "" &&
+        window.location.pathname.split("/")[2] !== "undefined"
+      ) {
+        AxiosInstance({
+          url: "/ssssksss/post/read",
+          method: "GET",
+          params: {
+            firstHref: window.location.pathname.split("/")[1],
+            secondHref: window.location.pathname.split("/")[2],
+          },
         })
-        .catch((error) => {
-          console.log(error);
-        });
+          .then((response) => {
+            let res = response.data.data.posts;
+            //console.log(res);
+            setPosts(res);
+            //console.log("세번째 카테고리를 성공적으로 받음");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
-  }, [secondPath]);
+  }, [secondCategory]);
 
   return (
     <React.StrictMode>
@@ -146,7 +149,7 @@ const Item = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 6px 10px 0px;
+  padding: 6px 16px 0px 10px;
   cursor: pointer;
   line-height: normal;
 

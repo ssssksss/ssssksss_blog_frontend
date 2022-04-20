@@ -47,6 +47,18 @@ declare module "styled-components" {
         "justify-content": string;
         "align-items": string;
       };
+      flexEvenly: {
+        display: string;
+        "flex-flow": string;
+        "justify-content": string;
+        "align-items": string;
+      };
+      flexBetween: {
+        display: string;
+        "flex-flow": string;
+        "justify-content": string;
+        "align-items": string;
+      };
       flexRight: {
         display: string;
         "flex-flow": string;

@@ -9,6 +9,7 @@ const Overlay = styled.div`
   background: rgba(174, 174, 174, 0.8);
   cursor: pointer;
   border: 0px;
+  z-index: 2;
 `;
 const Container = styled.button`
   position: absolute;
@@ -19,6 +20,7 @@ const Container = styled.button`
   height: calc(100% - 100px);
   transform: translate(-50%, -50%);
   border: 0px;
+  z-index: 3;
 `;
 
 const ModalFirstCategory = (modalHandler: any) => {

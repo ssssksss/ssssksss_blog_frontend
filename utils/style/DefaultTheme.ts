@@ -46,6 +46,18 @@ const theme: DefaultTheme = {
       "justify-content": "space-around",
       "align-items": "center",
     },
+    flexEvenly: {
+      display: "flex",
+      "flex-flow": "nowrap row",
+      "justify-content": "space-evenly",
+      "align-items": "center",
+    },
+    flexBetween: {
+      display: "flex",
+      "flex-flow": "nowrap row",
+      "justify-content": "space-between",
+      "align-items": "center",
+    },
     flexRight: {
       display: "flex",
       "flex-flow": "nowrap row",

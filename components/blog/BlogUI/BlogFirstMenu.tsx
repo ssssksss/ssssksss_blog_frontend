@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/store/category/actions";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/reducers";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -196,12 +197,16 @@ const Title = styled.div`
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
+  position: relative;
 `;
 const PlusButton = styled.button`
   width: 20px;
   height: 20px;
   background-color: white;
   border: none;
+  position: absolute;
+  right: 2px;
+
   ${({ theme }) => theme.flex.flexCenter};
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {

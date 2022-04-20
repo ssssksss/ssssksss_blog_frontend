@@ -52,15 +52,29 @@ const ModalSignup = (modalHandler: any) => {
       case "gender":
         setErrors({ ...errors, gender: Valid.ValidGender(userData.gender) });
         break;
-      //case "phone":
-      //setErrors({ ...errors, phone: Valid.ValidPhone(userData.phone) });
-      //break;
       default:
         break;
     }
+    submitCheck();
   }, [userData]);
 
-  const UserDataCheck = () => {
+  const submitCheck = () => {
+    if (
+      // userData.id !== "" 처음에 아무것도 입력되지 않았을 떄 제출을 막기위해서 사용
+      userData.id !== "" &&
+      errors.id === "" &&
+      errors.password === "" &&
+      errors.email === "" &&
+      errors.gender === "" &&
+      errors.birthDate === ""
+    ) {
+      setIsSubmit(true);
+    } else {
+      setIsSubmit(false);
+    }
+  };
+
+  const userDataCheck = () => {
     setErrors({
       ...errors,
       id: Valid.ValidId(userData.id),
@@ -71,10 +85,13 @@ const ModalSignup = (modalHandler: any) => {
     });
   };
 
-  const SubmitHandler = () => {
-    UserDataCheck();
-    if (errors.id === "") {
-      console.log("test");
+  const submitHandler = () => {
+    userDataCheck();
+    if (isSubmit) {
+      //에러가 없다는 것은 정상적으로 값이 들어왔다라고 판단을 한다.
+      console.log(userData);
+    } else {
+      alert("잘못 입력된 내용이 있습니다.");
     }
   };
 
@@ -114,10 +131,10 @@ const ModalSignup = (modalHandler: any) => {
               <span> 이메일 </span>
               <span> {errors.email} </span>
             </Label>
-            <InputPassword
+            <InputEmail
               type="email"
               name="email"
-              placeholder="이메일을 입력하세요"
+              placeholder="example@test.com"
               onBlur={handleValidation}
             />
           </InputContainer>
@@ -132,15 +149,17 @@ const ModalSignup = (modalHandler: any) => {
                 name="gender"
                 value="m"
                 onBlur={handleValidation}
+                id="m"
               />{" "}
-              남
+              <label htmlFor="m">남</label>
               <InputGender
                 type="radio"
                 name="gender"
                 value="w"
                 onBlur={handleValidation}
+                id="w"
               />{" "}
-              여
+              <label htmlFor="w">여</label>
             </GenderContainer>
           </InputContainer>
           <InputContainer>
@@ -156,7 +175,7 @@ const ModalSignup = (modalHandler: any) => {
             />
           </InputContainer>
           <SubmitContainer>
-            <SubmitButton onClick={() => SubmitHandler()}> 제출 </SubmitButton>
+            <SubmitButton onClick={() => submitHandler()}> 제출 </SubmitButton>
             <CancelButton onClick={() => modalHandler.modalHandler()}>
               취소
             </CancelButton>
@@ -176,8 +195,8 @@ const Overlay = styled.div`
   left: 0;
   top: 0;
   background: rgba(174, 174, 174, 0.8);
-  cursor: pointer;
   border: 0px;
+  z-index: 2;
 `;
 const Container = styled.div`
   position: absolute;
@@ -190,6 +209,7 @@ const Container = styled.div`
   height: 60%;
   min-height: 400px;
   border: 0px;
+  z-index: 3;
 `;
 const FormContainer = styled.div`
   margin: auto;
@@ -250,6 +270,7 @@ const InputCommon = css`
   border: none;
   background: #f4f4f4;
   font-size: 1rem;
+  cursor: pointer;
 
   &::-webkit-input-placeholder {
     color: ${({ theme }) => theme.customColors.first};
