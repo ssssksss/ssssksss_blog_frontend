@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/store/category/actions";
-import { SECOND_CATEGORY_ACTION } from "@/store/category/actions";
 import { useDispatch } from "react-redux";
 
 const BlogFirstMenu = () => {
@@ -28,16 +27,16 @@ const BlogFirstMenu = () => {
   }, []);
 
   useEffect(() => {
-    console.log("BlogFirstMenu.tsx");
+    //console.log("BlogFirstMenu.tsx");
     AxiosInstance({
       url: "/ssssksss/first-category/read",
       method: "GET",
     })
       .then((response) => {
         let res = response.data.data.firstCategory;
-        console.log(res);
+        //console.log(res);
         setFirstCategory(res);
-        console.log("첫번째 카테고리를 성공적으로 받음");
+        //console.log("첫번째 카테고리를 성공적으로 받음");
       })
       .catch((error) => {
         console.log(error);
@@ -84,7 +83,7 @@ const BlogFirstMenu = () => {
         {modalOpen && <ModalFirstCategory modalHandler={modalHandler} />}
         {firstCategoryTitles.map((i) => (
           <Title key={i.position}>
-            {i.name}
+            <span> {i.name} </span>
             <PlusButton
               value={i.position}
               onClick={() => {
@@ -191,22 +190,16 @@ const MenuTitle = styled.div`
   }
 `;
 const Title = styled.div`
-  position: relative;
   width: 100%;
   height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  ${({ theme }) => theme.flex.flexCenter};
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
 `;
 const PlusButton = styled.button`
-  position: absolute;
   width: 20px;
   height: 20px;
-  right: 4px;
   background-color: white;
   border: none;
   ${({ theme }) => theme.flex.flexCenter};
@@ -214,7 +207,6 @@ const PlusButton = styled.button`
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     width: 10px;
     height: 10px;
-    right: 4px;
     font-size: 0.8rem;
   }
 `;

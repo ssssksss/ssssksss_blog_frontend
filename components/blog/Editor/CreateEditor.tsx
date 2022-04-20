@@ -29,7 +29,7 @@ const CreateEditor = () => {
   };
   const locationHref = window.location.pathname;
   const handlerSubmit = () => {
-    console.log("handleSubmit");
+    //console.log("handleSubmit");
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({

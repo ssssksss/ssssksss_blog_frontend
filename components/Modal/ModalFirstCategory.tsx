@@ -1,7 +1,6 @@
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import styled from "styled-components";
+import { useState } from "react";
 
 const ModalFirstCategory = (modalHandler: any) => {
   const [name, setName] = useState("");

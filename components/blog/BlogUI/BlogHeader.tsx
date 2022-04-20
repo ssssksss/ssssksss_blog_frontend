@@ -1,25 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
+import ModalSignup from "@/components/Modal/ModalSignup";
 
 const BlogHeader = () => {
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const modalHandler = (e: any) => {
+    setModalOpen(modalOpen ? false : true);
+    if (modalOpen === true) {
+      //setCategoryChange(!categoryChange);
+    }
+  };
 
   return (
     <Header>
+      {modalOpen && <ModalSignup modalHandler={modalHandler} />}
       <HitsContainer>
         <p> 오늘 조회수 : </p>
         <p> 전체 조회수 : </p>
       </HitsContainer>
-      <Link href="/">
-        <a>
-          <Img alt="logo" src="/img/logo.svg"></Img>
-        </a>
-      </Link>
+      <Logo>
+        <Link href="/">
+          <a>
+            <Img alt="logo" src="/img/logo.svg"></Img>
+          </a>
+        </Link>
+      </Logo>
       <ButtonContainer>
         <SigninButton> 로그인 </SigninButton>
-        <SignupButton> 회원가입 </SignupButton>
+        <SignupButton
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          {" "}
+          회원가입{" "}
+        </SignupButton>
       </ButtonContainer>
     </Header>
   );
@@ -33,11 +52,8 @@ const Header = styled.header`
   border-radius: 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   background: #aeaeae;
-  padding: 0px 5px;
-  position: relative;
-  display: flex;
-  flex-flow: wrap row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
 `;
 const rotation = keyframes`
@@ -48,21 +64,26 @@ const rotation = keyframes`
   transform: rotate(360deg);
 }
 `;
+const Logo = styled.div`
+  ${({ theme }) => theme.flex.flexCenter};
+`;
 const Img = styled.img`
   width: 50px;
   height: 50px;
-  position: absolute;
   padding: 5px;
   background: #ffffff;
   border-radius: 30px;
-  left: calc(50% - 25px);
-  top: 5px;
-  animation: ${rotation} 8s ease-in-out infinite;
+  //애니메이션을 사용하면 css 그리는 순서때문에? 모달창에서 위로보이는 문제 발생
+  //animation: ${rotation} 8s ease-in-out infinite;
 `;
-const HitsContainer = styled.div``;
+const HitsContainer = styled.div`
+  padding-left: 5px;
+`;
 const ButtonContainer = styled.div`
   display: flex;
   flex-flow: nowrap row;
+  ${({ theme }) => theme.flex.flexRight};
+  padding-right: 5px;
   gap: 0px 5px;
 `;
 const CommonButton = css`

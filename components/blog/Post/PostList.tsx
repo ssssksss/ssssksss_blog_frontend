@@ -42,9 +42,9 @@ const PostList = () => {
       })
         .then((response) => {
           let res = response.data.data.posts;
-          console.log(res);
+          //console.log(res);
           setPosts(res);
-          console.log("세번째 카테고리를 성공적으로 받음");
+          //console.log("세번째 카테고리를 성공적으로 받음");
         })
         .catch((error) => {
           console.log(error);

@@ -24,27 +24,33 @@ const theme: DefaultTheme = {
   flex: {
     flexCenter: {
       display: "flex",
-      "flex-flow": "wrap row",
+      "flex-flow": "nowrap row",
       "justify-content": "center",
-      "align-content": "center",
+      "align-items": "center",
     },
     flexLeft: {
       display: "flex",
-      "flex-flow": "wrap row",
+      "flex-flow": "nowrap row",
       "justify-content": "left",
-      "align-content": "center",
+      "align-items": "center",
     },
     flexLeftTop: {
       display: "flex",
-      "flex-flow": "wrap row",
+      "flex-flow": "nowrap row",
       "justify-content": "left",
-      "align-content": "flex-start",
+      "align-items": "flex-start",
     },
     flexAround: {
       display: "flex",
-      "flex-flow": "wrap row",
+      "flex-flow": "nowrap row",
       "justify-content": "space-around",
-      "align-content": "center",
+      "align-items": "center",
+    },
+    flexRight: {
+      display: "flex",
+      "flex-flow": "nowrap row",
+      "justify-content": "flex-end",
+      "align-items": "center",
     },
   },
   customButton: {

@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("app.tsx");
+    //console.log("app.tsx");
     //visitFunc();
     //window.history.scrollRestoration = "auto";
     //const cacheScrollPositions: Array<[number, number]> = [];
@@ -62,20 +62,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     //});
   }, []);
 
-  const visitFunc = async () => {
-    await AxiosInstance({
-      url: "/ssssksss/visit",
-      method: "GET",
-    })
-      .then((response) => {
-        console.log(response.data);
-        console.log("성공??");
-      })
-      .catch((error) => {
-        console.log("에러");
-        console.log("실패??");
-      });
-  };
+  //const visitFunc = async () => {
+  //  await AxiosInstance({
+  //    url: "/ssssksss/visit",
+  //    method: "GET",
+  //  })
+  //    .then((response) => {
+  //      console.log(response.data);
+  //      console.log("성공??");
+  //    })
+  //    .catch((error) => {
+  //      console.log("에러");
+  //      console.log("실패??");
+  //    });
+  //};
 
   return getLayout(
     <Provider store={store}>

@@ -27,25 +27,31 @@ declare module "styled-components" {
         display: string;
         "flex-flow": string;
         "justify-content": string;
-        "align-content": string;
+        "align-items": string;
       };
       flexLeft: {
         display: string;
         "flex-flow": string;
         "justify-content": string;
-        "align-content": string;
+        "align-items": string;
       };
       flexLeftTop: {
         display: string;
         "flex-flow": string;
         "justify-content": string;
-        "align-content": string;
+        "align-items": string;
       };
       flexAround: {
         display: string;
         "flex-flow": string;
         "justify-content": string;
-        "align-content": string;
+        "align-items": string;
+      };
+      flexRight: {
+        display: string;
+        "flex-flow": string;
+        "justify-content": string;
+        "align-items": string;
       };
     };
     customButton: {

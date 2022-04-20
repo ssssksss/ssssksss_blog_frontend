@@ -38,7 +38,7 @@ const UpdateEditor = () => {
   }, []);
 
   const updateHandler = () => {
-    console.log("handleUpdate");
+    //console.log("handleUpdate");
     const editorInstance = editorRef.current?.getInstance();
     const MarkdownContent = editorInstance?.getMarkdown();
     AxiosInstance({

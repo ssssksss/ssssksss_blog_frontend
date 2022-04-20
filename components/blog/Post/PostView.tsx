@@ -36,7 +36,7 @@ const PostView = () => {
       },
     })
       .then((response) => {
-        console.log("포스트를 성공적으로 삭제");
+        //console.log("포스트를 성공적으로 삭제");
         router.push(
           window.location.pathname.substring(
             0,
@@ -51,7 +51,7 @@ const PostView = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log("post/index.tsx");
+    //console.log("post/index.tsx");
     if (
       window.location.pathname.split("/")[2] !== "" &&
       window.location.pathname.split("/")[2] !== "undefined"

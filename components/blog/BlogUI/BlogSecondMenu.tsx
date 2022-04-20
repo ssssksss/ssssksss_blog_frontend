@@ -41,8 +41,8 @@ const BlogSecondMenu = () => {
   }, []);
 
   useEffect(() => {
-    console.log("BlogSecondMenu.tsx");
-    async function func() {
+    //console.log("BlogSecondMenu.tsx");
+    (async () => {
       if (
         window.location.pathname.split("/")[1] !== undefined &&
         window.location.pathname.split("/")[1] !== null
@@ -57,14 +57,13 @@ const BlogSecondMenu = () => {
           .then((response) => {
             let res = response.data.data.secondCategory;
             setSecondCategory(res);
-            console.log("두번째 카테고리를 성공적으로 받음");
+            //console.log("두번째 카테고리를 성공적으로 받음");
           })
           .catch((error) => {
             console.log(error);
           });
       }
-    }
-    func();
+    })();
   }, [categoryChange, firstCategory]);
 
   const modalHandler = (e: any) => {
