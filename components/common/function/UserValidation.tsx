@@ -12,7 +12,7 @@ const ValidId = (id: string) => {
 };
 const ValidPassword = (password: string) => {
   let regExp =
-    /^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[@$!%?&])[A-Za-z0-9@$!%?&]{8,16}$/g;
+    /(?=.*\d{1,20})(?=.*[~`!@#$%^&*()-+=]{1,20})(?=.*[a-z]{1,20})(?=.*[A-Z]{1,20})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,20}$/;
   if (password === "") {
     return "값이 존재하지 않습니다.";
   } else if (password.length < 8 || password.length > 16) {
@@ -21,6 +21,13 @@ const ValidPassword = (password: string) => {
     return "최소 소문자1개, 대문자1개, 숫자1개, 특수문자1개로 구성되야합니다.";
   } else {
     return "";
+  }
+};
+const ValidPasswordCopy = (password: string, passwordCopy: string) => {
+  if (password === passwordCopy) {
+    return "";
+  } else {
+    return "비밀번호가 일치하지 않습니다.";
   }
 };
 const ValidEmail = (email: string) => {
@@ -34,9 +41,19 @@ const ValidEmail = (email: string) => {
     return "";
   }
 };
+const ValidGender = (gender: string) => {
+  let regExp = /[m|w]/g;
+  if (gender === "") {
+    return "값이 존재하지 않습니다.";
+  } else if (!regExp.test(gender)) {
+    return "올바른 8자리의 숫자로 구성되야합니다.";
+  } else {
+    return "";
+  }
+};
 const ValidBirthDate = (birthDate: string) => {
   let regExp =
-    /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+    /^(19[0-9][0-9]|20[0-9]{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/g;
   if (birthDate === "") {
     return "값이 존재하지 않습니다.";
   } else if (!regExp.test(birthDate)) {
@@ -45,17 +62,12 @@ const ValidBirthDate = (birthDate: string) => {
     return "";
   }
 };
-const ValidGender = (gender: string) => {
-  if (gender === "") {
-    return "값이 존재하지 않습니다.";
-  } else {
-    return "";
-  }
-};
+
 export const Valid = {
   ValidId,
   ValidPassword,
+  ValidPasswordCopy,
   ValidEmail,
-  ValidBirthDate,
   ValidGender,
+  ValidBirthDate,
 };

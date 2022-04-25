@@ -94,7 +94,10 @@ const BlogSecondMenu = () => {
             {secondCategory.map((i) => (
               <Link key={i.id} href={i.secondHref}>
                 <MenuItem
-                  active={router.asPath === i.secondHref}
+                  active={
+                    i.firstHref + "/" + router.asPath.split("/")[2] ===
+                    i.secondHref
+                  }
                   onClick={() => SecondCategoryHandler(i.secondHref)}
                 >
                   {i.name}

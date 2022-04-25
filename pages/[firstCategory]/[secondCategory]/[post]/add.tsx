@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import Layout2 from "@/components/layout/Layout2";
+import Layout1 from "@/components/layout/Layout1";
+//import Layout2 from "@/components/layout/Layout2";
 //import CreateEditor from "@/components/blog/Editor/CreateEditor";
 import dynamic from "next/dynamic";
 
@@ -19,7 +20,7 @@ const Add = () => {
     </Container>
   );
 };
-Add.layout = Layout2;
+Add.layout = Layout1;
 export default Add;
 
 const Container = styled.div`

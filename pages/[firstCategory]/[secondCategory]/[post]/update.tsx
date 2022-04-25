@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Layout2 from "@/components/layout/Layout2";
+import Layout1 from "@/components/layout/Layout1";
+//import Layout2 from "@/components/layout/Layout2";
 //import UpdateEditor from "@/components/blog/Editor/UpdateEditor";
 import dynamic from "next/dynamic";
 
@@ -27,5 +28,5 @@ const Update = () => {
     </Container>
   );
 };
-Update.layout = Layout2;
+Update.layout = Layout1;
 export default Update;

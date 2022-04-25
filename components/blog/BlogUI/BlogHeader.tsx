@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import ModalSignup from "@/components/Modal/ModalSignup";
+import ModalLogin from "@/components/Modal/ModalLogin";
 
 const BlogHeader = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
 
   const modalHandler = (e: any) => {
     setModalOpen(modalOpen ? false : true);
-    if (modalOpen === true) {
-      //setCategoryChange(!categoryChange);
-    }
+  };
+
+  const modalHandler1 = (e: any) => {
+    setModalOpen1(modalOpen1 ? false : true);
   };
 
   return (
     <Header>
       {modalOpen && <ModalSignup modalHandler={modalHandler} />}
+      {modalOpen1 && <ModalLogin modalHandler={modalHandler1} />}
       <HitsContainer>
         <HitsItem>
           <span> 0 </span>
@@ -40,14 +44,20 @@ const BlogHeader = () => {
         </Link>
       </Logo>
       <ButtonContainer>
-        <SigninButton> 로그인 </SigninButton>
+        <LoginButton
+          onClick={() => {
+            setModalOpen1(true);
+          }}
+        >
+          {" "}
+          로그인{" "}
+        </LoginButton>
         <SignupButton
           onClick={() => {
             setModalOpen(true);
           }}
         >
-          {" "}
-          회원가입{" "}
+          회원가입
         </SignupButton>
       </ButtonContainer>
     </Header>
@@ -61,10 +71,11 @@ const Header = styled.header`
   margin: 10px auto;
   border-radius: 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
-  background: #aeaeae;
+  background: ${({ theme }) => theme.customColors.second};
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 `;
 const rotation = keyframes`
 0%,100%{
@@ -83,19 +94,19 @@ const Img = styled.img`
   padding: 5px;
   background: #ffffff;
   border-radius: 30px;
-  //애니메이션을 사용하면 css 그리는 순서때문에? 모달창에서 위로보이는 문제 발생
   animation: ${rotation} 8s ease-in-out infinite;
 `;
 const HitsContainer = styled.div`
-  padding-left: 5px;
+  padding-left: 10px;
   ${({ theme }) => theme.flex.flexBetween};
+  color: white;
 `;
 const HitsItem = styled.div`
   display: flex;
   flex-flow: nowrap column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  gap: 5px 0px;
+  gap: 10px 0px;
 `;
 const ButtonContainer = styled.div`
   display: flex;
@@ -114,7 +125,7 @@ const CommonButton = css`
     font-size: 0.6rem;
   }
 `;
-const SigninButton = styled.button`
+const LoginButton = styled.button`
   ${CommonButton}
 `;
 const SignupButton = styled.button`

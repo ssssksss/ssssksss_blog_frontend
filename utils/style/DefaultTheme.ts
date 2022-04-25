@@ -19,7 +19,7 @@ const theme: DefaultTheme = {
     md: "768px",
     lg: "992px",
     xl: "1200px",
-    maxWidth: "960px",
+    maxWidth: "1440px",
   },
   flex: {
     flexCenter: {

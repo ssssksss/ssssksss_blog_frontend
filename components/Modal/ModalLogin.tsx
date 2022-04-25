@@ -2,23 +2,16 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Valid } from "@/components/common/function/UserValidation";
+import { COOKIE_NAME_PRERENDER_DATA } from "next/dist/server/api-utils";
 
-const ModalSignup = (modalHandler: any) => {
+const ModalSignin = (modalHandler: any) => {
   const [userData, setUserData] = useState({
-    cuid: "",
     password: "",
-    passwordCopy: "",
     email: "",
-    gender: "",
-    birthDate: "",
   });
   const [errors, setErrors] = useState({
-    cuid: "값을 입력하세요",
     password: "값을 입력하세요",
-    passwordCopy: "값을 입력하세요",
     email: "값을 입력하세요",
-    gender: "값을 입력하세요",
-    birthDate: "값을 입력하세요",
   });
   const [isSubmit, setIsSubmit] = useState(false);
   const [target, setTarget] = useState("");
@@ -33,41 +26,14 @@ const ModalSignup = (modalHandler: any) => {
   // handleValidation 이후에 작동
   useEffect(() => {
     switch (target) {
-      case "cuid":
-        setErrors({ ...errors, cuid: Valid.ValidId(userData.cuid) });
-        break;
       case "password":
         setErrors({
           ...errors,
           password: Valid.ValidPassword(userData.password),
-          passwordCopy: Valid.ValidPasswordCopy(
-            userData.password,
-            userData.passwordCopy
-          ),
-        });
-        break;
-      case "passwordCopy":
-        setErrors({
-          ...errors,
-          passwordCopy: Valid.ValidPasswordCopy(
-            userData.password,
-            userData.passwordCopy
-          ),
         });
         break;
       case "email":
         setErrors({ ...errors, email: Valid.ValidEmail(userData.email) });
-        break;
-      case "birthDate":
-        setErrors({
-          ...errors,
-          birthDate: Valid.ValidBirthDate(userData.birthDate),
-        });
-        break;
-      case "gender":
-        setErrors({ ...errors, gender: Valid.ValidGender(userData.gender) });
-        break;
-      default:
         break;
     }
   }, [userData]);
@@ -75,27 +41,13 @@ const ModalSignup = (modalHandler: any) => {
   const userDataCheck = () => {
     setErrors({
       ...errors,
-      cuid: Valid.ValidId(userData.cuid),
       password: Valid.ValidPassword(userData.password),
-      passwordCopy: Valid.ValidPasswordCopy(
-        userData.password,
-        userData.passwordCopy
-      ),
       email: Valid.ValidEmail(userData.email),
-      birthDate: Valid.ValidBirthDate(userData.birthDate),
-      gender: Valid.ValidGender(userData.gender),
     });
   };
 
   useEffect(() => {
-    if (
-      errors.cuid === "" &&
-      errors.password === "" &&
-      errors.passwordCopy === "" &&
-      errors.email === "" &&
-      errors.gender === "" &&
-      errors.birthDate === ""
-    ) {
+    if (errors.password === "" && errors.email === "") {
       setIsSubmit(true);
     } else {
       setIsSubmit(false);
@@ -106,21 +58,21 @@ const ModalSignup = (modalHandler: any) => {
     if (isSubmit) {
       (async () => {
         await AxiosInstance({
-          url: "/ssssksss/user/signup",
+          url: "/ssssksss/user/login",
           method: "POST",
           data: {
-            cuid: userData.cuid,
-            password: userData.password,
             email: userData.email,
-            gender: userData.gender,
-            birthDate: userData.birthDate,
+            password: userData.password,
           },
         })
           .then((response) => {
-            alert("회원가입 성공");
+            alert("로그인 성공");
+            console.log(response.data);
+
             modalHandler.modalHandler();
           })
           .catch((error) => {
+            console.log(error.response.data);
             alert(error.response.data.errorMsg);
           });
       })();
@@ -136,16 +88,16 @@ const ModalSignup = (modalHandler: any) => {
       <Overlay></Overlay>
       <Container>
         <FormContainer>
-          <Title> 회원가입 </Title>
+          <Title> 로그인 </Title>
           <InputContainer>
             <Label>
-              <span> 아이디 </span>
-              <span> {errors.cuid} </span>
+              <span> 이메일 </span>
+              <span> {errors.email} </span>
             </Label>
-            <InputId
-              type="text"
-              name="cuid"
-              placeholder="첫글자는 영문, 대소문자,숫자 8~16자리 조합"
+            <InputEmail
+              type="email"
+              name="email"
+              placeholder="이메일을 입력하세요"
               onChange={handleValidation}
             />
           </InputContainer>
@@ -157,70 +109,15 @@ const ModalSignup = (modalHandler: any) => {
             <InputPassword
               type="password"
               name="password"
-              placeholder="대소문자+숫자+특수문자 8~16자리 조합"
+              placeholder="비밀번호를 입력하세요"
               onChange={handleValidation}
             />
           </InputContainer>
-          <InputContainer>
-            <Label>
-              <span> 비번확인 </span>
-              <span> {errors.passwordCopy} </span>
-            </Label>
-            <InputPassword
-              type="password"
-              name="passwordCopy"
-              placeholder="비밀번호 확인"
-              onChange={handleValidation}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Label>
-              <span> 이메일 </span>
-              <span> {errors.email} </span>
-            </Label>
-            <InputEmail
-              type="email"
-              name="email"
-              placeholder="example@test.com"
-              onChange={handleValidation}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Label>
-              <span> 성별 </span>
-              <span> {errors.gender} </span>
-            </Label>
-            <GenderContainer>
-              <InputGender
-                type="radio"
-                name="gender"
-                value="m"
-                onChange={handleValidation}
-                id="m"
-              />{" "}
-              <label htmlFor="m">남</label>
-              <InputGender
-                type="radio"
-                name="gender"
-                value="w"
-                onChange={handleValidation}
-                id="w"
-              />{" "}
-              <label htmlFor="w">여</label>
-            </GenderContainer>
-          </InputContainer>
-          <InputContainer>
-            <Label>
-              <span> 생년월일 </span>
-              <span> {errors.birthDate} </span>
-            </Label>
-            <InputBirth
-              type="text"
-              name="birthDate"
-              placeholder="생년월일8자리를 입력해주세요"
-              onChange={handleValidation}
-            />
-          </InputContainer>
+          <SocialContainer>
+            <SocialItem> 카카오 </SocialItem>
+            <SocialItem> 네이버 </SocialItem>
+            <SocialItem> 구글 </SocialItem>
+          </SocialContainer>
           <SubmitContainer>
             <SubmitButton onClick={() => submitHandler()}> 제출 </SubmitButton>
             <CancelButton onClick={() => modalHandler.modalHandler()}>
@@ -233,7 +130,7 @@ const ModalSignup = (modalHandler: any) => {
   );
 };
 
-export default ModalSignup;
+export default ModalSignin;
 
 const Overlay = styled.div`
   position: fixed;
@@ -281,6 +178,13 @@ const InputContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(1, 3fr 2fr);
 `;
+const SocialContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+const SocialItem = styled.div`
+  ${({ theme }) => theme.flex.flexCenter};
+`;
 const Label = styled.div`
   color: ${({ theme }) => theme.customColors.second};
   display: grid;
@@ -327,22 +231,10 @@ const InputCommon = css`
     font-size: 0.8rem;
   }
 `;
-const InputId = styled.input`
-  ${InputCommon}
-`;
 const InputPassword = styled.input`
   ${InputCommon}
 `;
 const InputEmail = styled.input`
-  ${InputCommon}
-`;
-const InputGender = styled.input`
-  ${InputCommon}
-`;
-const GenderContainer = styled.div`
-  ${InputCommon}
-`;
-const InputBirth = styled.input`
   ${InputCommon}
 `;
 const SubmitContainer = styled.div``;

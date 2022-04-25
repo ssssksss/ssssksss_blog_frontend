@@ -115,7 +115,7 @@ const Title = styled.input`
   text-align: center;
   background: ${({ theme }) => theme.customColors.thirdTitle};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 140px;
+  padding: 0px 10px;
 
   &::placeholder {
     color: white;
@@ -127,7 +127,7 @@ const Description = styled.input`
   font-size: 20px;
   text-align: center;
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 140px;
+  padding: 0px 10px;
 
   &::placeholder {
   }
