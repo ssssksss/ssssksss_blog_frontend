@@ -34,6 +34,19 @@ const BlogHeader = () => {
   };
 
   useEffect(() => {
+    AxiosInstance({
+      url: "/ssssksss/visit",
+      method: "GET",
+    })
+      .then((response) => {
+        console.log(response?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
     (async () => {
       await AxiosInstance({
         url: "/ssssksss/user/validToken",
@@ -185,9 +198,14 @@ const SignupButton = styled.button`
   ${CommonButton}
 `;
 const LogoutButton = styled.button`
-  ${CommonButton}
-  height: 25px;
+  ${({ theme }) => theme.customButton};
   width: 100%;
+  height: 25px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    width: 60px;
+    font-size: 0.6rem;
+  }
 `;
 const UserStatus = styled.a`
   display: block;

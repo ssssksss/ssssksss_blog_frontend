@@ -106,6 +106,8 @@ const PostView = () => {
                 >
                   <UpdateButton> 수정</UpdateButton>
                 </Link>
+              </Private>
+              <Private state="master">
                 <RemoveButton onClick={() => removePostHandler()}>
                   삭제
                 </RemoveButton>
