@@ -4,19 +4,57 @@ import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import ModalSignup from "@/components/Modal/ModalSignup";
 import ModalLogin from "@/components/Modal/ModalLogin";
+import Private from "@/components/blog/Auth/Private";
+import { useDispatch } from "react-redux";
+import { AUTH_ACTION } from "@/store/auth";
+import AxiosInstance from "@/utils/axios/AxiosInstance";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/reducers";
+import Cookies from "universal-cookie";
 
 const BlogHeader = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
+  const dispatch = useDispatch();
+  const authStore = useSelector((state: RootState) => state.authStore);
+  const cookies = new Cookies();
 
   const modalHandler = (e: any) => {
     setModalOpen(modalOpen ? false : true);
+    setModalOpen1(modalOpen1 ? false : true);
   };
 
   const modalHandler1 = (e: any) => {
     setModalOpen1(modalOpen1 ? false : true);
   };
+
+  const authHandler = (authParameter: any) => {
+    dispatch(AUTH_ACTION({ authParameter: authParameter }));
+  };
+
+  useEffect(() => {
+    (async () => {
+      await AxiosInstance({
+        url: "/ssssksss/user/validToken",
+        method: "POST",
+      })
+        .then((response) => {
+          const resAuth = response.data.data.auth;
+          authHandler({
+            email: resAuth.email,
+            role: resAuth.role,
+          });
+        })
+        .catch((error) => {
+          authHandler({
+            email: "",
+            role: "",
+          });
+          console.log(error.data);
+        });
+    })();
+  }, []);
 
   return (
     <Header>
@@ -44,21 +82,36 @@ const BlogHeader = () => {
         </Link>
       </Logo>
       <ButtonContainer>
-        <LoginButton
-          onClick={() => {
-            setModalOpen1(true);
-          }}
-        >
-          {" "}
-          로그인{" "}
-        </LoginButton>
-        <SignupButton
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
-          회원가입
-        </SignupButton>
+        <PrivateStyle state="">
+          <LoginButton
+            onClick={() => {
+              setModalOpen1(true);
+            }}
+          >
+            로그인
+          </LoginButton>
+          <SignupButton
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            회원가입
+          </SignupButton>
+        </PrivateStyle>
+        <PrivateStyle state="logout">
+          <UserStatus href="">{authStore.email}</UserStatus>
+          <LogoutButton
+            onClick={() => {
+              authHandler({
+                email: "",
+                role: "",
+              });
+              cookies.remove("accessToken");
+            }}
+          >
+            로그아웃
+          </LogoutButton>
+        </PrivateStyle>
       </ButtonContainer>
     </Header>
   );
@@ -113,7 +166,6 @@ const ButtonContainer = styled.div`
   flex-flow: nowrap row;
   ${({ theme }) => theme.flex.flexRight};
   padding-right: 5px;
-  gap: 0px 5px;
 `;
 const CommonButton = css`
   ${({ theme }) => theme.customButton};
@@ -127,7 +179,23 @@ const CommonButton = css`
 `;
 const LoginButton = styled.button`
   ${CommonButton}
+  margin-right: 5px;
 `;
 const SignupButton = styled.button`
   ${CommonButton}
+`;
+const LogoutButton = styled.button`
+  ${CommonButton}
+  height: 25px;
+  width: 100%;
+`;
+const UserStatus = styled.a`
+  display: block;
+`;
+const PrivateStyle = styled(Private)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-evenly;
+  cursor: pointer;
 `;

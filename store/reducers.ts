@@ -3,8 +3,8 @@ import { categoryReducer } from "./category";
 import { authReducer } from "./auth";
 
 const rootReducer = combineReducers({
-  category: categoryReducer,
-  auth: authReducer,
+  categoryStore: categoryReducer,
+  authStore: authReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,7 +1,7 @@
 import * as actions from "./actions";
 const initialState = {
-  accessToken: "",
-  secretKey: "",
+  email: "",
+  role: "",
 };
 
 export const authReducer = (
@@ -9,8 +9,12 @@ export const authReducer = (
   action: actions.ACTION_INSTANCE
 ) => {
   switch (action.type) {
-    case "AUTH_ACCESS_TOKEN":
-      return { ...state, accessToken: action.payload };
+    case "AUTH":
+      return {
+        ...state,
+        email: action.payload.email,
+        role: action.payload.role,
+      };
     default:
       return state;
   }

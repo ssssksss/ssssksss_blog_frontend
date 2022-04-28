@@ -14,7 +14,6 @@ import BlogFooter from "@/components/blog/BlogUI/BlogFooter";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,55 +27,36 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const TestLayout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
 
-  const router = useRouter();
-
-  useEffect(() => {
-    const cookies = new Cookies();
-    (async () => {
-      await AxiosInstance({
-        url: "/ssssksss/user/validToken",
-        method: "POST",
-      })
-        .then((response) => {
-          console.log(response);
-          console.log(cookies.get("accessToken"));
-        })
-        .catch((error) => {
-          alert(error.response.data.errorMsg);
-        });
-    })();
-
-    //console.log("app.tsx");
-    //visitFunc();
-    //window.history.scrollRestoration = "auto";
-    //const cacheScrollPositions: Array<[number, number]> = [];
-    //let shouldScrollRestore: null | { x: number; y: number };
-    //router.events.on("routeChangeStart", () => {
-    //  cacheScrollPositions.push([window.scrollX, window.scrollY]);
-    //});
-    //router.events.on("routeChangeComplete", () => {
-    //  if (shouldScrollRestore) {
-    //    const { x, y } = shouldScrollRestore;
-    //    //setTimeout(() => window.scrollTo(x, y), 0);
-    //    window.scrollTo(x, y);
-    //    shouldScrollRestore = null;
-    //  }
-    //  window.history.scrollRestoration = "auto";
-    //});
-    //router.beforePopState(() => {
-    //  if (cacheScrollPositions.length > 0) {
-    //    const scrollPosition = cacheScrollPositions.pop();
-    //    if (scrollPosition) {
-    //      shouldScrollRestore = {
-    //        x: scrollPosition[0],
-    //        y: scrollPosition[1],
-    //      };
-    //    }
-    //  }
-    //  window.history.scrollRestoration = "manual";
-    //  return true;
-    //});
-  }, []);
+  //console.log("app.tsx");
+  //visitFunc();
+  //window.history.scrollRestoration = "auto";
+  //const cacheScrollPositions: Array<[number, number]> = [];
+  //let shouldScrollRestore: null | { x: number; y: number };
+  //router.events.on("routeChangeStart", () => {
+  //  cacheScrollPositions.push([window.scrollX, window.scrollY]);
+  //});
+  //router.events.on("routeChangeComplete", () => {
+  //  if (shouldScrollRestore) {
+  //    const { x, y } = shouldScrollRestore;
+  //    //setTimeout(() => window.scrollTo(x, y), 0);
+  //    window.scrollTo(x, y);
+  //    shouldScrollRestore = null;
+  //  }
+  //  window.history.scrollRestoration = "auto";
+  //});
+  //router.beforePopState(() => {
+  //  if (cacheScrollPositions.length > 0) {
+  //    const scrollPosition = cacheScrollPositions.pop();
+  //    if (scrollPosition) {
+  //      shouldScrollRestore = {
+  //        x: scrollPosition[0],
+  //        y: scrollPosition[1],
+  //      };
+  //    }
+  //  }
+  //  window.history.scrollRestoration = "manual";
+  //  return true;
+  //});
 
   //const visitFunc = async () => {
   //  await AxiosInstance({

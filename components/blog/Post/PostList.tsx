@@ -6,12 +6,13 @@ import Layout1 from "@/components/layout/Layout1";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/reducers";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
+import Private from "../Auth/Private";
 
 //2번째 카테고리 경로
 const PostList = () => {
   const router = useRouter();
   const secondCategory = useSelector(
-    (state: RootState) => state.category.secondCategoryPath
+    (state: RootState) => state.categoryStore.secondCategoryPath
   );
   const [posts, setPosts] = useState<PostsTypes[]>([]);
 
@@ -59,14 +60,16 @@ const PostList = () => {
     <React.StrictMode>
       <MenuContainer>
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
-        <MenuAddItem>
-          <Link
-            href={"/[firstCategory]/[secondCategory]/[post]/add"}
-            as={router.asPath + "/post/add"}
-          >
-            <a> +++ 내용 추가 +++ </a>
-          </Link>
-        </MenuAddItem>
+        <Private state="master">
+          <MenuAddItem>
+            <Link
+              href={"/[firstCategory]/[secondCategory]/[post]/add"}
+              as={router.asPath + "/post/add"}
+            >
+              <a> +++ 내용 추가 +++ </a>
+            </Link>
+          </MenuAddItem>
+        </Private>
         {posts.map((i) => (
           <MenuItem key={i.id}>
             <Link

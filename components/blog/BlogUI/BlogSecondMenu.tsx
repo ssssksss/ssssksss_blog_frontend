@@ -7,6 +7,7 @@ import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/reducers";
 import { SECOND_CATEGORY_ACTION } from "@/store/category/actions";
+import Private from "../Auth/Private";
 
 const BlogSecondMenu = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const BlogSecondMenu = () => {
   );
   const [categoryChange, setCategoryChange] = useState(false);
   const firstCategory = useSelector(
-    (state: RootState) => state.category.firstCategoryPath
+    (state: RootState) => state.categoryStore.firstCategoryPath
   );
 
   const SecondCategoryHandler = (pathValue: string) => {
@@ -82,13 +83,15 @@ const BlogSecondMenu = () => {
         <>
           <MenuTitle>
             <span>{firstCategory}</span>
-            <button
-              onClick={() => {
-                setModalOpen(true);
-              }}
-            >
-              +
-            </button>
+            <PrivateStyle state="master">
+              <button
+                onClick={() => {
+                  setModalOpen(true);
+                }}
+              >
+                +
+              </button>
+            </PrivateStyle>
           </MenuTitle>
           <MenuContainer>
             {secondCategory.map((i) => (
@@ -171,4 +174,11 @@ const MenuItem = styled.a<{ active: boolean }>`
     color: ${({ theme }) => theme.customColors.second};
     background: white;
   }
+`;
+const PrivateStyle = styled(Private)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-evenly;
+  cursor: pointer;
 `;

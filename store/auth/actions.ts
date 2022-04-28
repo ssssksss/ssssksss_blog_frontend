@@ -1,13 +1,16 @@
-const AUTH_ACCESS_TOKEN = "AUTH_ACCESS_TOKEN";
+const AUTH = "AUTH";
 
-export type ACTION_INSTANCE = ReturnType<typeof AUTH_ACCESS_ACTION>;
+export type ACTION_INSTANCE = ReturnType<typeof AUTH_ACTION>;
 
-type AUTH_ACCESS_STATE = {
-  accessToken: string;
+type AUTH_STATE = {
+  authParameter: {
+    email: string;
+    role: string;
+  };
 };
-export const AUTH_ACCESS_ACTION = (payload: AUTH_ACCESS_STATE) => {
+export const AUTH_ACTION = (payload: AUTH_STATE) => {
   return {
-    type: AUTH_ACCESS_TOKEN,
-    payload: payload.accessToken,
+    type: AUTH,
+    payload: payload.authParameter,
   };
 };

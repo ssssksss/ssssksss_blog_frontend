@@ -7,6 +7,7 @@ import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/store/category/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/reducers";
+import Private from "../Auth/Private";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -85,14 +86,16 @@ const BlogFirstMenu = () => {
         {firstCategoryTitles.map((i) => (
           <Title key={i.position}>
             <span> {i.name} </span>
-            <PlusButton
-              value={i.position}
-              onClick={() => {
-                setModalOpen(true);
-              }}
-            >
-              +
-            </PlusButton>
+            <PrivateStyle state="master">
+              <PlusButton
+                value={i.position}
+                onClick={() => {
+                  setModalOpen(true);
+                }}
+              >
+                +
+              </PlusButton>
+            </PrivateStyle>
           </Title>
         ))}
       </MenuTitle>
@@ -199,15 +202,18 @@ const Title = styled.div`
   }
   position: relative;
 `;
+const PrivateStyle = styled(Private)``;
 const PlusButton = styled.button`
   width: 20px;
   height: 20px;
   background-color: white;
   border: none;
+  border-radius: 10px;
+  ${({ theme }) => theme.flex.flexCenter};
   position: absolute;
   right: 2px;
-
-  ${({ theme }) => theme.flex.flexCenter};
+  top: 10px;
+  cursor: pointer;
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     width: 10px;

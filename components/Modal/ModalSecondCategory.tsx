@@ -9,7 +9,7 @@ const ModalSecondCategory = (modalHandler: any) => {
   const [secondHref, setSecondHref] = useState("");
   const [removeSecondHref, setRemoveSecondHref] = useState("");
   const firstCategory = useSelector(
-    (state: RootState) => state.category.firstCategoryPath
+    (state: RootState) => state.categoryStore.firstCategoryPath
   );
 
   const submitHandler = async () => {

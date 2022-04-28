@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/react-editor";
+import Private from "../Auth/Private";
 
 //postView공간
 const PostView = () => {
@@ -94,19 +95,21 @@ const PostView = () => {
             </PostContainer1>
             <PostContainer2>
               <LikeNumber> 👍 {post?.likeNumber} </LikeNumber>
-              <Link
-                href={"/[firstCategory]/[secondCategory]/[post]/update"}
-                as={
-                  router.asPath.substring(0, router.asPath.lastIndexOf("/")) +
-                  "/post/update?id=" +
-                  post?.id
-                }
-              >
-                <UpdateButton> 수정</UpdateButton>
-              </Link>
-              <RemoveButton onClick={() => removePostHandler()}>
-                삭제
-              </RemoveButton>
+              <Private state="master">
+                <Link
+                  href={"/[firstCategory]/[secondCategory]/[post]/update"}
+                  as={
+                    router.asPath.substring(0, router.asPath.lastIndexOf("/")) +
+                    "/post/update?id=" +
+                    post?.id
+                  }
+                >
+                  <UpdateButton> 수정</UpdateButton>
+                </Link>
+                <RemoveButton onClick={() => removePostHandler()}>
+                  삭제
+                </RemoveButton>
+              </Private>
               <CancelButton
                 onClick={() =>
                   router.push(

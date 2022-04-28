@@ -2,9 +2,11 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Valid } from "@/components/common/function/UserValidation";
-import { COOKIE_NAME_PRERENDER_DATA } from "next/dist/server/api-utils";
+import { useDispatch } from "react-redux";
+import { AUTH_ACTION } from "@/store/auth";
 
 const ModalSignin = (modalHandler: any) => {
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     password: "",
     email: "",
@@ -21,6 +23,10 @@ const ModalSignin = (modalHandler: any) => {
     const { name, value } = e.target;
     setTarget(name);
     setUserData({ ...userData, [e.target.name]: value });
+  };
+
+  const authHandler = (authParameter: any) => {
+    dispatch(AUTH_ACTION({ authParameter: authParameter }));
   };
 
   // handleValidation 이후에 작동
@@ -66,9 +72,12 @@ const ModalSignin = (modalHandler: any) => {
           },
         })
           .then((response) => {
-            alert("로그인 성공");
-            console.log(response.data);
-
+            //alert("로그인 성공");
+            const resAuth = response.data.data.auth;
+            authHandler({
+              email: resAuth.email,
+              role: resAuth.role,
+            });
             modalHandler.modalHandler();
           })
           .catch((error) => {
