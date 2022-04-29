@@ -1,4 +1,5 @@
 import * as actions from "./actions";
+
 const initialState = {
   email: "",
   role: "",

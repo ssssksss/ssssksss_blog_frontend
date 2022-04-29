@@ -31,7 +31,7 @@ const PostView = () => {
   const removePostHandler = () => {
     AxiosInstance({
       url: "/ssssksss/post/remove",
-      method: "POST",
+      method: "DELETE",
       data: {
         id: Number(post?.id),
       },

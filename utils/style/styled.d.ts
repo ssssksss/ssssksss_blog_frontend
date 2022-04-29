@@ -67,7 +67,7 @@ declare module "styled-components" {
       };
     };
     customButton: {
-      background: string;
+      //background: string;
       "border-radius": string;
       "font-size": string;
       cursor: string;

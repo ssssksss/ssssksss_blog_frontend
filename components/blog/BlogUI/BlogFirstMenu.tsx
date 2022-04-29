@@ -7,7 +7,6 @@ import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/store/category/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/reducers";
-import Private from "../Auth/Private";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -15,6 +14,7 @@ const BlogFirstMenu = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [categoryChange, setCategoryChange] = useState(false);
   const dispatch = useDispatch();
+  const authStore = useSelector((state: RootState) => state.authStore);
 
   const firstCategoryHandler = (pathValue: string) => {
     dispatch(FIRST_CATEGORY_ACTION({ firstCategoryPath: pathValue }));
@@ -86,7 +86,7 @@ const BlogFirstMenu = () => {
         {firstCategoryTitles.map((i) => (
           <Title key={i.position}>
             <span> {i.name} </span>
-            <PrivateStyle state="master">
+            {authStore.role === "master" && (
               <PlusButton
                 value={i.position}
                 onClick={() => {
@@ -95,7 +95,7 @@ const BlogFirstMenu = () => {
               >
                 +
               </PlusButton>
-            </PrivateStyle>
+            )}
           </Title>
         ))}
       </MenuTitle>
@@ -188,6 +188,7 @@ const MenuTitle = styled.div`
   font-size: 20px;
   border-radius: 10px 10px 0px 0px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  position: relative;
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 14px;
@@ -197,23 +198,21 @@ const Title = styled.div`
   width: 100%;
   height: 40px;
   ${({ theme }) => theme.flex.flexCenter};
+  position: relative;
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
-  position: relative;
 `;
-const PrivateStyle = styled(Private)``;
 const PlusButton = styled.button`
   width: 20px;
   height: 20px;
   background-color: white;
   border: none;
   border-radius: 10px;
-  ${({ theme }) => theme.flex.flexCenter};
+  cursor: pointer;
   position: absolute;
   right: 2px;
-  top: 10px;
-  cursor: pointer;
+  ${({ theme }) => theme.flex.flexCenter};
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     width: 10px;

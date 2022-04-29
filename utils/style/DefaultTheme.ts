@@ -66,7 +66,7 @@ const theme: DefaultTheme = {
     },
   },
   customButton: {
-    background: "white",
+    //background: "white",
     "border-radius": "10px",
     "font-size": "1rem",
     cursor: "pointer",

@@ -4,7 +4,7 @@ export type ACTION_INSTANCE = ReturnType<typeof AUTH_ACTION>;
 
 type AUTH_STATE = {
   authParameter: {
-    email: string;
+    email: string;       
     role: string;
   };
 };

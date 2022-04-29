@@ -33,17 +33,35 @@ const BlogHeader = () => {
     dispatch(AUTH_ACTION({ authParameter: authParameter }));
   };
 
-  useEffect(() => {
-    AxiosInstance({
-      url: "/ssssksss/visit",
-      method: "GET",
-    })
-      .then((response) => {
-        console.log(response?.data);
+  const logoutHandler = () => {
+    authHandler({ email: "", role: "" });
+    (async () => {
+      await AxiosInstance({
+        url: "/ssssksss/user/logout",
+        method: "GET",
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          console.log(response?.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
+  };
+
+  useEffect(() => {
+    (async () => {
+      await AxiosInstance({
+        url: "/ssssksss/visit",
+        method: "GET",
+      })
+        .then((response) => {
+          console.log(response?.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
   }, []);
 
   useEffect(() => {
@@ -94,38 +112,34 @@ const BlogHeader = () => {
           </a>
         </Link>
       </Logo>
-      <ButtonContainer>
-        <PrivateStyle state="">
-          <LoginButton
-            onClick={() => {
-              setModalOpen1(true);
-            }}
-          >
-            로그인
-          </LoginButton>
-          <SignupButton
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            회원가입
-          </SignupButton>
-        </PrivateStyle>
-        <PrivateStyle state="logout">
-          <UserStatus href="">{authStore.email}</UserStatus>
-          <LogoutButton
-            onClick={() => {
-              authHandler({
-                email: "",
-                role: "",
-              });
-              cookies.remove("accessToken");
-            }}
-          >
-            로그아웃
-          </LogoutButton>
-        </PrivateStyle>
-      </ButtonContainer>
+      <>
+        {authStore.role === "" && (
+          <ButtonContainer>
+            <LoginButton
+              onClick={() => {
+                setModalOpen1(true);
+              }}
+            >
+              로그인
+            </LoginButton>
+            <SignupButton
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            >
+              회원가입
+            </SignupButton>
+          </ButtonContainer>
+        )}
+        {authStore.role !== "" && (
+          <ButtonContainer>
+            <UserStatus href="">{authStore.email}</UserStatus>
+            <LogoutButton onClick={() => logoutHandler()}>
+              로그아웃
+            </LogoutButton>
+          </ButtonContainer>
+        )}
+      </>
     </Header>
   );
 };
@@ -173,47 +187,43 @@ const HitsItem = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 10px 0px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+    font-size: 0.6rem;
+  }
 `;
 const ButtonContainer = styled.div`
   display: flex;
-  flex-flow: nowrap row;
-  ${({ theme }) => theme.flex.flexRight};
+  flex-flow: nowrap column;
+  align-items: center;
+  justify-content: space-evenly;
   padding-right: 5px;
 `;
 const CommonButton = css`
   ${({ theme }) => theme.customButton};
-  width: 80px;
-  height: 50px;
-
+  width: 100%;
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  color: white;
+  background: none;
+  border: solid white 1px;
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    width: 60px;
     font-size: 0.6rem;
+  }
+  &:hover {
+    background: white;
+    color: ${({ theme }) => theme.customColors.second};
   }
 `;
 const LoginButton = styled.button`
   ${CommonButton}
-  margin-right: 5px;
 `;
 const SignupButton = styled.button`
   ${CommonButton}
 `;
 const LogoutButton = styled.button`
-  ${({ theme }) => theme.customButton};
-  width: 100%;
-  height: 25px;
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    width: 60px;
-    font-size: 0.6rem;
-  }
+  ${CommonButton}
 `;
 const UserStatus = styled.a`
-  display: block;
-`;
-const PrivateStyle = styled(Private)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: space-evenly;
-  cursor: pointer;
+  ${CommonButton}
+  text-align: center;
 `;
