@@ -10,7 +10,6 @@ import { AUTH_ACTION } from "@/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/reducers";
-import Cookies from "universal-cookie";
 
 const BlogHeader = () => {
   const router = useRouter();
@@ -18,7 +17,11 @@ const BlogHeader = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
   const dispatch = useDispatch();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const cookies = new Cookies();
+  const [blogView, setBlogView] = useState({
+    todayView: 0,
+    yesterdayView: 0,
+    alldayView: 0,
+  });
 
   const modalHandler = (e: any) => {
     setModalOpen(modalOpen ? false : true);
@@ -56,7 +59,12 @@ const BlogHeader = () => {
         method: "GET",
       })
         .then((response) => {
-          console.log(response?.data);
+          const resView = response.data.data.view;
+          setBlogView({
+            todayView: resView.todayView,
+            yesterdayView: resView.yesterdayView,
+            alldayView: resView.alldayView,
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -93,15 +101,15 @@ const BlogHeader = () => {
       {modalOpen1 && <ModalLogin modalHandler={modalHandler1} />}
       <HitsContainer>
         <HitsItem>
-          <span> 0 </span>
+          <span> {blogView.yesterdayView} </span>
           <span> 어제 </span>
         </HitsItem>
         <HitsItem>
-          <span> 0 </span>
+          <span> {blogView.todayView} </span>
           <span> 오늘 </span>
         </HitsItem>
         <HitsItem>
-          <span> 0 </span>
+          <span> {blogView.alldayView} </span>
           <span> 전체 </span>
         </HitsItem>
       </HitsContainer>
