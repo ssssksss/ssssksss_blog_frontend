@@ -7,7 +7,7 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 백엔드깃허브주소: [백엔드깃허브주소](https://github.com/ssssksss/ssssksss_blog_server)
 
 
-# [3] 프론트엔드(next.js, styled-component, axios, redux, toastui-editor, typescript)
+# [3] 프론트엔드(next.js, styled-component, axios, redux, toastui-editor, typescript, vercel)
 > vercel에 배포를 하고 개인 도메인 주소를 이용해서 쉽게 ssl 적용을 해두었다.
 
 
@@ -36,7 +36,7 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 
 
 
-# [4] 백엔드(spring-boot, spring-security, spring-data-jpa, jsonwebtoken:jjwt )
+# [4] 백엔드(spring-boot, spring-security, spring-data-jpa )
 > 스프링프레임워크를 이용하여 구현 \
 > 자동배포는 젠킨스를 고려중 \
 
