@@ -7,9 +7,8 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 백엔드깃허브주소: [백엔드깃허브주소](https://github.com/ssssksss/ssssksss_blog_server)
 
 
-# [3] 프론트엔드(next.js, styled-component, axios, redux, toastui-editor)
+# [3] 프론트엔드(next.js, styled-component, axios, redux, toastui-editor, typescript)
 > vercel에 배포를 하고 개인 도메인 주소를 이용해서 쉽게 ssl 적용을 해두었다.
-
 
 
 ## (1) 기능
@@ -37,14 +36,14 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 
 
 
-# [4] 백엔드
+# [4] 백엔드(spring-boot, spring-security, spring-data-jpa, jsonwebtoken:jjwt )
 > 스프링프레임워크를 이용하여 구현 \
 > 자동배포는 젠킨스를 고려중 \
 
 ## (1) 기능
 > MVC 패턴 사용 \
 > Cors 문제 처리 \
-> 로그인 회원가입 validation 구현 \
+> 로그인 회원가입 정규표현식을 이용해서 validation 구현 \
 > 액세스 토큰을 이용한 인증 처리 \
 > 사용자 IP를 이용하여 조회 수 처리 \
 > 
@@ -58,6 +57,7 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 사용자 IP를 어떤 방식으로 처리할지 고민 \
 > aop같은 토큰 처리 등에 대한 로직 개선 필요 \
 > yml파일을 처리하지를 못해서 깃허브 배포 보류 \
+> 에러 처리 과정 추가 필요 \
 
 ## (2) API 문서
 > 아직 작성 x
