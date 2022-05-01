@@ -7,6 +7,7 @@ import styled, { css } from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/react-editor";
 import Private from "../Auth/Private";
+import Head from "next/head";
 
 //postView공간
 const PostView = () => {
@@ -85,6 +86,9 @@ const PostView = () => {
         <Container> 로딩중 ... </Container>
       ) : (
         <Container>
+          <Head>
+            <title> {post?.title} </title>
+          </Head>
           <Title> {post?.title} </Title>
           <SubSpace>
             <PostContainer1>

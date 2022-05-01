@@ -139,8 +139,8 @@ const Overlay = styled.div`
 `;
 const Container = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 30vh;
+  left: 50vw;
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.customColors.first};
   width: 30%;

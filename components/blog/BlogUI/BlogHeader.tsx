@@ -4,7 +4,6 @@ import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import ModalSignup from "@/components/Modal/ModalSignup";
 import ModalLogin from "@/components/Modal/ModalLogin";
-import Private from "@/components/blog/Auth/Private";
 import { useDispatch } from "react-redux";
 import { AUTH_ACTION } from "@/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -99,20 +98,20 @@ const BlogHeader = () => {
     <Header>
       {modalOpen && <ModalSignup modalHandler={modalHandler} />}
       {modalOpen1 && <ModalLogin modalHandler={modalHandler1} />}
-      <HitsContainer>
-        <HitsItem>
+      <ViewContainer>
+        <ViewItem>
           <span> {blogView.yesterdayView} </span>
           <span> 어제 </span>
-        </HitsItem>
-        <HitsItem>
+        </ViewItem>
+        <ViewItem>
           <span> {blogView.todayView} </span>
           <span> 오늘 </span>
-        </HitsItem>
-        <HitsItem>
+        </ViewItem>
+        <ViewItem>
           <span> {blogView.alldayView} </span>
           <span> 전체 </span>
-        </HitsItem>
-      </HitsContainer>
+        </ViewItem>
+      </ViewContainer>
       <Logo>
         <Link href="/">
           <a>
@@ -161,7 +160,7 @@ const Header = styled.header`
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   background: ${({ theme }) => theme.customColors.second};
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 5fr 2fr 5fr;
   align-items: center;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 `;
@@ -184,12 +183,12 @@ const Img = styled.img`
   border-radius: 30px;
   animation: ${rotation} 8s ease-in-out infinite;
 `;
-const HitsContainer = styled.div`
+const ViewContainer = styled.div`
   padding-left: 10px;
   ${({ theme }) => theme.flex.flexBetween};
   color: white;
 `;
-const HitsItem = styled.div`
+const ViewItem = styled.div`
   display: flex;
   flex-flow: nowrap column;
   justify-content: flex-end;
@@ -210,6 +209,7 @@ const ButtonContainer = styled.div`
 const CommonButton = css`
   ${({ theme }) => theme.customButton};
   width: 100%;
+  padding: 4px 0px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   color: white;
   background: none;
