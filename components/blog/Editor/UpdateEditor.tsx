@@ -16,7 +16,7 @@ const UpdateEditor = () => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/ssssksss/post/view",
+      url: "/ssssksss/post/read",
       method: "GET",
       params: {
         firstHref: window.location.pathname.split("/")[1],
@@ -26,7 +26,7 @@ const UpdateEditor = () => {
     })
       .then((response) => {
         let res = response.data.data.post;
-        setAreaTextContent(res);
+        setAreaTextContent(res.content);
         setTitle(res.title);
         setDescription(res.description);
         const editorInstance = editorRef.current?.getInstance();

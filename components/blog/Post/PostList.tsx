@@ -36,7 +36,7 @@ const PostList = () => {
         window.location.pathname.split("/")[2] !== "undefined"
       ) {
         AxiosInstance({
-          url: "/ssssksss/post/read",
+          url: "/ssssksss/posts/read",
           method: "GET",
           params: {
             firstHref: window.location.pathname.split("/")[1],

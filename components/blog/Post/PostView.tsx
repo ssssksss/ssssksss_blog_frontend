@@ -17,13 +17,9 @@ const PostView = () => {
   const [loading, setLoading] = useState(true);
 
   type PostTypes = {
-    description: string;
     id: number;
-    isAvailable: boolean;
     likeNumber: number;
     modifiedAt: string;
-    secondHref: string;
-    position: number;
     title: string;
     userId: string;
     content: string;
@@ -59,7 +55,7 @@ const PostView = () => {
       window.location.pathname.split("/")[2] !== "undefined"
     ) {
       AxiosInstance({
-        url: "/ssssksss/post/view",
+        url: "/ssssksss/post/read",
         method: "GET",
         params: {
           firstHref: window.location.pathname.split("/")[1],

@@ -94,8 +94,19 @@ const BlogHeader = () => {
     })();
   }, []);
 
+  const topMoveHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <Header>
+      <TopButton
+        onClick={() => {
+          topMoveHandler;
+        }}
+      >
+        맨위로
+      </TopButton>
       {modalOpen && <ModalSignup modalHandler={modalHandler} />}
       {modalOpen1 && <ModalLogin modalHandler={modalHandler1} />}
       <ViewContainer>
@@ -163,6 +174,11 @@ const Header = styled.header`
   grid-template-columns: 5fr 2fr 5fr;
   align-items: center;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+`;
+const TopButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 80px;
 `;
 const rotation = keyframes`
 0%,100%{
