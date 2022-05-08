@@ -6,11 +6,11 @@ import Layout1 from "@/components/layout/Layout1";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/reducers";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import Private from "../Auth/Private";
 
 //2번째 카테고리 경로
 const PostList = () => {
   const router = useRouter();
+  const authStore = useSelector((state: RootState) => state.authStore);
   const secondCategory = useSelector(
     (state: RootState) => state.categoryStore.secondCategoryPath
   );
@@ -45,9 +45,7 @@ const PostList = () => {
         })
           .then((response) => {
             let res = response.data.data.posts;
-            //console.log(res);
             setPosts(res);
-            //console.log("세번째 카테고리를 성공적으로 받음");
           })
           .catch((error) => {
             console.log(error);
@@ -60,7 +58,7 @@ const PostList = () => {
     <React.StrictMode>
       <MenuContainer>
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
-        <Private state="master">
+        {authStore.role === "" && (
           <MenuAddItem>
             <Link
               href={"/[firstCategory]/[secondCategory]/[post]/add"}
@@ -69,8 +67,8 @@ const PostList = () => {
               <a> +++ 내용 추가 +++ </a>
             </Link>
           </MenuAddItem>
-        </Private>
-        {posts.map((i) => (
+        )}
+        {posts.map((i, index) => (
           <MenuItem key={i.id}>
             <Link
               href={"/[firstCategory]/[secondCategory]/[post]"}
@@ -79,7 +77,7 @@ const PostList = () => {
               <Item>
                 <ItemTitle>
                   {" "}
-                  [{i.position}] {i.title}{" "}
+                  [{index + 1}] {i.title}{" "}
                 </ItemTitle>
                 <MenuDate> {i.modified_at.substring(0, 10)} </MenuDate>
                 <Description> {i.description} </Description>

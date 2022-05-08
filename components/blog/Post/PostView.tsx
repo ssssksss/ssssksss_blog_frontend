@@ -6,8 +6,9 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/react-editor";
-import Private from "../Auth/Private";
 import Head from "next/head";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/reducers";
 
 //postView공간
 const PostView = () => {
@@ -15,6 +16,7 @@ const PostView = () => {
   const [post, setPost] = useState<PostTypes>();
   const editorRef = useRef<Viewer>(null);
   const [loading, setLoading] = useState(true);
+  const authStore = useSelector((state: RootState) => state.authStore);
 
   type PostTypes = {
     id: number;
@@ -95,23 +97,26 @@ const PostView = () => {
             </PostContainer1>
             <PostContainer2>
               <LikeNumber> 👍 {post?.likeNumber} </LikeNumber>
-              <Private state="master">
-                <Link
-                  href={"/[firstCategory]/[secondCategory]/[post]/update"}
-                  as={
-                    router.asPath.substring(0, router.asPath.lastIndexOf("/")) +
-                    "/post/update?id=" +
-                    post?.id
-                  }
-                >
-                  <UpdateButton> 수정</UpdateButton>
-                </Link>
-              </Private>
-              <Private state="master">
-                <RemoveButton onClick={() => removePostHandler()}>
-                  삭제
-                </RemoveButton>
-              </Private>
+              {authStore.role === "master" && (
+                <>
+                  <Link
+                    href={"/[firstCategory]/[secondCategory]/[post]/update"}
+                    as={
+                      router.asPath.substring(
+                        0,
+                        router.asPath.lastIndexOf("/")
+                      ) +
+                      "/post/update?id=" +
+                      post?.id
+                    }
+                  >
+                    <UpdateButton> 수정</UpdateButton>
+                  </Link>
+                  <RemoveButton onClick={() => removePostHandler()}>
+                    삭제
+                  </RemoveButton>
+                </>
+              )}
               <CancelButton
                 onClick={() =>
                   router.push(

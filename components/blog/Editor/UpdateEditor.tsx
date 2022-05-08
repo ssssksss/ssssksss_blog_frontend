@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/reducers";
 
 const UpdateEditor = () => {
   const router = useRouter();
@@ -13,6 +15,7 @@ const UpdateEditor = () => {
   const [areaTextContent, setAreaTextContent] = useState("");
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
+  const authStore = useSelector((state: RootState) => state.authStore);
 
   useEffect(() => {
     AxiosInstance({
@@ -54,7 +57,7 @@ const UpdateEditor = () => {
       },
     })
       .then((response) => {
-        alert("포스트가 수정되었습니다.");
+        //alert("포스트가 수정되었습니다.");
         router.push(
           "/" +
             locationHref.split("/")[1] +
@@ -71,35 +74,39 @@ const UpdateEditor = () => {
 
   return (
     <div>
-      <Title
-        placeholder="제목을 입력해주세요"
-        value={title}
-        onChange={(e) => {
-          setTitle(e.target.value);
-        }}
-      ></Title>
-      <Description
-        placeholder="간략한 설명을 입력해주세요"
-        value={description}
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-      />
-      <div style={{ background: "white" }}>
-        <Editor
-          initialValue={areaTextContent}
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="markdown"
-          //initialEditType="wysiwyg"
-          useCommandShortcut={true}
-          ref={editorRef}
-        />
-      </div>
-      <EditorFooter>
-        <SubmitButton onClick={() => updateHandler()}> 수정 </SubmitButton>
-        <CancelButton onClick={() => router.back()}>취소</CancelButton>
-      </EditorFooter>
+      {authStore.role === "master" && (
+        <>
+          <Title
+            placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          ></Title>
+          <Description
+            placeholder="간략한 설명을 입력해주세요"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+          <div style={{ background: "white" }}>
+            <Editor
+              initialValue={areaTextContent}
+              previewStyle="vertical"
+              height="600px"
+              initialEditType="markdown"
+              //initialEditType="wysiwyg"
+              useCommandShortcut={true}
+              ref={editorRef}
+            />
+          </div>
+          <EditorFooter>
+            <SubmitButton onClick={() => updateHandler()}> 수정 </SubmitButton>
+            <CancelButton onClick={() => router.back()}>취소</CancelButton>
+          </EditorFooter>
+        </>
+      )}
     </div>
   );
 };
