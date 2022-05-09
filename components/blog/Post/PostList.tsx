@@ -58,7 +58,7 @@ const PostList = () => {
     <React.StrictMode>
       <MenuContainer>
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
-        {authStore.role === "" && (
+        {authStore.role === "master" && (
           <MenuAddItem>
             <Link
               href={"/[firstCategory]/[secondCategory]/[post]/add"}
