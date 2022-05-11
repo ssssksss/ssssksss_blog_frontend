@@ -42,9 +42,7 @@ const BlogHeader = () => {
         url: "/ssssksss/user/logout",
         method: "GET",
       })
-        .then((response) => {
-          console.log(response?.data);
-        })
+        .then((response) => {})
         .catch((error) => {
           console.log(error);
         });

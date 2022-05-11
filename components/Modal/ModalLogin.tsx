@@ -72,7 +72,6 @@ const ModalSignin = (modalHandler: any) => {
           },
         })
           .then((response) => {
-            //alert("로그인 성공");
             const resAuth = response.data.data.auth;
             authHandler({
               email: resAuth.email,
@@ -81,7 +80,6 @@ const ModalSignin = (modalHandler: any) => {
             modalHandler.modalHandler();
           })
           .catch((error) => {
-            console.log(error.response.data);
             alert(error.response.data.errorMsg);
           });
       })();

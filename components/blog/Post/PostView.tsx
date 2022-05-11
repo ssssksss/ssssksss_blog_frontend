@@ -66,9 +66,6 @@ const PostView = () => {
         .then((response) => {
           let res = response.data.data.post;
           setPost(res);
-          console.log(res);
-          console.log(post);
-          console.log(post?.id);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(res.content);
         })
