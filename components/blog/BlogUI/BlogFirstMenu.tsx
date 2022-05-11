@@ -29,16 +29,13 @@ const BlogFirstMenu = () => {
   }, []);
 
   useEffect(() => {
-    //console.log("BlogFirstMenu.tsx");
     AxiosInstance({
-      url: "/ssssksss/first-category/read",
+      url: "/ssssksss/first-category",
       method: "GET",
     })
       .then((response) => {
         let res = response.data.data.firstCategory;
-        //console.log(res);
         setFirstCategory(res);
-        //console.log("첫번째 카테고리를 성공적으로 받음");
       })
       .catch((error) => {
         console.log(error);

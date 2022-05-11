@@ -42,7 +42,6 @@ const BlogSecondMenu = () => {
   }, []);
 
   useEffect(() => {
-    //console.log("BlogSecondMenu.tsx");
     if (firstCategory !== "") {
       (async () => {
         if (
@@ -50,7 +49,7 @@ const BlogSecondMenu = () => {
           window.location.pathname.split("/")[1] !== null
         ) {
           await AxiosInstance({
-            url: "/ssssksss/second-category/read",
+            url: "/ssssksss/second-category",
             method: "GET",
             params: {
               firstHref: firstCategory,
@@ -59,7 +58,6 @@ const BlogSecondMenu = () => {
             .then((response) => {
               let res = response.data.data.secondCategory;
               setSecondCategory(res);
-              //console.log("두번째 카테고리를 성공적으로 받음");
             })
             .catch((error) => {
               console.log(error);

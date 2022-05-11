@@ -23,17 +23,14 @@ const CreateEditor = () => {
   const changeHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
-    //console.log(getContent_md);
     const getContent_html = editorInstance?.getHTML();
-    //console.log(getContent_html);
   };
   const locationHref = window.location.pathname;
   const handlerSubmit = () => {
-    //console.log("handleSubmit");
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/ssssksss/post/add",
+      url: "/ssssksss/post",
       method: "POST",
       data: {
         title: title,
@@ -44,7 +41,6 @@ const CreateEditor = () => {
       },
     })
       .then((response) => {
-        //alert("포스트가 추가되었습니다."); //귀찮아서 주석처리 해버림
         router.push(
           "/" + locationHref.split("/")[1] + "/" + locationHref.split("/")[2]
         );

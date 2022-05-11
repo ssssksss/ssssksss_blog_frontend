@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -19,7 +18,7 @@ const UpdateEditor = () => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/ssssksss/post/read",
+      url: "/ssssksss/post",
       method: "GET",
       params: {
         firstHref: window.location.pathname.split("/")[1],
@@ -41,12 +40,11 @@ const UpdateEditor = () => {
   }, []);
 
   const updateHandler = () => {
-    //console.log("handleUpdate");
     const editorInstance = editorRef.current?.getInstance();
     const MarkdownContent = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/ssssksss/post/update",
-      method: "POST",
+      url: "/ssssksss/post",
+      method: "PUT",
       data: {
         id: Number(window.location.search.split("=")[1]),
         title: title,
@@ -57,7 +55,6 @@ const UpdateEditor = () => {
       },
     })
       .then((response) => {
-        //alert("포스트가 수정되었습니다.");
         router.push(
           "/" +
             locationHref.split("/")[1] +

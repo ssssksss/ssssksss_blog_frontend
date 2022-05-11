@@ -29,14 +29,13 @@ const PostList = () => {
   };
 
   useEffect(() => {
-    //console.log("PostList.tsx");
     if (secondCategory !== "") {
       if (
         window.location.pathname.split("/")[2] !== "" &&
         window.location.pathname.split("/")[2] !== "undefined"
       ) {
         AxiosInstance({
-          url: "/ssssksss/posts/read",
+          url: "/ssssksss/posts",
           method: "GET",
           params: {
             firstHref: window.location.pathname.split("/")[1],

@@ -29,14 +29,13 @@ const PostView = () => {
 
   const removePostHandler = () => {
     AxiosInstance({
-      url: "/ssssksss/post/remove",
+      url: "/ssssksss/post",
       method: "DELETE",
       data: {
-        id: Number(post?.id),
+        id: post?.id,
       },
     })
       .then((response) => {
-        //console.log("포스트를 성공적으로 삭제");
         router.push(
           window.location.pathname.substring(
             0,
@@ -51,13 +50,12 @@ const PostView = () => {
 
   useEffect(() => {
     setLoading(true);
-    //console.log("post/index.tsx");
     if (
       window.location.pathname.split("/")[2] !== "" &&
       window.location.pathname.split("/")[2] !== "undefined"
     ) {
       AxiosInstance({
-        url: "/ssssksss/post/read",
+        url: "/ssssksss/post",
         method: "GET",
         params: {
           firstHref: window.location.pathname.split("/")[1],
@@ -68,6 +66,9 @@ const PostView = () => {
         .then((response) => {
           let res = response.data.data.post;
           setPost(res);
+          console.log(res);
+          console.log(post);
+          console.log(post?.id);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(res.content);
         })
