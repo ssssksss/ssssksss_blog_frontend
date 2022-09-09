@@ -1,5 +1,4 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import styled, { css } from "styled-components";
 /**
  * Author : Sukyung Lee
  * FileName: HamburgerMenu.tsx
@@ -34,7 +33,7 @@ const Container = styled.button<{ isHideMenu: boolean }>`
   left: 0;
   z-index: 30;
   padding: 6px;
-  background-color: ${(props) => props.isHideMenu || "#aeaeae"};
+  background-color: ${(props: any) => props.isHideMenu || "#aeaeae"};
 
   ${(props) =>
     props.isHideMenu
