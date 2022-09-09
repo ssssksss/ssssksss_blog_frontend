@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import Layout1 from "@/components/layout/Layout1";
+import Layout1 from "src/components/layout/Layout1";
 //import Layout2 from "@/components/layout/Layout2";
 //import CreateEditor from "@/components/blog/Editor/CreateEditor";
 import dynamic from "next/dynamic";
 
 const DynamicComponent = dynamic(
-  () => import("@/components/blog/Editor/CreateEditor"),
+  () => import("src/components/blog/Editor/CreateEditor"),
   {
     ssr: false,
   }

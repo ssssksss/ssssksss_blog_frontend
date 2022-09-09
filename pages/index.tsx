@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import Layout1 from "@/components/layout/Layout1";
+import Layout1 from "src/components/layout/Layout1";
+import Layout2 from "src/components/layout/Layout2";
 
 const Container = styled.div`
   padding: 4px;
@@ -7,7 +8,7 @@ const Container = styled.div`
 `;
 
 const Home = () => {
-  return <Container></Container>;
+  return <Container> </Container>;
 };
 Home.layout = Layout1;
 export default Home;

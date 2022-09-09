@@ -1,4 +1,4 @@
-import Layout1 from "@/components/layout/Layout1";
+import Layout1 from "src/components/layout/Layout1";
 import React from "react";
 
 type Props = {};

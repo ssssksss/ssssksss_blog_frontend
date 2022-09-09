@@ -1,18 +1,17 @@
-import "../styles/globals.css";
 import { ThemeProvider } from "styled-components";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 import { ReactElement, ReactNode, useState, useRef } from "react";
-import GlobalStyles from "../utils/style/GlobalStyles";
 import { theme } from "../utils/style/DefaultTheme";
-import Layout1 from "@/components/layout/Layout1";
-import Layout2 from "@/components/layout/Layout2";
+import Layout1 from "src/components/layout/Layout1";
+import Layout2 from "src/components/layout/Layout2";
 import { Provider } from "react-redux";
-import { store } from "@/store/index";
-import BlogHeader from "@/components/blog/BlogUI/BlogHeader";
-import BlogFooter from "@/components/blog/BlogUI/BlogFooter";
-import Head from "next/head";
-import NextjsHeader from "@/components/common/NextjsHeader";
+import { store } from "@/redux/store/index";
+import BlogHeader from "src/components/blog/BlogUI/BlogHeader";
+import BlogFooter from "src/components/blog/BlogUI/BlogFooter";
+import NextjsHeader from "src/components/common/NextjsHeader";
+import GlobalStyles from "@/styles/GlobalStyles";
+import useEffect from "react";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

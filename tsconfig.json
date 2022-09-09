@@ -3,8 +3,8 @@
     "target": "es5",
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/store/*": ["store/*"],
+      "@/components/*": ["src/components/*"],
+      "@/redux/*": ["redux/*"],
       "@/utils/*": ["utils/*"],
       "@/styles/*": ["styles/*"],
       "@/public/*": ["public/*"]

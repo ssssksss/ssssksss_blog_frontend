@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Layout1 from "@/components/layout/Layout1";
+import Layout1 from "src/components/layout/Layout1";
 //import Layout2 from "@/components/layout/Layout2";
 //import UpdateEditor from "@/components/blog/Editor/UpdateEditor";
 import dynamic from "next/dynamic";
 
 const DynamicComponent = dynamic(
-  () => import("@/components/blog/Editor/UpdateEditor"),
+  () => import("src/components/blog/Editor/UpdateEditor"),
   {
     ssr: false,
   }
