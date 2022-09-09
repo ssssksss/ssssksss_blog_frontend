@@ -41,8 +41,6 @@ AxiosInstance.interceptors.response.use(
     return response;
   },
   async (error: any) => {
-    console.log(error);
-    console.log(error.response);
     if (error.response.data.statusCode === 406) {
       // 1. 리프레시 토큰이 없는 경우 - 406
       // 2. 리프레시 토큰이 문제가 있는 경우(미구현)
