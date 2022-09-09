@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/redux/store/auth";
+import { setAccessToken, setUserInfo } from "@/redux/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
@@ -28,10 +28,6 @@ const BlogHeader = () => {
     yesterdayView: 0,
     alldayView: 0,
   });
-
-  const authHandler = (authParameter: any) => {
-    dispatch(setUserInfo(authParameter));
-  };
 
   useEffect(() => {
     (async () => {
@@ -65,13 +61,21 @@ const BlogHeader = () => {
   }, []);
 
   const logoutHandler = () => {
-    authHandler({ email: "", role: "" });
     (async () => {
       await AxiosInstance({
         url: "/ssssksss/user/logout",
         method: "GET",
       })
-        .then((response) => {})
+        .then((response) => {
+          store.dispatch(
+            setUserInfo({
+              email: "",
+              role: "",
+              nickname: "",
+            })
+          );
+          store.dispatch(setAccessToken({ accessToken: "" }));
+        })
         .catch((error) => {
           console.log(error);
         });
