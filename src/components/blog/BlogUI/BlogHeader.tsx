@@ -63,7 +63,7 @@ const BlogHeader = () => {
   const logoutHandler = () => {
     (async () => {
       await AxiosInstance({
-        url: "/ssssksss/user/logout",
+        url: "/api/user/logout",
         method: "GET",
       })
         .then((response) => {

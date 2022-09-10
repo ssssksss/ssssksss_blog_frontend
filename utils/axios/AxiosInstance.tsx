@@ -11,6 +11,7 @@ const AxiosInstance = axios.create({
     // 프론트엔드에서 Cors 문제를 해결하기 위한 방법
     // 아래 withCredentials하고 allow-Origin 정도만 해주면 프론트엔드에서 Cors문제는 해결되었다고 보면된다.
     "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Origin": "https://localhost:8080",
   },
   // 프론트 엔드에서 withCredentials을 해주지 않는다면
   // 쿠키가 저장이 되지 않는다. 그리고 백엔드에서도 withCredentials을 true로 설정을 해주어야한다.
