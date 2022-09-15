@@ -99,7 +99,7 @@ const TodoItem = (props: ITodoItemProps) => {
 };
 export default TodoItem;
 
-const Container = styled(CF.RowBetweenDiv)`
+const Container = styled(CF.RowBetweenDiv)<{ checked: boolean }>`
   height: 50px;
   padding: 10px;
   background-color: ${theme.backgroundColors.fourth};
