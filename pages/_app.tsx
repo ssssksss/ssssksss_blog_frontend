@@ -11,7 +11,6 @@ import BlogHeader from "src/components/blog/BlogUI/BlogHeader";
 import BlogFooter from "src/components/blog/BlogUI/BlogFooter";
 import NextjsHeader from "src/components/common/NextjsHeader";
 import GlobalStyles from "@/styles/GlobalStyles";
-import useEffect from "react";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,8 +28,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <BlogHeader />
         <NextjsHeader />
+        <BlogHeader />
         <TestLayout>
           <Component {...pageProps} />
         </TestLayout>

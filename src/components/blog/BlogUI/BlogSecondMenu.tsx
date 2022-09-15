@@ -49,7 +49,7 @@ const BlogSecondMenu = () => {
           window.location.pathname.split("/")[1] !== null
         ) {
           await AxiosInstance({
-            url: "/ssssksss/second-category",
+            url: "/api/second-category",
             method: "GET",
             params: {
               firstHref: firstCategory,

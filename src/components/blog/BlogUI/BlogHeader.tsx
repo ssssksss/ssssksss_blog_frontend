@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 import { setAccessToken, setUserInfo } from "@/redux/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
@@ -21,7 +20,6 @@ const BlogHeader = () => {
     setIsModalOpen(false);
     setIsModalOpen1(false);
   };
-  const dispatch = useDispatch();
   const authStore = useSelector((state: RootState) => state.authStore);
   const [blogView, setBlogView] = useState({
     todayView: 0,
@@ -32,7 +30,7 @@ const BlogHeader = () => {
   useEffect(() => {
     (async () => {
       await AxiosInstance({
-        url: "/ssssksss/visit",
+        url: "/api/visit",
         method: "GET",
       })
         .then((response) => {
@@ -44,7 +42,7 @@ const BlogHeader = () => {
           });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error.response);
         });
     })();
 
@@ -56,15 +54,15 @@ const BlogHeader = () => {
         store.dispatch(setUserInfo(response.data.data.user));
       })
       .catch((error) => {
-        console.log(error.response);
+        // console.log(error.response);
       });
   }, []);
 
   const logoutHandler = () => {
     (async () => {
       await AxiosInstance({
-        url: "/api/user/logout",
-        method: "GET",
+        url: "/api/user",
+        method: "DELETE",
       })
         .then((response) => {
           store.dispatch(
@@ -77,7 +75,7 @@ const BlogHeader = () => {
           store.dispatch(setAccessToken({ accessToken: "" }));
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error.response);
         });
     })();
   };
@@ -88,90 +86,106 @@ const BlogHeader = () => {
 
   return (
     <Container>
-      <TopButton onClick={topMoveHandler}>위로</TopButton>
-      {isModalOpen && (
-        <BasicCustomModal toggleModal={handleCloseModal}>
-          <UserSignUp toggleModal={handleCloseModal} />
-        </BasicCustomModal>
-      )}
-      {isModalOpen1 && (
-        <BasicCustomModal toggleModal={handleCloseModal}>
-          <UserLogin toggleModal={handleCloseModal} />
-        </BasicCustomModal>
-      )}
-      <ViewContainer>
-        <ViewItem>
-          <span> {blogView.yesterdayView} </span>
-          <span> 어제 </span>
-        </ViewItem>
-        <ViewItem>
-          <span> {blogView.todayView} </span>
-          <span> 오늘 </span>
-        </ViewItem>
-        <ViewItem>
-          <span> {blogView.alldayView} </span>
-          <span> 전체 </span>
-        </ViewItem>
-      </ViewContainer>
-      <Logo onClick={() => router.push("/")}>
-        <Img alt="logo" src="/img/logo.svg" />
-      </Logo>
-      <>
-        {authStore.role === "" && (
-          <CF.RowRightDiv gap={10}>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="login"
-                src="/img/login_icon.png"
-                width="50px"
-                height="50px"
-                onClick={() => {
-                  setIsModalOpen1(true);
-                }}
-              />
-              <span> 로그인 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="signup"
-                src="/img/signup_icon.png"
-                width="50px"
-                height="50px"
-                onClick={() => {
-                  setIsModalOpen(true);
-                }}
-              />
-              <span> 회원가입 </span>
-            </CF.ImgContainer>
-          </CF.RowRightDiv>
+      <div>
+        <TopButton onClick={topMoveHandler}>위로</TopButton>
+        {isModalOpen && (
+          <BasicCustomModal toggleModal={handleCloseModal}>
+            <UserSignUp toggleModal={handleCloseModal} />
+          </BasicCustomModal>
         )}
-        {authStore.role !== "" && (
-          <CF.RowRightDiv>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="userInfo"
-                src="/img/userInfo_icon.png"
-                width="50px"
-                height="50px"
-                onClick={() => {}}
-              />
-              <span> {authStore.nickname} </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="logout"
-                src="/img/logout_icon.png"
-                width="50px"
-                height="50px"
-                onClick={() => {
-                  logoutHandler();
-                }}
-              />
-              <span> 로그아웃 </span>
-            </CF.ImgContainer>
-          </CF.RowRightDiv>
+        {isModalOpen1 && (
+          <BasicCustomModal toggleModal={handleCloseModal}>
+            <UserLogin toggleModal={handleCloseModal} />
+          </BasicCustomModal>
         )}
-      </>
+        <GridContainer>
+          <ViewContainer>
+            <ViewItem>
+              <span> {blogView.yesterdayView} </span>
+              <span> 어제 </span>
+            </ViewItem>
+            <ViewItem>
+              <span> {blogView.todayView} </span>
+              <span> 오늘 </span>
+            </ViewItem>
+            <ViewItem>
+              <span> {blogView.alldayView} </span>
+              <span> 전체 </span>
+            </ViewItem>
+          </ViewContainer>
+          <Logo onClick={() => router.push("/")}>
+            <Img alt="logo" src="/img/logo.svg" />
+          </Logo>
+          <>
+            {authStore.role === "" && (
+              <CF.RowRightDiv gap={10}>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="login"
+                    src="/img/login_icon.png"
+                    width="50px"
+                    height="50px"
+                    onClick={() => {
+                      setIsModalOpen1(true);
+                    }}
+                  />
+                  <span> 로그인 </span>
+                </CF.ImgContainer>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="signup"
+                    src="/img/signup_icon.png"
+                    width="50px"
+                    height="50px"
+                    onClick={() => {
+                      setIsModalOpen(true);
+                    }}
+                  />
+                  <span> 회원가입 </span>
+                </CF.ImgContainer>
+              </CF.RowRightDiv>
+            )}
+            {authStore.role !== "" && (
+              <CF.RowRightDiv>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="userInfo"
+                    src="/img/userInfo_icon.png"
+                    width="50px"
+                    height="50px"
+                    onClick={() => {}}
+                  />
+                  <span> {authStore.nickname} </span>
+                </CF.ImgContainer>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="logout"
+                    src="/img/logout_icon.png"
+                    width="50px"
+                    height="50px"
+                    onClick={() => {
+                      logoutHandler();
+                    }}
+                  />
+                  <span> 로그아웃 </span>
+                </CF.ImgContainer>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="plan"
+                    src="/img/calendar_icon.png"
+                    width="50px"
+                    height="50px"
+                    onClick={() => {
+                      router.push("/plan");
+                    }}
+                  />
+                  <span> 일정 </span>
+                </CF.ImgContainer>
+              </CF.RowRightDiv>
+            )}
+          </>
+        </GridContainer>
+      </div>
     </Container>
   );
 };
@@ -179,22 +193,32 @@ const BlogHeader = () => {
 export default BlogHeader;
 
 const Container = styled.header`
-  height: 60px;
-  padding: 10px;
+  width: 100%;
+  margin: auto;
+  padding: 10px 10px 0px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
-  background: ${({ theme }) => theme.customColors.second};
+  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+`;
+const GridContainer = styled.div`
+  border-radius: 4px;
   display: grid;
   grid-template-columns: 5fr 2fr 5fr;
   align-items: center;
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  background: ${({ theme }) => theme.customColors.second};
 `;
 const TopButton = styled.button`
   position: fixed;
   width: 40px;
   aspect-ratio: 1;
-  right: 10px;
+  right: 12px;
   bottom: 40px;
-  z-index: 80;
+  z-index: 110;
+  mix-blend-mode: difference;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 const rotation = keyframes`
   0%,100%{

@@ -1,26 +1,27 @@
 # [1] 설명
+
 next.js + spring framework를 이용하여 실제 사용하려는 블로그를 만들기
 
-
 # [2] 배포 주소
-> 블로그주소: [가출한토토로의 블로그](https://blog.ssssksss.xyz) \
-> 백엔드깃허브주소: [백엔드깃허브주소](https://github.com/ssssksss/ssssksss_blog_server)
 
+> 블로그주소: [가출한토토로의 블로그](https://blog.ssssksss.xyz) \
+> 백엔드깃허브주소: [백엔드깃허브주소](https://github.com/api/ssssksss_blog_server)
 
 # [3] 프론트엔드(next.js, styled-component, axios, redux, toastui-editor, typescript, vercel)
+
 > vercel에 배포를 하고 개인 도메인 주소를 이용해서 쉽게 ssl 적용을 해두었다.
 
-
 ## (1) 기능
-> 회원가입, 로그인, 로그아웃 토큰 처리  \
+
+> 회원가입, 로그인, 로그아웃 토큰 처리 \
 > 회원가입, 로그인 validation 처리 \
 > 블로그 카테고리 생성 및 삭제 구현 (이름 수정은 아직 구현 x) \
 > toastui-editor를 이용하여 에디터 구현(리액트 버전이 17이여서 색깔 등 호환이 아직 안되는 부분이 존재, 개선은 잠시 보류) \
 > 게시글 CRUD 처리 완료, 게시글 삭제시 실제 삭제 x \
 > 백엔드에 API를 보내 오늘, 어제, 전체 조회수 받기 완료
 
-
 ## (2) 수정 및 개선 필요
+
 > 로딩 중 \
 > 게시글 댓글, 좋아요 \
 > 게시글 외부로 내보내기 (markdown, html) \
@@ -37,12 +38,13 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 회원가입에 대한 사용약관? 그런거를 작성해야 되나 알아보기
 > 맨위로 이동하기 만들어두기
 
-
 # [4] 백엔드(spring-boot, spring-security, spring-data-jpa )
+
 > 스프링프레임워크를 이용하여 구현 \
 > 자동배포는 젠킨스를 고려중
 
 ## (1) 기능
+
 > MVC 패턴 사용 \
 > Cors 문제 처리 \
 > 로그인 회원가입 정규표현식을 이용해서 validation 구현 \
@@ -50,6 +52,7 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 사용자 IP를 이용하여 조회 수 처리
 
 ## (2) 수정 및 개선 필요
+
 > 스프링 시큐리티를 이용 \
 > 테스트 코드 작성 \
 > 로그처리 \
@@ -61,13 +64,16 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 에러 처리 과정 추가 필요
 
 ## (2) API 문서
+
 > 아직 작성 x
 
 # [5] 서버
+
 > 오라클 프리티어에 centos7 사용
 > nginx에 ssl을 적용하고 톰캣과 연동
 
 ## (2) 수정 및 개선 필요
+
 > 데이터베이스 백업
 > 서버 터지는 것 대비..
 > 방화벽 열기
@@ -75,10 +81,11 @@ next.js + spring framework를 이용하여 실제 사용하려는 블로그를 �
 > 이메일 서버 구축해보기
 
 # [6] 데이터베이스
+
 > mysql 데이터베이스를 사용
 
 ## (2) 수정 및 개선 필요
+
 > API로 게시글 불러올 때 게시글 내용은 따로 분리해서 불러오기(진행중)
 
 ## (1) ERD
-

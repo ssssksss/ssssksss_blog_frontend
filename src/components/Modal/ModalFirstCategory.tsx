@@ -17,7 +17,7 @@ const ModalFirstCategory = (modalHandler: any) => {
       alert("라인은 1~4의 숫자를 넣어야 합니다.");
     } else {
       await AxiosInstance({
-        url: "/ssssksss/first-category",
+        url: "/api/first-category",
         method: "POST",
         data: {
           name: name,
@@ -38,7 +38,7 @@ const ModalFirstCategory = (modalHandler: any) => {
       alert("삭제할 URL을 입력하세요");
     } else {
       await AxiosInstance({
-        url: "/ssssksss/first-category",
+        url: "/api/first-category",
         method: "DELETE",
         data: {
           firstHref: "/" + removeFirstHref,

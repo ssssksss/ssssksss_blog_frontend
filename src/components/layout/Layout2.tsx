@@ -1,11 +1,19 @@
 import React from "react";
+import styled from "styled-components";
 
 type AppLayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout2 = ({ children }: AppLayoutProps) => {
-  return <>{children}</>;
+  return <Container>{children}</Container>;
 };
 
 export default Layout2;
+
+const Container = styled.div`
+  margin: auto;
+  padding: 0px 10px;
+  min-width: 400px;
+  max-width: 1440px;
+`;

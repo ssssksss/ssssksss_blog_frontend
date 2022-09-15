@@ -18,7 +18,7 @@ const UpdateEditor = () => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/ssssksss/post",
+      url: "/api/post",
       method: "GET",
       params: {
         firstHref: window.location.pathname.split("/")[1],
@@ -43,7 +43,7 @@ const UpdateEditor = () => {
     const editorInstance = editorRef.current?.getInstance();
     const MarkdownContent = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/ssssksss/post",
+      url: "/api/post",
       method: "PUT",
       data: {
         id: Number(window.location.search.split("=")[1]),

@@ -30,7 +30,7 @@ const BlogFirstMenu = () => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/ssssksss/first-category",
+      url: "/api/first-category",
       method: "GET",
     })
       .then((response) => {
@@ -243,7 +243,6 @@ const MenuList = styled.div`
   }
 `;
 const MenuItem = styled.a<{ active: boolean }>`
-  //box-shadow: 1px 1px 0px 0px grey, -1px -1px 1px 0px grey, inset 1px 1px grey;
   ${({ theme }) => theme.flex.flexCenter};
   background: ${(props) =>
     props.active ? "white" : ({ theme }) => theme.customColors.first};
@@ -255,7 +254,5 @@ const MenuItem = styled.a<{ active: boolean }>`
   &:hover {
     color: ${({ theme }) => theme.customColors.first};
     background: white;
-    //box-shadow: 0px 0px 1px 1px grey, inset 1px 1px grey;
-    //transform: translate(-2px, -2px);
   }
 `;

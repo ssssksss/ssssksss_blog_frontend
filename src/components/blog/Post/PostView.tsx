@@ -31,7 +31,7 @@ const PostView = () => {
 
   const removePostHandler = () => {
     AxiosInstance({
-      url: "/ssssksss/post",
+      url: "/api/post",
       method: "DELETE",
       data: {
         id: post?.id,
@@ -57,7 +57,7 @@ const PostView = () => {
       window.location.pathname.split("/")[2] !== "undefined"
     ) {
       AxiosInstance({
-        url: "/ssssksss/post",
+        url: "/api/post",
         method: "GET",
         params: {
           firstHref: window.location.pathname.split("/")[1],
@@ -90,10 +90,26 @@ const PostView = () => {
           <Title> {post?.title} </Title>
           <SubSpace>
             <PostContainer1>
-              <ModifiedAt>
-                작성일 : {post?.modifiedAt.substring(0, 10)}{" "}
-              </ModifiedAt>
-              <UserId> 작성자 : {post?.userId}</UserId>
+              <CF.RowDiv>
+                <CF.Img
+                  alt="calendar_icon"
+                  src="/img/calendar_icon.png"
+                  width="20px"
+                  height="20px"
+                  noCursor={true}
+                />
+                : {post?.modifiedAt.substring(0, 10)}{" "}
+              </CF.RowDiv>
+              <CF.RowDiv>
+                <CF.Img
+                  alt="userInfo_icon"
+                  src="/img/userInfo_icon.png"
+                  width="20px"
+                  height="20px"
+                  noCursor={true}
+                />
+                : {post?.userId}
+              </CF.RowDiv>
             </PostContainer1>
             <PostContainer2>
               <LikeNumber>
@@ -193,8 +209,7 @@ const PostContainer1 = styled.div`
     font-size: 0.8rem;
   }
 `;
-const ModifiedAt = styled.div``;
-const UserId = styled.div``;
+
 const PostContainer2 = styled.div`
   display: flex;
   flex-flow: nowrap row;

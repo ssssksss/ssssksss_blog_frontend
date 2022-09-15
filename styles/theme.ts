@@ -196,12 +196,19 @@ const deviceSizes = {
   mobile: "360px",
   tablet: "768px",
   laptop: "1024px",
+  maxWidth: "1024px",
 };
 
 const device = {
   mobile: `screen and (max-width: ${deviceSizes.mobile})`,
   tablet: `screen and (max-width: ${deviceSizes.tablet})`,
   laptop: `screen and (min-width: ${deviceSizes.tablet})`,
+};
+
+const customFonts = {
+  cookieRunOTFBlack: "cookieRunOTFBlack",
+  cookieRunOTFRegular: "cookieRunOTFRegular",
+  GmarketSansBold: "GmarketSansBold",
 };
 
 const theme = {
@@ -211,6 +218,7 @@ const theme = {
   backgroundColors,
   deviceSizes,
   device,
+  customFonts,
 };
 
 export default theme;

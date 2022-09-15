@@ -30,7 +30,7 @@ const CreateEditor = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/ssssksss/post",
+      url: "/api/post",
       method: "POST",
       data: {
         title: title,

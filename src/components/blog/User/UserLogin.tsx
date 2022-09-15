@@ -33,8 +33,8 @@ const UserLogin = (props: IUserLoginProps) => {
     resolver: yupResolver(UserLoginYup),
     mode: "onChange",
     defaultValues: {
-      password: "P@ssw0rd!",
-      email: "dobby@dobby.com",
+      password: "",
+      email: "",
     },
   });
   const { errors } = formState;
@@ -43,8 +43,8 @@ const UserLogin = (props: IUserLoginProps) => {
     const { passwordConfirm, ...params } = data;
 
     await AxiosInstance({
-      url: "/api/user/login",
-      method: "POST",
+      url: "/api/user",
+      method: "PUT",
       data: {
         email: params.email,
         password: params.password,

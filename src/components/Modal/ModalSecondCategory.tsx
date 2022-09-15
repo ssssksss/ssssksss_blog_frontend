@@ -19,7 +19,7 @@ const ModalSecondCategory = (modalHandler: any) => {
       alert("경로를 /을 넣어서 입력하세요");
     } else {
       await AxiosInstance({
-        url: "/ssssksss/second-category",
+        url: "/api/second-category",
         method: "POST",
         data: {
           name: name,
@@ -41,7 +41,7 @@ const ModalSecondCategory = (modalHandler: any) => {
       alert("삭제할 URL을 전체 경로를 입력하세요");
     } else {
       await AxiosInstance({
-        url: "/ssssksss/second-category",
+        url: "/api/second-category",
         method: "DELETE",
         data: {
           secondHref: "/" + firstCategory + "/" + removeSecondHref,

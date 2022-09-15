@@ -11,6 +11,9 @@ interface IStyleProps {
   color?: string;
   fontSize?: string;
   borderRadius?: string;
+  noCursor?: boolean;
+  size?: string;
+  maxWidth?: string;
 }
 
 const RowDiv = styled.div<IStyleProps>`
@@ -196,14 +199,14 @@ const Img = styled.img<IStyleProps>`
   ${(props: any) =>
     css`
       background-color: ${props.backgroundColor};
-      width: ${props.width};
-      height: ${props.height};
+      width: ${props.size || props.width};
+      height: ${props.size || props.height};
       padding: ${props.padding};
       border-radius: ${props.borderRadius};
     `}
 
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
   }
 `;
 const rotationDownUp = keyframes`
@@ -232,6 +235,17 @@ const ImgContainer = styled(ColumnCenterDiv)`
   }
 `;
 
+const Text = styled.div<IStyleProps>`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  ${(props: any) =>
+    css`
+      width: ${props.width};
+      max-width: ${props.maxWidth};
+    `}
+`;
+
 export const CF = {
   RowDiv,
   RowRightDiv,
@@ -247,4 +261,5 @@ export const CF = {
   ErrorDiv,
   Img,
   ImgContainer,
+  Text,
 };

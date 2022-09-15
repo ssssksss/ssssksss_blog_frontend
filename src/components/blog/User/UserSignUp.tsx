@@ -26,12 +26,12 @@ const UserSignUp = (props: IUserSignUpProps) => {
     resolver: yupResolver(UserSignupYup),
     mode: "onChange",
     defaultValues: {
-      nickname: "도비",
-      password: "P@ssw0rd!",
-      passwordConfirm: "P@ssw0rd!",
-      email: "dobby@dobby.com",
-      gender: "m",
-      birthDate: "19950329",
+      nickname: "",
+      password: "",
+      passwordConfirm: "",
+      email: "",
+      gender: "",
+      birthDate: "",
     },
   });
   const { errors } = formState;
@@ -40,7 +40,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
     const { passwordConfirm, ...params } = data;
 
     await AxiosInstance({
-      url: "/api/user/signup",
+      url: "/api/user",
       method: "POST",
       data: {
         nickname: params.nickname,

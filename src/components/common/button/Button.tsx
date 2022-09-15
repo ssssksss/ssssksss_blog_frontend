@@ -16,6 +16,7 @@ interface IButtonProps {
   type?: "button" | "reset" | "submit";
   backgroundColor?: string;
   color?: string;
+  size?: string;
 }
 
 const Button = ({
@@ -33,6 +34,7 @@ const Button = ({
   value,
   backgroundColor,
   color,
+  size,
 }: IButtonProps) => {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
@@ -56,6 +58,7 @@ const Button = ({
       value={value}
       backgroundColor={backgroundColor}
       color={color}
+      size={size}
     >
       {children}
     </ButtonStyle>
@@ -66,8 +69,8 @@ export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
   ${theme.flex.row.center.center}
-  width: ${(props) => props.width || "100%"};
-  height: ${(props) => props.height || "54px"};
+  width: ${(props) => props.size || props.width || "100%"};
+  height: ${(props) => props.size || props.height || "54px"};
   padding: ${(props) => props.padding || "0px 4px"};
   border: none;
   font-size: ${(props) => props.fontSize || "16px"};

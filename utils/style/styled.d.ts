@@ -21,6 +21,9 @@ declare module "styled-components" {
       lg: string;
       xl: string;
       maxWidth: string;
+      phone: string;
+      tablet: string;
+      desktop: string;
     };
     flex: {
       flexCenter: {

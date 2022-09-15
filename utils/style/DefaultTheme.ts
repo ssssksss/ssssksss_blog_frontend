@@ -20,6 +20,9 @@ const theme: DefaultTheme = {
     lg: "992px",
     xl: "1200px",
     maxWidth: "1440px",
+    phone: "360px",
+    tablet: "768px",
+    desktop: "1024px",
   },
   flex: {
     flexCenter: {

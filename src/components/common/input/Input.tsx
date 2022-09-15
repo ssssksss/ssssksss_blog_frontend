@@ -30,6 +30,7 @@ interface IInputProps {
   id?: string;
   display?: string;
   defaultChecked?: boolean;
+  checked?: boolean;
 }
 
 const Input = ({
@@ -53,6 +54,7 @@ const Input = ({
   id,
   display,
   defaultChecked,
+  checked,
   ...props
 }: IInputProps) => {
   return (
@@ -75,6 +77,7 @@ const Input = ({
       name={name}
       id={id}
       display={display}
+      checked={checked}
       {...field}
       {...register}
       {...props}
