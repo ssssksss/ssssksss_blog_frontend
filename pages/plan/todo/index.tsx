@@ -66,11 +66,9 @@ const TodoContainer = () => {
         setTodoList(response.data.data.todolist);
         setContent("");
         if (store.getState().todoStore.monthTodoDates === undefined) {
-          store.dispatch(
-            SET_MONTH_TODO_DATE({
-              [`${todoStore.nowTodoDate}`]: response.data.data.todolist,
-            })
-          );
+          const temp: any = {};
+          temp[`${todoStore.nowTodoDate}`] = response.data.data.todolist;
+          store.dispatch(SET_MONTH_TODO_DATE(temp));
         } else {
           store.getState().todoStore.monthTodoDates[todoStore.nowTodoDate] =
             response.data.data.todolist;

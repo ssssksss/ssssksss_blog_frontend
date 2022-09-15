@@ -13,9 +13,8 @@ export const SET_NOW_TODO_DATE = (payload: NOW_TODO_DATE_STATE) => {
 };
 
 type SET_MONTH_TODO_DATE_STATE = {
-  // monthTodoDate: Object | ;
-  monthTodoDate: any;
-  // monthTodoDate: { [keys: string]: any };
+  // monthTodoDate: any;
+  monthTodoDate: object;
 };
 export const SET_MONTH_TODO_DATE = (payload: SET_MONTH_TODO_DATE_STATE) => {
   return {
