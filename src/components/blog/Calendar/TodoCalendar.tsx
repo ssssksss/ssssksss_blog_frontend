@@ -215,7 +215,6 @@ const TodoCalendar = () => {
 export default TodoCalendar;
 const Container = styled.div`
   width: 100%;
-  min-height: 240px;
   background-color: white;
   border: solid ${theme.backgroundColors.third} 2px;
   border-radius: 10px;

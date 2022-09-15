@@ -125,7 +125,6 @@ const flex = {
       center: {
         display: "flex",
         flexFlow: "nowrap row",
-        alignItems: "center",
       },
       start: {
         display: "flex",

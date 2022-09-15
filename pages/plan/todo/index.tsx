@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { authReducer } from "@/redux/store/auth/reducers";
 import { store } from "@/redux/store";
-import TodoItem from "./TodoItem";
+import TodoItem from "../../../src/components/blog/Todo/TodoItem";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
 import { createStore } from "redux";
 
@@ -170,8 +170,6 @@ const Container = styled(CF.ColumnDiv)`
   border-radius: 10px;
   padding: 10px;
   gap: 10px;
-  height: 100%;
-  min-height: 240px;
 `;
 
 const Title = styled(CF.RowCenterDiv)`

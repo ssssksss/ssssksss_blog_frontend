@@ -26,6 +26,5 @@ Plan.layout = Layout2;
 const Container = styled(CF.RowDiv)`
   padding: 10px 0px;
   gap: 10px;
-  height: calc(100vh - 200px);
-  background: red;
+  min-height: 400px;
 `;
