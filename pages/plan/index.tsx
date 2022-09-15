@@ -2,7 +2,7 @@ import CustomCalendar from "@/components/blog/Calendar/TodoCalendar";
 import Layout2 from "@/components/layout/Layout2";
 import { store } from "@/redux/store";
 import styled from "styled-components";
-import TodoContainer from "./todo";
+import TodoContainer from "../../src/components/blog/Todo/TodoContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { CF } from "@/styles/commonComponentStyle";

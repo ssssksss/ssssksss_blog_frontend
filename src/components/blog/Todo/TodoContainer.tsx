@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { authReducer } from "@/redux/store/auth/reducers";
 import { store } from "@/redux/store";
-import TodoItem from "../../../src/components/blog/Todo/TodoItem";
+import TodoItem from "./TodoItem";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
-import { createStore } from "redux";
 
 /**
  * Author : Sukyung Lee
