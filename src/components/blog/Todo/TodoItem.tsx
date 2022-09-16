@@ -2,7 +2,7 @@ import Input from "@/components/common/input/Input";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 /**
  * Author : Sukyung Lee
@@ -44,66 +44,81 @@ const TodoItem = (props: ITodoItemProps) => {
   };
 
   return (
-    <Container checked={props.el.isChecked}>
-      <CF.RowDiv gap={10}>
-        {isEdit ? (
-          <>
-            <Input
-              onChange={(e: any) => setContent(e.target.value)}
-              value={content}
-            />
-            <CF.Img
-              alt="submit_icon"
-              src="/img/right_arrow_icon.png"
-              size="30px"
-              onClick={() => updateContentHandler(props.el, "")}
-            />
+    <Container>
+      {isEdit ? (
+        <>
+          <Input
+            onChange={(e: any) => setContent(e.target.value)}
+            value={content}
+            height={"100%"}
+            onKeyPress={updateContentHandler(props.el, "")}
+          />
+          <CF.Img
+            alt="submit_icon"
+            src="/img/right_arrow_icon.png"
+            size="30px"
+            onClick={() => updateContentHandler(props.el, "")}
+          />
+          <CF.Img
+            alt="edit_icon"
+            src="/img/edit_icon.png"
+            size="30px"
+            onClick={() => setIsEdit(false)}
+          />
+        </>
+      ) : (
+        <>
+          <Input
+            type="checkbox"
+            width="20px"
+            height="20px"
+            onChange={() => updateContentHandler(props.el, "checkbox")}
+            checked={props.el.isChecked}
+          />
+          <TodoTextDiv
+            width={
+              props.el.isChecked ? "calc(100% - 70px)" : "calc(100% - 110px)"
+            }
+            checked={props.el.isChecked}
+          >
+            {props.el.content}
+          </TodoTextDiv>
+          {!props.el.isChecked && (
             <CF.Img
               alt="edit_icon"
               src="/img/edit_icon.png"
               size="30px"
-              onClick={() => setIsEdit(false)}
+              onClick={editChangeHandler}
             />
-          </>
-        ) : (
-          <>
-            <Input
-              type="checkbox"
-              width="20px"
-              height="20px"
-              onChange={() => updateContentHandler(props.el, "checkbox")}
-              checked={props.el.isChecked}
-            />
-            <CF.Text width={"calc(100%)"} maxWidth={"calc(100% - 100px)"}>
-              {props.el.content}
-            </CF.Text>
-            {!props.el.isChecked && (
-              <CF.Img
-                alt="edit_icon"
-                src="/img/edit_icon.png"
-                size="30px"
-                onClick={editChangeHandler}
-              />
-            )}
-          </>
-        )}
-        <CF.Img
-          alt="delete_icon"
-          src="/img/delete_icon.png"
-          size="30px"
-          onClick={() => props.deleteTodoHandler(props.el)}
-        />
-      </CF.RowDiv>
+          )}
+        </>
+      )}
+      <CF.Img
+        alt="delete_icon"
+        src="/img/delete_icon.png"
+        size="30px"
+        onClick={() => props.deleteTodoHandler(props.el)}
+      />
     </Container>
   );
 };
 export default TodoItem;
 
-const Container = styled(CF.RowBetweenDiv)<{ checked: boolean }>`
-  height: 50px;
+const Container = styled(CF.RowDiv)`
   padding: 10px;
+  align-items: center;
   background-color: ${theme.backgroundColors.fourth};
   gap: 10px;
   border-radius: 4px;
-  max-width: 300px;
+  width: 100%;
+`;
+
+const TodoTextDiv = styled(CF.Text)<{ checked: boolean }>`
+  ${(props) =>
+    props.checked &&
+    css`
+      opacity: 0.6;
+      text-decoration: line-through;
+      background-color: #999;
+    `}
 `;

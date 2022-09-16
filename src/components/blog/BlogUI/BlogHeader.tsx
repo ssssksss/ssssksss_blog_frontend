@@ -195,7 +195,7 @@ export default BlogHeader;
 const Container = styled.header`
   width: 100%;
   margin: auto;
-  padding: 10px 10px 0px;
+  padding: 10px 0px 0px 0px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 `;

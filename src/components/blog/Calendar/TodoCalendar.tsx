@@ -24,11 +24,6 @@ const TodoCalendar = () => {
     (state: RootState) => state.todoStore.monthTodoDates
   );
   const testStore = createStore(todoReducer);
-  const testHandler = () => {
-    console.log("TodoCalendar.tsx : ", "test");
-    alert("test");
-  };
-  testStore.subscribe(testHandler);
 
   const moveLeftDate = () => {
     if (calendarMonth === 0) {
@@ -213,28 +208,31 @@ const TodoCalendar = () => {
 };
 
 export default TodoCalendar;
+
 const Container = styled.div`
+  border: solid 1px black;
   width: 100%;
-  background-color: white;
-  border: solid ${theme.backgroundColors.third} 2px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
 `;
+
 const Main = styled.main`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(7, calc(100% / 7));
-  padding: 0px 10px;
 `;
 const Header = styled.header`
   width: 100%;
   height: 60px;
   line-height: 40px;
-  margin-bottom: 10px;
   text-align: center;
   display: flex;
   flex-flow: nowrap row;
   justify-content: center;
   align-items: center;
+  background-color: ${theme.backgroundColors.primary};
+  border-radius: 10px 10px 0px 0px;
 
   @media (max-width: 768px) {
     img {

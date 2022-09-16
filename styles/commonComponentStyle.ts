@@ -235,10 +235,21 @@ const ImgContainer = styled(ColumnCenterDiv)`
   }
 `;
 
-const Text = styled.div<IStyleProps>`
+const OverflowText = styled.div<IStyleProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  ${(props: any) =>
+    css`
+      width: ${props.width};
+      max-width: ${props.maxWidth};
+    `}
+`;
+
+const Text = styled.div<IStyleProps>`
+  white-space: normal;
+  word-wrap: break-word;
+
   ${(props: any) =>
     css`
       width: ${props.width};
@@ -261,5 +272,6 @@ export const CF = {
   ErrorDiv,
   Img,
   ImgContainer,
+  OverflowText,
   Text,
 };

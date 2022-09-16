@@ -13,7 +13,6 @@ export default Layout2;
 
 const Container = styled.div`
   margin: auto;
-  padding: 0px 10px;
   min-width: 400px;
   max-width: 1440px;
 `;

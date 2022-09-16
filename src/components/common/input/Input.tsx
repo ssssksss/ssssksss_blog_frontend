@@ -1,5 +1,5 @@
 import theme from "@/styles/theme";
-import { ChangeEvent } from "react";
+import { ChangeEvent, KeyboardEvent } from "react";
 import styled from "styled-components";
 
 /**
@@ -23,6 +23,7 @@ interface IInputProps {
   backgroundColor?: string;
   borderRadius?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: any;
   value?: string | number | boolean;
   border?: string;
   ref?: any;
@@ -55,6 +56,7 @@ const Input = ({
   display,
   defaultChecked,
   checked,
+  onKeyPress,
   ...props
 }: IInputProps) => {
   return (
@@ -70,6 +72,11 @@ const Input = ({
       defaultValue={defaultValue}
       defaultChecked={defaultChecked}
       onChange={onChange}
+      onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && onKeyPress) {
+          onKeyPress();
+        }
+      }}
       value={value}
       ref={ref}
       backgroundColor={backgroundColor}

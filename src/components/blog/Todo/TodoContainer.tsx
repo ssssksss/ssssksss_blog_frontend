@@ -133,47 +133,51 @@ const TodoContainer = () => {
   return (
     <Container>
       <Title> {todoStore.nowTodoDate} </Title>
-      {todoList.length !== 0 &&
-        todoList.map((el: any, index: number) => (
-          <TodoItem
-            key={index}
-            el={el}
-            date={todoStore.nowTodoDate}
-            updateTodoHandler={updateTodoHandler}
-            deleteTodoHandler={deleteTodoHandler}
+      <CF.ColumnDiv gap={10} padding={"0px 4px"}>
+        {todoList.length !== 0 &&
+          todoList.map((el: any, index: number) => (
+            <TodoItem
+              key={index}
+              el={el}
+              date={todoStore.nowTodoDate}
+              updateTodoHandler={updateTodoHandler}
+              deleteTodoHandler={deleteTodoHandler}
+            />
+          ))}
+        <CF.RowDiv gap={10}>
+          <Input
+            placeholder="todo 내용 작성"
+            border={`solid 1px ${theme.backgroundColors.fourth}`}
+            onChange={(e: any) => {
+              setContent(e.target.value);
+            }}
+            onKeyPress={addTodo}
+            value={content}
           />
-        ))}
-      <CF.RowDiv gap={10}>
-        <Input
-          placeholder="todo 내용 작성"
-          border={`solid 1px ${theme.backgroundColors.fourth}`}
-          onChange={(e: any) => {
-            setContent(e.target.value);
-          }}
-          value={content}
-        />
-        <CF.Img
-          alt="right_arrow_icon"
-          src="/img/right_arrow_icon.png"
-          size="40px"
-          backgroundColor={`${theme.backgroundColors.fourth}`}
-          onClick={addTodo}
-        />
-      </CF.RowDiv>
+          <CF.Img
+            alt="right_arrow_icon"
+            src="/img/right_arrow_icon.png"
+            size="40px"
+            backgroundColor={`${theme.backgroundColors.fourth}`}
+            onClick={addTodo}
+          />
+        </CF.RowDiv>
+      </CF.ColumnDiv>
     </Container>
   );
 };
 export default TodoContainer;
+
 const Container = styled(CF.ColumnDiv)`
-  border: solid ${theme.backgroundColors.fourth} 2px;
-  border-radius: 10px;
-  padding: 10px;
+  width: 100%;
+  border: solid 1px black;
   gap: 10px;
+  border-radius: 10px 10px 0px 0px;
 `;
 
 const Title = styled(CF.RowCenterDiv)`
-  height: 50px;
+  height: 60px;
   background-color: ${theme.backgroundColors.secondary};
   color: white;
-  border-radius: 4px;
+  border-radius: 10px 10px 0px 0px;
 `;

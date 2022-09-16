@@ -23,8 +23,17 @@ const Plan = () => {
 };
 export default Plan;
 Plan.layout = Layout2;
+
 const Container = styled(CF.RowDiv)`
   padding: 10px 0px;
   gap: 10px;
-  min-height: 400px;
+  justify-content: center;
+
+  & > div:nth-child(1) {
+    width: 70%;
+  }
+
+  & > div:nth-child(2) {
+    width: 30%;
+  }
 `;
