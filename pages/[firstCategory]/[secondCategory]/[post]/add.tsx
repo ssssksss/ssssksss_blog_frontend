@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import Layout1 from "src/components/layout/Layout1";
 import dynamic from "next/dynamic";
-import Loading1 from "@/components/common/loading/loading1";
+import Loading1 from "@/components/common/loading/Loading1";
 
 const DynamicComponent = dynamic(
   () => import("src/components/blog/Editor/CUEditor"),
