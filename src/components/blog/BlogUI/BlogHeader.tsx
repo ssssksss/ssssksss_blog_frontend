@@ -221,15 +221,28 @@ const TopButton = styled.button`
   }
 `;
 const rotation = keyframes`
-  0%,100%{
-    transform: rotate(0deg);
-    mix-blend-mode: hard-light;
+
+  0% {
+    transform: rotate(270deg);
+    mix-blend-mode: luminosity;
+  }
+  25% {
+    transform: rotate(270deg);
+    mix-blend-mode: multiply;
   }
   50% {
+    transform: rotate(540deg);
+    mix-blend-mode: hard-light;
+    background: #333;
+  }
+  75% {
+    transform: rotate(810deg);
+  }
+  100% {
     transform: rotate(1080deg);
     mix-blend-mode: difference;
   }
-`;
+  `;
 const Logo = styled.button`
   ${({ theme }) => theme.flex.flexCenter};
   background-color: transparent;
@@ -238,9 +251,9 @@ const Logo = styled.button`
 const Img = styled.img`
   width: 50px;
   height: 50px;
-  padding: 5px;
-  border-radius: 30px;
-  animation: ${rotation} 8s ease-in-out infinite;
+  padding: 4px;
+  animation: ${rotation} 4s linear infinite;
+  border-radius: 50%;
 `;
 const ViewContainer = styled(CF.RowStartDiv)`
   padding-left: 10px;

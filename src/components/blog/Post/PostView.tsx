@@ -70,12 +70,13 @@ const PostView = () => {
           setPost(res);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(res.content);
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
         });
     }
-    setLoading(false);
   }, []);
 
   return (

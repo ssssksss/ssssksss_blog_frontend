@@ -23,7 +23,6 @@ const TodoCalendar = () => {
   const monthTodoDates = useSelector(
     (state: RootState) => state.todoStore.monthTodoDates
   );
-  const testStore = createStore(todoReducer);
 
   const moveLeftDate = () => {
     if (calendarMonth === 0) {

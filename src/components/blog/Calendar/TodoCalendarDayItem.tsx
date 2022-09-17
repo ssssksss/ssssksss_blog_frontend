@@ -26,8 +26,6 @@ const TodoCalendarDayItem = (props: CalendarDayItemType) => {
     dispatch(SET_NOW_TODO_DATE(nowTodoDate));
   };
 
-  console.log("TodoCalendarDayItem.tsx : ", props.data);
-
   return (
     <Container today={dateFormat4y2m2d(new Date()) === props.id}>
       <ColumnDiv opacity={props.opacity}>

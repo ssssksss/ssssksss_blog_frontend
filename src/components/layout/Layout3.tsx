@@ -5,11 +5,11 @@ type AppLayoutProps = {
   children: React.ReactNode;
 };
 
-const Layout2 = ({ children }: AppLayoutProps) => {
+const Layout3 = ({ children }: AppLayoutProps) => {
   return <Container>{children}</Container>;
 };
 
-export default Layout2;
+export default Layout3;
 
 const Container = styled.div`
   margin: auto;

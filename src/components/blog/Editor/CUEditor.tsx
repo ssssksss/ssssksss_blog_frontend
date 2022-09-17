@@ -1,43 +1,56 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
+//import chart from "@toast-ui/editor-plugin-chart";
+//import "tui-chart/dist/tui-chart.css";
+//import "highlight.js/styles/github.css";
+//import "tui-color-picker/dist/tui-color-picker.css";
+//import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+//import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+//import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
+//import uml from "@toast-ui/editor-plugin-uml";
 
-const UpdateEditor = () => {
+interface ICUEditorProps {
+  edit?: boolean;
+}
+
+const CUEditor = (props: ICUEditorProps) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [areaTextContent, setAreaTextContent] = useState("");
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
+  const postUrlHref =
+    "/" + locationHref.split("/")[1] + "/" + locationHref.split("/")[2];
   const authStore = useSelector((state: RootState) => state.authStore);
 
-  useEffect(() => {
+  const submitHandler = () => {
+    const editorInstance = editorRef.current?.getInstance();
+    const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({
       url: "/api/post",
-      method: "GET",
-      params: {
-        firstHref: window.location.pathname.split("/")[1],
-        secondHref: window.location.pathname.split("/")[2],
-        id: Number(window.location.search.split("=")[1]),
+      method: "POST",
+      data: {
+        title: title,
+        description: description,
+        content: getContent_md,
+        secondHref: postUrlHref,
       },
     })
       .then((response) => {
-        let res = response.data.data.post;
-        setAreaTextContent(res.content);
-        setTitle(res.title);
-        setDescription(res.description);
-        const editorInstance = editorRef.current?.getInstance();
-        editorInstance?.setMarkdown(res.content);
+        router.push(postUrlHref);
       })
       .catch((error) => {
-        console.log(error);
+        alert("에러가 발생하였습니다.");
       });
-  }, []);
+  };
 
   const updateHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
@@ -46,33 +59,50 @@ const UpdateEditor = () => {
       url: "/api/post",
       method: "PUT",
       data: {
-        id: Number(window.location.search.split("=")[1]),
+        id: Number(router.query?.id),
         title: title,
         description: description,
         content: MarkdownContent,
-        secondHref:
-          "/" + locationHref.split("/")[1] + "/" + locationHref.split("/")[2],
+        secondHref: postUrlHref,
       },
     })
       .then((response) => {
-        router.push(
-          "/" +
-            locationHref.split("/")[1] +
-            "/" +
-            locationHref.split("/")[2] +
-            "/" +
-            window.location.search.split("=")[1]
-        );
+        router.push(postUrlHref + "/" + router.query?.id);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
       });
   };
 
+  useEffect(() => {
+    if (props.edit) {
+      AxiosInstance({
+        url: "/api/post",
+        method: "GET",
+        params: {
+          firstHref: router.asPath.split("/")[1],
+          secondHref: router.asPath.split("/")[2],
+          id: router.query?.id,
+        },
+      })
+        .then((response) => {
+          let res = response.data.data.post;
+          setAreaTextContent(res.content);
+          setTitle(res.title);
+          setDescription(res.description);
+          const editorInstance = editorRef.current?.getInstance();
+          editorInstance?.setMarkdown(res.content);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
+
   return (
-    <div>
+    <>
       {authStore.role === "ROLE_ADMIN" && (
-        <>
+        <Container>
           <Title
             placeholder="제목을 입력해주세요"
             value={title}
@@ -93,22 +123,26 @@ const UpdateEditor = () => {
               previewStyle="vertical"
               height="600px"
               initialEditType="markdown"
-              //initialEditType="wysiwyg"
               useCommandShortcut={true}
               ref={editorRef}
             />
           </div>
           <EditorFooter>
-            <SubmitButton onClick={() => updateHandler()}> 수정 </SubmitButton>
+            <SubmitButton
+              onClick={() => (props.edit ? updateHandler() : submitHandler())}
+            >
+              {props.edit ? "수정" : "제출"}{" "}
+            </SubmitButton>
             <CancelButton onClick={() => router.back()}>취소</CancelButton>
           </EditorFooter>
-        </>
+        </Container>
       )}
-    </div>
+    </>
   );
 };
 
-export default UpdateEditor;
+export default CUEditor;
+const Container = styled.section``;
 
 const Title = styled.input`
   width: 100%;
@@ -135,15 +169,6 @@ const Description = styled.input`
 
   &::placeholder {
   }
-`;
-const TextArea = styled.textarea`
-  margin-top: 5px;
-  resize: none;
-  width: 100%;
-  min-height: 400px;
-  padding: 10px;
-  background: white;
-  border: solid black 1px;
 `;
 const EditorFooter = styled.div`
   margin-top: 5px;

@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import Layout1 from "src/components/layout/Layout1";
-//import Layout2 from "@/components/layout/Layout2";
-//import UpdateEditor from "@/components/blog/Editor/UpdateEditor";
 import dynamic from "next/dynamic";
+import Loading1 from "@/components/common/loading/loading1";
 
 const DynamicComponent = dynamic(
-  () => import("src/components/blog/Editor/UpdateEditor"),
+  () => import("src/components/blog/Editor/CUEditor"),
   {
     ssr: false,
+    loading: () => <Loading1 />,
   }
-);
+) as any;
 
 const Container = styled.div`
   background: ${({ theme }) => theme.customColors.third};
@@ -24,7 +24,7 @@ const Container = styled.div`
 const Update = () => {
   return (
     <Container>
-      <DynamicComponent />
+      <DynamicComponent edit={true} />
     </Container>
   );
 };
