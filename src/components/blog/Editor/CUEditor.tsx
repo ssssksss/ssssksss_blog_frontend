@@ -91,7 +91,6 @@ const CUEditor = (props: ICUEditorProps) => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log("index.tsx : ", response);
         temp = response.data;
       })
       .catch((error) => {
@@ -154,8 +153,8 @@ const CUEditor = (props: ICUEditorProps) => {
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imageURL: any = await uploadHandler(blob);
-                  console.log(imageURL);
                   callback(`${AWSS3Prefix}${imageURL[0]}`, "");
+                  // "blog"+directory+"/"+fileName
                 },
               }}
             />
