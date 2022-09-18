@@ -123,8 +123,7 @@ const BlogHeader = () => {
                   <CF.Img
                     alt="login"
                     src="/img/login_icon.png"
-                    width="50px"
-                    height="50px"
+                    size="60px"
                     onClick={() => {
                       setIsModalOpen1(true);
                     }}
@@ -135,8 +134,7 @@ const BlogHeader = () => {
                   <CF.Img
                     alt="signup"
                     src="/img/signup_icon.png"
-                    width="50px"
-                    height="50px"
+                    size="60px"
                     onClick={() => {
                       setIsModalOpen(true);
                     }}
@@ -146,13 +144,23 @@ const BlogHeader = () => {
               </CF.RowRightDiv>
             )}
             {authStore.role !== "" && (
-              <CF.RowRightDiv>
+              <CF.RowRightDiv gap={10}>
+                <CF.ImgContainer>
+                  <CF.Img
+                    alt="plan"
+                    src="/img/calendar_icon.png"
+                    size="60px"
+                    onClick={() => {
+                      router.push("/plan");
+                    }}
+                  />
+                  <span> 일정 </span>
+                </CF.ImgContainer>
                 <CF.ImgContainer>
                   <CF.Img
                     alt="userInfo"
                     src="/img/userInfo_icon.png"
-                    width="50px"
-                    height="50px"
+                    size="60px"
                     onClick={() => {}}
                   />
                   <span> {authStore.nickname} </span>
@@ -161,25 +169,12 @@ const BlogHeader = () => {
                   <CF.Img
                     alt="logout"
                     src="/img/logout_icon.png"
-                    width="50px"
-                    height="50px"
+                    size="60px"
                     onClick={() => {
                       logoutHandler();
                     }}
                   />
                   <span> 로그아웃 </span>
-                </CF.ImgContainer>
-                <CF.ImgContainer>
-                  <CF.Img
-                    alt="plan"
-                    src="/img/calendar_icon.png"
-                    width="50px"
-                    height="50px"
-                    onClick={() => {
-                      router.push("/plan");
-                    }}
-                  />
-                  <span> 일정 </span>
                 </CF.ImgContainer>
               </CF.RowRightDiv>
             )}
@@ -195,13 +190,15 @@ export default BlogHeader;
 const Container = styled.header`
   width: 100%;
   margin: auto;
-  padding: 10px 0px 0px 0px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  /* padding: 10px 0px 0px 0px; */
+  /* max-width: ${({ theme }) => theme.customScreen.maxWidth}; */
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 `;
 const GridContainer = styled.div`
   border-radius: 4px;
+  padding: 0px 10px;
   display: grid;
+  height: 80px;
   grid-template-columns: 5fr 2fr 5fr;
   align-items: center;
   background: ${({ theme }) => theme.customColors.second};
@@ -225,22 +222,24 @@ const rotation = keyframes`
   0% {
     transform: rotate(270deg);
     mix-blend-mode: luminosity;
+    padding: 16px;
   }
-  25% {
+  20% {
     transform: rotate(270deg);
     mix-blend-mode: multiply;
   }
-  50% {
+  40% {
     transform: rotate(540deg);
     mix-blend-mode: hard-light;
     background: #333;
   }
-  75% {
+  60% {
     transform: rotate(810deg);
   }
   100% {
-    transform: rotate(1080deg);
-    mix-blend-mode: difference;
+    transform: rotate(1440deg);
+    /* mix-blend-mode: difference; */
+    padding: 4px;
   }
   `;
 const Logo = styled.button`
@@ -249,10 +248,11 @@ const Logo = styled.button`
   border: none;
 `;
 const Img = styled.img`
-  width: 50px;
-  height: 50px;
-  padding: 4px;
+  width: 60px;
+  height: 60px;
+  padding: 10px;
   animation: ${rotation} 4s linear infinite;
+  animation-direction: alternate-reverse;
   border-radius: 50%;
 `;
 const ViewContainer = styled(CF.RowStartDiv)`

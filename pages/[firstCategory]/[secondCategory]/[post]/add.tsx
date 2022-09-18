@@ -25,7 +25,7 @@ export default Add;
 const Container = styled.div`
   background: ${({ theme }) => theme.customColors.third};
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
   font-size: 12px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   margin: 0px auto;

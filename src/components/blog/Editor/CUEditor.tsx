@@ -7,6 +7,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
+import { AWSS3Prefix } from "@/components/common/variables/url";
 //import chart from "@toast-ui/editor-plugin-chart";
 //import "tui-chart/dist/tui-chart.css";
 //import "highlight.js/styles/github.css";
@@ -74,6 +75,31 @@ const CUEditor = (props: ICUEditorProps) => {
       });
   };
 
+  const uploadHandler = async (file: any) => {
+    let formData = new FormData();
+    formData.append("files", file);
+    formData.append("directory", "/" + locationHref.split("/")[1]);
+    let temp;
+    await AxiosInstance({
+      url: "/s3/image",
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: formData,
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log("index.tsx : ", response);
+        temp = response.data;
+      })
+      .catch((error) => {
+        console.log("index.tsx : ", error.response);
+      });
+    return temp;
+  };
+
   useEffect(() => {
     if (props.edit) {
       AxiosInstance({
@@ -121,10 +147,17 @@ const CUEditor = (props: ICUEditorProps) => {
             <Editor
               initialValue={areaTextContent}
               previewStyle="vertical"
-              height="600px"
+              height="800px"
               initialEditType="markdown"
               useCommandShortcut={true}
               ref={editorRef}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  const imageURL: any = await uploadHandler(blob);
+                  console.log(imageURL);
+                  callback(`${AWSS3Prefix}${imageURL[0]}`, "");
+                },
+              }}
             />
           </div>
           <EditorFooter>

@@ -207,6 +207,7 @@ const Img = styled.img<IStyleProps>`
 
   &:hover {
     cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
+    mix-blend-mode: difference;
   }
 `;
 const rotationDownUp = keyframes`
@@ -224,6 +225,7 @@ const ImgContainer = styled(ColumnCenterDiv)`
   width: auto;
   & > span {
     visibility: hidden;
+    font-size: 12px;
   }
 
   &:hover {
