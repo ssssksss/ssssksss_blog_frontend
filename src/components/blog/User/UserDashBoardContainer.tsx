@@ -3,6 +3,7 @@ import { CF } from "@/styles/commonComponentStyle";
 import { useState } from "react";
 import styled from "styled-components";
 import PostDeleteListContainer from "../Post/PostDeleteListContainer";
+import PortfolioContainer from "./portfolioContainer/PortfolioContainer";
 
 /**
  * Author : Sukyung Lee
@@ -20,11 +21,12 @@ const UserDashBoardContainer = () => {
         <Button onClick={() => setMenu("postRemoveList")}>
           게시글 삭제 목록
         </Button>
+        <Button onClick={() => setMenu("portfolio")}> 포트폴리오 </Button>
       </CF.ColumnDiv>
       <CF.RowDiv>
         {menu === "home" && <></>}
         {menu === "postRemoveList" && <PostDeleteListContainer />}
-        {menu === "home" && <></>}
+        {menu === "portfolio" && <PortfolioContainer />}
       </CF.RowDiv>
     </Container>
   );

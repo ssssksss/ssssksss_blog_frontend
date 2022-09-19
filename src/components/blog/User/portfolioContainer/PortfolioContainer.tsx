@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
-import { mediaQueryMaxSize } from "../util/CustomSize";
 
 const PortfolioContainer = () => {
   const [stackItem, setStackItem] = useState("frontend");
@@ -18,36 +17,31 @@ const PortfolioContainer = () => {
         <IntroductionItem> 나이 : 1995년생 </IntroductionItem>
         <IntroductionItem> 이메일 : ssssksss@naver.com </IntroductionItem>
         <IntroductionItem>
-          {" "}
-          깃허브 :{" "}
+          깃허브 :
           <a
             href="https://github.com/ssssksss"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {" "}
-            https://github.com/ssssksss{" "}
-          </a>{" "}
-          👈{" "}
+            https://github.com/ssssksss
+          </a>
+          👈
         </IntroductionItem>
         <IntroductionItem>
-          {" "}
-          블로그 :{" "}
+          블로그 :
           <a
             href="http://blog.ssssksss.xyz"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {" "}
-            blog.ssssksss.xyz{" "}
-          </a>{" "}
-          👈{" "}
+            blog.ssssksss.xyz
+          </a>
+          👈
         </IntroductionItem>
       </Introduction>
       <Stack>
         <StackTitle>
-          {" "}
-          <h1> 기술/스택 </h1>{" "}
+          <h1> 기술/스택 </h1>
         </StackTitle>
         <StackMenu>
           <StackMenuButton onClick={() => setStackItem("frontend")}>
@@ -84,7 +78,6 @@ const PortfolioContainer = () => {
           {stackItem === "frontend" && (
             <>
               <h2> 프론트엔드 </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -119,7 +112,6 @@ const PortfolioContainer = () => {
           {stackItem === "backend" && (
             <>
               <h2> 백엔드 </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -142,7 +134,6 @@ const PortfolioContainer = () => {
           {stackItem === "server" && (
             <>
               <h2> 서버 </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -159,7 +150,6 @@ const PortfolioContainer = () => {
           {stackItem === "database" && (
             <>
               <h2> Database </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -173,7 +163,6 @@ const PortfolioContainer = () => {
           {stackItem === "cicd" && (
             <>
               <h2> CICD </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -190,7 +179,6 @@ const PortfolioContainer = () => {
           {stackItem === "configuration_management" && (
             <>
               <h2> 형상관리 </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -207,7 +195,6 @@ const PortfolioContainer = () => {
           {stackItem === "communication_tool" && (
             <>
               <h2> 협업도구 </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   <StackItem>
@@ -230,7 +217,6 @@ const PortfolioContainer = () => {
           {stackItem === "etc" && (
             <>
               <h2> </h2>
-              <hr size="3" color="#aeaeae" />
               <StackGrid>
                 <StackGridList>
                   {/*<StackItem>
@@ -257,6 +243,7 @@ export default PortfolioContainer;
 const Container = styled.div`
   background: white;
   max-width: 1400px;
+  width: 100%;
   margin: auto;
 `;
 const Title = styled.div`
@@ -293,7 +280,7 @@ const rotation = keyframes`
   transform: rotate(60deg);
 }
 `;
-const TitleIcon = styled.img`
+const TitleIcon = styled.img<{ rotateAni: any }>`
   width: 320px;
   height: 320px;
   border-radius: 160px;
@@ -367,7 +354,7 @@ const StackMenuButton = styled.button`
   height: 40px;
   border-radius: 10px;
   box-sizing: border-box;
-  font-size: 2rem;
+  font-size: 1.2rem;
   box-shadow: 0px 0px 5px 0px white;
   font-weight: 800;
   &:hover {
@@ -386,7 +373,7 @@ const StackGrid = styled.div`
   display: grid;
   grid-template-columns: 245px calc(100% - 245px);
 
-  @media only screen and (max-width: ${mediaQueryMaxSize[0]}) {
+  @media only screen and (max-width: "1440px") {
     grid-template-columns: 205px calc(100% - 205px);
   }
 `;
@@ -396,7 +383,7 @@ const StackGridList = styled.div`
   display: grid;
   grid-template-columns: 100px 100px;
 
-  @media only screen and (max-width: ${mediaQueryMaxSize[0]}) {
+  @media only screen and (max-width: "1440px") {
     width: 60px;
     height: 60px;
     grid-template-columns: 80px 80px;
@@ -413,7 +400,7 @@ const StackItem = styled.button`
   align-content: center;
   box-shadow: 0px 4px 2px 2px black, 0px -1px 1px 1px #6f6f6f;
 
-  @media only screen and (max-width: ${mediaQueryMaxSize[0]}) {
+  @media only screen and (max-width: "1440px") {
     width: 80px;
     height: 80px;
   }
@@ -422,7 +409,7 @@ const StackImg = styled.img`
   width: 80px;
   height: 80px;
 
-  @media only screen and (max-width: ${mediaQueryMaxSize[0]}) {
+  @media only screen and (max-width: "1440px") {
     width: 60px;
     height: 60px;
   }
