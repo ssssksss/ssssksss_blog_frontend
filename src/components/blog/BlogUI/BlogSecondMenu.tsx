@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Link from "next/link";
@@ -31,6 +31,7 @@ const BlogSecondMenu = () => {
     secondHref: string;
     firstHref: string;
     position: number;
+    count: number;
   };
 
   useEffect(() => {
@@ -56,8 +57,8 @@ const BlogSecondMenu = () => {
             },
           })
             .then((response) => {
-              let res = response.data.data.secondCategory;
-              setSecondCategory(res);
+              console.log(response.data.data.secondCategory);
+              setSecondCategory(response.data.data.secondCategory);
             })
             .catch((error) => {
               console.log(error);
@@ -101,7 +102,7 @@ const BlogSecondMenu = () => {
                   }
                   onClick={() => SecondCategoryHandler(i.secondHref)}
                 >
-                  {i.name}
+                  {i.name} <MenuCount> {i.count} </MenuCount>
                 </MenuItem>
               </Link>
             ))}
@@ -167,9 +168,30 @@ const MenuItem = styled.a<{ active: boolean }>`
     props.active ? ({ theme }) => theme.customColors.second : "white"};
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   cursor: pointer;
+  position: relative;
+
+  ${(props) =>
+    props.active &&
+    css`
+      & > div {
+        mix-blend-mode: darken;
+      }
+    `}
 
   &:hover {
     color: ${({ theme }) => theme.customColors.second};
     background: white;
+    & > div {
+      mix-blend-mode: darken;
+    }
   }
+`;
+
+const MenuCount = styled.div`
+  position: absolute;
+  right: 4px;
+  width: 28px;
+  padding: 2px 2px 2px 0px;
+  display: flex;
+  justify-content: end;
 `;

@@ -161,7 +161,9 @@ const BlogHeader = () => {
                     alt="userInfo"
                     src="/img/userInfo_icon.png"
                     size="60px"
-                    onClick={() => {}}
+                    onClick={() => {
+                      router.push("/user-dashboard");
+                    }}
                   />
                   <span> {authStore.nickname} </span>
                 </CF.ImgContainer>

@@ -1,4 +1,4 @@
-import UserProfile from "@/components/blog/User/UserProfile";
+import UserDashBoardContainer from "@/components/blog/User/UserDashBoardContainer";
 import Layout3 from "@/components/layout/Layout3";
 import styled from "styled-components";
 /**
@@ -10,7 +10,7 @@ import styled from "styled-components";
 const UserProfilePage = () => {
   return (
     <Container>
-      <UserProfile />
+      <UserDashBoardContainer />
     </Container>
   );
 };

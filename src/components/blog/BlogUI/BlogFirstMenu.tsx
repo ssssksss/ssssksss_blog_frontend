@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -34,8 +34,7 @@ const BlogFirstMenu = () => {
       method: "GET",
     })
       .then((response) => {
-        let res = response.data.data.firstCategory;
-        setFirstCategory(res);
+        setFirstCategory(response.data.data.firstCategory);
       })
       .catch((error) => {
         console.log(error);
@@ -48,6 +47,7 @@ const BlogFirstMenu = () => {
     firstHref: string;
     line: number;
     position: number;
+    count: number;
   };
 
   const firstCategoryTitles = [
@@ -108,7 +108,7 @@ const BlogFirstMenu = () => {
                       firstCategoryHandler(i.firstHref.split("/")[1])
                     }
                   >
-                    {i.name}
+                    {i.name} <MenuCount> {i.count} </MenuCount>
                   </MenuItem>
                 </Link>
               )
@@ -125,7 +125,7 @@ const BlogFirstMenu = () => {
                       firstCategoryHandler(i.firstHref.split("/")[1])
                     }
                   >
-                    {i.name}
+                    {i.name} <MenuCount> {i.count} </MenuCount>
                   </MenuItem>
                 </Link>
               )
@@ -142,7 +142,7 @@ const BlogFirstMenu = () => {
                       firstCategoryHandler(i.firstHref.split("/")[1])
                     }
                   >
-                    {i.name}{" "}
+                    {i.name} <MenuCount> {i.count} </MenuCount>
                   </MenuItem>
                 </Link>
               )
@@ -159,7 +159,7 @@ const BlogFirstMenu = () => {
                       firstCategoryHandler(i.firstHref.split("/")[1])
                     }
                   >
-                    {i.name}
+                    {i.name} <MenuCount> {i.count} </MenuCount>
                   </MenuItem>
                 </Link>
               )
@@ -250,9 +250,31 @@ const MenuItem = styled.a<{ active: boolean }>`
     props.active ? ({ theme }) => theme.customColors.first : "white"};
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   cursor: pointer;
+  position: relative;
+
+  ${(props) =>
+    props.active &&
+    css`
+      & > div {
+        mix-blend-mode: darken;
+      }
+    `}
 
   &:hover {
     color: ${({ theme }) => theme.customColors.first};
     background: white;
+
+    & > div {
+      mix-blend-mode: darken;
+    }
   }
+`;
+
+const MenuCount = styled.div`
+  position: absolute;
+  right: 4px;
+  width: 28px;
+  padding: 2px 2px 2px 0px;
+  display: flex;
+  justify-content: end;
 `;
