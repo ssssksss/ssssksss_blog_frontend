@@ -156,7 +156,7 @@ const TodoContainer = () => {
           />
           <CF.Img
             alt="right_arrow_icon"
-            src="/img/right_arrow_icon.png"
+            src="/img/ui-icon/right_arrow_icon.png"
             size="40px"
             backgroundColor={`${theme.backgroundColors.fourth}`}
             onClick={addTodo}

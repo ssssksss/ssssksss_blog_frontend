@@ -57,7 +57,6 @@ const BlogSecondMenu = () => {
             },
           })
             .then((response) => {
-              console.log(response.data.data.secondCategory);
               setSecondCategory(response.data.data.secondCategory);
             })
             .catch((error) => {

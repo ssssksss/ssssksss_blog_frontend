@@ -9,20 +9,25 @@ import { CF } from "@/styles/commonComponentStyle";
 
 /**
  * Author : Sukyung Lee
- * FileName: Plan.tsx
+ * FileName: PlanPage.tsx
  * Date: 2022-09-11 00:01:56
  * Description :
  */
-const Plan = () => {
+const PlanPage = () => {
+  const test = useSelector((state: RootState) => state.authStore.email);
   return (
     <Container>
-      <CustomCalendar />
-      <TodoContainer />
+      {test && (
+        <>
+          <CustomCalendar />
+          <TodoContainer />
+        </>
+      )}
     </Container>
   );
 };
-export default Plan;
-Plan.layout = Layout2;
+export default PlanPage;
+PlanPage.layout = Layout2;
 
 const Container = styled(CF.RowDiv)`
   padding: 10px 0px;

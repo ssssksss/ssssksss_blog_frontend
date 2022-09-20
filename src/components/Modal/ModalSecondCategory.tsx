@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { store } from "@/redux/store";
 
 const ModalSecondCategory = (modalHandler: any) => {
   const [name, setName] = useState("");
@@ -25,6 +26,7 @@ const ModalSecondCategory = (modalHandler: any) => {
           name: name,
           firstHref: "/" + firstCategory,
           secondHref: "/" + firstCategory + "/" + secondHref,
+          userName: store.getState().authStore.nickname,
         },
       })
         .then((response) => {

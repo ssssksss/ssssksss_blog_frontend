@@ -114,15 +114,26 @@ const BlogHeader = () => {
             </ViewItem>
           </ViewContainer>
           <Logo onClick={() => router.push("/")}>
-            <Img alt="logo" src="/img/logo.svg" />
+            <Img alt="logo" src="/img/logo/logo.svg" />
           </Logo>
           <>
             {authStore.role === "" && (
               <CF.RowRightDiv gap={10}>
                 <CF.ImgContainer>
                   <CF.Img
+                    alt="bulletin_board"
+                    src="/img/ui-icon/bulletin_board_icon.png"
+                    size="60px"
+                    onClick={() => {
+                      router.push("/board");
+                    }}
+                  />
+                  <span> 게시판 </span>
+                </CF.ImgContainer>
+                <CF.ImgContainer>
+                  <CF.Img
                     alt="login"
-                    src="/img/login_icon.png"
+                    src="/img/ui-icon/login_icon.png"
                     size="60px"
                     onClick={() => {
                       setIsModalOpen1(true);
@@ -133,7 +144,7 @@ const BlogHeader = () => {
                 <CF.ImgContainer>
                   <CF.Img
                     alt="signup"
-                    src="/img/signup_icon.png"
+                    src="/img/ui-icon/signup_icon.png"
                     size="60px"
                     onClick={() => {
                       setIsModalOpen(true);
@@ -147,8 +158,19 @@ const BlogHeader = () => {
               <CF.RowRightDiv gap={10}>
                 <CF.ImgContainer>
                   <CF.Img
+                    alt="bulletin_board"
+                    src="/img/ui-icon/bulletin_board_icon.png"
+                    size="60px"
+                    onClick={() => {
+                      router.push("/board");
+                    }}
+                  />
+                  <span> 게시판 </span>
+                </CF.ImgContainer>
+                <CF.ImgContainer>
+                  <CF.Img
                     alt="plan"
-                    src="/img/calendar_icon.png"
+                    src="/img/ui-icon/calendar_icon.png"
                     size="60px"
                     onClick={() => {
                       router.push("/plan");
@@ -159,7 +181,7 @@ const BlogHeader = () => {
                 <CF.ImgContainer>
                   <CF.Img
                     alt="userInfo"
-                    src="/img/userInfo_icon.png"
+                    src="/img/ui-icon/userInfo_icon.png"
                     size="60px"
                     onClick={() => {
                       router.push("/user-dashboard");
@@ -170,7 +192,7 @@ const BlogHeader = () => {
                 <CF.ImgContainer>
                   <CF.Img
                     alt="logout"
-                    src="/img/logout_icon.png"
+                    src="/img/ui-icon/logout_icon.png"
                     size="60px"
                     onClick={() => {
                       logoutHandler();

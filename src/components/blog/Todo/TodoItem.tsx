@@ -55,13 +55,13 @@ const TodoItem = (props: ITodoItemProps) => {
           />
           <CF.Img
             alt="submit_icon"
-            src="/img/right_arrow_icon.png"
+            src="/img/ui-icon/right_arrow_icon.png"
             size="30px"
             onClick={() => updateContentHandler(props.el, "")}
           />
           <CF.Img
             alt="edit_icon"
-            src="/img/edit_icon.png"
+            src="/img/ui-icon/edit_icon.png"
             size="30px"
             onClick={() => setIsEdit(false)}
           />
@@ -86,16 +86,16 @@ const TodoItem = (props: ITodoItemProps) => {
           {!props.el.isChecked && (
             <CF.Img
               alt="edit_icon"
-              src="/img/edit_icon.png"
+              src="/img/ui-icon/edit_icon.png"
               size="30px"
-              onClick={editChangeHandler}
+              onClick={() => editChangeHandler}
             />
           )}
         </>
       )}
       <CF.Img
         alt="delete_icon"
-        src="/img/delete_icon.png"
+        src="/img/ui-icon/delete_icon.png"
         size="30px"
         onClick={() => props.deleteTodoHandler(props.el)}
       />

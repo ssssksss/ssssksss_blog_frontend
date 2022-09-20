@@ -76,6 +76,8 @@ AxiosInstance.interceptors.response.use(
       if (existNewAccessToken) {
         return axios(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
+    } else if (error.response.status === 406) {
+      console.log("AxiosInstance.tsx : ", "리프레시토큰 만료");
     }
     return Promise.reject(error);
   }

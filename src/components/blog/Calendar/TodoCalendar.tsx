@@ -159,7 +159,7 @@ const TodoCalendar = () => {
         {/* 달력 상단 */}
         <Header>
           <CF.Img
-            src="/img/left_arrow_icon.png"
+            src="/img/ui-icon/left_arrow_icon.png"
             size="30px"
             onClick={() => {
               moveLeftDate();
@@ -167,7 +167,7 @@ const TodoCalendar = () => {
           />
           {calendarYear}년 {calendarMonth + 1}월
           <CF.Img
-            src="/img/right_arrow_icon.png"
+            src="/img/ui-icon/right_arrow_icon.png"
             size="30px"
             onClick={() => {
               moveRightDate();

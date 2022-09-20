@@ -43,13 +43,13 @@ const TodoCalendarDayItem = (props: CalendarDayItemType) => {
         </CF.RowStartDiv>
         <TodayTodoList>
           {props.data?.map((el: any, index: number) => (
-            <>
+            <React.Fragment key={index}>
               {!el.isChecked && (
-                <Todo key={index}>
+                <Todo>
                   <CF.OverflowText> {el.content} </CF.OverflowText>
                 </Todo>
               )}
-            </>
+            </React.Fragment>
           ))}
         </TodayTodoList>
       </ColumnDiv>

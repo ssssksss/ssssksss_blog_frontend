@@ -94,7 +94,7 @@ const PostView = () => {
               <CF.RowDiv>
                 <CF.Img
                   alt="calendar_icon"
-                  src="/img/calendar_icon.png"
+                  src="/img/ui-icon/calendar_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}
@@ -104,7 +104,7 @@ const PostView = () => {
               <CF.RowDiv>
                 <CF.Img
                   alt="userInfo_icon"
-                  src="/img/userInfo_icon.png"
+                  src="/img/ui-icon/userInfo_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}
@@ -116,7 +116,7 @@ const PostView = () => {
               <LikeNumber>
                 <CF.Img
                   alt="post_thumb_up"
-                  src="/img/thumb_up_icon.png"
+                  src="/img/ui-icon/thumb_up_icon.png"
                   width="30px"
                   height="30px"
                 />
@@ -126,7 +126,7 @@ const PostView = () => {
                 <>
                   <CF.Img
                     alt="post_edit"
-                    src="/img/edit_icon.png"
+                    src="/img/ui-icon/edit_icon.png"
                     width="30px"
                     height="30px"
                     onClick={() =>
@@ -142,7 +142,7 @@ const PostView = () => {
                   />
                   <CF.Img
                     alt="post_delete"
-                    src="/img/delete_icon.png"
+                    src="/img/ui-icon/delete_icon.png"
                     width="30px"
                     height="30px"
                     onClick={() => removePostHandler()}
@@ -151,7 +151,7 @@ const PostView = () => {
               )}
               <CF.Img
                 alt="post_list"
-                src="/img/list_icon.png"
+                src="/img/ui-icon/list_icon.png"
                 width="30px"
                 height="30px"
                 onClick={() =>
