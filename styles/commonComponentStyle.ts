@@ -195,6 +195,17 @@ const ErrorDiv = styled.div`
   height: 30px;
 `;
 
+const rotationDownUp = keyframes`
+        from {
+          opacity: 0;
+          transform: rotateX(90deg);
+        }
+        
+        to {
+          opacity: 1;
+          transform: rotateX(0deg);
+        }
+`;
 const Img = styled.img<IStyleProps>`
   ${(props: any) =>
     css`
@@ -210,29 +221,22 @@ const Img = styled.img<IStyleProps>`
     mix-blend-mode: difference;
   }
 `;
-const rotationDownUp = keyframes`
-        from {
-          opacity: 0;
-          transform: rotateX(90deg);
-        }
-        
-        to {
-          opacity: 1;
-          transform: rotateX(0deg);
-        }
-`;
 const ImgContainer = styled(ColumnCenterDiv)`
-  width: auto;
+  position: relative;
+
   & > span {
-    visibility: hidden;
+    display: none;
     font-size: 12px;
+    white-space: nowrap;
   }
 
   &:hover {
     & > span {
-      visibility: visible;
+      display: inline;
       animation: ${rotationDownUp} 0.3s ease-in-out;
       animation-fill-mode: forwards;
+      position: absolute;
+      top: 100%;
     }
   }
 `;

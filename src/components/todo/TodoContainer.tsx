@@ -3,14 +3,15 @@ import Input from "@/components/common/input/Input";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { RootState } from "@/redux/store/reducers";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { authReducer } from "@/redux/store/auth/reducers";
 import { store } from "@/redux/store";
-import TodoItem from "./TodoItem";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
+import TodoItem from "./TodoItem";
+import { animationRightToLeft } from "@/styles/commonAnimationKeyFrames";
 
 /**
  * Author : Sukyung Lee
@@ -19,7 +20,12 @@ import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
  * Description :
  */
 
-const TodoContainer = () => {
+interface ITodoContainerProps {
+  hide: boolean;
+  sideOpenToggleHandler: () => void;
+}
+
+const TodoContainer = (props: ITodoContainerProps) => {
   const todoStore = useSelector((state: RootState) => state.todoStore);
   const [content, setContent] = useState("");
   const [todoList, setTodoList] = useState([]);
@@ -131,8 +137,11 @@ const TodoContainer = () => {
   }, [todoStore.nowTodoDate]);
 
   return (
-    <Container>
-      <Title> {todoStore.nowTodoDate} </Title>
+    <Container hide={props.hide}>
+      <Title>
+        {todoStore.nowTodoDate}
+        <Button onClick={props.sideOpenToggleHandler}> X </Button>
+      </Title>
       <CF.ColumnDiv gap={10} padding={"0px 4px"}>
         {todoList.length !== 0 &&
           todoList.map((el: any, index: number) => (
@@ -168,11 +177,23 @@ const TodoContainer = () => {
 };
 export default TodoContainer;
 
-const Container = styled(CF.ColumnDiv)`
-  width: 100%;
+const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
+  min-width: 80vw;
   border: solid 1px black;
   gap: 10px;
   border-radius: 10px 10px 0px 0px;
+  padding-bottom: 20px;
+  min-height: calc(100% - 20px);
+  align-self: stretch;
+  background: white;
+  display: static;
+  /* transition: all 1s ease-in-out; */
+  animation: ${animationRightToLeft} 0.3s linear;
+  ${(props) =>
+    props.hide &&
+    css`
+      display: none;
+    `}
 `;
 
 const Title = styled(CF.RowCenterDiv)`
@@ -180,4 +201,13 @@ const Title = styled(CF.RowCenterDiv)`
   background-color: ${theme.backgroundColors.secondary};
   color: white;
   border-radius: 10px 10px 0px 0px;
+  position: relative;
+
+  & > button {
+    position: absolute;
+    right: 4px;
+    width: 50px;
+    height: 50px;
+    aspect-ratio: 1;
+  }
 `;

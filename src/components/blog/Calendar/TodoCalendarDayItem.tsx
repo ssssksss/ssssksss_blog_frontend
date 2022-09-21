@@ -18,6 +18,7 @@ type CalendarDayItemType = {
   date?: string;
   data?: any | any[];
   dayW?: number;
+  sideOpenToggleHandler: () => void;
 };
 
 const TodoCalendarDayItem = (props: CalendarDayItemType) => {
@@ -25,50 +26,49 @@ const TodoCalendarDayItem = (props: CalendarDayItemType) => {
   const setNowTodoDate = (nowTodoDate: any) => {
     dispatch(SET_NOW_TODO_DATE(nowTodoDate));
   };
+  const onClickHandler = () => {
+    setNowTodoDate(props.id);
+    props.sideOpenToggleHandler();
+  };
 
   return (
-    <Container today={dateFormat4y2m2d(new Date()) === props.id}>
-      <ColumnDiv opacity={props.opacity}>
-        {/* 일 수 */}
-        <CF.RowStartDiv width="100%">
-          <Button
-            onClick={() => setNowTodoDate(props.id)}
-            width="40px"
-            height="30px"
-            padding={"0px"}
-            backgroundColor={"transparent"}
-          >
-            <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
-          </Button>
-        </CF.RowStartDiv>
-        <TodayTodoList>
-          {props.data?.map((el: any, index: number) => (
-            <React.Fragment key={index}>
-              {!el.isChecked && (
-                <Todo>
+    <Container
+      today={dateFormat4y2m2d(new Date()) === props.id}
+      onClick={onClickHandler}
+      opacity={props.opacity}
+    >
+      {/* 일 수 */}
+      <DayTitle>
+        <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
+        <DayTodoCount> {props.data?.length} 개 </DayTodoCount>
+      </DayTitle>
+      <TodayTodoList>
+        {props.data
+          ?.filter((i: any, index: number) => !i.isChecked)
+          .map(
+            (el: any, index: number) =>
+              index < 5 && (
+                <Todo key={index}>
                   <CF.OverflowText> {el.content} </CF.OverflowText>
                 </Todo>
-              )}
-            </React.Fragment>
-          ))}
-        </TodayTodoList>
-      </ColumnDiv>
+              )
+          )}
+      </TodayTodoList>
     </Container>
   );
 };
 
 export default TodoCalendarDayItem;
 
-const Container = styled.div<{ today?: boolean }>`
+const Container = styled.button<{ today?: boolean; opacity?: number }>`
   min-height: 120px;
   padding: 4px;
   box-shadow: 0px 0px 1px 1px #aeaeae inset;
   background-color: ${(props: any) => props.today && "#fffaaa"};
-`;
-const ColumnDiv = styled.div<{ opacity?: number }>`
   display: flex;
+  align-items: flex-start;
+  width: calc(100%);
   flex-flow: nowrap column;
-  gap: 2px;
   opacity: ${(props: any) => props.opacity || 0.6};
 `;
 const DaySpan = styled.span<{ dayW?: number }>`
@@ -80,11 +80,18 @@ const DaySpan = styled.span<{ dayW?: number }>`
     font-size: 12px;
   }
 `;
+const DayTitle = styled(CF.RowStartDiv)`
+  position: relative;
+  width: 100%;
+  padding-bottom: 4px;
+`;
+const DayTodoCount = styled.div`
+  position: absolute;
+  right: 2px;
+`;
 const TodayTodoList = styled(CF.ColumnDiv)`
   gap: 4px;
-  /* display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical; */
+  width: calc(100% - 2px);
 `;
 
 const Todo = styled.div`
@@ -94,6 +101,7 @@ const Todo = styled.div`
   text-overflow: ellipsis;
   background-color: ${theme.backgroundColors.third};
   border-radius: 4px;
+  display: flex;
 `;
 
 // const Button = styled.button`

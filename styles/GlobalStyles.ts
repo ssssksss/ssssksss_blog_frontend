@@ -17,8 +17,6 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
-  body {
-  }
   strong {
     font-weight: bold;
   }

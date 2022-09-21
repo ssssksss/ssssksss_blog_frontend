@@ -6,7 +6,14 @@ import styled from "styled-components";
  * Description :
  */
 const BoardContainer = () => {
-  return <Container>게시판</Container>;
+  return (
+    <Container>
+      <div> 게시판 </div>
+      <div> </div>
+      <div> 1 </div>
+      <div> 1 </div>
+    </Container>
+  );
 };
 export default BoardContainer;
 const Container = styled.div`

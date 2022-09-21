@@ -10,7 +10,11 @@ import { store } from "@/redux/store";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
 import { createStore } from "redux";
 
-const TodoCalendar = () => {
+interface ITodoCalendarProps {
+  sideOpenToggleHandler: () => void;
+}
+
+const TodoCalendar = (props: ITodoCalendarProps) => {
   const todayDate = new Date();
   const [calendarDays, setCalendarDays] = useState<any>({});
   const [calendarYear, setCalendarYear] = useState(
@@ -198,6 +202,7 @@ const TodoCalendar = () => {
                   ? monthTodoDates[el[0]]
                   : []
               }
+              sideOpenToggleHandler={props.sideOpenToggleHandler}
             />
           ))}
         </Main>

@@ -47,7 +47,7 @@ const BlogFooter = () => {
             size={"160px"}
             imgBackgroundColor={"#1a1a1a"}
             borderRadius={"50%"}
-            name={"가출한 토토로의 블로그"}
+            name={"가출한 토토로의 Blog"}
             gap={"20px"}
           />
         </Div1>
@@ -84,8 +84,8 @@ const BlogFooter = () => {
         </Div2>
         <Div3>
           <div> Contact Me </div>
-          <div> email : ssssksss@naver.com </div>
-          <div> name: SuKyung Lee </div>
+          <div> EMAIL : ssssksss@naver.com </div>
+          <div> NAME : SuKyung Lee </div>
         </Div3>
       </Container>
       <Copyright>
@@ -97,28 +97,37 @@ const BlogFooter = () => {
 
 export default BlogFooter;
 
-const Footer = styled.footer``;
-const Container = styled.div`
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
-  height: 300px;
+const Footer = styled.footer`
   background: black;
+`;
+
+const Container = styled(CF.RowCenterDiv)`
+  background-color: #545454;
+  width: max-content;
+  height: 300px;
   margin: auto;
-  padding: 40px 20px 20px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 10px;
+  padding: 10px;
+  /* padding: 40px 20px 20px 20px; */
+  gap: 30px;
   color: white;
+  @media (max-width: 680px) {
+    gap: 10px;
+    flex-flow: nowrap column;
+    width: 100%;
+  }
 `;
 const Copyright = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px 0px;
   background-color: #e0e0e0;
 `;
 
-const Div1 = styled.div`
-  @media (max-width: 640px) {
+const Div1 = styled(CF.RowDiv)`
+  width: auto;
+  padding: 0px 10px;
+  height: 100%;
+  align-items: center;
+  @media (max-width: 880px) {
     display: none;
   }
 `;
@@ -126,20 +135,32 @@ const Div1 = styled.div`
 const Div2 = styled(CF.ColumnDiv)`
   gap: 20px;
   padding: 0px 10px;
+  height: 100%;
+  justify-content: center;
 `;
 
 const Div3 = styled(CF.ColumnCenterDiv)`
   max-width: 300px;
   min-width: 220px;
-  width: 100%;
   height: 100%;
   gap: 10px;
   border: white solid 1px;
 
+  @media (max-width: 680px) {
+    flex-flow: nowrap row;
+    max-width: 100%;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+  }
+
   & > div:nth-child(1) {
     font-variant: small-caps;
-    font-size: 30px;
+    font-size: 36px;
     padding-bottom: 20px;
+    @media (max-width: 660px) {
+      display: none;
+    }
   }
 
   & > div:nth-child(2) {

@@ -142,7 +142,7 @@ const CUEditor = (props: ICUEditorProps) => {
               setDescription(e.target.value);
             }}
           />
-          <div style={{ background: "white" }}>
+          <EditorContainer>
             <Editor
               initialValue={areaTextContent}
               previewStyle="vertical"
@@ -158,7 +158,7 @@ const CUEditor = (props: ICUEditorProps) => {
                 },
               }}
             />
-          </div>
+          </EditorContainer>
           <EditorFooter>
             <SubmitButton
               onClick={() => (props.edit ? updateHandler() : submitHandler())}
@@ -208,6 +208,23 @@ const EditorFooter = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+`;
+const EditorContainer = styled.div`
+  position: relative;
+  background-color: white;
+  &::before {
+    content: "";
+    background-size: 50%;
+    background-image: url("/img/backgroundImage/원피스.jpg");
+    background-repeat: repeat-x;
+    background-position: right bottom;
+    opacity: 0.2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
 `;
 
 const Button = css`
