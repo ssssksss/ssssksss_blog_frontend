@@ -1,4 +1,4 @@
-import BoardContainer from "@/components/board/BoardContainer";
+import ViewBoardsContainer from "@/components/board/ViewBoardsContainer";
 import Layout2 from "@/components/layout/Layout2";
 import styled from "styled-components";
 
@@ -12,7 +12,7 @@ import styled from "styled-components";
 const BoardPage = () => {
   return (
     <Container>
-      <BoardContainer />
+      <ViewBoardsContainer />
     </Container>
   );
 };

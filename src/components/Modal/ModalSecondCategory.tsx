@@ -26,7 +26,7 @@ const ModalSecondCategory = (modalHandler: any) => {
           name: name,
           firstHref: "/" + firstCategory,
           secondHref: "/" + firstCategory + "/" + secondHref,
-          userName: store.getState().authStore.nickname,
+          nickName: store.getState().authStore.nickname,
         },
       })
         .then((response) => {

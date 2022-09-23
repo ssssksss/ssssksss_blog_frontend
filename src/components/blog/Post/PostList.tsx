@@ -25,21 +25,21 @@ const PostList = () => {
     position: number;
     access_yn: boolean;
     title: string;
-    user_id: string;
+    nick_name: string;
   };
 
   useEffect(() => {
     if (secondCategory !== "") {
       if (
-        window.location.pathname.split("/")[2] !== "" &&
-        window.location.pathname.split("/")[2] !== "undefined"
+        window.location.pathname.split("/")[3] !== "" &&
+        window.location.pathname.split("/")[3] !== "undefined"
       ) {
         AxiosInstance({
           url: "/api/posts",
           method: "GET",
           params: {
-            firstHref: window.location.pathname.split("/")[1],
-            secondHref: window.location.pathname.split("/")[2],
+            firstHref: window.location.pathname.split("/")[2],
+            secondHref: window.location.pathname.split("/")[3],
           },
         })
           .then((response) => {
@@ -60,7 +60,7 @@ const PostList = () => {
         {authStore.role === "ROLE_ADMIN" && (
           <MenuAddItem>
             <Link
-              href={"/[firstCategory]/[secondCategory]/[post]/add"}
+              href={"/blog/[firstCategory]/[secondCategory]/[post]/add"}
               as={router.asPath + "/post/add"}
             >
               <a> +++ 내용 추가 +++ </a>
@@ -70,8 +70,8 @@ const PostList = () => {
         {posts.map((i, index) => (
           <MenuItem key={i.id}>
             <Link
-              href={"/[firstCategory]/[secondCategory]/[post]"}
-              as={i.second_href + "/" + i.id}
+              href={"/blog/[firstCategory]/[secondCategory]/[post]"}
+              as={"/blog" + i.second_href + "/" + i.id}
             >
               <Item>
                 <ItemTitle>

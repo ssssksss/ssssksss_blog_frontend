@@ -13,9 +13,9 @@ const BlogSecondMenu = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [secondCategory, setSecondCategory] = useState<SecondCategoryTypes[]>(
-    []
-  );
+  const [secondCategory, setSecondCategory] = useState<
+    SecondCategoryTypes[] | null
+  >([]);
   const [categoryChange, setCategoryChange] = useState(false);
   const firstCategory = useSelector(
     (state: RootState) => state.categoryStore.firstCategoryPath
@@ -37,7 +37,7 @@ const BlogSecondMenu = () => {
   useEffect(() => {
     dispatch(
       SECOND_CATEGORY_ACTION({
-        secondCategoryPath: window.location.pathname.split("/")[2],
+        secondCategoryPath: window.location.pathname.split("/")[3],
       })
     );
   }, []);
@@ -46,8 +46,8 @@ const BlogSecondMenu = () => {
     if (firstCategory !== "") {
       (async () => {
         if (
-          window.location.pathname.split("/")[1] !== undefined &&
-          window.location.pathname.split("/")[1] !== null
+          window.location.pathname.split("/")[2] !== undefined &&
+          window.location.pathname.split("/")[2] !== null
         ) {
           await AxiosInstance({
             url: "/api/second-category",
@@ -58,8 +58,11 @@ const BlogSecondMenu = () => {
           })
             .then((response) => {
               setSecondCategory(response.data.data.secondCategory);
+              console.log("BlogSecondMenu.tsx1 : ");
             })
             .catch((error) => {
+              setSecondCategory(null);
+              console.log("BlogSecondMenu.tsx2 : ");
               console.log(error);
             });
         }
@@ -77,7 +80,7 @@ const BlogSecondMenu = () => {
   return (
     <Container>
       {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
-      {firstCategory !== "" && (
+      {firstCategory !== "" && secondCategory !== null && (
         <>
           <MenuTitle>
             <span>{firstCategory}</span>
@@ -93,10 +96,10 @@ const BlogSecondMenu = () => {
           </MenuTitle>
           <MenuContainer>
             {secondCategory.map((i) => (
-              <Link key={i.id} href={i.secondHref}>
+              <Link key={i.id} href={"/blog" + i.secondHref}>
                 <MenuItem
                   active={
-                    i.firstHref + "/" + router.asPath.split("/")[2] ===
+                    i.firstHref + "/" + router.asPath.split("/")[3] ===
                     i.secondHref
                   }
                   onClick={() => SecondCategoryHandler(i.secondHref)}

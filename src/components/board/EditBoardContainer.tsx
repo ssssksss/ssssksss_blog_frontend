@@ -1,0 +1,34 @@
+import { CF } from "@/styles/commonComponentStyle";
+import dynamic from "next/dist/shared/lib/dynamic";
+import styled from "styled-components";
+import Loading1 from "../common/loading/Loading1";
+import BoardEditor from "./BoardEditor";
+/**
+ * Author : Sukyung Lee
+ * FileName: EditBoardContainer.tsx
+ * Date: 2022-09-23 23:39:04
+ * Description :
+ */
+
+const Editor = dynamic(() => import("./BoardEditor"), {
+  ssr: false,
+  loading: () => <Loading1 />,
+}) as any;
+
+interface IEditBoardContainerProps {
+  edit?: boolean;
+}
+
+const EditBoardContainer = (props: IEditBoardContainerProps) => {
+  return (
+    <Container>
+      <h2> 게시판 글 작성 </h2>
+      {typeof window !== "undefined" && <Editor />}
+    </Container>
+  );
+};
+export default EditBoardContainer;
+const Container = styled(CF.ColumnDiv)`
+  padding-top: 40px;
+  align-items: center;
+`;

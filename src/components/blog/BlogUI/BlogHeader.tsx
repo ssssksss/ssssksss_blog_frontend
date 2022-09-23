@@ -3,7 +3,7 @@ import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import { setAccessToken, setUserInfo } from "@/redux/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import BasicCustomModal from "@/components/Modal/BasicCustomModal";
 import UserSignUp from "../User/UserSignUp";
@@ -11,12 +11,16 @@ import { CF } from "@/styles/commonComponentStyle";
 import UserLogin from "../User/UserLogin";
 import { store } from "@/redux/store";
 import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import {
+  FIRST_CATEGORY_ACTION,
+  SECOND_CATEGORY_ACTION,
+} from "@/redux/store/category";
 
 const BlogHeader = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-
+  const dispatch = useDispatch();
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setIsModalOpen1(false);
@@ -29,7 +33,7 @@ const BlogHeader = () => {
   });
 
   useEffect(() => {
-    (async () => {
+    async () => {
       await AxiosInstance({
         url: "/api/visit",
         method: "GET",
@@ -45,7 +49,7 @@ const BlogHeader = () => {
         .catch((error) => {
           // console.log(error.response);
         });
-    })();
+    };
 
     AxiosInstance({
       url: "/api/user",
@@ -79,6 +83,16 @@ const BlogHeader = () => {
           // console.log(error.response);
         });
     })();
+  };
+
+  const homeLogoHandler = () => {
+    // dispatch(
+    //   FIRST_CATEGORY_ACTION({
+    //     firstCategoryPath: window.location.pathname.split("/", 3)[2],
+    //   })
+    // );
+    // dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: "" }));
+    router.push("/");
   };
 
   const topMoveHandler = () => {
@@ -124,7 +138,11 @@ const BlogHeader = () => {
             <span> 전체 </span>
           </ViewItem>
         </ViewContainer>
-        <Logo onClick={() => router.push("/")}>
+        <Logo
+          onClick={() => {
+            homeLogoHandler();
+          }}
+        >
           <Img alt="logo" src="/img/logo/logo.svg" />
         </Logo>
         <MenuContainer>

@@ -23,7 +23,7 @@ const BlogFirstMenu = () => {
   useEffect(() => {
     dispatch(
       FIRST_CATEGORY_ACTION({
-        firstCategoryPath: window.location.pathname.split("/")[1],
+        firstCategoryPath: window.location.pathname.split("/")[2],
       })
     );
   }, []);
@@ -97,74 +97,31 @@ const BlogFirstMenu = () => {
         ))}
       </MenuTitle>
       <MenuContainer>
-        <MenuList>
-          {firstCategory.map(
-            (i) =>
-              i.line === 1 && (
-                <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
-                  <MenuItem
-                    active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() =>
-                      firstCategoryHandler(i.firstHref.split("/")[1])
-                    }
+        {[1, 2, 3, 4].map((el: any) => (
+          <MenuList key={el}>
+            {firstCategory.map(
+              (i) =>
+                i.line === el && (
+                  <Link
+                    key={i.id}
+                    href={"/blog/[firstCategory]"}
+                    as={"/blog" + i.firstHref}
                   >
-                    {i.name} <MenuCount> {i.count} </MenuCount>
-                  </MenuItem>
-                </Link>
-              )
-          )}
-        </MenuList>
-        <MenuList>
-          {firstCategory.map(
-            (i) =>
-              i.line === 2 && (
-                <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
-                  <MenuItem
-                    active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() =>
-                      firstCategoryHandler(i.firstHref.split("/")[1])
-                    }
-                  >
-                    {i.name} <MenuCount> {i.count} </MenuCount>
-                  </MenuItem>
-                </Link>
-              )
-          )}
-        </MenuList>
-        <MenuList>
-          {firstCategory.map(
-            (i) =>
-              i.line === 3 && (
-                <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
-                  <MenuItem
-                    active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() =>
-                      firstCategoryHandler(i.firstHref.split("/")[1])
-                    }
-                  >
-                    {i.name} <MenuCount> {i.count} </MenuCount>
-                  </MenuItem>
-                </Link>
-              )
-          )}
-        </MenuList>
-        <MenuList>
-          {firstCategory.map(
-            (i) =>
-              i.line === 4 && (
-                <Link key={i.id} href={"/[firstCategory]"} as={i.firstHref}>
-                  <MenuItem
-                    active={"/" + router.asPath.split("/")[1] === i.firstHref}
-                    onClick={() =>
-                      firstCategoryHandler(i.firstHref.split("/")[1])
-                    }
-                  >
-                    {i.name} <MenuCount> {i.count} </MenuCount>
-                  </MenuItem>
-                </Link>
-              )
-          )}
-        </MenuList>
+                    <MenuItem
+                      active={
+                        "/" + router.asPath.split("/", 3)[2] === i.firstHref
+                      }
+                      onClick={() =>
+                        firstCategoryHandler(i.firstHref.split("/")[1])
+                      }
+                    >
+                      {i.name} <MenuCount> {i.count} </MenuCount>
+                    </MenuItem>
+                  </Link>
+                )
+            )}
+          </MenuList>
+        ))}
       </MenuContainer>
     </Container>
   );

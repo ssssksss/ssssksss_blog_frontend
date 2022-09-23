@@ -25,7 +25,7 @@ const PostView = () => {
     likeNumber: number;
     modifiedAt: string;
     title: string;
-    userId: string;
+    nickName: string;
     content: string;
   };
 
@@ -53,16 +53,16 @@ const PostView = () => {
   useEffect(() => {
     setLoading(true);
     if (
-      window.location.pathname.split("/")[2] !== "" &&
-      window.location.pathname.split("/")[2] !== "undefined"
+      window.location.pathname.split("/")[3] !== "" &&
+      window.location.pathname.split("/")[3] !== "undefined"
     ) {
       AxiosInstance({
         url: "/api/post",
         method: "GET",
         params: {
-          firstHref: window.location.pathname.split("/")[1],
-          secondHref: window.location.pathname.split("/")[2],
-          id: Number(window.location.pathname.split("/")[3]),
+          firstHref: window.location.pathname.split("/")[2],
+          secondHref: window.location.pathname.split("/")[3],
+          id: Number(window.location.pathname.split("/")[4]),
         },
       })
         .then((response) => {
@@ -109,7 +109,7 @@ const PostView = () => {
                   height="20px"
                   noCursor={true}
                 />
-                : {post?.userId}
+                : {post?.nickName}
               </CF.RowDiv>
             </PostContainer1>
             <PostContainer2>
@@ -156,10 +156,10 @@ const PostView = () => {
                 height="30px"
                 onClick={() =>
                   router.push(
-                    "/" +
-                      router.asPath.split("/")[1] +
+                    "/blog/" +
+                      router.asPath.split("/")[2] +
                       "/" +
-                      router.asPath.split("/")[2]
+                      router.asPath.split("/")[3]
                   )
                 }
               />

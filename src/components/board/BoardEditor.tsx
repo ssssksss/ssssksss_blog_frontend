@@ -17,11 +17,11 @@ import { AWSS3Prefix } from "@/components/common/variables/url";
 //import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
 //import uml from "@toast-ui/editor-plugin-uml";
 
-interface ICUEditorProps {
+interface IBoardEditorProps {
   edit?: boolean;
 }
 
-const CUEditor = (props: ICUEditorProps) => {
+const BoardEditor = (props: IBoardEditorProps) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,7 +29,7 @@ const CUEditor = (props: ICUEditorProps) => {
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
   const postUrlHref =
-    "/blog/" + locationHref.split("/")[2] + "/" + locationHref.split("/")[3];
+    "/" + locationHref.split("/")[1] + "/" + locationHref.split("/")[2];
   const authStore = useSelector((state: RootState) => state.authStore);
 
   const submitHandler = () => {
@@ -80,7 +80,7 @@ const CUEditor = (props: ICUEditorProps) => {
   const uploadHandler = async (file: any) => {
     let formData = new FormData();
     formData.append("files", file);
-    formData.append("directory", "/" + locationHref.split("/")[2]);
+    formData.append("directory", "/" + locationHref.split("/")[1]);
     let temp;
     await AxiosInstance({
       url: "/s3/image",
@@ -147,10 +147,10 @@ const CUEditor = (props: ICUEditorProps) => {
           <EditorContainer>
             <Editor
               initialValue={areaTextContent}
-              previewStyle="vertical"
+              // previewStyle="vertical"
               height="800px"
-              initialEditType="markdown"
-              useCommandShortcut={true}
+              // initialEditType="markdown"
+              // useCommandShortcut={true}
               ref={editorRef}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
@@ -183,7 +183,7 @@ const CUEditor = (props: ICUEditorProps) => {
   );
 };
 
-export default CUEditor;
+export default BoardEditor;
 const Container = styled.section`
   position: relative;
   display: flex;

@@ -1,3 +1,4 @@
+import { store } from "@/redux/store";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
@@ -23,6 +24,7 @@ const ModalFirstCategory = (modalHandler: any) => {
           name: name,
           firstHref: "/" + firstHref,
           line: line,
+          nickName: store.getState().authStore.nickname,
         },
       })
         .then((response) => {

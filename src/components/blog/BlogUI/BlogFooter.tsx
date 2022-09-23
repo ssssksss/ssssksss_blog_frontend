@@ -30,10 +30,10 @@ const siteList2 = [
     "백준",
     "https://www.acmicpc.net/user/ssssksss",
   ],
-  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", ""],
-  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", ""],
-  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", ""],
-  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", ""],
+  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", "#"],
+  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", "#"],
+  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", "#"],
+  ["/img/gif/토토로왼쪽으로걸어감.gif", "temp", "#"],
 ];
 
 const BlogFooter = () => {

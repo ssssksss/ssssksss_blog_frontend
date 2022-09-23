@@ -7,11 +7,11 @@ import InputSearch from "../common/input/InputSearch";
 import Pagination from "../common/pagination/Pagination";
 /**
  * Author : Sukyung Lee
- * FileName: BoardContainer.tsx
- * Date: 2022-09-20 18:28:51
+ * FileName: ViewShopItemListContainer.tsx
+ * Date: 2022-09-23 23:55:51
  * Description :
  */
-const BoardContainer = () => {
+const ViewShopItemListContainer = () => {
   return (
     <Container>
       <Header>
@@ -33,7 +33,7 @@ const BoardContainer = () => {
           </MainHeader>
           <Main>
             {new Array(20).fill(1).map((el: any, index: number) => (
-              <BoardItem key={index}> 1 </BoardItem>
+              <ShopItem key={index}> 1 </ShopItem>
             ))}
           </Main>
         </CF.ColumnDiv>
@@ -41,13 +41,13 @@ const BoardContainer = () => {
       <MainFooter>
         <Pagination refetch={() => ""} endPage={21} />
         <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
-          <Button width="100px"> 글쓰기 </Button>
+          <Button width="100px"> 상품 등록하기 </Button>
         </CF.RowRightDiv>
       </MainFooter>
     </Container>
   );
 };
-export default BoardContainer;
+export default ViewShopItemListContainer;
 const Container = styled.div`
   width: 100%;
   background: #aeaeae;
@@ -107,7 +107,7 @@ const Main = styled.main`
     animation: ${animationKeyFrames.Fadein} 0.6s linear;
   }
 `;
-const BoardItem = styled.div`
+const ShopItem = styled.div`
   height: 240px;
   background: blue;
 `;
