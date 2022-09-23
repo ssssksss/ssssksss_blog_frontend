@@ -68,7 +68,9 @@ const CUEditor = (props: ICUEditorProps) => {
       },
     })
       .then((response) => {
-        router.push(postUrlHref + "/" + router.query?.id);
+        // 그냥 글 리스트로 이동하는 것이 편해서 수정
+        // router.push(postUrlHref + "/" + router.query?.id);
+        router.push(postUrlHref);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -157,6 +159,14 @@ const CUEditor = (props: ICUEditorProps) => {
                   // "blog"+directory+"/"+fileName
                 },
               }}
+              toolbarItems={[
+                // 툴바 옵션 설정
+                ["heading", "bold", "italic", "strike"],
+                ["hr", "quote"],
+                ["ul", "ol", "task", "indent", "outdent"],
+                ["table", "image", "link"],
+                ["code", "codeblock"],
+              ]}
             />
           </EditorContainer>
           <EditorFooter>
@@ -174,7 +184,21 @@ const CUEditor = (props: ICUEditorProps) => {
 };
 
 export default CUEditor;
-const Container = styled.section``;
+const Container = styled.section`
+  position: relative;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: flex-end;
+
+  .toastui-editor-toolbar {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+  }
+  .toastui-editor-main {
+    padding-top: 20px;
+  }
+`;
 
 const Title = styled.input`
   width: 100%;
@@ -186,6 +210,7 @@ const Title = styled.input`
   background: ${({ theme }) => theme.customColors.thirdTitle};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   padding: 0px 10px;
+  z-index: 2;
 
   &::placeholder {
     color: white;
@@ -198,9 +223,7 @@ const Description = styled.input`
   text-align: center;
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   padding: 0px 10px;
-
-  &::placeholder {
-  }
+  z-index: 2;
 `;
 const EditorFooter = styled.div`
   margin-top: 5px;
@@ -208,9 +231,11 @@ const EditorFooter = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+  position: sticky;
+  bottom: 0px;
+  background: rgba(255, 255, 255, 0.5);
 `;
 const EditorContainer = styled.div`
-  position: relative;
   background-color: white;
   &::before {
     content: "";
@@ -223,7 +248,7 @@ const EditorContainer = styled.div`
     top: 0px;
     left: 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: 80px;
   }
 `;
 

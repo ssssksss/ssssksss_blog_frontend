@@ -69,8 +69,8 @@ export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
   ${theme.flex.row.center.center}
-  width: ${(props) => props.size || props.width || "100%"};
-  height: ${(props) => props.size || props.height || "54px"};
+  width: ${(props) => props.size || props.width || "60px"};
+  height: ${(props) => props.size || props.height || "auto"};
   padding: ${(props) => props.padding || "0px 4px"};
   border: none;
   font-size: ${(props) => props.fontSize || "16px"};

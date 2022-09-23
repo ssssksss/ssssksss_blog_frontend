@@ -54,31 +54,37 @@ const BlogFooter = () => {
         <Div2>
           <CF.RowBetweenDiv gap={20}>
             {siteList1.map((el: any, index: number) => (
-              <Profile
-                key={index}
-                imageUrl={el[0]}
-                size={"60px"}
-                imgBackgroundColor={"white"}
-                borderRadius={"50%"}
-                name={el[1]}
-                gap={"10px"}
-                onClick={() => router.push(el[2])}
-              />
+              <Link key={index} href={el[2]}>
+                <a target="_blank" rel="noopener norefrerrer">
+                  <Profile
+                    imageUrl={el[0]}
+                    size={"60px"}
+                    imgBackgroundColor={"white"}
+                    borderRadius={"50%"}
+                    name={el[1]}
+                    gap={"10px"}
+                  />
+                </a>
+              </Link>
             ))}
           </CF.RowBetweenDiv>
           <CF.RowBetweenDiv gap={20}>
             {siteList2.map((el: any, index: number) => (
-              <Profile
-                key={index}
-                imageUrl={el[0]}
-                size={"60px"}
-                imgBackgroundColor={"white"}
-                borderRadius={"50%"}
-                name={el[1]}
-                gap={"10px"}
-                onClick={() => router.push(el[2])}
-                noCursor={el[2] ? false : true}
-              />
+              <Link key={index} href={el[2]}>
+                <a target="_blank" rel="noopener norefrerrer">
+                  <Profile
+                    key={index}
+                    imageUrl={el[0]}
+                    size={"60px"}
+                    imgBackgroundColor={"white"}
+                    borderRadius={"50%"}
+                    name={el[1]}
+                    gap={"10px"}
+                    onClick={() => router.push(el[2])}
+                    noCursor={el[2] ? false : true}
+                  />
+                </a>
+              </Link>
             ))}
           </CF.RowBetweenDiv>
         </Div2>

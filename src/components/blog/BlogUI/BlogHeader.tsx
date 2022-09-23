@@ -10,6 +10,7 @@ import UserSignUp from "../User/UserSignUp";
 import { CF } from "@/styles/commonComponentStyle";
 import UserLogin from "../User/UserLogin";
 import { store } from "@/redux/store";
+import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
 
 const BlogHeader = () => {
   const router = useRouter();
@@ -84,9 +85,20 @@ const BlogHeader = () => {
     window.scrollTo(0, 0);
   };
 
+  const bottomMoveHandler = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
   return (
     <Container>
-      <TopButton onClick={topMoveHandler}>위로</TopButton>
+      <TopButton
+        onClick={topMoveHandler}
+        src="/img/ui-icon/top_button_icon.png"
+      />
+      <BottomButton
+        onClick={bottomMoveHandler}
+        src="/img/ui-icon/bottom_button_icon.png"
+      />
       {isModalOpen && (
         <BasicCustomModal toggleModal={handleCloseModal}>
           <UserSignUp toggleModal={handleCloseModal} />
@@ -216,18 +228,32 @@ const GridContainer = styled.div`
   align-items: center;
   background: ${({ theme }) => theme.customColors.second};
 `;
-const TopButton = styled.button`
+const TopButton = styled.img`
   position: fixed;
   width: 40px;
   aspect-ratio: 1;
-  right: 12px;
-  bottom: 40px;
+  right: 10px;
+  top: 30%;
   z-index: 110;
-  mix-blend-mode: difference;
 
   &:hover {
-    background-color: black;
-    color: white;
+    cursor: pointer;
+    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
+      alternate-reverse;
+  }
+`;
+const BottomButton = styled.img`
+  position: fixed;
+  width: 40px;
+  aspect-ratio: 1;
+  right: 10px;
+  top: calc(30% + 50px);
+  z-index: 110;
+
+  &:hover {
+    cursor: pointer;
+    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
+      alternate;
   }
 `;
 const rotation = keyframes`
@@ -316,11 +342,4 @@ const CommonButton = css`
     background: white;
     color: ${({ theme }) => theme.customColors.second};
   }
-`;
-const LogoutButton = styled.button`
-  ${CommonButton}
-`;
-const UserStatus = styled.a`
-  ${CommonButton}
-  text-align: center;
 `;

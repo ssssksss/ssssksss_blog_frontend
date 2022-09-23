@@ -7,11 +7,10 @@ import styled, { css, keyframes } from "styled-components";
 import { RootState } from "@/redux/store/reducers";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { authReducer } from "@/redux/store/auth/reducers";
 import { store } from "@/redux/store";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
 import TodoItem from "./TodoItem";
-import { animationRightToLeft } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
 
 /**
  * Author : Sukyung Lee
@@ -188,7 +187,7 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
   background: white;
   display: static;
   /* transition: all 1s ease-in-out; */
-  animation: ${animationRightToLeft} 0.3s linear;
+  animation: ${animationKeyFrames.RightToLeftFadein} 0.3s linear;
   ${(props) =>
     props.hide &&
     css`
