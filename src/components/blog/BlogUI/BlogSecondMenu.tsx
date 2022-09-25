@@ -43,30 +43,20 @@ const BlogSecondMenu = () => {
   }, []);
 
   useEffect(() => {
-    if (firstCategory !== "") {
-      (async () => {
-        if (
-          window.location.pathname.split("/")[2] !== undefined &&
-          window.location.pathname.split("/")[2] !== null
-        ) {
-          await AxiosInstance({
-            url: "/api/second-category",
-            method: "GET",
-            params: {
-              firstHref: firstCategory,
-            },
-          })
-            .then((response) => {
-              setSecondCategory(response.data.data.secondCategory);
-              console.log("BlogSecondMenu.tsx1 : ");
-            })
-            .catch((error) => {
-              setSecondCategory(null);
-              console.log("BlogSecondMenu.tsx2 : ");
-              console.log(error);
-            });
-        }
-      })();
+    if (firstCategory) {
+      AxiosInstance({
+        url: "/api/second-category",
+        method: "GET",
+        params: {
+          firstHref: firstCategory,
+        },
+      })
+        .then((response) => {
+          setSecondCategory(response.data.data.secondCategory);
+        })
+        .catch((error) => {
+          setSecondCategory([]);
+        });
     }
   }, [categoryChange, firstCategory]);
 
@@ -80,7 +70,7 @@ const BlogSecondMenu = () => {
   return (
     <Container>
       {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
-      {firstCategory !== "" && secondCategory !== null && (
+      {firstCategory !== "" && secondCategory?.length !== 0 && (
         <>
           <MenuTitle>
             <span>{firstCategory}</span>
@@ -95,7 +85,7 @@ const BlogSecondMenu = () => {
             )}
           </MenuTitle>
           <MenuContainer>
-            {secondCategory.map((i) => (
+            {secondCategory?.map((i) => (
               <Link key={i.id} href={"/blog" + i.secondHref}>
                 <MenuItem
                   active={

@@ -232,8 +232,7 @@ const BlogHeader = () => {
 
 export default BlogHeader;
 
-const Container = styled.header`
-  margin: auto;
+const Container = styled.div`
   height: 80px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
 `;
@@ -251,7 +250,7 @@ const TopButton = styled.img`
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  top: 30%;
+  top: 60%;
   z-index: 110;
 
   &:hover {
@@ -265,7 +264,7 @@ const BottomButton = styled.img`
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  top: calc(30% + 50px);
+  top: calc(60% + 50px);
   z-index: 110;
 
   &:hover {

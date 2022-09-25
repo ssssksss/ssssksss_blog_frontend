@@ -58,7 +58,7 @@ const BlogFooter = () => {
                 <a target="_blank" rel="noopener norefrerrer">
                   <Profile
                     imageUrl={el[0]}
-                    size={"60px"}
+                    size={"50px"}
                     imgBackgroundColor={"white"}
                     borderRadius={"50%"}
                     name={el[1]}
@@ -75,7 +75,7 @@ const BlogFooter = () => {
                   <Profile
                     key={index}
                     imageUrl={el[0]}
-                    size={"60px"}
+                    size={"50px"}
                     imgBackgroundColor={"white"}
                     borderRadius={"50%"}
                     name={el[1]}

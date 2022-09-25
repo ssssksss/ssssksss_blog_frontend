@@ -78,7 +78,7 @@ const BlogFirstMenu = () => {
 
   return (
     <Container>
-      <MenuTitle>
+      {/* <MenuTitle>
         {modalOpen && <ModalFirstCategory modalHandler={modalHandler} />}
         {firstCategoryTitles.map((i) => (
           <Title key={i.position}>
@@ -95,8 +95,8 @@ const BlogFirstMenu = () => {
             )}
           </Title>
         ))}
-      </MenuTitle>
-      <MenuContainer>
+      </MenuTitle> */}
+      {/* <MenuContainer>
         {[1, 2, 3, 4].map((el: any) => (
           <MenuList key={el}>
             {firstCategory.map(
@@ -108,9 +108,7 @@ const BlogFirstMenu = () => {
                     as={"/blog" + i.firstHref}
                   >
                     <MenuItem
-                      active={
-                        "/" + router.asPath.split("/", 3)[2] === i.firstHref
-                      }
+                      active={"/" + router.asPath.split("/")[2] === i.firstHref}
                       onClick={() =>
                         firstCategoryHandler(i.firstHref.split("/")[1])
                       }
@@ -122,7 +120,7 @@ const BlogFirstMenu = () => {
             )}
           </MenuList>
         ))}
-      </MenuContainer>
+      </MenuContainer> */}
     </Container>
   );
 };
@@ -149,7 +147,6 @@ const MenuTitle = styled.div`
   }
 `;
 const Title = styled.div`
-  width: 100%;
   height: 40px;
   ${({ theme }) => theme.flex.flexCenter};
   position: relative;

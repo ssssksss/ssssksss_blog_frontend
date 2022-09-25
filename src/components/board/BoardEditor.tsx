@@ -16,6 +16,8 @@ import { AWSS3Prefix } from "@/components/common/variables/url";
 //import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 //import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
 //import uml from "@toast-ui/editor-plugin-uml";
+import { store } from "../../../redux/store/index";
+import theme from "@/styles/theme";
 
 interface IBoardEditorProps {
   edit?: boolean;
@@ -24,29 +26,26 @@ interface IBoardEditorProps {
 const BoardEditor = (props: IBoardEditorProps) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [areaTextContent, setAreaTextContent] = useState("");
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
-  const postUrlHref =
-    "/" + locationHref.split("/")[1] + "/" + locationHref.split("/")[2];
   const authStore = useSelector((state: RootState) => state.authStore);
+  const [imgUrl, SetImgUrl] = useState("");
 
   const submitHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/api/post",
+      url: "/api/board",
       method: "POST",
       data: {
         title: title,
-        description: description,
         content: getContent_md,
-        secondHref: postUrlHref,
+        writer: authStore.nickname,
       },
     })
       .then((response) => {
-        router.push(postUrlHref);
+        console.log("BoardEditor.tsx : ", response);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -57,20 +56,17 @@ const BoardEditor = (props: IBoardEditorProps) => {
     const editorInstance = editorRef.current?.getInstance();
     const MarkdownContent = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/api/post",
+      url: "/api/board",
       method: "PUT",
       data: {
         id: Number(router.query?.id),
         title: title,
-        description: description,
         content: MarkdownContent,
-        secondHref: postUrlHref,
       },
     })
       .then((response) => {
         // 그냥 글 리스트로 이동하는 것이 편해서 수정
-        // router.push(postUrlHref + "/" + router.query?.id);
-        router.push(postUrlHref);
+        // router.push(boardUrlHref + "/" + router.query?.id);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -116,7 +112,6 @@ const BoardEditor = (props: IBoardEditorProps) => {
           let res = response.data.data.post;
           setAreaTextContent(res.content);
           setTitle(res.title);
-          setDescription(res.description);
           const editorInstance = editorRef.current?.getInstance();
           editorInstance?.setMarkdown(res.content);
         })
@@ -130,27 +125,21 @@ const BoardEditor = (props: IBoardEditorProps) => {
     <>
       {authStore.role === "ROLE_ADMIN" && (
         <Container>
-          <Title
-            placeholder="제목을 입력해주세요"
+          <Title> 게시판 글 작성 </Title>
+          <BoardTitle
+            placeholder="게시판 제목을 입력해주세요."
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
-            }}
-          ></Title>
-          <Description
-            placeholder="간략한 설명을 입력해주세요"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
             }}
           />
           <EditorContainer>
             <Editor
               initialValue={areaTextContent}
-              // previewStyle="vertical"
+              previewStyle="vertical"
               height="800px"
-              // initialEditType="markdown"
-              // useCommandShortcut={true}
+              initialEditType="markdown"
+              useCommandShortcut={true}
               ref={editorRef}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
@@ -199,31 +188,39 @@ const Container = styled.section`
     padding-top: 20px;
   }
 `;
-
-const Title = styled.input`
+const Title = styled.div`
   width: 100%;
-  height: 40px;
+  ${theme.flex.row.center.center};
+  font-size: 36px;
+  background: #dedede;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 20px 0px;
+`;
+
+const BoardTitle = styled.input`
+  width: 100%;
   font-size: 20px;
   color: white;
   border-radius: 10px 10px 0px 0px;
   text-align: center;
   background: ${({ theme }) => theme.customColors.thirdTitle};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 10px;
+  padding: 10px 10px;
   z-index: 2;
 
   &::placeholder {
+    transition: all 0.6s ease-in-out;
+    ${theme.fontSizes.base};
     color: white;
+
+    @media (max-width: 768px) {
+      ${theme.fontSizes.small};
+    }
   }
-`;
-const Description = styled.input`
-  width: 100%;
-  height: 40px;
-  font-size: 20px;
-  text-align: center;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 10px;
-  z-index: 2;
+  &:focus::placeholder {
+    color: transparent;
+  }
 `;
 const EditorFooter = styled.div`
   margin-top: 5px;

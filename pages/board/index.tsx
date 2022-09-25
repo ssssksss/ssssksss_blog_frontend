@@ -12,7 +12,7 @@ import styled from "styled-components";
 const BoardPage = () => {
   return (
     <Container>
-      <ViewBoardsContainer />
+      {typeof window !== "undefined" && <ViewBoardsContainer />}
     </Container>
   );
 };

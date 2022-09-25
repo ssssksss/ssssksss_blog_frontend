@@ -1,4 +1,5 @@
 import { CF } from "@/styles/commonComponentStyle";
+import theme from "@/styles/theme";
 import dynamic from "next/dist/shared/lib/dynamic";
 import styled from "styled-components";
 import Loading1 from "../common/loading/Loading1";
@@ -20,12 +21,7 @@ interface IEditBoardContainerProps {
 }
 
 const EditBoardContainer = (props: IEditBoardContainerProps) => {
-  return (
-    <Container>
-      <h2> 게시판 글 작성 </h2>
-      {typeof window !== "undefined" && <Editor />}
-    </Container>
-  );
+  return <Container>{typeof window !== "undefined" && <Editor />}</Container>;
 };
 export default EditBoardContainer;
 const Container = styled(CF.ColumnDiv)`

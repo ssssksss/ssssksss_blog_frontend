@@ -6,6 +6,9 @@ import styled from "styled-components";
 import Button from "../common/button/Button";
 import InputSearch from "../common/input/InputSearch";
 import Pagination from "../common/pagination/Pagination";
+import { useEffect } from "react";
+import AxiosInstance from "@/utils/axios/AxiosInstance";
+import { useState } from "react";
 /**
  * Author : Sukyung Lee
  * FileName: BoardContainer.tsx
@@ -14,6 +17,52 @@ import Pagination from "../common/pagination/Pagination";
  */
 const ViewBoardsContainer = () => {
   const router = useRouter();
+  const [keyword, setKeyword] = useState(router.query.keyword || "");
+  const [page, setPage] = useState(router.query.page || 1);
+  const [option, setOption] = useState(router.query.option || "");
+  const [boardList, setBoardList] = useState([]);
+
+  const searchHandler = () => {
+    AxiosInstance({
+      url: "/api/boards",
+      method: "GET",
+      params: {
+        keyword: String(keyword),
+        page: Number(page),
+        option: String(option),
+      },
+    })
+      .then((response) => {
+        console.log("BoardEditor.tsx : ", response);
+      })
+      .catch((error) => {
+        alert("에러가 발생하였습니다.");
+      });
+  };
+
+  const changeOptionHandler = (e: any) => {
+    console.log("ViewBoardsContainer.tsx : ", e.target.value);
+  };
+
+  useEffect(() => {
+    const urlQueryStringInstance = new URLSearchParams(location.search);
+    AxiosInstance({
+      url: "/api/boards",
+      method: "GET",
+      params: {
+        keyword: String(urlQueryStringInstance.get("keyword")),
+        page: Number(urlQueryStringInstance.get("page")),
+        option: String(urlQueryStringInstance.get("option")),
+      },
+    })
+      .then((response) => {
+        console.log("BoardEditor.tsx : ", response);
+      })
+      .catch((error) => {
+        alert("에러가 발생하였습니다.");
+      });
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -27,10 +76,10 @@ const ViewBoardsContainer = () => {
               height={"30px"}
               img={"/img/ui-icon/search_icon.png"}
             />
-            <select name="area">
-              <option value="100"> 최신순 </option>
-              <option value="500"> 인기순 </option>
-              <option value="1000"> 조회순 </option>
+            <select name="area" onChange={changeOptionHandler}>
+              <option value=""> 최신순 </option>
+              <option value="popularity"> 인기순 </option>
+              <option value="view"> 조회순 </option>
             </select>
           </MainHeader>
           <Main>
@@ -40,7 +89,7 @@ const ViewBoardsContainer = () => {
               <CF.RowCenterDiv> 작성자 </CF.RowCenterDiv>
               <CF.RowCenterDiv> 날짜 </CF.RowCenterDiv>
             </BoardItem>
-            {new Array(20).fill(1).map((el: any, index: number) => (
+            {boardList.map((el: any, index: number) => (
               <BoardItem
                 key={index}
                 // onClick={() => router.push(`/board/${el.id}`)}
@@ -107,6 +156,7 @@ const BoardItem = styled.button`
   background: white;
   display: grid;
   grid-template-columns: 40px auto 60px 100px;
+  align-items: center;
 
   &:hover {
     cursor: pointer;

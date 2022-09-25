@@ -7,6 +7,9 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+  html,body {
+    width: %;
+  }
   button {
     cursor: pointer;
     border: none;
