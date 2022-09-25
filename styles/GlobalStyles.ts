@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   html,body {
-    width: %;
+    width: 100%;
   }
   button {
     cursor: pointer;
