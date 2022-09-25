@@ -136,9 +136,9 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.customColors.first};
-  width: 30%;
-  min-width: 300px;
   height: 60%;
+  width: 80%;
+  max-width: 600px;
   min-height: 400px;
   border: 0px;
   z-index: 3;

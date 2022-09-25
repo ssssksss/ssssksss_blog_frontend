@@ -90,7 +90,7 @@ const BlogFirstMenu = () => {
                   setModalOpen(true);
                 }}
               >
-                +
+                ➕
               </PlusButton>
             )}
           </Title>
@@ -138,7 +138,6 @@ const MenuTitle = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   font-size: 20px;
-  border-radius: 10px 10px 0px 0px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   position: relative;
 

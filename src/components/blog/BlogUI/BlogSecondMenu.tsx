@@ -7,6 +7,7 @@ import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { SECOND_CATEGORY_ACTION } from "@/redux/store/category/actions";
+import { CF } from "../../../../styles/commonComponentStyle";
 
 const BlogSecondMenu = () => {
   const router = useRouter();
@@ -67,10 +68,12 @@ const BlogSecondMenu = () => {
     }
   };
 
+  console.log("BlogSecondMenu.tsx : ", router.asPath);
+
   return (
     <Container>
       {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
-      {firstCategory !== "" && secondCategory?.length !== 0 && (
+      {firstCategory && router.asPath.split("/blog")[1] && (
         <>
           <MenuTitle>
             <span>{firstCategory}</span>
@@ -80,25 +83,29 @@ const BlogSecondMenu = () => {
                   setModalOpen(true);
                 }}
               >
-                +
+                ➕
               </button>
             )}
           </MenuTitle>
-          <MenuContainer>
-            {secondCategory?.map((i) => (
-              <Link key={i.id} href={"/blog" + i.secondHref}>
-                <MenuItem
-                  active={
-                    i.firstHref + "/" + router.asPath.split("/")[3] ===
-                    i.secondHref
-                  }
-                  onClick={() => SecondCategoryHandler(i.secondHref)}
-                >
-                  {i.name} <MenuCount> {i.count} </MenuCount>
-                </MenuItem>
-              </Link>
-            ))}
-          </MenuContainer>
+          {secondCategory?.length ? (
+            <MenuContainer>
+              {secondCategory?.map((i) => (
+                <Link key={i.id} href={"/blog" + i.secondHref}>
+                  <MenuItem
+                    active={
+                      i.firstHref + "/" + router.asPath.split("/")[3] ===
+                      i.secondHref
+                    }
+                    onClick={() => SecondCategoryHandler(i.secondHref)}
+                  >
+                    {i.name} <MenuCount> {i.count} </MenuCount>
+                  </MenuItem>
+                </Link>
+              ))}
+            </MenuContainer>
+          ) : (
+            <TempDiv>2차 카테고리가 존재하지 않습니다. </TempDiv>
+          )}
         </>
       )}
     </Container>
@@ -116,7 +123,6 @@ const MenuTitle = styled.div`
   color: white;
   height: 40px;
   font-size: 20px;
-  border-radius: 10px 10px 0px 0px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   ${({ theme }) => theme.flex.flexCenter};
 
@@ -186,4 +192,9 @@ const MenuCount = styled.div`
   padding: 2px 2px 2px 0px;
   display: flex;
   justify-content: end;
+`;
+const TempDiv = styled(CF.RowCenterDiv)`
+  background: ${({ theme }) => theme.customColors.second};
+  padding: 20px 0px;
+  font-size: 24px;
 `;
