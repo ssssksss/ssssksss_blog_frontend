@@ -78,7 +78,7 @@ const BlogFirstMenu = () => {
 
   return (
     <Container>
-      {/* <MenuTitle>
+      <MenuTitle>
         {modalOpen && <ModalFirstCategory modalHandler={modalHandler} />}
         {firstCategoryTitles.map((i) => (
           <Title key={i.position}>
@@ -95,8 +95,8 @@ const BlogFirstMenu = () => {
             )}
           </Title>
         ))}
-      </MenuTitle> */}
-      {/* <MenuContainer>
+      </MenuTitle>
+      <MenuContainer>
         {[1, 2, 3, 4].map((el: any) => (
           <MenuList key={el}>
             {firstCategory.map(
@@ -120,7 +120,7 @@ const BlogFirstMenu = () => {
             )}
           </MenuList>
         ))}
-      </MenuContainer> */}
+      </MenuContainer>
     </Container>
   );
 };
