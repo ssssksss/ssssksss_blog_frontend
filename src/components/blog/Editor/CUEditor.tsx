@@ -8,6 +8,7 @@ import { Editor } from "@toast-ui/react-editor";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { AWSS3Prefix } from "@/components/common/variables/url";
+import { store } from "@/redux/store";
 //import chart from "@toast-ui/editor-plugin-chart";
 //import "tui-chart/dist/tui-chart.css";
 //import "highlight.js/styles/github.css";
@@ -42,7 +43,8 @@ const CUEditor = (props: ICUEditorProps) => {
         title: title,
         description: description,
         content: getContent_md,
-        secondHref: postUrlHref,
+        secondHref: postUrlHref.split("/blog")[1],
+        nickname: store.getState().authStore.nickname,
       },
     })
       .then((response) => {
@@ -64,7 +66,7 @@ const CUEditor = (props: ICUEditorProps) => {
         title: title,
         description: description,
         content: MarkdownContent,
-        secondHref: postUrlHref,
+        secondHref: postUrlHref.split("/blog")[1],
       },
     })
       .then((response) => {
