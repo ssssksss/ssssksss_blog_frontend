@@ -1,4 +1,4 @@
-import Layout1 from "src/components/layout/Layout1";
+import Layout2 from "src/components/layout/Layout2";
 import React from "react";
 
 type Props = {};
@@ -6,5 +6,5 @@ type Props = {};
 const index = (props: Props) => {
   return <></>;
 };
-index.layout = Layout1;
+index.layout = Layout2;
 export default index;

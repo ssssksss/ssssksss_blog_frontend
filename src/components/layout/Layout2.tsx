@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import BlogFirstMenu from "../blog/BlogUI/BlogFirstMenu";
+import BlogSecondMenu from "../blog/BlogUI/BlogSecondMenu";
 
 type AppLayoutProps = {
   children: React.ReactNode;

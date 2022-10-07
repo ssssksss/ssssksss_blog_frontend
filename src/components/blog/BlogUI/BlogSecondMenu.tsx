@@ -24,6 +24,7 @@ const BlogSecondMenu = () => {
 
   const SecondCategoryHandler = (pathValue: string) => {
     dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
+    router.push("/blog" + pathValue);
   };
 
   type SecondCategoryTypes = {
@@ -68,8 +69,6 @@ const BlogSecondMenu = () => {
     }
   };
 
-  console.log("BlogSecondMenu.tsx : ", router.asPath);
-
   return (
     <Container>
       {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
@@ -90,17 +89,18 @@ const BlogSecondMenu = () => {
           {secondCategory?.length ? (
             <MenuContainer>
               {secondCategory?.map((i) => (
-                <Link key={i.id} href={"/blog" + i.secondHref}>
-                  <MenuItem
-                    active={
-                      i.firstHref + "/" + router.asPath.split("/")[3] ===
-                      i.secondHref
-                    }
-                    onClick={() => SecondCategoryHandler(i.secondHref)}
-                  >
-                    {i.name} <MenuCount> {i.count} </MenuCount>
-                  </MenuItem>
-                </Link>
+                // <Link key={i.id} href={"/blog" + i.secondHref}>
+                <MenuItem
+                  key={i.id}
+                  active={
+                    i.firstHref + "/" + router.asPath.split("/")[3] ===
+                    i.secondHref
+                  }
+                  onClick={() => SecondCategoryHandler(i.secondHref)}
+                >
+                  {i.name} <MenuCount> {i.count} </MenuCount>
+                </MenuItem>
+                // </Link>
               ))}
             </MenuContainer>
           ) : (

@@ -15,6 +15,7 @@ import {
   FIRST_CATEGORY_ACTION,
   SECOND_CATEGORY_ACTION,
 } from "@/redux/store/category";
+import theme from "@/styles/theme";
 
 const BlogHeader = () => {
   const router = useRouter();
@@ -123,127 +124,127 @@ const BlogHeader = () => {
           <UserLogin toggleModal={handleCloseModal} />
         </BasicCustomModal>
       )}
-      <GridContainer>
-        <ViewContainer>
-          <ViewItem>
-            <span> {blogView.yesterdayView} </span>
-            <span> 어제 </span>
-          </ViewItem>
-          <ViewItem>
-            <span> {blogView.todayView} </span>
-            <span> 오늘 </span>
-          </ViewItem>
-          <ViewItem>
-            <span> {blogView.alldayView} </span>
-            <span> 전체 </span>
-          </ViewItem>
-        </ViewContainer>
-        <Logo
-          onClick={() => {
-            homeLogoHandler();
-          }}
-        >
-          <Img alt="logo" src="/img/logo/logo.svg" />
-        </Logo>
-        <MenuContainer>
-          {authStore.role === "" && (
-            <CF.RowRightDiv>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="bulletin_board"
-                  src="/img/ui-icon/bulletin_board_icon.png"
-                  onClick={() => {
-                    router.push("/board");
-                  }}
-                />
-                <span> 게시판 </span>
-              </CF.ImgContainer>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="login"
-                  src="/img/ui-icon/login_icon.png"
-                  onClick={() => {
-                    setIsModalOpen1(true);
-                  }}
-                />
-                <span> 로그인 </span>
-              </CF.ImgContainer>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="signup"
-                  src="/img/ui-icon/signup_icon.png"
-                  onClick={() => {
-                    setIsModalOpen(true);
-                  }}
-                />
-                <span> 회원가입 </span>
-              </CF.ImgContainer>
-            </CF.RowRightDiv>
-          )}
-          {authStore.role !== "" && (
-            <CF.RowRightDiv>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="bulletin_board"
-                  src="/img/ui-icon/bulletin_board_icon.png"
-                  onClick={() => {
-                    router.push("/board");
-                  }}
-                />
-                <span> 게시판 </span>
-              </CF.ImgContainer>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="plan"
-                  src="/img/ui-icon/calendar_icon.png"
-                  onClick={() => {
-                    router.push("/todo");
-                  }}
-                />
-                <span> 일정 </span>
-              </CF.ImgContainer>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="userInfo"
-                  src="/img/ui-icon/userInfo_icon.png"
-                  onClick={() => {
-                    router.push("/user-dashboard");
-                  }}
-                />
-                <span> {authStore.nickname} </span>
-              </CF.ImgContainer>
-              <CF.ImgContainer>
-                <CF.Img
-                  alt="logout"
-                  src="/img/ui-icon/logout_icon.png"
-                  onClick={() => {
-                    logoutHandler();
-                  }}
-                />
-                <span> 로그아웃 </span>
-              </CF.ImgContainer>
-            </CF.RowRightDiv>
-          )}
-        </MenuContainer>
-      </GridContainer>
+      <Logo
+        onClick={() => {
+          homeLogoHandler();
+        }}
+      >
+        <Img alt="logo" src="/img/logo/logo.svg" />
+      </Logo>
+      <MenuContainer>
+        {authStore.role === "" && (
+          <CF.RowRightDiv gap={10}>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/bulletin_board_icon.png"
+                onClick={() => {
+                  router.push("/blog");
+                }}
+              />
+              <span> 블로그 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/bulletin_board_icon.png"
+                onClick={() => {
+                  router.push("/board");
+                }}
+              />
+              <span> 게시판 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="login"
+                src="/img/ui-icon/login_icon.png"
+                onClick={() => {
+                  setIsModalOpen1(true);
+                }}
+              />
+              <span> 로그인 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="signup"
+                src="/img/ui-icon/signup_icon.png"
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              />
+              <span> 회원가입 </span>
+            </CF.ImgContainer>
+          </CF.RowRightDiv>
+        )}
+        {authStore.role !== "" && (
+          <CF.RowRightDiv gap={10}>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/bulletin_board_icon.png"
+                onClick={() => {
+                  router.push("/blog");
+                }}
+              />
+              <span> 블로그 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/bulletin_board_icon.png"
+                onClick={() => {
+                  router.push("/board");
+                }}
+              />
+              <span> 게시판 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="plan"
+                src="/img/ui-icon/calendar_icon.png"
+                onClick={() => {
+                  router.push("/todo");
+                }}
+              />
+              <span> 일정 </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="userInfo"
+                src="/img/ui-icon/userInfo_icon.png"
+                onClick={() => {
+                  router.push("/user-dashboard");
+                }}
+              />
+              <span> {authStore.nickname} </span>
+            </CF.ImgContainer>
+            <CF.ImgContainer>
+              <CF.Img
+                alt="logout"
+                src="/img/ui-icon/logout_icon.png"
+                onClick={() => {
+                  logoutHandler();
+                }}
+              />
+              <span> 로그아웃 </span>
+            </CF.ImgContainer>
+          </CF.RowRightDiv>
+        )}
+      </MenuContainer>
     </Container>
   );
 };
 
 export default BlogHeader;
 
-const Container = styled.div`
+const Container = styled(CF.RowBetweenDiv)`
   height: 80px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
-`;
-const GridContainer = styled.div`
-  border-radius: 4px;
+  position: sticky;
+  top: 0px;
   padding: 0px 20px;
-  display: grid;
-  height: 100%;
-  grid-template-columns: 5fr 2fr 5fr;
-  align-items: center;
-  background: ${({ theme }) => theme.customColors.second};
+  background: ${theme.backgroundColors.primaryLight};
+  z-index: 200;
 `;
 const TopButton = styled.img`
   position: fixed;
@@ -304,8 +305,8 @@ const Logo = styled.button`
   border: none;
 `;
 const Img = styled.img`
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 40px;
+  max-height: 40px;
   padding: 10px;
   animation: ${rotation} 4s linear infinite;
   animation-direction: alternate-reverse;
@@ -326,37 +327,5 @@ const MenuContainer = styled.nav`
       width: 30px;
       height: 30px;
     }
-  }
-`;
-const ViewContainer = styled(CF.RowStartDiv)`
-  padding-left: 10px;
-  color: white;
-  gap: 40px;
-`;
-const ViewItem = styled.div`
-  display: flex;
-  flex-flow: nowrap column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px 0px;
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 0.6rem;
-  }
-`;
-const CommonButton = css`
-  ${({ theme }) => theme.customButton};
-  width: 100%;
-  padding: 4px 0px;
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
-  color: white;
-  background: none;
-  border: solid white 1px;
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 0.6rem;
-  }
-  &:hover {
-    background: white;
-    color: ${({ theme }) => theme.customColors.second};
   }
 `;

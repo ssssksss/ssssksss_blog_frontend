@@ -1,5 +1,5 @@
 import ViewBoardsContainer from "@/components/board/ViewBoardsContainer";
-import Layout2 from "@/components/layout/Layout2";
+import Layout1 from "@/components/layout/Layout1";
 import styled from "styled-components";
 
 /**
@@ -17,7 +17,7 @@ const BoardPage = () => {
   );
 };
 export default BoardPage;
-BoardPage.layout = Layout2;
+BoardPage.layout = Layout1;
 
 const Container = styled.div`
   width: 100%;

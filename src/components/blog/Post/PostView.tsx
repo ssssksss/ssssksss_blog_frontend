@@ -2,7 +2,7 @@ import Layout1 from "src/components/layout/Layout1";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/react-editor";

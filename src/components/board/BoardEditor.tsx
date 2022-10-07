@@ -46,6 +46,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
     })
       .then((response) => {
         console.log("BoardEditor.tsx : ", response);
+        router.push("/board");
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -123,7 +124,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
 
   return (
     <>
-      {authStore.role === "ROLE_ADMIN" && (
+      {authStore.role && (
         <Container>
           <Title> 게시판 글 작성 </Title>
           <BoardTitle
@@ -133,6 +134,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
               setTitle(e.target.value);
             }}
           />
+          <Writer> 작성자 : {store.getState().authStore.nickname} </Writer>
           <EditorContainer>
             <Editor
               initialValue={areaTextContent}
@@ -197,12 +199,10 @@ const Title = styled.div`
   border-radius: 8px;
   padding: 20px 0px;
 `;
-
 const BoardTitle = styled.input`
   width: 100%;
   font-size: 20px;
   color: white;
-  border-radius: 10px 10px 0px 0px;
   text-align: center;
   background: ${({ theme }) => theme.customColors.thirdTitle};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
@@ -221,6 +221,11 @@ const BoardTitle = styled.input`
   &:focus::placeholder {
     color: transparent;
   }
+`;
+const Writer = styled.div`
+  background: ${({ theme }) => theme.customColors.thirdTitle};
+  padding: 8px 0px 8px 10px;
+  color: white;
 `;
 const EditorFooter = styled.div`
   margin-top: 5px;

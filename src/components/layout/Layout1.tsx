@@ -1,18 +1,26 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import BlogFirstMenu from "src/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "src/components/blog/BlogUI/BlogSecondMenu";
 import styled from "styled-components";
+import PageTransitions from "../common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
   children: React.ReactNode;
 };
 
+// 블로그 용도의 레이아웃
 const Layout1 = ({ children }: AppLayoutProps) => {
+  const router = useRouter();
+  const [routingPageOffset, setRoutingPageOffset] = useState(0);
   return (
     <Container>
-      <BlogFirstMenu />
-      <BlogSecondMenu />
+      {/* <PageTransitions
+        route={router.asPath}
+        routingPageOffset={routingPageOffset}
+      > */}
       {children}
+      {/* </PageTransitions> */}
     </Container>
   );
 };

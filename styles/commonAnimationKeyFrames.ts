@@ -1,4 +1,5 @@
 import { keyframes } from "styled-components";
+import theme from "./theme";
 
 const RightToLeftFadein = keyframes`
 from{
@@ -40,9 +41,19 @@ const Fadeout = keyframes`
   }
 `;
 
+const ChangeGrayColor = keyframes`
+  0% {
+    color: ${theme.colors.grayDark};
+  }
+  100% {
+    color: ${theme.colors.grayLight};
+  }
+`;
+
 export const animationKeyFrames = {
   RightToLeftFadein,
   Fadein,
   Fadeout,
   UpToDownRepeatFadein,
+  ChangeGrayColor,
 };

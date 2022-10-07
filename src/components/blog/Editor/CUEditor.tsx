@@ -26,7 +26,9 @@ const CUEditor = (props: ICUEditorProps) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [areaTextContent, setAreaTextContent] = useState("");
+  const [areaTextContent, setAreaTextContent] = useState(
+    "# 📌 [] \n# 📌 [] \n# 📌 [] \n# 📌 [] \n# 📌 []"
+  );
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
   const postUrlHref =

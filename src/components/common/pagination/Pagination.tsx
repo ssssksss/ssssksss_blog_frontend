@@ -4,29 +4,30 @@ import { MouseEvent, useState } from "react";
 interface IPaginationProps {
   refetch: any;
   endPage: number;
+  currentPage: number;
 }
 
-const Pagination = ({ refetch, endPage }: IPaginationProps) => {
+const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
   // 페이지 1개당 보여줄 갯수
   const [perPageCount, setPerPageCount] = useState(10); // eslint-disable-line no-unused-vars
   // 마지막 페이지
   const [startPage, setStartPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   // const endPage = Math.ceil(Number(pageCount) / perPageCount);
 
   // 아래 보여줄 페이지 번호들
   const movePage = (event: MouseEvent<HTMLButtonElement>) => {
     if (event.currentTarget.id === "prev") {
       setStartPage((prev) => prev - 10);
-      setCurrentPage((prev) => prev - 10);
+      // setCurrentPage((prev) => prev - 10);
       refetch({ page: currentPage - 10 });
     } else if (event.currentTarget.id === "morePrev") {
       setStartPage(1);
-      setCurrentPage(1);
+      // setCurrentPage(1);
       refetch({ page: 1 });
     } else if (event.currentTarget.id === "next") {
       setStartPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
-      setCurrentPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
+      // setCurrentPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
       refetch({
         page: currentPage + 10 <= endPage ? currentPage + 10 : endPage,
       });
@@ -34,17 +35,17 @@ const Pagination = ({ refetch, endPage }: IPaginationProps) => {
       if (endPage % 10 === 0) {
         const temp = endPage - 9;
         setStartPage(temp);
-        setCurrentPage(temp);
+        // setCurrentPage(temp);
         refetch({ page: temp });
       } else {
         const temp = endPage - (endPage % 10) + 1;
         setStartPage(temp);
-        setCurrentPage(temp);
+        // setCurrentPage(temp);
         refetch({ page: temp });
       }
     } else {
       if (event.target instanceof Element) {
-        setCurrentPage(Number(event.target.id));
+        // setCurrentPage(Number(event.target.id));
         refetch({ page: Number(event.target.id) });
       }
     }
@@ -69,7 +70,7 @@ const Pagination = ({ refetch, endPage }: IPaginationProps) => {
               key={index + startPage}
               id={String(startPage + index)}
               onClick={movePage}
-              isActive={startPage + index === currentPage}
+              isActive={startPage + index === (currentPage || 1)}
             >
               {index + startPage}
             </PageNumberButton>

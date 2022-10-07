@@ -44,7 +44,6 @@ export default TodoPage;
 TodoPage.layout = Layout2;
 
 const Container = styled(CF.RowDiv)`
-  padding: 10px 0px;
   gap: 10px;
   justify-content: center;
   position: relative;
@@ -56,7 +55,7 @@ const SideDiv = styled.section`
   right: 0px;
   display: flex;
   flex-flow: nowrap row;
-  min-height: calc(100% - 20px);
+  height: calc(100% - 20px);
   align-items: center;
   z-index: 10;
 
@@ -68,6 +67,7 @@ const SideDiv = styled.section`
 const Overlay = styled.button`
   position: absolute;
   background: #aeaeae;
+  z-index: 8;
   opacity: 0.5;
   width: 100vw;
   height: 100vh;

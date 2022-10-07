@@ -141,7 +141,7 @@ const TodoContainer = (props: ITodoContainerProps) => {
         {todoStore.nowTodoDate}
         <Button onClick={props.sideOpenToggleHandler}> X </Button>
       </Title>
-      <CF.ColumnDiv gap={10} padding={"0px 4px"}>
+      <TodoList>
         {todoList.length !== 0 &&
           todoList.map((el: any, index: number) => (
             <TodoItem
@@ -170,7 +170,7 @@ const TodoContainer = (props: ITodoContainerProps) => {
             onClick={addTodo}
           />
         </CF.RowDiv>
-      </CF.ColumnDiv>
+      </TodoList>
     </Container>
   );
 };
@@ -186,6 +186,7 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
   align-self: stretch;
   background: white;
   display: static;
+  overflow-y: scroll;
   /* transition: all 1s ease-in-out; */
   animation: ${animationKeyFrames.RightToLeftFadein} 0.3s linear;
   ${(props) =>
@@ -193,6 +194,11 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
     css`
       display: none;
     `}
+`;
+const TodoList = styled(CF.ColumnDiv)`
+  gap: 10px;
+  padding: 0px 4px;
+  overflow-y: scroll;
 `;
 
 const Title = styled(CF.RowCenterDiv)`
