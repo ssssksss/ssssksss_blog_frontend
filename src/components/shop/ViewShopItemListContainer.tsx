@@ -39,7 +39,7 @@ const ViewShopItemListContainer = () => {
         </CF.ColumnDiv>
       </CF.RowCenterDiv>
       <MainFooter>
-        <Pagination refetch={() => ""} endPage={21} />
+        <Pagination refetch={() => ""} endPage={21} currentPage={1} />
         <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
           <Button width="100px"> 상품 등록하기 </Button>
         </CF.RowRightDiv>
