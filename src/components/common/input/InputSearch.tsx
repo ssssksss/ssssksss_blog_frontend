@@ -3,7 +3,7 @@ import { url } from "inspector";
 import Link from "next/link";
 import Button from "../button/Button";
 import { CF } from "../../../../styles/commonComponentStyle";
-import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
 
 /**

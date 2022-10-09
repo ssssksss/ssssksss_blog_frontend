@@ -1,3 +1,4 @@
+import theme from "@/styles/theme";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BlogFirstMenu from "src/components/blog/BlogUI/BlogFirstMenu";
@@ -30,4 +31,5 @@ const Container = styled.div`
   margin: auto;
   max-width: 1440px;
   min-height: 100vh;
+  background: ${theme.backgroundColors.background2};
 `;

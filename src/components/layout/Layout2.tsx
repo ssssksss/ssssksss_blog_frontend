@@ -1,3 +1,4 @@
+import theme from "@/styles/theme";
 import React from "react";
 import styled from "styled-components";
 import BlogFirstMenu from "../blog/BlogUI/BlogFirstMenu";
@@ -19,4 +20,5 @@ const Container = styled.div`
   max-width: 1440px;
   padding: 0px 10px;
   min-height: 100vh;
+  background-color: ${theme.backgroundColors.background2};
 `;

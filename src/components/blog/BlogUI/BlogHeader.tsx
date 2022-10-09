@@ -10,7 +10,7 @@ import UserSignUp from "../User/UserSignUp";
 import { CF } from "@/styles/commonComponentStyle";
 import UserLogin from "../User/UserLogin";
 import { store } from "@/redux/store";
-import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import {
   FIRST_CATEGORY_ACTION,
   SECOND_CATEGORY_ACTION,
@@ -32,37 +32,6 @@ const BlogHeader = () => {
     yesterdayView: 0,
     alldayView: 0,
   });
-
-  useEffect(() => {
-    async () => {
-      await AxiosInstance({
-        url: "/api/visit",
-        method: "GET",
-      })
-        .then((response) => {
-          const resView = response.data.data.view;
-          setBlogView({
-            todayView: resView.todayView,
-            yesterdayView: resView.yesterdayView,
-            alldayView: resView.alldayView,
-          });
-        })
-        .catch((error) => {
-          // console.log(error.response);
-        });
-    };
-
-    AxiosInstance({
-      url: "/api/user",
-      method: "GET",
-    })
-      .then((response) => {
-        store.dispatch(setUserInfo(response.data.data.user));
-      })
-      .catch((error) => {
-        // console.log(error.response);
-      });
-  }, []);
 
   const logoutHandler = () => {
     (async () => {
@@ -104,6 +73,37 @@ const BlogHeader = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
 
+  useEffect(() => {
+    async () => {
+      await AxiosInstance({
+        url: "/api/visit",
+        method: "GET",
+      })
+        .then((response) => {
+          const resView = response.data.data.view;
+          setBlogView({
+            todayView: resView.todayView,
+            yesterdayView: resView.yesterdayView,
+            alldayView: resView.alldayView,
+          });
+        })
+        .catch((error) => {
+          // console.log(error.response);
+        });
+    };
+
+    AxiosInstance({
+      url: "/api/user",
+      method: "GET",
+    })
+      .then((response) => {
+        store.dispatch(setUserInfo(response.data.data.user));
+      })
+      .catch((error) => {
+        // console.log(error.response);
+      });
+  }, []);
+
   return (
     <Container>
       <TopButton
@@ -132,104 +132,77 @@ const BlogHeader = () => {
         <Img alt="logo" src="/img/logo/logo.svg" />
       </Logo>
       <MenuContainer>
-        {authStore.role === "" && (
-          <CF.RowRightDiv gap={10}>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="bulletin_board"
-                src="/img/ui-icon/bulletin_board_icon.png"
-                onClick={() => {
-                  router.push("/blog");
-                }}
-              />
-              <span> 블로그 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="bulletin_board"
-                src="/img/ui-icon/bulletin_board_icon.png"
-                onClick={() => {
-                  router.push("/board");
-                }}
-              />
-              <span> 게시판 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="login"
-                src="/img/ui-icon/login_icon.png"
-                onClick={() => {
-                  setIsModalOpen1(true);
-                }}
-              />
-              <span> 로그인 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="signup"
-                src="/img/ui-icon/signup_icon.png"
-                onClick={() => {
-                  setIsModalOpen(true);
-                }}
-              />
-              <span> 회원가입 </span>
-            </CF.ImgContainer>
-          </CF.RowRightDiv>
-        )}
-        {authStore.role !== "" && (
-          <CF.RowRightDiv gap={10}>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="bulletin_board"
-                src="/img/ui-icon/bulletin_board_icon.png"
-                onClick={() => {
-                  router.push("/blog");
-                }}
-              />
-              <span> 블로그 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="bulletin_board"
-                src="/img/ui-icon/bulletin_board_icon.png"
-                onClick={() => {
-                  router.push("/board");
-                }}
-              />
-              <span> 게시판 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="plan"
-                src="/img/ui-icon/calendar_icon.png"
-                onClick={() => {
-                  router.push("/todo");
-                }}
-              />
+        <CF.RowRightDiv gap={10}>
+          <ImgContainer
+            onClick={() => {
+              router.push("/blog");
+            }}
+          >
+            <CF.Img alt="bulletin_board" src="/img/ui-icon/blog_box_icon.png" />
+            <span> 블로그 </span>
+          </ImgContainer>
+          <ImgContainer
+            onClick={() => {
+              router.push("/board");
+            }}
+          >
+            <CF.Img
+              alt="bulletin_board"
+              src="/img/ui-icon/bulletin_board_icon.png"
+            />
+            <span> 게시판 </span>
+          </ImgContainer>
+          {authStore.role === "ROLE_ADMIN" && (
+            <ImgContainer
+              onClick={() => {
+                router.push("/user-dashboard");
+              }}
+            >
+              <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
+              <span> 대시보드 </span>
+            </ImgContainer>
+          )}
+          {authStore.role !== "" && (
+            <ImgContainer
+              onClick={() => {
+                router.push("/todo");
+              }}
+            >
+              <CF.Img alt="plan" src="/img/ui-icon/calendar_icon.png" />
               <span> 일정 </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="userInfo"
-                src="/img/ui-icon/userInfo_icon.png"
-                onClick={() => {
-                  router.push("/user-dashboard");
-                }}
-              />
-              <span> {authStore.nickname} </span>
-            </CF.ImgContainer>
-            <CF.ImgContainer>
-              <CF.Img
-                alt="logout"
-                src="/img/ui-icon/logout_icon.png"
-                onClick={() => {
-                  logoutHandler();
-                }}
-              />
+            </ImgContainer>
+          )}
+          {authStore.role === "" && (
+            <ImgContainer
+              onClick={() => {
+                setIsModalOpen1(true);
+              }}
+            >
+              <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
+              <span> 로그인 </span>
+            </ImgContainer>
+          )}
+          {authStore.role === "" && (
+            <ImgContainer
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
+              <span> 회원가입 </span>
+            </ImgContainer>
+          )}
+          {authStore.role !== "" && (
+            <ImgContainer
+              onClick={() => {
+                logoutHandler();
+              }}
+            >
+              <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
               <span> 로그아웃 </span>
-            </CF.ImgContainer>
-          </CF.RowRightDiv>
-        )}
+            </ImgContainer>
+          )}
+        </CF.RowRightDiv>
       </MenuContainer>
     </Container>
   );
@@ -245,13 +218,14 @@ const Container = styled(CF.RowBetweenDiv)`
   padding: 0px 20px;
   background: ${theme.backgroundColors.primaryLight};
   z-index: 200;
+  outline: solid black 2px;
 `;
 const TopButton = styled.img`
   position: fixed;
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  top: 60%;
+  bottom: 70px;
   z-index: 110;
 
   &:hover {
@@ -265,7 +239,7 @@ const BottomButton = styled.img`
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  top: calc(60% + 50px);
+  bottom: 20px;
   z-index: 110;
 
   &:hover {
@@ -317,15 +291,14 @@ const Img = styled.img`
     height: 40px;
   }
 `;
-const MenuContainer = styled.nav`
-  img {
-    width: 40px;
-    height: 40px;
-    margin-top: 4px;
+const MenuContainer = styled.nav``;
+const ImgContainer = styled(CF.ImgContainer)`
+  height: 100%;
+  min-height: 80px;
+  min-width: 60px;
 
-    @media (max-width: 768px) {
-      width: 30px;
-      height: 30px;
-    }
+  img {
+    width: 30px;
+    height: 30px;
   }
 `;

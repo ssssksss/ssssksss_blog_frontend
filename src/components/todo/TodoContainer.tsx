@@ -10,7 +10,7 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { store } from "@/redux/store";
 import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
 import TodoItem from "./TodoItem";
-import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 
 /**
  * Author : Sukyung Lee

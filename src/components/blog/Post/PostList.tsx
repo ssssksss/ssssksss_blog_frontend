@@ -6,6 +6,8 @@ import Layout1 from "src/components/layout/Layout1";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
+import { CF } from "@/styles/commonComponentStyle";
+import theme from "@/styles/theme";
 
 //2번째 카테고리 경로
 const PostList = () => {
@@ -54,7 +56,7 @@ const PostList = () => {
   }, [secondCategory]);
 
   return (
-    <React.StrictMode>
+    <>
       <MenuContainer>
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
         {authStore.role === "ROLE_ADMIN" && (
@@ -63,7 +65,7 @@ const PostList = () => {
               href={"/blog/[firstCategory]/[secondCategory]/[post]/add"}
               as={router.asPath + "/post/add"}
             >
-              <a> +++ 내용 추가 +++ </a>
+              <a> 글 추가 </a>
             </Link>
           </MenuAddItem>
         )}
@@ -85,58 +87,78 @@ const PostList = () => {
           </MenuItem>
         ))}
       </MenuContainer>
-    </React.StrictMode>
+    </>
   );
 };
 PostList.layout = Layout1;
 export default PostList;
 
-const MenuContainer = styled.div`
-  background: ${({ theme }) => theme.customColors.third};
+const MenuContainer = styled(CF.ColumnDiv)`
   font-size: 12px;
-  padding: 4px;
-  margin: auto;
-  border-radius: 10px;
+  margin: 0px auto 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  position: relative;
+  padding: 4px 0px;
+  gap: 4px;
+  border-top: solid ${theme.backgroundColors.gray} 4px;
+  border-bottom: solid ${theme.backgroundColors.gray} 4px;
 `;
-const CommonMenuItemStyle = css`
-  height: 60px;
-  margin: 4px 0px;
-  border-radius: 10px;
-  color: white;
-  font-size: 20px;
-  background: ${({ theme }) => theme.customColors.first};
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
-`;
+
 const MenuAddItem = styled.div`
-  ${CommonMenuItemStyle};
   font-size: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 30px;
+  align-items: center;
+  color: white;
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
   a {
     display: block;
-    height: 100%;
-    border-radius: 10px;
-    ${({ theme }) => theme.flex.flexCenter};
+    padding: 6px 16px;
+    background: ${({ theme }) => theme.customColors.first};
+    font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   }
   a:hover {
     color: ${({ theme }) => theme.customColors.first};
     background: white;
   }
 `;
+
 const MenuItem = styled.div`
-  ${CommonMenuItemStyle};
+  height: 60px;
+  margin: 4px 0px;
+  outline: solid ${theme.backgroundColors.grayLight} 1px;
   font-size: 1rem;
+  font-family: ${theme.customFonts.GmarketSansBold};
+  color: white;
+  background: ${theme.backgroundColors.secondary};
+  border-radius: 8px;
+
+  &:hover {
+    color: ${theme.backgroundColors.secondaryDark};
+    background: white;
+    transition: 0.5s;
+  }
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
 
   &:hover {
-    color: ${({ theme }) => theme.customColors.first};
-    background: white;
+    background: linear-gradient(
+      90deg,
+      rgba(236, 222, 227, 1) 0%,
+      rgba(222, 220, 233, 1) 20%,
+      rgba(202, 208, 224, 1) 40%,
+      rgba(209, 199, 214, 1) 60%,
+      rgba(239, 199, 200, 1) 80%,
+      rgba(244, 231, 206, 1) 100%
+    );
+    transition: 1s;
   }
 `;
 const Item = styled.a`
@@ -148,7 +170,7 @@ const Item = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 6px 16px 0px 10px;
+  padding: 6px 10px 0px;
   cursor: pointer;
   line-height: normal;
 
@@ -162,10 +184,12 @@ const ItemTitle = styled.p`
   text-overflow: ellipsis;
 `;
 const Description = styled.div`
-  color: #dddddd;
+  color: ${theme.backgroundColors.grayLight};
   align-content: space-around;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
+  font-family: ${theme.customFonts.CookieRunRegular};
 `;
 const MenuDate = styled.div``;
 const Blank = styled.div`
@@ -173,5 +197,5 @@ const Blank = styled.div`
   height: 100px;
   ${({ theme }) => theme.flex.flexCenter};
   font-size: 20px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  /* font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular}; */
 `;

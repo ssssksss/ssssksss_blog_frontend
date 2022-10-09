@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { SECOND_CATEGORY_ACTION } from "@/redux/store/category/actions";
 import { CF } from "../../../../styles/commonComponentStyle";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import theme from "@/styles/theme";
 
 const BlogSecondMenu = () => {
   const router = useRouter();
@@ -88,7 +90,7 @@ const BlogSecondMenu = () => {
           </MenuTitle>
           {secondCategory?.length ? (
             <MenuContainer>
-              {secondCategory?.map((i) => (
+              {secondCategory?.map((i, index) => (
                 // <Link key={i.id} href={"/blog" + i.secondHref}>
                 <MenuItem
                   key={i.id}
@@ -96,6 +98,7 @@ const BlogSecondMenu = () => {
                     i.firstHref + "/" + router.asPath.split("/")[3] ===
                     i.secondHref
                   }
+                  index={index}
                   onClick={() => SecondCategoryHandler(i.secondHref)}
                 >
                   {i.name} <MenuCount> {i.count} </MenuCount>
@@ -115,8 +118,10 @@ const BlogSecondMenu = () => {
 export default BlogSecondMenu;
 
 const Container = styled.div`
-  margin: 10px auto;
+  margin: auto;
+  padding: 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  background-color: ${theme.backgroundColors.background2};
 `;
 const MenuTitle = styled.div`
   background: ${({ theme }) => theme.customColors.secondTitle};
@@ -129,6 +134,7 @@ const MenuTitle = styled.div`
   button {
     border-radius: 10px;
     margin-left: 4px;
+    background: transparent;
   }
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
@@ -141,7 +147,6 @@ const MenuContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 4px 0px;
-  border-radius: 0px 0px 10px 10px;
   padding: 10px 4px;
   font-size: 1rem;
 
@@ -150,8 +155,10 @@ const MenuContainer = styled.div`
   }
 `;
 
-const MenuItem = styled.a<{ active: boolean }>`
+const MenuItem = styled.a<{ active: boolean; index: number }>`
   height: 30px;
+  --index: ${(props) => (props.index + 1) / 5 + "s"};
+  animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
 
   &:nth-child(4n + 2),
   &:nth-child(4n + 3),

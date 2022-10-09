@@ -6,7 +6,9 @@ interface IStyleProps {
   border?: string;
   padding?: string;
   height?: string;
+  minHeight?: string;
   width?: string;
+  minWidth?: string;
   backgroundColor?: string;
   color?: string;
   fontSize?: string;
@@ -207,36 +209,42 @@ const rotationDownUp = keyframes`
         }
 `;
 const Img = styled.img<IStyleProps>`
-  ${(props: any) =>
+  /* ${(props: any) =>
     css`
       background-color: ${props.backgroundColor};
       width: ${props.size || props.width};
       height: ${props.size || props.height};
       padding: ${props.padding};
       border-radius: ${props.borderRadius};
-    `}
-
-  &:hover {
-    cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
-    mix-blend-mode: difference;
-  }
+    `} */
 `;
-const ImgContainer = styled(ColumnCenterDiv)`
+const ImgContainer = styled.div<IStyleProps>`
+  height: ${(props) => props.minHeight};
+  width: ${(props) => props.minWidth};
+  background: ${(props) => props.backgroundColor};
+
   position: relative;
+  display: flex;
+  flex-flow: nowrap column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 
   & > span {
-    display: none;
     font-size: 12px;
     white-space: nowrap;
   }
 
   &:hover {
+    mix-blend-mode: difference;
+    cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
     & > span {
-      display: inline;
+      position: absolute;
       animation: ${rotationDownUp} 0.3s ease-in-out;
       animation-fill-mode: forwards;
-      position: absolute;
-      top: 100%;
+      color: red;
+      font-size: 14px;
+      transition: 0.5s;
     }
   }
 `;

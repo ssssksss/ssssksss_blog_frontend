@@ -5,10 +5,15 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
   @font-face {
     font-family: "GmarketSansBold";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff")
-      format("woff");
+    src: url("/fonts/GmarketSansTTFBold.ttf")
+      format("truetype");
     font-weight: normal;
     font-style: normal;
+  }
+  @font-face {
+    font-family: "CookieRunRegular";
+    src: url("/fonts/CookieRunRegular.ttf")
+      format("truetype");
   }
   *{
     margin: 0;

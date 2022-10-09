@@ -1,7 +1,7 @@
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import styled, { keyframes } from "styled-components";
-import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import Totoro from "../threejs/glTF/Totoro";
 /**
  * Author : Sukyung Lee
@@ -11,7 +11,7 @@ import Totoro from "../threejs/glTF/Totoro";
  */
 const IntroduceChapter = () => {
   return (
-    <CF.RowBetweenDiv height={"100%"}>
+    <Container>
       <TextDiv>
         <Title> 집나간 토토로의 공간에 오신것을 환영합니다. </Title>
         <SubTitle> 공부 기록과 토이 프로젝트의 공간 </SubTitle>
@@ -19,12 +19,16 @@ const IntroduceChapter = () => {
       <ObjectModel>
         <Totoro />
       </ObjectModel>
-    </CF.RowBetweenDiv>
+    </Container>
   );
 };
 export default IntroduceChapter;
 const Container = styled(CF.RowBetweenDiv)`
   height: 100%;
+  @media (max-width: 800px) {
+    /* flex-flow: nowrap column; */
+    flex-flow: nowrap column-reverse;
+  }
 `;
 
 const TextDiv = styled(CF.ColumnLeftDiv)`
@@ -51,6 +55,9 @@ const ObjectModel = styled(CF.RowDiv)`
   align-items: center;
 
   @media (max-width: 800px) {
-    display: none;
+    /* display: none; */
+    justify-content: center;
+    padding-top: 240px;
+    width: 100%;
   }
 `;

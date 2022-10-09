@@ -7,6 +7,8 @@ import ModalFirstCategory from "../../Modal/ModalFirstCategory";
 import { FIRST_CATEGORY_ACTION } from "@/redux/store/category/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import theme from "@/styles/theme";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -97,8 +99,8 @@ const BlogFirstMenu = () => {
         ))}
       </MenuTitle>
       <MenuContainer>
-        {[1, 2, 3, 4].map((el: any) => (
-          <MenuList key={el}>
+        {[1, 2, 3, 4].map((el: any, index: number) => (
+          <MenuList key={el} index={index}>
             {firstCategory.map(
               (i) =>
                 i.line === el && (
@@ -128,8 +130,10 @@ const BlogFirstMenu = () => {
 export default BlogFirstMenu;
 
 const Container = styled.div`
-  margin: 10px auto;
+  margin: auto;
+  padding: 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  background-color: ${theme.backgroundColors.background2};
 `;
 const MenuTitle = styled.div`
   background: ${({ theme }) => theme.customColors.firstTitle};
@@ -156,7 +160,7 @@ const Title = styled.div`
 const PlusButton = styled.button`
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: transparent;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -176,10 +180,11 @@ const MenuContainer = styled.div`
   min-height: 260px;
   display: grid;
   grid-template-columns: repeat(4, 25%);
-  border-radius: 0px 0px 10px 10px;
   padding: 4px;
 `;
-const MenuList = styled.div`
+const MenuList = styled.div<{ index: number }>`
+  --index: ${(props) => props.index + 1 + "s"};
+  animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
   display: grid;
   grid-template-rows: repeat(1fr);
   min-width: 80px;

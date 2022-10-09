@@ -1,5 +1,5 @@
 import React from "react";
-import Layout1 from "src/components/layout/Layout1";
+import Layout2 from "src/components/layout/Layout2";
 import PostList from "src/components/blog/Post/PostList";
 //2번째 카테고리 경로
 const Index = () => {
@@ -9,5 +9,5 @@ const Index = () => {
     </>
   );
 };
-Index.layout = Layout1;
+Index.layout = Layout2;
 export default Index;

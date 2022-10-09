@@ -1,4 +1,4 @@
-import { animationKeyFrames } from "@/styles/commonAnimationKeyFrames";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import styled from "styled-components";

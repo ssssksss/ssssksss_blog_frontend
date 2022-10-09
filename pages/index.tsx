@@ -40,19 +40,19 @@ const HomePage = () => {
       </Chapter>
       {/* <Chapter> 자기소개 및 포트폴리오 </Chapter> */}
       <Chapter>
-        <Title> 토이 프로젝트 </Title>
+        <Title> Project </Title>
         <BasicCarousel
           arr={arr}
           arrLength={arr.length}
-          IntervalTime={6000}
+          IntervalTime={10000}
           transitionTime={1000}
         />
       </Chapter>
       <Chapter>
-        <Title> 기술 스택 </Title>
+        <Title> Stack </Title>
       </Chapter>
       <Chapter>
-        <Title> 자기 소개 </Title>
+        <Title> Introduce </Title>
       </Chapter>
       <Chapter>
         <Title> Contact Me </Title>
@@ -65,9 +65,11 @@ export default HomePage;
 
 const Container = styled(CF.ColumnDiv)`
   gap: 10px;
+  background: black;
+  padding-bottom: 10px;
 `;
 const Chapter = styled.section`
-  background: #f6efe5;
+  background: ${theme.backgroundColors.background2};
   height: 600px;
   width: 100%;
   position: relative;

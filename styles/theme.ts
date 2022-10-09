@@ -231,7 +231,7 @@ const device = {
 
 const customFonts = {
   cookieRunOTFBlack: "cookieRunOTFBlack",
-  cookieRunOTFRegular: "cookieRunOTFRegular",
+  CookieRunRegular: "CookieRunRegular",
   GmarketSansBold: "GmarketSansBold",
 };
 
