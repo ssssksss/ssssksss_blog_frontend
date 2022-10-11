@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { MouseEvent, useState } from "react";
+import theme from "@/styles/theme";
 
 interface IPaginationProps {
   refetch: any;
@@ -18,16 +19,13 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
   // 아래 보여줄 페이지 번호들
   const movePage = (event: MouseEvent<HTMLButtonElement>) => {
     if (event.currentTarget.id === "prev") {
-      setStartPage((prev) => prev - 10);
-      // setCurrentPage((prev) => prev - 10);
-      refetch({ page: currentPage - 10 });
+      setStartPage((prev) => (prev > 10 ? prev - 10 : 1));
+      refetch({ page: currentPage > 10 ? currentPage - 10 : 1 });
     } else if (event.currentTarget.id === "morePrev") {
       setStartPage(1);
-      // setCurrentPage(1);
       refetch({ page: 1 });
     } else if (event.currentTarget.id === "next") {
       setStartPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
-      // setCurrentPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
       refetch({
         page: currentPage + 10 <= endPage ? currentPage + 10 : endPage,
       });
@@ -35,17 +33,14 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
       if (endPage % 10 === 0) {
         const temp = endPage - 9;
         setStartPage(temp);
-        // setCurrentPage(temp);
         refetch({ page: temp });
       } else {
         const temp = endPage - (endPage % 10) + 1;
         setStartPage(temp);
-        // setCurrentPage(temp);
         refetch({ page: temp });
       }
     } else {
       if (event.target instanceof Element) {
-        // setCurrentPage(Number(event.target.id));
         refetch({ page: Number(event.target.id) });
       }
     }
@@ -53,12 +48,12 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
 
   return (
     <Container>
-      {startPage === 1 || (
+      {currentPage > 10 && (
         <MoveButton id="morePrev" onClick={movePage}>
           ◀◀
         </MoveButton>
       )}
-      {startPage === 1 || (
+      {currentPage !== 1 && (
         <MoveButton id="prev" onClick={movePage}>
           ◀
         </MoveButton>
@@ -107,18 +102,20 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     background: transparent;
+    &:hover {
+      background: black;
+      color: white;
+      border-radius: 25%;
+    }
 
     @media (max-width: 600px) {
       width: 26px;
-    }
-
-    &:hover {
-      color: white;
     }
   }
 `;
 const PageNumberButton = styled.button<{ isActive: boolean }>`
   color: ${(props) => (props.isActive ? "red" : "black")};
   font-size: ${(props) => (props.isActive ? "24px" : "16px")};
+  font-family: ${theme.customFonts.CookieRunRegular};
 `;
 const MoveButton = styled.button``;

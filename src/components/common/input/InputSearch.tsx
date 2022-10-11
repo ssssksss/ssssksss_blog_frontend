@@ -5,6 +5,7 @@ import Button from "../button/Button";
 import { CF } from "../../../../styles/commonComponentStyle";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
+import { KeyboardEvent } from "react";
 
 /**
  * Author : Sukyung Lee
@@ -22,6 +23,8 @@ interface IInputSearchProps {
   width?: string;
   height?: string;
   img?: string; // 검색창에 들어갈 아이콘
+  onChange?: (e: any) => void;
+  onClickSearch: () => void;
 }
 
 const InputSearch = ({
@@ -32,6 +35,8 @@ const InputSearch = ({
   width,
   height,
   img,
+  onChange,
+  onClickSearch,
   ...props
 }: IInputSearchProps) => {
   return (
@@ -43,10 +48,18 @@ const InputSearch = ({
         height={height}
         width={width}
         img={img}
+        onChange={onChange}
+        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (e.code === "Enter") {
+            onClickSearch();
+          }
+        }}
         {...register}
         {...props}
       />
-      <Button> 검색 </Button>
+      <Button onClick={() => onClickSearch()} height={"30px"}>
+        검색
+      </Button>
     </Container>
   );
 };
@@ -66,7 +79,7 @@ const InputStyle = styled.input<{
   min-width: 200px;
   border-radius: 8px;
   width: ${(props) => (props.width ? props.width : "auto")};
-  height: ${(props) => (props.height ? props.height : "60%")};
+  height: ${(props) => (props.height ? props.height : "40px")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
 
   padding: 0px 0px 0px 28px;

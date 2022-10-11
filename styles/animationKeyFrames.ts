@@ -23,6 +23,15 @@ const UpToDownRepeatFadein = keyframes`
   }
 `;
 
+const UpToDownRepeat = keyframes`
+  0%,100%{
+    transform: translate(0px,-4px);
+  }
+  50%{
+    transform: translate(0px,4px);
+  }
+`;
+
 const Fadein = keyframes`
   from{
     opacity: 0;
@@ -56,4 +65,5 @@ export const animationKeyFrames = {
   Fadeout,
   UpToDownRepeatFadein,
   ChangeGrayColor,
+  UpToDownRepeat,
 };

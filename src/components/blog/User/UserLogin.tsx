@@ -91,6 +91,7 @@ const UserLogin = (props: IUserLoginProps) => {
               placeholder="이메일을 입력하세요"
               type="email"
               register={register("email")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.email?.message} </CF.ErrorDiv>
           </Space>
@@ -99,6 +100,7 @@ const UserLogin = (props: IUserLoginProps) => {
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register("password")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.password?.message} </CF.ErrorDiv>
           </Space>

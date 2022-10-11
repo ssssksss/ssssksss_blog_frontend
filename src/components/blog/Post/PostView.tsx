@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
 import { CF } from "@/styles/commonComponentStyle";
+import theme from "@/styles/theme";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 
 //postView공간
 const PostView = () => {
@@ -113,22 +115,10 @@ const PostView = () => {
               </CF.RowDiv>
             </PostContainer1>
             <PostContainer2>
-              <LikeNumber>
-                <CF.Img
-                  alt="post_thumb_up"
-                  src="/img/ui-icon/thumb_up_icon.png"
-                  width="30px"
-                  height="30px"
-                />
-                {post?.likeNumber}
-              </LikeNumber>
               {authStore.role === "ROLE_ADMIN" && (
                 <>
-                  <CF.Img
-                    alt="post_edit"
-                    src="/img/ui-icon/edit_icon.png"
-                    width="30px"
-                    height="30px"
+                  <Button
+                    actionType="edit"
                     onClick={() =>
                       router.push(
                         router.asPath.substring(
@@ -139,30 +129,20 @@ const PostView = () => {
                           post?.id
                       )
                     }
-                  />
-                  <CF.Img
-                    alt="post_delete"
-                    src="/img/ui-icon/delete_icon.png"
-                    width="30px"
-                    height="30px"
+                  >
+                    수정
+                  </Button>
+                  <Button
+                    actionType="remove"
                     onClick={() => removePostHandler()}
-                  />
+                  >
+                    삭제
+                  </Button>
                 </>
               )}
-              <CF.Img
-                alt="post_list"
-                src="/img/ui-icon/list_icon.png"
-                width="30px"
-                height="30px"
-                onClick={() =>
-                  router.push(
-                    "/blog/" +
-                      router.asPath.split("/")[2] +
-                      "/" +
-                      router.asPath.split("/")[3]
-                  )
-                }
-              />
+              <Button actionType="list" onClick={() => router.back()}>
+                목록
+              </Button>
             </PostContainer2>
           </SubSpace>
           <ViewerContainer>
@@ -182,17 +162,16 @@ PostView.layout = Layout1;
 export default PostView;
 
 const Container = styled.div`
-  background: ${({ theme }) => theme.customColors.third};
   border-radius: 10px;
-  padding: 10px;
   font-size: 12px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   margin: 0px auto;
+  padding: 10px 10px;
 `;
 const SubSpace = styled.div`
   width: 100%;
   height: 60px;
-  font-size: 20px;
+  font-size: 16px;
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   background: white;
   display: flex;
@@ -200,11 +179,14 @@ const SubSpace = styled.div`
   justify-content: space-between;
 `;
 const PostContainer1 = styled.div`
+  width: 100%;
   height: 60px;
   display: flex;
-  flex-flow: wrap column;
-  justify-content: space-evenly;
-  padding: 0px 10px;
+  flex-flow: nowrap column;
+  justify-content: center;
+  gap: 4px;
+  padding: 0px 4px;
+  font-family: ${theme.customFonts.CookieRunRegular};
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
@@ -217,28 +199,46 @@ const PostContainer2 = styled.div`
   align-items: center;
   padding: 0px 10px;
   gap: 5px;
-`;
-const Button = css`
-  width: 60px;
-  height: 30px;
-  background: #aeaeae;
-  border-radius: 10px;
-  border: none;
-  font-size: 1.1rem;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  ${({ theme }) => theme.flex.flexCenter};
-  cursor: pointer;
-  &:hover {
-    background: white;
-  }
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    width: 40px;
-    font-size: 0.8rem;
+
+  & > img:hover {
+    cursor: pointer;
   }
 `;
-const LikeNumber = styled.button`
+const Button = styled.button<{ actionType?: string }>`
+  width: 100px;
+  height: 40px;
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 4px;
+  font-family: ${theme.customFonts.CookieRunRegular};
+  font-size: 16px;
   border-radius: 10px;
-  border: none;
+
+  ${(props) =>
+    props.actionType === "edit" &&
+    css`
+      background-color: ${theme.backgroundColors.fifth};
+    `}
+
+  ${(props) =>
+    props.actionType === "remove" &&
+    css`
+      background-color: ${theme.backgroundColors.fourth};
+    `}
+
+  ${(props) =>
+    props.actionType === "list" &&
+    css`
+      background-color: ${theme.backgroundColors.secondary};
+    `}
+
+    &:hover {
+    color: white;
+    animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
+    height: 48px;
+  }
 `;
 const Title = styled.h2`
   width: 100%;
@@ -246,7 +246,7 @@ const Title = styled.h2`
   font-size: 20px;
   color: white;
   border-radius: 10px 10px 0px 0px;
-  background: ${({ theme }) => theme.customColors.thirdTitle};
+  background: ${theme.backgroundColors.primary};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   padding: 0px 10px;
   ${({ theme }) => theme.flex.flexCenter};

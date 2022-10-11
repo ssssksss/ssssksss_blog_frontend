@@ -223,6 +223,17 @@ const deviceSizes = {
   maxWidth: "1024px",
 };
 
+const customScreen = {
+  sm: "576px",
+  md: "768px",
+  lg: "992px",
+  xl: "1200px",
+  maxWidth: "1440px",
+  phone: "360px",
+  tablet: "768px",
+  desktop: "1024px",
+};
+
 const device = {
   mobile: `screen and (max-width: ${deviceSizes.mobile})`,
   tablet: `screen and (max-width: ${deviceSizes.tablet})`,
@@ -243,6 +254,7 @@ const theme = {
   deviceSizes,
   device,
   customFonts,
+  customScreen,
 };
 
 export default theme;

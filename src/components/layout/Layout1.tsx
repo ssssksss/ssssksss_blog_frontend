@@ -16,20 +16,19 @@ const Layout1 = ({ children }: AppLayoutProps) => {
   const [routingPageOffset, setRoutingPageOffset] = useState(0);
   return (
     <Container>
-      {/* <PageTransitions
-        route={router.asPath}
-        routingPageOffset={routingPageOffset}
-      > */}
-      {children}
-      {/* </PageTransitions> */}
+      {/*  */}
+      <Container1>{children}</Container1>
+      {/*  */}
     </Container>
   );
 };
 
 export default Layout1;
 const Container = styled.div`
+  background: ${theme.backgroundColors.background2};
+`;
+const Container1 = styled.div`
   margin: auto;
   max-width: 1440px;
   min-height: 100vh;
-  background: ${theme.backgroundColors.background2};
 `;

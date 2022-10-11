@@ -9,6 +9,8 @@ import Head from "next/head";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
+import theme from "@/styles/theme";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 /**
  * Author : Sukyung Lee
  * FileName: ViewBoardContainer.tsx
@@ -22,6 +24,7 @@ type boardDataTypes = {
   views: number;
   writer: string;
   content: string;
+  modifiedAt: string;
   baseTimeEntity: {
     accessYn: boolean;
     createdAt: string;
@@ -40,19 +43,15 @@ const ViewBoardContainer = () => {
 
   const removeBoardHandler = () => {
     AxiosInstance({
-      url: "/api/post",
+      url: "/api/board",
       method: "DELETE",
       data: {
         id: boardData?.id,
       },
     })
       .then((response) => {
-        router.push(
-          window.location.pathname.substring(
-            0,
-            window.location.pathname.lastIndexOf("/")
-          )
-        );
+        alert("게시글이 삭제되었습니다.");
+        router.back();
       })
       .catch((error) => {
         console.log(error);
@@ -65,24 +64,23 @@ const ViewBoardContainer = () => {
         url: "/api/board",
         method: "GET",
         params: {
-          // id: router.query.boardNumber,
           id: router.query.boardNumber,
         },
       })
         .then((response) => {
           setLoading(false);
+          console.log("ViewBoardContainer.tsx : ", response.data.data);
           setBoardData(response.data.data.board);
           const viewerInstance = editorRef.current?.getInstance();
-          console.log("ViewBoardContainer.tsx : ", response.data.data.board);
           viewerInstance?.setMarkdown(response.data.data.board.content);
         })
         .catch((error) => {
           setLoading(false);
-          alert("문제가 발생했습니다.");
+          alert("존재하지 않는 게시물입니다.");
           router.back();
         });
     }
-  }, [boardNumber]);
+  }, []);
 
   return (
     <>
@@ -104,7 +102,7 @@ const ViewBoardContainer = () => {
                   height="20px"
                   noCursor={true}
                 />
-                : {dateFormat4y2m2d(boardData?.baseTimeEntity.modifiedAt)}
+                : {dateFormat4y2m2d(boardData?.modifiedAt)}
               </CF.RowDiv>
               <CF.RowDiv>
                 <CF.Img
@@ -118,56 +116,34 @@ const ViewBoardContainer = () => {
               </CF.RowDiv>
             </BoardContainer1>
             <BoardContainer2>
-              <LikeNumber>
-                <CF.Img
-                  alt="post_thumb_up"
-                  src="/img/ui-icon/thumb_up_icon.png"
-                  width="30px"
-                  height="30px"
-                />
-                {boardData?.views}
-              </LikeNumber>
               {authStore.role === "ROLE_ADMIN" && (
                 <>
-                  <CF.Img
-                    alt="post_edit"
-                    src="/img/ui-icon/edit_icon.png"
-                    width="30px"
-                    height="30px"
+                  <Button
+                    actionType="edit"
                     onClick={() =>
                       router.push(
                         router.asPath.substring(
                           0,
                           router.asPath.lastIndexOf("/")
                         ) +
-                          "/post/update?id=" +
+                          "/board/update?id=" +
                           boardData?.id
                       )
                     }
-                  />
-                  <CF.Img
-                    alt="post_delete"
-                    src="/img/ui-icon/delete_icon.png"
-                    width="30px"
-                    height="30px"
+                  >
+                    수정
+                  </Button>
+                  <Button
+                    actionType="remove"
                     onClick={() => removeBoardHandler()}
-                  />
+                  >
+                    삭제
+                  </Button>
                 </>
               )}
-              <CF.Img
-                alt="post_list"
-                src="/img/ui-icon/list_icon.png"
-                width="30px"
-                height="30px"
-                onClick={() =>
-                  router.push(
-                    "/blog/" +
-                      router.asPath.split("/")[2] +
-                      "/" +
-                      router.asPath.split("/")[3]
-                  )
-                }
-              />
+              <Button actionType="list" onClick={() => router.back()}>
+                목록
+              </Button>
             </BoardContainer2>
           </SubSpace>
           <ViewerContainer>
@@ -185,17 +161,16 @@ const ViewBoardContainer = () => {
 export default ViewBoardContainer;
 
 const Container = styled.div`
-  background: ${({ theme }) => theme.customColors.third};
   border-radius: 10px;
-  padding: 10px;
   font-size: 12px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   margin: 0px auto;
+  padding: 10px 10px;
 `;
 const SubSpace = styled.div`
   width: 100%;
   height: 60px;
-  font-size: 20px;
+  font-size: 16px;
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   background: white;
   display: flex;
@@ -203,11 +178,14 @@ const SubSpace = styled.div`
   justify-content: space-between;
 `;
 const BoardContainer1 = styled.div`
+  width: 100%;
   height: 60px;
   display: flex;
-  flex-flow: wrap column;
-  justify-content: space-evenly;
-  padding: 0px 10px;
+  flex-flow: nowrap column;
+  justify-content: center;
+  gap: 4px;
+  padding: 0px 4px;
+  font-family: ${theme.customFonts.CookieRunRegular};
 
   @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
     font-size: 0.8rem;
@@ -220,26 +198,48 @@ const BoardContainer2 = styled.div`
   align-items: center;
   padding: 0px 10px;
   gap: 5px;
+
+  & > img:hover {
+    cursor: pointer;
+  }
 `;
-const Button = css`
-  width: 60px;
-  height: 30px;
-  background: #aeaeae;
+const Button = styled.button<{ actionType?: string }>`
+  width: 100px;
+  height: 40px;
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 4px;
+  font-family: ${theme.customFonts.CookieRunRegular};
+  font-size: 16px;
   border-radius: 10px;
-  border: none;
-  font-size: 1.1rem;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  ${({ theme }) => theme.flex.flexCenter};
-  cursor: pointer;
-  &:hover {
-    background: white;
-  }
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    width: 40px;
-    font-size: 0.8rem;
+
+  ${(props) =>
+    props.actionType === "edit" &&
+    css`
+      background-color: ${theme.backgroundColors.fifth};
+    `}
+
+  ${(props) =>
+    props.actionType === "remove" &&
+    css`
+      background-color: ${theme.backgroundColors.fourth};
+    `}
+
+  ${(props) =>
+    props.actionType === "list" &&
+    css`
+      background-color: ${theme.backgroundColors.secondary};
+    `}
+
+    &:hover {
+    color: white;
+    animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
+    height: 48px;
   }
 `;
-const LikeNumber = styled.button`
+const ViewNumber = styled(CF.RowCenterDiv)`
   border-radius: 10px;
   border: none;
 `;
@@ -249,7 +249,7 @@ const Title = styled.h2`
   font-size: 20px;
   color: white;
   border-radius: 10px 10px 0px 0px;
-  background: ${({ theme }) => theme.customColors.thirdTitle};
+  background: ${theme.backgroundColors.primary};
   font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
   padding: 0px 10px;
   ${({ theme }) => theme.flex.flexCenter};

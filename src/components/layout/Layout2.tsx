@@ -18,7 +18,6 @@ const Container = styled.div`
   margin: auto;
   min-width: 400px;
   max-width: 1440px;
-  padding: 0px 10px;
   min-height: 100vh;
   background-color: ${theme.backgroundColors.background2};
 `;

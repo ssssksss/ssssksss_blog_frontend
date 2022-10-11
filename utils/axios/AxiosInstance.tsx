@@ -64,7 +64,6 @@ AxiosInstance.interceptors.response.use(
         method: "GET",
       })
         .then(async (res) => {
-          // console.log("AxiosInstance.tsx : ", res.data);
           store.dispatch(setAccessToken(res.data.accessToken));
           originalRequest.headers["Authorization"] =
             "Bearer " + store.getState().authStore.accessToken;

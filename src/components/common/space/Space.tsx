@@ -132,7 +132,7 @@ const TitleDiv = styled.div<{
     css`
       width: ${props.titleWidth};
       padding: ${props.padding};
-      font-size: ${props.titleFontSize || "1em"};
+      font-size: ${props.titleFontSize || "16px"};
       font-weight: ${props.titleFontWeight || 600};
       background: ${props.titleBackground};
     `}

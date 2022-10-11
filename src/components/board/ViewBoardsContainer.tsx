@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useState } from "react";
 import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/reducers";
 /**
  * Author : Sukyung Lee
  * FileName: BoardContainer.tsx
@@ -19,12 +21,14 @@ import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
 const ViewBoardsContainer = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState(router.query.keyword || "");
-  const [page, setPage] = useState(router.query.page || 0);
+  const [page, setPage] = useState<any>(router.query.page || 1);
   const [sort, setSort] = useState(
     router.query.sort || "baseTimeEntity.createdAt"
   );
-  const [size, setSize] = useState(router.query.size || 2);
+  const [size, setSize] = useState<any>(router.query.size || 10);
   const [boardList, setBoardList] = useState([]);
+  const authStore = useSelector((state: RootState) => state.authStore);
+  const [pageCount, setPageCount] = useState(1);
 
   const searchHandler = () => {
     AxiosInstance({
@@ -32,13 +36,18 @@ const ViewBoardsContainer = () => {
       method: "GET",
       params: {
         keyword: String(keyword),
-        page: Number(page),
+        page: Number(0),
         size: Number(size),
-        sort: sort,
+        sort: sort + ",desc",
       },
     })
       .then((response) => {
-        console.log("BoardEditor.tsx : ", response);
+        setBoardList(response.data.data.boards);
+        setSize(size);
+        setPage(1);
+        setPageCount(response.data.data.boardsCount);
+        const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${sort}`;
+        history.replaceState({}, "", url);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -46,31 +55,24 @@ const ViewBoardsContainer = () => {
   };
 
   const pageHandler = (page: any) => {
-    console.log("ViewBoardsContainer.tsx : 페이지 번호 : ", Number(page));
     AxiosInstance({
       url: "/api/boards",
       method: "GET",
       params: {
-        keyword: keyword,
+        keyword: String(keyword),
         page: Number(page - 1),
-        size: size,
+        size: Number(size),
         sort: sort,
       },
     })
       .then((response) => {
-        console.log("BoardEditor.tsx : ", response.data.data.boards);
-        const temp =
-          "/board?page=" + page + "&size=" + size + "&keyword=" + keyword;
-        router.push(
-          `/board?
-          page=${page}
-          &size=${size}
-          &keyword=${keyword}`,
-          temp,
-          { shallow: true }
-        );
-        setPage(page);
         setBoardList(response.data.data.boards);
+        setPage(page);
+        setSize(size);
+        setSort(sort);
+        setPageCount(response.data.data.boardsCount);
+        const url = `/board?page=${page}&size=${size}&keyword=${keyword}&sort=${sort}`;
+        history.replaceState({}, "", url);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -78,7 +80,31 @@ const ViewBoardsContainer = () => {
   };
 
   const changeOptionHandler = (e: any) => {
-    console.log("ViewBoardsContainer.tsx : ", e.target.value);
+    AxiosInstance({
+      url: "/api/boards",
+      method: "GET",
+      params: {
+        keyword: String(keyword),
+        page: Number(0),
+        size: Number(size),
+        sort:
+          e.target.value === ""
+            ? "baseTimeEntity.createdAt,desc"
+            : e.target.value + ",desc",
+      },
+    })
+      .then((response) => {
+        setBoardList(response.data.data.boards);
+        setSort(e.target.value || "baseTimeEntity.createdAt");
+        setPage(1);
+        const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${
+          e.target.value || "baseTimeEntity.createdAt"
+        }`;
+        history.replaceState({}, "", url);
+      })
+      .catch((error) => {
+        alert("에러가 발생하였습니다.");
+      });
   };
 
   // 처음에 접속했을 때
@@ -88,22 +114,34 @@ const ViewBoardsContainer = () => {
       url: "/api/boards",
       method: "GET",
       params: {
-        keyword: String(urlQueryStringInstance.get("keyword")),
-        page: urlQueryStringInstance.get("page") || 0,
-        size: urlQueryStringInstance.get("size") || 2,
-        sort:
-          urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt,desc",
+        keyword: String(urlQueryStringInstance.get("keyword") || ""),
+        page:
+          Number(urlQueryStringInstance.get("page")) - 1 || Number(page - 1),
+        size: Number(urlQueryStringInstance.get("size")) || Number(size),
+        sort: urlQueryStringInstance.get("sort")
+          ? urlQueryStringInstance.get("sort") + ",desc"
+          : "baseTimeEntity.createdAt,desc",
       },
     })
       .then((response) => {
-        console.log("BoardEditor.tsx : ", response.data.data.boards);
         setBoardList(response.data.data.boards);
-        setKeyword(String(urlQueryStringInstance.get("keyword")));
-        setSize(urlQueryStringInstance.get("size") || 2);
-        setPage(urlQueryStringInstance.get("page") || 0);
+        setKeyword(String(urlQueryStringInstance.get("keyword") || ""));
+        setSize(Number(urlQueryStringInstance.get("size") || size));
+        setPage(Number(urlQueryStringInstance.get("page")) || page);
         setSort(
           urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt"
         );
+        setPageCount(response.data.data.boardsCount);
+        const url = `/board?page=${
+          Number(urlQueryStringInstance.get("page")) || page
+        }&size=${Number(
+          urlQueryStringInstance.get("size") || size
+        )}&keyword=${String(
+          urlQueryStringInstance.get("keyword") || ""
+        )}&sort=${
+          urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt"
+        }`;
+        history.replaceState({}, "", url);
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -122,20 +160,23 @@ const ViewBoardsContainer = () => {
               width={"300px"}
               height={"30px"}
               img={"/img/ui-icon/search_icon.png"}
+              onChange={(e: any) => setKeyword(e.target.value)}
+              onClickSearch={searchHandler}
             />
             <select name="area" onChange={changeOptionHandler}>
               <option value=""> 최신순 </option>
-              <option value="popularity"> 인기순 </option>
-              <option value="view"> 조회순 </option>
+              {/* <option value="popularity"> 인기순 </option> */}
+              <option value="views"> 조회순 </option>
             </select>
           </MainHeader>
           <Main>
-            <BoardItem>
+            <BoardListTitle>
               <CF.RowCenterDiv> 번호 </CF.RowCenterDiv>
               <CF.RowCenterDiv> 제목 </CF.RowCenterDiv>
               <CF.RowCenterDiv> 작성자 </CF.RowCenterDiv>
               <CF.RowCenterDiv> 날짜 </CF.RowCenterDiv>
-            </BoardItem>
+              <CF.RowCenterDiv> 조회수 </CF.RowCenterDiv>
+            </BoardListTitle>
             {boardList.map((el: any, index: number) => (
               <BoardItem
                 key={index}
@@ -147,6 +188,7 @@ const ViewBoardsContainer = () => {
                 <CF.RowCenterDiv>
                   {dateFormat4y2m2d(el.baseTimeEntity.createdAt)}
                 </CF.RowCenterDiv>
+                <CF.RowCenterDiv> {el.views} </CF.RowCenterDiv>
               </BoardItem>
             ))}
           </Main>
@@ -155,26 +197,26 @@ const ViewBoardsContainer = () => {
       <MainFooter>
         <Pagination
           refetch={({ page }: any) => {
-            setPage(page);
             pageHandler(page);
           }}
-          endPage={21}
+          endPage={Math.ceil(pageCount / size)}
           currentPage={Number(page)}
         />
-        <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
-          <Button width="100px" onClick={() => router.push("/board/add")}>
-            글작성하기
-          </Button>
-        </CF.RowRightDiv>
+        {authStore.role !== "" && (
+          <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
+            <Button width="100px" onClick={() => router.push("/board/add")}>
+              글작성하기
+            </Button>
+          </CF.RowRightDiv>
+        )}
       </MainFooter>
     </Container>
   );
 };
 export default ViewBoardsContainer;
 const Container = styled.div`
+  padding: 20px;
   width: 100%;
-  background: #aeaeae;
-  margin: 20px 0px 10px 0px;
   display: flex;
   flex-flow: nowrap column;
 `;
@@ -186,11 +228,9 @@ const Header = styled.div`
   font-size: 32px;
 `;
 const MainHeader = styled(CF.RowDiv)`
-  max-width: 1180px;
   margin: auto;
   align-items: center;
   gap: 10px;
-  padding: 0px 20px;
   justify-content: space-between;
   height: 60px;
 
@@ -200,22 +240,38 @@ const MainHeader = styled(CF.RowDiv)`
   }
 `;
 const Main = styled.main`
-  padding: 20px 10px;
   gap: 10px;
   display: flex;
   flex-flow: nowrap column;
   min-height: 600px;
 `;
+const BoardListTitle = styled.div`
+  width: 100%;
+  height: 40px;
+  color: white;
+  display: grid;
+  grid-template-columns: 40px auto 60px 100px 60px;
+  align-items: center;
+  background: ${theme.backgroundColors.grayDark};
+  font-family: ${theme.customFonts.GmarketSansBold};
+`;
 const BoardItem = styled.button`
   width: 100%;
   height: 40px;
-  background: white;
   display: grid;
-  grid-template-columns: 40px auto 60px 100px;
+  grid-template-columns: 40px auto 60px 100px 60px;
   align-items: center;
+
+  &:nth-child(2n + 1) {
+    background: ${theme.backgroundColors.gray};
+  }
+  &:nth-child(2n) {
+    background: ${theme.backgroundColors.grayLight};
+  }
 
   &:hover {
     cursor: pointer;
+    background: ${theme.backgroundColors.secondaryLight};
   }
 `;
 
@@ -226,5 +282,5 @@ const MainFooter = styled(CF.ColumnDiv)`
   padding: 20px 0px;
   gap: 10px;
   bottom: 0px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.5);
 `;

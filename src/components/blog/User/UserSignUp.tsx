@@ -87,6 +87,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
             <Input
               placeholder="닉네임을 입력하세요"
               register={register("nickname")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.nickname?.message} </CF.ErrorDiv>
           </Space>
@@ -95,6 +96,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register("password")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.password?.message} </CF.ErrorDiv>
           </Space>
@@ -103,6 +105,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
               placeholder="비밀번호를 재입력하세요"
               type="password"
               register={register("passwordConfirm")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.passwordConfirm?.message} </CF.ErrorDiv>
           </Space>
@@ -111,6 +114,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
               placeholder="이메일을 입력하세요"
               type="email"
               register={register("email")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.email?.message} </CF.ErrorDiv>
           </Space>
@@ -147,6 +151,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
             <Input
               placeholder="생년월일을 8자리로 입력하세요"
               register={register("birthDate")}
+              onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
             <CF.ErrorDiv> {errors.birthDate?.message} </CF.ErrorDiv>
           </Space>
