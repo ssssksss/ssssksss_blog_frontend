@@ -209,14 +209,14 @@ const rotationDownUp = keyframes`
         }
 `;
 const Img = styled.img<IStyleProps>`
-  /* ${(props: any) =>
+  ${(props: any) =>
     css`
       background-color: ${props.backgroundColor};
       width: ${props.size || props.width};
       height: ${props.size || props.height};
       padding: ${props.padding};
       border-radius: ${props.borderRadius};
-    `} */
+    `}
 `;
 const ImgContainer = styled.div<IStyleProps>`
   height: ${(props) => props.minHeight};

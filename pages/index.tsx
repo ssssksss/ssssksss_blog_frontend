@@ -9,22 +9,26 @@ const HomePage = () => {
   const arr = [
     [
       "블로그",
-      "이미지",
-      "1. 개발 공부를 기록하기 위한 블로그 \n 2. CRUD 기능 \n 3. 카테고리 분류 \n 4. toast-ui-editor \n 5. 이미지 업로드 기능",
+      "https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/blog/introduce/%EB%B8%94%EB%A1%9C%EA%B7%B8+%EC%86%8C%EA%B0%9C.gif",
       "/blog",
     ],
     [
       "게시판",
-      "이미지",
-      "1. 검색기능 \n 2. 최신,조회수 정렬 \n 3. 페이지 네이션",
+      "https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/blog/introduce/%EA%B2%8C%EC%8B%9C%ED%8C%90+%EC%86%8C%EA%B0%9C.gif",
       "/board",
     ],
-    [
-      "할일, 일정",
-      "이미지",
-      "1. todo 기능 \n 2. 달력에 일정 기록 기능 \n 3. ????",
-      "/todo",
-    ],
+    // [
+    //   "게시판",
+    //   "이미지",
+    //   "1. 검색기능 \n 2. 최신,조회수 정렬 \n 3. 페이지 네이션",
+    //   "/board",
+    // ],
+    // [
+    //   "할일, 일정",
+    //   "이미지",
+    //   "1. todo 기능 \n 2. 달력에 일정 기록 기능 \n 3. ????",
+    //   "/todo",
+    // ],
     // ["대시보드", "temp", "1. \n 2.  \n 3. ", "/"],
     // ["예약", "temp", "1. \n 2.  \n 3. ", "/"],
     // ["톡방", "temp", "1. \n 2.  \n 3. ", "/"],

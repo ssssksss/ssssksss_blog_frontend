@@ -34,7 +34,7 @@ const ModalSecondCategory = (modalHandler: any) => {
   );
 
   const submitHandler = async () => {
-    if (name === "") {
+    if (name === "" || name === "null") {
       alert("카테고리명을 입력하세요");
     } else if (secondHref === "") {
       alert("경로를 /을 넣어서 입력하세요");
@@ -59,7 +59,7 @@ const ModalSecondCategory = (modalHandler: any) => {
   };
 
   const removeHandler = async () => {
-    if (removeSecondHref === "") {
+    if (removeSecondHref === "" || removeSecondHref === "null") {
       alert("삭제할 URL을 전체 경로를 입력하세요");
     } else {
       await AxiosInstance({
@@ -84,7 +84,7 @@ const ModalSecondCategory = (modalHandler: any) => {
   };
 
   const updateCategoryNameHadler = () => {
-    if (updateName === "") {
+    if (updateName === "" || updateName === "null") {
       alert("변경할 이름을 입력하세요");
     } else {
       AxiosInstance({
@@ -180,6 +180,9 @@ const ModalSecondCategory = (modalHandler: any) => {
                   name="secondHref"
                   onChange={(e: any) => setRemoveSecondHref(e.target.value)}
                 >
+                  <option value={"null"} selected disabled>
+                    삭제할 경로를 선택해주세요.
+                  </option>
                   {secondCategory.map((el: any, index: number) => (
                     <option key={index} value={el.secondHref}>
                       {el.name} - {el.secondHref}
@@ -202,6 +205,9 @@ const ModalSecondCategory = (modalHandler: any) => {
                   name="secondHref"
                   onChange={(e: any) => setUpdateSecondHref(e.target.value)}
                 >
+                  <option value={"null"} selected disabled>
+                    변경할 이름를 선택해주세요.
+                  </option>
                   {secondCategory.map((el: any, index: number) => (
                     <option key={index} value={el.secondHref}>
                       이름 : {el.name} - 경로 : {el.secondHref}

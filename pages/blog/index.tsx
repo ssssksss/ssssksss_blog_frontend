@@ -1,5 +1,6 @@
 import Layout2 from "@/components/layout/Layout2";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 /**
  * Author : Sukyung Lee
@@ -9,6 +10,10 @@ import styled from "styled-components";
  */
 
 const BlogPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Container>
       <div> </div>

@@ -27,7 +27,7 @@ const ModalFirstCategory = (modalHandler: any) => {
   const [firstCategory, setFirstCategory] = useState<FirstCategoryTypes[]>([]);
 
   const submitHandler = async () => {
-    if (name === "") {
+    if (name === "" || name === "null") {
       alert("카테고리명을 입력하세요");
     } else if (firstHref === "") {
       alert("경로를 입력하세요");
@@ -53,7 +53,7 @@ const ModalFirstCategory = (modalHandler: any) => {
     }
   };
   const removeHandler = async () => {
-    if (removeFirstHref === "") {
+    if (removeFirstHref === "" || removeFirstHref === "null") {
       alert("삭제할 URL을 입력하세요");
     } else {
       await AxiosInstance({
@@ -77,7 +77,7 @@ const ModalFirstCategory = (modalHandler: any) => {
 
   const updateCategoryNameHadler = () => {
     console.log("ModalFirstCategory.tsx : ", updateFirstHref);
-    if (updateName === "") {
+    if (updateName === "" || updateName === "null") {
       alert("변경할 이름을 입력하세요");
     } else {
       AxiosInstance({
@@ -218,6 +218,9 @@ const ModalFirstCategory = (modalHandler: any) => {
                   name="firstHref"
                   onChange={(e: any) => setRemoveFirstHref(e.target.value)}
                 >
+                  <option value={"null"} selected disabled>
+                    삭제할 경로를 선택해주세요.
+                  </option>
                   {firstCategory.map((el: any, index: number) => (
                     <option key={index} value={el.firstHref}>
                       {el.name} - {el.firstHref}
@@ -239,6 +242,9 @@ const ModalFirstCategory = (modalHandler: any) => {
                   name="firstHref"
                   onChange={(e: any) => setUpdateFirstHref(e.target.value)}
                 >
+                  <option value={"null"} selected disabled>
+                    변경할 이름를 선택해주세요.
+                  </option>
                   {firstCategory.map((el: any, index: number) => (
                     <option key={index} value={el.firstHref}>
                       이름 : {el.name} - 경로 : {el.firstHref}

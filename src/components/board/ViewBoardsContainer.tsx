@@ -97,6 +97,7 @@ const ViewBoardsContainer = () => {
         setBoardList(response.data.data.boards);
         setSort(e.target.value || "baseTimeEntity.createdAt");
         setPage(1);
+        setPageCount(response.data.data.boardsCount);
         const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${
           e.target.value || "baseTimeEntity.createdAt"
         }`;
@@ -161,6 +162,7 @@ const ViewBoardsContainer = () => {
               img={"/img/ui-icon/search_icon.png"}
               onChange={(e: any) => setKeyword(e.target.value)}
               onClickSearch={searchHandler}
+              defaultValue={router.query.keyword}
             />
             <select name="area" onChange={changeOptionHandler}>
               <option value=""> 최신순 </option>

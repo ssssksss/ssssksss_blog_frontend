@@ -19,7 +19,7 @@ interface IInputSearchProps {
   placeholder?: string;
   register?: any;
   disabled?: boolean;
-  defaultValue?: string;
+  defaultValue?: any;
   width?: string;
   height?: string;
   img?: string; // 검색창에 들어갈 아이콘
@@ -37,6 +37,7 @@ const InputSearch = ({
   img,
   onChange,
   onClickSearch,
+  defaultValue,
   ...props
 }: IInputSearchProps) => {
   return (
@@ -49,6 +50,7 @@ const InputSearch = ({
         width={width}
         img={img}
         onChange={onChange}
+        defaultValue={defaultValue}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.code === "Enter") {
             onClickSearch && onClickSearch();

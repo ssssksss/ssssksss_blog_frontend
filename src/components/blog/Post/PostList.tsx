@@ -98,7 +98,7 @@ const MenuContainer = styled(CF.ColumnDiv)`
   margin: 0px auto 10px;
   max-width: ${({ theme }) => theme.customScreen.maxWidth};
   position: relative;
-  padding: 4px 0px;
+  padding: 4px 10px;
   gap: 4px;
   border-top: solid ${theme.backgroundColors.gray} 4px;
   border-bottom: solid ${theme.backgroundColors.gray} 4px;

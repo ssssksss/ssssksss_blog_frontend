@@ -3,6 +3,7 @@ import theme from "@/styles/theme";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
+import Button from "@/components/common/button/Button";
 /**
  * Author : Sukyung Lee
  * FileName: basicCarousel.tsx
@@ -106,26 +107,29 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
                 // transform: `translateX(-${currentIndex * 100}%)`,
                 transition: slideTransition,
               }}
-              onClick={() => router.push(el[3])}
             >
               <SliderContent>
                 <Title> {el[0]} </Title>
-                <Content> {el[1]} </Content>
-                <Intro>
-                  {el[2].split("\n").map((i: any, index: number) => (
-                    <p key={index}> {i} </p>
-                  ))}
-                </Intro>
+                <Content>
+                  <CF.Img src={el[1]} width="100%" height="100%" />
+                </Content>
+                <Button
+                  width={"100%"}
+                  height={"40px"}
+                  onClick={(e: any) => router.push(el[2])}
+                >
+                  보러 가기
+                </Button>
               </SliderContent>
             </SliderItem>
           ))}
         </SliderContainer>
       </SliderSizeContainer>
-      <Button onClick={prevIndexHandler}>{"<"}</Button>
-      <Button onClick={nextIndexHandler}>{">"}</Button>
-      <Button onClick={() => setAutoPlay((prev) => !prev)}>
-        {autoPlay ? "auto" : "stop"}
-      </Button>
+      <Button1 onClick={prevIndexHandler}>{"👈"}</Button1>
+      <Button1 onClick={nextIndexHandler}>{"👉"}</Button1>
+      <Button1 onClick={() => setAutoPlay((prev) => !prev)}>
+        {autoPlay ? "⏸" : "▶"}
+      </Button1>
     </Container>
   );
 };
@@ -157,7 +161,7 @@ const SliderContainer = styled.div<{ arrLength: number }>`
   align-items: center;
 `;
 
-const SliderItem = styled.button<{
+const SliderItem = styled.div<{
   currentIndex: number;
   isCurrent: boolean;
 }>`
@@ -181,9 +185,9 @@ const SliderItem = styled.button<{
 const SliderContent = styled(CF.ColumnDiv)`
   margin: auto;
   width: 100%;
-  height: 100%;
+  height: 90%;
   padding: 10px;
-  background-color: ${theme.backgroundColors.thirdLight};
+  background: ${theme.backgroundColors.secondary};
   gap: 10px;
   border-radius: 20px;
 `;
@@ -191,23 +195,23 @@ const Title = styled(CF.RowCenterDiv)`
   height: 40px;
   font-size: 24px;
   font-family: ${theme.customFonts.GmarketSansBold};
+  color: white;
 `;
 const Content = styled(CF.RowDiv)`
   width: 100%;
-  height: 300px;
-  background-color: blue;
+  height: calc(100% - 100px);
+  background-color: white;
+  outline: black solid 3px;
 `;
-const Intro = styled(CF.ColumnLeftDiv)`
-  height: auto;
-  font-size: 16px;
-`;
-const Button = styled.button`
+const Button1 = styled.button`
   position: absolute;
   z-index: 5;
   bottom: 10px;
   left: 10px;
   width: 40px;
   height: 40px;
+  background: ${theme.backgroundColors.primary};
+  color: white;
 
   &:nth-child(2) {
     left: 70px;

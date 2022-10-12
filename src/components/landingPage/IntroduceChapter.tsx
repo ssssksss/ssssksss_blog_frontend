@@ -13,7 +13,7 @@ const IntroduceChapter = () => {
   return (
     <Container>
       <TextDiv>
-        <Title> 집나간 토토로의 공간에 오신것을 환영합니다. </Title>
+        <Title> 가출한 토토로의 공간에 오신것을 환영합니다. </Title>
         <SubTitle> 공부 기록과 토이 프로젝트의 공간 </SubTitle>
       </TextDiv>
       <ObjectModel>
