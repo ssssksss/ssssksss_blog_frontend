@@ -51,13 +51,13 @@ const InputSearch = ({
         onChange={onChange}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.code === "Enter") {
-            onClickSearch();
+            onClickSearch && onClickSearch();
           }
         }}
         {...register}
         {...props}
       />
-      <Button onClick={() => onClickSearch()} height={"30px"}>
+      <Button onClick={() => onClickSearch && onClickSearch()} height={"30px"}>
         검색
       </Button>
     </Container>
