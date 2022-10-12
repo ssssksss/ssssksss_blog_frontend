@@ -22,6 +22,8 @@ const ModalFirstCategory = (modalHandler: any) => {
   const [firstHref, setFirstHref] = useState("");
   const [line, setLine] = useState(0);
   const [removeFirstHref, setRemoveFirstHref] = useState("");
+  const [updateFirstHref, setUpdateFirstHref] = useState("");
+  const [updateName, setUpdateName] = useState("");
   const [firstCategory, setFirstCategory] = useState<FirstCategoryTypes[]>([]);
 
   const submitHandler = async () => {
@@ -73,6 +75,35 @@ const ModalFirstCategory = (modalHandler: any) => {
     }
   };
 
+  const updateCategoryNameHadler = () => {
+    console.log("ModalFirstCategory.tsx : ", updateFirstHref);
+    if (updateName === "") {
+      alert("변경할 이름을 입력하세요");
+    } else {
+      AxiosInstance({
+        url: "/api/first-category",
+        method: "PUT",
+        data: {
+          firstHref: updateFirstHref,
+          updateName: updateName,
+        },
+      })
+        .then((response) => {
+          setFirstCategory(
+            firstCategory.map((el: any) =>
+              el.firstHref !== updateFirstHref
+                ? el
+                : { ...el, name: updateName }
+            )
+          );
+          alert("카테고리 이름이 변경되었습니다.");
+        })
+        .catch((error) => {
+          alert("에러가 발생하였습니다.");
+        });
+    }
+  };
+
   useEffect(() => {
     AxiosInstance({
       url: "/api/first-category",
@@ -90,117 +121,147 @@ const ModalFirstCategory = (modalHandler: any) => {
     <>
       <Overlay onClick={() => modalHandler.modalHandler()} />
       <Container>
-        <FormContainer>
-          <CF.RowCenterDiv
-            height="30px"
-            color="#fff"
-            fontSize={theme.fontSizes.lg}
-            padding={"10px 0px 0px 0px"}
-          >
-            1차 카테고리 추가
-          </CF.RowCenterDiv>
-          <CF.ColumnDiv gap={20} padding={"20px 20px 20px 20px"} color={"#fff"}>
-            <Space title4="카테고리 이름" titleWidth={"140px"} gap={6}>
-              <Input
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                placeholder="카테고리명을 입력하세요."
-              />
-            </Space>
-            <Space title4="카테고리 경로" titleWidth={"140px"} gap={6}>
-              <Input
-                value={firstHref}
-                onChange={(e) => {
-                  setFirstHref(e.target.value);
-                }}
-                placeholder="영어와'_'만 이용해서 경로를 입력하세요"
-              />
-            </Space>
-            <Space title4="메뉴" titleWidth={"140px"} gap={6}>
-              <RadioDiv>
-                <CF.RowDiv gap={22}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="menu"
-                      value="1"
-                      id="frontend"
-                      defaultChecked={true}
-                      onChange={(e: any) => setLine(e.target.value)}
-                    />
-                    <label htmlFor="frontend"> 프론트엔드 </label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="menu"
-                      value="2"
-                      id="backend"
-                      onChange={(e: any) => setLine(e.target.value)}
-                    />
-                    <label htmlFor="backend"> 백엔드 </label>
-                  </div>
-                </CF.RowDiv>
-                <CF.RowDiv gap={80}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="menu"
-                      value="3"
-                      id="server"
-                      onChange={(e: any) => setLine(e.target.value)}
-                    />
-                    <label htmlFor="server"> 서버 </label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="menu"
-                      value="4"
-                      id="etc"
-                      onChange={(e: any) => setLine(e.target.value)}
-                    />
-                    <label htmlFor="etc"> 기타 </label>
-                  </div>
-                </CF.RowDiv>
-              </RadioDiv>
-            </Space>
-            <CF.RowDiv gap={10}>
-              <SubmitButton onClick={() => submitHandler()}>제출</SubmitButton>
-              <CancelButton onClick={() => modalHandler.modalHandler()}>
-                취소
-              </CancelButton>
-            </CF.RowDiv>
+        <Container1>
+          <FormContainer>
             <CF.RowCenterDiv
               height="30px"
               color="#fff"
               fontSize={theme.fontSizes.lg}
               padding={"10px 0px 0px 0px"}
             >
-              1차 카테고리 삭제
+              1차 카테고리 추가
             </CF.RowCenterDiv>
-            <InputContainer>
-              <select
-                name="firstHref"
-                onChange={(e: any) => setRemoveFirstHref(e.target.value)}
+            <CF.ColumnDiv
+              gap={20}
+              padding={"20px 20px 20px 20px"}
+              color={"#fff"}
+            >
+              <Space title4="카테고리 이름" titleWidth={"140px"} gap={6}>
+                <Input
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  placeholder="카테고리명을 입력하세요."
+                />
+              </Space>
+              <Space title4="카테고리 경로" titleWidth={"140px"} gap={6}>
+                <Input
+                  value={firstHref}
+                  onChange={(e) => {
+                    setFirstHref(e.target.value);
+                  }}
+                  placeholder="영어와'-'만 이용해서 경로를 입력하세요"
+                />
+              </Space>
+              <Space title4="메뉴" titleWidth={"140px"} gap={6}>
+                <RadioDiv>
+                  <CF.RowDiv gap={22}>
+                    <div>
+                      <input
+                        type="radio"
+                        name="menu"
+                        value="1"
+                        id="frontend"
+                        defaultChecked={true}
+                        onChange={(e: any) => setLine(e.target.value)}
+                      />
+                      <label htmlFor="frontend"> 프론트엔드 </label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        name="menu"
+                        value="2"
+                        id="backend"
+                        onChange={(e: any) => setLine(e.target.value)}
+                      />
+                      <label htmlFor="backend"> 백엔드 </label>
+                    </div>
+                  </CF.RowDiv>
+                  <CF.RowDiv gap={80}>
+                    <div>
+                      <input
+                        type="radio"
+                        name="menu"
+                        value="3"
+                        id="server"
+                        onChange={(e: any) => setLine(e.target.value)}
+                      />
+                      <label htmlFor="server"> 서버 </label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        name="menu"
+                        value="4"
+                        id="etc"
+                        onChange={(e: any) => setLine(e.target.value)}
+                      />
+                      <label htmlFor="etc"> 기타 </label>
+                    </div>
+                  </CF.RowDiv>
+                </RadioDiv>
+              </Space>
+              <Button onClick={() => submitHandler()}>제출</Button>
+              <CF.RowDiv border={"solid #aeaeae 3px"} />
+              <CF.RowCenterDiv
+                height="30px"
+                color="#fff"
+                fontSize={theme.fontSizes.lg}
+                padding={"10px 0px 0px 0px"}
               >
-                {firstCategory.map((el: any, index: number) => (
-                  <option key={index} value={el.firstHref}>
-                    {el.firstHref}
-                  </option>
-                ))}
-              </select>
-            </InputContainer>
-            <CF.RowDiv gap={10}>
-              <SubmitButton onClick={() => removeHandler()}>삭제</SubmitButton>
-              <CancelButton onClick={() => modalHandler.modalHandler()}>
-                취소
-              </CancelButton>
+                1차 카테고리 삭제
+              </CF.RowCenterDiv>
+              <InputContainer>
+                <select
+                  name="firstHref"
+                  onChange={(e: any) => setRemoveFirstHref(e.target.value)}
+                >
+                  {firstCategory.map((el: any, index: number) => (
+                    <option key={index} value={el.firstHref}>
+                      {el.name} - {el.firstHref}
+                    </option>
+                  ))}
+                </select>
+              </InputContainer>
+              <Button onClick={() => removeHandler()}>삭제</Button>
+              <CF.RowCenterDiv
+                height="30px"
+                color="#fff"
+                fontSize={theme.fontSizes.lg}
+                padding={"10px 0px 0px 0px"}
+              >
+                1차 카테고리 이름 변경
+              </CF.RowCenterDiv>
+              <InputContainer>
+                <select
+                  name="firstHref"
+                  onChange={(e: any) => setUpdateFirstHref(e.target.value)}
+                >
+                  {firstCategory.map((el: any, index: number) => (
+                    <option key={index} value={el.firstHref}>
+                      이름 : {el.name} - 경로 : {el.firstHref}
+                    </option>
+                  ))}
+                </select>
+              </InputContainer>
+              <Space title4="변경할 이름" titleWidth={"140px"} gap={6}>
+                <Input
+                  placeholder="변경할 이름"
+                  onChange={(e: any) =>
+                    // setChangeFirstCategoryName(e.target.value)
+                    setUpdateName(e.target.value)
+                  }
+                />
+              </Space>
+            </CF.ColumnDiv>
+            <CF.RowDiv gap={10} padding={"10px"}>
+              <Button onClick={updateCategoryNameHadler}>변경</Button>
+              <Button onClick={() => modalHandler.modalHandler()}>취소</Button>
             </CF.RowDiv>
-          </CF.ColumnDiv>
-        </FormContainer>
+          </FormContainer>
+        </Container1>
       </Container>
     </>
   );
@@ -218,7 +279,7 @@ const UpDownAnimation = keyframes`
         to {
             opacity: 1;
             transform: translate(10px, 10px);
-          border-radius: 50px 0px 4px 4px;
+            border-radius: 50px 0px 4px 4px;
         }
 `;
 const Overlay = styled.div`
@@ -236,17 +297,20 @@ const Overlay = styled.div`
   }
 `;
 const Container = styled.div`
-  position: absolute;
-  top: 30vh;
+  position: fixed;
+  top: 90px;
   left: 50vw;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
+  z-index: 10;
+  overflow: scroll;
+  min-width: 400px;
+  height: calc(100% - 90px);
+  padding: 10px;
+`;
+const Container1 = styled.div`
   background: ${theme.backgroundColors.primary};
   border-radius: 50px 4px 4px 4px;
-  width: 50%;
-  min-width: 300px;
-  height: 80%;
   min-height: 500px;
-  border: 0px;
   z-index: 3;
 `;
 const FormContainer = styled.div`
@@ -269,7 +333,9 @@ const RadioDiv = styled(CF.ColumnDiv)`
     cursor: pointer;
   }
 `;
-const ButtonCommon = css`
+
+const Button = styled.button`
+  width: 100%;
   height: 100%;
   border: none;
   background: ${({ theme }) => theme.customColors.second};
@@ -281,12 +347,4 @@ const ButtonCommon = css`
     color: ${({ theme }) => theme.customColors.second};
     background: white;
   }
-`;
-const SubmitButton = styled.button`
-  width: 50%;
-  ${ButtonCommon}
-`;
-const CancelButton = styled.button`
-  width: 50%;
-  ${ButtonCommon}
 `;

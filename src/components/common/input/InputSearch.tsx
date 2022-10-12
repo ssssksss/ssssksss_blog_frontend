@@ -24,7 +24,7 @@ interface IInputSearchProps {
   height?: string;
   img?: string; // 검색창에 들어갈 아이콘
   onChange?: (e: any) => void;
-  onClickSearch: () => void;
+  onClickSearch?: () => void;
 }
 
 const InputSearch = ({

@@ -66,7 +66,7 @@ const UserLogin = (props: IUserLoginProps) => {
           .catch((error) => {});
       })
       .catch((error: any) => {
-        alert(error.response.data.errorMsg);
+        alert(error.response?.data?.errorMsg);
       });
   };
 
