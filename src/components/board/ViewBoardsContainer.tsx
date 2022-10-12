@@ -110,23 +110,13 @@ const ViewBoardsContainer = () => {
   // 처음에 접속했을 때
   useEffect(() => {
     const urlQueryStringInstance = new URLSearchParams(location.search);
-    console.log("ViewBoardsContainer.tsx : ", "게시판 목록");
-    console.log("ViewBoardsContainer.tsx : page :", page);
-    console.log("ViewBoardsContainer.tsx : size :", size);
-    console.log("ViewBoardsContainer.tsx : sort :", sort);
-    console.log(
-      "ViewBoardsContainer.tsx : page :",
-      Number(urlQueryStringInstance.get("page")) - 1
-    );
-    console.log("ViewBoardsContainer.tsx : ", "게시판 목록");
     AxiosInstance({
       url: "/api/boards",
       method: "GET",
       params: {
         keyword: String(urlQueryStringInstance.get("keyword") || ""),
-        page:
-          Number(urlQueryStringInstance.get("page")) - 1 || Number(page - 1),
-        size: Number(urlQueryStringInstance.get("size")) || Number(size),
+        page: Number(page - 1),
+        size: Number(size),
         sort: urlQueryStringInstance.get("sort")
           ? urlQueryStringInstance.get("sort") + ",desc"
           : "baseTimeEntity.createdAt,desc",
