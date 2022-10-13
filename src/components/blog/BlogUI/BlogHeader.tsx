@@ -132,77 +132,75 @@ const BlogHeader = () => {
         <Img alt="logo" src="/img/logo/logo.svg" />
       </Logo>
       <MenuContainer>
-        <CF.RowRightDiv gap={10}>
+        <ImgContainer
+          onClick={() => {
+            router.push("/blog");
+          }}
+        >
+          <CF.Img alt="bulletin_board" src="/img/ui-icon/blog_box_icon.png" />
+          <span> 블로그 </span>
+        </ImgContainer>
+        <ImgContainer
+          onClick={() => {
+            router.push("/board");
+          }}
+        >
+          <CF.Img
+            alt="bulletin_board"
+            src="/img/ui-icon/bulletin_board_icon.png"
+          />
+          <span> 게시판 </span>
+        </ImgContainer>
+        {authStore.role === "ROLE_ADMIN" && (
           <ImgContainer
             onClick={() => {
-              router.push("/blog");
+              router.push("/user-dashboard");
             }}
           >
-            <CF.Img alt="bulletin_board" src="/img/ui-icon/blog_box_icon.png" />
-            <span> 블로그 </span>
+            <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
+            <span> 대시보드 </span>
           </ImgContainer>
+        )}
+        {authStore.role !== "" && (
           <ImgContainer
             onClick={() => {
-              router.push("/board");
+              router.push("/todo");
             }}
           >
-            <CF.Img
-              alt="bulletin_board"
-              src="/img/ui-icon/bulletin_board_icon.png"
-            />
-            <span> 게시판 </span>
+            <CF.Img alt="plan" src="/img/ui-icon/calendar_icon.png" />
+            <span> 일정 </span>
           </ImgContainer>
-          {authStore.role === "ROLE_ADMIN" && (
-            <ImgContainer
-              onClick={() => {
-                router.push("/user-dashboard");
-              }}
-            >
-              <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
-              <span> 대시보드 </span>
-            </ImgContainer>
-          )}
-          {authStore.role !== "" && (
-            <ImgContainer
-              onClick={() => {
-                router.push("/todo");
-              }}
-            >
-              <CF.Img alt="plan" src="/img/ui-icon/calendar_icon.png" />
-              <span> 일정 </span>
-            </ImgContainer>
-          )}
-          {authStore.role === "" && (
-            <ImgContainer
-              onClick={() => {
-                setIsModalOpen1(true);
-              }}
-            >
-              <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
-              <span> 로그인 </span>
-            </ImgContainer>
-          )}
-          {authStore.role === "" && (
-            <ImgContainer
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-            >
-              <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
-              <span> 회원가입 </span>
-            </ImgContainer>
-          )}
-          {authStore.role !== "" && (
-            <ImgContainer
-              onClick={() => {
-                logoutHandler();
-              }}
-            >
-              <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
-              <span> 로그아웃 </span>
-            </ImgContainer>
-          )}
-        </CF.RowRightDiv>
+        )}
+        {authStore.role === "" && (
+          <ImgContainer
+            onClick={() => {
+              setIsModalOpen1(true);
+            }}
+          >
+            <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
+            <span> 로그인 </span>
+          </ImgContainer>
+        )}
+        {authStore.role === "" && (
+          <ImgContainer
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
+            <span> 회원가입 </span>
+          </ImgContainer>
+        )}
+        {authStore.role !== "" && (
+          <ImgContainer
+            onClick={() => {
+              logoutHandler();
+            }}
+          >
+            <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
+            <span> 로그아웃 </span>
+          </ImgContainer>
+        )}
       </MenuContainer>
     </Container>
   );
@@ -214,40 +212,14 @@ const Container = styled(CF.RowBetweenDiv)`
   height: 80px;
   font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
   position: sticky;
+  left: 0px;
   top: 0px;
-  padding: 0px 20px;
   background: ${theme.backgroundColors.primaryLight};
   z-index: 200;
   outline: solid black 2px;
+  padding: 0px 10px;
 `;
-const TopButton = styled.img`
-  position: fixed;
-  width: 40px;
-  aspect-ratio: 1;
-  right: 10px;
-  bottom: 70px;
-  z-index: 110;
 
-  &:hover {
-    cursor: pointer;
-    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
-      alternate-reverse;
-  }
-`;
-const BottomButton = styled.img`
-  position: fixed;
-  width: 40px;
-  aspect-ratio: 1;
-  right: 10px;
-  bottom: 20px;
-  z-index: 110;
-
-  &:hover {
-    cursor: pointer;
-    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
-      alternate;
-  }
-`;
 const rotation = keyframes`
 
   0% {
@@ -278,6 +250,18 @@ const Logo = styled.button`
   background-color: transparent;
   border: none;
 `;
+const MenuContainer = styled.nav`
+  width: 100vw;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: flex-end;
+  @media (max-width: 480px) {
+    img {
+      width: 30px;
+      aspect-ratio: 1;
+    }
+  }
+`;
 const Img = styled.img`
   max-width: 40px;
   max-height: 40px;
@@ -291,7 +275,7 @@ const Img = styled.img`
     height: 40px;
   }
 `;
-const MenuContainer = styled.nav``;
+
 const ImgContainer = styled(CF.ImgContainer)`
   height: 100%;
   min-height: 80px;
@@ -300,5 +284,33 @@ const ImgContainer = styled(CF.ImgContainer)`
   img {
     width: 30px;
     height: 30px;
+  }
+`;
+const TopButton = styled.img`
+  position: fixed;
+  width: 40px;
+  aspect-ratio: 1;
+  right: 10px;
+  bottom: 70px;
+  z-index: 110;
+
+  &:hover {
+    cursor: pointer;
+    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
+      alternate-reverse;
+  }
+`;
+const BottomButton = styled.img`
+  position: fixed;
+  width: 40px;
+  aspect-ratio: 1;
+  right: 10px;
+  bottom: 20px;
+  z-index: 110;
+
+  &:hover {
+    cursor: pointer;
+    animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite
+      alternate;
   }
 `;

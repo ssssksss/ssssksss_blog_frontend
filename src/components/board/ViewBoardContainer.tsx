@@ -69,7 +69,6 @@ const ViewBoardContainer = () => {
       })
         .then((response) => {
           setLoading(false);
-          console.log("ViewBoardContainer.tsx : ", response.data.data);
           setBoardData(response.data.data.board);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(response.data.data.board.content);

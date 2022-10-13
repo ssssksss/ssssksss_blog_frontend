@@ -16,7 +16,7 @@ export default Layout2;
 
 const Container = styled.div`
   margin: auto;
-  min-width: 400px;
+  min-width: 360px;
   max-width: 1440px;
   min-height: 100vh;
   background-color: ${theme.backgroundColors.background2};
