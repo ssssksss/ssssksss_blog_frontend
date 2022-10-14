@@ -101,7 +101,7 @@ const PostView = () => {
                   height="20px"
                   noCursor={true}
                 />
-                : {post?.modifiedAt.substring(0, 10)}{" "}
+                : {post?.modifiedAt.substring(0, 10)}
               </CF.RowDiv>
               <CF.RowDiv>
                 <CF.Img

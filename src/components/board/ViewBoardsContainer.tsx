@@ -38,7 +38,7 @@ const ViewBoardsContainer = () => {
         keyword: String(keyword),
         page: Number(0),
         size: Number(size),
-        sort: sort + ",desc",
+        sort: sort,
       },
     })
       .then((response) => {
@@ -47,7 +47,7 @@ const ViewBoardsContainer = () => {
         setPage(1);
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${sort}`;
-        history.replaceState({}, "", url);
+        router.replace(url, "", { shallow: true });
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -72,7 +72,7 @@ const ViewBoardsContainer = () => {
         setSort(sort);
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=${page}&size=${size}&keyword=${keyword}&sort=${sort}`;
-        history.replaceState({}, "", url);
+        router.replace(url, "", { shallow: true });
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -88,9 +88,7 @@ const ViewBoardsContainer = () => {
         page: Number(0),
         size: Number(size),
         sort:
-          e.target.value === ""
-            ? "baseTimeEntity.createdAt,desc"
-            : e.target.value + ",desc",
+          e.target.value === "" ? "baseTimeEntity.createdAt" : e.target.value,
       },
     })
       .then((response) => {
@@ -101,7 +99,7 @@ const ViewBoardsContainer = () => {
         const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${
           e.target.value || "baseTimeEntity.createdAt"
         }`;
-        history.replaceState({}, "", url);
+        router.replace(url, "", { shallow: true });
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -119,8 +117,8 @@ const ViewBoardsContainer = () => {
         page: Number(page - 1),
         size: Number(size),
         sort: urlQueryStringInstance.get("sort")
-          ? urlQueryStringInstance.get("sort") + ",desc"
-          : "baseTimeEntity.createdAt,desc",
+          ? urlQueryStringInstance.get("sort")
+          : "baseTimeEntity.createdAt",
       },
     })
       .then((response) => {
@@ -141,7 +139,7 @@ const ViewBoardsContainer = () => {
         )}&sort=${
           urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt"
         }`;
-        history.replaceState({}, "", url);
+        router.replace(url, "", { shallow: true });
       })
       .catch((error) => {
         alert("에러가 발생하였습니다.");
@@ -166,7 +164,6 @@ const ViewBoardsContainer = () => {
             />
             <select name="area" onChange={changeOptionHandler}>
               <option value=""> 최신순 </option>
-              {/* <option value="popularity"> 인기순 </option> */}
               <option value="views"> 조회순 </option>
             </select>
           </MainHeader>

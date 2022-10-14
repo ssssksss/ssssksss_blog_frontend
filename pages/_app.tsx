@@ -15,6 +15,7 @@ import PageTransitions from "@/components/common/reactTransitionGroup/PageTransi
 import { useRouter } from "next/router";
 import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
+import AdvertisementContainer from "@/components/Modal/advertise/AdvertisementContainer";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -43,20 +44,24 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <NextjsHeader />
         <BlogHeader />
+        {/* <AdvertisementContainer /> */}
         {router.asPath.split("/")[1] === "blog" && (
           <>
             <BlogFirstMenu />
             <BlogSecondMenu />
           </>
         )}
-        <PageTransitions
+        {/* <PageTransitions
           route={router.asPath}
           routingPageOffset={routingPageOffset}
         >
           <TestLayout>
             <Component {...pageProps} />
           </TestLayout>
-        </PageTransitions>
+        </PageTransitions> */}
+        <TestLayout>
+          <Component {...pageProps} />
+        </TestLayout>
         <BlogFooter />
       </ThemeProvider>
     </Provider>

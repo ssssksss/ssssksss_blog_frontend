@@ -164,7 +164,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
             <SubmitButton
               onClick={() => (props.edit ? updateHandler() : submitHandler())}
             >
-              {props.edit ? "수정" : "제출"}{" "}
+              {props.edit ? "수정" : "제출"}
             </SubmitButton>
             <CancelButton onClick={() => router.back()}>취소</CancelButton>
           </EditorFooter>

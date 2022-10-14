@@ -115,7 +115,8 @@ const ViewBoardContainer = () => {
               </CF.RowDiv>
             </BoardContainer1>
             <BoardContainer2>
-              {authStore.role === "ROLE_ADMIN" && (
+              {(authStore.role === "ROLE_ADMIN" ||
+                authStore.nickname === boardData?.writer) && (
                 <>
                   <Button
                     actionType="edit"
@@ -140,7 +141,7 @@ const ViewBoardContainer = () => {
                   </Button>
                 </>
               )}
-              <Button actionType="list" onClick={() => router.back()}>
+              <Button actionType="list" onClick={() => router.push("/board")}>
                 목록
               </Button>
             </BoardContainer2>
@@ -237,10 +238,6 @@ const Button = styled.button<{ actionType?: string }>`
     animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
     height: 48px;
   }
-`;
-const ViewNumber = styled(CF.RowCenterDiv)`
-  border-radius: 10px;
-  border: none;
 `;
 const Title = styled.h2`
   width: 100%;

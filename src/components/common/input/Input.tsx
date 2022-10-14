@@ -120,6 +120,11 @@ const InputStyle = styled.input<{
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   }
 
+  &[type="radio"] + label {
+    display: flex;
+    align-items: center;
+  }
+
   ::placeholder {
     transition: all 0.6s ease-in-out;
     ${theme.fontSizes.base};

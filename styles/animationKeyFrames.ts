@@ -51,11 +51,11 @@ const Fadeout = keyframes`
 `;
 
 const ChangeGrayColor = keyframes`
-  0% {
-    color: ${theme.colors.grayDark};
+  0%,100% {
+    color: #333333;
   }
-  100% {
-    color: ${theme.colors.grayLight};
+  50% {
+    color: #999999;
   }
 `;
 

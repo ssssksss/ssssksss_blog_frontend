@@ -104,12 +104,11 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
               ref={transitionRef}
               isCurrent={index === currentIndex}
               style={{
-                // transform: `translateX(-${currentIndex * 100}%)`,
                 transition: slideTransition,
               }}
             >
               <SliderContent>
-                <Title> {el[0]} </Title>
+                <Title>{el[0]}</Title>
                 <Content>
                   <CF.Img src={el[1]} width="100%" height="100%" />
                 </Content>
@@ -137,7 +136,7 @@ export default BasicCarousel;
 
 const Container = styled.section`
   min-width: 360px;
-  padding: 0px 10px;
+  padding: 50px 10px 0px 10px;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -149,8 +148,8 @@ const Container = styled.section`
 
 const SliderSizeContainer = styled.div`
   width: 500px;
+  height: 600px;
   max-width: 100%;
-  aspect-ratio: 1;
   margin: auto;
 `;
 const SliderContainer = styled.div<{ arrLength: number }>`
@@ -186,8 +185,9 @@ const SliderContent = styled(CF.ColumnDiv)`
   margin: auto;
   width: 100%;
   height: 90%;
-  padding: 10px;
-  background: ${theme.backgroundColors.secondary};
+  padding: 20px;
+  /* background: ${theme.backgroundColors.secondary}; */
+  background: #999999;
   gap: 10px;
   border-radius: 20px;
 `;
@@ -202,6 +202,7 @@ const Content = styled(CF.RowDiv)`
   height: calc(100% - 100px);
   background-color: white;
   outline: black solid 3px;
+  margin-bottom: 10px;
 `;
 const Button1 = styled.button`
   position: absolute;

@@ -4,16 +4,17 @@ import { CF } from "@/styles/commonComponentStyle";
 import IntroduceChapter from "@/components/landingPage/IntroduceChapter";
 import BasicCarousel from "@/components/common/carousel/BasicCarousel";
 import theme from "@/styles/theme";
+import Stack from "@/components/intro/stack";
 
 const HomePage = () => {
   const arr = [
     [
-      "블로그",
+      "1. 블로그",
       "https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/blog/introduce/%EB%B8%94%EB%A1%9C%EA%B7%B8+%EC%86%8C%EA%B0%9C.gif",
       "/blog",
     ],
     [
-      "게시판",
+      "2. 게시판",
       "https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/blog/introduce/%EA%B2%8C%EC%8B%9C%ED%8C%90+%EC%86%8C%EA%B0%9C.gif",
       "/board",
     ],
@@ -48,12 +49,13 @@ const HomePage = () => {
         <BasicCarousel
           arr={arr}
           arrLength={arr.length}
-          IntervalTime={10000}
+          IntervalTime={15000}
           transitionTime={1000}
         />
       </Chapter>
       <Chapter>
         <Title> Stack </Title>
+        <Stack />
       </Chapter>
       <Chapter>
         <Title> Introduce </Title>
@@ -72,18 +74,17 @@ const Container = styled(CF.ColumnDiv)`
   background: black;
   padding-bottom: 10px;
 `;
-const Chapter = styled.section`
-  background: ${theme.backgroundColors.background2};
-  height: 600px;
-  width: 100%;
-  position: relative;
-`;
 const Title = styled(CF.RowCenterDiv)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 8px 0px;
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
+  padding-top: 20px;
   font-size: 32px;
   color: black;
   font-family: ${theme.customFonts.GmarketSansBold};
+`;
+const Chapter = styled.section`
+  background: ${theme.backgroundColors.background2};
+  min-height: 600px;
+  width: 100%;
 `;
