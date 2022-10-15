@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import { categoryReducer } from "./category";
 import { authReducer } from "./auth";
-import { todoReducer } from "./todo";
+import { planReducer } from "./plan";
 
 const rootReducer = combineReducers({
   categoryStore: categoryReducer,
   authStore: authReducer,
-  todoStore: todoReducer,
+  planStore: planReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

@@ -151,6 +151,16 @@ const BlogHeader = () => {
           />
           <span> 게시판 </span>
         </ImgContainer>
+        {authStore.role !== "" && (
+          <ImgContainer
+            onClick={() => {
+              router.push("/todo");
+            }}
+          >
+            <CF.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
+            <span> TODO </span>
+          </ImgContainer>
+        )}
         {authStore.role === "ROLE_ADMIN" && (
           <ImgContainer
             onClick={() => {
@@ -164,10 +174,10 @@ const BlogHeader = () => {
         {authStore.role !== "" && (
           <ImgContainer
             onClick={() => {
-              router.push("/todo");
+              router.push("/plan");
             }}
           >
-            <CF.Img alt="plan" src="/img/ui-icon/calendar_icon.png" />
+            <CF.Img alt="plan" src="/img/ui-icon/plan_icon.png" />
             <span> 일정 </span>
           </ImgContainer>
         )}

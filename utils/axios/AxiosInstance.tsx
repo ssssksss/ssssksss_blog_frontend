@@ -52,11 +52,9 @@ AxiosInstance.interceptors.request.use(
 
 AxiosInstance.interceptors.response.use(
   (response: any) => {
-    console.log("AxiosInstance.tsx : ", "토큰이 만료가 되어도 에러는 아냐");
     return response;
   },
   async (error: any) => {
-    console.log("AxiosInstance.tsx : ", "???");
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용

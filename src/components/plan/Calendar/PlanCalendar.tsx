@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme";
 import { CF } from "@/styles/commonComponentStyle";
-import TodoCalendarDayItem from "./TodoCalendarDayItem";
+import PlanCalendarDayItem from "./PlanCalendarDayItem";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
-import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
 import { createStore } from "redux";
+import { SET_MONTH_PLAN_DATE } from "@/redux/store/plan";
 
-interface ITodoCalendarProps {
+interface IPlanCalendarProps {
   sideOpenToggleHandler: () => void;
 }
 
-const TodoCalendar = (props: ITodoCalendarProps) => {
+const PlanCalendar = (props: IPlanCalendarProps) => {
   const todayDate = new Date();
   const [calendarDays, setCalendarDays] = useState<any>({});
   const [calendarYear, setCalendarYear] = useState(
@@ -23,9 +23,9 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
   const [calendarMonth, setCalendarMonth] = useState(
     Number(todayDate.getMonth())
   );
-  const todoStore = useSelector((state: RootState) => state.todoStore);
-  const monthTodoDates = useSelector(
-    (state: RootState) => state.todoStore.monthTodoDates
+  const planStore = useSelector((state: RootState) => state.planStore);
+  const monthPlanDates = useSelector(
+    (state: RootState) => state.planStore.monthPlanDates
   );
 
   const moveLeftDate = () => {
@@ -67,14 +67,14 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/todos",
+      url: "/api/plans",
       method: "GET",
       params: {
-        date: todoStore.nowTodoDate,
+        date: planStore.nowPlanDate,
       },
     })
       .then((response) => {
-        store.dispatch(SET_MONTH_TODO_DATE(response.data.data));
+        store.dispatch(SET_MONTH_PLAN_DATE(response.data.data));
       })
       .catch((error) => {});
   }, []);
@@ -106,7 +106,7 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
         temp[dateString(calendarYear, calendarMonth + 1, i)] = {
           day: i,
           dayW: (i - 1) % 7,
-          opacity: 0,
+          isThisMonth: false,
         };
       }
 
@@ -116,7 +116,7 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
           temp[dateString(calendarYear, calendarMonth + 2, i)] = {
             day: i,
             dayW: nextDateStartDayW + i - 1,
-            opacity: 0,
+            isThisMonth: false,
           };
         }
       }
@@ -132,7 +132,7 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
         temp[dateString(calendarYear, calendarMonth, i)] = {
           day: i,
           dayW: j,
-          opacity: 0,
+          isThisMonth: false,
         };
       }
       // 이번달
@@ -140,7 +140,7 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
         temp[dateString(calendarYear, calendarMonth + 1, i)] = {
           day: i,
           dayW: (i - 1 + baseDateStartDayW) % 7,
-          opacity: 1,
+          isThisMonth: true,
         };
       }
       // 다음달
@@ -149,7 +149,7 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
           temp[dateString(calendarYear, calendarMonth + 2, i)] = {
             day: i,
             dayW: nextDateStartDayW + i - 1,
-            opacity: 0,
+            isThisMonth: false,
           };
         }
       }
@@ -160,7 +160,6 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
   return (
     <>
       <Container>
-        {/* 달력 상단 */}
         <Header>
           <CF.Img
             src="/img/ui-icon/left_arrow_icon.png"
@@ -190,16 +189,16 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
 
           {Object.entries(calendarDays).map((el: [string, any]) => (
             // 키(el[0])는 날짜
-            // 값(el[1])은 일, 요일, opacity(저번달,다음달)
-            <TodoCalendarDayItem
+            // 값(el[1])은 일, 요일, isThisMonth(저번달,다음달)
+            <PlanCalendarDayItem
               id={el[0]}
               key={el[0]}
               day={el[1].day}
               dayW={el[1].dayW}
-              opacity={el[1].opacity}
+              isThisMonth={el[1].isThisMonth}
               data={
-                monthTodoDates?.hasOwnProperty(el[0])
-                  ? monthTodoDates[el[0]]
+                monthPlanDates?.hasOwnProperty(el[0])
+                  ? monthPlanDates[el[0]]
                   : []
               }
               sideOpenToggleHandler={props.sideOpenToggleHandler}
@@ -211,12 +210,11 @@ const TodoCalendar = (props: ITodoCalendarProps) => {
   );
 };
 
-export default TodoCalendar;
+export default PlanCalendar;
 
 const Container = styled.div`
   border: solid 1px black;
   width: 100%;
-  border-radius: 10px 10px 0px 0px;
   display: flex;
   flex-flow: nowrap column;
   justify-content: center;
@@ -235,8 +233,7 @@ const Header = styled.header`
   flex-flow: nowrap row;
   justify-content: center;
   align-items: center;
-  background-color: ${theme.backgroundColors.primary};
-  border-radius: 10px 10px 0px 0px;
+  background-color: ${theme.backgroundColors.secondary};
 
   @media (max-width: 768px) {
     img {

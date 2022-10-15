@@ -1,34 +1,35 @@
 import Input from "@/components/common/input/Input";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
-import { useEffect, useState } from "react";
-import styled, { css, keyframes } from "styled-components";
+import { useState } from "react";
+import styled, { css } from "styled-components";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 
 /**
  * Author : Sukyung Lee
- * FileName: TodoItem.tsx
+ * FileName: PlanItem.tsx
  * Date: 2022-09-13 12:45:26
  * Description :
  */
 
-interface ITodoItemProps {
+interface IPlanItemProps {
   el: {
     id: number;
     content: string;
     indexNumber: number;
     isChecked: boolean;
   };
-  updateTodoHandler: (el: any) => void;
-  deleteTodoHandler: (el: any) => void;
+  updatePlanHandler: (el: any) => void;
+  deletePlanHandler: (el: any) => void;
   date: string;
 }
 
-const TodoItem = (props: ITodoItemProps) => {
+const PlanItem = (props: IPlanItemProps) => {
   const [isEdit, setIsEdit] = useState(false);
   const [content, setContent] = useState("");
 
   const updateContentHandler = (el: any, type: string) => {
-    props.updateTodoHandler({
+    props.updatePlanHandler({
       id: el.id,
       content: type === "checkbox" ? el.content : content,
       indexNumber: el.indexNumber,
@@ -51,7 +52,8 @@ const TodoItem = (props: ITodoItemProps) => {
             onChange={(e: any) => setContent(e.target.value)}
             value={content}
             height={"100%"}
-            onKeyPress={updateContentHandler(props.el, "")}
+            onKeyPress={() => updateContentHandler(props.el, "")}
+            defaultValue={content}
           />
           <CF.Img
             alt="submit_icon"
@@ -75,20 +77,20 @@ const TodoItem = (props: ITodoItemProps) => {
             onChange={() => updateContentHandler(props.el, "checkbox")}
             checked={props.el.isChecked}
           />
-          <TodoTextDiv
+          <PlanTextDiv
             width={
               props.el.isChecked ? "calc(100% - 70px)" : "calc(100% - 110px)"
             }
             checked={props.el.isChecked}
           >
             {props.el.content}
-          </TodoTextDiv>
+          </PlanTextDiv>
           {!props.el.isChecked && (
             <CF.Img
               alt="edit_icon"
               src="/img/ui-icon/edit_icon.png"
               size="30px"
-              onClick={() => editChangeHandler}
+              onClick={() => setIsEdit(true)}
             />
           )}
         </>
@@ -97,12 +99,12 @@ const TodoItem = (props: ITodoItemProps) => {
         alt="delete_icon"
         src="/img/ui-icon/delete_icon.png"
         size="30px"
-        onClick={() => props.deleteTodoHandler(props.el)}
+        onClick={() => props.deletePlanHandler(props.el)}
       />
     </Container>
   );
 };
-export default TodoItem;
+export default PlanItem;
 
 const Container = styled(CF.RowDiv)`
   padding: 10px;
@@ -111,9 +113,15 @@ const Container = styled(CF.RowDiv)`
   gap: 10px;
   border-radius: 4px;
   width: 100%;
+
+  img {
+    &:hover {
+      animation: ${animationKeyFrames.UpToDownRepeat} infinite 1s;
+    }
+  }
 `;
 
-const TodoTextDiv = styled(CF.Text)<{ checked: boolean }>`
+const PlanTextDiv = styled(CF.Text)<{ checked: boolean }>`
   ${(props) =>
     props.checked &&
     css`

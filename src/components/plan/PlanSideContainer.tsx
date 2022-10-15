@@ -8,108 +8,102 @@ import { RootState } from "@/redux/store/reducers";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { store } from "@/redux/store";
-import { SET_MONTH_TODO_DATE, todoReducer } from "@/redux/store/todo";
-import TodoItem from "./TodoItem";
+import PlanItem from "./PlanItem";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import { SET_MONTH_PLAN_DATE } from "../../../redux/store/plan/actions";
 
 /**
  * Author : Sukyung Lee
- * FileName: TodoContainer.tsx
+ * FileName: PlanSideContainer.tsx
  * Date: 2022-09-11 09:59:51
  * Description :
  */
 
-interface ITodoContainerProps {
+interface IPlanSideContainerProps {
   hide: boolean;
   sideOpenToggleHandler: () => void;
 }
 
-const TodoContainer = (props: ITodoContainerProps) => {
-  const todoStore = useSelector((state: RootState) => state.todoStore);
+const PlanSideContainer = (props: IPlanSideContainerProps) => {
+  const planStore = useSelector((state: RootState) => state.planStore);
   const [content, setContent] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  const [planList, setPlanList] = useState([]);
 
-  const updateTodoHandler = (el: any) => {
+  const updatePlanHandler = (el: any) => {
     AxiosInstance({
-      url: "/api/todo",
+      url: "/api/plan",
       method: "PUT",
       data: {
         id: el.id,
         content: el.content,
         indexNumber: el.indexNumber,
         isChecked: el.isChecked,
-        date: new Date(todoStore.nowTodoDate),
+        date: new Date(planStore.nowPlanDate),
       },
     })
       .then((response) => {
-        setTodoList(response.data.data.todolist);
-        // console.log(response.data);
-        store.getState().todoStore.monthTodoDates[todoStore.nowTodoDate] =
-          response.data.data.todolist;
+        setPlanList(response.data.data.planlist);
+        store.getState().planStore.monthPlanDates[planStore.nowPlanDate] =
+          response.data.data.planlist;
         store.dispatch(
-          SET_MONTH_TODO_DATE(store.getState().todoStore.monthTodoDates)
+          SET_MONTH_PLAN_DATE(store.getState().planStore.monthPlanDates)
         );
       })
-      .catch((error) => {
-        // console.log(error);
-      });
+      .catch((error) => {});
   };
 
-  const addTodo = () => {
+  const addPlan = () => {
     if (content === "") return;
     AxiosInstance({
-      url: "/api/todo",
+      url: "/api/plan",
       method: "POST",
       data: {
         content: content,
-        date: todoStore.nowTodoDate,
+        date: planStore.nowPlanDate,
       },
     })
       .then((response) => {
-        // console.log("index.tsx : ", response.data);
-        setTodoList(response.data.data.todolist);
+        setPlanList(response.data.data.planlist);
         setContent("");
-        if (store.getState().todoStore.monthTodoDates === undefined) {
+        if (store.getState().planStore.monthPlanDates === undefined) {
           const temp: any = {};
-          temp[`${todoStore.nowTodoDate}`] = response.data.data.todolist;
-          store.dispatch(SET_MONTH_TODO_DATE(temp));
+          temp[`${planStore.nowPlanDate}`] = response.data.data.planlist;
+          store.dispatch(SET_MONTH_PLAN_DATE(temp));
         } else {
-          store.getState().todoStore.monthTodoDates[todoStore.nowTodoDate] =
-            response.data.data.todolist;
+          store.getState().planStore.monthPlanDates[planStore.nowPlanDate] =
+            response.data.data.planlist;
         }
         store.dispatch(
-          SET_MONTH_TODO_DATE(store.getState().todoStore.monthTodoDates)
+          SET_MONTH_PLAN_DATE(store.getState().planStore.monthPlanDates)
         );
       })
-      .catch((error) => {
-        // console.log("index.tsx error : ", error.response);
-      });
+      .catch((error) => {});
   };
 
-  const deleteTodoHandler = (el: any) => {
+  const deletePlanHandler = (el: any) => {
     AxiosInstance({
-      url: "/api/todo",
+      url: "/api/plan",
       method: "DELETE",
       data: {
         id: el.id,
-        date: todoStore.nowTodoDate,
+        date: planStore.nowPlanDate,
       },
     })
       .then((response) => {
         if (response.data.data == null) {
-          setTodoList([]);
-          delete store.getState().todoStore.monthTodoDates[
-            todoStore.nowTodoDate
+          setPlanList([]);
+          delete store.getState().planStore.monthPlanDates[
+            planStore.nowPlanDate
           ];
           store.dispatch(
-            SET_MONTH_TODO_DATE(store.getState().todoStore.monthTodoDates)
+            SET_MONTH_PLAN_DATE(store.getState().planStore.monthPlanDates)
           );
         } else {
-          setTodoList(response.data.data.todolist);
-          store.getState().todoStore.monthTodoDates[todoStore.nowTodoDate] =
-            response.data.data.todolist;
+          setPlanList(response.data.data.planlist);
+          store.getState().planStore.monthPlanDates[planStore.nowPlanDate] =
+            response.data.data.planlist;
           store.dispatch(
-            SET_MONTH_TODO_DATE(store.getState().todoStore.monthTodoDates)
+            SET_MONTH_PLAN_DATE(store.getState().planStore.monthPlanDates)
           );
         }
       })
@@ -120,46 +114,46 @@ const TodoContainer = (props: ITodoContainerProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/todo",
+      url: "/api/plan",
       method: "GET",
       params: {
-        date: todoStore.nowTodoDate,
+        date: planStore.nowPlanDate,
       },
     })
       .then((response) => {
-        setTodoList(response.data.data.todolist);
-        // console.log("index.tsx : ",response.data)
+        setPlanList(response.data.data.planlist);
       })
       .catch((error) => {
-        setTodoList([]);
+        setPlanList([]);
       });
-  }, [todoStore.nowTodoDate]);
+    // }, []);
+  }, [planStore.nowPlanDate]);
 
   return (
     <Container hide={props.hide}>
       <Title>
-        {todoStore.nowTodoDate}
+        {planStore.nowPlanDate}
         <Button onClick={props.sideOpenToggleHandler}> X </Button>
       </Title>
-      <TodoList>
-        {todoList.length !== 0 &&
-          todoList.map((el: any, index: number) => (
-            <TodoItem
+      <PlanList>
+        {planList.length !== 0 &&
+          planList.map((el: any, index: number) => (
+            <PlanItem
               key={index}
               el={el}
-              date={todoStore.nowTodoDate}
-              updateTodoHandler={updateTodoHandler}
-              deleteTodoHandler={deleteTodoHandler}
+              date={planStore.nowPlanDate}
+              updatePlanHandler={updatePlanHandler}
+              deletePlanHandler={deletePlanHandler}
             />
           ))}
         <CF.RowDiv gap={10}>
           <Input
-            placeholder="todo 내용 작성"
+            placeholder="plan 내용 작성"
             border={`solid 1px ${theme.backgroundColors.fourth}`}
             onChange={(e: any) => {
               setContent(e.target.value);
             }}
-            onKeyPress={addTodo}
+            onKeyPress={addPlan}
             value={content}
           />
           <CF.Img
@@ -167,17 +161,16 @@ const TodoContainer = (props: ITodoContainerProps) => {
             src="/img/ui-icon/right_arrow_icon.png"
             size="40px"
             backgroundColor={`${theme.backgroundColors.fourth}`}
-            onClick={addTodo}
+            onClick={addPlan}
           />
         </CF.RowDiv>
-      </TodoList>
+      </PlanList>
     </Container>
   );
 };
-export default TodoContainer;
+export default PlanSideContainer;
 
 const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
-  min-width: 80vw;
   border: solid 1px black;
   gap: 10px;
   border-radius: 10px 10px 0px 0px;
@@ -187,7 +180,6 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
   background: white;
   display: static;
   overflow-y: scroll;
-  /* transition: all 1s ease-in-out; */
   animation: ${animationKeyFrames.RightToLeftFadein} 0.3s linear;
   ${(props) =>
     props.hide &&
@@ -195,7 +187,7 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
       display: none;
     `}
 `;
-const TodoList = styled(CF.ColumnDiv)`
+const PlanList = styled(CF.ColumnDiv)`
   gap: 10px;
   padding: 0px 4px;
   overflow-y: scroll;

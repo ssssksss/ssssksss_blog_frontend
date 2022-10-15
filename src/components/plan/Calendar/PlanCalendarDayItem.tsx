@@ -1,16 +1,16 @@
 import Button from "@/components/common/button/Button";
 import { RootState } from "@/redux/store/reducers";
-import { SET_NOW_TODO_DATE } from "@/redux/store/todo";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { dateFormat4y2m2d } from "@/utils/fucntion/dateFormat";
 import React, { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { SET_NOW_PLAN_DATE } from "@/redux/store/plan/actions";
 
 type CalendarDayItemType = {
   color?: string;
-  opacity?: number;
+  isThisMonth?: boolean;
   day?: string;
   content?: any;
   id?: string;
@@ -21,46 +21,48 @@ type CalendarDayItemType = {
   sideOpenToggleHandler: () => void;
 };
 
-const TodoCalendarDayItem = (props: CalendarDayItemType) => {
+const PlanCalendarDayItem = (props: CalendarDayItemType) => {
   const dispatch = useDispatch();
-  const setNowTodoDate = (nowTodoDate: any) => {
-    dispatch(SET_NOW_TODO_DATE(nowTodoDate));
+  const setNowPlanDate = (nowPlanDate: any) => {
+    dispatch(SET_NOW_PLAN_DATE(nowPlanDate));
   };
   const onClickHandler = () => {
-    setNowTodoDate(props.id);
-    props.sideOpenToggleHandler();
+    if (props.isThisMonth) {
+      setNowPlanDate(props.id);
+      props.sideOpenToggleHandler();
+    }
   };
 
   return (
     <Container
       today={dateFormat4y2m2d(new Date()) === props.id}
       onClick={onClickHandler}
-      opacity={props.opacity}
+      isThisMonth={props.isThisMonth}
     >
       {/* 일 수 */}
       <DayTitle>
         <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
-        <DayTodoCount> {props.data?.length} 개 </DayTodoCount>
+        <DayPlanCount> {props.data?.length} 개 </DayPlanCount>
       </DayTitle>
-      <TodayTodoList>
+      <TodayPlanList>
         {props.data
           ?.filter((i: any, index: number) => !i.isChecked)
           .map(
             (el: any, index: number) =>
               index < 5 && (
-                <Todo key={index}>
+                <Plan key={index}>
                   <CF.OverflowText> {el.content} </CF.OverflowText>
-                </Todo>
+                </Plan>
               )
           )}
-      </TodayTodoList>
+      </TodayPlanList>
     </Container>
   );
 };
 
-export default TodoCalendarDayItem;
+export default PlanCalendarDayItem;
 
-const Container = styled.button<{ today?: boolean; opacity?: number }>`
+const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
   min-height: 120px;
   padding: 4px;
   box-shadow: 0px 0px 1px 1px #aeaeae inset;
@@ -69,7 +71,18 @@ const Container = styled.button<{ today?: boolean; opacity?: number }>`
   align-items: flex-start;
   width: calc(100%);
   flex-flow: nowrap column;
-  opacity: ${(props: any) => props.opacity || 0.6};
+  opacity: 0.6;
+  cursor: not-allowed;
+  ${(props) =>
+    props.isThisMonth &&
+    css`
+      opacity: 1;
+      cursor: pointer;
+      &:hover {
+        outline: solid black 3px;
+        z-index: 5;
+      }
+    `}
 `;
 const DaySpan = styled.span<{ dayW?: number }>`
   font-size: 16px;
@@ -85,16 +98,16 @@ const DayTitle = styled(CF.RowStartDiv)`
   width: 100%;
   padding-bottom: 4px;
 `;
-const DayTodoCount = styled.div`
+const DayPlanCount = styled.div`
   position: absolute;
   right: 2px;
 `;
-const TodayTodoList = styled(CF.ColumnDiv)`
+const TodayPlanList = styled(CF.ColumnDiv)`
   gap: 4px;
   width: calc(100% - 2px);
 `;
 
-const Todo = styled.div`
+const Plan = styled.div`
   padding: 0px 4px;
   white-space: nowrap;
   overflow-x: auto;
@@ -103,43 +116,3 @@ const Todo = styled.div`
   border-radius: 4px;
   display: flex;
 `;
-
-// const Button = styled.button`
-//   height: 24px;
-//   width: 100%;
-//   border-radius: 4px;
-//   font-size: 16px;
-//   padding: 0px 0px 0px 4px;
-//   display: flex;
-//   flex-flow: nowrap row;
-//   align-items: center;
-//   background-color: ${theme.backgroundColors.primary};
-
-//   @media (max-width: 1200px) {
-//     padding: 2px 0px;
-//     font-size: 16px;
-//     height: 40px;
-//     display: flex;
-//     flex-flow: nowrap column;
-//     justify-content: center;
-//     align-items: center;
-//   }
-//   @media (max-width: 1024px) {
-//     padding: 2px 0px;
-//     font-size: 14px;
-//     height: 40px;
-//     display: flex;
-//     flex-flow: nowrap column;
-//     justify-content: center;
-//     align-items: center;
-//   }
-//   @media (max-width: 768px) {
-//     font-size: 12px;
-//     padding: 0px;
-//     height: 40px;
-//     display: flex;
-//     flex-flow: nowrap column;
-//     justify-content: center;
-//     align-items: center;
-//   }
-// `;
