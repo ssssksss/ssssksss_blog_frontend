@@ -13,6 +13,7 @@ import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { SET_MONTH_PLAN_DATE } from "../../../redux/store/plan/actions";
 import Space from "../common/space/Space";
 import PlanSelectBox from "./PlanSelectBox";
+import { dateFormat4y2m2d2h2d2s } from "../../../utils/fucntion/dateFormat";
 /**
  * Author : Sukyung Lee
  * FileName: PlanSideContainer.tsx
@@ -31,6 +32,12 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
   const [content, setContent] = useState("");
   const [planList, setPlanList] = useState([]);
   const [isOpenAddPlanScreen, setIsOpenAddPlanScreen] = useState(false);
+  const [startDateTime, setStartDateTime] = useState(
+    dateFormat4y2m2d2h2d2s(new Date())
+  );
+  const [endDateTime, setEndDateTime] = useState(
+    dateFormat4y2m2d2h2d2s(new Date())
+  );
 
   const updatePlanHandler = (el: any) => {
     AxiosInstance({
@@ -110,9 +117,7 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
           );
         }
       })
-      .catch((error) => {
-        // console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -129,7 +134,6 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
       .catch((error) => {
         setPlanList([]);
       });
-    // }, []);
   }, [planStore.nowPlanDate]);
 
   return (
@@ -149,32 +153,35 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
             </Space>
             <Space title4="날짜" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <CF.ColumnDiv gap={10}>
-                <Input type="datetime-local" placeholder="시작일" />
-                <Input type="datetime-local" placeholder="종료일" />
+                <Input
+                  id="party"
+                  type="datetime-local"
+                  name="partydate"
+                  max="2022-10-30T16:30" // 최대날짜
+                  defaultValue={"2022-10-01T08:30"}
+                />
+                <Input
+                  id="party"
+                  type="datetime-local"
+                  name="partydate"
+                  min="2022-10-01T08:30" // 최소날짜
+                  defaultValue={"2022-10-01T08:30"}
+                />
               </CF.ColumnDiv>
             </Space>
             {/* 구성 추가 기능 필요 */}
             <Space title4="구성" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <CF.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
-                {/* <SelectStyle name="area">
-                  <div> 1 </div>
-                  <option value="" selected disabled>
-                    카테고리 선택
-                  </option>
-                  <option value="100">123</option>
-                  <option value="100">123</option>
-                </SelectStyle> */}
                 <PlanSelectBox />
                 <Button width={"100px"}> 추가 </Button>
               </CF.RowDiv>
             </Space>
-            {/* 색상 추가 기능 필요 */}
-            <Space title4="색상" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
-              <Input />
-            </Space>
             {/* 알림 추가 기능 필요 */}
             <Space title4="알림" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <Input />
+            </Space>
+            <Space title4="위치" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <Input placeholder={"카카오 지도 불러오기"} />
             </Space>
           </CF.ColumnDiv>
         </AddPlanScreen>

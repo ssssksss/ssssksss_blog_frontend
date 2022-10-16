@@ -32,6 +32,9 @@ interface IInputProps {
   display?: string;
   defaultChecked?: boolean;
   checked?: boolean;
+  min?: string;
+  max?: string;
+  step?: string | number;
 }
 
 const Input = ({
@@ -57,6 +60,9 @@ const Input = ({
   defaultChecked,
   checked,
   onKeyPress,
+  min,
+  max,
+  step,
   ...props
 }: IInputProps) => {
   return (
@@ -85,6 +91,9 @@ const Input = ({
       id={id}
       display={display}
       checked={checked}
+      min={min}
+      max={max}
+      step={step}
       {...field}
       {...register}
       {...props}
@@ -119,10 +128,18 @@ const InputStyle = styled.input<{
   &:hover {
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   }
+  position: relative;
 
   &[type="radio"] + label {
     display: flex;
     align-items: center;
+  }
+
+  &[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
   }
 
   ::placeholder {

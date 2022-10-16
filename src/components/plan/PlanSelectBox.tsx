@@ -38,10 +38,10 @@ const PlanSelectBox = (props: IPlanSelectBoxProps) => {
       <Option
         isOpen={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
-        style={{ background: background ? "white" : "#aeaeae" }}
+        style={{ background: background ? "white" : "#ffffff" }}
       >
         {value === "" ? "선택해주세요" : value}
-        <OptionColor style={{ background: background || "#aeaeae" }} />
+        <OptionColor style={{ background: background || "#ffffff" }} />
       </Option>
       {isOpen && (
         <OptionList>
@@ -72,6 +72,7 @@ const OptionList = styled.div`
   position: absolute;
   width: 100%;
   background: white;
+  z-index: 3;
 `;
 const Option = styled(CF.RowDiv)<{ isOpen?: boolean }>`
   height: 40px;
