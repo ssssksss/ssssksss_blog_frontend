@@ -95,8 +95,8 @@ const ViewBoardContainer = () => {
             <BoardContainer1>
               <CF.RowDiv>
                 <CF.Img
-                  alt="calendar_icon"
-                  src="/img/ui-icon/calendar_icon.png"
+                  alt="plan_icon"
+                  src="/img/ui-icon/plan_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}

@@ -28,12 +28,10 @@ const PlanPage = () => {
       {isAuth && (
         <Container>
           <PlanCalendar sideOpenToggleHandler={sideOpenToggleHandler} />
-          <SideDiv>
-            <PlanSideContainer
-              hide={!isOpen}
-              sideOpenToggleHandler={sideOpenToggleHandler}
-            />
-          </SideDiv>
+          <PlanSideContainer
+            hide={!isOpen}
+            sideOpenToggleHandler={sideOpenToggleHandler}
+          />
           {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
         </Container>
       )}
@@ -47,23 +45,8 @@ const Container = styled(CF.RowDiv)`
   gap: 10px;
   justify-content: center;
   position: relative;
+  width: 100%;
   min-height: calc(100% - 20px);
-`;
-
-const SideDiv = styled.section`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  display: flex;
-  flex-flow: nowrap row;
-  max-width: 100%;
-  height: calc(100% - 20px);
-  align-items: center;
-  z-index: 10;
-
-  & > img {
-    height: 300px;
-  }
 `;
 
 const Overlay = styled.button`

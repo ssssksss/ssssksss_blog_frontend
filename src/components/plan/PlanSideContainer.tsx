@@ -11,6 +11,8 @@ import { store } from "@/redux/store";
 import PlanItem from "./PlanItem";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { SET_MONTH_PLAN_DATE } from "../../../redux/store/plan/actions";
+import Space from "../common/space/Space";
+import PlanSelectBox from "./PlanSelectBox";
 
 /**
  * Author : Sukyung Lee
@@ -24,10 +26,13 @@ interface IPlanSideContainerProps {
   sideOpenToggleHandler: () => void;
 }
 
+const PLAN_ITEM_COLOR = "#eeeeee";
+
 const PlanSideContainer = (props: IPlanSideContainerProps) => {
   const planStore = useSelector((state: RootState) => state.planStore);
   const [content, setContent] = useState("");
   const [planList, setPlanList] = useState([]);
+  const [isOpenAddPlanScreen, setIsOpenAddPlanScreen] = useState(false);
 
   const updatePlanHandler = (el: any) => {
     AxiosInstance({
@@ -131,11 +136,64 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
 
   return (
     <Container hide={props.hide}>
+      {isOpenAddPlanScreen && (
+        <AddPlanScreen>
+          <Title>
+            <CF.ColumnCenterDiv gap={10}>
+              <span>{planStore.nowPlanDate}</span>
+              <span>일정 추가하기</span>
+            </CF.ColumnCenterDiv>
+            <Button onClick={() => setIsOpenAddPlanScreen(false)}> X </Button>
+          </Title>
+          <CF.ColumnDiv padding={"10px 0px 0px 10px"} gap={10}>
+            <Space title4="제목" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <Input placeholder="제목 입력" />
+            </Space>
+            <Space title4="날짜" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <CF.ColumnDiv gap={10}>
+                <Input placeholder="시작일" />
+                <Input placeholder="종료일" />
+              </CF.ColumnDiv>
+            </Space>
+            {/* 구성 추가 기능 필요 */}
+            <Space title4="구성" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <CF.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
+                {/* <SelectStyle name="area">
+                  <div> 1 </div>
+                  <option value="" selected disabled>
+                    카테고리 선택
+                  </option>
+                  <option value="100">123</option>
+                  <option value="100">123</option>
+                </SelectStyle> */}
+                <PlanSelectBox />
+                <Button width={"100px"}> 추가 </Button>
+              </CF.RowDiv>
+            </Space>
+            {/* 색상 추가 기능 필요 */}
+            <Space title4="색상" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <Input />
+            </Space>
+            {/* 알림 추가 기능 필요 */}
+            <Space title4="알림" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <Input />
+            </Space>
+          </CF.ColumnDiv>
+        </AddPlanScreen>
+      )}
       <Title>
         {planStore.nowPlanDate}
         <Button onClick={props.sideOpenToggleHandler}> X </Button>
       </Title>
       <PlanList>
+        <Button
+          width="100%"
+          padding={"10px 0px"}
+          color="white"
+          onClick={() => setIsOpenAddPlanScreen(true)}
+        >
+          일정 추가
+        </Button>
         {planList.length !== 0 &&
           planList.map((el: any, index: number) => (
             <PlanItem
@@ -146,24 +204,6 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
               deletePlanHandler={deletePlanHandler}
             />
           ))}
-        <CF.RowDiv gap={10}>
-          <Input
-            placeholder="plan 내용 작성"
-            border={`solid 1px ${theme.backgroundColors.fourth}`}
-            onChange={(e: any) => {
-              setContent(e.target.value);
-            }}
-            onKeyPress={addPlan}
-            value={content}
-          />
-          <CF.Img
-            alt="right_arrow_icon"
-            src="/img/ui-icon/right_arrow_icon.png"
-            size="40px"
-            backgroundColor={`${theme.backgroundColors.fourth}`}
-            onClick={addPlan}
-          />
-        </CF.RowDiv>
       </PlanList>
     </Container>
   );
@@ -171,10 +211,19 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
 export default PlanSideContainer;
 
 const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  max-width: 90%;
+  min-width: 360px;
+  height: 100%;
+  z-index: 10;
+
   border: solid 1px black;
   gap: 10px;
   border-radius: 10px 10px 0px 0px;
   padding-bottom: 20px;
+  width: 100%;
   min-height: calc(100% - 20px);
   align-self: stretch;
   background: white;
@@ -186,6 +235,21 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
     css`
       display: none;
     `}
+`;
+const AddPlanScreen = styled.section`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  background: #f4f4f4;
+
+  & > button {
+    position: absolute;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    aspect-ratio: 1;
+  }
 `;
 const PlanList = styled(CF.ColumnDiv)`
   gap: 10px;
@@ -199,12 +263,21 @@ const Title = styled(CF.RowCenterDiv)`
   color: white;
   border-radius: 10px 10px 0px 0px;
   position: relative;
+  width: 100%;
 
   & > button {
     position: absolute;
-    right: 4px;
-    width: 50px;
-    height: 50px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
     aspect-ratio: 1;
+  }
+`;
+const SelectStyle = styled.select`
+  /* background: linear-gradient(90deg, #833ab4 33%, #fd1d1d 66%, #fcb045 100%); */
+  position: relative;
+  option {
+    /* background: linear-gradient(90deg, #ffffff 80%, #ff0000 100%); */
+    /* background: red; */
   }
 `;

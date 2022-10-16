@@ -106,12 +106,12 @@ const InputStyle = styled.input<{
   display?: string;
 }>`
   font-size: 1rem;
-  border: ${(props) => (props.border ? props.border : "1px solid #acebe7")};
   width: ${(props) => (props.width ? props.width : "100%")};
   height: ${(props) => (props.height ? props.height : "40px")};
   padding: ${(props) => (props.padding ? props.padding : "0px 0px 0px 8px")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
   background-color: ${(props) => props.backgroundColor || "#fff"};
+  border: ${(props) => (props.border ? props.border : "1px solid #acebe7")};
   border-radius: ${(props) =>
     props.borderRadius ? props.borderRadius : "10px"};
   outline: none;
@@ -136,5 +136,7 @@ const InputStyle = styled.input<{
   }
   :focus::placeholder {
     color: transparent;
+    font-size: 10px;
+    transform: translate(-6px, -6px);
   }
 `;

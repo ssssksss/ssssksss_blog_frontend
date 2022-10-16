@@ -17,12 +17,13 @@ interface ISpaceProps {
   width?: string;
   height?: string;
   titleWidth?: string;
-  titlePadding?: string;
   titleFontSize?: string;
   titleFontWeight?: number;
-  titleBackground?: string;
+  titleBg?: string;
+  titleP?: string; // title-padding
   children?: ReactNode;
   padding?: string;
+  bg?: string; // background
 }
 
 const Space = ({
@@ -33,23 +34,24 @@ const Space = ({
   children,
   height,
   titleWidth,
-  titlePadding,
   titleFontSize,
   titleFontWeight,
-  titleBackground,
+  titleBg, // title-background
+  titleP, // title-padding
   padding,
+  bg,
 }: ISpaceProps) => {
   return (
-    <Container height={height} padding={padding}>
+    <Container height={height} padding={padding} background={bg}>
       {title1 && (
         <ContainerColumn gap={gap}>
           {title1 && (
             <TitleDiv
-              padding={titlePadding}
               titleFontSize={titleFontSize}
               titleFontWeight={titleFontWeight}
               titleWidth={titleWidth}
-              titleBackground={titleBackground}
+              titleBg={titleBg}
+              padding={titleP}
             >
               {title1}
             </TitleDiv>
@@ -61,10 +63,10 @@ const Space = ({
         <ContainerRow gap={gap}>
           {title4 && (
             <TitleDiv
-              padding={titlePadding}
               titleFontWeight={titleFontWeight}
               titleWidth={titleWidth}
-              titleBackground={titleBackground}
+              titleBg={titleBg}
+              padding={titleP}
             >
               {title4}
             </TitleDiv>
@@ -77,10 +79,10 @@ const Space = ({
           <ChildrenDiv> {children} </ChildrenDiv>
           {title3 && (
             <TitleDiv
-              padding={titlePadding}
+              padding={titleP}
               titleFontWeight={titleFontWeight}
               titleWidth={titleWidth}
-              titleBackground={titleBackground}
+              titleBg={titleBg}
             >
               {title3}
             </TitleDiv>
@@ -91,14 +93,23 @@ const Space = ({
   );
 };
 export default Space;
-const Container = styled.div<{ height?: string; padding?: string }>`
+const Container = styled.div<{
+  height?: string;
+  padding?: string;
+  background?: string;
+}>`
   height: 100%;
   width: 100%;
+  padding: ${(props) => props.padding || "6px 4px"};
   ${(props) =>
     props.height &&
     css`
       height: ${props.height};
-      padding: ${props.padding};
+    `}
+  ${(props) =>
+    props.background &&
+    css`
+      background: ${props.background};
     `}
 `;
 
@@ -126,7 +137,7 @@ const TitleDiv = styled.div<{
   titleFontSize?: string;
   titleFontWeight?: number;
   titleWidth?: string;
-  titleBackground?: string;
+  titleBg?: string;
 }>`
   ${(props: any) =>
     css`
@@ -134,7 +145,7 @@ const TitleDiv = styled.div<{
       padding: ${props.padding};
       font-size: ${props.titleFontSize || "16px"};
       font-weight: ${props.titleFontWeight || 600};
-      background: ${props.titleBackground};
+      background: ${props.titleBg};
     `}
 `;
 const ChildrenDiv = styled.div`

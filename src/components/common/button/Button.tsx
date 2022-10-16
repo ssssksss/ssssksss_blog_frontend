@@ -74,7 +74,7 @@ const ButtonStyle = styled.button<IButtonProps>`
   padding: ${(props) => props.padding || "0px 4px"};
   border: none;
   font-size: ${(props) => props.fontSize || "16px"};
-  border-radius: ${(props) => props.borderRadius || "10px"};
+  border-radius: ${(props) => props.borderRadius || "4px"};
 
   &:hover {
     box-shadow: 0 0 0 2px #000 inset;
