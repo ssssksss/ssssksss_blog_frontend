@@ -13,14 +13,12 @@ import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { SET_MONTH_PLAN_DATE } from "../../../redux/store/plan/actions";
 import Space from "../common/space/Space";
 import PlanSelectBox from "./PlanSelectBox";
-
 /**
  * Author : Sukyung Lee
  * FileName: PlanSideContainer.tsx
  * Date: 2022-09-11 09:59:51
  * Description :
  */
-
 interface IPlanSideContainerProps {
   hide: boolean;
   sideOpenToggleHandler: () => void;
@@ -151,8 +149,8 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
             </Space>
             <Space title4="날짜" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <CF.ColumnDiv gap={10}>
-                <Input placeholder="시작일" />
-                <Input placeholder="종료일" />
+                <Input type="datetime-local" placeholder="시작일" />
+                <Input type="datetime-local" placeholder="종료일" />
               </CF.ColumnDiv>
             </Space>
             {/* 구성 추가 기능 필요 */}
