@@ -198,6 +198,10 @@ const StackMenuButton = styled.button<{ active: boolean }>`
   box-shadow: 0px 0px 5px 0px white;
   font-weight: 800;
   background: ${theme.backgroundColors.primary};
+
+  @media (max-width: 600px) {
+    width: 80px;
+  }
   &:hover {
     color: white;
     box-shadow: 0px 0px 10px 2px white;

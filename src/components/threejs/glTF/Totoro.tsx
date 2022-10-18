@@ -17,7 +17,7 @@ const Totoro = () => {
 
   useEffect(() => {
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(400, 600);
+    renderer.setSize(360, 600);
     canvasRef.current?.appendChild(renderer.domElement);
     camera.position.set(1, 2, 3);
     const controls = new OrbitControls(camera, renderer.domElement);

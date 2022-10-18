@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
 import AdvertisementContainer from "@/components/Modal/advertise/AdvertisementContainer";
+import "react-quill/dist/quill.snow.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

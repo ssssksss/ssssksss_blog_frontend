@@ -140,6 +140,9 @@ const InputStyle = styled.input<{
     width: 100%;
     height: 100%;
     opacity: 0;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   ::placeholder {

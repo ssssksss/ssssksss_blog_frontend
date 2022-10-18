@@ -21,6 +21,8 @@ const BlogHeader = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
+  const [active, setActive] = useState("");
   const dispatch = useDispatch();
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -131,11 +133,31 @@ const BlogHeader = () => {
       >
         <Img alt="logo" src="/img/logo/logo.svg" />
       </Logo>
-      <MenuContainer>
+      <ToggleMenuImgContainer
+        onClick={() => {
+          setIsNavbarOpen((prev) => !prev);
+        }}
+      >
+        <CF.Img alt="toggle_menu" src="/img/ui-icon/list_icon.png" />
+        <span> 메뉴 </span>
+      </ToggleMenuImgContainer>
+      <MenuContainer isNavbarOpen={isNavbarOpen}>
+        <ImgContainer
+          onClick={() => {
+            router.push("/");
+            setActive("");
+          }}
+          active={active === ""}
+        >
+          <CF.Img alt="bulletin_board" src="/img/ui-icon/home_icon.png" />
+          <span> 홈 </span>
+        </ImgContainer>
         <ImgContainer
           onClick={() => {
             router.push("/blog");
+            setActive("blog");
           }}
+          active={active === "blog"}
         >
           <CF.Img alt="bulletin_board" src="/img/ui-icon/blog_box_icon.png" />
           <span> 블로그 </span>
@@ -143,7 +165,9 @@ const BlogHeader = () => {
         <ImgContainer
           onClick={() => {
             router.push("/board");
+            setActive("board");
           }}
+          active={active === "board"}
         >
           <CF.Img
             alt="bulletin_board"
@@ -155,7 +179,9 @@ const BlogHeader = () => {
           <ImgContainer
             onClick={() => {
               router.push("/todo");
+              setActive("todo");
             }}
+            active={active === "todo"}
           >
             <CF.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
             <span> TODO </span>
@@ -165,7 +191,9 @@ const BlogHeader = () => {
           <ImgContainer
             onClick={() => {
               router.push("/user-dashboard");
+              setActive("user-dashboard");
             }}
+            active={active === "user-dashboard"}
           >
             <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
             <span> 대시보드 </span>
@@ -175,7 +203,9 @@ const BlogHeader = () => {
           <ImgContainer
             onClick={() => {
               router.push("/plan");
+              setActive("plan");
             }}
+            active={active === "plan"}
           >
             <CF.Img alt="plan" src="/img/ui-icon/plan_icon.png" />
             <span> 일정 </span>
@@ -260,16 +290,44 @@ const Logo = styled.button`
   background-color: transparent;
   border: none;
 `;
-const MenuContainer = styled.nav`
+const ToggleMenuImgContainer = styled(CF.ImgContainer)`
+  height: 100%;
+  min-height: 80px;
+  min-width: 60px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  display: none;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-flow: nowrap column;
+    justify-content: center;
+  }
+
+  img {
+    width: 30px;
+    aspect-ratio: 1;
+  }
+`;
+const MenuContainer = styled.nav<{ isNavbarOpen: boolean }>`
   width: 100vw;
   display: flex;
   flex-flow: nowrap row;
   justify-content: flex-end;
-  @media (max-width: 480px) {
-    img {
-      width: 30px;
-      aspect-ratio: 1;
-    }
+  animation: ${animationKeyFrames.Fadein} 1s;
+
+  @media (max-width: 600px) {
+    display: ${(props) => (props.isNavbarOpen ? "none" : "grid")};
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 80px;
+    grid-template-columns: repeat(4, 1fr);
+    background: ${theme.backgroundColors.primaryLight};
+    z-index: 40;
+    border-bottom: solid black 2px;
+    border-left: solid black 2px;
+    border-top: dotted black 1px;
   }
 `;
 const Img = styled.img`
@@ -279,23 +337,24 @@ const Img = styled.img`
   animation: ${rotation} 4s linear infinite;
   animation-direction: alternate-reverse;
   border-radius: 50%;
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-  }
 `;
 
-const ImgContainer = styled(CF.ImgContainer)`
+const ImgContainer = styled(CF.ImgContainer)<{ active?: boolean }>`
   height: 100%;
   min-height: 80px;
   min-width: 60px;
+  ${(props) =>
+    props.active &&
+    css`
+      animation: ${animationKeyFrames.UpToDownRepeat} infinite 1s;
+    `}
 
   img {
     width: 30px;
-    height: 30px;
+    aspect-ratio: 1;
   }
 `;
+
 const TopButton = styled.img`
   position: fixed;
   width: 40px;

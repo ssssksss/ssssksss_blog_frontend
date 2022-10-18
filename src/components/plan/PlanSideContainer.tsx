@@ -13,7 +13,11 @@ import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { SET_MONTH_PLAN_DATE } from "../../../redux/store/plan/actions";
 import Space from "../common/space/Space";
 import PlanSelectBox from "./PlanSelectBox";
-import { dateFormat4y2m2d2h2d2s } from "../../../utils/fucntion/dateFormat";
+import {
+  dateFormat4y2m2d2h2m2s,
+  dateFormat4y2m2d2h2m,
+} from "../../../utils/fucntion/dateFormat";
+import ReactQuill from "react-quill";
 /**
  * Author : Sukyung Lee
  * FileName: PlanSideContainer.tsx
@@ -33,10 +37,10 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
   const [planList, setPlanList] = useState([]);
   const [isOpenAddPlanScreen, setIsOpenAddPlanScreen] = useState(false);
   const [startDateTime, setStartDateTime] = useState(
-    dateFormat4y2m2d2h2d2s(new Date())
+    dateFormat4y2m2d2h2m2s(new Date())
   );
   const [endDateTime, setEndDateTime] = useState(
-    dateFormat4y2m2d2h2d2s(new Date())
+    dateFormat4y2m2d2h2m2s(new Date())
   );
 
   const updatePlanHandler = (el: any) => {
@@ -120,6 +124,10 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
       .catch((error) => {});
   };
 
+  const test = (e: any) => {
+    console.log("PlanSideContainer.tsx : ", e);
+  };
+
   useEffect(() => {
     AxiosInstance({
       url: "/api/plan",
@@ -151,6 +159,10 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
             <Space title4="제목" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <Input placeholder="제목 입력" />
             </Space>
+            <Space title4="내용" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <ReactQuill />
+              {/* <Input placeholder="내용 입력" /> */}
+            </Space>
             <Space title4="날짜" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <CF.ColumnDiv gap={10}>
                 <Input
@@ -158,14 +170,16 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
                   type="datetime-local"
                   name="partydate"
                   max="2022-10-30T16:30" // 최대날짜
-                  defaultValue={"2022-10-01T08:30"}
+                  defaultValue={dateFormat4y2m2d2h2m(new Date())}
+                  onChange={(e: any) => setStartDateTime(e.target.value)}
                 />
                 <Input
                   id="party"
                   type="datetime-local"
                   name="partydate"
                   min="2022-10-01T08:30" // 최소날짜
-                  defaultValue={"2022-10-01T08:30"}
+                  defaultValue={dateFormat4y2m2d2h2m(new Date())}
+                  onChange={(e: any) => setEndDateTime(e.target.value)}
                 />
               </CF.ColumnDiv>
             </Space>
@@ -177,12 +191,12 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
               </CF.RowDiv>
             </Space>
             {/* 알림 추가 기능 필요 */}
-            <Space title4="알림" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+            {/* <Space title4="알림" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <Input />
             </Space>
             <Space title4="위치" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <Input placeholder={"카카오 지도 불러오기"} />
-            </Space>
+            </Space> */}
           </CF.ColumnDiv>
         </AddPlanScreen>
       )}
@@ -286,3 +300,12 @@ const SelectStyle = styled.select`
     /* background: red; */
   }
 `;
+
+// 카테고리 1로 생성이 된게 2개글이 있어 근데 삭제를 해? 그러면 어쩌지?
+// 1번 카테고리 테이블 없이 한다면? 사용자 email로 테이블을 불러오고 거기서 distinct? 카테고리,스타일을 뽑아낸다.
+// 장점은 계획을 삭제한다면 자동으로 카테고리랑 스타일도 삭제가 된다. 하지만 변경을 하게되면 다른 계획도 전부 변경을 해야 하는데
+// 그렇게 되면 비효율적인 수가 있다.
+
+// 2번 카테고리 테이블을 만든다.
+// 변경을 하게되면 테이블만 변경하면 되니 쉬워진다.
+// 계획을 삭제하게되서 테이블이 ㅣ

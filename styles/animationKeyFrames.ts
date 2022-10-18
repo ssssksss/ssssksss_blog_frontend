@@ -18,17 +18,17 @@ const UpToDownRepeatFadein = keyframes`
     transform: translate(0px,-4px);
   }
   to{
-    opacity: 0;
+    opacity: 0.2;
     transform: translate(0px,4px);
   }
 `;
 
 const UpToDownRepeat = keyframes`
   0%,100%{
-    transform: translate(0px,-4px);
+    transform: translate(0px,-2px);
   }
   50%{
-    transform: translate(0px,4px);
+    transform: translate(0px,2px);
   }
 `;
 

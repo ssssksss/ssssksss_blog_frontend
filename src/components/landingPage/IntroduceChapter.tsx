@@ -34,7 +34,7 @@ const Container = styled(CF.RowBetweenDiv)`
 `;
 
 const TextDiv = styled(CF.ColumnLeftDiv)`
-  width: 400px;
+  width: 360px;
   justify-content: center;
   padding: 20px 10px 20px 50px;
 `;
@@ -52,7 +52,7 @@ const SubTitle = styled.span`
 `;
 
 const ObjectModel = styled(CF.RowDiv)`
-  width: 400px;
+  width: 360px;
   height: 100%;
   align-items: center;
 
