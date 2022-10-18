@@ -18,6 +18,7 @@ import {
   dateFormat4y2m2d2h2m,
 } from "../../../utils/fucntion/dateFormat";
 import ReactQuill from "react-quill";
+import BasicCustomModal from "../Modal/BasicCustomModal";
 /**
  * Author : Sukyung Lee
  * FileName: PlanSideContainer.tsx
@@ -30,12 +31,33 @@ interface IPlanSideContainerProps {
 }
 
 const PLAN_ITEM_COLOR = "#eeeeee";
+const categoryColorListExample = [
+  { color: "#eb5757", description: "Red" },
+  { color: "#f2994a", description: "Orange" },
+  { color: "#f2c94c", description: "Yellow" },
+  { color: "#219653", description: "Green1" },
+  { color: "#27ae60", description: "Green2" },
+  { color: "#6fcf97", description: "Green3" },
+  { color: "#2f80ed", description: "Blue1" },
+  { color: "#2d9cdb", description: "Blue2" },
+  { color: "#56ccf2", description: "Blue3" },
+  { color: "#9b51e0", description: "Purple1" },
+  { color: "#bb6bd9", description: "Purple2" },
+  { color: "#b085f5", description: "Purple3" },
+  { color: "#828282", description: "gray1" },
+  { color: "#bdbdbd", description: "gray2" },
+  { color: "#e0e0e0", description: "gray3" },
+];
 
 const PlanSideContainer = (props: IPlanSideContainerProps) => {
   const planStore = useSelector((state: RootState) => state.planStore);
   const [content, setContent] = useState("");
   const [planList, setPlanList] = useState([]);
   const [isOpenAddPlanScreen, setIsOpenAddPlanScreen] = useState(false);
+  const [isOpenAddCategoryScreen, setIsOpenAddCategoryScreen] = useState(false);
+  const [categoryColor, setCategoryColor] = useState("#000000");
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryList, setCategoryList] = useState<any>([]);
   const [startDateTime, setStartDateTime] = useState(
     dateFormat4y2m2d2h2m2s(new Date())
   );
@@ -124,8 +146,18 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
       .catch((error) => {});
   };
 
-  const test = (e: any) => {
-    console.log("PlanSideContainer.tsx : ", e);
+  const onClickAddCategoryHandler = () => {
+    if (categoryName !== "" && categoryColor !== "#000000") {
+      setCategoryList([
+        // ...categoryList,
+        { value: categoryName, background: categoryColor },
+      ]);
+      setCategoryName("");
+      setCategoryColor("#000000");
+      setIsOpenAddCategoryScreen(false);
+    } else {
+      alert("색상이 검은색이거나 카테고리 이름이 입력되지 않았습니다.");
+    }
   };
 
   useEffect(() => {
@@ -148,6 +180,62 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
     <Container hide={props.hide}>
       {isOpenAddPlanScreen && (
         <AddPlanScreen>
+          {isOpenAddCategoryScreen && (
+            <BasicCustomModal
+              toggleModal={() => setIsOpenAddCategoryScreen(false)}
+            >
+              <AddCategoryContainer>
+                <Title>
+                  <CF.ColumnCenterDiv gap={10}>
+                    <span>카테고리 추가하기</span>
+                  </CF.ColumnCenterDiv>
+                  <Button onClick={() => setIsOpenAddCategoryScreen(false)}>
+                    X
+                  </Button>
+                </Title>
+                <CF.ColumnDiv padding={"10px 10px 0px"} gap={10}>
+                  <Space
+                    title4="카테고리명"
+                    titleWidth="160px"
+                    bg={PLAN_ITEM_COLOR}
+                  >
+                    <Input
+                      placeholder="카테고리 이름을 입력하세요"
+                      onChange={(e: any) => setCategoryName(e.target.value)}
+                    />
+                  </Space>
+                  <Space title4="색상" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+                    <Input
+                      type="color"
+                      placeholder="카테고리 이름을 입력하세요"
+                      onChange={(e: any) => setCategoryColor(e.target.value)}
+                      padding="0px 10px"
+                      value={categoryColor}
+                    />
+                    <CF.RowRightDiv> {categoryColor} </CF.RowRightDiv>
+                  </Space>
+                  <CategoryColorListContainer>
+                    {categoryColorListExample.map((el: any, index: number) => (
+                      <CategoryColorButton
+                        key={index}
+                        onClick={() => setCategoryColor(el.color)}
+                        backgroundColor={el.color}
+                      >
+                        {/* {el.description} */}
+                      </CategoryColorButton>
+                    ))}
+                  </CategoryColorListContainer>
+                  <Button
+                    width="100%"
+                    height="50px"
+                    onClick={onClickAddCategoryHandler}
+                  >
+                    카테고리 생성
+                  </Button>
+                </CF.ColumnDiv>
+              </AddCategoryContainer>
+            </BasicCustomModal>
+          )}
           <Title>
             <CF.ColumnCenterDiv gap={10}>
               <span>{planStore.nowPlanDate}</span>
@@ -155,7 +243,7 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
             </CF.ColumnCenterDiv>
             <Button onClick={() => setIsOpenAddPlanScreen(false)}> X </Button>
           </Title>
-          <CF.ColumnDiv padding={"10px 0px 0px 10px"} gap={10}>
+          <CF.ColumnDiv padding={"10px 10px 0px"} gap={10}>
             <Space title4="제목" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <Input placeholder="제목 입력" />
             </Space>
@@ -186,8 +274,13 @@ const PlanSideContainer = (props: IPlanSideContainerProps) => {
             {/* 구성 추가 기능 필요 */}
             <Space title4="구성" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
               <CF.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
-                <PlanSelectBox />
-                <Button width={"100px"}> 추가 </Button>
+                <PlanSelectBox options={categoryList} />
+                <Button
+                  width={"100px"}
+                  onClick={() => setIsOpenAddCategoryScreen(true)}
+                >
+                  카테고리 추가
+                </Button>
               </CF.RowDiv>
             </Space>
             {/* 알림 추가 기능 필요 */}
@@ -280,7 +373,6 @@ const Title = styled(CF.RowCenterDiv)`
   height: 60px;
   background-color: ${theme.backgroundColors.secondary};
   color: white;
-  border-radius: 10px 10px 0px 0px;
   position: relative;
   width: 100%;
 
@@ -292,20 +384,27 @@ const Title = styled(CF.RowCenterDiv)`
     aspect-ratio: 1;
   }
 `;
-const SelectStyle = styled.select`
-  /* background: linear-gradient(90deg, #833ab4 33%, #fd1d1d 66%, #fcb045 100%); */
-  position: relative;
-  option {
-    /* background: linear-gradient(90deg, #ffffff 80%, #ff0000 100%); */
-    /* background: red; */
+
+const AddCategoryContainer = styled(CF.ColumnDiv)`
+  background: white;
+  width: 100%;
+  min-height: 600px;
+`;
+const CategoryColorListContainer = styled.div`
+  background: "#eeeeee";
+  gap: 20px;
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: flex-start;
+`;
+const CategoryColorButton = styled.button<{ backgroundColor: string }>`
+  outline: solid 2px black;
+  border-radius: 50%;
+  width: 40px;
+  aspect-ratio: 1;
+  background: ${(props) => props.backgroundColor};
+
+  @media (max-width: 768px) {
+    width: 30px;
   }
 `;
-
-// 카테고리 1로 생성이 된게 2개글이 있어 근데 삭제를 해? 그러면 어쩌지?
-// 1번 카테고리 테이블 없이 한다면? 사용자 email로 테이블을 불러오고 거기서 distinct? 카테고리,스타일을 뽑아낸다.
-// 장점은 계획을 삭제한다면 자동으로 카테고리랑 스타일도 삭제가 된다. 하지만 변경을 하게되면 다른 계획도 전부 변경을 해야 하는데
-// 그렇게 되면 비효율적인 수가 있다.
-
-// 2번 카테고리 테이블을 만든다.
-// 변경을 하게되면 테이블만 변경하면 되니 쉬워진다.
-// 계획을 삭제하게되서 테이블이 ㅣ

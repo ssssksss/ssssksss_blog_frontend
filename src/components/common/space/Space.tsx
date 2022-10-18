@@ -98,7 +98,6 @@ const Container = styled.div<{
   padding?: string;
   background?: string;
 }>`
-  height: 100%;
   width: 100%;
   padding: ${(props) => props.padding || "6px 4px"};
   ${(props) =>

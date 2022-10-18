@@ -11,16 +11,8 @@ import { CF } from "../../../styles/commonComponentStyle";
 
 interface IPlanSelectBoxProps {
   value?: string;
+  options?: any;
 }
-
-const test = [
-  { value: "1", background: "red" },
-  { value: "2", background: "blue" },
-  { value: "3", background: "red" },
-  { value: "4", background: "blue" },
-  { value: "5", background: "red" },
-  { value: "6", background: "blue" },
-];
 
 const PlanSelectBox = (props: IPlanSelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +37,7 @@ const PlanSelectBox = (props: IPlanSelectBoxProps) => {
       </Option>
       {isOpen && (
         <OptionList>
-          {test.map((el: any, index: number) => (
+          {props.options?.map((el: any, index: number) => (
             <Option
               key={index}
               onClick={() => changeOptionHandler(el.value, el.background)}
