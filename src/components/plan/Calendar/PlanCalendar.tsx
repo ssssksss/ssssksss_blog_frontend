@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme";
 import { CF } from "@/styles/commonComponentStyle";
-import PlanCalendarDayItem from "./PlanCalendarDayItem";
+import PlanMonthCalendarDayItem from "./PlanMonthCalendarDayItem";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
 import { createStore } from "redux";
 import { SET_MONTH_PLAN_DATE } from "@/redux/store/plan";
+import { dateFormat4y2m2d } from "../../../../utils/fucntion/dateFormat";
 
 interface IPlanCalendarProps {
   sideOpenToggleHandler: () => void;
@@ -74,7 +75,7 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
       },
     })
       .then((response) => {
-        store.dispatch(SET_MONTH_PLAN_DATE(response.data.data));
+        store.dispatch(SET_MONTH_PLAN_DATE(response.data.data.planList));
       })
       .catch((error) => {});
   }, []);
@@ -178,7 +179,7 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
           />
         </Header>
         {/* ===== 달력 메인 */}
-        <Main>
+        <PlanMonthCalendar>
           <DayHeader color={"red"}> 일 </DayHeader>
           <DayHeader> 월 </DayHeader>
           <DayHeader> 화 </DayHeader>
@@ -190,21 +191,19 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
           {Object.entries(calendarDays).map((el: [string, any]) => (
             // 키(el[0])는 날짜
             // 값(el[1])은 일, 요일, isThisMonth(저번달,다음달)
-            <PlanCalendarDayItem
+            <PlanMonthCalendarDayItem
               id={el[0]}
               key={el[0]}
-              day={el[1].day}
-              dayW={el[1].dayW}
-              isThisMonth={el[1].isThisMonth}
-              data={
-                monthPlanDates?.hasOwnProperty(el[0])
-                  ? monthPlanDates[el[0]]
-                  : []
-              }
+              day={el[1].day} // 일
+              dayW={el[1].dayW} // 요일
+              isThisMonth={el[1].isThisMonth} // 이번달인지
+              data={monthPlanDates.filter(
+                (el1: any) => el1?.startDateTime?.slice(0, 10) === el[0]
+              )}
               sideOpenToggleHandler={props.sideOpenToggleHandler}
             />
           ))}
-        </Main>
+        </PlanMonthCalendar>
       </Container>
     </>
   );
@@ -220,7 +219,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Main = styled.main`
+const PlanMonthCalendar = styled.main`
   display: grid;
   grid-template-columns: repeat(7, calc(100% / 7));
 `;

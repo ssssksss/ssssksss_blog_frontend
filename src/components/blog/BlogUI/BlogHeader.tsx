@@ -16,6 +16,7 @@ import {
   SECOND_CATEGORY_ACTION,
 } from "@/redux/store/category";
 import theme from "@/styles/theme";
+import Image from "next/image";
 
 const BlogHeader = () => {
   const router = useRouter();
@@ -131,7 +132,7 @@ const BlogHeader = () => {
           homeLogoHandler();
         }}
       >
-        <Img alt="logo" src="/img/logo/logo.svg" />
+        <Img alt="logo" src="/img/logo/logo.png" width={30} height={30} />
       </Logo>
       <ToggleMenuImgContainer
         onClick={() => {
@@ -298,7 +299,7 @@ const ToggleMenuImgContainer = styled(CF.ImgContainer)`
   right: 0px;
   top: 0px;
   display: none;
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     display: flex;
     flex-flow: nowrap column;
     justify-content: center;
@@ -316,7 +317,7 @@ const MenuContainer = styled.nav<{ isNavbarOpen: boolean }>`
   justify-content: flex-end;
   animation: ${animationKeyFrames.Fadein} 1s;
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     display: ${(props) => (props.isNavbarOpen ? "none" : "grid")};
     width: 300px;
     position: absolute;
@@ -330,7 +331,7 @@ const MenuContainer = styled.nav<{ isNavbarOpen: boolean }>`
     border-top: dotted black 1px;
   }
 `;
-const Img = styled.img`
+const Img = styled(Image)`
   max-width: 40px;
   max-height: 40px;
   padding: 10px;

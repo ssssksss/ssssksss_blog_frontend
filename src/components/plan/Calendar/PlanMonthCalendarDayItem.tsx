@@ -21,7 +21,7 @@ type CalendarDayItemType = {
   sideOpenToggleHandler: () => void;
 };
 
-const PlanCalendarDayItem = (props: CalendarDayItemType) => {
+const PlanMonthCalendarDayItem = (props: CalendarDayItemType) => {
   const dispatch = useDispatch();
   const setNowPlanDate = (nowPlanDate: any) => {
     dispatch(SET_NOW_PLAN_DATE(nowPlanDate));
@@ -42,25 +42,25 @@ const PlanCalendarDayItem = (props: CalendarDayItemType) => {
       {/* 일 수 */}
       <DayTitle>
         <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
-        <DayPlanCount> {props.data?.length} 개 </DayPlanCount>
+        {/* <DayPlanCount> {props.data?.length} 개 </DayPlanCount> */}
       </DayTitle>
       <TodayPlanList>
-        {props.data
-          ?.filter((i: any, index: number) => !i.isChecked)
-          .map(
-            (el: any, index: number) =>
-              index < 5 && (
-                <Plan key={index}>
-                  <CF.OverflowText> {el.content} </CF.OverflowText>
-                </Plan>
-              )
-          )}
+        {props.data?.map(
+          (el: any, index: number) => (
+            // index < 5 && (
+            <PlanMonthCalendarDayPlanItem key={index}>
+              <PlanMarkColor style={{ background: el.backgroundColor }} />
+              <CF.OverflowText> {el.title} </CF.OverflowText>
+            </PlanMonthCalendarDayPlanItem>
+          )
+          // )
+        )}
       </TodayPlanList>
     </Container>
   );
 };
 
-export default PlanCalendarDayItem;
+export default PlanMonthCalendarDayItem;
 
 const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
   min-height: 120px;
@@ -84,6 +84,10 @@ const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
       }
     `}
 `;
+const DayTitle = styled(CF.RowBetweenDiv)`
+  width: 100%;
+  padding: 0px 4px 6px;
+`;
 const DaySpan = styled.span<{ dayW?: number }>`
   font-size: 16px;
   color: ${(props: any) =>
@@ -93,26 +97,37 @@ const DaySpan = styled.span<{ dayW?: number }>`
     font-size: 12px;
   }
 `;
-const DayTitle = styled(CF.RowStartDiv)`
-  position: relative;
-  width: 100%;
-  padding-bottom: 4px;
-`;
-const DayPlanCount = styled.div`
-  position: absolute;
-  right: 2px;
-`;
+const DayPlanCount = styled.div``;
+{
+  /* <TodayPlanList>
+{props.data?.map(
+  (el: any, index: number) =>
+    index < 5 && (
+      <Plan key={index}>
+        <PlanMarkColor style={{ background: el.backgroundColor }} />
+        <CF.OverflowText> {el.title} </CF.OverflowText>
+      </Plan>
+    )
+)}
+</TodayPlanList> */
+}
 const TodayPlanList = styled(CF.ColumnDiv)`
   gap: 4px;
   width: calc(100% - 2px);
 `;
-
-const Plan = styled.div`
-  padding: 0px 4px;
+const PlanMonthCalendarDayPlanItem = styled(CF.RowDiv)`
+  padding: 2px 4px;
   white-space: nowrap;
   overflow-x: auto;
   text-overflow: ellipsis;
-  background-color: ${theme.backgroundColors.third};
-  border-radius: 4px;
+  font-size: 16px;
   display: flex;
+  gap: 4px;
+  align-items: center;
+  background: #f0f0f0;
+`;
+const PlanMarkColor = styled.div`
+  border-radius: 25%;
+  width: 8px;
+  height: 8px;
 `;

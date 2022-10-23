@@ -1,6 +1,6 @@
 import theme from "./theme";
 import styled, { css, keyframes } from "styled-components";
-
+import Image from "next/image";
 interface IStyleProps {
   gap?: number;
   border?: string;

@@ -74,6 +74,7 @@ const backgroundColors = {
   grayLight: "#C2C2C2",
   gray: "#ADADAD",
   grayDark: "#999999",
+  googleCalendarGray: "#f1f3f4",
 };
 
 const flex = {

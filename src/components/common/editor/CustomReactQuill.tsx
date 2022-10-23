@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { useFormContext } from "react-hook-form";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-interface ITextareaReactQuillSpaceProps {
+interface ICustomReactQuillProps {
   placeholder?: string;
   register?: any;
   height?: any;
@@ -14,15 +14,16 @@ interface ITextareaReactQuillSpaceProps {
   errors?: string;
   defaultValue?: string;
   editorOnchange?: any;
+  setContent?: any;
 }
 
-const TextareaReactQuillSpace = ({
+const CustomReactQuill = ({
   title1,
   errors,
   height,
-  editorOnchange,
   defaultValue,
-}: ITextareaReactQuillSpaceProps) => {
+  setContent,
+}: ICustomReactQuillProps) => {
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -49,20 +50,17 @@ const TextareaReactQuillSpace = ({
     []
   );
 
-  const { setValue, trigger } = useFormContext();
+  // const { setValue, trigger } = useFormContext();
 
   const onChangeContents = (value: string) => {
-    setValue("contents", value === "<p><br></p>" ? "" : value);
-    // trigger("contents");
+    setContent(value === "<p><br></p>" ? "" : value);
   };
-
-  console.log("defaultValue : " + defaultValue);
 
   return (
     <Container>
       {title1 && <Title1Div> {title1} </Title1Div>}
       {defaultValue !== undefined && (
-        <CustomReactQuill
+        <ReactQuillStyle
           id="editor"
           onChange={onChangeContents}
           modules={modules}
@@ -76,7 +74,7 @@ const TextareaReactQuillSpace = ({
     </Container>
   );
 };
-export default TextareaReactQuillSpace;
+export default CustomReactQuill;
 
 const Container = styled.div`
   resize: none;
@@ -84,14 +82,14 @@ const Container = styled.div`
   gap: 16px;
   margin-bottom: 40px;
 `;
-const CustomReactQuill = styled(ReactQuill)<{ height: string }>`
+const ReactQuillStyle = styled(ReactQuill)<{ height: string }>`
   overflow-y: scroll;
   .ql-container {
     height: ${(props) => props.height || "300px"};
   }
 
   .ql-toolbar {
-    background-color: red;
+    background-color: #9879ce;
   }
 `;
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { CF } from "../../../styles/commonComponentStyle";
+import { useEffect } from "react";
+import AxiosInstance from "@/utils/axios/AxiosInstance";
 
 /**
  * Author : Sukyung Lee
@@ -10,40 +12,59 @@ import { CF } from "../../../styles/commonComponentStyle";
  */
 
 interface IPlanSelectBoxProps {
-  value?: string;
+  categoryName?: string;
   options?: any;
+  setSelect?: any;
 }
 
 const PlanSelectBox = (props: IPlanSelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [background, setBackground] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("");
+  const [categoryList, setCategoryList] = useState<any>([]);
 
-  const changeOptionHandler = (value: any, background: any) => {
-    setValue(value);
+  const changeOptionHandler = (categoryName: any, backgroundColor: any) => {
+    setCategoryName(categoryName);
+    setBackgroundColor(backgroundColor);
+    props.setSelect(categoryName, backgroundColor);
     setIsOpen(false);
-    setBackground(background);
   };
+
+  useEffect(() => {
+    AxiosInstance({
+      url: "/api/plan-category",
+      method: "GET",
+    })
+      .then((response) => {
+        console.log("PlanSelectBox.tsx : ", response.data.data);
+        setCategoryList(response.data.data.planCategories);
+      })
+      .catch((error) => {
+        console.log("PlanSideContainer.tsx : ", "/api/plan-category 문제있음");
+      });
+  }, []);
 
   return (
     <Container>
       <Option
         isOpen={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
-        style={{ background: background ? "white" : "#ffffff" }}
+        style={{ background: backgroundColor ? "white" : "#ffffff" }}
       >
-        {value === "" ? "선택해주세요" : value}
-        <OptionColor style={{ background: background || "#ffffff" }} />
+        {categoryName === "" ? "선택해주세요" : categoryName}
+        <OptionColor style={{ background: backgroundColor || "#ffffff" }} />
       </Option>
       {isOpen && (
         <OptionList>
           {props.options?.map((el: any, index: number) => (
             <Option
               key={index}
-              onClick={() => changeOptionHandler(el.value, el.background)}
+              onClick={() =>
+                changeOptionHandler(el.categoryName, el.backgroundColor)
+              }
             >
-              {el.value}
-              <OptionColor style={{ background: el.background }} />
+              {el.categoryName}
+              <OptionColor style={{ background: el.backgroundColor }} />
             </Option>
           ))}
         </OptionList>
