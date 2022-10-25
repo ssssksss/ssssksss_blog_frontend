@@ -6,7 +6,7 @@ import { dateFormat4y2m2d } from "@/utils/fucntion/dateFormat";
 import React, { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { SET_NOW_PLAN_DATE } from "@/redux/store/plan/actions";
+import { SET_CURRENT_SCHEDULE_DATE } from "@/redux/store/schedule/actions";
 
 type CalendarDayItemType = {
   color?: string;
@@ -21,14 +21,14 @@ type CalendarDayItemType = {
   sideOpenToggleHandler: () => void;
 };
 
-const PlanMonthCalendarDayItem = (props: CalendarDayItemType) => {
+const ScheduleMonthCalendarDayItem = (props: CalendarDayItemType) => {
   const dispatch = useDispatch();
-  const setNowPlanDate = (nowPlanDate: any) => {
-    dispatch(SET_NOW_PLAN_DATE(nowPlanDate));
+  const setCurrentScheduleDate = (currentScheduleDate: any) => {
+    dispatch(SET_CURRENT_SCHEDULE_DATE(currentScheduleDate));
   };
   const onClickHandler = () => {
     if (props.isThisMonth) {
-      setNowPlanDate(props.id);
+      setCurrentScheduleDate(props.id);
       props.sideOpenToggleHandler();
     }
   };
@@ -42,25 +42,21 @@ const PlanMonthCalendarDayItem = (props: CalendarDayItemType) => {
       {/* 일 수 */}
       <DayTitle>
         <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
-        {/* <DayPlanCount> {props.data?.length} 개 </DayPlanCount> */}
+        {/* <DayScheduleCount> {props.data?.length} 개 </DayScheduleCount> */}
       </DayTitle>
-      <TodayPlanList>
-        {props.data?.map(
-          (el: any, index: number) => (
-            // index < 5 && (
-            <PlanMonthCalendarDayPlanItem key={index}>
-              <PlanMarkColor style={{ background: el.backgroundColor }} />
-              <CF.OverflowText> {el.title} </CF.OverflowText>
-            </PlanMonthCalendarDayPlanItem>
-          )
-          // )
-        )}
-      </TodayPlanList>
+      <TodayScheduleList>
+        {props.data?.map((el: any, index: number) => (
+          <ScheduleItem key={index}>
+            <ScheduleMarkColor style={{ background: el.backgroundColor }} />
+            <CF.OverflowText> {el.title} </CF.OverflowText>
+          </ScheduleItem>
+        ))}
+      </TodayScheduleList>
     </Container>
   );
 };
 
-export default PlanMonthCalendarDayItem;
+export default ScheduleMonthCalendarDayItem;
 
 const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
   min-height: 120px;
@@ -97,25 +93,11 @@ const DaySpan = styled.span<{ dayW?: number }>`
     font-size: 12px;
   }
 `;
-const DayPlanCount = styled.div``;
-{
-  /* <TodayPlanList>
-{props.data?.map(
-  (el: any, index: number) =>
-    index < 5 && (
-      <Plan key={index}>
-        <PlanMarkColor style={{ background: el.backgroundColor }} />
-        <CF.OverflowText> {el.title} </CF.OverflowText>
-      </Plan>
-    )
-)}
-</TodayPlanList> */
-}
-const TodayPlanList = styled(CF.ColumnDiv)`
+const TodayScheduleList = styled(CF.ColumnDiv)`
   gap: 4px;
   width: calc(100% - 2px);
 `;
-const PlanMonthCalendarDayPlanItem = styled(CF.RowDiv)`
+const ScheduleItem = styled(CF.RowDiv)`
   padding: 2px 4px;
   white-space: nowrap;
   overflow-x: auto;
@@ -126,7 +108,7 @@ const PlanMonthCalendarDayPlanItem = styled(CF.RowDiv)`
   align-items: center;
   background: #f0f0f0;
 `;
-const PlanMarkColor = styled.div`
+const ScheduleMarkColor = styled.div`
   border-radius: 25%;
   width: 8px;
   height: 8px;

@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme";
 import { CF } from "@/styles/commonComponentStyle";
-import PlanMonthCalendarDayItem from "./PlanMonthCalendarDayItem";
+import ScheduleMonthCalendarDayItem from "./ScheduleMonthCalendarDayItem";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
 import { createStore } from "redux";
-import { SET_MONTH_PLAN_DATE } from "@/redux/store/plan";
+import { SET_MONTH_SCHEDULE_DATA } from "@/redux/store/schedule";
 import { dateFormat4y2m2d } from "../../../../utils/fucntion/dateFormat";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
 
-interface IPlanCalendarProps {
+interface IScheduleCalendarProps {
   sideOpenToggleHandler: () => void;
 }
 
-const PlanCalendar = (props: IPlanCalendarProps) => {
+const ScheduleCalendar = (props: IScheduleCalendarProps) => {
   const todayDate = new Date();
   const [calendarDays, setCalendarDays] = useState<any>({});
   const [calendarYear, setCalendarYear] = useState(
@@ -24,9 +25,9 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
   const [calendarMonth, setCalendarMonth] = useState(
     Number(todayDate.getMonth())
   );
-  const planStore = useSelector((state: RootState) => state.planStore);
-  const monthPlanDates = useSelector(
-    (state: RootState) => state.planStore.monthPlanDates
+  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
+  const monthScheduleData = useSelector(
+    (state: RootState) => state.scheduleStore.monthScheduleData
   );
 
   const moveLeftDate = () => {
@@ -68,14 +69,17 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/plans",
+      url: "/api/schedules",
       method: "GET",
       params: {
-        date: planStore.nowPlanDate,
+        date: scheduleStore.currentScheduleDate,
       },
     })
       .then((response) => {
-        store.dispatch(SET_MONTH_PLAN_DATE(response.data.data.planList));
+        console.log("ScheduleCalendar.tsx : ", response.data.data.scheduleList);
+        store.dispatch(
+          SET_MONTH_SCHEDULE_DATA(response.data.data.scheduleList)
+        );
       })
       .catch((error) => {});
   }, []);
@@ -179,7 +183,7 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
           />
         </Header>
         {/* ===== 달력 메인 */}
-        <PlanMonthCalendar>
+        <ScheduleMonthCalendar>
           <DayHeader color={"red"}> 일 </DayHeader>
           <DayHeader> 월 </DayHeader>
           <DayHeader> 화 </DayHeader>
@@ -191,25 +195,25 @@ const PlanCalendar = (props: IPlanCalendarProps) => {
           {Object.entries(calendarDays).map((el: [string, any]) => (
             // 키(el[0])는 날짜
             // 값(el[1])은 일, 요일, isThisMonth(저번달,다음달)
-            <PlanMonthCalendarDayItem
+            <ScheduleMonthCalendarDayItem
               id={el[0]}
               key={el[0]}
               day={el[1].day} // 일
               dayW={el[1].dayW} // 요일
               isThisMonth={el[1].isThisMonth} // 이번달인지
-              data={monthPlanDates.filter(
+              data={monthScheduleData.filter(
                 (el1: any) => el1?.startDateTime?.slice(0, 10) === el[0]
               )}
               sideOpenToggleHandler={props.sideOpenToggleHandler}
             />
           ))}
-        </PlanMonthCalendar>
+        </ScheduleMonthCalendar>
       </Container>
     </>
   );
 };
 
-export default PlanCalendar;
+export default ScheduleCalendar;
 
 const Container = styled.div`
   border: solid 1px black;
@@ -219,7 +223,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const PlanMonthCalendar = styled.main`
+const ScheduleMonthCalendar = styled.main`
   display: grid;
   grid-template-columns: repeat(7, calc(100% / 7));
 `;
@@ -233,6 +237,15 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   background-color: ${theme.backgroundColors.secondary};
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+
+  img:hover {
+    cursor: pointer;
+    transform: scale(1.6, 1.6);
+    transition: ease-in-out 0.2s;
+  }
 
   @media (max-width: 768px) {
     img {

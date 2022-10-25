@@ -6,6 +6,12 @@ import BasicCarousel from "@/components/common/carousel/BasicCarousel";
 import theme from "@/styles/theme";
 import Stack from "@/components/intro/stack";
 
+export const getStaticProps = async () => {
+  return {
+    props: {},
+  };
+};
+
 const HomePage = () => {
   const arr = [
     [
@@ -27,8 +33,8 @@ const HomePage = () => {
     // [
     //   "할일, 일정",
     //   "이미지",
-    //   "1. plan 기능 \n 2. 달력에 일정 기록 기능 \n 3. ????",
-    //   "/plan",
+    //   "1. schedule 기능 \n 2. 달력에 일정 기록 기능 \n 3. ????",
+    //   "/schedule",
     // ],
     // ["대시보드", "temp", "1. \n 2.  \n 3. ", "/"],
     // ["예약", "temp", "1. \n 2.  \n 3. ", "/"],
@@ -38,6 +44,7 @@ const HomePage = () => {
     // ["영상", "temp", "1. \n 2.  \n 3. ", "/"],
     // ["지도", "temp", "1. \n 2.  \n 3. ", "/"],
   ];
+
   return (
     <Container>
       <Chapter>

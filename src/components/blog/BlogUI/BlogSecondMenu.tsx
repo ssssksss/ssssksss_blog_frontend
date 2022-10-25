@@ -24,8 +24,8 @@ const BlogSecondMenu = () => {
     (state: RootState) => state.categoryStore.firstCategoryPath
   );
 
-  const SecondCategoryHandler = (pathValue: string) => {
-    dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
+  const SecondCategoryHandler = async (pathValue: string) => {
+    await dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
     router.push("/blog" + pathValue);
   };
 
@@ -65,10 +65,10 @@ const BlogSecondMenu = () => {
   }, [categoryChange, firstCategory]);
 
   const modalHandler = (e: any) => {
-    setModalOpen(modalOpen ? false : true);
     if (modalOpen === true) {
       setCategoryChange(!categoryChange);
     }
+    setModalOpen(modalOpen ? false : true);
   };
 
   return (

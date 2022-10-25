@@ -12,19 +12,20 @@ import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import Space from "../common/space/Space";
 import BasicCustomModal from "../Modal/BasicCustomModal";
 import CustomReactQuill from "../common/editor/CustomReactQuill";
-import PlanSelectBox from "./PlanSelectBox";
+import ScheduleSelectBox from "./ScheduleSelectBox";
 import {
   dateFormat4y2m2d2h2m,
   dateFormat4y2m2d2h2m2s,
 } from "../../../utils/fucntion/dateFormat";
+import { SET_MONTH_SCHEDULE_DATA } from "@/redux/store/schedule";
 /**
  * Author : Sukyung Lee
- * FileName: AddPlanContainer.tsx
+ * FileName: ScheduleCreateContainer.tsx
  * Date: 2022-10-21 20:45:55
  * Description :
  */
 
-const PLAN_ITEM_COLOR = "#eeeeee";
+const Schedule_ITEM_COLOR = "#eeeeee";
 const addCategoryColorListExample = [
   { color: "#eb5757", description: "Red" },
   { color: "#f2994a", description: "Orange" },
@@ -43,16 +44,15 @@ const addCategoryColorListExample = [
   { color: "#e0e0e0", description: "gray3" },
 ];
 
-interface IAddPlanContainerProps {
+interface IScheduleCreateContainerProps {
   closeHandler: () => void;
+  setScheduleHandler: (schedule: []) => void;
 }
 
-const AddPlanContainer = (props: IAddPlanContainerProps) => {
-  const planStore = useSelector((state: RootState) => state.planStore);
+const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
+  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [planList, setPlanList] = useState([]);
-  const [isOpenAddPlanModal, setIsOpenAddPlanModal] = useState(false);
   const [isOpenAddCategoryModal, setIsOpenAddCategoryModal] = useState(false);
   const [categoryList, setCategoryList] = useState<any>([]);
   // 카테고리 추가할 하는 용도의 state
@@ -62,10 +62,10 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
   const [categoryColor, setCategoryColor] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [startDateTime, setStartDateTime] = useState(
-    dateFormat4y2m2d2h2m2s(new Date())
+    dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
   );
   const [endDateTime, setEndDateTime] = useState(
-    dateFormat4y2m2d2h2m2s(new Date())
+    dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
   );
 
   const onClickAddCategoryHandler = () => {
@@ -82,10 +82,16 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
     }
   };
 
-  const addPlan = () => {
-    if (content === "") return;
+  const addSchedule = () => {
+    if (content === "") {
+      alert("내용을 입력해야 합니다.");
+      return;
+    } else if (categoryName === "") {
+      alert("카테고리를 선택해야 합니다.");
+      return;
+    }
     AxiosInstance({
-      url: "/api/plan",
+      url: "/api/schedule",
       method: "POST",
       data: {
         title,
@@ -97,11 +103,18 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
       },
     })
       .then((response) => {
-        props.closeHandler();
         setContent("");
-        setPlanList(response.data.data.planList);
+        store.dispatch(
+          SET_MONTH_SCHEDULE_DATA([
+            ...scheduleStore.monthScheduleData,
+            response.data.data.schedule,
+          ])
+        );
+        props.closeHandler();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log("ScheduleCreateContainer.tsx : ", "에러???");
+      });
   };
 
   const setCategoryHandler = (name: string, backgroundColor: string) => {
@@ -111,11 +124,11 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/plan-category",
+      url: "/api/schedule-category",
       method: "GET",
     })
       .then((response) => {
-        setCategoryList(response.data.data.planCategories);
+        setCategoryList(response.data.data.scheduleCategories);
       })
       .catch((error) => {});
   }, []);
@@ -138,14 +151,14 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
               <Space
                 title4="카테고리명"
                 titleWidth="160px"
-                bg={PLAN_ITEM_COLOR}
+                bg={Schedule_ITEM_COLOR}
               >
                 <Input
                   placeholder="카테고리 이름을 입력하세요"
                   onChange={(e: any) => setAddCategoryName(e.target.value)}
                 />
               </Space>
-              <Space title4="색상" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+              <Space title4="색상" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
                 <Input
                   type="color"
                   placeholder="카테고리 이름을 입력하세요"
@@ -161,9 +174,7 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
                     key={index}
                     onClick={() => setAddCategoryColor(el.color)}
                     backgroundColor={el.color}
-                  >
-                    {/* {el.description} */}
-                  </CategoryColorButton>
+                  ></CategoryColorButton>
                 ))}
               </CategoryColorListContainer>
               <Button
@@ -180,44 +191,48 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
       {/* 카테고리 추가 모달창 */}
       <Title>
         <CF.ColumnCenterDiv gap={10}>
-          <span>{planStore.nowPlanDate}</span>
+          <span>{scheduleStore.currentScheduleDate}</span>
           <span>일정 추가하기</span>
         </CF.ColumnCenterDiv>
         <Button onClick={props.closeHandler}> X </Button>
       </Title>
       <CF.ColumnDiv padding={"10px 10px 0px"} gap={10}>
-        <Space title4="제목" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+        <Space title4="제목" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <Input
             placeholder="제목 입력"
             onChange={(e: any) => setTitle(e.target.value)}
           />
         </Space>
-        <Space title4="내용" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
-          <CustomReactQuill defaultValue="test" setContent={setContent} />
+        <Space title4="내용" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
+          <CustomReactQuill defaultValue="" setContent={setContent} />
         </Space>
-        <Space title4="날짜" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+        <Space title4="날짜" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <CF.ColumnDiv gap={10}>
             <Input
               id="party"
               type="datetime-local"
               name="partydate"
-              max="2022-10-30T16:30" // 최대날짜
-              defaultValue={dateFormat4y2m2d2h2m(new Date())}
+              // max="2022-10-30T16:30" // 최대날짜
+              defaultValue={dateFormat4y2m2d2h2m(
+                scheduleStore.currentScheduleDate
+              )}
               onChange={(e: any) => setStartDateTime(e.target.value)}
             />
             <Input
               id="party"
               type="datetime-local"
               name="partydate"
-              min="2022-10-01T08:30" // 최소날짜
-              defaultValue={dateFormat4y2m2d2h2m(new Date())}
+              // min="2022-10-01T08:30" // 최소날짜
+              defaultValue={dateFormat4y2m2d2h2m(
+                scheduleStore.currentScheduleDate
+              )}
               onChange={(e: any) => setEndDateTime(e.target.value)}
             />
           </CF.ColumnDiv>
         </Space>
-        <Space title4="구성" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+        <Space title4="구성" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <CF.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
-            <PlanSelectBox
+            <ScheduleSelectBox
               options={categoryList}
               setSelect={setCategoryHandler}
             />
@@ -230,18 +245,18 @@ const AddPlanContainer = (props: IAddPlanContainerProps) => {
           </CF.RowDiv>
         </Space>
         {/* 알림 추가 기능 필요 */}
-        {/* <Space title4="알림" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+        {/* <Space title4="알림" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
               <Input />
             </Space>
-            <Space title4="위치" titleWidth="160px" bg={PLAN_ITEM_COLOR}>
+            <Space title4="위치" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
               <Input placeholder={"카카오 지도 불러오기"} />
             </Space> */}
-        <Button onClick={() => addPlan()}> 제출 </Button>
+        <Button onClick={() => addSchedule()}> 제출 </Button>
       </CF.ColumnDiv>
     </Container>
   );
 };
-export default AddPlanContainer;
+export default ScheduleCreateContainer;
 const Container = styled.section`
   position: absolute;
   width: 100%;

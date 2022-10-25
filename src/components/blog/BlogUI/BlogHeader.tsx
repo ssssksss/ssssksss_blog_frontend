@@ -52,19 +52,11 @@ const BlogHeader = () => {
           );
           store.dispatch(setAccessToken({ accessToken: "" }));
         })
-        .catch((error) => {
-          // console.log(error.response);
-        });
+        .catch((error) => {});
     })();
   };
 
   const homeLogoHandler = () => {
-    // dispatch(
-    //   FIRST_CATEGORY_ACTION({
-    //     firstCategoryPath: window.location.pathname.split("/", 3)[2],
-    //   })
-    // );
-    // dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: "" }));
     router.push("/");
   };
 
@@ -105,6 +97,10 @@ const BlogHeader = () => {
       .catch((error) => {
         // console.log(error.response);
       });
+  }, []);
+
+  useEffect(() => {
+    setActive(router.asPath.split("/")[1]);
   }, []);
 
   return (
@@ -203,12 +199,12 @@ const BlogHeader = () => {
         {authStore.role !== "" && (
           <ImgContainer
             onClick={() => {
-              router.push("/plan");
-              setActive("plan");
+              router.push("/schedule");
+              setActive("schedule");
             }}
-            active={active === "plan"}
+            active={active === "schedule"}
           >
-            <CF.Img alt="plan" src="/img/ui-icon/plan_icon.png" />
+            <CF.Img alt="schedule" src="/img/ui-icon/Schedule_icon.png" />
             <span> 일정 </span>
           </ImgContainer>
         )}

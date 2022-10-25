@@ -1,34 +1,55 @@
 import Layout2 from "@/components/layout/Layout2";
 import { store } from "@/redux/store";
 import styled from "styled-components";
-import PlanSideContainer from "../../src/components/plan/PlanSideContainer";
+import ScheduleSideContainer from "../../src/components/schedule/ScheduleSideContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { CF } from "@/styles/commonComponentStyle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@/components/common/button/Button";
-import PlanCalendar from "@/components/plan/Calendar/PlanCalendar";
+import ScheduleCalendar from "@/components/schedule/Calendar/ScheduleCalendar";
+import { useRouter } from "next/router";
 
 /**
  * Author : Sukyung Lee
- * FileName: PlanPage.tsx
+ * FileName: SchedulePage.tsx
  * Date: 2022-09-11 00:01:56
  * Description :
  */
 
-const PlanPage = () => {
+const SchedulePage = () => {
   const isAuth = useSelector((state: RootState) => state.authStore.email);
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
   const sideOpenToggleHandler = () => {
     setIsOpen((prev) => !prev);
+    if (isOpen === false) {
+      // 모달창이 열리면 경로를 1개 추가하여 뒤로가기를 방지
+      window.history.pushState(null, "", router.asPath);
+    } else {
+      // 모달창이 닫히면 뒤로가기를 실행하여 위에서 추가한 경로를 제거
+      router.back();
+    }
   };
+
+  const sideCloseHandler = () => {
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", sideCloseHandler);
+    return () => {
+      window.removeEventListener("popstate", sideCloseHandler);
+    };
+  }, []);
 
   return (
     <>
       {isAuth && (
         <Container>
-          <PlanCalendar sideOpenToggleHandler={sideOpenToggleHandler} />
-          <PlanSideContainer
+          <ScheduleCalendar sideOpenToggleHandler={sideOpenToggleHandler} />
+          <ScheduleSideContainer
             hide={!isOpen}
             sideOpenToggleHandler={sideOpenToggleHandler}
           />
@@ -38,8 +59,8 @@ const PlanPage = () => {
     </>
   );
 };
-export default PlanPage;
-PlanPage.layout = Layout2;
+export default SchedulePage;
+SchedulePage.layout = Layout2;
 
 const Container = styled(CF.RowDiv)`
   gap: 10px;
@@ -55,6 +76,6 @@ const Overlay = styled.button`
   z-index: 8;
   opacity: 0.5;
   width: 100vw;
-  height: 100vh;
+  min-height: 100%;
   cursor: pointer;
 `;

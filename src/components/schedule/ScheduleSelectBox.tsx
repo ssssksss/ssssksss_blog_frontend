@@ -6,18 +6,18 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 
 /**
  * Author : Sukyung Lee
- * FileName: PlanSelectBox.tsx
+ * FileName: ScheduleSelectBox.tsx
  * Date: 2022-10-17 00:05:10
  * Description :
  */
 
-interface IPlanSelectBoxProps {
+interface IScheduleSelectBoxProps {
   categoryName?: string;
   options?: any;
   setSelect?: any;
 }
 
-const PlanSelectBox = (props: IPlanSelectBoxProps) => {
+const ScheduleSelectBox = (props: IScheduleSelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
@@ -32,16 +32,13 @@ const PlanSelectBox = (props: IPlanSelectBoxProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/plan-category",
+      url: "/api/schedule-category",
       method: "GET",
     })
       .then((response) => {
-        console.log("PlanSelectBox.tsx : ", response.data.data);
-        setCategoryList(response.data.data.planCategories);
+        setCategoryList(response.data.data.scheduleCategories);
       })
-      .catch((error) => {
-        console.log("PlanSideContainer.tsx : ", "/api/plan-category 문제있음");
-      });
+      .catch((error) => {});
   }, []);
 
   return (
@@ -72,7 +69,7 @@ const PlanSelectBox = (props: IPlanSelectBoxProps) => {
     </Container>
   );
 };
-export default PlanSelectBox;
+export default ScheduleSelectBox;
 const Container = styled.div`
   position: relative;
   width: 100%;
