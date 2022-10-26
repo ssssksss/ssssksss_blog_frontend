@@ -18,7 +18,7 @@ export const SET_CURRENT_SCHEDULE_DATE = (
 };
 
 type SET_MONTH_SCHEDULE_DATA_STATE = {
-  monthScheduleDate: any[];
+  monthScheduleDate: [];
 };
 /**
  * @param 한달정도의 날짜에 대한 일정을 담아두는 action

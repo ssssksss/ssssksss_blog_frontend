@@ -108,7 +108,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
           SET_MONTH_SCHEDULE_DATA([
             ...scheduleStore.monthScheduleData,
             response.data.data.schedule,
-          ])
+          ] as any)
         );
         props.closeHandler();
       })
