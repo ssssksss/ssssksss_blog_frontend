@@ -28,9 +28,7 @@ export const dateFormat4y2m2d2h2m = (date1: number | string | Date) => {
     date.getFullYear() + "-" + month + "-" + day + " " + hour + ":" + minute
   );
 };
-export const dateFormat4y2m2d2h2m2s = (
-  date1: number | string | Date | undefined
-) => {
+export const dateFormat4y2m2d2h2m2s = (date1: number | string | Date) => {
   const date = new Date(date1);
   let month: number | string = date.getMonth() + 1;
   let day: number | string = date.getDate();

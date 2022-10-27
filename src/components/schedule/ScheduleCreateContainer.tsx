@@ -48,7 +48,7 @@ interface IScheduleCreateContainerProps {
   closeHandler: () => void;
   setScheduleHandler: (schedule: []) => void;
   isEdit?: boolean;
-  updateToScheduleState?: {
+  updateToScheduleState: {
     id: number;
     title: string;
     content: string;
