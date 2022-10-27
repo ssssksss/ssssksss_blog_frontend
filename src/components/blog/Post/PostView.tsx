@@ -95,8 +95,8 @@ const PostView = () => {
             <PostContainer1>
               <CF.RowDiv>
                 <CF.Img
-                  alt="Schedule_icon"
-                  src="/img/ui-icon/Schedule_icon.png"
+                  alt="schedule_icon"
+                  src="/img/ui-icon/schedule_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}

@@ -86,6 +86,7 @@ const ReactQuillStyle = styled(ReactQuill)<{ height: string }>`
   overflow-y: scroll;
   .ql-container {
     height: ${(props) => props.height || "300px"};
+    background: white;
   }
 
   .ql-toolbar {

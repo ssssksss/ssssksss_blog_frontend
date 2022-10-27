@@ -2,13 +2,13 @@ import Button from "@/components/common/button/Button";
 import Input from "@/components/common/input/Input";
 import { CF } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import { RootState } from "@/redux/store/reducers";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { store } from "@/redux/store";
-import OneDayScheduleItem from "./ScheduleOneDayItem";
+import ScheduleOneDayItem from "./ScheduleOneDayItem";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { SET_MONTH_SCHEDULE_DATA } from "../../../redux/store/schedule/actions";
 import Space from "../common/space/Space";
@@ -19,7 +19,7 @@ import {
 } from "../../../utils/fucntion/dateFormat";
 import BasicCustomModal from "../Modal/BasicCustomModal";
 import CustomReactQuill from "../common/editor/CustomReactQuill";
-import AddScheduleContainer from "./ScheduleCreateContainer";
+import ScheduleCreateContainer from "./ScheduleCreateContainer";
 /**
  * Author : Sukyung Lee
  * FileName: ScheduleSideContainer.tsx
@@ -35,6 +35,11 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const [scheduleList, setScheduleList] = useState([]);
   const [isOpenAddScheduleScreen, setIsOpenAddScheduleScreen] = useState(false);
+  const dispatch = useDispatch();
+  const [isEdit, setIsEdit] = useState(false);
+  const [updateToScheduleState, setUpdateToScheduleState] = useState<
+    undefined | any
+  >();
 
   const setScheduleHandler = (schedule: []) => {
     setScheduleList(schedule);
@@ -42,6 +47,38 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
 
   const toggleIsOpenAddScheduleScreen = () => {
     setIsOpenAddScheduleScreen((prev) => !prev);
+    setIsEdit(false);
+    setUpdateToScheduleState(null);
+  };
+
+  const updateScheduleHandler = (updateToSchedule: any) => {
+    console.log("ScheduleSideContainer.tsx : ", "test");
+    setIsEdit(true);
+    setUpdateToScheduleState(updateToSchedule);
+    setIsOpenAddScheduleScreen((prev) => true);
+  };
+
+  const deleteScheduleHandler = (scheduleId: number) => {
+    AxiosInstance({
+      url: "/api/schedule",
+      method: "DELETE",
+      data: {
+        id: scheduleId,
+      },
+    })
+      .then((response) => {
+        console.log("ScheduleSideContainer.tsx : ", response.data);
+        dispatch(
+          SET_MONTH_SCHEDULE_DATA(
+            scheduleStore.monthScheduleData.filter(
+              (el: any) => el.id !== scheduleId
+            )
+          )
+        );
+      })
+      .catch((error) => {
+        console.log("ScheduleSideContainer.tsx : ", "에러");
+      });
   };
 
   useEffect(() => {
@@ -56,9 +93,11 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   return (
     <Container hide={props.hide}>
       {isOpenAddScheduleScreen && (
-        <AddScheduleContainer
+        <ScheduleCreateContainer
           closeHandler={toggleIsOpenAddScheduleScreen}
           setScheduleHandler={setScheduleHandler}
+          isEdit={isEdit}
+          updateToScheduleState={updateToScheduleState}
         />
       )}
       <Title>
@@ -77,10 +116,12 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
         <CF.ColumnDiv gap={10}>
           {scheduleList.length !== 0 &&
             scheduleList.map((el: any, index: number) => (
-              <OneDayScheduleItem
+              <ScheduleOneDayItem
                 key={index}
                 el={el}
                 date={scheduleStore.currentScheduleDate}
+                deleteScheduleHandler={deleteScheduleHandler}
+                updateScheduleHandler={updateScheduleHandler}
               />
             ))}
         </CF.ColumnDiv>

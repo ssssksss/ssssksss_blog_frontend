@@ -204,7 +204,7 @@ const BlogHeader = () => {
             }}
             active={active === "schedule"}
           >
-            <CF.Img alt="schedule" src="/img/ui-icon/Schedule_icon.png" />
+            <CF.Img alt="schedule" src="/img/ui-icon/schedule_icon.png" />
             <span> 일정 </span>
           </ImgContainer>
         )}

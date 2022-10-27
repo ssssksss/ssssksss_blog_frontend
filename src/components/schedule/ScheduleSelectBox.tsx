@@ -15,12 +15,20 @@ interface IScheduleSelectBoxProps {
   categoryName?: string;
   options?: any;
   setSelect?: any;
+  defaultValue?: {
+    categoryName: string | undefined;
+    categoryColor: string | undefined;
+  };
 }
 
 const ScheduleSelectBox = (props: IScheduleSelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState("");
-  const [backgroundColor, setBackgroundColor] = useState("");
+  const [categoryName, setCategoryName] = useState(
+    props.defaultValue?.categoryName
+  );
+  const [backgroundColor, setBackgroundColor] = useState(
+    props.defaultValue?.categoryColor
+  );
   const [categoryList, setCategoryList] = useState<any>([]);
 
   const changeOptionHandler = (categoryName: any, backgroundColor: any) => {

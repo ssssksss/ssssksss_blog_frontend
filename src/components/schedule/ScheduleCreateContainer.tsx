@@ -47,25 +47,47 @@ const addCategoryColorListExample = [
 interface IScheduleCreateContainerProps {
   closeHandler: () => void;
   setScheduleHandler: (schedule: []) => void;
+  isEdit?: boolean;
+  updateToScheduleState?: {
+    id: number;
+    title: string;
+    content: string;
+    startDateTime: string;
+    endDateTime: string;
+    categoryName: string;
+    backgroundColor: string;
+  };
 }
 
 const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(
+    props.isEdit ? props.updateToScheduleState?.title : ""
+  );
+  const [content, setContent] = useState(
+    props.isEdit ? props.updateToScheduleState?.content : ""
+  );
   const [isOpenAddCategoryModal, setIsOpenAddCategoryModal] = useState(false);
   const [categoryList, setCategoryList] = useState<any>([]);
   // 카테고리 추가할 하는 용도의 state
   const [addCategoryColor, setAddCategoryColor] = useState("#000000");
   const [addCategoryName, setAddCategoryName] = useState("");
   // API로 보낼때 사용하는 state
-  const [categoryColor, setCategoryColor] = useState("");
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryColor, setCategoryColor] = useState(
+    props.isEdit ? props.updateToScheduleState?.backgroundColor : ""
+  );
+  const [categoryName, setCategoryName] = useState(
+    props.isEdit ? props.updateToScheduleState?.categoryName : ""
+  );
   const [startDateTime, setStartDateTime] = useState(
-    dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
+    props.isEdit
+      ? dateFormat4y2m2d2h2m2s(props.updateToScheduleState?.startDateTime)
+      : dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
   );
   const [endDateTime, setEndDateTime] = useState(
-    dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
+    props.isEdit
+      ? dateFormat4y2m2d2h2m2s(props.updateToScheduleState?.endDateTime)
+      : dateFormat4y2m2d2h2m2s(scheduleStore.currentScheduleDate)
   );
 
   const onClickAddCategoryHandler = () => {
@@ -82,7 +104,54 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
     }
   };
 
-  const addSchedule = () => {
+  const updateSchedule = () => {
+    if (content === "") {
+      alert("내용을 입력해야 합니다.");
+      return;
+    } else if (categoryName === "") {
+      alert("카테고리를 선택해야 합니다.");
+      return;
+    }
+    AxiosInstance({
+      url: "/api/schedule",
+      method: "PUT",
+      data: {
+        id: props.updateToScheduleState?.id,
+        title,
+        content,
+        startDateTime: dateFormat4y2m2d2h2m2s(startDateTime),
+        endDateTime: dateFormat4y2m2d2h2m2s(endDateTime),
+        categoryName,
+        backgroundColor: categoryColor,
+      },
+    })
+      .then((response) => {
+        setContent("");
+        store.dispatch(
+          SET_MONTH_SCHEDULE_DATA(
+            scheduleStore.monthScheduleData.map((el: any) =>
+              el.id === props.updateToScheduleState?.id
+                ? {
+                    id: props.updateToScheduleState?.id,
+                    title,
+                    content,
+                    startDateTime: dateFormat4y2m2d2h2m2s(startDateTime),
+                    endDateTime: dateFormat4y2m2d2h2m2s(endDateTime),
+                    categoryName,
+                    backgroundColor: categoryColor,
+                  }
+                : el
+            )
+          )
+        );
+        props.closeHandler();
+      })
+      .catch((error) => {
+        console.log("ScheduleCreateContainer.tsx : ", "에러???");
+      });
+  };
+
+  const createSchedule = () => {
     if (content === "") {
       alert("내용을 입력해야 합니다.");
       return;
@@ -201,10 +270,11 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
           <Input
             placeholder="제목 입력"
             onChange={(e: any) => setTitle(e.target.value)}
+            defaultValue={title}
           />
         </Space>
         <Space title4="내용" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-          <CustomReactQuill defaultValue="" setContent={setContent} />
+          <CustomReactQuill setContent={setContent} defaultValue={content} />
         </Space>
         <Space title4="날짜" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <CF.ColumnDiv gap={10}>
@@ -213,9 +283,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
               type="datetime-local"
               name="partydate"
               // max="2022-10-30T16:30" // 최대날짜
-              defaultValue={dateFormat4y2m2d2h2m(
-                scheduleStore.currentScheduleDate
-              )}
+              defaultValue={startDateTime}
               onChange={(e: any) => setStartDateTime(e.target.value)}
             />
             <Input
@@ -223,9 +291,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
               type="datetime-local"
               name="partydate"
               // min="2022-10-01T08:30" // 최소날짜
-              defaultValue={dateFormat4y2m2d2h2m(
-                scheduleStore.currentScheduleDate
-              )}
+              defaultValue={endDateTime}
               onChange={(e: any) => setEndDateTime(e.target.value)}
             />
           </CF.ColumnDiv>
@@ -235,6 +301,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
             <ScheduleSelectBox
               options={categoryList}
               setSelect={setCategoryHandler}
+              defaultValue={{ categoryName, categoryColor }}
             />
             <Button
               width={"100px"}
@@ -244,14 +311,12 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
             </Button>
           </CF.RowDiv>
         </Space>
-        {/* 알림 추가 기능 필요 */}
-        {/* <Space title4="알림" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-              <Input />
-            </Space>
-            <Space title4="위치" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-              <Input placeholder={"카카오 지도 불러오기"} />
-            </Space> */}
-        <Button onClick={() => addSchedule()}> 제출 </Button>
+        <Button
+          onClick={() => (props.isEdit ? updateSchedule() : createSchedule())}
+        >
+          {" "}
+          {props.isEdit ? "수정" : "제출"}{" "}
+        </Button>
       </CF.ColumnDiv>
     </Container>
   );
