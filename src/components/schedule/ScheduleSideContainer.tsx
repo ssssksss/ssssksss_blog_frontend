@@ -52,7 +52,6 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   };
 
   const updateScheduleHandler = (updateToSchedule: any) => {
-    console.log("ScheduleSideContainer.tsx : ", "test");
     setIsEdit(true);
     setUpdateToScheduleState(updateToSchedule);
     setIsOpenAddScheduleScreen((prev) => true);

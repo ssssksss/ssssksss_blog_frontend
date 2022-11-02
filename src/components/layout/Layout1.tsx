@@ -12,8 +12,6 @@ type AppLayoutProps = {
 
 // 블로그 용도의 레이아웃
 const Layout1 = ({ children }: AppLayoutProps) => {
-  const router = useRouter();
-  const [routingPageOffset, setRoutingPageOffset] = useState(0);
   return (
     <Container>
       {/*  */}

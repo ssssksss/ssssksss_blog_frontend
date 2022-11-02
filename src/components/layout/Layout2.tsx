@@ -9,7 +9,13 @@ type AppLayoutProps = {
 };
 
 const Layout2 = ({ children }: AppLayoutProps) => {
-  return <Container>{children}</Container>;
+  return (
+    <Container>
+      {/*  */}
+      {children}
+      {/*  */}
+    </Container>
+  );
 };
 
 export default Layout2;

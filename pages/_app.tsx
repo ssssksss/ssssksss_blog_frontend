@@ -15,7 +15,6 @@ import PageTransitions from "@/components/common/reactTransitionGroup/PageTransi
 import { useRouter } from "next/router";
 import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
-import AdvertisementContainer from "@/components/Modal/advertise/AdvertisementContainer";
 import "react-quill/dist/quill.snow.css";
 
 type NextPageWithLayout = NextPage & {
@@ -29,15 +28,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
   const TestLayout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
-  const [routingPageOffset, setRoutingPageOffset] = useState(0);
+  // const [routingPageOffset, setRoutingPageOffset] = useState(0);
   const router = useRouter();
 
-  useEffect(() => {
-    const pageChange = () => {
-      setRoutingPageOffset(window.scrollY);
-    };
-    router.events.on("routeChangeStart", pageChange);
-  }, [router.events]);
+  // useEffect(() => {
+  //   const pageChange = () => {
+  //     setRoutingPageOffset(window.scrollY);
+  //   };
+  //   router.events.on("routeChangeStart", pageChange);
+  // }, [router.events]);
 
   return getLayout(
     <Provider store={store}>
@@ -45,7 +44,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <NextjsHeader />
         <BlogHeader />
-        {/* <AdvertisementContainer /> */}
         {router.asPath.split("/")[1] === "blog" && (
           <>
             <BlogFirstMenu />

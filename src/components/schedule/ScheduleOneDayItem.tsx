@@ -26,7 +26,7 @@ interface IScheduleItemProps {
   };
   date: string;
   deleteScheduleHandler: (scheduleId: number) => void;
-  updateScheduleHandler: (updateToSchedul: object) => void;
+  updateScheduleHandler: (updateToSchedule: object) => void;
 }
 
 const ScheduleOneDayItem = (props: IScheduleItemProps) => {
