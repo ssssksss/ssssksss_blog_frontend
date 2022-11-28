@@ -22,14 +22,14 @@ const initialState: initialStateType = {
 // 타입스크립트 state하고 액션인데 나중에 해결
 export const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case "USER_INFO":
+    case "SET_USER_INFO":
       return {
         ...state,
         email: action.payload.email,
         role: action.payload.role,
         nickname: action.payload.nickname,
       };
-    case "ACCESS_TOKEN":
+    case "SET_ACCESS_TOKEN":
       return {
         ...state,
         accessToken: action.payload.accessToken,
