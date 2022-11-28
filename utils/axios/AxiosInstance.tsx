@@ -2,6 +2,8 @@ import { store } from "@/redux/store";
 import { setAccessToken, setUserInfo } from "@/redux/store/auth";
 import axios from "axios";
 import SocialButton from "../../src/components/common/button/SocialButton";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/reducers";
 
 const AxiosInstance = axios.create({
   // baseURL: "http://localhost:8080",
@@ -18,8 +20,8 @@ const AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-const setApiUserInfo = () => {
-  AxiosInstance({
+const setApiUserInfo = async () => {
+  await AxiosInstance({
     url: "/api/user",
     method: "GET",
     headers: {
@@ -54,12 +56,12 @@ AxiosInstance.interceptors.response.use(
   (response: any) => {
     return response;
   },
-  async (error: any) => {
+  (error: any) => {
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용
       let existNewAccessToken = true;
-      await AxiosInstance({
+      AxiosInstance({
         url: "/api/user/accessToken",
         method: "GET",
       })
@@ -73,10 +75,29 @@ AxiosInstance.interceptors.response.use(
           existNewAccessToken = false;
         });
       if (existNewAccessToken) {
-        return axios(originalRequest); // 기존에 실행했던 API를 다시 실행
+        originalRequest._retry = true;
+        return AxiosInstance(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
     } else if (error.response.status === 406) {
       console.log("AxiosInstance.tsx : ", "리프레시토큰 만료");
+      AxiosInstance({
+        url: "/api/user",
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (store.getState().authStore.accessToken !== "") {
+            alert("로그인이 필요합니다.");
+          }
+          store.dispatch(
+            setUserInfo({
+              email: "",
+              role: "",
+              nickname: "",
+            })
+          );
+          store.dispatch(setAccessToken({ accessToken: "" }));
+        })
+        .catch((error) => {});
     }
     return Promise.reject(error);
   }

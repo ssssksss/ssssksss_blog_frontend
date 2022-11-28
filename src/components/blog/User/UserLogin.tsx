@@ -51,21 +51,24 @@ const UserLogin = (props: IUserLoginProps) => {
       },
     })
       .then((response: any) => {
-        props.toggleModal();
         dispatch(setAccessToken(response.data.accessToken));
         AxiosInstance({
           url: "/api/user",
           method: "GET",
           headers: {
-            Authorization: `Bearer ${store.getState().authStore.accessToken}`,
+            Authorization: `Bearer ${response.data.accessToken}`,
           },
         })
           .then((response) => {
             store.dispatch(setUserInfo(response.data.data.user));
+            props.toggleModal();
           })
-          .catch((error) => {});
+          .catch((error) => {
+            console.log("UserLogin.tsx : ", error.response);
+          });
       })
       .catch((error: any) => {
+        console.log("UserLogin.tsx : ", error.response);
         alert(error.response?.data?.errorMsg);
       });
   };
