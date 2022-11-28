@@ -194,7 +194,7 @@ const MenuList = styled.div<{ index: number }>`
     border-left: dashed 1px white;
   }
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.md}) {
     a {
       font-size: 10px;
     }
