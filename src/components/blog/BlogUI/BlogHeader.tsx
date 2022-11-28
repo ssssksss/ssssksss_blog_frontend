@@ -17,12 +17,14 @@ import {
 } from "@/redux/store/category";
 import theme from "@/styles/theme";
 import Image from "next/image";
+import { Spinner4 } from "@/components/common/spinner/Spinners";
 
 const BlogHeader = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [active, setActive] = useState("");
   const dispatch = useDispatch();
   const handleCloseModal = () => {
@@ -69,23 +71,23 @@ const BlogHeader = () => {
   };
 
   useEffect(() => {
-    async () => {
-      await AxiosInstance({
-        url: "/api/visit",
-        method: "GET",
-      })
-        .then((response) => {
-          const resView = response.data.data.view;
-          setBlogView({
-            todayView: resView.todayView,
-            yesterdayView: resView.yesterdayView,
-            alldayView: resView.alldayView,
-          });
-        })
-        .catch((error) => {
-          // console.log(error.response);
-        });
-    };
+    // async () => {
+    //   await AxiosInstance({
+    //     url: "/api/visit",
+    //     method: "GET",
+    //   })
+    //     .then((response) => {
+    //       const resView = response.data.data.view;
+    //       setBlogView({
+    //         todayView: resView.todayView,
+    //         yesterdayView: resView.yesterdayView,
+    //         alldayView: resView.alldayView,
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       // console.log(error.response);
+    //     });
+    // };
 
     AxiosInstance({
       url: "/api/user",
@@ -93,8 +95,10 @@ const BlogHeader = () => {
     })
       .then((response) => {
         store.dispatch(setUserInfo(response.data.data.user));
+        setIsLoading(false);
       })
       .catch((error) => {
+        setIsLoading(false);
         // console.log(error.response);
       });
   }, []);
@@ -104,142 +108,157 @@ const BlogHeader = () => {
   }, []);
 
   return (
-    <Container>
-      <TopButton
-        onClick={topMoveHandler}
-        src="/img/ui-icon/top_button_icon.png"
-      />
-      <BottomButton
-        onClick={bottomMoveHandler}
-        src="/img/ui-icon/bottom_button_icon.png"
-      />
-      {isModalOpen && (
-        <BasicCustomModal toggleModal={handleCloseModal}>
-          <UserSignUp toggleModal={handleCloseModal} />
-        </BasicCustomModal>
-      )}
-      {isModalOpen1 && (
-        <BasicCustomModal toggleModal={handleCloseModal}>
-          <UserLogin toggleModal={handleCloseModal} />
-        </BasicCustomModal>
-      )}
-      <Logo
-        onClick={() => {
-          homeLogoHandler();
-        }}
-      >
-        <Img alt="logo" src="/img/logo/logo.png" width={30} height={30} />
-      </Logo>
-      <ToggleMenuImgContainer
-        onClick={() => {
-          setIsNavbarOpen((prev) => !prev);
-        }}
-      >
-        <CF.Img alt="toggle_menu" src="/img/ui-icon/list_icon.png" />
-        <span> 메뉴 </span>
-      </ToggleMenuImgContainer>
-      <MenuContainer isNavbarOpen={isNavbarOpen}>
-        <ImgContainer
-          onClick={() => {
-            router.push("/");
-            setActive("");
-          }}
-          active={active === ""}
-        >
-          <CF.Img alt="bulletin_board" src="/img/ui-icon/home_icon.png" />
-          <span> 홈 </span>
-        </ImgContainer>
-        <ImgContainer
-          onClick={() => {
-            router.push("/blog");
-            setActive("blog");
-          }}
-          active={active === "blog"}
-        >
-          <CF.Img alt="bulletin_board" src="/img/ui-icon/blog_box_icon.png" />
-          <span> 블로그 </span>
-        </ImgContainer>
-        <ImgContainer
-          onClick={() => {
-            router.push("/board");
-            setActive("board");
-          }}
-          active={active === "board"}
-        >
-          <CF.Img
-            alt="bulletin_board"
-            src="/img/ui-icon/bulletin_board_icon.png"
+    <>
+      {isLoading ? (
+        <Spinner4 />
+      ) : (
+        <Container>
+          <TopButton
+            onClick={topMoveHandler}
+            src="/img/ui-icon/top_button_icon.png"
           />
-          <span> 게시판 </span>
-        </ImgContainer>
-        {authStore.role !== "" && (
-          <ImgContainer
+          <BottomButton
+            onClick={bottomMoveHandler}
+            src="/img/ui-icon/bottom_button_icon.png"
+          />
+          {isModalOpen && (
+            <BasicCustomModal toggleModal={handleCloseModal}>
+              <UserSignUp toggleModal={handleCloseModal} />
+            </BasicCustomModal>
+          )}
+          {isModalOpen1 && (
+            <BasicCustomModal toggleModal={handleCloseModal}>
+              <UserLogin toggleModal={handleCloseModal} />
+            </BasicCustomModal>
+          )}
+          <Logo
             onClick={() => {
-              router.push("/todo");
-              setActive("todo");
-            }}
-            active={active === "todo"}
-          >
-            <CF.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
-            <span> TODO </span>
-          </ImgContainer>
-        )}
-        {authStore.role === "ROLE_ADMIN" && (
-          <ImgContainer
-            onClick={() => {
-              router.push("/user-dashboard");
-              setActive("user-dashboard");
-            }}
-            active={active === "user-dashboard"}
-          >
-            <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
-            <span> 대시보드 </span>
-          </ImgContainer>
-        )}
-        {authStore.role !== "" && (
-          <ImgContainer
-            onClick={() => {
-              router.push("/schedule");
-              setActive("schedule");
-            }}
-            active={active === "schedule"}
-          >
-            <CF.Img alt="schedule" src="/img/ui-icon/schedule_icon.png" />
-            <span> 일정 </span>
-          </ImgContainer>
-        )}
-        {authStore.role === "" && (
-          <ImgContainer
-            onClick={() => {
-              setIsModalOpen1(true);
+              homeLogoHandler();
             }}
           >
-            <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
-            <span> 로그인 </span>
-          </ImgContainer>
-        )}
-        {authStore.role === "" && (
-          <ImgContainer
+            <Img alt="logo" src="/img/logo/logo.png" width={30} height={30} />
+          </Logo>
+          <ToggleMenuImgContainer
             onClick={() => {
-              setIsModalOpen(true);
+              setIsNavbarOpen((prev) => !prev);
             }}
           >
-            <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
-            <span> 회원가입 </span>
-          </ImgContainer>
-        )}
-        {authStore.role !== "" && (
-          <ImgContainer
-            onClick={() => {
-              logoutHandler();
-            }}
-          >
-            <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
-            <span> 로그아웃 </span>
-          </ImgContainer>
-        )}
-      </MenuContainer>
-    </Container>
+            <CF.Img alt="toggle_menu" src="/img/ui-icon/list_icon.png" />
+            <span> 메뉴 </span>
+          </ToggleMenuImgContainer>
+          <MenuContainer isNavbarOpen={isNavbarOpen}>
+            <ImgContainer
+              onClick={() => {
+                router.push("/");
+                setActive("");
+              }}
+              active={active === ""}
+            >
+              <CF.Img alt="bulletin_board" src="/img/ui-icon/home_icon.png" />
+              <span> 홈 </span>
+            </ImgContainer>
+            <ImgContainer
+              onClick={() => {
+                router.push("/blog");
+                setActive("blog");
+              }}
+              active={active === "blog"}
+            >
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/blog_box_icon.png"
+              />
+              <span> 블로그 </span>
+            </ImgContainer>
+            <ImgContainer
+              onClick={() => {
+                router.push("/board");
+                setActive("board");
+              }}
+              active={active === "board"}
+            >
+              <CF.Img
+                alt="bulletin_board"
+                src="/img/ui-icon/bulletin_board_icon.png"
+              />
+              <span> 게시판 </span>
+            </ImgContainer>
+            <ImgContainer
+              onClick={() => {
+                if (authStore.role !== "") {
+                  router.push("/todo");
+                  setActive("todo");
+                } else {
+                  alert("로그인이 필요한 메뉴입니다.");
+                }
+              }}
+              active={active === "todo"}
+              isUnableOpacityStyle={authStore.role === ""}
+            >
+              <CF.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
+              <span> TODO </span>
+            </ImgContainer>
+            {authStore.role === "ROLE_ADMIN" && (
+              <ImgContainer
+                onClick={() => {
+                  router.push("/user-dashboard");
+                  setActive("user-dashboard");
+                }}
+                active={active === "user-dashboard"}
+              >
+                <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
+                <span> 대시보드 </span>
+              </ImgContainer>
+            )}
+            <ImgContainer
+              onClick={() => {
+                if (authStore.role !== "") {
+                  router.push("/schedule");
+                  setActive("schedule");
+                } else {
+                  alert("로그인이 필요한 메뉴입니다.");
+                }
+              }}
+              active={active === "schedule"}
+              isUnableOpacityStyle={authStore.role === ""}
+            >
+              <CF.Img alt="schedule" src="/img/ui-icon/schedule_icon.png" />
+              <span> 일정 </span>
+            </ImgContainer>
+            {authStore.role === "" && (
+              <ImgContainer
+                onClick={() => {
+                  setIsModalOpen1(true);
+                }}
+              >
+                <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
+                <span> 로그인 </span>
+              </ImgContainer>
+            )}
+            {authStore.role === "" && (
+              <ImgContainer
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
+                <span> 회원가입 </span>
+              </ImgContainer>
+            )}
+            {authStore.role !== "" && (
+              <ImgContainer
+                onClick={() => {
+                  logoutHandler();
+                }}
+              >
+                <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
+                <span> 로그아웃 </span>
+              </ImgContainer>
+            )}
+          </MenuContainer>
+        </Container>
+      )}
+    </>
   );
 };
 
@@ -336,14 +355,23 @@ const Img = styled(Image)`
   border-radius: 50%;
 `;
 
-const ImgContainer = styled(CF.ImgContainer)<{ active?: boolean }>`
+const ImgContainer = styled(CF.ImgContainer)<{
+  active?: boolean;
+  isUnableOpacityStyle?: boolean;
+}>`
   height: 100%;
   min-height: 80px;
   min-width: 60px;
+  opacity: 1;
   ${(props) =>
     props.active &&
     css`
       animation: ${animationKeyFrames.UpToDownRepeat} infinite 1s;
+    `}
+  ${(props) =>
+    props.isUnableOpacityStyle &&
+    css`
+      opacity: 0.2;
     `}
 
   img {

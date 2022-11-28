@@ -137,7 +137,7 @@ const MenuTitle = styled.div`
     background: transparent;
   }
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${({ theme }) => theme.customScreen.md}) {
     font-size: 0.8rem;
   }
 `;
