@@ -71,6 +71,7 @@ const backgroundColors = {
   background: "#FFFFFF",
   background1: "#F4F4F4",
   background2: "#F6EFE5",
+  background3: "#e0e0e0",
   grayLight: "#C2C2C2",
   gray: "#ADADAD",
   grayDark: "#999999",

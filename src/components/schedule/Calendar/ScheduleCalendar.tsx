@@ -76,7 +76,6 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
       },
     })
       .then((response) => {
-        console.log("ScheduleCalendar.tsx : ", response.data.data.scheduleList);
         store.dispatch(
           SET_MONTH_SCHEDULE_DATA(response.data.data.scheduleList)
         );

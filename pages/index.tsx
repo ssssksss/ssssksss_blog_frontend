@@ -5,6 +5,7 @@ import IntroduceChapter from "@/components/landingPage/IntroduceChapter";
 import BasicCarousel from "@/components/common/carousel/BasicCarousel";
 import theme from "@/styles/theme";
 import Stack from "@/components/intro/stack";
+import BlogFooter from "@/components/blog/BlogUI/BlogFooter";
 
 export const getStaticProps = async () => {
   return {
@@ -70,6 +71,7 @@ const HomePage = () => {
       <Chapter>
         <Title> Contact Me </Title>
       </Chapter>
+      <BlogFooter />
     </Container>
   );
 };

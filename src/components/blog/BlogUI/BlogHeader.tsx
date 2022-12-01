@@ -385,7 +385,7 @@ const TopButton = styled.img`
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  bottom: 70px;
+  bottom: 130px;
   z-index: 110;
 
   &:hover {
@@ -399,7 +399,7 @@ const BottomButton = styled.img`
   width: 40px;
   aspect-ratio: 1;
   right: 10px;
-  bottom: 20px;
+  bottom: 80px;
   z-index: 110;
 
   &:hover {

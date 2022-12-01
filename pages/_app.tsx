@@ -61,7 +61,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <TestLayout>
           <Component {...pageProps} />
         </TestLayout>
-        <BlogFooter />
       </ThemeProvider>
     </Provider>
   );
