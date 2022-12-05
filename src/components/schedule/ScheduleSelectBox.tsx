@@ -1,6 +1,7 @@
 import { useState } from "react";
-import styled, { css } from "styled-components";
-import { CF } from "../../../styles/commonComponentStyle";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { CC } from "../../../styles/commonComponentStyle";
 import { useEffect } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 
@@ -92,7 +93,7 @@ const OptionList = styled.div`
   background: white;
   z-index: 3;
 `;
-const Option = styled(CF.RowDiv)<{ isOpen?: boolean }>`
+const Option = styled(CC.RowDiv)<{ isOpen?: boolean }>`
   height: 40px;
   padding: 4px;
   align-items: center;

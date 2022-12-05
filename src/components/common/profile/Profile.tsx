@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 interface IProfilePros {
   imageUrl?: string;
@@ -55,10 +55,10 @@ const Container = styled.div<IProfilePros>`
   align-items: center;
   gap: ${(props) => props.gap};
 
-  & > div:nth-child(1) {
+  & > div:nth-of-type(1) {
     height: 60%;
   }
-  & > div:nth-child(2) {
+  & > div:nth-of-type(2) {
     height: 40%;
   }
 `;

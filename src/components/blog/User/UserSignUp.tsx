@@ -1,10 +1,11 @@
 import Button from "@/components/common/button/Button";
 import Input from "@/components/common/input/Input";
 import Space from "@/components/common/space/Space";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useForm } from "react-hook-form";
-import styled, { keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useEffect } from "react";
@@ -74,22 +75,22 @@ const UserSignUp = (props: IUserSignUpProps) => {
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
-        <CF.RowCenterDiv
+        <CC.RowCenterDiv
           height="30px"
           color="#fff"
           fontSize={theme.fontSizes.lg}
           padding={"10px 0px 0px 0px"}
         >
           회원가입
-        </CF.RowCenterDiv>
-        <CF.ColumnDiv gap={10} padding={"20px 20px 20px 20px"} color={"#fff"}>
+        </CC.RowCenterDiv>
+        <CC.ColumnDiv gap={10} padding={"20px 20px 20px 20px"} color={"#fff"}>
           <Space title4="닉네임" titleWidth={"140px"}>
             <Input
               placeholder="닉네임을 입력하세요"
               register={register("nickname")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
-            <CF.ErrorDiv> {errors.nickname?.message} </CF.ErrorDiv>
+            <CC.ErrorDiv> {errors.nickname?.message} </CC.ErrorDiv>
           </Space>
           <Space title4="비밀번호" titleWidth={"140px"}>
             <Input
@@ -98,7 +99,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
               register={register("password")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
-            <CF.ErrorDiv> {errors.password?.message} </CF.ErrorDiv>
+            <CC.ErrorDiv> {errors.password?.message} </CC.ErrorDiv>
           </Space>
           <Space title4="비번확인" titleWidth={"140px"}>
             <Input
@@ -107,7 +108,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
               register={register("passwordConfirm")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
-            <CF.ErrorDiv> {errors.passwordConfirm?.message} </CF.ErrorDiv>
+            <CC.ErrorDiv> {errors.passwordConfirm?.message} </CC.ErrorDiv>
           </Space>
           <Space title4="이메일" titleWidth={"140px"}>
             <Input
@@ -116,11 +117,11 @@ const UserSignUp = (props: IUserSignUpProps) => {
               register={register("email")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
-            <CF.ErrorDiv> {errors.email?.message} </CF.ErrorDiv>
+            <CC.ErrorDiv> {errors.email?.message} </CC.ErrorDiv>
           </Space>
           <Space title4="성별" titleWidth={"140px"}>
-            <CF.RowDiv gap={10}>
-              <CF.RowDiv gap={10}>
+            <CC.RowDiv gap={10}>
+              <CC.RowDiv gap={10}>
                 <Input
                   placeholder="남"
                   type="radio"
@@ -131,8 +132,8 @@ const UserSignUp = (props: IUserSignUpProps) => {
                   register={register("gender")}
                 />
                 <label htmlFor="man"> 남 </label>
-              </CF.RowDiv>
-              <CF.RowDiv gap={10}>
+              </CC.RowDiv>
+              <CC.RowDiv gap={10}>
                 <Input
                   placeholder="여"
                   type="radio"
@@ -143,9 +144,9 @@ const UserSignUp = (props: IUserSignUpProps) => {
                   register={register("gender")}
                 />
                 <label htmlFor="woman"> 여 </label>
-              </CF.RowDiv>
-            </CF.RowDiv>
-            <CF.ErrorDiv> {errors.gender?.message} </CF.ErrorDiv>
+              </CC.RowDiv>
+            </CC.RowDiv>
+            <CC.ErrorDiv> {errors.gender?.message} </CC.ErrorDiv>
           </Space>
           <Space title4="생년월일" titleWidth={"140px"}>
             <Input
@@ -153,9 +154,9 @@ const UserSignUp = (props: IUserSignUpProps) => {
               register={register("birthDate")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
             />
-            <CF.ErrorDiv> {errors.birthDate?.message} </CF.ErrorDiv>
+            <CC.ErrorDiv> {errors.birthDate?.message} </CC.ErrorDiv>
           </Space>
-          <CF.RowDiv gap={20}>
+          <CC.RowDiv gap={20}>
             <Button
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
@@ -163,8 +164,8 @@ const UserSignUp = (props: IUserSignUpProps) => {
               가입
             </Button>
             <Button onClick={props.toggleModal}> 취소 </Button>
-          </CF.RowDiv>
-        </CF.ColumnDiv>
+          </CC.RowDiv>
+        </CC.ColumnDiv>
       </FormContainer>
     </Container>
   );
@@ -188,17 +189,17 @@ const UpDownAnimation = keyframes`
 const Container = styled.div`
   width: calc(100% - 80px);
   border-radius: 50px 4px 4px 4px;
-  background-color: ${theme.backgroundColors.primary};
+  background-color: ${theme.backgroundColors.orange};
   z-index: 80;
   margin-top: 20px;
 
   input::placeholder {
-    font-size: ${theme.fontSizes.base};
+    font-size: ${theme.fontSizes.sm};
   }
 
   @media (max-width: 1023px) {
     input::placeholder {
-      font-size: ${theme.fontSizes.small};
+      font-size: ${theme.fontSizes.xs};
     }
   }
 `;
@@ -206,7 +207,7 @@ const Container = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.backgroundColors.secondary};
+  background-color: ${theme.backgroundColors.purple};
   animation: ${UpDownAnimation} 1s ease-in-out;
   animation-fill-mode: forwards;
 `;

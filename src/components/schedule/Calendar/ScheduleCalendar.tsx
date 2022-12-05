@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import theme from "@/styles/theme";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import ScheduleMonthCalendarDayItem from "./ScheduleMonthCalendarDayItem";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
@@ -165,7 +165,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
     <>
       <Container>
         <Header>
-          <CF.Img
+          <CC.Img
             src="/img/ui-icon/left_arrow_icon.png"
             size="30px"
             onClick={() => {
@@ -173,7 +173,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
             }}
           />
           {calendarYear}년 {calendarMonth + 1}월
-          <CF.Img
+          <CC.Img
             src="/img/ui-icon/right_arrow_icon.png"
             size="30px"
             onClick={() => {
@@ -235,7 +235,7 @@ const Header = styled.header`
   flex-flow: nowrap row;
   justify-content: center;
   align-items: center;
-  background-color: ${theme.backgroundColors.secondary};
+  background-color: ${theme.backgroundColors.purple};
   font-size: 20px;
   font-weight: 600;
   color: white;

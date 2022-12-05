@@ -1,6 +1,7 @@
 import Layout2 from "@/components/layout/Layout2";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useEffect } from "react";
+import { CC } from "@/styles/commonComponentStyle";
 
 /**
  * Author : Sukyung Lee
@@ -15,14 +16,10 @@ const BlogPage = () => {
   }, []);
 
   return (
-    <Container>
+    <CC.Container>
       <div> </div>
-    </Container>
+    </CC.Container>
   );
 };
 export default BlogPage;
 BlogPage.layout = Layout2;
-
-const Container = styled.div`
-  width: 100%;
-`;

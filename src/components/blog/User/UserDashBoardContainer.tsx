@@ -1,7 +1,7 @@
 import Button from "@/components/common/button/Button";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import { useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import PostDeleteListContainer from "../Post/PostDeleteListContainer";
 import PortfolioContainer from "./portfolioContainer/PortfolioContainer";
 
@@ -16,37 +16,37 @@ const UserDashBoardContainer = () => {
 
   return (
     <Container>
-      <CF.ColumnDiv gap={10} padding={"0px 10px"}>
+      <CC.ColumnDiv gap={10} padding={"0px 10px"}>
         <Button onClick={() => setMenu("home")}> 홈 </Button>
         <Button onClick={() => setMenu("postRemoveList")}>
           게시글 삭제 목록
         </Button>
         <Button onClick={() => setMenu("portfolio")}> 포트폴리오 </Button>
-      </CF.ColumnDiv>
-      <CF.RowDiv>
+      </CC.ColumnDiv>
+      <CC.RowDiv>
         {menu === "home" && <></>}
         {menu === "postRemoveList" && <PostDeleteListContainer />}
         {menu === "portfolio" && <PortfolioContainer />}
-      </CF.RowDiv>
+      </CC.RowDiv>
     </Container>
   );
 };
 export default UserDashBoardContainer;
 
-const Container = styled(CF.RowDiv)`
+const Container = styled(CC.RowDiv)`
   background: #e2e3f5;
   border-radius: 10px;
   margin-bottom: 10px;
   gap: 10px;
   padding: 10px;
 
-  & > div:nth-child(1) {
+  & > div:nth-of-type(1) {
     width: 300px;
     padding: 10px;
     background-color: #aeaeae;
     border-radius: 10px;
   }
-  & > div:nth-child(2) {
+  & > div:nth-of-type(2) {
     width: calc(100% - 300px);
     padding: 10px;
     background-color: #aeaeae;

@@ -1,9 +1,10 @@
 import ViewBoardContainer from "@/components/board/ViewBoardContainer";
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Layout2 from "@/components/layout/Layout2";
 import Loading1 from "@/components/common/loading/Loading1";
 import dynamic from "next/dynamic";
+import { CC } from "@/styles/commonComponentStyle";
 /**
  * Author : Sukyung Lee
  * FileName: ViewBoardPage.tsx
@@ -21,13 +22,10 @@ const DynamicComponent = dynamic(
 
 const ViewBoardPage = () => {
   return (
-    <Container>
+    <CC.Container>
       <DynamicComponent />
-    </Container>
+    </CC.Container>
   );
 };
 export default ViewBoardPage;
 ViewBoardPage.layout = Layout2;
-const Container = styled.div`
-  width: 100%;
-`;

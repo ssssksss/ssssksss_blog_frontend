@@ -1,8 +1,8 @@
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Button from "../common/button/Button";
 import InputSearch from "../common/input/InputSearch";
 import Pagination from "../common/pagination/Pagination";
@@ -149,10 +149,10 @@ const ViewBoardsContainer = () => {
   return (
     <Container>
       <Header>
-        <h1> 게시판 </h1>
+        <h2> 게시판 </h2>
       </Header>
-      <CF.RowCenterDiv>
-        <CF.ColumnDiv width={"100%"}>
+      <CC.RowCenterDiv>
+        <CC.ColumnDiv width={"100%"}>
           <MainHeader>
             <InputSearch
               width={"300px"}
@@ -169,29 +169,29 @@ const ViewBoardsContainer = () => {
           </MainHeader>
           <Main>
             <BoardListTitle>
-              <CF.RowCenterDiv> 번호 </CF.RowCenterDiv>
-              <CF.RowCenterDiv> 제목 </CF.RowCenterDiv>
-              <CF.RowCenterDiv> 작성자 </CF.RowCenterDiv>
-              <CF.RowCenterDiv> 날짜 </CF.RowCenterDiv>
-              <CF.RowCenterDiv> 조회수 </CF.RowCenterDiv>
+              <CC.RowCenterDiv> 번호 </CC.RowCenterDiv>
+              <CC.RowCenterDiv> 제목 </CC.RowCenterDiv>
+              <CC.RowCenterDiv> 작성자 </CC.RowCenterDiv>
+              <CC.RowCenterDiv> 날짜 </CC.RowCenterDiv>
+              <CC.RowCenterDiv> 조회수 </CC.RowCenterDiv>
             </BoardListTitle>
             {boardList.map((el: any, index: number) => (
               <BoardItem
                 key={index}
                 onClick={() => router.push(`/board/${el.id}`)}
               >
-                <CF.RowCenterDiv> {el.id} </CF.RowCenterDiv>
-                <CF.RowCenterDiv> {el.title} </CF.RowCenterDiv>
-                <CF.RowCenterDiv> {el.writer} </CF.RowCenterDiv>
-                <CF.RowCenterDiv>
+                <CC.RowCenterDiv> {el.id} </CC.RowCenterDiv>
+                <CC.RowCenterDiv> {el.title} </CC.RowCenterDiv>
+                <CC.RowCenterDiv> {el.writer} </CC.RowCenterDiv>
+                <CC.RowCenterDiv>
                   {dateFormat4y2m2d(el.baseTimeEntity.createdAt)}
-                </CF.RowCenterDiv>
-                <CF.RowCenterDiv> {el.views} </CF.RowCenterDiv>
+                </CC.RowCenterDiv>
+                <CC.RowCenterDiv> {el.views} </CC.RowCenterDiv>
               </BoardItem>
             ))}
           </Main>
-        </CF.ColumnDiv>
-      </CF.RowCenterDiv>
+        </CC.ColumnDiv>
+      </CC.RowCenterDiv>
       <MainFooter>
         <Pagination
           refetch={({ page }: any) => {
@@ -201,11 +201,11 @@ const ViewBoardsContainer = () => {
           currentPage={Number(page)}
         />
         {authStore.role !== "" && (
-          <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
+          <CC.RowRightDiv padding={"0px 10px 0px 0px"}>
             <Button width="100px" onClick={() => router.push("/board/add")}>
               글작성하기
             </Button>
-          </CF.RowRightDiv>
+          </CC.RowRightDiv>
         )}
       </MainFooter>
     </Container>
@@ -225,7 +225,7 @@ const Header = styled.div`
   align-items: center;
   font-size: 32px;
 `;
-const MainHeader = styled(CF.RowDiv)`
+const MainHeader = styled(CC.RowDiv)`
   margin: auto;
   align-items: center;
   gap: 10px;
@@ -251,7 +251,7 @@ const BoardListTitle = styled.div`
   grid-template-columns: 40px auto 60px 100px 60px;
   align-items: center;
   background: ${theme.backgroundColors.grayDark};
-  font-family: ${theme.customFonts.GmarketSansBold};
+  font-family: ${theme.fontFamily.gmarketSansBold};
 `;
 const BoardItem = styled.button`
   width: 100%;
@@ -260,20 +260,20 @@ const BoardItem = styled.button`
   grid-template-columns: 40px auto 60px 100px 60px;
   align-items: center;
 
-  &:nth-child(2n + 1) {
+  &:nth-of-type(2n + 1) {
     background: ${theme.backgroundColors.gray};
   }
-  &:nth-child(2n) {
+  &:nth-of-type(2n) {
     background: ${theme.backgroundColors.grayLight};
   }
 
   &:hover {
     cursor: pointer;
-    background: ${theme.backgroundColors.secondaryLight};
+    background: ${theme.backgroundColors.purpleLight};
   }
 `;
 
-const MainFooter = styled(CF.ColumnDiv)`
+const MainFooter = styled(CC.ColumnDiv)`
   position: sticky;
   display: flex;
   align-items: center;

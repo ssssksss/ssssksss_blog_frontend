@@ -1,28 +1,32 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { css } from "@emotion/react";
+import theme from "./theme";
 
-const GlobalStyles = createGlobalStyle`
-  ${reset}
+const GlobalStyles = css`
   @font-face {
-    font-family: "GmarketSansBold";
-    src: url("/fonts/GmarketSansTTFBold.ttf")
-      format("truetype");
+    font-family: "gmarketSansBold";
+    src: url("/fonts/GmarketSansTTFBold.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
   }
   @font-face {
-    font-family: "CookieRunRegular";
-    src: url("/fonts/CookieRunRegular.ttf")
-      format("truetype");
+    font-family: "cookieRunRegular";
+    src: url("/fonts/cookieRunRegular.ttf") format("truetype");
   }
-  *{
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
   }
-  html,body {
+  html,
+  body {
     width: 100%;
     scroll-behavior: smooth;
+    background-color: ${theme.backgroundColors.background2};
+    &::-webkit-scrollbar {
+      display: none;
+      /* width: 5px; */
+    }
   }
   button {
     cursor: pointer;

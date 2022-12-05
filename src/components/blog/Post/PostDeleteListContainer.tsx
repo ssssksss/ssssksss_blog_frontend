@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import Button from "@/components/common/button/Button";
 
 /**
@@ -43,19 +43,19 @@ const PostDeleteListContainer = () => {
   return (
     <Container>
       {deletePostList?.map((el: any, index: number) => (
-        <CF.RowBetweenDiv key={index} gap={10}>
+        <CC.RowBetweenDiv key={index} gap={10}>
           <div> {el.id} </div>
           <div> {el.title} </div>
           <Button size={"40px"} onClick={() => deleteHandler(el.id)}>
             삭제
           </Button>
-        </CF.RowBetweenDiv>
+        </CC.RowBetweenDiv>
       ))}
     </Container>
   );
 };
 export default PostDeleteListContainer;
-const Container = styled(CF.ColumnDiv)`
+const Container = styled(CC.ColumnDiv)`
   width: 100%;
   gap: 10px;
 `;

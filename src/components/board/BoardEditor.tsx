@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -45,7 +46,6 @@ const BoardEditor = (props: IBoardEditorProps) => {
       },
     })
       .then((response) => {
-        console.log("BoardEditor.tsx : ", response);
         router.push("/board");
       })
       .catch((error) => {
@@ -204,18 +204,18 @@ const BoardTitle = styled.input`
   font-size: 20px;
   color: white;
   text-align: center;
-  background: ${({ theme }) => theme.customColors.thirdTitle};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  background: ${theme.backgroundColors.skyblue};
+  font-family: ${theme.fontFamily.cookieRunRegular};
   padding: 10px 10px;
   z-index: 2;
 
   &::placeholder {
     transition: all 0.6s ease-in-out;
-    ${theme.fontSizes.base};
+    ${theme.fontSizes.sm};
     color: white;
 
     @media (max-width: 768px) {
-      ${theme.fontSizes.small};
+      ${theme.fontSizes.xs};
     }
   }
   &:focus::placeholder {
@@ -223,7 +223,7 @@ const BoardTitle = styled.input`
   }
 `;
 const Writer = styled.div`
-  background: ${({ theme }) => theme.customColors.thirdTitle};
+  background: ${theme.backgroundColors.skyblue};
   padding: 8px 0px 8px 10px;
   color: white;
 `;
@@ -260,8 +260,8 @@ const Button = css`
   border-radius: 10px;
   border: solid black 1px;
   font-size: 1.1rem;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  ${({ theme }) => theme.flex.flexCenter};
+  font-family: ${theme.fontFamily.cookieRunRegular};
+  ${theme.flex.row.center.center};
   cursor: pointer;
   &:hover {
     background: #aeaeae;

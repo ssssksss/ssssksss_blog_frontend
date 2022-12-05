@@ -1,6 +1,7 @@
 import theme from "./theme";
-import styled, { css, keyframes } from "styled-components";
+import { css, keyframes } from "@emotion/react";
 import Image from "next/image";
+import styled from "@emotion/styled";
 interface IStyleProps {
   gap?: number;
   border?: string;
@@ -18,175 +19,78 @@ interface IStyleProps {
   maxWidth?: string;
 }
 
+const propsCommonStyle = (props: any) => css`
+  width: ${props.width};
+  min-width: ${props.minWidth};
+  height: ${props.height};
+  min-height: ${props.minHeight};
+  padding: ${props.padding};
+  margin: ${props.margin};
+  border: ${props.border};
+  border-radius: ${props.borderRadius};
+  gap: ${props.gap}px;
+  font-size: ${props.fontSize};
+  color: ${props.color};
+  background-color: ${props.backgroundColor};
+`;
+
 const RowDiv = styled.div<IStyleProps>`
   width: 100%;
-  ${theme.flex.row._.center}
-
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${theme.flex.row._.center};
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowStartDiv = styled.div<IStyleProps>`
   ${theme.flex.row._.start}
-
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowRightDiv = styled.div<IStyleProps>`
   width: 100%;
   ${theme.flex.row.end.center};
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowCenterDiv = styled.div<IStyleProps>`
   ${theme.flex.row.center.center}
   width: 100%;
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 const RowBetweenDiv = styled.div<IStyleProps>`
   width: 100%;
   ${theme.flex.row.between.center}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowBetweenStartDiv = styled.div<IStyleProps>`
   ${theme.flex.row.between.start}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnLeftDiv = styled.div<IStyleProps>`
   /*  */
   width: 100%;
   ${theme.flex.column._.start}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 const ColumnDiv = styled.div<IStyleProps>`
   ${theme.flex.column}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 const ColumnEndDiv = styled.div<IStyleProps>`
   ${theme.flex.column.end}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnBetweenDiv = styled.div<IStyleProps>`
   ${theme.flex.column.between}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnCenterDiv = styled.div<IStyleProps>`
   width: 100%;
   ${theme.flex.column.center.center}
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      gap: ${props.gap}px;
-      border: ${props.border};
-      width: ${props.width};
-      height: ${props.height};
-      padding: ${props.padding};
-      color: ${props.color};
-      font-size: ${props.fontSize};
-    `}
+  ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ErrorDiv = styled.div`
@@ -271,7 +175,14 @@ const Text = styled.div<IStyleProps>`
     `}
 `;
 
-export const CF = {
+const Container = styled.div<IStyleProps>`
+  width: 100%;
+`;
+const Wrapper = styled.div<IStyleProps>`
+  width: 100%;
+`;
+
+export const CC = {
   RowDiv,
   RowRightDiv,
   RowStartDiv,
@@ -288,4 +199,6 @@ export const CF = {
   ImgContainer,
   OverflowText,
   Text,
+  Container,
+  Wrapper,
 };

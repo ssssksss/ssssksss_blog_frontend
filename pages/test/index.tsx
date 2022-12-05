@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import InputTypeFile from "../../src/components/common/input/InputTypeFile";
 import { useRef, useState } from "react";

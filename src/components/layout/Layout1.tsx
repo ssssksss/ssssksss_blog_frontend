@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BlogFirstMenu from "src/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "src/components/blog/BlogUI/BlogSecondMenu";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import PageTransitions from "../common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
@@ -22,11 +22,8 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 };
 
 export default Layout1;
-const Container = styled.div`
-  background: ${theme.backgroundColors.background2};
-`;
+const Container = styled.div``;
 const Container1 = styled.div`
   margin: auto;
   max-width: 1440px;
-  min-height: 100vh;
 `;

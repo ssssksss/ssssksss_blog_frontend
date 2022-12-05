@@ -1,5 +1,5 @@
 import theme from "@/styles/theme";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
 interface ISocialButtonProps {
@@ -44,7 +44,7 @@ const Button = styled.button`
   background-color: ${(props: IColor) => props.backColor};
   color: ${(props: IColor) => props.fontColor};
   position: relative;
-  ${theme.fontSizes.base}
+  ${theme.fontSizes.sm}
   font-weight: 400;
   font-size: 16px;
 `;

@@ -1,5 +1,5 @@
 import EditBoardPage from "@/components/board/EditBoardContainer";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Layout2 from "@/components/layout/Layout2";
 
 /**

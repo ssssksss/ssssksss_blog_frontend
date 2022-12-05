@@ -22,7 +22,8 @@ const Totoro = () => {
     camera.position.set(1, 2, 3);
     const controls = new OrbitControls(camera, renderer.domElement);
     scene.position.set(0, -1, 0);
-    scene.background = new THREE.Color(theme.backgroundColors.background2);
+    // scene.background = new THREE.Color(theme.backgroundColors.background2);
+    renderer.setClearColor(0x000000, 0);
     controls.autoRotate = true;
     controls.enableZoom = false;
     controls.minPolarAngle = Math.PI / 3;

@@ -2,12 +2,13 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import React, { useState, useEffect } from "react";
-import styled, { css, keyframes } from "styled-components";
 import { store } from "@/redux/store";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import Space from "@/components/common/space/Space";
 import Input from "../common/input/Input";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 type SecondCategoryTypes = {
   id: number;
@@ -134,15 +135,15 @@ const ModalSecondCategory = (modalHandler: any) => {
       <Container>
         <Container1>
           <FormContainer>
-            <CF.RowCenterDiv
+            <CC.RowCenterDiv
               height="30px"
               color="#fff"
               fontSize={theme.fontSizes.lg}
               padding={"10px 0px 0px 0px"}
             >
               2차 카테고리 추가
-            </CF.RowCenterDiv>
-            <CF.ColumnDiv
+            </CC.RowCenterDiv>
+            <CC.ColumnDiv
               gap={20}
               padding={"20px 20px 20px 20px"}
               color={"#fff"}
@@ -166,15 +167,15 @@ const ModalSecondCategory = (modalHandler: any) => {
                 />
               </Space>
               <Button onClick={() => submitHandler()}>제출</Button>
-              <CF.RowDiv border={"solid #333333 3px"} />
-              <CF.RowCenterDiv
+              <CC.RowDiv border={"solid #333333 3px"} />
+              <CC.RowCenterDiv
                 height="30px"
                 color="#fff"
                 fontSize={theme.fontSizes.lg}
                 padding={"10px 0px 0px 0px"}
               >
                 2차 카테고리 삭제
-              </CF.RowCenterDiv>
+              </CC.RowCenterDiv>
               <InputContainer>
                 <select
                   name="secondHref"
@@ -191,15 +192,15 @@ const ModalSecondCategory = (modalHandler: any) => {
                 </select>
               </InputContainer>
               <Button onClick={() => removeHandler()}>삭제</Button>
-              <CF.RowDiv border={"solid #333333 3px"} />
-              <CF.RowCenterDiv
+              <CC.RowDiv border={"solid #333333 3px"} />
+              <CC.RowCenterDiv
                 height="30px"
                 color="#fff"
                 fontSize={theme.fontSizes.lg}
                 padding={"10px 0px 0px 0px"}
               >
                 2차 카테고리 이름 변경
-              </CF.RowCenterDiv>
+              </CC.RowCenterDiv>
               <InputContainer>
                 <select
                   name="secondHref"
@@ -221,13 +222,13 @@ const ModalSecondCategory = (modalHandler: any) => {
                   onChange={(e: any) => setUpdateName(e.target.value)}
                 />
               </Space>
-              <CF.RowDiv gap={10} padding={"10px"}>
+              <CC.RowDiv gap={10} padding={"10px"}>
                 <Button onClick={updateCategoryNameHadler}>변경</Button>
                 <Button onClick={() => modalHandler.modalHandler()}>
                   취소
                 </Button>
-              </CF.RowDiv>
-            </CF.ColumnDiv>
+              </CC.RowDiv>
+            </CC.ColumnDiv>
           </FormContainer>
         </Container1>
       </Container>
@@ -276,7 +277,7 @@ const Container = styled.div`
   padding: 10px;
 `;
 const Container1 = styled.div`
-  background: ${theme.backgroundColors.primary};
+  background: ${theme.backgroundColors.orange};
   border-radius: 50px 4px 4px 4px;
   min-height: 500px;
   z-index: 3;
@@ -284,17 +285,17 @@ const Container1 = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.backgroundColors.secondary};
+  background-color: ${theme.backgroundColors.purple};
   animation: ${UpDownAnimation} 1s ease-in-out;
   animation-fill-mode: forwards;
 `;
 const InputContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(1, 3fr 2fr);
-  color: ${({ theme }) => theme.customColors.second};
+  color: ${theme.backgroundColors.purpleDark};
   height: 40px;
 `;
-const RadioDiv = styled(CF.ColumnDiv)`
+const RadioDiv = styled(CC.ColumnDiv)`
   gap: 4px;
   input[type="radio"],
   label {
@@ -306,13 +307,13 @@ const Button = styled.button`
   width: 100%;
   height: 100%;
   border: none;
-  background: ${({ theme }) => theme.customColors.second};
+  background: ${theme.backgroundColors.purpleDark};
   color: white;
   font-size: 1.2rem;
   font-weight: 800;
   cursor: pointer;
   &:hover {
-    color: ${({ theme }) => theme.customColors.second};
+    color: ${theme.backgroundColors.purpleDark};
     background: white;
   }
 `;

@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useState, useEffect, useRef } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { Viewer } from "@toast-ui/react-editor";
-import { CF } from "../../../styles/commonComponentStyle";
-import { css } from "styled-components";
+import { CC } from "../../../styles/commonComponentStyle";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
 import theme from "@/styles/theme";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import { css } from "@emotion/react";
 /**
  * Author : Sukyung Lee
  * FileName: ViewBoardContainer.tsx
@@ -93,8 +93,8 @@ const ViewBoardContainer = () => {
           <Title> {boardData?.title} </Title>
           <SubSpace>
             <BoardContainer1>
-              <CF.RowDiv>
-                <CF.Img
+              <CC.RowDiv>
+                <CC.Img
                   alt="schedule_icon"
                   src="/img/ui-icon/schedule_icon.png"
                   width="20px"
@@ -102,9 +102,9 @@ const ViewBoardContainer = () => {
                   noCursor={true}
                 />
                 : {dateFormat4y2m2d(boardData?.modifiedAt)}
-              </CF.RowDiv>
-              <CF.RowDiv>
-                <CF.Img
+              </CC.RowDiv>
+              <CC.RowDiv>
+                <CC.Img
                   alt="userInfo_icon"
                   src="/img/ui-icon/userInfo_icon.png"
                   width="20px"
@@ -112,7 +112,7 @@ const ViewBoardContainer = () => {
                   noCursor={true}
                 />
                 : {boardData?.writer}
-              </CF.RowDiv>
+              </CC.RowDiv>
             </BoardContainer1>
             <BoardContainer2>
               {(authStore.role === "ROLE_ADMIN" ||
@@ -163,7 +163,7 @@ export default ViewBoardContainer;
 const Container = styled.div`
   border-radius: 10px;
   font-size: 12px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  max-width: ${theme.customScreen.maxWidth};
   margin: 0px auto;
   padding: 10px 10px;
 `;
@@ -171,7 +171,7 @@ const SubSpace = styled.div`
   width: 100%;
   height: 60px;
   font-size: 16px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  font-family: ${theme.fontFamily.cookieRunRegular};
   background: white;
   display: flex;
   flex-flow: nowrap row;
@@ -185,9 +185,9 @@ const BoardContainer1 = styled.div`
   justify-content: center;
   gap: 4px;
   padding: 0px 4px;
-  font-family: ${theme.customFonts.CookieRunRegular};
+  font-family: ${theme.fontFamily.cookieRunRegular};
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
 `;
@@ -211,26 +211,26 @@ const Button = styled.button<{ actionType?: string }>`
   justify-content: center;
   align-items: center;
   padding: 0px 4px;
-  font-family: ${theme.customFonts.CookieRunRegular};
+  font-family: ${theme.fontFamily.cookieRunRegular};
   font-size: 16px;
   border-radius: 10px;
 
   ${(props) =>
     props.actionType === "edit" &&
     css`
-      background-color: ${theme.backgroundColors.fifth};
+      background-color: ${theme.backgroundColors.green};
     `}
 
   ${(props) =>
     props.actionType === "remove" &&
     css`
-      background-color: ${theme.backgroundColors.fourth};
+      background-color: ${theme.backgroundColors.lightred};
     `}
 
   ${(props) =>
     props.actionType === "list" &&
     css`
-      background-color: ${theme.backgroundColors.secondary};
+      background-color: ${theme.backgroundColors.purple};
     `}
 
     &:hover {
@@ -245,10 +245,10 @@ const Title = styled.h2`
   font-size: 20px;
   color: white;
   border-radius: 10px 10px 0px 0px;
-  background: ${theme.backgroundColors.primary};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  background: ${theme.backgroundColors.orange};
+  font-family: ${theme.fontFamily.cookieRunRegular};
   padding: 0px 10px;
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center.center};
 `;
 
 const ViewerContainer = styled.div`

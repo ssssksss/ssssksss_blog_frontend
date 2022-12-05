@@ -1,5 +1,5 @@
 import theme from "@/styles/theme";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { KeyboardEvent } from "react";
 
 /**
@@ -84,13 +84,13 @@ const InputStyle = styled.input<{
 
     @keyframes s1 {
       0% {
-        background-color: ${theme.backgroundColors.secondary};
+        background-color: ${theme.backgroundColors.purple};
       }
       50% {
-        background-color: ${theme.backgroundColors.secondary} - 500;
+        background-color: ${theme.backgroundColors.purple} - 500;
       }
       100% {
-        background-color: ${theme.backgroundColors.secondary} - 1000;
+        background-color: ${theme.backgroundColors.purple} - 1000;
       }
     }
   }

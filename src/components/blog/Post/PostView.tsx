@@ -3,16 +3,18 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Viewer } from "@toast-ui/react-editor";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import Button from "@/components/common/button/Button";
 
 //postView공간
 const PostView = () => {
@@ -90,35 +92,35 @@ const PostView = () => {
           <Head>
             <title> {post?.title} </title>
           </Head>
-          <Title> {post?.title} </Title>
-          <SubSpace>
-            <PostContainer1>
-              <CF.RowDiv>
-                <CF.Img
+          <PostViewTitle> {post?.title} </PostViewTitle>
+          <PostViewHeader>
+            <CC.ColumnCenterDiv padding="4px">
+              <CC.RowDiv>
+                <CC.Img
                   alt="schedule_icon"
                   src="/img/ui-icon/schedule_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}
                 />
-                : {post?.modifiedAt.substring(0, 10)}
-              </CF.RowDiv>
-              <CF.RowDiv>
-                <CF.Img
+                <span> : {post?.modifiedAt.substring(0, 10)} </span>
+              </CC.RowDiv>
+              <CC.RowDiv>
+                <CC.Img
                   alt="userInfo_icon"
                   src="/img/ui-icon/userInfo_icon.png"
                   width="20px"
                   height="20px"
                   noCursor={true}
                 />
-                : {post?.nickName}
-              </CF.RowDiv>
-            </PostContainer1>
-            <PostContainer2>
+                <span> : {post?.nickName} </span>
+              </CC.RowDiv>
+            </CC.ColumnCenterDiv>
+            <CC.RowRightDiv padding="0px 5px" gap={5}>
               {authStore.role === "ROLE_ADMIN" && (
                 <>
                   <Button
-                    actionType="edit"
+                    status="green"
                     onClick={() =>
                       router.push(
                         router.asPath.substring(
@@ -132,26 +134,30 @@ const PostView = () => {
                   >
                     수정
                   </Button>
-                  <Button
-                    actionType="remove"
-                    onClick={() => removePostHandler()}
-                  >
+                  <Button status="lightred" onClick={() => removePostHandler()}>
                     삭제
                   </Button>
                 </>
               )}
-              <Button actionType="list" onClick={() => router.back()}>
+              <Button
+                status="purple"
+                onClick={() =>
+                  router.push(
+                    router.asPath.substring(0, router.asPath.lastIndexOf("/"))
+                  )
+                }
+              >
                 목록
               </Button>
-            </PostContainer2>
-          </SubSpace>
-          <ViewerContainer>
+            </CC.RowRightDiv>
+          </PostViewHeader>
+          <PostViewBody>
             <Viewer
               initialValue={post?.content}
               theme="black"
               ref={editorRef}
             />
-          </ViewerContainer>
+          </PostViewBody>
         </Container>
       )}
     </>
@@ -162,100 +168,32 @@ PostView.layout = Layout1;
 export default PostView;
 
 const Container = styled.div`
-  border-radius: 10px;
-  font-size: 12px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  border-radius: ${theme.borderRadius.xs};
+  max-width: ${theme.customScreen.maxWidth};
   margin: 0px auto;
-  padding: 10px 10px;
 `;
-const SubSpace = styled.div`
+const PostViewTitle = styled.h2`
   width: 100%;
-  height: 60px;
-  font-size: 16px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  padding: 0px 10px;
+  border-radius: 10px 10px 0px 0px;
+  min-height: 40px;
+  font-size: ${theme.fontSizes.md};
+  background: ${theme.backgroundColors.green};
+  color: white;
+  font-family: ${theme.fontFamily.cookieRunRegular};
+  ${theme.flex.row.center.center};
+`;
+const PostViewHeader = styled.div`
+  font-size: ${theme.fontSizes.sm};
+  font-family: ${theme.fontFamily.cookieRunRegular};
   background: white;
   display: flex;
-  flex-flow: nowrap row;
   justify-content: space-between;
 `;
-const PostContainer1 = styled.div`
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-flow: nowrap column;
-  justify-content: center;
-  gap: 4px;
-  padding: 0px 4px;
-  font-family: ${theme.customFonts.CookieRunRegular};
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 0.8rem;
-  }
-`;
-
-const PostContainer2 = styled.div`
-  display: flex;
-  flex-flow: nowrap row;
-  align-items: center;
-  padding: 0px 10px;
-  gap: 5px;
-
-  & > img:hover {
-    cursor: pointer;
-  }
-`;
-const Button = styled.button<{ actionType?: string }>`
-  width: 100px;
-  height: 40px;
-  display: flex;
-  flex-flow: wrap row;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 4px;
-  font-family: ${theme.customFonts.CookieRunRegular};
-  font-size: 16px;
-  border-radius: 10px;
-
-  ${(props) =>
-    props.actionType === "edit" &&
-    css`
-      background-color: ${theme.backgroundColors.fifth};
-    `}
-
-  ${(props) =>
-    props.actionType === "remove" &&
-    css`
-      background-color: ${theme.backgroundColors.fourth};
-    `}
-
-  ${(props) =>
-    props.actionType === "list" &&
-    css`
-      background-color: ${theme.backgroundColors.secondary};
-    `}
-
-    &:hover {
-    color: white;
-    animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
-    height: 48px;
-  }
-`;
-const Title = styled.h2`
-  width: 100%;
-  min-height: 40px;
-  font-size: 20px;
-  color: white;
-  border-radius: 10px 10px 0px 0px;
-  background: ${theme.backgroundColors.primary};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 10px;
-  ${({ theme }) => theme.flex.flexCenter};
-`;
-
-const ViewerContainer = styled.div`
+const PostViewBody = styled.div`
   min-height: 600px;
-  margin-top: 10px;
-  background: white;
+  margin-top: 4px;
+  background: #fefefe;
   padding: 10px;
   border-radius: 0px 0px 10px 10px;
 `;

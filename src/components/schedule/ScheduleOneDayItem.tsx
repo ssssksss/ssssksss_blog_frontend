@@ -1,8 +1,9 @@
 import Input from "@/components/common/input/Input";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import { useRouter } from "next/router";
 import Button from "@/components/common/button/Button";
@@ -37,14 +38,14 @@ const ScheduleOneDayItem = (props: IScheduleItemProps) => {
   return (
     <Container>
       <OneDayMarkColor style={{ background: props.el.backgroundColor }} />
-      <CF.ColumnDiv width="100%" gap={6}>
-        <CF.RowDiv gap={6}>
+      <CC.ColumnDiv width="100%" gap={6}>
+        <CC.RowDiv gap={6}>
           <Title> 제목 : {props.el.title} </Title>
           <Button onClick={() => props.updateScheduleHandler(props.el)}>
             수정
           </Button>
-        </CF.RowDiv>
-        <CF.RowDiv gap={6}>
+        </CC.RowDiv>
+        <CC.RowDiv gap={6}>
           <Content>
             <span> 내용 : </span>
             <span dangerouslySetInnerHTML={{ __html: props.el.content }} />
@@ -52,8 +53,8 @@ const ScheduleOneDayItem = (props: IScheduleItemProps) => {
           <Button onClick={() => props.deleteScheduleHandler(props.el.id)}>
             삭제
           </Button>
-        </CF.RowDiv>
-        <CF.RowBetweenDiv>
+        </CC.RowDiv>
+        <CC.RowBetweenDiv>
           <StartToEndDateTime>
             {dateTimeStringConverter(props.el.startDateTime) ===
             dateTimeStringConverter(props.el.endDateTime) ? (
@@ -70,14 +71,14 @@ const ScheduleOneDayItem = (props: IScheduleItemProps) => {
           <CategoryName style={{ color: props.el.backgroundColor }}>
             분류 : {props.el.categoryName}
           </CategoryName>
-        </CF.RowBetweenDiv>
-      </CF.ColumnDiv>
+        </CC.RowBetweenDiv>
+      </CC.ColumnDiv>
     </Container>
   );
 };
 export default ScheduleOneDayItem;
 
-const Container = styled(CF.RowDiv)`
+const Container = styled(CC.RowDiv)`
   padding: 6px;
   align-items: center;
   gap: 6px;
@@ -127,7 +128,7 @@ const Title = styled.div`
     font-size: 16px;
   }
 `;
-const Content = styled(CF.RowDiv)`
+const Content = styled(CC.RowDiv)`
   padding: 6px;
   gap: 8px;
   font-size: 20px;

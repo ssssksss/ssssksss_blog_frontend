@@ -1,10 +1,10 @@
 import Layout2 from "@/components/layout/Layout2";
 import { store } from "@/redux/store";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import ScheduleSideContainer from "../../src/components/schedule/ScheduleSideContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import { useState, useEffect } from "react";
 import Button from "@/components/common/button/Button";
 import ScheduleCalendar from "@/components/schedule/Calendar/ScheduleCalendar";
@@ -62,7 +62,7 @@ const SchedulePage = () => {
 export default SchedulePage;
 SchedulePage.layout = Layout2;
 
-const Container = styled(CF.RowDiv)`
+const Container = styled(CC.RowDiv)`
   gap: 10px;
   justify-content: center;
   position: relative;
