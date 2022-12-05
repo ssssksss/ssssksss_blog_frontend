@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes, css } from "styled-components";
 import { useRouter } from "next/router";
 import { setAccessToken, setUserInfo } from "@/redux/store/auth";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -7,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import BasicCustomModal from "@/components/Modal/BasicCustomModal";
 import UserSignUp from "../User/UserSignUp";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import UserLogin from "../User/UserLogin";
 import { store } from "@/redux/store";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
@@ -18,6 +17,8 @@ import {
 import theme from "@/styles/theme";
 import Image from "next/image";
 import { Spinner4 } from "@/components/common/spinner/Spinners";
+import { css, keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const BlogHeader = () => {
   const router = useRouter();
@@ -143,7 +144,7 @@ const BlogHeader = () => {
               setIsNavbarOpen((prev) => !prev);
             }}
           >
-            <CF.Img alt="toggle_menu" src="/img/ui-icon/list_icon.png" />
+            <CC.Img alt="toggle_menu" src="/img/ui-icon/list_icon.png" />
             <span> 메뉴 </span>
           </ToggleMenuImgContainer>
           <MenuContainer isNavbarOpen={isNavbarOpen}>
@@ -154,7 +155,7 @@ const BlogHeader = () => {
               }}
               active={active === ""}
             >
-              <CF.Img alt="bulletin_board" src="/img/ui-icon/home_icon.png" />
+              <CC.Img alt="bulletin_board" src="/img/ui-icon/home_icon.png" />
               <span> 홈 </span>
             </ImgContainer>
             <ImgContainer
@@ -164,7 +165,7 @@ const BlogHeader = () => {
               }}
               active={active === "blog"}
             >
-              <CF.Img
+              <CC.Img
                 alt="bulletin_board"
                 src="/img/ui-icon/blog_box_icon.png"
               />
@@ -177,7 +178,7 @@ const BlogHeader = () => {
               }}
               active={active === "board"}
             >
-              <CF.Img
+              <CC.Img
                 alt="bulletin_board"
                 src="/img/ui-icon/bulletin_board_icon.png"
               />
@@ -195,7 +196,7 @@ const BlogHeader = () => {
               active={active === "todo"}
               isUnableOpacityStyle={authStore.role === ""}
             >
-              <CF.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
+              <CC.Img alt="userInfo" src="/img/ui-icon/todo_list_icon.png" />
               <span> TODO </span>
             </ImgContainer>
             {authStore.role === "ROLE_ADMIN" && (
@@ -206,7 +207,7 @@ const BlogHeader = () => {
                 }}
                 active={active === "user-dashboard"}
               >
-                <CF.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
+                <CC.Img alt="userInfo" src="/img/ui-icon/userInfo_icon.png" />
                 <span> 대시보드 </span>
               </ImgContainer>
             )}
@@ -222,7 +223,7 @@ const BlogHeader = () => {
               active={active === "schedule"}
               isUnableOpacityStyle={authStore.role === ""}
             >
-              <CF.Img alt="schedule" src="/img/ui-icon/schedule_icon.png" />
+              <CC.Img alt="schedule" src="/img/ui-icon/schedule_icon.png" />
               <span> 일정 </span>
             </ImgContainer>
             {authStore.role === "" && (
@@ -231,7 +232,7 @@ const BlogHeader = () => {
                   setIsModalOpen1(true);
                 }}
               >
-                <CF.Img alt="login" src="/img/ui-icon/login_icon.png" />
+                <CC.Img alt="login" src="/img/ui-icon/login_icon.png" />
                 <span> 로그인 </span>
               </ImgContainer>
             )}
@@ -241,7 +242,7 @@ const BlogHeader = () => {
                   setIsModalOpen(true);
                 }}
               >
-                <CF.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
+                <CC.Img alt="signup" src="/img/ui-icon/signup_icon.png" />
                 <span> 회원가입 </span>
               </ImgContainer>
             )}
@@ -251,7 +252,7 @@ const BlogHeader = () => {
                   logoutHandler();
                 }}
               >
-                <CF.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
+                <CC.Img alt="logout" src="/img/ui-icon/logout_icon.png" />
                 <span> 로그아웃 </span>
               </ImgContainer>
             )}
@@ -264,15 +265,15 @@ const BlogHeader = () => {
 
 export default BlogHeader;
 
-const Container = styled(CF.RowBetweenDiv)`
+const Container = styled(CC.RowBetweenDiv)`
   height: 80px;
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   position: sticky;
   left: 0px;
   top: 0px;
-  background: ${theme.backgroundColors.primaryLight};
+  background: ${theme.backgroundColors.orangeLight};
   z-index: 200;
-  outline: solid black 2px;
+  /* outline: solid black 2px; */
   padding: 0px 10px;
 `;
 
@@ -302,11 +303,11 @@ const rotation = keyframes`
   }
   `;
 const Logo = styled.button`
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center};
   background-color: transparent;
   border: none;
 `;
-const ToggleMenuImgContainer = styled(CF.ImgContainer)`
+const ToggleMenuImgContainer = styled(CC.ImgContainer)`
   height: 100%;
   min-height: 80px;
   min-width: 60px;
@@ -314,7 +315,7 @@ const ToggleMenuImgContainer = styled(CF.ImgContainer)`
   right: 0px;
   top: 0px;
   display: none;
-  @media (max-width: 500px) {
+  @media (max-width: ${theme.customScreen.sm}) {
     display: flex;
     flex-flow: nowrap column;
     justify-content: center;
@@ -332,18 +333,15 @@ const MenuContainer = styled.nav<{ isNavbarOpen: boolean }>`
   justify-content: flex-end;
   animation: ${animationKeyFrames.Fadein} 1s;
 
-  @media (max-width: 500px) {
+  @media (max-width: ${theme.customScreen.sm}) {
     display: ${(props) => (props.isNavbarOpen ? "none" : "grid")};
-    width: 300px;
     position: absolute;
     right: 0;
     top: 80px;
-    grid-template-columns: repeat(4, 1fr);
-    background: ${theme.backgroundColors.primaryLight};
+    grid-template-columns: repeat(6, 1fr);
+    background: ${theme.backgroundColors.orangeLight};
     z-index: 40;
-    border-bottom: solid black 2px;
-    border-left: solid black 2px;
-    border-top: dotted black 1px;
+    outline: solid black 2px;
   }
 `;
 const Img = styled(Image)`
@@ -355,7 +353,7 @@ const Img = styled(Image)`
   border-radius: 50%;
 `;
 
-const ImgContainer = styled(CF.ImgContainer)<{
+const ImgContainer = styled(CC.ImgContainer)<{
   active?: boolean;
   isUnableOpacityStyle?: boolean;
 }>`
@@ -408,3 +406,6 @@ const BottomButton = styled.img`
       alternate;
   }
 `;
+
+// 인트로 글 좌측으로 밀리는거 왼쪽으로 조금 밀어주고
+// 프로젝트 내용 박스 테두리 다른것으로 변경해주기

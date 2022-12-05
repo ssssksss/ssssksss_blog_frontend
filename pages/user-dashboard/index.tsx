@@ -1,6 +1,6 @@
 import UserDashBoardContainer from "@/components/blog/User/UserDashBoardContainer";
 import Layout3 from "@/components/layout/Layout3";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 /**
  * Author : Sukyung Lee
  * FileName: UserProfilePage.tsx

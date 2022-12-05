@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import "react-quill/dist/quill.snow.css";

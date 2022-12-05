@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -9,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const BlogFirstMenu = () => {
 
   const firstCategoryHandler = (pathValue: string) => {
     dispatch(FIRST_CATEGORY_ACTION({ firstCategoryPath: pathValue }));
+    router.push("/blog" + "/" + pathValue);
   };
 
   useEffect(() => {
@@ -132,30 +134,23 @@ export default BlogFirstMenu;
 const Container = styled.div`
   margin: auto;
   padding: 10px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
-  background-color: ${theme.backgroundColors.background2};
+  max-width: ${theme.customScreen.maxWidth};
+  background-color: ${theme.backgroundColors};
 `;
 const MenuTitle = styled.div`
-  background: ${({ theme }) => theme.customColors.firstTitle};
+  background: ${theme.backgroundColors.purpleDark};
   color: white;
   height: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  font-size: 20px;
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  font-size: ${theme.fontSizes.md};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   position: relative;
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 14px;
-  }
 `;
 const Title = styled.div`
   height: 40px;
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center.center};
   position: relative;
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 0.8rem;
-  }
 `;
 const PlusButton = styled.button`
   width: 20px;
@@ -166,16 +161,16 @@ const PlusButton = styled.button`
   cursor: pointer;
   position: absolute;
   right: 2px;
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center.center};
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     width: 10px;
     height: 10px;
     font-size: 0.8rem;
   }
 `;
 const MenuContainer = styled.div`
-  background: ${({ theme }) => theme.customColors.first};
+  background: ${theme.backgroundColors.purple};
   color: white;
   min-height: 260px;
   display: grid;
@@ -190,23 +185,16 @@ const MenuList = styled.div<{ index: number }>`
   min-width: 80px;
   gap: 6px;
 
-  &:nth-child(n + 2) {
+  &:nth-of-type(n + 2) {
     border-left: dashed 1px white;
-  }
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.md}) {
-    a {
-      font-size: 10px;
-    }
   }
 `;
 const MenuItem = styled.a<{ active: boolean }>`
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center.center};
   background: ${(props) =>
-    props.active ? "white" : ({ theme }) => theme.customColors.first};
-  color: ${(props) =>
-    props.active ? ({ theme }) => theme.customColors.first : "white"};
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+    props.active ? "white" : theme.backgroundColors.purple};
+  color: ${(props) => (props.active ? theme.backgroundColors.purple : "white")};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   cursor: pointer;
   position: relative;
 
@@ -219,20 +207,23 @@ const MenuItem = styled.a<{ active: boolean }>`
     `}
 
   &:hover {
-    color: ${({ theme }) => theme.customColors.first};
+    color: ${theme.backgroundColors.purple};
     background: white;
-
     & > div {
       mix-blend-mode: darken;
     }
   }
+
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
-const MenuCount = styled.div`
+const MenuCount = styled.span`
   position: absolute;
   right: 4px;
-  width: 28px;
-  padding: 2px 2px 2px 0px;
-  display: flex;
-  justify-content: end;
+
+  @media only screen and (max-width: ${theme.customScreen.md}) {
+    display: none;
+  }
 `;

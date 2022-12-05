@@ -1,12 +1,12 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Layout1 from "src/components/layout/Layout1";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import IntroduceChapter from "@/components/landingPage/IntroduceChapter";
 import BasicCarousel from "@/components/common/carousel/BasicCarousel";
 import theme from "@/styles/theme";
 import Stack from "@/components/intro/stack";
 import BlogFooter from "@/components/blog/BlogUI/BlogFooter";
-
+import React from "react";
 export const getStaticProps = async () => {
   return {
     props: {},
@@ -70,30 +70,26 @@ const HomePage = () => {
       </Chapter>
       <Chapter>
         <Title> Contact Me </Title>
+        <BlogFooter />
       </Chapter>
-      <BlogFooter />
     </Container>
   );
 };
 HomePage.layout = Layout1;
 export default HomePage;
 
-const Container = styled(CF.ColumnDiv)`
-  gap: 10px;
-  background: black;
-  padding-bottom: 10px;
-`;
-const Title = styled(CF.RowCenterDiv)`
-  /* position: absolute; */
-  /* top: 0; */
-  /* left: 0; */
+const Container = styled(CC.ColumnDiv)``;
+const Title = styled(CC.RowCenterDiv)`
   padding-top: 20px;
-  font-size: 32px;
-  color: black;
-  font-family: ${theme.customFonts.GmarketSansBold};
+  font-size: ${theme.fontSizes.xl};
+  font-family: ${theme.fontFamily.gmarketSansBold};
 `;
 const Chapter = styled.section`
-  background: ${theme.backgroundColors.background2};
-  min-height: 600px;
   width: 100%;
+  &:nth-of-type(2n-1) {
+    background: ${theme.backgroundColors.white};
+  }
+  &:nth-of-type(2n) {
+    background: ${theme.backgroundColors.grayLight};
+  }
 `;

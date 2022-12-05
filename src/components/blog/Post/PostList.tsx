@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout1 from "src/components/layout/Layout1";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 
 //2번째 카테고리 경로
@@ -93,10 +94,10 @@ const PostList = () => {
 PostList.layout = Layout1;
 export default PostList;
 
-const MenuContainer = styled(CF.ColumnDiv)`
+const MenuContainer = styled(CC.ColumnDiv)`
   font-size: 12px;
   margin: 0px auto 10px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  max-width: ${theme.customScreen.maxWidth};
   position: relative;
   padding: 4px 10px;
   gap: 4px;
@@ -113,17 +114,17 @@ const MenuAddItem = styled.div`
   align-items: center;
   color: white;
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
   a {
     display: block;
     padding: 6px 16px;
-    background: ${({ theme }) => theme.customColors.first};
-    font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+    background: ${theme.backgroundColors.orange};
+    font-family: ${theme.fontFamily.gmarketSansBold};
   }
   a:hover {
-    color: ${({ theme }) => theme.customColors.first};
+    color: ${theme.backgroundColors.orange};
     background: white;
   }
 `;
@@ -133,18 +134,18 @@ const MenuItem = styled.div`
   margin: 4px 0px;
   outline: solid ${theme.backgroundColors.grayLight} 1px;
   font-size: 1rem;
-  font-family: ${theme.customFonts.GmarketSansBold};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   color: white;
-  background: ${theme.backgroundColors.secondary};
+  background: ${theme.backgroundColors.purple};
   border-radius: 8px;
 
   &:hover {
-    color: ${theme.backgroundColors.secondaryDark};
+    color: ${theme.backgroundColors.purpleDark};
     background: white;
     transition: 0.5s;
   }
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     font-size: 0.8rem;
   }
 
@@ -174,7 +175,7 @@ const Item = styled.a`
   cursor: pointer;
   line-height: normal;
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     grid-template-columns: auto 80px;
   }
 `;
@@ -189,13 +190,12 @@ const Description = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
-  font-family: ${theme.customFonts.CookieRunRegular};
+  font-family: ${theme.fontFamily.cookieRunRegular};
 `;
 const MenuDate = styled.div``;
 const Blank = styled.div`
   width: 100%;
   height: 100px;
-  ${({ theme }) => theme.flex.flexCenter};
+  ${theme.flex.row.center.center};
   font-size: 20px;
-  /* font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular}; */
 `;

@@ -1,9 +1,10 @@
 import Button from "@/components/common/button/Button";
 import Input from "@/components/common/input/Input";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useDispatch, useSelector } from "react-redux";
-import styled, { css, keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { css, keyframes } from "@emotion/react";
 import { RootState } from "@/redux/store/reducers";
 import { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -112,7 +113,7 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
         >
           일정 추가
         </Button>
-        <CF.ColumnDiv gap={10}>
+        <CC.ColumnDiv gap={10}>
           {scheduleList.length !== 0 &&
             scheduleList.map((el: any, index: number) => (
               <ScheduleOneDayItem
@@ -123,14 +124,14 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
                 updateScheduleHandler={updateScheduleHandler}
               />
             ))}
-        </CF.ColumnDiv>
+        </CC.ColumnDiv>
       </OneDayScheduleList>
     </Container>
   );
 };
 export default ScheduleSideContainer;
 
-const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
+const Container = styled(CC.ColumnDiv)<{ hide: boolean }>`
   position: absolute;
   top: 0px;
   right: 0px;
@@ -155,16 +156,16 @@ const Container = styled(CF.ColumnDiv)<{ hide: boolean }>`
     `}
 `;
 
-const OneDayScheduleList = styled(CF.ColumnDiv)`
+const OneDayScheduleList = styled(CC.ColumnDiv)`
   gap: 30px;
   padding: 0px 10px 20px 10px;
   overflow-y: scroll;
 `;
 
-const Title = styled(CF.RowCenterDiv)`
+const Title = styled(CC.RowCenterDiv)`
   height: 60px;
   min-height: 60px;
-  background-color: ${theme.backgroundColors.secondary};
+  background-color: ${theme.backgroundColors.purple};
   color: white;
   position: relative;
   width: 100%;

@@ -1,6 +1,6 @@
 import theme from "@/styles/theme";
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import BlogFirstMenu from "../blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "../blog/BlogUI/BlogSecondMenu";
 
@@ -24,6 +24,4 @@ const Container = styled.div`
   margin: auto;
   min-width: 360px;
   max-width: 1440px;
-  min-height: calc(100vh - 80px);
-  background-color: ${theme.backgroundColors.background2};
 `;

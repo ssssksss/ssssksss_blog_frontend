@@ -1,20 +1,21 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
+import theme from "./theme";
 
 export const MenuTitle = styled.div`
-  background: ${({ theme }) => theme.customColors.secondTitle};
+  background: ${theme.backgroundColors.orange};
   color: white;
   height: 40px;
   font-size: 20px;
   border-radius: 10px 10px 0px 0px;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  ${({ theme }) => theme.flex.flexCenter};
+  font-family: ${theme.fontFamily.cookieRunRegular};
+  ${theme.flex.row.center.center};
 
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
     font-size: 14px;
   }
 `;
 export const MenuContainer = styled.div`
-  background: ${({ theme }) => theme.customColors.second};
+  background: ${theme.backgroundColors.orangeLight};
   color: white;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -26,13 +27,13 @@ export const MenuContainer = styled.div`
   a {
     height: 24px;
     box-shadow: 1px 1px 0px 0px grey, -1px -1px 1px 1px grey, inset 1px 1px grey;
-    ${({ theme }) => theme.flex.flexCenter};
-    background: ${({ theme }) => theme.customColors.second};
+    ${theme.flex.row.center.center};
+    background: ${theme.backgroundColors.orange};
     color: white;
-    font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+    font-family: ${theme.fontFamily.cookieRunRegular};
 
     &:hover {
-      color: ${({ theme }) => theme.customColors.second};
+      color: ${theme.backgroundColors.orange};
       background: white;
       box-shadow: 0px 0px 1px 1px grey, inset 1px 1px grey;
       transform: translate(-2px, -2px);

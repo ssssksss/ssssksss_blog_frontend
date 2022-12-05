@@ -10,18 +10,72 @@ const calcRem = (size: number) => `${size / 16}rem`;
 
 // 폰트 사이즈
 const fontSizes = {
-  small: `${calcRem(12)}`,
-  base: `${calcRem(16)}`,
-  lg: `${calcRem(18)}`,
-  subTitle: `${calcRem(24)}`,
-  mainTitle: `${calcRem(30)}`,
+  xs: `${calcRem(12)}`,
+  sm: `${calcRem(16)}`,
+  md: `${calcRem(18)}`,
+  lg: `${calcRem(24)}`,
+  xl: `${calcRem(30)}`,
+};
+
+const borderRadius = {
+  xs: `${calcRem(12)}`,
+  sm: `${calcRem(16)}`,
+  md: `${calcRem(18)}`,
+  lg: `${calcRem(24)}`,
+  xl: `${calcRem(30)}`,
+};
+
+const padding = {
+  xs: `${calcRem(12)}`,
+  sm: `${calcRem(16)}`,
+  md: `${calcRem(18)}`,
+  lg: `${calcRem(24)}`,
+  xl: `${calcRem(30)}`,
+};
+
+const height = {
+  xs: "40px",
+  sm: "60px",
+  md: "80px",
+  lg: "100px",
+  xl: "120px",
+};
+
+const deviceSizes = {
+  mobile: "360px",
+  tablet: "768px",
+  laptop: "1024px",
+  maxWidth: "1024px",
+};
+
+const customScreen = {
+  sm: "576px",
+  md: "768px",
+  lg: "992px",
+  xl: "1200px",
+  maxWidth: "1440px",
+  phone: "360px",
+  tablet: "768px",
+  desktop: "1024px",
+};
+
+const device = {
+  mobile: `screen and (max-width: ${deviceSizes.mobile})`,
+  tablet: `screen and (max-width: ${deviceSizes.tablet})`,
+  laptop: `screen and (min-width: ${deviceSizes.tablet})`,
+};
+
+const fontFamily = {
+  cookieRunOTFBlack: "cookieRunOTFBlack",
+  cookieRunRegular: "cookieRunRegular",
+  gmarketSansBold: "gmarketSansBold",
 };
 
 // 색깔
 const colors = {
-  primary: "#333",
+  orange: "#333",
   secondary: "#333",
-  third: "#333",
+  skyblue: "#333",
   error: "#333",
   disabled: "#333",
   danger: "#333",
@@ -34,30 +88,30 @@ const colors = {
   grayDark: "#999999",
 };
 const backgroundColors = {
-  primaryLight: "#FFC266",
-  primary: "#FFAD33",
-  primaryDark: "#FF9900",
-  secondaryLight: "#B29ADA",
-  secondary: "#9879CE",
-  secondaryDark: "#7E57C2",
-  thirdLight: "#97D4FF",
-  third: "#75C6FF",
-  thirdDark: "#52B8FF",
-  fourthLight: "#FFAA8E",
-  fourth: "#FF8D69",
-  fourthDark: "#FF7143",
-  fifthLight: "#74CB85",
-  fifth: "#46BA5D",
-  fifthDark: "#18A934",
-  sixthLight: "#67E1C2",
-  sixth: "#34D7AE",
-  sixthDark: "#01CD9A",
-  seventhLight: "#82B3F4",
-  seventh: "#5999F1",
-  seventhDark: "#2F80ED",
-  eighthLight: "#F7DF94",
-  eighth: "#F5D470",
-  eighthDark: "#F2C94C",
+  orangeLight: "#FFC266",
+  orange: "#FFAD33",
+  orangeDark: "#FF9900",
+  purpleLight: "#B29ADA",
+  purple: "#9879CE",
+  purpleDark: "#7E57C2",
+  skyblueLight: "#97D4FF",
+  skyblue: "#75C6FF",
+  skyblueDark: "#52B8FF",
+  lightredLight: "#FFAA8E",
+  lightred: "#FF8D69",
+  lightredDark: "#FF7143",
+  greenLight: "#74CB85",
+  green: "#46BA5D",
+  greenDark: "#18A934",
+  turquoiseLight: "#67E1C2",
+  turquoise: "#34D7AE",
+  turquoiseDark: "#01CD9A",
+  blueLight: "#82B3F4",
+  blue: "#5999F1",
+  blueDark: "#2F80ED",
+  yellowLight: "#F7DF94",
+  yellow: "#F5D470",
+  yellowDark: "#F2C94C",
   error: "white",
   disabled: "#E5E5E5",
   dangerLight: "#FC9372",
@@ -67,81 +121,77 @@ const backgroundColors = {
   border: "#999999",
   placeholder: "#f0f0f0",
   black: "#333333",
-  white: "#FFFFFF",
+  white: "white",
+  white1: "#f2f2f2",
+  white2: "#fafafa",
+  white3: "#f4f5f6",
+  white4: "#f9f9f9",
+  white5: "#f3f5fb",
   background: "#FFFFFF",
   background1: "#F4F4F4",
+  /**
+   * @parmas 현재 사용하고 있는 배경색
+   */
   background2: "#F6EFE5",
   background3: "#e0e0e0",
   grayLight: "#C2C2C2",
   gray: "#ADADAD",
   grayDark: "#999999",
   googleCalendarGray: "#f1f3f4",
+  transparent: "transparent",
 };
 
 const flex = {
   display: "flex",
   row: {
     display: "flex",
-    flexFlow: "nowrap row",
-
     between: {
       display: "flex",
-      flexFlow: "nowrap row",
       justifyContent: "space-between",
       center: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "space-between",
         alignItems: "center",
       },
       start: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "space-between",
         alignItems: "flex-start",
       },
       end: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "space-between",
         alignItems: "flex-start",
       },
     },
     around: {
       display: "flex",
-      flexFlow: "nowrap row",
       justifyContent: "space-around",
       center: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "space-around",
         alignItems: "center",
       },
     },
     center: {
       display: "flex",
-      flexFlow: "nowrap row",
       justifyContent: "center",
       center: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "center",
         alignItems: "center",
       },
       between: {
         display: "flex",
-        flexFlow: "nowrap row",
         justifyContent: "center",
         alignItems: "space-between",
       },
     },
     end: {
       display: "flex",
-      flexFlow: "nowrap row",
       justifyContent: "flex-end",
       center: {
         display: "flex",
-        flexFlow: "nowrap row",
         alignItems: "center",
         justifyContent: "flex-end",
       },
@@ -151,11 +201,10 @@ const flex = {
       flexFlow: "nowrap row",
       center: {
         display: "flex",
-        flexFlow: "nowrap row",
+        alignItems: "center",
       },
       start: {
         display: "flex",
-        flexFlow: "nowrap row",
         alignItems: "flex-start",
       },
     },
@@ -218,36 +267,6 @@ const flex = {
   },
 };
 
-const deviceSizes = {
-  mobile: "360px",
-  tablet: "768px",
-  laptop: "1024px",
-  maxWidth: "1024px",
-};
-
-const customScreen = {
-  sm: "576px",
-  md: "768px",
-  lg: "992px",
-  xl: "1200px",
-  maxWidth: "1440px",
-  phone: "360px",
-  tablet: "768px",
-  desktop: "1024px",
-};
-
-const device = {
-  mobile: `screen and (max-width: ${deviceSizes.mobile})`,
-  tablet: `screen and (max-width: ${deviceSizes.tablet})`,
-  laptop: `screen and (min-width: ${deviceSizes.tablet})`,
-};
-
-const customFonts = {
-  cookieRunOTFBlack: "cookieRunOTFBlack",
-  CookieRunRegular: "CookieRunRegular",
-  GmarketSansBold: "GmarketSansBold",
-};
-
 const theme = {
   fontSizes,
   colors,
@@ -255,8 +274,14 @@ const theme = {
   backgroundColors,
   deviceSizes,
   device,
-  customFonts,
+  fontFamily,
+  /**
+   * @Params sm:576, md:768, lg:992, xl:1200, maxWidth:1440, phone:360, tablet:768, desktop:1024
+   */
   customScreen,
+  borderRadius,
+  padding,
+  height,
 };
 
 export default theme;

@@ -1,6 +1,4 @@
-//import PostView from "@/components/blog/Post/PostView";
-import Layout1 from "src/components/layout/Layout1";
-//import Layout2 from "@/components/layout/Layout2";
+import Layout3 from "src/components/layout/Layout3";
 import React from "react";
 import dynamic from "next/dynamic";
 
@@ -20,4 +18,4 @@ const Index = () => {
 };
 
 export default Index;
-Index.layout = Layout1;
+Index.layout = Layout3;

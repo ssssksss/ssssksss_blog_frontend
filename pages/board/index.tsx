@@ -1,6 +1,6 @@
 import ViewBoardsContainer from "@/components/board/ViewBoardsContainer";
 import Layout1 from "@/components/layout/Layout1";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 /**
  * Author : Sukyung Lee

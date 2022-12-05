@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
@@ -9,6 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { AWSS3Prefix } from "@/components/common/variables/url";
 import { store } from "@/redux/store";
+import Button from "@/components/common/button/Button";
+import theme from "@/styles/theme";
 //import chart from "@toast-ui/editor-plugin-chart";
 //import "tui-chart/dist/tui-chart.css";
 //import "highlight.js/styles/github.css";
@@ -140,7 +143,7 @@ const CUEditor = (props: ICUEditorProps) => {
             onChange={(e) => {
               setTitle(e.target.value);
             }}
-          ></Title>
+          />
           <Description
             placeholder="간략한 설명을 입력해주세요"
             value={description}
@@ -151,7 +154,7 @@ const CUEditor = (props: ICUEditorProps) => {
           <EditorContainer>
             <Editor
               initialValue={areaTextContent}
-              previewStyle="vertical"
+              previewStyle="tab"
               height="800px"
               initialEditType="markdown"
               useCommandShortcut={true}
@@ -174,12 +177,20 @@ const CUEditor = (props: ICUEditorProps) => {
             />
           </EditorContainer>
           <EditorFooter>
-            <SubmitButton
+            <Button
+              width="100%"
+              status="green"
               onClick={() => (props.edit ? updateHandler() : submitHandler())}
             >
               {props.edit ? "수정" : "제출"}
-            </SubmitButton>
-            <CancelButton onClick={() => router.back()}>취소</CancelButton>
+            </Button>
+            <Button
+              width="100%"
+              status="lightred"
+              onClick={() => router.back()}
+            >
+              취소
+            </Button>
           </EditorFooter>
         </Container>
       )}
@@ -193,14 +204,16 @@ const Container = styled.section`
   display: flex;
   flex-flow: nowrap column;
   justify-content: flex-end;
+  /* background: ${theme.backgroundColors.background2}; */
 
   .toastui-editor-toolbar {
     position: sticky;
-    top: 0px;
+    top: 80px;
     z-index: 1;
   }
   .toastui-editor-main {
-    padding-top: 20px;
+    border-top: solid transparent 4px;
+    padding-top: 4px;
   }
 `;
 
@@ -211,10 +224,12 @@ const Title = styled.input`
   color: white;
   border-radius: 10px 10px 0px 0px;
   text-align: center;
-  background: ${({ theme }) => theme.customColors.thirdTitle};
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
+  background: ${theme.backgroundColors.green};
+  font-family: ${theme.fontFamily.cookieRunRegular};
+  font-size: ${theme.fontSizes.lg};
   padding: 0px 10px;
   z-index: 2;
+  border: none;
 
   &::placeholder {
     color: white;
@@ -222,22 +237,18 @@ const Title = styled.input`
 `;
 const Description = styled.input`
   width: 100%;
-  height: 40px;
-  font-size: 20px;
+  height: 30px;
   text-align: center;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  padding: 0px 10px;
+  color: black;
+  font-family: ${theme.fontFamily.cookieRunRegular};
+  font-size: ${theme.fontSizes.md};
   z-index: 2;
-`;
-const EditorFooter = styled.div`
-  margin-top: 5px;
-  height: 60px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
-  position: sticky;
-  bottom: 0px;
-  background: rgba(255, 255, 255, 0.5);
+  padding: 0px 10px;
+  border: none;
+
+  &::placeholder {
+    color: black;
+  }
 `;
 const EditorContainer = styled.div`
   background-color: white;
@@ -255,23 +266,12 @@ const EditorContainer = styled.div`
     bottom: 80px;
   }
 `;
-
-const Button = css`
-  background: white;
-  height: 30px;
-  border-radius: 10px;
-  border: solid black 1px;
-  font-size: 1.1rem;
-  font-family: ${({ theme }) => theme.customFonts.cookieRunOTFRegular};
-  ${({ theme }) => theme.flex.flexCenter};
-  cursor: pointer;
-  &:hover {
-    background: #aeaeae;
-  }
-`;
-const SubmitButton = styled.button`
-  ${Button}
-`;
-const CancelButton = styled.button`
-  ${Button}
+const EditorFooter = styled.div`
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  position: sticky;
+  bottom: 0px;
+  background: rgba(255, 255, 255, 0.5);
 `;

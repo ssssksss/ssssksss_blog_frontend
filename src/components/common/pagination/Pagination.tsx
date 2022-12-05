@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { MouseEvent, useState } from "react";
 import theme from "@/styles/theme";
 
@@ -116,6 +116,6 @@ const Container = styled.div`
 const PageNumberButton = styled.button<{ isActive: boolean }>`
   color: ${(props) => (props.isActive ? "red" : "black")};
   font-size: ${(props) => (props.isActive ? "24px" : "16px")};
-  font-family: ${theme.customFonts.CookieRunRegular};
+  font-family: ${theme.fontFamily.cookieRunRegular};
 `;
 const MoveButton = styled.button``;

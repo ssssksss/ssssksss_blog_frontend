@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import styled, { keyframes, css } from "styled-components";
+import { css, keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const PortfolioContainer = () => {
   const [stackItem, setStackItem] = useState("frontend");

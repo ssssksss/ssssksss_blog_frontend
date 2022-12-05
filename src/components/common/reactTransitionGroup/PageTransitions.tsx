@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import React, { useEffect, useRef, useState } from "react";
 

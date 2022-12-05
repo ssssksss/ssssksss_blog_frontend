@@ -1,9 +1,11 @@
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import styled, { css, keyframes } from "styled-components";
 import Button from "@/components/common/button/Button";
+import styled from "@emotion/styled";
+import { keyframes, css } from "@emotion/react";
+
 /**
  * Author : Sukyung Lee
  * FileName: basicCarousel.tsx
@@ -110,7 +112,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
               <SliderContent>
                 <Title>{el[0]}</Title>
                 <Content>
-                  <CF.Img src={el[1]} width="100%" height="100%" />
+                  <CC.Img src={el[1]} width="100%" height="100%" />
                 </Content>
                 <Button
                   width={"100%"}
@@ -179,46 +181,51 @@ const SliderItem = styled.div<{
       height: 100%;
       opacity: 1;
     `};
-  background: transparent;
 `;
-const SliderContent = styled(CF.ColumnDiv)`
+const SliderContent = styled(CC.ColumnDiv)`
   margin: auto;
-  width: 100%;
+  width: 360px;
   height: 90%;
   padding: 20px;
-  /* background: ${theme.backgroundColors.secondary}; */
-  background: #999999;
   gap: 10px;
   border-radius: 20px;
+  background: #999999;
 `;
-const Title = styled(CF.RowCenterDiv)`
+const Title = styled(CC.RowCenterDiv)`
   height: 40px;
   font-size: 24px;
-  font-family: ${theme.customFonts.GmarketSansBold};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   color: white;
 `;
-const Content = styled(CF.RowDiv)`
+const Content = styled(CC.RowDiv)`
   width: 100%;
   height: calc(100% - 100px);
   background-color: white;
-  outline: black solid 3px;
   margin-bottom: 10px;
 `;
 const Button1 = styled.button`
   position: absolute;
   z-index: 5;
   bottom: 10px;
-  left: 10px;
+  left: calc(50% - 160px);
   width: 40px;
   height: 40px;
-  background: ${theme.backgroundColors.primary};
+  background: ${theme.backgroundColors.transparent};
   color: white;
-
-  &:nth-child(2) {
-    left: 70px;
+  box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05),
+    25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),
+    inset -20px -20px 25px rgba(255, 255, 255, 0.9);
+  transition: 0.5s;
+  transform: translate(-50%, 0);
+  &:hover {
+    border-radius: 50%;
   }
 
-  &:nth-child(3) {
-    left: 130px;
+  &:nth-of-type(2) {
+    left: calc(50% + 160px);
+  }
+
+  &:nth-of-type(3) {
+    left: 50%;
   }
 `;

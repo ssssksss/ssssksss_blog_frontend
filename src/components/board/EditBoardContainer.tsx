@@ -1,7 +1,7 @@
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import dynamic from "next/dist/shared/lib/dynamic";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Loading1 from "../common/loading/Loading1";
 import BoardEditor from "./BoardEditor";
 /**
@@ -24,7 +24,7 @@ const EditBoardContainer = (props: IEditBoardContainerProps) => {
   return <Container>{typeof window !== "undefined" && <Editor />}</Container>;
 };
 export default EditBoardContainer;
-const Container = styled(CF.ColumnDiv)`
+const Container = styled(CC.ColumnDiv)`
   padding-top: 40px;
   align-items: center;
 `;

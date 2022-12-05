@@ -1,6 +1,7 @@
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import { ReactNode } from "react";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 /*
  * Author : Sukyung Lee
@@ -112,7 +113,7 @@ const Container = styled.div<{
     `}
 `;
 
-const ContainerColumn = styled(CF.ColumnDiv)`
+const ContainerColumn = styled(CC.ColumnDiv)`
   height: 100%;
   ${(props) =>
     props.gap &&
@@ -121,7 +122,7 @@ const ContainerColumn = styled(CF.ColumnDiv)`
     `}
 `;
 
-const ContainerRow = styled(CF.RowBetweenStartDiv)`
+const ContainerRow = styled(CC.RowBetweenStartDiv)`
   height: 100%;
   display: flex;
   align-items: center;

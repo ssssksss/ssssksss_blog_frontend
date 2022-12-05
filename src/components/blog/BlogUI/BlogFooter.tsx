@@ -1,8 +1,8 @@
 import Profile from "@/components/common/profile/Profile";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
 const siteList1 = [
@@ -52,7 +52,7 @@ const BlogFooter = () => {
           />
         </Div1>
         <Div2>
-          <CF.RowBetweenDiv gap={20}>
+          <CC.RowBetweenDiv gap={20}>
             {siteList1.map((el: any, index: number) => (
               <Link key={index} href={el[2]}>
                 <a target="_blank" rel="noopener norefrerrer">
@@ -67,8 +67,8 @@ const BlogFooter = () => {
                 </a>
               </Link>
             ))}
-          </CF.RowBetweenDiv>
-          <CF.RowBetweenDiv gap={20}>
+          </CC.RowBetweenDiv>
+          <CC.RowBetweenDiv gap={20}>
             {siteList2.map((el: any, index: number) => (
               <Link key={index} href={el[2]}>
                 <a target="_blank" rel="noopener norefrerrer">
@@ -86,7 +86,7 @@ const BlogFooter = () => {
                 </a>
               </Link>
             ))}
-          </CF.RowBetweenDiv>
+          </CC.RowBetweenDiv>
         </Div2>
         <Div3>
           <div> Contact Me </div>
@@ -107,7 +107,7 @@ const Footer = styled.footer`
   background: black;
 `;
 
-const Container = styled(CF.RowCenterDiv)`
+const Container = styled(CC.RowCenterDiv)`
   background-color: #545454;
   width: max-content;
   height: 300px;
@@ -128,7 +128,7 @@ const Copyright = styled.div`
   background-color: #e0e0e0;
 `;
 
-const Div1 = styled(CF.RowDiv)`
+const Div1 = styled(CC.RowDiv)`
   width: auto;
   padding: 0px 10px;
   height: 100%;
@@ -138,14 +138,14 @@ const Div1 = styled(CF.RowDiv)`
   }
 `;
 
-const Div2 = styled(CF.ColumnDiv)`
+const Div2 = styled(CC.ColumnDiv)`
   gap: 20px;
   padding: 0px 10px;
   height: 100%;
   justify-content: center;
 `;
 
-const Div3 = styled(CF.ColumnCenterDiv)`
+const Div3 = styled(CC.ColumnCenterDiv)`
   max-width: 300px;
   min-width: 220px;
   height: 100%;
@@ -160,7 +160,7 @@ const Div3 = styled(CF.ColumnCenterDiv)`
     align-items: center;
   }
 
-  & > div:nth-child(1) {
+  & > div:nth-of-type(1) {
     font-variant: small-caps;
     font-size: 36px;
     padding-bottom: 20px;
@@ -169,9 +169,9 @@ const Div3 = styled(CF.ColumnCenterDiv)`
     }
   }
 
-  & > div:nth-child(2) {
+  & > div:nth-of-type(2) {
   }
 
-  & > div:nth-child(3) {
+  & > div:nth-of-type(3) {
   }
 `;

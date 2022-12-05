@@ -1,5 +1,6 @@
+import theme from "@/styles/theme";
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 type AppLayoutProps = {
   children: React.ReactNode;

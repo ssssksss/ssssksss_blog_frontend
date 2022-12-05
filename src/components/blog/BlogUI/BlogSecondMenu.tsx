@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import Link from "next/link";
@@ -7,15 +8,18 @@ import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { SECOND_CATEGORY_ACTION } from "@/redux/store/category/actions";
-import { CF } from "../../../../styles/commonComponentStyle";
+import { CC } from "../../../../styles/commonComponentStyle";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
+import { Spinner4 } from "@/components/common/spinner/Spinners";
 
 const BlogSecondMenu = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
+  const [isHideMenu, setIsHideMenu] = useState(true);
   const authStore = useSelector((state: RootState) => state.authStore);
+  const [isLoading, setIsLoading] = useState(true);
   const [secondCategory, setSecondCategory] = useState<
     SecondCategoryTypes[] | null
   >([]);
@@ -23,7 +27,6 @@ const BlogSecondMenu = () => {
   const firstCategory = useSelector(
     (state: RootState) => state.categoryStore.firstCategoryPath
   );
-
   const SecondCategoryHandler = async (pathValue: string) => {
     await dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
     router.push("/blog" + pathValue);
@@ -57,9 +60,11 @@ const BlogSecondMenu = () => {
       })
         .then((response) => {
           setSecondCategory(response.data.data.secondCategory);
+          setIsLoading(false);
         })
         .catch((error) => {
           setSecondCategory([]);
+          setIsLoading(false);
         });
     }
   }, [categoryChange, firstCategory]);
@@ -72,46 +77,58 @@ const BlogSecondMenu = () => {
   };
 
   return (
-    <Container>
-      {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
-      {firstCategory && router.asPath.split("/blog")[1] && (
-        <>
-          <MenuTitle>
-            <span>{firstCategory}</span>
-            {authStore.role === "ROLE_ADMIN" && (
-              <button
-                onClick={() => {
-                  setModalOpen(true);
-                }}
-              >
-                ➕
-              </button>
-            )}
-          </MenuTitle>
-          {secondCategory?.length ? (
-            <MenuContainer>
-              {secondCategory?.map((i, index) => (
-                // <Link key={i.id} href={"/blog" + i.secondHref}>
-                <MenuItem
-                  key={i.id}
-                  active={
-                    i.firstHref + "/" + router.asPath.split("/")[3] ===
-                    i.secondHref
-                  }
-                  index={index}
-                  onClick={() => SecondCategoryHandler(i.secondHref)}
-                >
-                  {i.name} <MenuCount> {i.count} </MenuCount>
-                </MenuItem>
-                // </Link>
-              ))}
-            </MenuContainer>
-          ) : (
-            <TempDiv>2차 카테고리가 존재하지 않습니다. </TempDiv>
+    <>
+      {isLoading ? (
+        <Spinner4 />
+      ) : (
+        <Container>
+          {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
+          {firstCategory && router.asPath.split("/blog")[1] && (
+            <>
+              <MenuTitle>
+                <span>{firstCategory}</span>
+                {authStore.role === "ROLE_ADMIN" && (
+                  <button
+                    onClick={() => {
+                      setModalOpen(true);
+                    }}
+                  >
+                    ➕
+                  </button>
+                )}
+                <MenuHideButton onClick={() => setIsHideMenu((prev) => !prev)}>
+                  {isHideMenu ? "🔽" : "🔼"}
+                </MenuHideButton>
+              </MenuTitle>
+              {isHideMenu && (
+                <>
+                  {secondCategory?.length ? (
+                    <MenuContainer>
+                      {secondCategory?.map((i, index) => (
+                        <MenuItem
+                          key={i.id}
+                          active={
+                            i.firstHref + "/" + router.asPath.split("/")[3] ===
+                            i.secondHref
+                          }
+                          index={index}
+                          onClick={() => SecondCategoryHandler(i.secondHref)}
+                        >
+                          <span> {i.name} </span>
+                          <MenuCount> {i.count} </MenuCount>
+                        </MenuItem>
+                      ))}
+                    </MenuContainer>
+                  ) : (
+                    <DisplayDiv> 2차 카테고리가 존재하지 않습니다. </DisplayDiv>
+                  )}
+                </>
+              )}
+            </>
           )}
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 
@@ -120,60 +137,51 @@ export default BlogSecondMenu;
 const Container = styled.div`
   margin: auto;
   padding: 10px;
-  max-width: ${({ theme }) => theme.customScreen.maxWidth};
+  max-width: ${theme.customScreen.maxWidth};
   background-color: ${theme.backgroundColors.background2};
 `;
 const MenuTitle = styled.div`
-  background: ${({ theme }) => theme.customColors.secondTitle};
+  gap: 4px;
+  background: ${theme.backgroundColors.orange};
   color: white;
   height: 40px;
-  font-size: 20px;
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
-  ${({ theme }) => theme.flex.flexCenter};
+  font-size: ${theme.fontSizes.md};
+  font-family: ${theme.fontFamily.gmarketSansBold};
+  position: relative;
+  ${theme.flex.row.center.center};
 
   button {
     border-radius: 10px;
     margin-left: 4px;
     background: transparent;
   }
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.md}) {
-    font-size: 0.8rem;
-  }
 `;
 const MenuContainer = styled.div`
-  background: ${({ theme }) => theme.customColors.second};
+  background: ${theme.backgroundColors.orangeLight};
   color: white;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 4px 0px;
   padding: 10px 4px;
-  font-size: 1rem;
-
-  @media only screen and (max-width: ${({ theme }) => theme.customScreen.sm}) {
-    font-size: 0.6rem;
-  }
 `;
 
-const MenuItem = styled.a<{ active: boolean; index: number }>`
+const MenuItem = styled.button<{ active: boolean; index: number }>`
   height: 30px;
   --index: ${(props) => (props.index + 1) / 5 + "s"};
   animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
-
-  &:nth-child(4n + 2),
-  &:nth-child(4n + 3),
-  &:nth-child(4n + 4) {
-    border-left: dashed 1px black;
-  }
-
-  ${({ theme }) => theme.flex.flexCenter};
-  background: ${(props) =>
-    props.active ? "white" : ({ theme }) => theme.customColors.second};
-  color: ${(props) =>
-    props.active ? ({ theme }) => theme.customColors.second : "white"};
-  font-family: ${({ theme }) => theme.customFonts.GmarketSansBold};
+  font-size: ${theme.fontSizes.sm};
+  color: ${(props) => (props.active ? theme.backgroundColors.orange : "white")};
+  background: ${(props) => (props.active ? "white" : "transparent")};
+  font-family: ${theme.fontFamily.gmarketSansBold};
   cursor: pointer;
   position: relative;
+  ${theme.flex.row.center.center};
+
+  &:nth-of-type(4n + 2),
+  &:nth-of-type(4n + 3),
+  &:nth-of-type(4n + 4) {
+    border-left: dashed 1px black;
+  }
 
   ${(props) =>
     props.active &&
@@ -184,24 +192,32 @@ const MenuItem = styled.a<{ active: boolean; index: number }>`
     `}
 
   &:hover {
-    color: ${({ theme }) => theme.customColors.second};
+    color: ${theme.backgroundColors.orange};
     background: white;
     & > div {
       mix-blend-mode: darken;
     }
   }
+
+  @media only screen and (max-width: ${theme.customScreen.sm}) {
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
-const MenuCount = styled.div`
+const MenuCount = styled.span`
   position: absolute;
   right: 4px;
-  width: 28px;
-  padding: 2px 2px 2px 0px;
-  display: flex;
-  justify-content: end;
+
+  @media only screen and (max-width: ${theme.customScreen.md}) {
+    display: none;
+  }
 `;
-const TempDiv = styled(CF.RowCenterDiv)`
-  background: ${({ theme }) => theme.customColors.second};
+const DisplayDiv = styled(CC.RowCenterDiv)`
+  background: ${theme.backgroundColors.orangeLight};
   padding: 20px 0px;
   font-size: 24px;
+`;
+const MenuHideButton = styled.button`
+  position: absolute;
+  right: 4px;
 `;

@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { url } from "inspector";
 import Link from "next/link";
 import Button from "../button/Button";
-import { CF } from "../../../../styles/commonComponentStyle";
+import { CC } from "../../../../styles/commonComponentStyle";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
 import { KeyboardEvent } from "react";
@@ -59,7 +59,10 @@ const InputSearch = ({
         {...register}
         {...props}
       />
-      <Button onClick={() => onClickSearch && onClickSearch()} height={"30px"}>
+      <Button
+        onClick={() => onClickSearch && onClickSearch()}
+        status={"orange"}
+      >
         검색
       </Button>
     </Container>
@@ -67,7 +70,7 @@ const InputSearch = ({
 };
 export default InputSearch;
 
-const Container = styled(CF.RowDiv)`
+const Container = styled(CC.RowDiv)`
   gap: 10px;
   height: 100%;
   align-items: center;
@@ -92,11 +95,11 @@ const InputStyle = styled.input<{
 
   ::placeholder {
     transition: all 0.6s ease-in-out;
-    ${theme.fontSizes.base};
+    ${theme.fontSizes.sm};
     color: #999999;
 
     @media (max-width: 768px) {
-      ${theme.fontSizes.small};
+      ${theme.fontSizes.xs};
     }
   }
   :focus::placeholder {

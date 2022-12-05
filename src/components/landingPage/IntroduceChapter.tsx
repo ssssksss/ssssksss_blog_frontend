@@ -1,6 +1,7 @@
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
-import styled, { keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import Totoro from "../threejs/glTF/Totoro";
 /**
@@ -25,23 +26,24 @@ const IntroduceChapter = () => {
   );
 };
 export default IntroduceChapter;
-const Container = styled(CF.RowBetweenDiv)`
-  height: 100%;
-  @media (max-width: 800px) {
-    /* flex-flow: nowrap column; */
+const Container = styled(CC.RowBetweenDiv)`
+  @media (max-width: ${theme.customScreen.sm}) {
     flex-flow: nowrap column-reverse;
   }
 `;
 
-const TextDiv = styled(CF.ColumnLeftDiv)`
+const TextDiv = styled(CC.ColumnLeftDiv)`
   width: 360px;
   justify-content: center;
-  padding: 20px 10px 20px 50px;
+  padding: 20px 0px 20px 50px;
+  @media (max-width: ${theme.customScreen.sm}) {
+    padding: 10px;
+  }
 `;
 
 const Title = styled.span`
-  font-family: "GmarketSansBold";
-  font-size: 32px;
+  font-family: ${theme.fontFamily.gmarketSansBold};
+  font-size: ${theme.fontSizes.xl};
   line-height: 48px;
 `;
 
@@ -51,15 +53,15 @@ const SubTitle = styled.span`
   animation: ${animationKeyFrames.ChangeGrayColor} 3s infinite linear alternate;
 `;
 
-const ObjectModel = styled(CF.RowDiv)`
+const ObjectModel = styled(CC.RowDiv)`
   width: 360px;
   height: 100%;
   align-items: center;
 
-  @media (max-width: 800px) {
-    /* display: none; */
+  @media (max-width: ${theme.customScreen.sm}) {
     justify-content: center;
     width: 100%;
-    height: 500px;
+    height: 400px;
+    transform: scale(80%);
   }
 `;

@@ -1,11 +1,12 @@
 import Button from "@/components/common/button/Button";
 import { RootState } from "@/redux/store/reducers";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { dateFormat4y2m2d } from "@/utils/fucntion/dateFormat";
 import React, { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled, { css } from "styled-components";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { SET_CURRENT_SCHEDULE_DATE } from "@/redux/store/schedule/actions";
 
 type CalendarDayItemType = {
@@ -48,7 +49,7 @@ const ScheduleMonthCalendarDayItem = (props: CalendarDayItemType) => {
         {props.data?.map((el: any, index: number) => (
           <ScheduleItem key={index}>
             <ScheduleMarkColor style={{ background: el.backgroundColor }} />
-            <CF.OverflowText> {el.title} </CF.OverflowText>
+            <CC.OverflowText> {el.title} </CC.OverflowText>
           </ScheduleItem>
         ))}
       </TodayScheduleList>
@@ -80,7 +81,7 @@ const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
       }
     `}
 `;
-const DayTitle = styled(CF.RowBetweenDiv)`
+const DayTitle = styled(CC.RowBetweenDiv)`
   width: 100%;
   padding: 0px 4px 6px;
 `;
@@ -93,11 +94,11 @@ const DaySpan = styled.span<{ dayW?: number }>`
     font-size: 12px;
   }
 `;
-const TodayScheduleList = styled(CF.ColumnDiv)`
+const TodayScheduleList = styled(CC.ColumnDiv)`
   gap: 4px;
   width: calc(100% - 2px);
 `;
-const ScheduleItem = styled(CF.RowDiv)`
+const ScheduleItem = styled(CC.RowDiv)`
   padding: 2px 4px;
   white-space: nowrap;
   overflow-x: auto;

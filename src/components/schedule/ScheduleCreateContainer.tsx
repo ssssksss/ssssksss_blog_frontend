@@ -1,7 +1,6 @@
-import styled, { css, keyframes } from "styled-components";
 import Button from "@/components/common/button/Button";
 import Input from "@/components/common/input/Input";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
@@ -18,6 +17,9 @@ import {
   dateFormat4y2m2d2h2m2s,
 } from "../../../utils/fucntion/dateFormat";
 import { SET_MONTH_SCHEDULE_DATA } from "@/redux/store/schedule";
+import styled from "@emotion/styled";
+import { css, keyframes } from "@emotion/react";
+
 /**
  * Author : Sukyung Lee
  * FileName: ScheduleCreateContainer.tsx
@@ -209,14 +211,14 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         <BasicCustomModal toggleModal={() => setIsOpenAddCategoryModal(false)}>
           <AddCategoryContainer>
             <Title>
-              <CF.ColumnCenterDiv gap={10}>
+              <CC.ColumnCenterDiv gap={10}>
                 <span>카테고리 추가하기</span>
-              </CF.ColumnCenterDiv>
+              </CC.ColumnCenterDiv>
               <Button onClick={() => setIsOpenAddCategoryModal(false)}>
                 X
               </Button>
             </Title>
-            <CF.ColumnDiv padding={"10px 10px 0px"} gap={10}>
+            <CC.ColumnDiv padding={"10px 10px 0px"} gap={10}>
               <Space
                 title4="카테고리명"
                 titleWidth="160px"
@@ -235,7 +237,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
                   padding="0px 10px"
                   value={addCategoryColor}
                 />
-                <CF.RowRightDiv> {addCategoryColor} </CF.RowRightDiv>
+                <CC.RowRightDiv> {addCategoryColor} </CC.RowRightDiv>
               </Space>
               <CategoryColorListContainer>
                 {addCategoryColorListExample.map((el: any, index: number) => (
@@ -253,19 +255,19 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
               >
                 카테고리 생성
               </Button>
-            </CF.ColumnDiv>
+            </CC.ColumnDiv>
           </AddCategoryContainer>
         </BasicCustomModal>
       )}
       {/* 카테고리 추가 모달창 */}
       <Title>
-        <CF.ColumnCenterDiv gap={10}>
+        <CC.ColumnCenterDiv gap={10}>
           <span>{scheduleStore.currentScheduleDate}</span>
           <span>일정 추가하기</span>
-        </CF.ColumnCenterDiv>
+        </CC.ColumnCenterDiv>
         <Button onClick={props.closeHandler}> X </Button>
       </Title>
-      <CF.ColumnDiv padding={"10px 10px 0px"} gap={10}>
+      <CC.ColumnDiv padding={"10px 10px 0px"} gap={10}>
         <Space title4="제목" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <Input
             placeholder="제목 입력"
@@ -277,7 +279,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
           <CustomReactQuill setContent={setContent} defaultValue={content} />
         </Space>
         <Space title4="날짜" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-          <CF.ColumnDiv gap={10}>
+          <CC.ColumnDiv gap={10}>
             <Input
               id="party"
               type="datetime-local"
@@ -294,10 +296,10 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
               defaultValue={endDateTime}
               onChange={(e: any) => setEndDateTime(e.target.value)}
             />
-          </CF.ColumnDiv>
+          </CC.ColumnDiv>
         </Space>
         <Space title4="구성" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-          <CF.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
+          <CC.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
             <ScheduleSelectBox
               options={categoryList}
               setSelect={setCategoryHandler}
@@ -309,7 +311,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
             >
               카테고리 추가
             </Button>
-          </CF.RowDiv>
+          </CC.RowDiv>
         </Space>
         <Button
           onClick={() => (props.isEdit ? updateSchedule() : createSchedule())}
@@ -317,7 +319,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
           {" "}
           {props.isEdit ? "수정" : "제출"}{" "}
         </Button>
-      </CF.ColumnDiv>
+      </CC.ColumnDiv>
     </Container>
   );
 };
@@ -337,9 +339,9 @@ const Container = styled.section`
     aspect-ratio: 1;
   }
 `;
-const Title = styled(CF.RowCenterDiv)`
+const Title = styled(CC.RowCenterDiv)`
   height: 60px;
-  background-color: ${theme.backgroundColors.secondary};
+  background-color: ${theme.backgroundColors.purple};
   color: white;
   position: relative;
   width: 100%;
@@ -352,7 +354,7 @@ const Title = styled(CF.RowCenterDiv)`
     aspect-ratio: 1;
   }
 `;
-const AddCategoryContainer = styled(CF.ColumnDiv)`
+const AddCategoryContainer = styled(CC.ColumnDiv)`
   background: white;
   width: 100%;
   min-height: 600px;

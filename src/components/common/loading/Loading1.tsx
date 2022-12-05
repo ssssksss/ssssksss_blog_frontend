@@ -1,5 +1,5 @@
-import { CF } from "@/styles/commonComponentStyle";
-import styled from "styled-components";
+import { CC } from "@/styles/commonComponentStyle";
+import styled from "@emotion/styled";
 import { Spinner4 } from "../spinner/Spinners";
 
 /**
@@ -29,7 +29,7 @@ const Overlay = styled.div`
   border: 0px;
   z-index: 2;
 `;
-const Container = styled(CF.RowCenterDiv)`
+const Container = styled(CC.RowCenterDiv)`
   position: absolute;
   top: 50%;
   left: 50%;

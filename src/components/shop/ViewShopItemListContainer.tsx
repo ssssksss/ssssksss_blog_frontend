@@ -1,7 +1,7 @@
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { CF } from "@/styles/commonComponentStyle";
+import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Button from "../common/button/Button";
 import InputSearch from "../common/input/InputSearch";
 import Pagination from "../common/pagination/Pagination";
@@ -17,8 +17,8 @@ const ViewShopItemListContainer = () => {
       <Header>
         <h1> 게시판 </h1>
       </Header>
-      <CF.RowCenterDiv>
-        <CF.ColumnDiv width={"100%"}>
+      <CC.RowCenterDiv>
+        <CC.ColumnDiv width={"100%"}>
           <MainHeader>
             <InputSearch
               width={"300px"}
@@ -36,13 +36,13 @@ const ViewShopItemListContainer = () => {
               <ShopItem key={index}> 1 </ShopItem>
             ))}
           </Main>
-        </CF.ColumnDiv>
-      </CF.RowCenterDiv>
+        </CC.ColumnDiv>
+      </CC.RowCenterDiv>
       <MainFooter>
         <Pagination refetch={() => ""} endPage={21} currentPage={1} />
-        <CF.RowRightDiv padding={"0px 10px 0px 0px"}>
+        <CC.RowRightDiv padding={"0px 10px 0px 0px"}>
           <Button width="100px"> 상품 등록하기 </Button>
-        </CF.RowRightDiv>
+        </CC.RowRightDiv>
       </MainFooter>
     </Container>
   );
@@ -62,7 +62,7 @@ const Header = styled.div`
   align-items: center;
   font-size: 32px;
 `;
-const MainHeader = styled(CF.RowDiv)`
+const MainHeader = styled(CC.RowDiv)`
   max-width: 1180px;
   margin: auto;
   align-items: center;
@@ -112,7 +112,7 @@ const ShopItem = styled.div`
   background: blue;
 `;
 
-const MainFooter = styled(CF.ColumnDiv)`
+const MainFooter = styled(CC.ColumnDiv)`
   position: sticky;
   display: flex;
   align-items: center;

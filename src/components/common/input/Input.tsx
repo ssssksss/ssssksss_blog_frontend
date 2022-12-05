@@ -1,6 +1,6 @@
 import theme from "@/styles/theme";
 import { ChangeEvent, KeyboardEvent } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 /**
  * Author : Sukyung Lee
@@ -147,11 +147,11 @@ const InputStyle = styled.input<{
 
   ::placeholder {
     transition: all 0.6s ease-in-out;
-    ${theme.fontSizes.base};
+    ${theme.fontSizes.sm};
     color: #999999;
 
     @media (max-width: 768px) {
-      ${theme.fontSizes.small};
+      ${theme.fontSizes.xs};
     }
   }
   :focus::placeholder {
