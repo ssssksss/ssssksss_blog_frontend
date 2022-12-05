@@ -7,7 +7,7 @@ const DynamicComponent = dynamic(
   {
     ssr: false,
   }
-);
+) as any;
 
 const Index = () => {
   return (

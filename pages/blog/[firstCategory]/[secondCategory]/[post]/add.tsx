@@ -11,7 +11,7 @@ const DynamicComponent = dynamic(
     ssr: false,
     loading: () => <Loading1 />,
   }
-);
+) as any;
 
 const Add = () => {
   return (
