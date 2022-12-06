@@ -167,7 +167,7 @@ const MenuContainer = styled.div`
 
 const MenuItem = styled.button<{ active: boolean; index: number }>`
   height: 30px;
-  --index: ${(props) => (props.index + 1) / 5 + "s"};
+  --index: ${(props) => (props.index % 4) + "s"};
   animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
   font-size: ${theme.fontSizes.sm};
   color: ${(props) => (props.active ? theme.backgroundColors.orange : "white")};

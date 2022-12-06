@@ -178,7 +178,7 @@ const MenuContainer = styled.div`
   padding: 4px;
 `;
 const MenuList = styled.div<{ index: number }>`
-  --index: ${(props) => props.index + 1 + "s"};
+  --index: ${(props) => (props.index % 4) + "s"};
   animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
   display: grid;
   grid-template-rows: repeat(1fr);
