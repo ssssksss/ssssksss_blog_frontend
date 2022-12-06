@@ -66,6 +66,8 @@ const BlogSecondMenu = () => {
           setSecondCategory([]);
           setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
   }, [categoryChange, firstCategory]);
 
