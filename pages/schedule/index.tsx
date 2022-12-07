@@ -5,7 +5,7 @@ import ScheduleSideContainer from "../../src/components/schedule/ScheduleSideCon
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { CC } from "@/styles/commonComponentStyle";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "@/components/common/button/Button";
 import ScheduleCalendar from "@/components/schedule/Calendar/ScheduleCalendar";
 import { useRouter } from "next/router";
@@ -21,6 +21,17 @@ const SchedulePage = () => {
   const isAuth = useSelector((state: RootState) => state.authStore.email);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  // const sideOpenToggleHandler = useCallback(() => {
+  //   setIsOpen((prev) => !prev);
+  //   if (isOpen === false) {
+  //     // 모달창이 열리면 경로를 1개 추가하여 뒤로가기를 방지
+  //     window.history.pushState(null, "", router.asPath);
+  //   } else {
+  //     // 모달창이 닫히면 뒤로가기를 실행하여 위에서 추가한 경로를 제거
+  //     router.back();
+  //   }
+  // }, []);
 
   const sideOpenToggleHandler = () => {
     setIsOpen((prev) => !prev);

@@ -34,6 +34,10 @@ const ScheduleMonthCalendarDayItem = (props: CalendarDayItemType) => {
     }
   };
 
+  useEffect(() => {
+    console.log("ScheduleMonthCalendarDayItem.tsx : ");
+  }, []);
+
   return (
     <Container
       today={dateFormat4y2m2d(new Date()) === props.id}
