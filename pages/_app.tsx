@@ -27,7 +27,7 @@ type AppPropsWithLayout = AppProps & {
 };
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
-  const TestLayout =
+  const Layout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
   // const [routingPageOffset, setRoutingPageOffset] = useState(0);
   const router = useRouter();
@@ -56,13 +56,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           route={router.asPath}
           routingPageOffset={routingPageOffset}
         >
-          <TestLayout>
+          <Layout>
             <Component {...pageProps} />
-          </TestLayout>
+          </Layout>
         </PageTransitions> */}
-        <TestLayout>
+        <Layout>
           <Component {...pageProps} />
-        </TestLayout>
+        </Layout>
       </ThemeProvider>
     </Provider>
   );

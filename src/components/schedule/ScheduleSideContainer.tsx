@@ -90,6 +90,10 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
     );
   }, [scheduleStore.currentScheduleDate, scheduleStore.monthScheduleData]);
 
+  useEffect(() => {
+    console.log("ScheduleSideContainer.tsx : ");
+  }, []);
+
   return (
     <Container hide={props.hide}>
       {isOpenAddScheduleScreen && (

@@ -7,13 +7,9 @@ import theme from "@/styles/theme";
 import Stack from "@/components/intro/stack";
 import BlogFooter from "@/components/blog/BlogUI/BlogFooter";
 import React from "react";
-export const getStaticProps = async () => {
-  return {
-    props: {},
-  };
-};
+import { GetStaticProps } from "next";
 
-const HomePage = () => {
+const HomePage = ({ test }: any) => {
   const arr = [
     [
       "1. 블로그",
@@ -77,6 +73,14 @@ const HomePage = () => {
 };
 HomePage.layout = Layout1;
 export default HomePage;
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      test: "",
+    },
+  };
+};
 
 const Container = styled(CC.ColumnDiv)``;
 const Title = styled(CC.RowCenterDiv)`

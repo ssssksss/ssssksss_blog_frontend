@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store/reducers";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
+import Loading1 from "@/components/common/loading/Loading1";
 
 //2번째 카테고리 경로
 const PostList = () => {
@@ -31,7 +32,7 @@ const PostList = () => {
     nick_name: string;
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (secondCategory !== "") {
       if (
         window.location.pathname.split("/")[3] !== "" &&
@@ -55,6 +56,14 @@ const PostList = () => {
       }
     }
   }, [secondCategory]);
+
+  if (router.isFallback) {
+    return (
+      <div>
+        <Loading1 />
+      </div>
+    );
+  }
 
   return (
     <>

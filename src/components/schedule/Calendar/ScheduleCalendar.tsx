@@ -161,6 +161,10 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
     setCalendarDays(Object.assign({}, temp));
   }, [calendarMonth]);
 
+  useEffect(() => {
+    console.log("ScheduleCalendar.tsx : ");
+  }, []);
+
   return (
     <>
       <Container>

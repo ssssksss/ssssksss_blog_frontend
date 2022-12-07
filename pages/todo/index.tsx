@@ -3,6 +3,8 @@ import Layout2 from "@/components/layout/Layout2";
 import { animationKeyFrames } from "../../styles/animationKeyFrames";
 import { useState } from "react";
 import theme from "@/styles/theme";
+import { useRouter } from "next/router";
+import Loading1 from "@/components/common/loading/Loading1";
 /**
  * Author : Sukyung Lee
  * FileName: index.tsx
@@ -11,6 +13,15 @@ import theme from "@/styles/theme";
  */
 const TodoPage = () => {
   const [currentCategory, setCurrentCategory] = useState("all");
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <Container>
+        <Loading1 />
+      </Container>
+    );
+  }
 
   return (
     <Container>
