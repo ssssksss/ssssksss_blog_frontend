@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import Link from "next/link";
 import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
@@ -28,8 +27,8 @@ const BlogSecondMenu = () => {
     (state: RootState) => state.categoryStore.firstCategoryPath
   );
   const SecondCategoryHandler = async (pathValue: string) => {
+    await router.push("/blog" + pathValue);
     await dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
-    router.push("/blog" + pathValue);
   };
 
   type SecondCategoryTypes = {
