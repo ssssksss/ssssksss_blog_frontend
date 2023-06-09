@@ -5,10 +5,9 @@ import Layout1 from "src/components/layout/Layout1";
 import Layout2 from "src/components/layout/Layout2";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store/index";
-import BlogHeader from "src/components/blog/BlogUI/BlogHeader";
 import BlogFooter from "src/components/blog/BlogUI/BlogFooter";
 import NextjsHeader from "src/components/common/NextjsHeader";
-import PageTransitions from "@/components/common/reactTransitionGroup/PageTransitions";
+// import PageTransitions from "@/components/common/reactTransitionGroup/PageTransitions";
 import { useRouter } from "next/router";
 import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
 import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
@@ -17,6 +16,7 @@ import { ThemeProvider } from "@emotion/react";
 import GlobalStyles from "@/styles/GlobalStyles";
 import { Global } from "@emotion/react";
 import theme from "@/styles/theme";
+import MainLeftSideBar from "src/components/layout/MainLeftSideBar";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,8 +27,7 @@ type AppPropsWithLayout = AppProps & {
 };
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
-  const Layout =
-    Component.layout || ((children: ReactElement) => <> {children} </>);
+  const Layout = Component.layout || ((children: ReactElement) => <> {children} </>);
   // const [routingPageOffset, setRoutingPageOffset] = useState(0);
   const router = useRouter();
 
@@ -44,14 +43,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ThemeProvider theme={theme}>
         <Global styles={GlobalStyles} />
         <NextjsHeader />
-        <BlogHeader />
-        {router.asPath.split("/")[1] === "blog" &&
-          !router.asPath.includes("update") && (
-            <>
-              <BlogFirstMenu />
-              <BlogSecondMenu />
-            </>
-          )}
+        <MainLeftSideBar />
+        {router.asPath.split("/")[1] === "blog" && !router.asPath.includes("update") && (
+          <>
+            <BlogFirstMenu />
+            <BlogSecondMenu />
+          </>
+        )}
         {/* <PageTransitions
           route={router.asPath}
           routingPageOffset={routingPageOffset}
