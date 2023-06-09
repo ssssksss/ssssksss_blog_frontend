@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+// import { TransitionGroup, CSSTransition } from "react-transition-group";
 import React, { useEffect, useRef, useState } from "react";
 
 /**
@@ -19,19 +19,18 @@ const PageTransitions = (props: IPageTransitionsProps) => {
   const nodeRef = useRef(null);
   return (
     <>
-      <TransitionGroup component={null}>
+      {/* <TransitionGroup component={null}>
         <CSSTransition
           key={props.route}
           classNames="page"
           // nodeRef={nodeRef}
-          timeout={600}
-        >
+          timeout={600}>
           <Container routingPageOffset={props.routingPageOffset} ref={nodeRef}>
             {props.children}
           </Container>
         </CSSTransition>
       </TransitionGroup>
-      <Wipe className="wipe" />
+      <Wipe className="wipe" /> */}
     </>
   );
 };

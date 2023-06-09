@@ -1,7 +1,6 @@
 import theme from "@/styles/theme";
-import React from "react";
 import styled from "@emotion/styled";
-import PageTransitions from "../common/reactTransitionGroup/PageTransitions";
+// import PageTransitions from "../common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -23,4 +22,12 @@ const Container = styled.div``;
 const Container1 = styled.div`
   margin: auto;
   max-width: 1440px;
+  /* margin-left: 60px; */
+
+  /* @media (min-width: ${theme.deviceSizes.maxWidth}) {
+    background: white;
+    width: 300px;
+    align-items: flex-start;
+    margin-left: 300px;
+  } */
 `;
