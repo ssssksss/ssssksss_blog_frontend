@@ -4,21 +4,23 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { AWSS3Prefix } from "@/components/common/variables/url";
-//import chart from "@toast-ui/editor-plugin-chart";
-//import "tui-chart/dist/tui-chart.css";
-//import "highlight.js/styles/github.css";
-//import "tui-color-picker/dist/tui-color-picker.css";
-//import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-//import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-//import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
-//import uml from "@toast-ui/editor-plugin-uml";
 import { store } from "../../../redux/store/index";
 import theme from "@/styles/theme";
+
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
 interface IBoardEditorProps {
   edit?: boolean;
@@ -143,6 +145,8 @@ const BoardEditor = (props: IBoardEditorProps) => {
               initialEditType="markdown"
               useCommandShortcut={true}
               ref={editorRef}
+              plugins={[codeSyntaxHighlight, colorSyntax]}
+              // plugins={[[codeSyntaxHighlight, { highlighter: Prism }], colorSyntax]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imageURL: any = await uploadHandler(blob);
@@ -161,9 +165,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
             />
           </EditorContainer>
           <EditorFooter>
-            <SubmitButton
-              onClick={() => (props.edit ? updateHandler() : submitHandler())}
-            >
+            <SubmitButton onClick={() => (props.edit ? updateHandler() : submitHandler())}>
               {props.edit ? "수정" : "제출"}
             </SubmitButton>
             <CancelButton onClick={() => router.back()}>취소</CancelButton>
