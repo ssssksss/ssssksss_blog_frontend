@@ -22,7 +22,7 @@ const GlobalStyles = css`
   body {
     width: 100%;
     scroll-behavior: smooth;
-    background-color: ${theme.backgroundColors.background2};
+    /* background-color: ${theme.backgroundColors.background2}; */
     &::-webkit-scrollbar {
       display: none;
       /* width: 5px; */

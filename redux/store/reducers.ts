@@ -1,3 +1,4 @@
+import { themaReducer } from "./thema";
 import { combineReducers } from "redux";
 import { categoryReducer } from "./category";
 import { authReducer } from "./auth";
@@ -7,6 +8,7 @@ const rootReducer = combineReducers({
   categoryStore: categoryReducer,
   authStore: authReducer,
   scheduleStore: scheduleReducer,
+  themaStore: themaReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
-import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
@@ -12,14 +11,18 @@ import { AWSS3Prefix } from "@/components/common/variables/url";
 import { store } from "@/redux/store";
 import Button from "@/components/common/button/Button";
 import theme from "@/styles/theme";
-//import chart from "@toast-ui/editor-plugin-chart";
-//import "tui-chart/dist/tui-chart.css";
-//import "highlight.js/styles/github.css";
-//import "tui-color-picker/dist/tui-color-picker.css";
-//import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-//import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-//import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
-//import uml from "@toast-ui/editor-plugin-uml";
+import chart from "@toast-ui/editor-plugin-chart";
+
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
 interface ICUEditorProps {
   edit?: boolean;
@@ -34,8 +37,7 @@ const CUEditor = (props: ICUEditorProps) => {
   );
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
-  const postUrlHref =
-    "/blog/" + locationHref.split("/")[2] + "/" + locationHref.split("/")[3];
+  const postUrlHref = "/blog/" + locationHref.split("/")[2] + "/" + locationHref.split("/")[3];
   const authStore = useSelector((state: RootState) => state.authStore);
 
   const submitHandler = () => {
@@ -159,6 +161,7 @@ const CUEditor = (props: ICUEditorProps) => {
               initialEditType="markdown"
               useCommandShortcut={true}
               ref={editorRef}
+              plugins={[colorSyntax, [codeSyntaxHighlight, { highlighter: Prism }]]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imageURL: any = await uploadHandler(blob);
@@ -166,6 +169,8 @@ const CUEditor = (props: ICUEditorProps) => {
                   // "blog"+directory+"/"+fileName
                 },
               }}
+              viewer={true}
+              // language="ko-KR"
               toolbarItems={[
                 // 툴바 옵션 설정
                 ["heading", "bold", "italic", "strike"],
@@ -177,18 +182,10 @@ const CUEditor = (props: ICUEditorProps) => {
             />
           </EditorContainer>
           <EditorFooter>
-            <Button
-              width="100%"
-              status="green"
-              onClick={() => (props.edit ? updateHandler() : submitHandler())}
-            >
+            <Button width="100%" status="green" onClick={() => (props.edit ? updateHandler() : submitHandler())}>
               {props.edit ? "수정" : "제출"}
             </Button>
-            <Button
-              width="100%"
-              status="lightred"
-              onClick={() => router.back()}
-            >
+            <Button width="100%" status="lightred" onClick={() => router.back()}>
               취소
             </Button>
           </EditorFooter>

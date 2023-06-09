@@ -18,9 +18,7 @@ const UserDashBoardContainer = () => {
     <Container>
       <CC.ColumnDiv gap={10} padding={"0px 10px"}>
         <Button onClick={() => setMenu("home")}> 홈 </Button>
-        <Button onClick={() => setMenu("postRemoveList")}>
-          게시글 삭제 목록
-        </Button>
+        <Button onClick={() => setMenu("postRemoveList")}>게시글 삭제 목록</Button>
         <Button onClick={() => setMenu("portfolio")}> 포트폴리오 </Button>
       </CC.ColumnDiv>
       <CC.RowDiv>

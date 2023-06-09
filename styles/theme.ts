@@ -267,6 +267,30 @@ const flex = {
   },
 };
 
+const thema = {
+  thema_blue: {
+    mainBackgroundColor: "rgba(41, 82, 255, 0.7)",
+    mainFontColor: "white",
+    hoverBackgroundStyle: "white",
+    hoverFontStyle: "rgba(41, 82, 255, 0.7)",
+    hoverBorderRadius: "10px",
+  },
+  thema_black: {
+    mainBackgroundColor: "rgba(13, 20, 59, 0.7)",
+    mainFontColor: "white",
+    hoverBackgroundStyle: "white",
+    hoverFontStyle: "rgba(41, 82, 255, 0.7)",
+    hoverBorderRadius: "10px",
+  },
+  thema_white: {
+    mainBackgroundColor: "rgba(255, 255, 255, 0.7)",
+    mainFontColor: "black",
+    hoverBackgroundStyle: "rgba(41, 82, 255, 0.7)",
+    hoverFontStyle: "white",
+    hoverBorderRadius: "10px",
+  },
+};
+
 const theme = {
   fontSizes,
   colors,
@@ -282,6 +306,7 @@ const theme = {
   borderRadius,
   padding,
   height,
+  thema,
 };
 
 export default theme;

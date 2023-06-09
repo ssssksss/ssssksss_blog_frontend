@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Head from "next/head";
-
+/**
+ * Author : Sukyung Lee
+ * FileName: NextjsHeader.tsx
+ * Date: 2023-03-27 00:18:06
+ * Description : Header 설정하는 곳
+ */
 const NextjsHeader = () => {
   return (
     <Head>
@@ -10,5 +15,4 @@ const NextjsHeader = () => {
     </Head>
   );
 };
-
 export default NextjsHeader;

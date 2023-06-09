@@ -1,0 +1,764 @@
+[33mcommit 114b4cf1674b5744dd4e28c60e29ea82cc83df5e[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/#14-Toast-UI플러그인기능추가[m[33m)[m
+Merge: ece4835 edd9597
+Author: ssssksss <ssssksss@naver.com>
+Date:   Thu Dec 8 03:17:28 2022 +0900
+
+    Merge pull request #9 from ssssksss/feat/#8-최적화,에러페이지_작업중
+    
+    [#8]feat: 최적화나 에러페이지 등 작업중
+
+[33mcommit edd9597a4a7b707545005058ccf135d9b9edd968[m[33m ([m[1;31morigin/feat/#8-최적화,에러페이지_작업중[m[33m, [m[1;32mfeat/#8-최적화,에러페이지_작업중[m[33m)[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Dec 8 03:14:38 2022 +0900
+
+    [#8]feat: 최적화나 에러페이지 등 작업중
+
+[33mcommit ece483527b24c3d9626c0dfd95df0c8091dc5c8a[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 20:29:22 2022 +0900
+
+    []refactor: remove loading before receiving data
+
+[33mcommit ca75d8e6229f8feab460db433cd11fa8079b85b9[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 17:36:58 2022 +0900
+
+    []chore: modify vercel build problem
+
+[33mcommit 23657bd8ddadda532b71567285f4cb1bdd5d6669[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 06:52:43 2022 +0900
+
+    []refacotr: modify type
+
+[33mcommit 195efdf12fdc744080b228668f78f8f8a54e0837[m
+Merge: 911019f b442e01
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 06:40:34 2022 +0900
+
+    Merge branch 'master' of https://github.com/ssssksss/ssssksss_blog_frontend
+
+[33mcommit 911019f6a1c451f8fb3781ff3465639cb5627d42[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 06:40:14 2022 +0900
+
+    []chore: modify package.json
+
+[33mcommit b442e0100ed09e0b439a75a64a20753ac6a9760b[m
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Dec 6 06:24:05 2022 +0900
+
+    []chore: modify package.json
+
+[33mcommit c9a06daee2873b79c291e125bb5ebedc27d1a284[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 06:13:38 2022 +0900
+
+    []chore: modify package.json
+
+[33mcommit 4ecb79225eeacafbfc66f2a4756f5ca7c32c97a6[m
+Merge: 8f97987 ad2d8b8
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Dec 6 06:09:49 2022 +0900
+
+    Merge pull request #7 from ssssksss/style/#6-전체적으로css스타일수정
+    
+    [#6]style: 전체적으로 스타일 수정, styled-components에서 emotion으로 라이브러리 변경
+
+[33mcommit ad2d8b8621134119ebeb2fd75491afdb80d58db4[m[33m ([m[1;31morigin/style/#6-전체적으로css스타일수정[m[33m, [m[1;32mstyle/#6-전체적으로css스타일수정[m[33m)[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Dec 6 06:07:06 2022 +0900
+
+    [#6]style: 전체적으로 스타일 수정, styled-components에서 emotion으로 라이브러리 변경
+
+[33mcommit 8f97987b9075c8c933fcc2d3ddb66666e3246679[m
+Merge: dd55ecf 9fffc8d
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Dec 2 02:58:03 2022 +0900
+
+    Merge branch 'master' of https://github.com/ssssksss/ssssksss_blog_frontend
+
+[33mcommit dd55ecf0402bb3a1bda6b8bee618fabaf6084a9f[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Dec 2 02:57:20 2022 +0900
+
+    style: 스타일 및 UI 등 수정
+
+[33mcommit 9fffc8dd7aa71f554269a94758ac140371fcad96[m
+Author: ssssksss <ssssksss@naver.com>
+Date:   Fri Dec 2 02:53:24 2022 +0900
+
+    Update README.md
+
+[33mcommit 3bc769a9e722bd45c4937494f96fd0a04e5111d5[m
+Merge: d259898 0f567af
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Nov 29 04:02:21 2022 +0900
+
+    Merge pull request #5 from ssssksss/refactor/#4-인증관련로직수정
+    
+    [#4]refactor: 리프레시 토큰과 관련된 인증관련 로직수정
+
+[33mcommit 0f567afd34a09f12d2118af647ad1db83bd5d5c8[m[33m ([m[1;31morigin/refactor/#4-인증관련로직수정[m[33m)[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Nov 29 04:01:31 2022 +0900
+
+    [#4]refactor: 리프레시 토큰과 관련된 인증관련 로직수정
+
+[33mcommit d2598988ad3a36ac9c23c7eb19c9b0a691faf930[m
+Merge: 875d5a9 ecc3ad5
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Nov 29 03:51:30 2022 +0900
+
+    Merge pull request #2 from ssssksss/style/#1-반응형폰트사이즈수정
+    
+    [#1]style: 폰트사이즈수정 및 로그인유무에 따른 메뉴버튼 스타일 수정
+
+[33mcommit ecc3ad5871a8caf34d8b859ac317a17c83dd9482[m[33m ([m[1;31morigin/style/#1-반응형폰트사이즈수정[m[33m)[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Nov 29 03:49:59 2022 +0900
+
+    [#1]style: 폰트사이즈수정 및 로그인유무에 따른 메뉴버튼 스타잃 수정
+
+[33mcommit 875d5a98ca7065694f5a7def10364c4e812d5a5d[m
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Nov 29 03:46:16 2022 +0900
+
+    Update 커스텀-issue-양식.md
+
+[33mcommit ff418988ef46377ae0a7589e57234df3c66c6929[m
+Author: ssssksss <ssssksss@naver.com>
+Date:   Tue Nov 29 03:40:14 2022 +0900
+
+    Update issue templates
+
+[33mcommit 34312731b80f76cca7225793dde0fdbe6225ebd1[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Nov 2 19:59:12 2022 +0900
+
+    #[fix] 비동기로 인해 사소한 버그 임시 우회
+
+[33mcommit 11ec7dde560adf979a0949ff5af3b3b92a4df60f[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Oct 28 05:03:39 2022 +0900
+
+    #[fix] type 수정
+
+[33mcommit b59568d6fb94e1a4c14bf1ce3906ce876c12fb53[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Oct 28 04:57:19 2022 +0900
+
+    #[fix,update,style] 아이콘 이미지 잘못된 경로 수정, 일정 (수정,삭제) 기능 추가, react-quill에디터 내용 작성 배경색 변경
+
+[33mcommit b9477a5d766c6568b3765de2b051af039e2c5c37[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Oct 27 00:02:19 2022 +0900
+
+    #[fix] type 수정
+
+[33mcommit 516dd703f83e5becee509a74f275a611fa1fc744[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 26 05:43:13 2022 +0900
+
+    #[fix,update] 일정 추가시 렌더링이 안되는 문제 해결, plan에서 schedule로 용어에 맞게 파일,폴더,코드 수정, 일정에서 모달창이 오픈되고 뒤로가기를 누를경우 모달창을 종료하는 기능 추가
+
+[33mcommit 637a4d3adbac7c46550111e4552ca7d8fe64f8c8[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Oct 23 14:10:52 2022 +0900
+
+    #[update] 일정 등록,조회 기능 추가
+
+[33mcommit cae483562e3a401cedba0451757e13f778cf7583[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 19 04:13:54 2022 +0900
+
+    [update] 일정 카테고리 기능 추가 UI 생성
+
+[33mcommit 86604996b5172ac05d32b95173361be6a49a7d82[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 19 01:57:56 2022 +0900
+
+    [fix] 블로그 헤더 UI 수정, 모바일 사이즈에서 UI가 밀리는 문제 해결
+
+[33mcommit 9ef89ca0c3406855ed266a86905211ba2e9111e3[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Oct 17 03:20:38 2022 +0900
+
+    [update] Plan 일정 작업 중
+
+[33mcommit eee0ef728c618b9d67161cf40688a20dfdeb96b1[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Oct 17 02:18:51 2022 +0900
+
+    [fix] 블로그 초기 템플릿 내용 변경
+
+[33mcommit e3ddfd9442e4f4f4630f92c487c79896153332d5[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Oct 17 01:50:01 2022 +0900
+
+    [fix] 아이콘 이름 수정
+
+[33mcommit ee05f2b4224d8f8a4735bd0124a438f686c05560[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Oct 16 03:33:09 2022 +0900
+
+    [fix] 이후에 todo를 만들기 위해 todo를 plan으로 명칭 변경
+
+[33mcommit a6bb4334fde18012a2453ea259ac9cc71ed1a99c[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Oct 15 00:09:03 2022 +0900
+
+    [fix]axios 경로 수정
+
+[33mcommit 12820f7f5e59241e69ceb46209eb2842600c400e[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Oct 15 00:03:08 2022 +0900
+
+    [update] 커스텀 캐러셀 UI 수정, 랜딩페이지 UI 수정
+
+[33mcommit 9e199674b4d4b8c0bfb9730208c307aaac3bf340[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Oct 14 07:30:04 2022 +0900
+
+    [fix] 헤더가 400px이하 사이즈에서밀리는 문제 해결
+
+[33mcommit 623b034df56171ce634ca77f7fc4a89e13b10c48[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Oct 13 05:56:27 2022 +0900
+
+    [update] 게시판 버그 수정, 랜딩 페이지 프로젝트 이미지 추가
+
+[33mcommit 93e278a9a87e1191616b07acc25dee3b9299d853[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 12 23:47:49 2022 +0900
+
+    [fix] 게시판 파라미터 에러 수정
+
+[33mcommit 7cfdb400d8ae51496758ab055c5b41e19c4dbeeb[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 12 23:39:48 2022 +0900
+
+    [fix] 배포 에러 수정
+
+[33mcommit 58657ffdc27c829b83ec91b9f60bff161b1d986b[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 12 23:32:45 2022 +0900
+
+    [update] 카테고리 이름 수정 기능 추가
+
+[33mcommit 6bb0669ba40bab986b055d39b140f7943e46f8cd[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Oct 12 03:31:10 2022 +0900
+
+    [udpate] 카테고리 (수정,삭제) UI 수정, 블로그 게시글 UI 수정, (로그인,회원가입) 키보드 이벤트 기능 추가, 게시판 리스트 정렬, 검색, 페이지 네이션 등 작업 완료
+
+[33mcommit 083907b5b16f9ce84f29872c52a98e4795c9be00[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Oct 10 00:32:34 2022 +0900
+
+    [fix] 여러 UI와 디자인 수정 중
+
+[33mcommit 7130ae47211309b1c69c42b3ce2e698c6aaa13f0[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Oct 8 04:33:05 2022 +0900
+
+    [fix] type error 수정
+
+[33mcommit 7ce1d4a3a05fcd59618cb6d1f47caf1414548952[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Oct 8 03:54:11 2022 +0900
+
+    [update] threejs를 이용한 gitf를 랜딩페이지에 추가, font 적용, 페이지 전환 애니메이션 적용, 블로그 헤더 UI 수정
+
+[33mcommit 76087d754f94fb4fbfbead10884b0614f160ed87[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 04:20:13 2022 +0900
+
+    [fix] 블로그 2차 카테고리 보이지 않는 실수 수정
+
+[33mcommit 8e4ea55fe979b8d58e878951ddcdeaab75b18a9d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 03:20:58 2022 +0900
+
+    [fix] 블로그 글을 작성하는데 작성이 안되는 문제가 발생하여 수정
+
+[33mcommit 412b94220de4b77677f4a10876eefd987d404b55[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 01:25:40 2022 +0900
+
+    [mistake] 주석 해제 실수
+
+[33mcommit 50fb364f0a102e029ed9c7619a2fe137ee063ea5[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 01:21:29 2022 +0900
+
+    [mistake] 코드 지우는 중 잘못 지워져서 수정
+
+[33mcommit d4e3001b8be735469a42b9414c6e234a2fc67f14[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 01:17:46 2022 +0900
+
+    [fix] axios 경로 수정
+
+[33mcommit 01a59f4b172913eecae167923b4f2d1fafb9c3ab[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 26 01:17:07 2022 +0900
+
+    [fix] footer 이미지크기로 인해 모바일에서 ui가 깨지는 것 수정
+
+[33mcommit 722ae50ee36d28c806567947dd1380ba622c7f53[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Sep 24 05:44:09 2022 +0900
+
+    [update] 게시판 제작 중, 기존에 카테고리 db 컬럼명이 의도하는 바와 달라서 백엔드,프론트,db 모두 컬럼명 변경
+
+[33mcommit 4d05989b472a43126b0c352b75cc63f88e4c004a[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 23 21:37:24 2022 +0900
+
+    [update] footer 수정, editor sticky 이용해서 버튼 위치 수정, 게시판 제작중
+
+[33mcommit 1709d2ea1190c2f28c8dc0dfb8a9cdcf1513de6e[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Sep 21 22:08:11 2022 +0900
+
+    [update] todo 캘린더 UI 수정, 1일 todo List UI 수정, navigation header 반응형, 아이콘 UI 수정
+
+[33mcommit 996d283ca3c0152161ed28522729837eef0cf4c3[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Sep 21 02:06:38 2022 +0900
+
+    [update] 포스트 글 작성시 작성자 이름을 넣도록 api parameter 수정
+
+[33mcommit 79c436f11a30c2a982ab0d602decf591789a79e4[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 19 23:19:04 2022 +0900
+
+    수정
+
+[33mcommit cb8c5d68e73864d5be19b7f967cf50828a401a17[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 19 23:18:44 2022 +0900
+
+    수정
+
+[33mcommit 6ad4dbf216912e01a86769d37affd323316dd032[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Sep 19 22:54:52 2022 +0900
+
+    [update] 카테고리에 글의 갯수 표시
+
+[33mcommit 76efcb49198cee6838b3ebf93a60ec99d15f8ca5[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 23:45:07 2022 +0900
+
+    수정
+
+[33mcommit 70639f1a44f7c071247cd4998612ee3d29d5ba20[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 17:36:40 2022 +0900
+
+    [update] toast ui 에디터 이미지 업로드 추가
+
+[33mcommit a9d19c24e1b6b7ff59be888c11d40b0599fb40ec[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 05:14:05 2022 +0900
+
+    수정
+
+[33mcommit 1203283ef32454c05a65f872c44cb43877c8af6f[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 05:12:55 2022 +0900
+
+    수정
+
+[33mcommit 5be674773ab723225ff71a52a43d3ddd0be9eea6[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 04:59:41 2022 +0900
+
+    [수정] axios api url
+
+[33mcommit 8637e175bfffbcba7fc43cd490a4c3606e45aefa[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Sep 18 04:56:10 2022 +0900
+
+    [update] 기존 에디터 2개의 컴포넌트로 분할 된것 1개로 합침, UI수정, 이미지 업로드 테스트 완료
+
+[33mcommit effdc8c1231adcc4afa3a28bf5d68857a7be67b7[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 16 15:38:31 2022 +0900
+
+    api url 수정
+
+[33mcommit 0e2e1f31b271a6e3eeb97f7bfad86a434f7b9d76[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 16 15:37:49 2022 +0900
+
+    [update] todo enter 이벤트 추가, UI 수정
+
+[33mcommit 5ffeec90b61fd9bb8691c01df6d27406c18a7efe[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 22:59:55 2022 +0900
+
+    api url 수정
+
+[33mcommit 826a879f0eefed276498dadd4277bf2e2a7471c4[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 22:57:03 2022 +0900
+
+    수정
+
+[33mcommit 6a511cc19d58d382df58db0559abf5fd9076ea82[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 22:40:01 2022 +0900
+
+    수정
+
+[33mcommit 77fc8dc6a7e1285f1839c28ced5edf8bf79ef53d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 18:51:58 2022 +0900
+
+    #수정
+
+[33mcommit 66446538a11a017f6fb2e9509da11f92d99f0430[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 17:48:44 2022 +0900
+
+    수정
+
+[33mcommit 3bf208986d09a722bd352248748f56e15f6fde84[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Sep 15 17:31:16 2022 +0900
+
+    #update todo 일정 추가하기, 레이아웃과 관련된 css 수정 필요
+
+[33mcommit bb9b19230546a89883d60c862f4032aef5254606[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Sep 10 22:16:07 2022 +0900
+
+    #Update 로그아웃 api 경로 수정
+
+[33mcommit f4ae88b014e2e274a294f1b4841fc913dd95e408[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Sep 10 01:29:04 2022 +0900
+
+    수정
+
+[33mcommit 829135e0770129e4644c7edc559ce21c45becc4d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Sep 10 00:17:21 2022 +0900
+
+    수정
+
+[33mcommit 44fa745da50d3de07d62641eec4a83929fc78ec9[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Sep 10 00:03:43 2022 +0900
+
+    수정
+
+[33mcommit caf6c8a5f857f6e9237f17fe78e4d5fb08b6eed4[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 9 23:59:18 2022 +0900
+
+    수정
+
+[33mcommit 46ffdb4504d2d3d215b62e278d451b0bc6e055cc[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 9 23:34:18 2022 +0900
+
+    수정
+
+[33mcommit 690d8c98a880b0ce07b7ba6fb2d0f42b97f2fe4e[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Sep 9 23:13:20 2022 +0900
+
+    #Update [리팩토링] 쿠키엑세스 토큰에서 리프레시(쿠키)+액세스 상태값으로 변경, 자동로그인 추가, 아이콘 UI 수정
+
+[33mcommit 1a3825303e47627493f7797969c18c266608eb50[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu May 12 03:33:22 2022 +0900
+
+    test로 확인하던 console.log 삭제
+
+[33mcommit d1472ad00d6ce242703d7867b3211cf76d26bdcc[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu May 12 02:40:41 2022 +0900
+
+    Restful에 맞춘 api url 수정
+
+[33mcommit f90ba306ed868edd18327d71b845b1666f3d5c1b[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon May 9 11:49:51 2022 +0900
+
+    코드 수정
+
+[33mcommit 0d5159a33954c41ef703fc941725159afbaabfe6[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon May 9 11:18:36 2022 +0900
+
+    ..?
+
+[33mcommit eb3dec9502044444f48cf6172bd1b62652e487aa[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun May 8 23:49:24 2022 +0900
+
+    axios 경로 수정...
+
+[33mcommit 30817acbcc5664d8b75b76af39d50d66ebeb04a0[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun May 8 23:43:21 2022 +0900
+
+    데이터베이스  테이블에서 content 분리 후 테스트
+
+[33mcommit cfdcdaf2c6b2333058113112af80e6a8780eff7b[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri May 6 23:07:33 2022 +0900
+
+    잘못된 코드 수정
+
+[33mcommit 41f12a0b4253e04ead66da15e1179ebc9fb389ca[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Fri May 6 15:50:55 2022 +0900
+
+    Update README.md
+
+[33mcommit e11b21824fd33f30e08670b1f57c6080331a96c3[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Wed May 4 16:10:00 2022 +0900
+
+    Update README.md
+
+[33mcommit 0eb85453171d6d1914393ff7de89a52364b545cd[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 15:02:39 2022 +0900
+
+    Update README.md
+
+[33mcommit 529b4cdde2eb39cbefa4af1067c9eea3f5b225e8[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 14:46:33 2022 +0900
+
+    Update README.md
+
+[33mcommit 6d32d6d0c116d936610a4ccfb52b98286b884a5e[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 14:20:27 2022 +0900
+
+    Update README.md
+
+[33mcommit 89dddd360df2a9c1e57c041ca5293db297e45cc5[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 14:18:27 2022 +0900
+
+    Update README.md
+
+[33mcommit 85de51909ba5e42dab3f104e58f3098c543e116f[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 12:48:23 2022 +0900
+
+    Update README.md
+
+[33mcommit 4934eb5e43899639fe33790d31eb0522980ba7e3[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 12:47:17 2022 +0900
+
+    Update README.md
+
+[33mcommit 1f6993cbae40ac5cafa2954e0a83a0352247e838[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 12:46:28 2022 +0900
+
+    Update README.md
+
+[33mcommit 3ad7e0cf42981dada12db231b38c0bb18b9f59bd[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 12:03:32 2022 +0900
+
+    Update README.md
+
+[33mcommit b7475770c55b688d3b54ded88c01a17a48e5d2b9[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun May 1 11:57:16 2022 +0900
+
+    Update README.md
+
+[33mcommit 634f5efe85132637f9e84c526f6e4af7296fd4b0[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun May 1 11:24:15 2022 +0900
+
+    axios 경로변경
+
+[33mcommit b37c992e4627e1f84f671a349fba845a71593b35[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun May 1 11:22:51 2022 +0900
+
+    타이틀, 파비콘 변경
+
+[33mcommit e9e3b78dd0be6563dd3c65618a0f5447e795375b[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sat Apr 30 02:29:41 2022 +0900
+
+    블로그 조회수 기능 추가
+
+[33mcommit d811299cbe8b797cd22376bd83dc634fea27b420[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Apr 29 19:37:12 2022 +0900
+
+    로그인,회원가입 UI수정, 토큰 삭제 요청 API 추가
+
+[33mcommit ee9f2d203d05801527000e9718fefa15f2f6d8bd[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 28 19:56:00 2022 +0900
+
+    axios 경로 변경
+
+[33mcommit b3e2541a33cf04b9ae20c443931be626cb1a9582[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 28 19:42:06 2022 +0900
+
+    로그아웃 UI 수정, IP주소 작업 테스트1
+
+[33mcommit 1e22485970522a276adc7efb51d599f8e621ff71[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 28 16:27:38 2022 +0900
+
+    axios 경로 수정...
+
+[33mcommit 7a95d96793c8fcf2cc7235d141ee9c55dcf5d5c9[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 28 16:18:00 2022 +0900
+
+    로그인,회원가입 토큰 처리, 인증관련 UI 숨김
+
+[33mcommit 394173b75939945b89465ddf6c1c28c712e0236d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Apr 25 21:03:12 2022 +0900
+
+    axios url 변경
+
+[33mcommit fa977fd9148cc4921ca0dc7ff7db8a2692c7808b[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Apr 25 17:04:20 2022 +0900
+
+    회원가입 완료, 토큰처리 해결중, 몇몇 UI 수정
+
+[33mcommit 917ecba069e825c064c18afe0747f94987b44f29[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 21 02:04:40 2022 +0900
+
+    카테고리 모달창 UI 개선, 중복 렌더링 수정, 비밀번호 검증 정규표현식 작성중, css 중첩되는 문제 해결
+
+[33mcommit 1bd75a154b28812c204d02bb6de113b6d560a31e[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Apr 20 19:13:39 2022 +0900
+
+    fix ui
+
+[33mcommit 7ba85e680e82fbd4240fed02d7e88cdeac4c7575[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Apr 19 15:49:46 2022 +0900
+
+    fix ui, font
+
+[33mcommit 6903373448c48f4f8eee9f884d285ac074d67e53[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Apr 19 02:04:30 2022 +0900
+
+    fix try rendering problem
+
+[33mcommit 34c2f0cbfd3ec87d4333310316083111d0270fe8[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Apr 19 01:55:53 2022 +0900
+
+    fix UI, second category delete api
+
+[33mcommit 5d55f536498659717790e219e8d66e5118d844d5[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Apr 19 00:02:03 2022 +0900
+
+    fix ui
+
+[33mcommit 305d34215eea9b79692e748d784a95722b923949[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Apr 17 14:19:19 2022 +0900
+
+    fix remove console.log code
+
+[33mcommit b9759eca1fed8741ca99d2f0de9cc51b2b41e43c[m
+Merge: 67847ac 58fce0c
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Apr 17 12:58:09 2022 +0900
+
+    fix
+
+[33mcommit 67847ac0ebb774917a0ae469fe5d1a818de0614d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Apr 17 12:00:26 2022 +0900
+
+    fix
+
+[33mcommit 58fce0c2283c16b0b06c788476bf74cdb0b1051b[m
+Author: ssssksss <60907697+ssssksss@users.noreply.github.com>
+Date:   Sun Apr 17 02:33:27 2022 +0900
+
+    Update AxiosInstance.tsx
+
+[33mcommit 39f73418e28b5f3411ae76444b7c8b997e1f1665[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Apr 11 15:50:42 2022 +0900
+
+    test https://blog-server.ssssksss.xyz
+
+[33mcommit eec966e43407ec7538902fefbe8225361b244c79[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Mon Apr 11 11:44:35 2022 +0900
+
+    test
+
+[33mcommit 7beba1096fa3205dea3ca16280e6d0aabd224a4d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Sun Apr 10 00:35:10 2022 +0900
+
+    nginx ssl test
+
+[33mcommit 7fab03494ebdcd01c42dbc7d66240ebdccac0c8c[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Apr 8 02:30:03 2022 +0900
+
+    test
+
+[33mcommit 6671a69460ab08e3884e2e29b80c483d512cbe66[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Fri Apr 8 02:26:56 2022 +0900
+
+    test
+
+[33mcommit 153964ab1ba42e95d63fb6e278f3e3ace3c4cdeb[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 7 22:13:06 2022 +0900
+
+    update
+
+[33mcommit 39b474dec4bab500ee807c6ee16bc2553bc222eb[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Thu Apr 7 20:11:54 2022 +0900
+
+    update
+
+[33mcommit 1f605d88f5548d7fedf60c9f684403f3a63c603c[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Apr 6 18:34:56 2022 +0900
+
+    try fix vercel error
+
+[33mcommit 539dcc93d54f267741dc115758961f907de5e17d[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Wed Apr 6 16:58:04 2022 +0900
+
+    update and vercel test
+
+[33mcommit 196461de723c13ee23ae9b4619dd6fe531a05c09[m[33m ([m[1;32mmain[m[33m)[m
+Author: ssssksss <ssssksss@gmail.com>
+Date:   Tue Mar 8 17:09:29 2022 +0900
+
+    Initial commit from Create Next App

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Link from "next/link";
@@ -15,9 +15,7 @@ import Loading1 from "@/components/common/loading/Loading1";
 const PostList = () => {
   const router = useRouter();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const secondCategory = useSelector(
-    (state: RootState) => state.categoryStore.secondCategoryPath
-  );
+  const secondCategory = useSelector((state: RootState) => state.categoryStore.secondCategoryPath);
   const [posts, setPosts] = useState<PostsTypes[]>([]);
 
   type PostsTypes = {
@@ -32,12 +30,9 @@ const PostList = () => {
     nick_name: string;
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (secondCategory !== "") {
-      if (
-        window.location.pathname.split("/")[3] !== "" &&
-        window.location.pathname.split("/")[3] !== "undefined"
-      ) {
+      if (window.location.pathname.split("/")[3] !== "" && window.location.pathname.split("/")[3] !== "undefined") {
         AxiosInstance({
           url: "/api/posts",
           method: "GET",
@@ -71,20 +66,14 @@ const PostList = () => {
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
         {authStore.role === "ROLE_ADMIN" && (
           <MenuAddItem>
-            <Link
-              href={"/blog/[firstCategory]/[secondCategory]/[post]/add"}
-              as={router.asPath + "/post/add"}
-            >
+            <Link href={"/blog/[firstCategory]/[secondCategory]/[post]/add"} as={router.asPath + "/post/add"}>
               <a> 글 추가 </a>
             </Link>
           </MenuAddItem>
         )}
         {posts.map((i, index) => (
           <MenuItem key={i.id}>
-            <Link
-              href={"/blog/[firstCategory]/[secondCategory]/[post]"}
-              as={"/blog" + i.second_href + "/" + i.id}
-            >
+            <Link href={"/blog/[firstCategory]/[secondCategory]/[post]"} as={"/blog" + i.second_href + "/" + i.id}>
               <Item>
                 <ItemTitle>
                   [{index + 1}] {i.title}

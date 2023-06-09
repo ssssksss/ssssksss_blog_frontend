@@ -139,7 +139,7 @@ const ImgContainer = styled.div<IStyleProps>`
     white-space: nowrap;
   }
 
-  &:hover {
+  /* &:hover {
     mix-blend-mode: difference;
     cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
     & > span {
@@ -150,7 +150,7 @@ const ImgContainer = styled.div<IStyleProps>`
       font-size: 14px;
       transition: 0.5s;
     }
-  }
+  } */
 `;
 
 const OverflowText = styled.div<IStyleProps>`

@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
       "@/redux/*": ["redux/*"],
       "@/utils/*": ["utils/*"],
       "@/styles/*": ["styles/*"],
-      "@/public/*": ["public/*"]
+      "@/public/*": ["public/*"],
+      "@/src/*": ["src/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
