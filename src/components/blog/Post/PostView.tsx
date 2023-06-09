@@ -16,6 +16,12 @@ import theme from "@/styles/theme";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import Button from "@/components/common/button/Button";
 
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+
 //postView공간
 const PostView = () => {
   const router = useRouter();
@@ -42,12 +48,7 @@ const PostView = () => {
       },
     })
       .then((response) => {
-        router.push(
-          window.location.pathname.substring(
-            0,
-            window.location.pathname.lastIndexOf("/")
-          )
-        );
+        router.push(window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")));
       })
       .catch((error) => {
         console.log(error);
@@ -56,10 +57,7 @@ const PostView = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (
-      window.location.pathname.split("/")[3] !== "" &&
-      window.location.pathname.split("/")[3] !== "undefined"
-    ) {
+    if (window.location.pathname.split("/")[3] !== "" && window.location.pathname.split("/")[3] !== "undefined") {
       AxiosInstance({
         url: "/api/post",
         method: "GET",
@@ -123,15 +121,9 @@ const PostView = () => {
                     status="green"
                     onClick={() =>
                       router.push(
-                        router.asPath.substring(
-                          0,
-                          router.asPath.lastIndexOf("/")
-                        ) +
-                          "/post/update?id=" +
-                          post?.id
+                        router.asPath.substring(0, router.asPath.lastIndexOf("/")) + "/post/update?id=" + post?.id
                       )
-                    }
-                  >
+                    }>
                     수정
                   </Button>
                   <Button status="lightred" onClick={() => removePostHandler()}>
@@ -141,12 +133,7 @@ const PostView = () => {
               )}
               <Button
                 status="purple"
-                onClick={() =>
-                  router.push(
-                    router.asPath.substring(0, router.asPath.lastIndexOf("/"))
-                  )
-                }
-              >
+                onClick={() => router.push(router.asPath.substring(0, router.asPath.lastIndexOf("/")))}>
                 목록
               </Button>
             </CC.RowRightDiv>
@@ -156,6 +143,7 @@ const PostView = () => {
               initialValue={post?.content}
               theme="black"
               ref={editorRef}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
             />
           </PostViewBody>
         </Container>
