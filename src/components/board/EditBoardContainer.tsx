@@ -21,7 +21,11 @@ interface IEditBoardContainerProps {
 }
 
 const EditBoardContainer = (props: IEditBoardContainerProps) => {
-  return <Container>{typeof window !== "undefined" && <Editor />}</Container>;
+  return (
+    <Container>
+      <Editor />
+    </Container>
+  );
 };
 export default EditBoardContainer;
 const Container = styled(CC.ColumnDiv)`
