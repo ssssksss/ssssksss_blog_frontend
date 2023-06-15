@@ -12,6 +12,17 @@ to{
 }
 `;
 
+const LeftToRightFadein = keyframes`
+from{
+  opacity: 0;
+  transform: translate(-50%,0%);
+}
+to{
+  opacity: 1;
+  transform: translate(0%,0%);
+}
+`;
+
 const UpToDownRepeatFadein = keyframes`
   from{
     opacity: 1;
@@ -25,7 +36,7 @@ const UpToDownRepeatFadein = keyframes`
 
 const UpToDownRepeat = keyframes`
   0%,100%{
-    transform: translate(0px,-2px);
+    transform: translate(0,-2px);
   }
   50%{
     transform: translate(0px,2px);
@@ -61,6 +72,7 @@ const ChangeGrayColor = keyframes`
 
 export const animationKeyFrames = {
   RightToLeftFadein,
+  LeftToRightFadein,
   Fadein,
   Fadeout,
   UpToDownRepeatFadein,

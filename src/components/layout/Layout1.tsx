@@ -20,14 +20,12 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 export default Layout1;
 const Container = styled.div``;
 const Container1 = styled.div`
+  padding-left: 44px;
+  padding-top: 44px;
   margin: auto;
   max-width: 1440px;
-  /* margin-left: 60px; */
 
-  /* @media (min-width: ${theme.deviceSizes.maxWidth}) {
-    background: white;
-    width: 300px;
-    align-items: flex-start;
-    margin-left: 300px;
-  } */
+  @media (min-width: ${theme.deviceSizes.tablet}) {
+    padding-left: 120px;
+  }
 `;

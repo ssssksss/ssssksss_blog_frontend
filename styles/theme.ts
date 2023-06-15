@@ -10,27 +10,27 @@ const calcRem = (size: number) => `${size / 16}rem`;
 
 // 폰트 사이즈
 const fontSizes = {
-  xs: `${calcRem(12)}`,
-  sm: `${calcRem(16)}`,
-  md: `${calcRem(18)}`,
-  lg: `${calcRem(24)}`,
-  xl: `${calcRem(30)}`,
+  xs: `${calcRem(10)}`,
+  sm: `${calcRem(12)}`,
+  md: `${calcRem(16)}`,
+  lg: `${calcRem(20)}`,
+  xl: `${calcRem(24)}`,
 };
 
 const borderRadius = {
-  xs: `${calcRem(12)}`,
-  sm: `${calcRem(16)}`,
-  md: `${calcRem(18)}`,
-  lg: `${calcRem(24)}`,
-  xl: `${calcRem(30)}`,
+  xs: `${calcRem(4)}`,
+  sm: `${calcRem(8)}`,
+  md: `${calcRem(12)}`,
+  lg: `${calcRem(16)}`,
+  xl: `${calcRem(20)}`,
 };
 
 const padding = {
-  xs: `${calcRem(12)}`,
-  sm: `${calcRem(16)}`,
-  md: `${calcRem(18)}`,
-  lg: `${calcRem(24)}`,
-  xl: `${calcRem(30)}`,
+  xs: `${calcRem(4)}`,
+  sm: `${calcRem(8)}`,
+  md: `${calcRem(12)}`,
+  lg: `${calcRem(16)}`,
+  xl: `${calcRem(20)}`,
 };
 
 const height = {
@@ -113,7 +113,7 @@ const backgroundColors = {
   yellow: "#F5D470",
   yellowDark: "#F2C94C",
   error: "white",
-  disabled: "#E5E5E5",
+  disabled: "#b4a1a160",
   dangerLight: "#FC9372",
   danger: "#FB6F43",
   dangerDark: "#FA4B14",
@@ -267,30 +267,6 @@ const flex = {
   },
 };
 
-const thema = {
-  thema_blue: {
-    mainBackgroundColor: "rgba(41, 82, 255, 0.7)",
-    mainFontColor: "white",
-    hoverBackgroundStyle: "white",
-    hoverFontStyle: "rgba(41, 82, 255, 0.7)",
-    hoverBorderRadius: "10px",
-  },
-  thema_black: {
-    mainBackgroundColor: "rgba(13, 20, 59, 0.7)",
-    mainFontColor: "white",
-    hoverBackgroundStyle: "white",
-    hoverFontStyle: "rgba(41, 82, 255, 0.7)",
-    hoverBorderRadius: "10px",
-  },
-  thema_white: {
-    mainBackgroundColor: "rgba(255, 255, 255, 0.7)",
-    mainFontColor: "black",
-    hoverBackgroundStyle: "rgba(41, 82, 255, 0.7)",
-    hoverFontStyle: "white",
-    hoverBorderRadius: "10px",
-  },
-};
-
 const theme = {
   fontSizes,
   colors,
@@ -306,7 +282,6 @@ const theme = {
   borderRadius,
   padding,
   height,
-  thema,
 };
 
 export default theme;

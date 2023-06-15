@@ -16,8 +16,8 @@ import { ThemeProvider } from "@emotion/react";
 import GlobalStyles from "@/styles/GlobalStyles";
 import { Global } from "@emotion/react";
 import theme from "@/styles/theme";
-import MainLeftSideBar from "src/components/layout/MainLeftSideBar";
-
+import NavBar from "@/components/layout/NavBar";
+import ReactToastifyComponents from "@/components/externalLibrary/react-toastify/ReactToastifyComponents";
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
   layout: typeof Layout1 | typeof Layout2;
@@ -43,7 +43,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ThemeProvider theme={theme}>
         <Global styles={GlobalStyles} />
         <NextjsHeader />
-        <MainLeftSideBar />
+        <NavBar />
+        <ReactToastifyComponents />
         {router.asPath.split("/")[1] === "blog" && !router.asPath.includes("update") && (
           <>
             <BlogFirstMenu />
