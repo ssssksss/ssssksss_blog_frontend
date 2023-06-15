@@ -51,7 +51,7 @@ const ReactPlayerComponent = () => {
         message: "값을 입력해주세요",
       }))
     );
-    if([inputValue.url] in JSON.parse(localStorage.getItem("ReactPlayerYouTubeList"))) return (
+    if([inputValue.url] in JSON.parse(localStorage.getItem("ReactPlayerYouTubeList") || "{}" )) return (
       store.dispatch(SET_TOASTIFY_MESSAGE({
         type: "warning",
         message: "이미 존재하는 링크입니다.",
