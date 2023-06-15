@@ -21,6 +21,7 @@ const Layout2 = ({ children }: AppLayoutProps) => {
 export default Layout2;
 
 const Container = styled.div`
+  padding-left: 44px;
   margin: auto;
   min-width: 360px;
   max-width: 1440px;

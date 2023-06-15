@@ -4,6 +4,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  compiler: {
+    emotion: true,
+  },
 };
 
 module.exports = nextConfig;

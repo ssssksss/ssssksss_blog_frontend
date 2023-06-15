@@ -59,8 +59,7 @@ const Button = ({
       value={value}
       backgroundColor={backgroundColor}
       color={color}
-      size={size}
-    >
+      size={size}>
       {children}
     </ButtonStyle>
   );
@@ -117,12 +116,11 @@ const colorList: colorListType = {
 
 const ButtonStyle = styled.button<IButtonProps>`
   ${theme.flex.row.center.center}
-  width: ${(props) => props.size || props.width || "60px"};
-  min-height: 30px;
+  width: ${(props) => props.size || props.width};
   height: ${(props) => props.size || props.height || "auto"};
-  padding: ${(props) => props.padding || "0px 4px"};
+  padding: ${(props) => props.padding};
   border: none;
-  font-size: ${theme.fontSizes.sm};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : theme.fontSizes.sm)};
   border-radius: ${(props) => props.borderRadius || "0.6em"};
 
   &:hover {
@@ -130,6 +128,9 @@ const ButtonStyle = styled.button<IButtonProps>`
     cursor: pointer;
     animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite;
   }
+
+  background-color: ${(props) =>
+    props.status ? colorList[props.status].backgroundColor : theme.backgroundColors.orange};
 
   ${(props) =>
     props.disabled &&
@@ -142,9 +143,5 @@ const ButtonStyle = styled.button<IButtonProps>`
       }
     `}
 
-  background-color: ${(props) =>
-    props.status
-      ? colorList[props.status].backgroundColor
-      : theme.backgroundColors.orange};
   color: ${(props) => (props.status ? colorList[props.status].color : "black")};
 `;

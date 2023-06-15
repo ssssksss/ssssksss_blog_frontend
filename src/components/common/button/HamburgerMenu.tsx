@@ -1,5 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
+import { store } from "@/redux/store";
+import { RootState } from "@/redux/store/reducers";
+import { theme } from "@/styles/theme";
+
 /**
  * Author : Sukyung Lee
  * FileName: HamburgerMenu.tsx
@@ -13,12 +18,9 @@ interface IHamburgerMenuProps {
 }
 
 const HamburgerMenu = (props: IHamburgerMenuProps) => {
+  const themeStore = useSelector((state: RootState) => state.themeStore);
   return (
-    <Container
-      onClick={props.onClickHideMenu}
-      isHideMenu={props.isHideMenu}
-      type="button"
-    >
+    <Container onClick={props.onClickHideMenu} isHideMenu={props.isHideMenu} type="button" theme={themeStore}>
       <div> </div>
       <div> </div>
       <div> </div>
@@ -26,15 +28,19 @@ const HamburgerMenu = (props: IHamburgerMenuProps) => {
   );
 };
 export default HamburgerMenu;
-const Container = styled.button<{ isHideMenu: boolean }>`
-  width: 40px;
-  height: 40px;
+
+const Container = styled.button<{ isHideMenu: boolean; theme: any }>`
+  width: 44px;
+  height: 44px;
   position: fixed;
+  border-radius: 10px 0px 0px 0px;
   top: 0;
   left: 0;
-  z-index: 30;
+  z-index: 200;
   padding: 6px;
-  background-color: ${(props: any) => props.isHideMenu || "#aeaeae"};
+  background-color: ${(props: any) => props.isHideMenu || props.theme.menuBackground};
+  display: flex;
+  justify-content: center;
 
   ${(props) =>
     props.isHideMenu
@@ -50,23 +56,23 @@ const Container = styled.button<{ isHideMenu: boolean }>`
 
           & > div:nth-of-type(1) {
             top: 50%;
-            transform: translate(200px, -50%) rotate(405deg);
+            transform: translate(0px, -50%) rotate(405deg);
           }
 
           & > div:nth-of-type(2) {
             opacity: 0;
-            transform: translate(200px, -50%) rotate(360deg);
+            transform: translate(0px, -50%) rotate(360deg);
           }
 
           & > div:nth-of-type(3) {
             top: 50%;
-            transform: translate(200px, -50%) rotate(-405deg);
+            transform: translate(0px, -50%) rotate(-405deg);
           }
         `
       : css`
           & > div {
             position: absolute;
-            width: 28px;
+            width: 24px;
             height: 4px;
             background-color: #000;
             border-radius: 4px;
@@ -75,7 +81,7 @@ const Container = styled.button<{ isHideMenu: boolean }>`
           }
 
           & > div:nth-of-type(1) {
-            top: 8px;
+            top: 10px;
           }
 
           & > div:nth-of-type(2) {
@@ -84,7 +90,7 @@ const Container = styled.button<{ isHideMenu: boolean }>`
           }
 
           & > div:nth-of-type(3) {
-            bottom: 8px;
+            bottom: 10px;
           }
         `}
 

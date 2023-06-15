@@ -116,13 +116,12 @@ const InputStyle = styled.input<{
 }>`
   font-size: 1rem;
   width: ${(props) => (props.width ? props.width : "100%")};
-  height: ${(props) => (props.height ? props.height : "40px")};
+  height: ${(props) => props.height};
   padding: ${(props) => (props.padding ? props.padding : "0px 0px 0px 8px")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
-  background-color: ${(props) => props.backgroundColor || "#fff"};
+  background-color: ${(props) => props.backgroundColor};
   border: ${(props) => (props.border ? props.border : "1px solid #acebe7")};
-  border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : "10px"};
+  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : "10px")};
   outline: none;
   display: ${(props) => (props.display ? props.display : "block")};
   &:hover {

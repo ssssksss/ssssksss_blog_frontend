@@ -29,13 +29,19 @@ const propsCommonStyle = (props: any) => css`
   border: ${props.border};
   border-radius: ${props.borderRadius};
   gap: ${props.gap}px;
-  font-size: ${props.fontSize};
   color: ${props.color};
   background-color: ${props.backgroundColor};
+
+  @media (max-width: ${theme.deviceSizes.tablet}) {
+    font-size: ${props.fontSize || theme.fontSizes.sm};
+  }
+
+  @media (min-width: ${theme.deviceSizes.tablet}) {
+    font-size: ${props.fontSize || theme.fontSizes.md};
+  }
 `;
 
 const RowDiv = styled.div<IStyleProps>`
-  width: 100%;
   ${theme.flex.row._.center};
   ${(props: any) => propsCommonStyle(props)};
 `;
