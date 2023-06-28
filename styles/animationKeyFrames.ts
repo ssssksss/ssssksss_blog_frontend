@@ -36,10 +36,12 @@ const UpToDownRepeatFadein = keyframes`
 
 const UpToDownRepeat = keyframes`
   0%,100%{
-    transform: translate(0,-2px);
+    transform: translate(0,-1px);
+    padding-bottom: -2px;
   }
   50%{
-    transform: translate(0px,2px);
+    transform: translate(0px,1px);
+    padding-top: 2px;
   }
 `;
 
@@ -70,6 +72,15 @@ const ChangeGrayColor = keyframes`
   }
 `;
 
+const FlipCard = keyframes`
+  50% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+`;
+
 export const animationKeyFrames = {
   RightToLeftFadein,
   LeftToRightFadein,
@@ -78,4 +89,5 @@ export const animationKeyFrames = {
   UpToDownRepeatFadein,
   ChangeGrayColor,
   UpToDownRepeat,
+  FlipCard,
 };

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import { store } from "@/redux/store";
 import { RootState } from "@/redux/store/reducers";
-import { theme } from "@/styles/theme";
+import theme from "@/styles/theme";
 
 /**
  * Author : Sukyung Lee
@@ -20,7 +20,7 @@ interface IHamburgerMenuProps {
 const HamburgerMenu = (props: IHamburgerMenuProps) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
   return (
-    <Container onClick={props.onClickHideMenu} isHideMenu={props.isHideMenu} type="button" theme={themeStore}>
+    <Container onClick={props.onClickHideMenu} isHideMenu={props.isHideMenu} type="button" themeStore={themeStore}>
       <div> </div>
       <div> </div>
       <div> </div>
@@ -29,7 +29,19 @@ const HamburgerMenu = (props: IHamburgerMenuProps) => {
 };
 export default HamburgerMenu;
 
-const Container = styled.button<{ isHideMenu: boolean; theme: any }>`
+interface IContainerProps {
+  isHideMenu: boolean;
+  themeStore: {
+    menuBackground: string;
+    menuIconBackground: string;
+    menuIconFont: string;
+    menuIconFontColor: string;
+    HoverMenuIconBackground: string;
+    HoverMenuIconFontColor: string;
+  };
+}
+
+const Container = styled.button<IContainerProps>`
   width: 44px;
   height: 44px;
   position: fixed;
@@ -38,9 +50,13 @@ const Container = styled.button<{ isHideMenu: boolean; theme: any }>`
   left: 0;
   z-index: 200;
   padding: 6px;
-  background-color: ${(props: any) => props.isHideMenu || props.theme.menuBackground};
+  background-color: ${(props: any) => props.isHideMenu || props.themeStore.menuBackground};
   display: flex;
   justify-content: center;
+
+  @media (min-width: ${theme.deviceSizes.laptop}) {
+    display: none;
+  }
 
   ${(props) =>
     props.isHideMenu
@@ -93,8 +109,4 @@ const Container = styled.button<{ isHideMenu: boolean; theme: any }>`
             bottom: 10px;
           }
         `}
-
-  @media (min-width: 769px) {
-    display: none;
-  }
 `;

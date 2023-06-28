@@ -32,11 +32,11 @@ const propsCommonStyle = (props: any) => css`
   color: ${props.color};
   background-color: ${props.backgroundColor};
 
-  @media (max-width: ${theme.deviceSizes.tablet}) {
+  @media (max-width: ${theme.deviceSizes.laptop}) {
     font-size: ${props.fontSize || theme.fontSizes.sm};
   }
 
-  @media (min-width: ${theme.deviceSizes.tablet}) {
+  @media (min-width: ${theme.deviceSizes.laptop}) {
     font-size: ${props.fontSize || theme.fontSizes.md};
   }
 `;
@@ -94,6 +94,12 @@ const ColumnBetweenDiv = styled.div<IStyleProps>`
 `;
 
 const ColumnCenterDiv = styled.div<IStyleProps>`
+  width: 100%;
+  ${theme.flex.column.center}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const ColumnCenterCenterDiv = styled.div<IStyleProps>`
   width: 100%;
   ${theme.flex.column.center.center}
   ${(props: any) => propsCommonStyle(props)};
@@ -199,6 +205,7 @@ export const CC = {
   ColumnBetweenDiv,
   ColumnDiv,
   ColumnCenterDiv,
+  ColumnCenterCenterDiv,
   ColumnEndDiv,
   ErrorDiv,
   Img,

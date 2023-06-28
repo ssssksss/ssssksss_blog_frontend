@@ -3,14 +3,19 @@ import BlogLayout from "@/components/layout/BlogLayout";
 import PostList from "src/components/blog/Post/PostList";
 import BlogMenu from "@/components/blog/BlogUI/BlogMenu";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
+import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
 
 //2번째 카테고리 경로
 const Index = () => {
+  const router = useRouter();
   return (
     <>
       <Container>
-        <BlogMenu />
-        {/* <PostList /> */}
+        <BlogFirstMenu />
+        <BlogSecondMenu />
+        <PostList />
       </Container>
     </>
   );

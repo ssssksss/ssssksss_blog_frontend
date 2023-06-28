@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/reducers";
 
 const AxiosInstance = axios.create({
-  // baseURL: "http://localhost:8080",
-  baseURL: "https://blog-server.ssssksss.xyz",
+  baseURL: "http://localhost:8080",
+  // baseURL: "https://blog-server.ssssksss.xyz",
   //timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -67,8 +67,7 @@ AxiosInstance.interceptors.response.use(
       })
         .then(async (res) => {
           store.dispatch(setAccessToken(res.data.accessToken));
-          originalRequest.headers["Authorization"] =
-            "Bearer " + store.getState().authStore.accessToken;
+          originalRequest.headers["Authorization"] = "Bearer " + store.getState().authStore.accessToken;
           await setApiUserInfo();
         })
         .catch((err) => {

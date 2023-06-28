@@ -1,3 +1,4 @@
+import * as actions from "./actions";
 const initialState = {
   type: "info",
   message: "가출한토토로의 블로그에 오신것을 환영합니다.",

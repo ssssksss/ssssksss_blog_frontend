@@ -15,7 +15,7 @@ import Loading1 from "@/components/common/loading/Loading1";
 const PostList = () => {
   const router = useRouter();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const secondCategory = useSelector((state: RootState) => state.categoryStore.secondCategoryPath);
+  const secondCategory = useSelector((state: RootState) => state.categoryStore);
   const [posts, setPosts] = useState<PostsTypes[]>([]);
 
   type PostsTypes = {

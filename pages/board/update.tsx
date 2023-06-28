@@ -1,6 +1,6 @@
 import EditBoardContainer from "@/components/board/EditBoardContainer";
 import styled from "@emotion/styled";
-import Layout2 from "@/components/layout/Layout2";
+import BlogLayout from "@/components/layout/BlogLayout";
 import { CC } from "@/styles/commonComponentStyle";
 /**
  * Author : Sukyung Lee
@@ -16,4 +16,4 @@ const UpdateBoardPage = () => {
   );
 };
 export default UpdateBoardPage;
-UpdateBoardPage.layout = Layout2;
+UpdateBoardPage.layout = BlogLayout;

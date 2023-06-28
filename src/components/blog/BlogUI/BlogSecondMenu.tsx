@@ -6,10 +6,11 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import ModalSecondCategory from "../../Modal/ModalSecondCategory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
-import { SECOND_CATEGORY_ACTION } from "@/redux/store/category/actions";
+import { SET_SECOND_CATEGORY_PATH } from "@/redux/store/category/actions";
 import { CC } from "../../../../styles/commonComponentStyle";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
+import { store } from "@/redux/store";
 import { Spinner4 } from "@/components/common/spinner/Spinners";
 
 const BlogSecondMenu = () => {
@@ -19,16 +20,13 @@ const BlogSecondMenu = () => {
   const [isHideMenu, setIsHideMenu] = useState(true);
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isLoading, setIsLoading] = useState(true);
-  const [secondCategory, setSecondCategory] = useState<
-    SecondCategoryTypes[] | null
-  >([]);
+  const [secondCategory, setSecondCategory] = useState([]);
   const [categoryChange, setCategoryChange] = useState(false);
-  const firstCategory = useSelector(
-    (state: RootState) => state.categoryStore.firstCategoryPath
-  );
+  const firstCategory1 = useSelector((state: RootState) => state.categoryStore.firstCategory);
+
   const SecondCategoryHandler = async (pathValue: string) => {
-    await router.push("/blog" + pathValue);
-    await dispatch(SECOND_CATEGORY_ACTION({ secondCategoryPath: pathValue }));
+    await store.dispatch(SET_SECOND_CATEGORY_PATH({ secondCategory: pathValue }));
+    await router.push("/blog1" + pathValue);
   };
 
   type SecondCategoryTypes = {
@@ -41,34 +39,26 @@ const BlogSecondMenu = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      SECOND_CATEGORY_ACTION({
-        secondCategoryPath: window.location.pathname.split("/")[3],
-      })
-    );
+    store.dispatch(SET_SECOND_CATEGORY_PATH(window.location.pathname.split("/")[3]));
   }, []);
 
   useEffect(() => {
-    if (firstCategory) {
-      AxiosInstance({
-        url: "/api/second-category",
-        method: "GET",
-        params: {
-          firstHref: firstCategory,
-        },
+    AxiosInstance({
+      url: "/api/second-category",
+      method: "GET",
+      params: {
+        firstHref: firstCategory1,
+      },
+    })
+      .then((response) => {
+        setSecondCategory(response.data.data.secondCategory);
+        setIsLoading(false);
       })
-        .then((response) => {
-          setSecondCategory(response.data.data.secondCategory);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setSecondCategory([]);
-          setIsLoading(false);
-        });
-    } else {
-      setIsLoading(false);
-    }
-  }, [categoryChange, firstCategory]);
+      .catch((error) => {
+        setSecondCategory([]);
+        setIsLoading(false);
+      });
+  }, [categoryChange, firstCategory1]);
 
   const modalHandler = (e: any) => {
     if (modalOpen === true) {
@@ -84,16 +74,15 @@ const BlogSecondMenu = () => {
       ) : (
         <Container>
           {modalOpen && <ModalSecondCategory modalHandler={modalHandler} />}
-          {firstCategory && router.asPath.split("/blog")[1] && (
+          {true && (
             <>
               <MenuTitle>
-                <span>{firstCategory}</span>
+                <span>{firstCategory1}</span>
                 {authStore.role === "ROLE_ADMIN" && (
                   <button
                     onClick={() => {
                       setModalOpen(true);
-                    }}
-                  >
+                    }}>
                     ➕
                   </button>
                 )}
@@ -108,13 +97,9 @@ const BlogSecondMenu = () => {
                       {secondCategory?.map((i, index) => (
                         <MenuItem
                           key={i.id}
-                          active={
-                            i.firstHref + "/" + router.asPath.split("/")[3] ===
-                            i.secondHref
-                          }
+                          active={i.firstHref + "/" + router.asPath.split("/")[3] === i.secondHref}
                           index={index}
-                          onClick={() => SecondCategoryHandler(i.secondHref)}
-                        >
+                          onClick={() => SecondCategoryHandler(i.secondHref)}>
                           <span> {i.name} </span>
                           <MenuCount> {i.count} </MenuCount>
                         </MenuItem>

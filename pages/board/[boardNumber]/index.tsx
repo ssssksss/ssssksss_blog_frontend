@@ -1,7 +1,7 @@
 import ViewBoardContainer from "@/components/board/ViewBoardContainer";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
-import Layout2 from "@/components/layout/Layout2";
+import BlogLayout from "@/components/layout/BlogLayout";
 import Loading1 from "@/components/common/loading/Loading1";
 import dynamic from "next/dynamic";
 import { CC } from "@/styles/commonComponentStyle";
@@ -12,13 +12,10 @@ import { CC } from "@/styles/commonComponentStyle";
  * Description :
  */
 
-const DynamicComponent = dynamic(
-  () => import("src/components/board/ViewBoardContainer"),
-  {
-    ssr: false,
-    loading: () => <Loading1 />,
-  }
-) as any;
+const DynamicComponent = dynamic(() => import("src/components/board/ViewBoardContainer"), {
+  ssr: false,
+  loading: () => <Loading1 />,
+}) as any;
 
 const ViewBoardPage = () => {
   return (
@@ -28,4 +25,4 @@ const ViewBoardPage = () => {
   );
 };
 export default ViewBoardPage;
-ViewBoardPage.layout = Layout2;
+ViewBoardPage.layout = BlogLayout;

@@ -1,17 +1,14 @@
 import * as actions from "./actions";
 const initialState = {
-  firstCategoryPath: "",
-  secondCategoryPath: "",
+  firstCategory: "frontend",
+  secondCategory: "html",
 };
-export const categoryReducer = (
-  state = initialState,
-  action: actions.ACTION_INSTANCE
-) => {
+export const categoryReducer = (state = initialState, action: actions.ACTION_INSTANCE) => {
   switch (action.type) {
     case "FIRST_CATEGORY_PATH":
-      return { ...state, firstCategoryPath: action.payload };
-    case "SECOND_CATEGORY_STATE":
-      return { ...state, secondCategoryPath: action.payload };
+      return { ...state, firstCategory: action.payload };
+    case "SECOND_CATEGORY_PATH":
+      return { ...state, secondCategory: action.payload };
     default:
       return state;
   }

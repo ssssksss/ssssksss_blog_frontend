@@ -65,9 +65,7 @@ const ModalFirstCategory = (modalHandler: any) => {
         },
       })
         .then((response) => {
-          setFirstCategory(
-            firstCategory.filter((el: any) => el.firstHref !== removeFirstHref)
-          );
+          setFirstCategory(firstCategory.filter((el: any) => el.firstHref !== removeFirstHref));
           alert("카테고리가 삭제되었습니다.");
         })
         .catch((error) => {
@@ -91,11 +89,7 @@ const ModalFirstCategory = (modalHandler: any) => {
       })
         .then((response) => {
           setFirstCategory(
-            firstCategory.map((el: any) =>
-              el.firstHref !== updateFirstHref
-                ? el
-                : { ...el, name: updateName }
-            )
+            firstCategory.map((el: any) => (el.firstHref !== updateFirstHref ? el : { ...el, name: updateName }))
           );
           alert("카테고리 이름이 변경되었습니다.");
         })
@@ -124,19 +118,10 @@ const ModalFirstCategory = (modalHandler: any) => {
       <Container>
         <Container1>
           <FormContainer>
-            <CC.RowCenterDiv
-              height="30px"
-              color="#fff"
-              fontSize={theme.fontSizes.lg}
-              padding={"10px 0px 0px 0px"}
-            >
+            <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
               1차 카테고리 추가
             </CC.RowCenterDiv>
-            <CC.ColumnDiv
-              gap={20}
-              padding={"20px 20px 20px 20px"}
-              color={"#fff"}
-            >
+            <CC.ColumnDiv gap={20} padding={"20px 20px 20px 20px"} color={"#fff"}>
               <Space title4="카테고리 이름" titleWidth={"140px"} gap={6}>
                 <Input
                   value={name}
@@ -206,19 +191,11 @@ const ModalFirstCategory = (modalHandler: any) => {
               </Space>
               <Button onClick={() => submitHandler()}>제출</Button>
               <CC.RowDiv border={"solid #aeaeae 3px"} />
-              <CC.RowCenterDiv
-                height="30px"
-                color="#fff"
-                fontSize={theme.fontSizes.lg}
-                padding={"10px 0px 0px 0px"}
-              >
+              <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
                 1차 카테고리 삭제
               </CC.RowCenterDiv>
               <InputContainer>
-                <select
-                  name="firstHref"
-                  onChange={(e: any) => setRemoveFirstHref(e.target.value)}
-                >
+                <select name="firstHref" onChange={(e: any) => setRemoveFirstHref(e.target.value)}>
                   <option value={"null"} selected disabled>
                     삭제할 경로를 선택해주세요.
                   </option>
@@ -230,19 +207,11 @@ const ModalFirstCategory = (modalHandler: any) => {
                 </select>
               </InputContainer>
               <Button onClick={() => removeHandler()}>삭제</Button>
-              <CC.RowCenterDiv
-                height="30px"
-                color="#fff"
-                fontSize={theme.fontSizes.lg}
-                padding={"10px 0px 0px 0px"}
-              >
+              <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
                 1차 카테고리 이름 변경
               </CC.RowCenterDiv>
               <InputContainer>
-                <select
-                  name="firstHref"
-                  onChange={(e: any) => setUpdateFirstHref(e.target.value)}
-                >
+                <select name="firstHref" onChange={(e: any) => setUpdateFirstHref(e.target.value)}>
                   <option value={"null"} selected disabled>
                     변경할 이름를 선택해주세요.
                   </option>
@@ -297,7 +266,7 @@ const Overlay = styled.div`
   top: 0;
   background: rgba(174, 174, 174, 0.8);
   border: 0px;
-  z-index: 2;
+  z-index: 300;
 
   &:hover {
     cursor: pointer;
@@ -310,6 +279,11 @@ const Container = styled.div`
   transform: translate(-50%, 0%);
   z-index: 10;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
   min-width: 400px;
   height: calc(100% - 90px);
   padding: 10px;

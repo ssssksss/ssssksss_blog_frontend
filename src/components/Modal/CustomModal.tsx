@@ -10,7 +10,7 @@ import { RootState } from "@/redux/store/reducers";
  * Description : 커스텀 모달
  * ex : const [isOpenModal,setIsOpenModal] = useState(false);
  * ex : {isOpenModal && <CustomModal title={"test"} height={"40px"} toggleModal={() => setIsOpenModal(!isOpenModal)} />}
- * ex : onClick={() => setIsOpenModal(true)}
+ * ex : <button onClick={() => setIsOpenModal(true)}> 버튼 </button>
  */
 
 interface ICustomModalProps {
@@ -35,16 +35,16 @@ const CustomModal = (props: ICustomModalProps) => {
   return (
     <>
       {!props.OverlayActive && <Overlay onClick={props.toggleModal}></Overlay>}
-      <Container width={props.width} height={props.height} theme={themeStore}>
+      <Container width={props.width} height={props.height}>
         <HeaderContainer theme={themeStore}>
-          <Title className="title"> {props.title} </Title>
+          <Title theme={themeStore}>{props.title}</Title>
           <Exit onClick={props.toggleModal}>
             <div> </div>
             <div> </div>
             <div> </div>
           </Exit>
         </HeaderContainer>
-        <BodyContainer>{props.children}</BodyContainer>
+        <BodyContainer theme={themeStore}>{props.children}</BodyContainer>
       </Container>
     </>
   );
@@ -54,7 +54,6 @@ export default CustomModal;
 const Overlay = styled.div`
   position: fixed;
   width: 100vw;
-  height: 100vh;
   cursor: pointer;
   border: 0px;
 `;
@@ -75,19 +74,16 @@ const Container = styled.div<IContainerProps>`
   position: fixed;
   top: 50%;
   left: 50%;
-  background: ${(props) => props.theme.menuBackground};
+  margin-left: 10px;
   width: ${(props) => (props.width ? props.width : "80%")};
   height: ${(props) => (props.height ? props.height : "80%")};
   max-width: 600px;
   min-height: 300px;
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: 0px;
+  box-shadow: -1px -1px 1px 1px black, 1px 1px 1px 1px black;
   z-index: 100;
-
-  .title {
-    border: ${(props) => props.theme.menuBackground};
-  }
+  background: #f0f0f0;
 `;
 const HeaderContainer = styled.div`
   width: 100%;
@@ -107,6 +103,8 @@ const Title = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  color: ${(props: any) => props.theme.menuIconFontColor};
+  border-bottom: solid black 1px;
 `;
 const Exit = styled.button`
   cursor: pointer;
@@ -148,5 +146,5 @@ const BodyContainer = styled.div`
   width: 100%;
   display: flex;
   flex-flow: nowrap column;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: ${(props: any) => props.theme.menuBackground};
 `;

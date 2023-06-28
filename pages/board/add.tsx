@@ -1,6 +1,6 @@
 import EditBoardPage from "@/components/board/EditBoardContainer";
 import styled from "@emotion/styled";
-import Layout2 from "@/components/layout/Layout2";
+import BlogLayout from "@/components/layout/BlogLayout";
 
 /**
  * Author : Sukyung Lee
@@ -16,7 +16,7 @@ const AddBoardPage = () => {
   );
 };
 export default AddBoardPage;
-AddBoardPage.layout = Layout2;
+AddBoardPage.layout = BlogLayout;
 const Container = styled.div`
   width: 100%;
 `;

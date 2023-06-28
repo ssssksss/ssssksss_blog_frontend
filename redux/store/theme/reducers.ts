@@ -1,4 +1,5 @@
 import navbarTheme from "@/styles/navbarTheme";
+import * as actions from "./actions";
 
 const initialState = {
   menuBackground: navbarTheme.theme.theme1.menuBackground,

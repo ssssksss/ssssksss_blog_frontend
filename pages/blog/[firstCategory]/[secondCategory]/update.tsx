@@ -23,23 +23,34 @@
 // Update.layout = Layout1;
 // export default Update;
 
-import BlogLayout from "@/components/layout/BlogLayout";
+import Layout1 from "@/components/layout/Layout1";
 import React from "react";
 import dynamic from "next/dynamic";
 import Loading1 from "@/components/common/loading/Loading1";
+import theme from "@/styles/theme";
+import styled from "@emotion/styled";
 
-const DynamicComponent = dynamic(() => import("src/components/blog/BlogUI/BlogItemView"), {
+const DynamicComponent = dynamic(() => import("@/components/blog/Editor/BlogItemEditor"), {
   ssr: false,
   loading: () => <Loading1 />,
 }) as any;
 
 const Update = () => {
   return (
-    <div>
-      <DynamicComponent />
-    </div>
+    <Container>
+      <DynamicComponent edit={true} />
+    </Container>
   );
 };
 
+Update.layout = Layout1;
 export default Update;
-Update.layout = BlogLayout;
+
+const Container = styled.div`
+  background: ${theme.backgroundColors.background2};
+  border-radius: 10px;
+  padding: 10px 10px 0px 10px;
+  font-size: ${theme.fontSizes.sm};
+  max-width: ${theme.customScreen.maxWidth};
+  margin: 0px auto;
+`;

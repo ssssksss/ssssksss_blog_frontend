@@ -3,13 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import ModalFirstCategory from "../../Modal/ModalFirstCategory";
-import { FIRST_CATEGORY_ACTION } from "@/redux/store/category/actions";
+import { SET_FIRST_CATEGORY_PATH } from "@/redux/store/category/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
 import theme from "@/styles/theme";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { store } from "./../../../../redux/store/index";
 
 const BlogFirstMenu = () => {
   const router = useRouter();
@@ -20,16 +21,12 @@ const BlogFirstMenu = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
 
   const firstCategoryHandler = (pathValue: string) => {
-    dispatch(FIRST_CATEGORY_ACTION({ firstCategoryPath: pathValue }));
-    router.push("/blog" + "/" + pathValue);
+    store.dispatch(SET_FIRST_CATEGORY_PATH(pathValue));
+    router.push("/blog1" + "/" + pathValue + "/temp");
   };
 
   useEffect(() => {
-    dispatch(
-      FIRST_CATEGORY_ACTION({
-        firstCategoryPath: window.location.pathname.split("/")[2],
-      })
-    );
+    store.dispatch(SET_FIRST_CATEGORY_PATH(window.location.pathname.split("/")[2]));
   }, []);
 
   useEffect(() => {
@@ -92,8 +89,7 @@ const BlogFirstMenu = () => {
                 value={i.position}
                 onClick={() => {
                   setModalOpen(true);
-                }}
-              >
+                }}>
                 ➕
               </PlusButton>
             )}
@@ -106,20 +102,12 @@ const BlogFirstMenu = () => {
             {firstCategory.map(
               (i) =>
                 i.line === el && (
-                  <Link
+                  <MenuItem
                     key={i.id}
-                    href={"/blog/[firstCategory]"}
-                    as={"/blog" + i.firstHref}
-                  >
-                    <MenuItem
-                      active={"/" + router.asPath.split("/")[2] === i.firstHref}
-                      onClick={() =>
-                        firstCategoryHandler(i.firstHref.split("/")[1])
-                      }
-                    >
-                      {i.name} <MenuCount> {i.count} </MenuCount>
-                    </MenuItem>
-                  </Link>
+                    active={"/" + router.asPath.split("/")[2] === i.firstHref}
+                    onClick={() => firstCategoryHandler(i.firstHref.split("/")[1])}>
+                    {i.name} <MenuCount> {i.count} </MenuCount>
+                  </MenuItem>
                 )
             )}
           </MenuList>
@@ -191,8 +179,7 @@ const MenuList = styled.div<{ index: number }>`
 `;
 const MenuItem = styled.a<{ active: boolean }>`
   ${theme.flex.row.center.center};
-  background: ${(props) =>
-    props.active ? "white" : theme.backgroundColors.purple};
+  background: ${(props) => (props.active ? "white" : theme.backgroundColors.purple)};
   color: ${(props) => (props.active ? theme.backgroundColors.purple : "white")};
   font-family: ${theme.fontFamily.gmarketSansBold};
   cursor: pointer;

@@ -12,7 +12,7 @@ import Button from "../../common/button/Button";
 import CustomModal from "../../Modal/CustomModal";
 import Input from "../../common/input/Input";
 import { CC } from "@/styles/commonComponentStyle";
-import ReactPlayerInput from "./ReactPlayerInput";
+import ReactPlayerYoutubeItem from "./ReactPlayerYoutubeItem";
 import { store } from "@/redux/store";
 import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
 /**
@@ -134,6 +134,10 @@ const ReactPlayerComponent = () => {
     setStorage({
       ...temp,
     });
+    const temp1 = window.localStorage.getItem("ChoiceYoutubeLink");
+        if(props.url === temp1?.url) {
+        localStorage.setItem("ChoiceYoutubeLink",{});
+      }
     store.dispatch(SET_TOASTIFY_MESSAGE({
       type: "error",
       message: "삭제 되었습니다.",
@@ -203,7 +207,7 @@ const ReactPlayerComponent = () => {
       </ColumnDiv>
       {isOpenModal && (
         <CustomModal title={"유튜브 플레이리스트"} overlayDisable={true} toggleModal={() => setIsOpenModal(!isOpenModal)}>
-          <CC.RowDiv height="60px" gap={12}  border={"solid 2px black"}>
+          <CC.RowDiv height="60px" gap={12}  border={"solid 2px black"} padding={"0px 4px"}>
             <CC.ColumnDiv width="60%" gap={8}>
               <CC.RowBetweenDiv gap={4}>
                 <CC.RowDiv width="50px"> url : </CC.RowDiv>
@@ -240,10 +244,10 @@ const ReactPlayerComponent = () => {
               </Button>
             </CC.RowRightDiv>
           </CC.RowDiv>
-          <CC.ColumnDiv height="100%">
+          <CC.ColumnDiv>
           {Object.keys(storage).length !== 0 && (
             Object.entries(storage)?.map(([key, value],index) => (
-              <ReactPlayerInput
+              <ReactPlayerYoutubeItem
                 key={key}
                 url={key}
                 name={value.name}
@@ -327,7 +331,6 @@ const rotation = keyframes`
 
 const Container = styled.div`
   width: 320px;
-  height: 100%;
   display: flex;
   flex-flow: nowrap row;
   gap: 8px;

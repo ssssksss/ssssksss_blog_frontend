@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Layout2 from "@/components/layout/Layout2";
+import BlogLayout from "@/components/layout/BlogLayout";
 import { animationKeyFrames } from "../../styles/animationKeyFrames";
 import { useState } from "react";
 import theme from "@/styles/theme";
@@ -71,7 +71,7 @@ const TodoPage = () => {
   );
 };
 export default TodoPage;
-TodoPage.layout = Layout2;
+TodoPage.layout = BlogLayout;
 const Container = styled.div`
   width: 100%;
   height: calc(100vh - 80px);
@@ -84,6 +84,11 @@ const TodoCategoryBox = styled.div`
   gap: 10px;
   padding: 10px;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
   background: #f0e9df;
 `;
 const TodoCategoryItem = styled.div`
@@ -119,6 +124,11 @@ const TodoSettingCategoryItem = styled.button`
 const TodoListBox = styled.div`
   max-height: calc(100% - 80px - 70px);
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
 `;
 const TodoListItem = styled.div`
   padding-bottom: 10px;

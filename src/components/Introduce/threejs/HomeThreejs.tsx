@@ -2,26 +2,21 @@
 import { CC } from "@/styles/commonComponentStyle";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
-// import { css, keyframes } from "@emotion/react";
-// import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import MyRoom from "../threejs/MyRoom";
 import { Suspense, useRef, useState, useEffect } from "react";
 import { OrbitControls, Scroll, ScrollControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
-import Content from "../threejs/Content";
 import gsap from "gsap";
-import ProjectIntroduce from "../threejs/ProjectIntroduce";
 import { Mesh } from "three";
-// import ScrollTrigger from "gsap/ScrollTrigger";
+import MyRoom from "@/components/threejs/MyRoom";
+import ProjectIntroduce from "@/components/threejs/ProjectIntroduce";
 
 /**
- * Author : Sukyung Lee
- * FileName: IntroduceChapter.tsx
- * Date: 2022-10-03 03:06:04
- * Description :
+ * @author Sukyung Lee <ssssksss@naver.com>
+ * @file HomeThreejs.tsx
+ * @version 0.0.1 "2023-06-15 22:28:00"
+ * @description 설명
  */
-
-const Portfolio = () => {
+const HomeThreejs = () => {
   const camera_location = 120;
 
   let myRoom_gsap = {
@@ -71,42 +66,26 @@ const Portfolio = () => {
   }, []);
 
   return (
-    <>
-      <Container>
-        <ObjectModel>
-          <Canvas
-            id="canvas"
-            camera={{
-              position: [camera_location, camera_location, -camera_location],
-              fov: 20,
-              near: 5,
-              far: 1000,
-            }}
-          >
-            {/* <color attach="background" args={["#ABD0BC"]} /> */}
-            {/* <OrbitControls /> */}
-            <Suspense fallback={null}>
-              <MyRoom myRoom_gsap={myRoom_gsap} />
-              <ProjectIntroduce projectIntroduce_gsap={projectIntroduce_gsap} />
-            </Suspense>
-          </Canvas>
-        </ObjectModel>
-        <Content />
-      </Container>
-    </>
+    <ObjectModel>
+      <Canvas
+        id="canvas"
+        camera={{
+          position: [camera_location, camera_location, -camera_location],
+          fov: 20,
+          near: 5,
+          far: 1000,
+        }}>
+        {/* <color attach="background" args={["#ABD0BC"]} /> */}
+        {/* <OrbitControls /> */}
+        <Suspense fallback={null}>
+          <MyRoom myRoom_gsap={myRoom_gsap} />
+          <ProjectIntroduce projectIntroduce_gsap={projectIntroduce_gsap} />
+        </Suspense>
+      </Canvas>
+    </ObjectModel>
   );
 };
-
-export default Portfolio;
-// const Container = styled(CC.RowBetweenDiv)`
-const Container = styled.main`
-  /* @media (max-width: ${theme.customScreen.sm}) {
-    flex-flow: nowrap column-reverse;
-  } */
-  width: 100%;
-  height: 100%;
-  position: relative;
-`;
+export default HomeThreejs;
 
 const ObjectModel = styled.div`
   position: fixed;

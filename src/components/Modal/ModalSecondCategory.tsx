@@ -27,12 +27,8 @@ const ModalSecondCategory = (modalHandler: any) => {
   const [removeSecondHref, setRemoveSecondHref] = useState("");
   const [updateSecondHref, setUpdateSecondHref] = useState("");
   const [updateName, setUpdateName] = useState("");
-  const [secondCategory, setSecondCategory] = useState<SecondCategoryTypes[]>(
-    []
-  );
-  const firstCategory = useSelector(
-    (state: RootState) => state.categoryStore.firstCategoryPath
-  );
+  const [secondCategory, setSecondCategory] = useState<SecondCategoryTypes[]>([]);
+  const firstCategory = useSelector((state: RootState) => state.categoryStore.firstCategoryPath);
 
   const submitHandler = async () => {
     if (name === "" || name === "null") {
@@ -71,11 +67,7 @@ const ModalSecondCategory = (modalHandler: any) => {
         },
       })
         .then((response) => {
-          setSecondCategory(
-            secondCategory.filter(
-              (el: any) => el.secondHref !== removeSecondHref
-            )
-          );
+          setSecondCategory(secondCategory.filter((el: any) => el.secondHref !== removeSecondHref));
           alert("카테고리 삭제되었습니다.");
         })
         .catch((error) => {
@@ -98,11 +90,7 @@ const ModalSecondCategory = (modalHandler: any) => {
       })
         .then((response) => {
           setSecondCategory(
-            secondCategory.map((el: any) =>
-              el.secondHref !== updateSecondHref
-                ? el
-                : { ...el, name: updateName }
-            )
+            secondCategory.map((el: any) => (el.secondHref !== updateSecondHref ? el : { ...el, name: updateName }))
           );
           alert("카테고리 이름이 변경되었습니다.");
         })
@@ -135,19 +123,10 @@ const ModalSecondCategory = (modalHandler: any) => {
       <Container>
         <Container1>
           <FormContainer>
-            <CC.RowCenterDiv
-              height="30px"
-              color="#fff"
-              fontSize={theme.fontSizes.lg}
-              padding={"10px 0px 0px 0px"}
-            >
+            <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
               2차 카테고리 추가
             </CC.RowCenterDiv>
-            <CC.ColumnDiv
-              gap={20}
-              padding={"20px 20px 20px 20px"}
-              color={"#fff"}
-            >
+            <CC.ColumnDiv gap={20} padding={"20px 20px 20px 20px"} color={"#fff"}>
               <Space title4="카테고리 이름" titleWidth={"140px"} gap={6}>
                 <Input
                   value={name}
@@ -168,19 +147,11 @@ const ModalSecondCategory = (modalHandler: any) => {
               </Space>
               <Button onClick={() => submitHandler()}>제출</Button>
               <CC.RowDiv border={"solid #333333 3px"} />
-              <CC.RowCenterDiv
-                height="30px"
-                color="#fff"
-                fontSize={theme.fontSizes.lg}
-                padding={"10px 0px 0px 0px"}
-              >
+              <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
                 2차 카테고리 삭제
               </CC.RowCenterDiv>
               <InputContainer>
-                <select
-                  name="secondHref"
-                  onChange={(e: any) => setRemoveSecondHref(e.target.value)}
-                >
+                <select name="secondHref" onChange={(e: any) => setRemoveSecondHref(e.target.value)}>
                   <option value={"null"} selected disabled>
                     삭제할 경로를 선택해주세요.
                   </option>
@@ -193,19 +164,11 @@ const ModalSecondCategory = (modalHandler: any) => {
               </InputContainer>
               <Button onClick={() => removeHandler()}>삭제</Button>
               <CC.RowDiv border={"solid #333333 3px"} />
-              <CC.RowCenterDiv
-                height="30px"
-                color="#fff"
-                fontSize={theme.fontSizes.lg}
-                padding={"10px 0px 0px 0px"}
-              >
+              <CC.RowCenterDiv height="30px" color="#fff" fontSize={theme.fontSizes.lg} padding={"10px 0px 0px 0px"}>
                 2차 카테고리 이름 변경
               </CC.RowCenterDiv>
               <InputContainer>
-                <select
-                  name="secondHref"
-                  onChange={(e: any) => setUpdateSecondHref(e.target.value)}
-                >
+                <select name="secondHref" onChange={(e: any) => setUpdateSecondHref(e.target.value)}>
                   <option value={"null"} selected disabled>
                     변경할 이름를 선택해주세요.
                   </option>
@@ -217,16 +180,11 @@ const ModalSecondCategory = (modalHandler: any) => {
                 </select>
               </InputContainer>
               <Space title4="변경할 이름" titleWidth={"140px"} gap={6}>
-                <Input
-                  placeholder="변경할 이름"
-                  onChange={(e: any) => setUpdateName(e.target.value)}
-                />
+                <Input placeholder="변경할 이름" onChange={(e: any) => setUpdateName(e.target.value)} />
               </Space>
               <CC.RowDiv gap={10} padding={"10px"}>
                 <Button onClick={updateCategoryNameHadler}>변경</Button>
-                <Button onClick={() => modalHandler.modalHandler()}>
-                  취소
-                </Button>
+                <Button onClick={() => modalHandler.modalHandler()}>취소</Button>
               </CC.RowDiv>
             </CC.ColumnDiv>
           </FormContainer>
@@ -272,6 +230,11 @@ const Container = styled.div`
   transform: translate(-50%, 0%);
   z-index: 10;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
   min-width: 400px;
   height: calc(100% - 90px);
   padding: 10px;

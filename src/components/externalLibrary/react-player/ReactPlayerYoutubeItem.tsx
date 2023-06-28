@@ -6,12 +6,12 @@ import Button from "@/components/common/button/Button";
 import { keyframes } from "@emotion/css";
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file ReactPlayerInput.tsx
+ * @file ReactPlayerYoutubeItem.tsx
  * @version 0.0.1 "2023-06-14 16:27:49"
  * @description 설명
  */
 
-interface IReactPlayerInputProps {
+interface IReactPlayerYoutubeItemProps {
   url?: string;
   name?: string;
   choiceYoutubeLink?: string;
@@ -20,14 +20,19 @@ interface IReactPlayerInputProps {
   ChoiceYoutubePlayLinkHandler: (input: any, props: any) => void;
 }
 
-const ReactPlayerInput = (props: IReactPlayerInputProps) => {
+const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
   const [inputValue, setInputValue] = useState({
     url: props.url,
     name: props.name,
   });
 
   return (
-    <Container height="60px" gap={12} border={"solid 2px black"} active={props.url === props.choiceYoutubeLink.url}>
+    <Container
+      height="60px"
+      gap={12}
+      padding={"0px 4px"}
+      border={"solid 2px black"}
+      active={props.url === props.choiceYoutubeLink.url}>
       <CC.ColumnDiv width="60%" gap={8}>
         <CC.RowBetweenDiv gap={4}>
           <CC.RowDiv width="50px"> url : </CC.RowDiv>
@@ -76,7 +81,7 @@ const ReactPlayerInput = (props: IReactPlayerInputProps) => {
     </Container>
   );
 };
-export default ReactPlayerInput;
+export default ReactPlayerYoutubeItem;
 
 const rotation = keyframes`
   0% {
@@ -142,6 +147,7 @@ const rotation = keyframes`
   `;
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
-  background: ${(props) => props.active && "red"};
+  /* background: ${(props) => props.active && "red"}; */
   animation: ${(props) => props.active && `${rotation} 1s infinite`};
+  z-index: 20;
 `;

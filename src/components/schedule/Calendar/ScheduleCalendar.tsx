@@ -7,7 +7,6 @@ import AxiosInstance from "@/utils/axios/AxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/reducers";
 import { store } from "@/redux/store";
-import { createStore } from "redux";
 import { SET_MONTH_SCHEDULE_DATA } from "@/redux/store/schedule";
 import { dateFormat4y2m2d } from "../../../../utils/fucntion/dateFormat";
 import { animationKeyFrames } from "@/styles/animationKeyFrames";
@@ -19,16 +18,10 @@ interface IScheduleCalendarProps {
 const ScheduleCalendar = (props: IScheduleCalendarProps) => {
   const todayDate = new Date();
   const [calendarDays, setCalendarDays] = useState<any>({});
-  const [calendarYear, setCalendarYear] = useState(
-    Number(todayDate.getFullYear())
-  );
-  const [calendarMonth, setCalendarMonth] = useState(
-    Number(todayDate.getMonth())
-  );
+  const [calendarYear, setCalendarYear] = useState(Number(todayDate.getFullYear()));
+  const [calendarMonth, setCalendarMonth] = useState(Number(todayDate.getMonth()));
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const monthScheduleData = useSelector(
-    (state: RootState) => state.scheduleStore.monthScheduleData
-  );
+  const monthScheduleData = useSelector((state: RootState) => state.scheduleStore.monthScheduleData);
 
   const moveLeftDate = () => {
     if (calendarMonth === 0) {
@@ -58,13 +51,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
       year = year - 1;
       month = 12;
     }
-    return (
-      year.toString() +
-      "-" +
-      ("0" + month).slice(-2) +
-      "-" +
-      ("0" + day).slice(-2)
-    );
+    return year.toString() + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2);
   };
 
   useEffect(() => {
@@ -76,9 +63,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
       },
     })
       .then((response) => {
-        store.dispatch(
-          SET_MONTH_SCHEDULE_DATA(response.data.data.scheduleList)
-        );
+        store.dispatch(SET_MONTH_SCHEDULE_DATA(response.data.data.scheduleList));
       })
       .catch((error) => {});
   }, []);
@@ -86,19 +71,11 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
   useEffect(() => {
     const baseDate = new Date(calendarYear, calendarMonth, 1);
     const baseDateStartDayW = baseDate.getDay(); // 0-6
-    const baseDateEndDay = new Date(
-      baseDate.getFullYear(),
-      baseDate.getMonth() + 1,
-      0
-    ).getDate(); // 28-31
+    const baseDateEndDay = new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, 0).getDate(); // 28-31
     const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), 0);
     const prevDateEndDay = prevDate.getDate(); // 28-31
     const prevEndDayW = prevDate.getDay(); // 0-6
-    const nextDateStartDate = new Date(
-      baseDate.getFullYear(),
-      baseDate.getMonth() + 1,
-      1
-    );
+    const nextDateStartDate = new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, 1);
     const nextDateStartDayW = nextDateStartDate.getDay(); // 0-6
 
     setCalendarDays({}); // 월이나 연도가 변경될때 마다 초기화
@@ -128,11 +105,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
     // [2]시작일이 일요일이 아닌 경우
     else {
       // 저번달
-      for (
-        let i = prevDateEndDay - prevEndDayW, j = 0;
-        i <= prevDateEndDay;
-        i++, j++
-      ) {
+      for (let i = prevDateEndDay - prevEndDayW, j = 0; i <= prevDateEndDay; i++, j++) {
         temp[dateString(calendarYear, calendarMonth, i)] = {
           day: i,
           dayW: j,
@@ -204,9 +177,7 @@ const ScheduleCalendar = (props: IScheduleCalendarProps) => {
               day={el[1].day} // 일
               dayW={el[1].dayW} // 요일
               isThisMonth={el[1].isThisMonth} // 이번달인지
-              data={monthScheduleData.filter(
-                (el1: any) => el1?.startDateTime?.slice(0, 10) === el[0]
-              )}
+              data={monthScheduleData.filter((el1: any) => el1?.startDateTime?.slice(0, 10) === el[0])}
               sideOpenToggleHandler={props.sideOpenToggleHandler}
             />
           ))}

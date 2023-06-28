@@ -8,7 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Camera, CircleGeometry, cloneUniformsGroups } from "three";
 
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 const MyRoom = ({ myRoom_gsap }) => {
   const gltf = useLoader(GLTFLoader, "/glTF/myhome/myhome.glb");
   useEffect(() => {
@@ -45,21 +45,12 @@ const MyRoom = ({ myRoom_gsap }) => {
 
       return (
         <mesh
-          position={[
-            gltf.nodes.monitor.position.x + 0.2,
-            gltf.nodes.monitor.position.y,
-            gltf.nodes.monitor.position.z,
-          ]}
+          position={[gltf.nodes.monitor.position.x + 0.2, gltf.nodes.monitor.position.y, gltf.nodes.monitor.position.z]}
           rotation={[0, (2.17 * Math.PI) / 3, 0]}
-          scale={[3.5, 2.3, 0.8]}
-        >
+          scale={[3.5, 2.3, 0.8]}>
           <planeGeometry />
           <meshBasicMaterial toneMapped={false}>
-            <videoTexture
-              attach="map"
-              args={[video]}
-              encoding={THREE.sRGBEncoding}
-            />
+            <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
           </meshBasicMaterial>
         </mesh>
       );
@@ -107,11 +98,7 @@ const MyRoom = ({ myRoom_gsap }) => {
     });
 
     gsap.to(gltf.nodes.table.position, {
-      keyframes: [
-        { y: 100 },
-        { y: gltf.nodes.table.position.y, delay: 2 },
-        { ease: ".easeInOut" },
-      ],
+      keyframes: [{ y: 100 }, { y: gltf.nodes.table.position.y, delay: 2 }, { ease: ".easeInOut" }],
     });
 
     gsap.to(gltf.nodes.bed.position, {
@@ -165,21 +152,9 @@ const MyRoom = ({ myRoom_gsap }) => {
     <>
       <directionalLight color="light" />
       <pointLight args={["#ffffff"]} position={[10, 20, -10]} intensity={0.6} />
-      <pointLight
-        args={["#ffffff"]}
-        position={[100, 20, -10]}
-        intensity={0.6}
-      />
-      <pointLight
-        args={["#ffffff"]}
-        position={[10, 20, -100]}
-        intensity={0.6}
-      />
-      <pointLight
-        args={["#ffffff"]}
-        position={[10, 100, -10]}
-        intensity={0.6}
-      />
+      <pointLight args={["#ffffff"]} position={[100, 20, -10]} intensity={0.6} />
+      <pointLight args={["#ffffff"]} position={[10, 20, -100]} intensity={0.6} />
+      <pointLight args={["#ffffff"]} position={[10, 100, -10]} intensity={0.6} />
       <pointLight args={["#ffffff"]} position={[3, 2, -1]} intensity={1} />
       <primitive object={gltf.scene} scale={1} ref={ref} />
     </>

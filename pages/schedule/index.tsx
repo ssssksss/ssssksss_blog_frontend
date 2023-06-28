@@ -1,4 +1,4 @@
-import Layout2 from "@/components/layout/Layout2";
+import BlogLayout from "@/components/layout/BlogLayout";
 import { store } from "@/redux/store";
 import styled from "@emotion/styled";
 import ScheduleSideContainer from "../../src/components/schedule/ScheduleSideContainer";
@@ -60,10 +60,7 @@ const SchedulePage = () => {
       {isAuth && (
         <Container>
           <ScheduleCalendar sideOpenToggleHandler={sideOpenToggleHandler} />
-          <ScheduleSideContainer
-            hide={!isOpen}
-            sideOpenToggleHandler={sideOpenToggleHandler}
-          />
+          <ScheduleSideContainer hide={!isOpen} sideOpenToggleHandler={sideOpenToggleHandler} />
           {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
         </Container>
       )}
@@ -71,7 +68,7 @@ const SchedulePage = () => {
   );
 };
 export default SchedulePage;
-SchedulePage.layout = Layout2;
+SchedulePage.layout = BlogLayout;
 
 const Container = styled(CC.RowDiv)`
   gap: 10px;

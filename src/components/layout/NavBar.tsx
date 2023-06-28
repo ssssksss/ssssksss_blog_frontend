@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { setAccessToken, setUserInfo } from "@/redux/store/auth";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import BasicCustomModal from "@/components/Modal/BasicCustomModal";
-import UserSignUp from "src/components/blog/User/UserSignUp";
-import { CC } from "@/styles/commonComponentStyle";
-import UserLogin from "src/components/blog/User/UserLogin";
-import { store } from "@/redux/store";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { FIRST_CATEGORY_ACTION, SECOND_CATEGORY_ACTION } from "@/redux/store/category";
-import theme from "@/styles/theme";
-import Image from "next/image";
-import { Spinner4 } from "@/components/common/spinner/Spinners";
-import { css, keyframes } from "@emotion/react";
+import ReactPlayerComponent from "../externalLibrary/react-player/ReactPlayerComponent";
 import styled from "@emotion/styled";
-import { SET_NAVBAR_THEME } from "@/redux/store/theme";
+import React, { useEffect, useState } from "react";
+import AxiosInstance from "@/utils/axios/AxiosInstance";
+import { css, keyframes } from "@emotion/react";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { setAccessToken, setUserInfo } from "@/redux/store/auth";
+import { store } from "@/redux/store";
+import UserSignUp from "src/components/blog/User/UserSignUp";
+import UserLogin from "src/components/blog/User/UserLogin";
+import theme from "@/styles/theme";
+import BasicCustomModal from "@/components/Modal/BasicCustomModal";
+import Image from "next/image";
 import navbarTheme from "@/styles/navbarTheme";
 import Button from "./../common/button/Button";
 import HamburgerMenu from "./../common/button/HamburgerMenu";
-import ReactPlayerComponent from "../externalLibrary/react-player/ReactPlayerComponent";
+import { RootState } from "@/redux/store/reducers";
+import { CC } from "@/styles/commonComponentStyle";
+import { animationKeyFrames } from "@/styles/animationKeyFrames";
+import { FIRST_CATEGORY_ACTION, SECOND_CATEGORY_ACTION } from "@/redux/store/category";
+import { Spinner4 } from "@/components/common/spinner/Spinners";
+import { SET_NAVBAR_THEME } from "@/redux/store/theme";
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -47,6 +47,7 @@ const NavBar = () => {
   };
   const authStore = useSelector((state: RootState) => state.authStore);
   const themeStore = useSelector((state: RootState) => state.themeStore);
+  const categoryStore = useSelector((state: RootState) => state.categoryStore);
   const [blogView, setBlogView] = useState({
     todayView: 0,
     yesterdayView: 0,
@@ -138,9 +139,6 @@ const NavBar = () => {
             )}
             <TopMenuContainer theme={themeStore}>
               <ReactPlayerComponent />
-              {/* <Logo onClick={() => setIsNavbarOpen((prev) => !prev)}>
-                <HamburgerMenu isHideMenu={isNavbarOpen} />
-              </Logo> */}
               <HamburgerMenu isHideMenu={isNavbarOpen} onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)} />
               <CC.RowRightDiv padding={"8px 28px 8px 8px"} gap={8}>
                 {authStore.nickname ? (
@@ -177,7 +175,7 @@ const NavBar = () => {
               </IconContainer>
               <IconContainer
                 onClick={() => {
-                  router.push("/blog");
+                  router.push("/blog/" + categoryStore.firstCategory + "/" + categoryStore.secondCategory);
                   setActive("blog");
                 }}
                 active={active === "blog"}>
@@ -293,6 +291,12 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
     border-radius: 10px;
     padding: 0px 2px;
   }
+
+  @media (max-width: ${theme.deviceSizes.laptop}) {
+    button {
+      font-size: ${theme.fontSizes.sm};
+    }
+  }
 `;
 
 const LeftToRightFadein = keyframes`
@@ -327,11 +331,14 @@ const LeftMenuContainer = styled.section<IMenuContainerProps>`
   padding-bottom: 8px;
   border-radius: 0px 0px 20px 0px;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  /* backdrop-filter: blur(10px); */
-  /* -webkit-backdrop-filter: blur(10px); */
   transition: all 0.5s ease-in-out;
   min-height: 200px;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
   overscroll-scroll-behavior: none;
 
   & > button:hover {
@@ -344,7 +351,7 @@ const LeftMenuContainer = styled.section<IMenuContainerProps>`
     color: ${(props) => props.theme.menuIconFontColor};
   }
 
-  @media (max-width: ${theme.deviceSizes.tablet}) {
+  @media (max-width: ${theme.deviceSizes.laptop}) {
     span {
       display: ${(props) => (props.isNavbarOpen ? "block" : "none")};
       width: ${(props) => (props.isNavbarOpen ? "auto" : "0px")};
@@ -357,7 +364,7 @@ const LeftMenuContainer = styled.section<IMenuContainerProps>`
     }
   }
 
-  @media (min-width: ${theme.deviceSizes.tablet}) {
+  @media (min-width: ${theme.deviceSizes.laptop}) {
     width: 120px;
     span {
       display: inline;
@@ -438,29 +445,3 @@ const GoToTheBottomButton = styled.img`
     animation: ${animationKeyFrames.UpToDownRepeatFadein} 0.5s infinite alternate;
   }
 `;
-
-// const rotation = keyframes
-
-//   0% {
-//     transform: rotate(270deg);
-//     mix-blend-mode: luminosity;
-//     padding: 16px;
-//   }
-//   20% {
-//     transform: rotate(270deg);
-//     mix-blend-mode: multiply;
-//   }
-//   40% {
-//     transform: rotate(540deg);
-//     mix-blend-mode: hard-light;
-//     background: #333;
-//   }
-//   60% {
-//     transform: rotate(810deg);
-//   }
-//   100% {
-//     transform: rotate(1440deg);
-//     /* mix-blend-mode: difference; */
-//     padding: 4px;
-//   }
-//   `;

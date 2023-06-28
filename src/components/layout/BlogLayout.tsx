@@ -8,21 +8,19 @@ type AppLayoutProps = {
   children: React.ReactNode;
 };
 
-const Layout2 = ({ children }: AppLayoutProps) => {
-  return (
-    <Container>
-      {/*  */}
-      {children}
-      {/*  */}
-    </Container>
-  );
+const BlogLayout = ({ children }: AppLayoutProps) => {
+  return <Container>{children}</Container>;
 };
 
-export default Layout2;
+export default BlogLayout;
 
 const Container = styled.div`
   padding-left: 44px;
+  padding-top: 44px;
   margin: auto;
-  min-width: 360px;
   max-width: 1440px;
+
+  @media (min-width: ${theme.deviceSizes.laptop}) {
+    padding-left: 120px;
+  }
 `;

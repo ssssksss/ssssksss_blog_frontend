@@ -8,24 +8,17 @@ type AppLayoutProps = {
 
 // 블로그 용도의 레이아웃
 const Layout1 = ({ children }: AppLayoutProps) => {
-  return (
-    <Container>
-      {/*  */}
-      <Container1>{children}</Container1>
-      {/*  */}
-    </Container>
-  );
+  return <Container>{children}</Container>;
 };
 
 export default Layout1;
-const Container = styled.div``;
-const Container1 = styled.div`
+const Container = styled.div`
   padding-left: 44px;
   padding-top: 44px;
   margin: auto;
-  max-width: 1440px;
+  max-width: 1080px;
 
-  @media (min-width: ${theme.deviceSizes.tablet}) {
+  @media (min-width: ${theme.deviceSizes.laptop}) {
     padding-left: 120px;
   }
 `;

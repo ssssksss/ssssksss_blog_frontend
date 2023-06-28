@@ -15,26 +15,18 @@ const PortfolioContainer = () => {
       <Introduction>
         <IntroductionTitle> Introduce </IntroductionTitle>
         <IntroductionItem> 이름 : 이수경 </IntroductionItem>
-        <IntroductionItem> 나이 : 1995년생 </IntroductionItem>
+        {/* <IntroductionItem> 나이 : 1995년생 </IntroductionItem> */}
         <IntroductionItem> 이메일 : ssssksss@naver.com </IntroductionItem>
         <IntroductionItem>
           깃허브 :
-          <a
-            href="https://github.com/ssssksss"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/ssssksss" target="_blank" rel="noopener noreferrer">
             https://github.com/ssssksss
           </a>
           👈
         </IntroductionItem>
         <IntroductionItem>
           블로그 :
-          <a
-            href="http://blog.ssssksss.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="http://blog.ssssksss.xyz" target="_blank" rel="noopener noreferrer">
             blog.ssssksss.xyz
           </a>
           👈
@@ -45,35 +37,17 @@ const PortfolioContainer = () => {
           <h1> 기술/스택 </h1>
         </StackTitle>
         <StackMenu>
-          <StackMenuButton onClick={() => setStackItem("frontend")}>
-            프론트엔드
-          </StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("backend")}>
-            백엔드
-          </StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("server")}>
-            서버
-          </StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("database")}>
-            DB
-          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("frontend")}>프론트엔드</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("backend")}>백엔드</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("server")}>서버</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("database")}>DB</StackMenuButton>
         </StackMenu>
         <br />
         <StackMenu>
-          <StackMenuButton onClick={() => setStackItem("cicd")}>
-            CI/CD
-          </StackMenuButton>
-          <StackMenuButton
-            onClick={() => setStackItem("configuration_management")}
-          >
-            형상관리
-          </StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("communication_tool")}>
-            협업도구
-          </StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("etc")}>
-            기타
-          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("cicd")}>CI/CD</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("configuration_management")}>형상관리</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("communication_tool")}>협업도구</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem("etc")}>기타</StackMenuButton>
         </StackMenu>
         <StackMain>
           {stackItem === "frontend" && (
@@ -100,10 +74,7 @@ const PortfolioContainer = () => {
                     <StackImg alt="" src={"/img/stackIcon/typescript.svg"} />
                   </StackItem>
                   <StackItem>
-                    <StackImg
-                      alt=""
-                      src={"/img/stackIcon/stylecomponent.svg"}
-                    />
+                    <StackImg alt="" src={"/img/stackIcon/stylecomponent.svg"} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
@@ -122,10 +93,7 @@ const PortfolioContainer = () => {
                     <StackImg alt="" src={"/img/stackIcon/springboot.svg"} />
                   </StackItem>
                   <StackItem>
-                    <StackImg
-                      alt=""
-                      src={"/img/stackIcon/springsecurity.svg"}
-                    />
+                    <StackImg alt="" src={"/img/stackIcon/springsecurity.svg"} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
@@ -336,6 +304,11 @@ const Stack = styled.div`
   padding: 0px 20px 20px 20px;
   height: 800px;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome, Safari, Opera*/
   font-family: "Cafe24Ssurround";
 `;
 const StackTitle = styled.div`

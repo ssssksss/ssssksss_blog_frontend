@@ -112,6 +112,10 @@ const colorList: colorListType = {
     backgroundColor: theme.backgroundColors.danger,
     color: "black",
   },
+  white1: {
+    backgroundColor: theme.backgroundColors.white1,
+    color: "black",
+  },
 };
 
 const ButtonStyle = styled.button<IButtonProps>`
@@ -123,14 +127,9 @@ const ButtonStyle = styled.button<IButtonProps>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : theme.fontSizes.sm)};
   border-radius: ${(props) => props.borderRadius || "0.6em"};
 
-  &:hover {
-    /* box-shadow: 0 0 0 2px #000 inset; */
-    cursor: pointer;
-    animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite;
-  }
-
   background-color: ${(props) =>
-    props.status ? colorList[props.status].backgroundColor : theme.backgroundColors.orange};
+    // props.status ? colorList[props.status].backgroundColor : theme.backgroundColors.orange};
+    props.status ? colorList[props.status].backgroundColor : "#fafafa"};
 
   ${(props) =>
     props.disabled &&
@@ -142,6 +141,9 @@ const ButtonStyle = styled.button<IButtonProps>`
         cursor: not-allowed;
       }
     `}
-
   color: ${(props) => (props.status ? colorList[props.status].color : "black")};
+  &:hover {
+    cursor: pointer;
+    animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite;
+  }
 `;
