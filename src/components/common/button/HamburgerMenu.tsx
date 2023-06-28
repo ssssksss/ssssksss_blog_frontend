@@ -50,7 +50,7 @@ const Container = styled.button<IContainerProps>`
   left: 0;
   z-index: 200;
   padding: 6px;
-  background-color: ${(props: any) => props.isHideMenu || props.themeStore.menuBackground};
+  background-color: transparent;
   display: flex;
   justify-content: center;
 

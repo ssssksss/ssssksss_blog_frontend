@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import Button from "@/components/common/button/Button";
 import { keyframes } from "@emotion/css";
+import theme from "@/styles/theme";
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerYoutubeItem.tsx
@@ -27,13 +28,8 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
   });
 
   return (
-    <Container
-      height="60px"
-      gap={12}
-      padding={"0px 4px"}
-      border={"solid 2px black"}
-      active={props.url === props.choiceYoutubeLink.url}>
-      <CC.ColumnDiv width="60%" gap={8}>
+    <Container active={props.url === props.choiceYoutubeLink.url}>
+      <CC.ColumnDiv width="60%" gap={8} padding={"0px 0px 0px 8px"}>
         <CC.RowBetweenDiv gap={4}>
           <CC.RowDiv width="50px"> url : </CC.RowDiv>
           <Input
@@ -59,7 +55,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           />
         </CC.RowBetweenDiv>
       </CC.ColumnDiv>
-      <CC.RowRightDiv width="40%" padding={"0px 4px 0px 0px"} gap={4}>
+      <CC.RowRightDiv width="40%" gap={4}>
         <Button
           width="50px"
           height="50px"
@@ -147,7 +143,10 @@ const rotation = keyframes`
   `;
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
-  /* background: ${(props) => props.active && "red"}; */
   animation: ${(props) => props.active && `${rotation} 1s infinite`};
   z-index: 20;
+  height: 60px;
+  gap: 12px;
+  padding: "0px 4px";
+  font-size: ${theme.fontSizes.sm};
 `;

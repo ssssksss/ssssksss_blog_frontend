@@ -19,6 +19,9 @@ const Container = styled.div`
   padding-top: 44px;
   margin: auto;
   max-width: 1440px;
+  min-height: 100vh;
+  /* background: linear-gradient(red, blue); */
+  background: linear-gradient(lightCyan, skyBlue, deepSkyBlue);
 
   @media (min-width: ${theme.deviceSizes.laptop}) {
     padding-left: 120px;

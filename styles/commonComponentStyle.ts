@@ -17,6 +17,7 @@ interface IStyleProps {
   noCursor?: boolean;
   size?: string;
   maxWidth?: string;
+  fontSize?: string;
 }
 
 const propsCommonStyle = (props: any) => css`
@@ -31,14 +32,7 @@ const propsCommonStyle = (props: any) => css`
   gap: ${props.gap}px;
   color: ${props.color};
   background-color: ${props.backgroundColor};
-
-  @media (max-width: ${theme.deviceSizes.laptop}) {
-    font-size: ${props.fontSize || theme.fontSizes.sm};
-  }
-
-  @media (min-width: ${theme.deviceSizes.laptop}) {
-    font-size: ${props.fontSize || theme.fontSizes.md};
-  }
+  font-size: ${props.fontSize};
 `;
 
 const RowDiv = styled.div<IStyleProps>`

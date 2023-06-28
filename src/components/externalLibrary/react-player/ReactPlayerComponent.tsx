@@ -207,8 +207,8 @@ const ReactPlayerComponent = () => {
       </ColumnDiv>
       {isOpenModal && (
         <CustomModal title={"유튜브 플레이리스트"} overlayDisable={true} toggleModal={() => setIsOpenModal(!isOpenModal)}>
-          <CC.RowDiv height="60px" gap={12}  border={"solid 2px black"} padding={"0px 4px"}>
-            <CC.ColumnDiv width="60%" gap={8}>
+          <CC.RowDiv height="60px" gap={12} fontSize={theme.fontSizes.sm}>
+            <CC.ColumnDiv width="60%" gap={8} padding={"0px 0px 0px 8px"}>
               <CC.RowBetweenDiv gap={4}>
                 <CC.RowDiv width="50px"> url : </CC.RowDiv>
                 <Input
@@ -223,7 +223,7 @@ const ReactPlayerComponent = () => {
                   />
               </CC.RowBetweenDiv>
               <CC.RowBetweenDiv gap={4}>
-                <CC.RowDiv width="50px"> 이름 : </CC.RowDiv>
+                <CC.RowDiv width="50px" > 이름 : </CC.RowDiv>
                 <Input
                   value={inputValue.name}
                   onChange={(e) => {
@@ -236,7 +236,7 @@ const ReactPlayerComponent = () => {
                 />
               </CC.RowBetweenDiv>
             </CC.ColumnDiv>
-            <CC.RowRightDiv width="40%" padding={"0px 4px 0px 0px"}>
+            <CC.RowRightDiv width="40%" >
               <Button width="50px" height="50px" onClick={() => {
                 AddCacheStorageHandler();
               }}>
@@ -244,7 +244,7 @@ const ReactPlayerComponent = () => {
               </Button>
             </CC.RowRightDiv>
           </CC.RowDiv>
-          <CC.ColumnDiv>
+          <CC.ColumnDiv >
           {Object.keys(storage).length !== 0 && (
             Object.entries(storage)?.map(([key, value],index) => (
               <ReactPlayerYoutubeItem
@@ -359,7 +359,6 @@ const YoutubeAddLinkButton = styled.img<IMenuContainerProps>`
   
   &:hover {
     cursor: pointer;
-    animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite;
   }
   `;
 
@@ -419,4 +418,7 @@ const RowDiv = styled.div`
   width: 100%;
   align-items: center;
   gap: 4px;
+  color: black;
+  background: white;
+  border-radius: 20px;
 `;

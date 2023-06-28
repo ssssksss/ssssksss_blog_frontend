@@ -270,7 +270,8 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
   height: 44px;
   padding-left: 10px;
   border-radius: 10px 10px 0px 0px;
-  background: ${(props) => props.theme.menuBackground};
+  /* background: ${(props) => props.theme.menuBackground}; */
+  background-color: rgba(255, 255, 255, 0.2);
   color: ${(props) => props.theme.menuIconFontColor};
   display: flex;
   justify-content: space-between;
@@ -295,6 +296,7 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
   @media (max-width: ${theme.deviceSizes.laptop}) {
     button {
       font-size: ${theme.fontSizes.sm};
+      background-color: transparent;
     }
   }
 `;
@@ -320,8 +322,10 @@ const LeftToRightFadein = keyframes`
 const LeftMenuContainer = styled.section<IMenuContainerProps>`
   width: ${(props) => (props.isNavbarOpen ? "120px" : "44px")};
   height: calc(100vh - 44px);
-  background: ${(props) => props.theme.menuBackground};
-  color: ${(props) => props.theme.menuIconFontColor};
+  /* background: ${(props) => `linear-gradient( to right, ${props.theme.menuBackground} 95%, white 100%)`}; */
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  background-color: ${(props) => (props.isNavbarOpen ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.2)")};
+  /* color: ${(props) => props.theme.menuIconFontColor}; */
   gap: 8px;
   position: fixed;
   z-index: 100;
@@ -347,14 +351,20 @@ const LeftMenuContainer = styled.section<IMenuContainerProps>`
   }
 
   & > button {
-    background: ${(props) => props.theme.menuIconBackground};
-    color: ${(props) => props.theme.menuIconFontColor};
+    /* background: ${(props) =>
+      `linear-gradient( to right, ${props.theme.menuBackground} 30%, ${props.theme.menuBackground} 95%, white 100%)`}; */
+    /* color: ${(props) => props.theme.menuIconFontColor}; */
+    color: rgba(51, 51, 51, 1);
+    font-weight: 600;
+    background-color: transparent;
   }
 
   @media (max-width: ${theme.deviceSizes.laptop}) {
     span {
       display: ${(props) => (props.isNavbarOpen ? "block" : "none")};
       width: ${(props) => (props.isNavbarOpen ? "auto" : "0px")};
+      mix-blend-mode: normal;
+      background-color: rgba(255, 255, 255, 0.2);
       ${(props) =>
         props.isNavbarOpen &&
         css`

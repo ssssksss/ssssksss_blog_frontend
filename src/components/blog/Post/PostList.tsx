@@ -66,14 +66,14 @@ const PostList = () => {
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
         {authStore.role === "ROLE_ADMIN" && (
           <MenuAddItem>
-            <Link href={"/blog/[firstCategory]/[secondCategory]/[post]/add"} as={router.asPath + "/post/add"}>
+            <Link href={"/blog1/[firstCategory]/[secondCategory]/[post]/add"} as={router.asPath + "/post/add"}>
               <a> 글 추가 </a>
             </Link>
           </MenuAddItem>
         )}
         {posts.map((i, index) => (
           <MenuItem key={i.id}>
-            <Link href={"/blog/[firstCategory]/[secondCategory]/[post]"} as={"/blog" + i.second_href + "/" + i.id}>
+            <Link href={"/blog1/[firstCategory]/[secondCategory]/[post]"} as={"/blog1" + i.second_href + "/" + i.id}>
               <Item>
                 <ItemTitle>
                   [{index + 1}] {i.title}

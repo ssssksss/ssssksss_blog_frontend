@@ -10,7 +10,6 @@ const Index = () => {
     <>
       <Container>
         <BlogMenu />
-        {/* <PostList /> */}
       </Container>
     </>
   );

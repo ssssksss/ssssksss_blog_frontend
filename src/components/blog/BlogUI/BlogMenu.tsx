@@ -251,7 +251,6 @@ const BlogMenu = () => {
             </FirstCategoryItemButton>
           ))}
         </FirstCategoryContainer>
-
         <SecondCategoryContainer themeStore={themeStore} categoryStore={categoryStore} key={randomData}>
           <header>
             <span>{FirstCategoryButtonList.filter((i) => i[0] === categoryStore.firstCategory).map((i) => i[0])}</span>
@@ -269,7 +268,6 @@ const BlogMenu = () => {
           </MenuContainer>
         </SecondCategoryContainer>
       </CategoryContainer>
-
       <CategoryListContainer themeStore={themeStore} categoryStore={categoryStore}>
         <header>
           <span>{categoryStore.secondCategory}</span>
@@ -296,7 +294,6 @@ const BlogMenu = () => {
                 <CC.RowBetweenDiv>
                   <BlogItemDescription> {i.description} </BlogItemDescription>
                   <CC.ColumnDiv>
-                    {/* <span> {dateFormat4y2m2d(i.modifiedAt)} </span> */}
                     <span> {fewDaysAgoDate(dateFormat4y2m2d(i.modifiedAt))} </span>
                   </CC.ColumnDiv>
                 </CC.RowBetweenDiv>
@@ -326,21 +323,18 @@ const CategoryContainer = styled.div`
   @media (min-width: ${theme.deviceSizes.mobile}) {
     grid-template-columns: 112px auto;
     button {
-      width: 50px;
       font-size: ${theme.fontSizes.xs};
     }
   }
   @media (min-width: ${theme.deviceSizes.tablet}) {
-    grid-template-columns: 260px auto;
+    grid-template-columns: 240px auto;
     button {
-      width: 60px;
       font-size: ${theme.fontSizes.sm};
     }
   }
   @media (min-width: ${theme.deviceSizes.laptop}) {
-    grid-template-columns: 300px auto;
+    grid-template-columns: 240px auto;
     button {
-      width: 70px;
     }
   }
 `;
@@ -536,6 +530,7 @@ const CategoryListContainer = styled.section`
   overflow: scroll;
   max-height: calc(100vh - 260px);
   outline: solid black 2px;
+  font-size: ${theme.fontSizes.sm};
 
   header {
     width: 100%;
@@ -605,6 +600,7 @@ const CategoryListDiv = styled.div`
   flex-flow: nowrap column;
   gap: 6px;
   padding: 0px 4px;
+  color: red;
 
   button {
     width: 100%;
