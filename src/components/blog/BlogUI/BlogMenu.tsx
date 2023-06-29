@@ -323,7 +323,7 @@ const CategoryContainer = styled.div`
   @media (min-width: ${theme.deviceSizes.mobile}) {
     grid-template-columns: 112px auto;
     button {
-      font-size: ${theme.fontSizes.xs};
+      font-size: ${theme.fontSizes.sm};
     }
   }
   @media (min-width: ${theme.deviceSizes.tablet}) {
@@ -341,11 +341,12 @@ const CategoryContainer = styled.div`
 
 const FirstCategoryContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: repeat(4, 1fr); */
   justify-content: center;
   align-items: center;
   gap: 4px;
   padding: 4px;
+  grid-template-columns: repeat(2, 1fr);
 
   button {
     width: 100%;
@@ -355,6 +356,9 @@ const FirstCategoryContainer = styled.section`
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     color: ${(props) => props.themeStore.menuIconFontColor};
+  }
+
+  @media (max-width: ${theme.deviceSizes.tablet}) {
   }
 
   button:nth-of-type(1) {
@@ -380,10 +384,6 @@ const FirstCategoryContainer = styled.section`
   }
   button:nth-of-type(8) {
     background: linear-gradient(180deg, rgba(253, 45, 1, 1) 0%, rgba(254, 143, 1, 1) 100%);
-  }
-
-  @media (max-width: ${theme.deviceSizes.tablet}) {
-    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -413,6 +413,7 @@ const SecondCategoryContainer = styled.section`
   gap: 4px;
   background: ${(props) => props.themeStore.menuBackground};
   border-radius: 8px;
+  height: 210px;
 
   header {
     width: 100%;
@@ -433,8 +434,7 @@ const SecondCategoryContainer = styled.section`
   }
 
   button {
-    width: 100%;
-    height: 40px;
+    height: 32px;
     min-height: 24px;
     font-weight: 600;
     mix-blend-mode: screen;

@@ -279,6 +279,7 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
   position: fixed;
   top: 0px;
   z-index: 200;
+  box-shadow: 0 1px 1px 0 rgba(31, 38, 135, 0.24);
 
   & > div > div,
   img {

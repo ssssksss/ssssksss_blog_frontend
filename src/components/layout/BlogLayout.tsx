@@ -9,11 +9,18 @@ type AppLayoutProps = {
 };
 
 const BlogLayout = ({ children }: AppLayoutProps) => {
-  return <Container>{children}</Container>;
+  return (
+    <Div>
+      <Container>{children}</Container>
+    </Div>
+  );
 };
 
 export default BlogLayout;
 
+const Div = styled.div`
+  background: linear-gradient(lightCyan, skyBlue, deepSkyBlue);
+`;
 const Container = styled.div`
   padding-left: 44px;
   padding-top: 44px;
@@ -21,7 +28,6 @@ const Container = styled.div`
   max-width: 1440px;
   min-height: 100vh;
   /* background: linear-gradient(red, blue); */
-  background: linear-gradient(lightCyan, skyBlue, deepSkyBlue);
 
   @media (min-width: ${theme.deviceSizes.laptop}) {
     padding-left: 120px;
