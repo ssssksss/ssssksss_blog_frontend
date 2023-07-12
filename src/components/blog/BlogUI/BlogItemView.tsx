@@ -242,9 +242,9 @@ export default BlogItemView;
 
 const Container = styled.section`
   border-radius: 10px;
-  padding: 10px 10px 0px 10px;
   font-size: ${theme.fontSizes.sm};
   margin: 0px auto;
+  background: white;
 `;
 const PostViewTitle = styled.h2`
   width: 100%;
@@ -256,6 +256,7 @@ const PostViewTitle = styled.h2`
   background: ${(props) => props.themeStore.menuBackground};
   font-family: ${theme.fontFamily.cookieRunRegular};
   ${theme.flex.row.center.center};
+  z-index: 2;
 `;
 
 const PostViewDescription = styled.div`
@@ -268,6 +269,7 @@ const PostViewDescription = styled.div`
   ${theme.flex.row.center.center};
   background-color: rgba(200, 200, 200, 0.5);
   border-top: solid #aeaeae 1px;
+  z-index: 2;
 `;
 const PostViewHeader = styled.div`
   font-size: ${theme.fontSizes.sm};
@@ -282,7 +284,6 @@ const PostViewBody = styled.div`
   background: #fefefe;
   padding: 10px;
   border-radius: 0px 0px 10px 10px;
-  background-color: rgba(250, 250, 250, 0.9);
 `;
 const BlogItemIndexSection = styled.nav`
   right: 0px;

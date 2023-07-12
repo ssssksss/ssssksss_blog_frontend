@@ -353,6 +353,7 @@ const Container = styled.section`
   position: relative;
   display: flex;
   flex-flow: nowrap column;
+  background: white;
   .toastui-editor-toolbar {
     position: sticky;
     top: 40px;
@@ -378,6 +379,7 @@ const Title = styled.input`
   font-size: ${theme.fontSizes.lg};
   padding: 0px 10px;
   border: none;
+  z-index: 2;
 
   &::placeholder {
     color: white;
@@ -401,6 +403,7 @@ const Description = styled.input`
 `;
 const EditorContainer = styled.div`
   height: calc(100vh - 200px);
+  background: #fefefe;
   &::before {
     content: "";
     background-size: 100%;
