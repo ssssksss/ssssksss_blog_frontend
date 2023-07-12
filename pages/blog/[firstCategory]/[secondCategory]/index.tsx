@@ -18,7 +18,6 @@ Index.layout = BlogLayout;
 export default Index;
 
 const Container = styled.div`
-  max-width: 800px;
   margin: auto;
   padding: 8px 8px 2px 8px;
 `;

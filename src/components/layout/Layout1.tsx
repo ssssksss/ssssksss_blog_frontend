@@ -17,6 +17,7 @@ const Container = styled.div`
   padding-top: 44px;
   margin: auto;
   max-width: 1080px;
+  background: white;
 
   @media (min-width: ${theme.deviceSizes.laptop}) {
     padding-left: 120px;

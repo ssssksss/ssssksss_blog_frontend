@@ -93,7 +93,7 @@ const BlogItemView = () => {
           setLoading(false);
         })
         .catch((error) => {
-          if (error.response.data.statusCode === 400) {
+          if (error.response?.data.statusCode === 400) {
             store.dispatch(
               SET_TOASTIFY_MESSAGE({
                 type: "error",
@@ -165,7 +165,7 @@ const BlogItemView = () => {
           <Head>
             <title> {post?.title} </title>
           </Head>
-          <PostViewTitle> {post?.title} </PostViewTitle>
+          <PostViewTitle themeStore={themeStore}> {post?.title} </PostViewTitle>
           <PostViewDescription> {post?.description} </PostViewDescription>
           <PostViewHeader>
             <CC.ColumnCenterDiv padding="4px">
@@ -223,12 +223,6 @@ const BlogItemView = () => {
                   </Button>
                 </>
               )}
-              {/* <Button
-                status="purple"
-                padding={"2px"}
-                onClick={() => router.push(router.asPath.substring(0, router.asPath.lastIndexOf("/")))}>
-                목록
-              </Button> */}
             </CC.RowRightDiv>
           </PostViewHeader>
           <PostViewBody>
@@ -246,12 +240,10 @@ const BlogItemView = () => {
 };
 export default BlogItemView;
 
-const Container = styled.div`
-  background: ${theme.backgroundColors.background2};
+const Container = styled.section`
   border-radius: 10px;
   padding: 10px 10px 0px 10px;
   font-size: ${theme.fontSizes.sm};
-  max-width: ${theme.customScreen.maxWidth};
   margin: 0px auto;
 `;
 const PostViewTitle = styled.h2`
@@ -260,8 +252,8 @@ const PostViewTitle = styled.h2`
   border-radius: 10px 10px 0px 0px;
   min-height: 40px;
   font-size: ${theme.fontSizes.md};
-  background: ${theme.backgroundColors.green};
   color: white;
+  background: ${(props) => props.themeStore.menuBackground};
   font-family: ${theme.fontFamily.cookieRunRegular};
   ${theme.flex.row.center.center};
 `;
@@ -274,7 +266,7 @@ const PostViewDescription = styled.div`
   color: #fafafa;
   font-family: ${theme.fontFamily.cookieRunRegular};
   ${theme.flex.row.center.center};
-  background: ${theme.backgroundColors.green};
+  background-color: rgba(200, 200, 200, 0.5);
   border-top: solid #aeaeae 1px;
 `;
 const PostViewHeader = styled.div`
@@ -286,10 +278,11 @@ const PostViewHeader = styled.div`
 `;
 const PostViewBody = styled.div`
   min-height: 600px;
-  margin-top: 4px;
+  margin-top: 1px;
   background: #fefefe;
   padding: 10px;
   border-radius: 0px 0px 10px 10px;
+  background-color: rgba(250, 250, 250, 0.9);
 `;
 const BlogItemIndexSection = styled.nav`
   right: 0px;
@@ -299,7 +292,6 @@ const BlogItemIndexSection = styled.nav`
   overflow: scroll;
   position: fixed;
   z-index: 20;
-  border-bottom: solid ${(props: any) => props.theme.menuBackground} 2px;
   /* IE and Edge , Firefox */
   -ms-overflow-style: none;
   scrollbar-width: none;

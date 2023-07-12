@@ -17,9 +17,10 @@
 // export default Index;
 // Index.layout = BlogLayout;
 
-import Layout1 from "@/components/layout/Layout1";
+import BlogLayout from "@/components/layout/BlogLayout";
 import React from "react";
 import dynamic from "next/dynamic";
+import styled from "@emotion/styled";
 
 const DynamicComponent = dynamic(() => import("src/components/blog/BlogUI/BlogItemView"), {
   ssr: false,
@@ -27,11 +28,15 @@ const DynamicComponent = dynamic(() => import("src/components/blog/BlogUI/BlogIt
 
 const Index = () => {
   return (
-    <div>
+    <Container>
       <DynamicComponent />
-    </div>
+    </Container>
   );
 };
 
+Index.layout = BlogLayout;
 export default Index;
-Index.layout = Layout1;
+
+const Container = styled.div`
+  padding: 10px 10px 0px 10px;
+`;

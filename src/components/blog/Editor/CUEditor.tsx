@@ -123,6 +123,7 @@ const CUEditor = (props: ICUEditorProps) => {
       })
         .then((response) => {
           let res = response.data.data.post;
+          console.log("CUEditor.tsx 파일 : ", res.content);
           setAreaTextContent(res.content);
           setTitle(res.title);
           setDescription(res.description);

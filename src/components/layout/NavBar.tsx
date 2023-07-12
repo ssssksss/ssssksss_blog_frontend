@@ -271,6 +271,7 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
   padding-left: 10px;
   border-radius: 10px 10px 0px 0px;
   /* background: ${(props) => props.theme.menuBackground}; */
+  background: linear-gradient(lightCyan, skyBlue, deepSkyBlue);
   background-color: rgba(255, 255, 255, 0.2);
   color: ${(props) => props.theme.menuIconFontColor};
   display: flex;
@@ -325,8 +326,9 @@ const LeftMenuContainer = styled.section<IMenuContainerProps>`
   height: calc(100vh - 44px);
   /* background: ${(props) => `linear-gradient( to right, ${props.theme.menuBackground} 95%, white 100%)`}; */
   /* background-color: rgba(255, 255, 255, 0.2); */
-  background-color: ${(props) => (props.isNavbarOpen ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.2)")};
+  /* background-color: ${(props) => (props.isNavbarOpen ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.2)")}; */
   /* color: ${(props) => props.theme.menuIconFontColor}; */
+  background: linear-gradient(lightCyan, skyBlue, deepSkyBlue);
   gap: 8px;
   position: fixed;
   z-index: 100;
