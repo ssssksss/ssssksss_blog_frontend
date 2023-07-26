@@ -35,6 +35,7 @@ interface IInputProps {
   min?: string;
   max?: string;
   step?: string | number;
+  errorMessage?: string;
 }
 
 const Input = ({
@@ -63,44 +64,62 @@ const Input = ({
   min,
   max,
   step,
+  errorMessage,
+  bg,
   ...props
 }: IInputProps) => {
   return (
-    <InputStyle
-      type={type ?? "text"}
-      placeholder={placeholder}
-      disabled={disabled}
-      width={width}
-      height={height}
-      padding={padding}
-      margin={margin}
-      borderRadius={borderRadius}
-      defaultValue={defaultValue}
-      defaultChecked={defaultChecked}
-      onChange={onChange}
-      onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && onKeyPress) {
-          onKeyPress();
-        }
-      }}
-      value={value}
-      ref={ref}
-      backgroundColor={backgroundColor}
-      border={border}
-      name={name}
-      id={id}
-      display={display}
-      checked={checked}
-      min={min}
-      max={max}
-      step={step}
-      {...field}
-      {...register}
-      {...props}
-    />
+    <>
+      <InputStyle
+        type={type ?? "text"}
+        placeholder={placeholder}
+        disabled={disabled}
+        width={width}
+        height={height}
+        padding={padding}
+        margin={margin}
+        borderRadius={borderRadius}
+        defaultValue={defaultValue}
+        defaultChecked={defaultChecked}
+        onChange={onChange}
+        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" && onKeyPress) {
+            onKeyPress();
+          }
+        }}
+        value={value}
+        ref={ref}
+        backgroundColor={backgroundColor}
+        background={bg}
+        border={border}
+        name={name}
+        id={id}
+        display={display}
+        checked={checked}
+        min={min}
+        max={max}
+        step={step}
+        errorMessage={errorMessage}
+        {...field}
+        {...register}
+        {...props}
+      />
+      {errorMessage ? <ErrorMessageSpan padding={padding}> {errorMessage} </ErrorMessageSpan> : <></>}
+    </>
   );
 };
 export default Input;
+
+const ErrorMessageSpan = styled.span`
+  color: red;
+  position: absolute;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  padding: ${(props) => (props.padding ? props.padding : "0px 10px 0px 0px")};
+  transform: translate(0, 20px);
+  word-break: keep-all;
+`;
 
 const InputStyle = styled.input<{
   width?: string;
@@ -113,6 +132,8 @@ const InputStyle = styled.input<{
   margin?: string;
   id?: string;
   display?: string;
+  errorMessage?: string;
+  background: string;
 }>`
   font-size: 1rem;
   width: ${(props) => (props.width ? props.width : "100%")};
@@ -120,7 +141,6 @@ const InputStyle = styled.input<{
   padding: ${(props) => (props.padding ? props.padding : "0px 0px 0px 8px")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
   background-color: ${(props) => props.backgroundColor};
-  border: ${(props) => (props.border ? props.border : "1px solid #acebe7")};
   border-radius: ${(props) => (props.borderRadius ? props.borderRadius : "10px")};
   outline: none;
   display: ${(props) => (props.display ? props.display : "block")};
@@ -154,7 +174,6 @@ const InputStyle = styled.input<{
     }
   }
   :focus::placeholder {
-    color: transparent;
     font-size: 10px;
     transform: translate(-6px, -6px);
   }

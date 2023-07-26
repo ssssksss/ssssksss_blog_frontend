@@ -25,6 +25,7 @@ interface ISpaceProps {
   children?: ReactNode;
   padding?: string;
   bg?: string; // background
+  br?: string; // border-radius
 }
 
 const Space = ({
@@ -41,9 +42,10 @@ const Space = ({
   titleP, // title-padding
   padding,
   bg,
+  br,
 }: ISpaceProps) => {
   return (
-    <Container height={height} padding={padding} background={bg}>
+    <Container height={height} padding={padding} background={bg} borderRadius={br}>
       {title1 && (
         <ContainerColumn gap={gap}>
           {title1 && (
@@ -52,8 +54,7 @@ const Space = ({
               titleFontWeight={titleFontWeight}
               titleWidth={titleWidth}
               titleBg={titleBg}
-              padding={titleP}
-            >
+              padding={titleP}>
               {title1}
             </TitleDiv>
           )}
@@ -63,12 +64,7 @@ const Space = ({
       {title4 && (
         <ContainerRow gap={gap}>
           {title4 && (
-            <TitleDiv
-              titleFontWeight={titleFontWeight}
-              titleWidth={titleWidth}
-              titleBg={titleBg}
-              padding={titleP}
-            >
+            <TitleDiv titleFontWeight={titleFontWeight} titleWidth={titleWidth} titleBg={titleBg} padding={titleP}>
               {title4}
             </TitleDiv>
           )}
@@ -79,12 +75,7 @@ const Space = ({
         <ContainerColumn gap={gap}>
           <ChildrenDiv> {children} </ChildrenDiv>
           {title3 && (
-            <TitleDiv
-              padding={titleP}
-              titleFontWeight={titleFontWeight}
-              titleWidth={titleWidth}
-              titleBg={titleBg}
-            >
+            <TitleDiv padding={titleP} titleFontWeight={titleFontWeight} titleWidth={titleWidth} titleBg={titleBg}>
               {title3}
             </TitleDiv>
           )}
@@ -99,7 +90,6 @@ const Container = styled.div<{
   padding?: string;
   background?: string;
 }>`
-  width: 100%;
   padding: ${(props) => props.padding || "6px 4px"};
   ${(props) =>
     props.height &&
@@ -110,6 +100,11 @@ const Container = styled.div<{
     props.background &&
     css`
       background: ${props.background};
+    `}
+  ${(props) =>
+    props.borderRadius &&
+    css`
+      border-radius: ${props.borderRadius};
     `}
 `;
 
@@ -122,7 +117,7 @@ const ContainerColumn = styled(CC.ColumnDiv)`
     `}
 `;
 
-const ContainerRow = styled(CC.RowBetweenStartDiv)`
+const ContainerRow = styled(CC.RowStartDiv)`
   height: 100%;
   display: flex;
   align-items: center;
@@ -149,6 +144,6 @@ const TitleDiv = styled.div<{
     `}
 `;
 const ChildrenDiv = styled.div`
-  width: 100%;
-  height: 100%;
+  display: flex;
+  align-items: center;
 `;

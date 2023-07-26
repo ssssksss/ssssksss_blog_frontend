@@ -17,6 +17,7 @@ import Space from "@/components/common/space/Space";
 import { useRouter } from "next/router";
 import { dateFormat4y2m2d } from "@/utils/fucntion/dateFormat";
 import { fewDaysAgoDate } from "@/components/common/function/Date";
+import Image from "next/image";
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -257,11 +258,12 @@ const BlogMenu = () => {
             {authStore.role === "ROLE_ADMIN" && <Button onClick={() => setIsOpenModal(true)}> + </Button>}
           </header>
           <MenuContainer>
-            {secondCategoriesState?.map((i, index) => (
+            {secondCategoriesState?.map((secondCategory, index) => (
               <SecondCategoryItemButton
                 index={index}
-                onClick={() => readBlogItemListHandler(categoryStore.firstCategory, i)}>
-                <div> {i} </div>
+                active={secondCategory === categoryStore.secondCategory}
+                onClick={() => readBlogItemListHandler(categoryStore.firstCategory, secondCategory)}>
+                <div> {secondCategory} </div>
                 <SecondCategoryItemCount> 1 </SecondCategoryItemCount>
               </SecondCategoryItemButton>
             ))}
@@ -269,16 +271,17 @@ const BlogMenu = () => {
         </SecondCategoryContainer>
       </CategoryContainer>
       <CategoryListContainer themeStore={themeStore} categoryStore={categoryStore}>
-        <header>
-          <span>{categoryStore.secondCategory}</span>
-          {authStore.role === "ROLE_ADMIN" && (
-            <Button onClick={() => router.push(document.location.href + "/add")}>+</Button>
-          )}
-        </header>
+        {authStore.role === "ROLE_ADMIN" && (
+          <header>
+            <button onClick={() => router.push(document.location.href + "/add")}>
+              <Image width="24px" height="24px" src="/img/ui-icon/edit_icon.png" />
+              글쓰기
+            </button>
+          </header>
+        )}
         <CategoryListDiv>
           {blogItemList.map((i: blogItemType) => (
             <Button
-              status="white1"
               onClick={() =>
                 router.push("/blog/" + categoryStore.firstCategory + "/" + categoryStore.secondCategory + "/" + i.id)
               }>
@@ -360,30 +363,62 @@ const FirstCategoryContainer = styled.section`
 
   @media (max-width: ${theme.deviceSizes.tablet}) {
   }
-
+  --opacity-bg-color-value: 0.9;
   button:nth-of-type(1) {
-    background: linear-gradient(180deg, rgba(254, 128, 0, 1) 0%, rgba(255, 161, 0, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
+      rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(2) {
-    background: linear-gradient(180deg, rgba(201, 28, 73, 1) 0%, rgba(247, 37, 84, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
+      rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(3) {
-    background: linear-gradient(180deg, rgba(165, 39, 201, 1) 0%, rgba(167, 98, 230, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
+      rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(4) {
-    background: linear-gradient(180deg, rgba(5, 156, 139, 1) 0%, rgba(3, 181, 185, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
+      rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(5) {
-    background: linear-gradient(180deg, rgba(52, 148, 230, 1) 0%, rgba(236, 110, 173, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
+      rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(6) {
-    background: linear-gradient(180deg, rgba(0, 108, 209, 1) 0%, rgba(1, 142, 210, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
+      rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(7) {
-    background: linear-gradient(180deg, rgba(77, 160, 176, 1) 0%, rgba(211, 157, 56, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
+      rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
+    );
   }
   button:nth-of-type(8) {
-    background: linear-gradient(180deg, rgba(253, 45, 1, 1) 0%, rgba(254, 143, 1, 1) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
+      rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
+    );
   }
 `;
 
@@ -404,6 +439,7 @@ const FirstCategoryItemCount = styled.span`
   position: absolute;
   right: 4px;
   top: 4px;
+  opacity: 0.8;
 `;
 
 const SecondCategoryContainer = styled.section`
@@ -411,7 +447,6 @@ const SecondCategoryContainer = styled.section`
   display: flex;
   flex-flow: nowrap column;
   gap: 4px;
-  background: ${(props) => props.themeStore.menuBackground};
   border-radius: 8px;
   height: 210px;
 
@@ -421,7 +456,6 @@ const SecondCategoryContainer = styled.section`
     justify-content: center;
     align-items: center;
     font-weight: 800;
-    mix-blend-mode: luminosity;
     position: relative;
 
     button {
@@ -437,69 +471,82 @@ const SecondCategoryContainer = styled.section`
     height: 32px;
     min-height: 24px;
     font-weight: 600;
-    mix-blend-mode: screen;
-    background: rgba(255, 255, 255, 0.8);
     border-radius: 4px;
   }
 
+  --opacity-bg-color-value: 0.9;
   ${(props) =>
     props.categoryStore.firstCategory === "frontend" &&
     css`
-      background: linear-gradient(180deg, rgba(254, 128, 0, 1) 0%, rgba(255, 161, 0, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
+        rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "backend" &&
     css`
-      background: linear-gradient(180deg, rgba(201, 28, 73, 1) 0%, rgba(247, 37, 84, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
+        rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "database" &&
     css`
-      background: linear-gradient(180deg, rgba(165, 39, 201, 1) 0%, rgba(167, 98, 230, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
+        rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "server-cloud" &&
     css`
-      background: linear-gradient(180deg, rgba(5, 156, 139, 1) 0%, rgba(3, 181, 185, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
+        rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "github" &&
     css`
-      background: linear-gradient(180deg, rgba(52, 148, 230, 1) 0%, rgba(236, 110, 173, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
+        rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "3d-design" &&
     css`
-      background: linear-gradient(180deg, rgba(0, 108, 209, 1) 0%, rgba(1, 142, 210, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
+        rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "ai-computer-science" &&
     css`
-      background: linear-gradient(180deg, rgba(77, 160, 176, 1) 0%, rgba(211, 157, 56, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
+        rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "etc" &&
     css`
-      background: linear-gradient(180deg, rgba(253, 45, 1, 1) 0%, rgba(254, 143, 1, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
+        rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
+      );
     `}
-`;
-
-const SecondCategoryItemButton = styled.button`
-  --index: ${(props) => (props.index + 1) * 0.05 + 0.2 + "s"};
-  animation: ${animationKeyFrames.RightToLeftFadein} linear var(--index);
-  position: relative;
-
-  &:hover {
-    cursor: pointer;
-    transition: 0.5s;
-    filter: brightness(0) invert(1);
-  }
-`;
-
-const SecondCategoryItemCount = styled.div`
-  position: absolute;
-  right: 4px;
-  top: 4px;
 `;
 
 const MenuContainer = styled.div`
@@ -509,90 +556,179 @@ const MenuContainer = styled.div`
   grid-auto-flow: row;
 
   @media (min-width: ${theme.deviceSizes.mobile}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    overflow: scroll;
   }
   @media (min-width: 500px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   @media (min-width: 640px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   @media (min-width: ${theme.deviceSizes.laptop}) {
     grid-template-columns: repeat(6, 1fr);
   }
 `;
 
+const SecondCategoryItemButton = styled.button<{ active: boolean }>`
+  position: relative;
+
+  /* mix-blend-mode: ${(props) => props.active && "difference"}; */
+  /* color: ${(props) => (props.active ? "blue" : "white")}; */
+  /* color: ${(props) => props.active && "black"}; */
+  ${(props) =>
+    props.active ||
+    css`
+      mix-blend-mode: screen;
+    `}
+  ${(props) =>
+    props.active &&
+    css`
+      color: ${(props) => props.active && "black"};
+      background: linear-gradient(
+        90deg,
+        rgba(236, 222, 227, 1) 0%,
+        rgba(222, 220, 233, 1) 20%,
+        rgba(202, 208, 224, 1) 40%,
+        rgba(209, 199, 214, 1) 60%,
+        rgba(239, 199, 200, 1) 80%,
+        rgba(244, 231, 206, 1) 100%
+      );
+    `}
+
+    &:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(236, 222, 227, 1) 0%,
+      rgba(222, 220, 233, 1) 20%,
+      rgba(202, 208, 224, 1) 40%,
+      rgba(209, 199, 214, 1) 60%,
+      rgba(239, 199, 200, 1) 80%,
+      rgba(244, 231, 206, 1) 100%
+    );
+    transition: 1s;
+    cursor: pointer;
+    /* filter: brightness(0) invert(0); */
+  }
+`;
+
+const SecondCategoryItemCount = styled(FirstCategoryItemCount)``;
+
 const CategoryListContainer = styled.section`
   display: flex;
   flex-flow: nowrap column;
-  background: ${(props) => props.themeStore.menuBackground};
   border-radius: 8px;
   overflow: scroll;
   max-height: calc(100vh - 260px);
   outline: solid black 2px;
   font-size: ${theme.fontSizes.sm};
+  position: relative;
 
   header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
     position: sticky;
-    top: 0;
-    background: ${(props) => props.themeStore.menuBackground};
-    border-radius: 8px 8px 0px 0px;
-    padding: 2px 0px;
+    background: transparent;
+    top: 0px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 4px 10px 4px 4px;
+    background: white;
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.2);
     z-index: 20;
 
-    button {
-      position: absolute;
-      width: 30px;
-      height: calc(100% - 4px);
-      right: 1px;
-      padding: 1px 0px;
+    & > button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px;
+      box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    & > button:hover {
+      cursor: pointer;
+      transform: translate(1px, 1px);
+    }
+
+    img {
+      aspect-ratio: 1;
+      box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.2);
+      width: 24px;
+      height: 24px;
     }
   }
 
+  --opacity-bg-color-value: 1;
   ${(props) =>
     props.categoryStore.firstCategory === "frontend" &&
     css`
-      background: linear-gradient(180deg, rgba(254, 128, 0, 1) 0%, rgba(255, 161, 0, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
+        rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "backend" &&
     css`
-      background: linear-gradient(180deg, rgba(201, 28, 73, 1) 0%, rgba(247, 37, 84, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
+        rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "database" &&
     css`
-      background: linear-gradient(180deg, rgba(165, 39, 201, 1) 0%, rgba(167, 98, 230, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
+        rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "server-cloud" &&
     css`
-      background: linear-gradient(180deg, rgba(5, 156, 139, 1) 0%, rgba(3, 181, 185, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
+        rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "github" &&
     css`
-      background: linear-gradient(180deg, rgba(52, 148, 230, 1) 0%, rgba(236, 110, 173, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
+        rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "3d-design" &&
     css`
-      background: linear-gradient(180deg, rgba(0, 108, 209, 1) 0%, rgba(1, 142, 210, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
+        rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "ai-computer-science" &&
     css`
-      background: linear-gradient(180deg, rgba(77, 160, 176, 1) 0%, rgba(211, 157, 56, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
+        rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
+      );
     `}
   ${(props) =>
     props.categoryStore.firstCategory === "etc" &&
     css`
-      background: linear-gradient(180deg, rgba(253, 45, 1, 1) 0%, rgba(254, 143, 1, 1) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
+        rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
+      );
     `}
 `;
 const CategoryListDiv = styled.div`
@@ -600,7 +736,6 @@ const CategoryListDiv = styled.div`
   flex-flow: nowrap column;
   gap: 6px;
   padding: 0px 4px;
-  color: red;
 
   button {
     width: 100%;

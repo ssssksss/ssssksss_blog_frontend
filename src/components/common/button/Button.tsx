@@ -127,15 +127,13 @@ const ButtonStyle = styled.button<IButtonProps>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : theme.fontSizes.sm)};
   border-radius: ${(props) => props.borderRadius || "0.6em"};
 
-  background-color: ${(props) =>
-    // props.status ? colorList[props.status].backgroundColor : theme.backgroundColors.orange};
-    props.status ? colorList[props.status].backgroundColor : "#fafafa"};
-
+  background-color: ${(props) => (props.status ? colorList[props.status].backgroundColor : "white")};
   ${(props) =>
     props.disabled &&
     css`
       background-color: ${theme.backgroundColors.disabled};
       color: ${theme.colors.disabled};
+      cursor: not-allowed;
       &:hover {
         box-shadow: none;
         cursor: not-allowed;
@@ -144,6 +142,6 @@ const ButtonStyle = styled.button<IButtonProps>`
   color: ${(props) => (props.status ? colorList[props.status].color : "black")};
   &:hover {
     cursor: pointer;
-    animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite;
+    /* animation: ${animationKeyFrames.UpToDownRepeat} 2s infinite; */
   }
 `;

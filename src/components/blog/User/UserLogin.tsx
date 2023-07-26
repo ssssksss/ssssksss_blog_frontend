@@ -81,42 +81,39 @@ const UserLogin = (props: IUserLoginProps) => {
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
-        <CC.RowCenterDiv
-          height="30px"
-          color="#fff"
-          fontSize={theme.fontSizes.lg}
-          padding={"10px 0px 0px 0px"}
-        >
-          로그인
-        </CC.RowCenterDiv>
-        <CC.ColumnDiv gap={10} padding={"20px 20px 20px 20px"} color={"#fff"}>
-          <Space title4="이메일" titleWidth={"140px"}>
+        <CC.ColumnDiv gap={16} padding={"20px 20px 20px 20px"}>
+          <Space title4="이메일" titleWidth={"100px"} height="60px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="이메일을 입력하세요"
               type="email"
               register={register("email")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.email?.message}
             />
-            <CC.ErrorDiv> {errors.email?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="비밀번호" titleWidth={"140px"}>
+          <Space title4="비밀번호" titleWidth={"100px"} height="60px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register("password")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.password?.message}
             />
-            <CC.ErrorDiv> {errors.password?.message} </CC.ErrorDiv>
           </Space>
-          <CC.RowDiv gap={20}>
+          <CC.RowCenterDiv gap={20}>
             <Button
+              width="100%"
+              height="40px"
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
-            >
+              padding={"4px"}
+              status="orange">
               로그인
             </Button>
-            <Button onClick={props.toggleModal}> 취소 </Button>
-          </CC.RowDiv>
+            <Button width="100%" height="40px" onClick={props.toggleModal} padding={"4px"} status="orange">
+              취소
+            </Button>
+          </CC.RowCenterDiv>
         </CC.ColumnDiv>
       </FormContainer>
     </Container>
@@ -126,21 +123,20 @@ export default UserLogin;
 
 const UpDownAnimation = keyframes`
         from {
-          opacity: 0;
           transform: translate(0, 0);
-          border-radius: 0px 0px 0px 0px;
+          border-radius: 0px;
         }
         
         to {
-            opacity: 1;
             transform: translate(10px, 10px);
-          border-radius: 50px 0px 4px 4px;
+          border-radius: 4px;
         }
 `;
 
 const Container = styled.div`
-  width: calc(100% - 80px);
-  border-radius: 50px 4px 4px 4px;
+  width: calc(100% - 40px);
+  min-height: 80%;
+  border-radius: 4px;
   background-color: ${theme.backgroundColors.orange};
   z-index: 80;
   margin-top: 20px;
@@ -159,7 +155,11 @@ const Container = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.backgroundColors.purple};
-  animation: ${UpDownAnimation} 1s ease-in-out;
+  /* background-color: ${theme.backgroundColors.purple}; */
+  /* background-color: ${theme.backgroundColors.background2}; */
+  background-color: white;
+  box-shadow: 10px 10px 1px 1px ${theme.backgroundColors.purple};
+  animation: ${UpDownAnimation} 0.6s ease-in-out;
   animation-fill-mode: forwards;
+  color: black;
 `;

@@ -104,7 +104,6 @@ const ErrorDiv = styled.div`
   font-size: 12px;
   display: flex;
   align-items: center;
-  height: 30px;
 `;
 
 const rotationDownUp = keyframes`

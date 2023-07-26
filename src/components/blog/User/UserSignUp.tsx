@@ -75,51 +75,43 @@ const UserSignUp = (props: IUserSignUpProps) => {
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
-        <CC.RowCenterDiv
-          height="30px"
-          color="#fff"
-          fontSize={theme.fontSizes.lg}
-          padding={"10px 0px 0px 0px"}
-        >
-          회원가입
-        </CC.RowCenterDiv>
-        <CC.ColumnDiv gap={10} padding={"20px 20px 20px 20px"} color={"#fff"}>
-          <Space title4="닉네임" titleWidth={"140px"}>
+        <CC.ColumnDiv gap={10} padding={"20px 20px 20px 20px"}>
+          <Space title4="닉네임" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="닉네임을 입력하세요"
               register={register("nickname")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.nickname?.message}
             />
-            <CC.ErrorDiv> {errors.nickname?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="비밀번호" titleWidth={"140px"}>
+          <Space title4="비밀번호" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register("password")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.password?.message}
             />
-            <CC.ErrorDiv> {errors.password?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="비번확인" titleWidth={"140px"}>
+          <Space title4="비번확인" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="비밀번호를 재입력하세요"
               type="password"
               register={register("passwordConfirm")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.passwordConfirm?.message}
             />
-            <CC.ErrorDiv> {errors.passwordConfirm?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="이메일" titleWidth={"140px"}>
+          <Space title4="이메일" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="이메일을 입력하세요"
               type="email"
               register={register("email")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.email?.message}
             />
-            <CC.ErrorDiv> {errors.email?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="성별" titleWidth={"140px"}>
+          <Space title4="성별" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <CC.RowDiv gap={10}>
               <CC.RowDiv gap={10}>
                 <Input
@@ -130,6 +122,7 @@ const UserSignUp = (props: IUserSignUpProps) => {
                   name="gender"
                   value="m"
                   register={register("gender")}
+                  errorMessage={errors.gender?.message}
                 />
                 <label htmlFor="man"> 남 </label>
               </CC.RowDiv>
@@ -142,29 +135,34 @@ const UserSignUp = (props: IUserSignUpProps) => {
                   name="gender"
                   value="w"
                   register={register("gender")}
+                  errorMessage={errors.gender?.message}
                 />
                 <label htmlFor="woman"> 여 </label>
               </CC.RowDiv>
             </CC.RowDiv>
-            <CC.ErrorDiv> {errors.gender?.message} </CC.ErrorDiv>
           </Space>
-          <Space title4="생년월일" titleWidth={"140px"}>
+          <Space title4="생년월일" titleWidth={"140px"} height="70px" bg="#E6E6E6" br="4px">
             <Input
               placeholder="생년월일을 8자리로 입력하세요"
               register={register("birthDate")}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+              errorMessage={errors.birthDate?.message}
             />
-            <CC.ErrorDiv> {errors.birthDate?.message} </CC.ErrorDiv>
           </Space>
-          <CC.RowDiv gap={20}>
+          <CC.RowCenterDiv gap={20}>
             <Button
+              width="100%"
+              height="40px"
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
-            >
+              padding={"4px"}
+              status="orange">
               가입
             </Button>
-            <Button onClick={props.toggleModal}> 취소 </Button>
-          </CC.RowDiv>
+            <Button width="100%" height="40px" onClick={props.toggleModal} padding={"4px"} status="orange">
+              취소
+            </Button>
+          </CC.RowCenterDiv>
         </CC.ColumnDiv>
       </FormContainer>
     </Container>
@@ -176,19 +174,20 @@ const UpDownAnimation = keyframes`
         from {
           opacity: 0;
           transform: translate(0, 0);
-          border-radius: 0px 0px 0px 0px;
+          border-radius: 0px;
         }
         
         to {
             opacity: 1;
             transform: translate(10px, 10px);
-          border-radius: 50px 0px 4px 4px;
+            border-radius: 4px;
         }
 `;
 
 const Container = styled.div`
-  width: calc(100% - 80px);
-  border-radius: 50px 4px 4px 4px;
+  width: calc(100% - 40px);
+  min-height: 80%;
+  border-radius: 4px;
   background-color: ${theme.backgroundColors.orange};
   z-index: 80;
   margin-top: 20px;
@@ -207,7 +206,9 @@ const Container = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.backgroundColors.purple};
-  animation: ${UpDownAnimation} 1s ease-in-out;
+  background-color: white;
+  box-shadow: 10px 10px 1px 1px ${theme.backgroundColors.purple};
+  animation: ${UpDownAnimation} 0.6s ease-in-out;
   animation-fill-mode: forwards;
+  color: black;
 `;
