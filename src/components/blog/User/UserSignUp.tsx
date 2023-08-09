@@ -172,13 +172,11 @@ export default UserSignUp;
 
 const UpDownAnimation = keyframes`
         from {
-          opacity: 0;
           transform: translate(0, 0);
           border-radius: 0px;
         }
         
         to {
-            opacity: 1;
             transform: translate(10px, 10px);
             border-radius: 4px;
         }

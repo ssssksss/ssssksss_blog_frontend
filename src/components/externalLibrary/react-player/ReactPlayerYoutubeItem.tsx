@@ -149,4 +149,5 @@ const Container = styled(CC.RowDiv)<{ active: boolean }>`
   gap: 12px;
   padding: "0px 4px";
   font-size: ${theme.fontSizes.sm};
+  border-top: #ffffffff solid 1px;
 `;
