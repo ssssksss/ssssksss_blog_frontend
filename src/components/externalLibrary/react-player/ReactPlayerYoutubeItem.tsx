@@ -144,7 +144,7 @@ const rotation = keyframes`
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
   animation: ${(props) => props.active && `${rotation} 1s infinite`};
-  z-index: 20;
+  z-index: 10;
   height: 60px;
   gap: 12px;
   padding: "0px 4px";
