@@ -1,26 +1,26 @@
-import Layout1 from "src/components/layout/Layout1";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/react-editor";
-import Head from "next/head";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { store } from "@/redux/store";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import Button from "@/components/common/button/Button";
+import Layout1 from 'src/components/layout/Layout1';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState, useEffect, useRef } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/react-editor';
+import Head from 'next/head';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { store } from '@/redux/store';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import Button from '@/components/common/button/Button';
 
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
 //postView공간
 const PostView = () => {
@@ -41,40 +41,48 @@ const PostView = () => {
 
   const removePostHandler = () => {
     AxiosInstance({
-      url: "/api/post",
-      method: "DELETE",
+      url: '/api/post',
+      method: 'DELETE',
       data: {
         id: post?.id,
       },
     })
-      .then((response) => {
-        router.push(window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")));
+      .then(response => {
+        router.push(
+          window.location.pathname.substring(
+            0,
+            window.location.pathname.lastIndexOf('/')
+          )
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 
   useEffect(() => {
     setLoading(true);
-    if (window.location.pathname.split("/")[3] !== "" && window.location.pathname.split("/")[3] !== "undefined") {
+    if (
+      window.location.pathname.split('/')[3] !== '' &&
+      window.location.pathname.split('/')[3] !== 'undefined'
+    ) {
       AxiosInstance({
-        url: "/api/post",
-        method: "GET",
+        url: '/api/post',
+        method: 'GET',
         params: {
-          firstHref: window.location.pathname.split("/")[2],
-          secondHref: window.location.pathname.split("/")[3],
-          id: Number(window.location.pathname.split("/")[4]),
+          firstHref: window.location.pathname.split('/')[2],
+          secondHref: window.location.pathname.split('/')[3],
+          id: Number(window.location.pathname.split('/')[4]),
         },
       })
-        .then((response) => {
+        .then(response => {
           let res = response.data.data.post;
           setPost(res);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(res.content);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           setLoading(false);
         });
@@ -115,25 +123,32 @@ const PostView = () => {
               </CC.RowDiv>
             </CC.ColumnCenterDiv>
             <CC.RowRightDiv padding="0px 5px" gap={5}>
-              {authStore.role === "ROLE_ADMIN" && (
+              {authStore.role === 'ROLE_ADMIN' && (
                 <>
                   <Button
-                    status="green"
                     onClick={() =>
                       router.push(
-                        router.asPath.substring(0, router.asPath.lastIndexOf("/")) + "/post/update?id=" + post?.id
+                        router.asPath.substring(
+                          0,
+                          router.asPath.lastIndexOf('/')
+                        ) +
+                          '/post/update?id=' +
+                          post?.id
                       )
-                    }>
+                    }
+                  >
                     수정
                   </Button>
-                  <Button status="lightred" onClick={() => removePostHandler()}>
-                    삭제
-                  </Button>
+                  <Button onClick={() => removePostHandler()}>삭제</Button>
                 </>
               )}
               <Button
-                status="purple"
-                onClick={() => router.push(router.asPath.substring(0, router.asPath.lastIndexOf("/")))}>
+                onClick={() =>
+                  router.push(
+                    router.asPath.substring(0, router.asPath.lastIndexOf('/'))
+                  )
+                }
+              >
                 목록
               </Button>
             </CC.RowRightDiv>

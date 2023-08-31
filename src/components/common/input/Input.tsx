@@ -1,6 +1,6 @@
-import theme from "@/styles/theme";
-import { ChangeEvent, KeyboardEvent } from "react";
-import styled from "@emotion/styled";
+import theme from '@/styles/theme';
+import { ChangeEvent, KeyboardEvent } from 'react';
+import styled from '@emotion/styled';
 
 /**
  * Author : Sukyung Lee
@@ -10,101 +10,108 @@ import styled from "@emotion/styled";
  */
 
 interface IInputProps {
-  type?: string;
+  type?:
+    | 'password'
+    | 'text'
+    | 'radio'
+    | 'checkbox'
+    | 'email'
+    | 'search'
+    | 'range'
+    | 'color';
   placeholder?: string;
-  register?: any; // react-hook-form 용도로 사용
-  field?: any; // react-hook-form 용도로 사용
+  /**
+   * react-hook-form 사용시 필요한 파라미터
+   */
+  register?: any;
+  /**
+   * react-hook-form 사용시 필요한 파라미터
+   */
+  field?: any;
   disabled?: boolean;
-  defaultValue?: string | undefined | number;
-  height?: string;
-  width?: string;
-  padding?: string;
-  margin?: string;
-  backgroundColor?: string;
-  borderRadius?: string;
+  defaultValue?: any;
+  checked?: boolean;
+  color?:
+    | 'red'
+    | 'orange'
+    | 'yellow'
+    | 'green'
+    | 'purple'
+    | 'blue'
+    | 'skyblue'
+    | 'purple'
+    | 'pink';
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: any;
   value?: string | number | boolean;
-  border?: string;
   ref?: any;
   name?: string;
   id?: string;
   display?: string;
-  defaultChecked?: boolean;
-  checked?: boolean;
-  min?: string;
-  max?: string;
-  step?: string | number;
   errorMessage?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  outline?: boolean;
 }
 
 const Input = ({
   type,
-  placeholder,
-  disabled,
+  placeholder = '설명',
   register,
-  height,
-  width,
-  padding,
-  borderRadius,
+  field,
+  disabled,
   defaultValue,
+  checked,
   onChange,
   value,
-  margin,
   ref,
-  border,
-  backgroundColor,
-  field,
+  color,
   name,
   id,
   display,
-  defaultChecked,
-  checked,
   onKeyPress,
-  min,
-  max,
-  step,
   errorMessage,
-  bg,
+  size = 'md',
   ...props
 }: IInputProps) => {
   return (
     <>
       <InputStyle
-        type={type ?? "text"}
+        type={type ?? 'text'}
         placeholder={placeholder}
         disabled={disabled}
-        width={width}
-        height={height}
-        padding={padding}
-        margin={margin}
-        borderRadius={borderRadius}
         defaultValue={defaultValue}
-        defaultChecked={defaultChecked}
+        checked={checked}
         onChange={onChange}
-        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === "Enter" && onKeyPress) {
-            onKeyPress();
-          }
-        }}
         value={value}
         ref={ref}
-        backgroundColor={backgroundColor}
-        background={bg}
-        border={border}
+        color={color}
         name={name}
         id={id}
         display={display}
         checked={checked}
-        min={min}
-        max={max}
-        step={step}
+        size={size}
         errorMessage={errorMessage}
+        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (
+            e.key === 'Enter' &&
+            onKeyPress &&
+            (type === 'text' ||
+              type === 'password' ||
+              type === 'email' ||
+              type === 'search')
+          ) {
+            onKeyPress();
+          }
+        }}
         {...field}
         {...register}
         {...props}
       />
-      {errorMessage ? <ErrorMessageSpan padding={padding}> {errorMessage} </ErrorMessageSpan> : <></>}
+      {errorMessage ? (
+        <ErrorMessageSpan padding={padding}> {errorMessage} </ErrorMessageSpan>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
@@ -116,45 +123,70 @@ const ErrorMessageSpan = styled.span`
   font-size: 10px;
   display: flex;
   align-items: center;
-  padding: ${(props) => (props.padding ? props.padding : "0px 10px 0px 0px")};
   transform: translate(0, 20px);
   word-break: keep-all;
 `;
 
-const InputStyle = styled.input<{
-  width?: string;
-  height?: string;
-  padding?: string;
-  backgroundColor?: string;
-  borderRadius?: string;
-  disabled?: any;
-  border?: string;
-  margin?: string;
-  id?: string;
-  display?: string;
-  errorMessage?: string;
-  background: string;
-}>`
+const InputStyle = styled.input<IInputProps>`
   font-size: 1rem;
-  width: ${(props) => (props.width ? props.width : "100%")};
-  height: ${(props) => props.height};
-  padding: ${(props) => (props.padding ? props.padding : "0px 0px 0px 8px")};
-  margin: ${(props) => (props.margin ? props.margin : "0px")};
-  background-color: ${(props) => props.backgroundColor};
-  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : "10px")};
   outline: none;
-  display: ${(props) => (props.display ? props.display : "block")};
+  border: none;
+  border-radius: 8px;
+  display: ${props => (props.display ? props.display : 'block')};
+  width: ${props => theme.inputSizes[props.type][props.size].width};
+  height: ${props => theme.inputSizes[props.type][props.size].height};
+  padding-left: 4px;
   &:hover {
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   position: relative;
 
-  &[type="radio"] + label {
+  background-color: ${props => theme.backgroundColors[props.color]};
+  color: ${theme.colors['white']};
+  /* 순서주의 */
+  ${props =>
+    props.disabled &&
+    `
+    background-color: ${theme.backgroundColors['disabled']};
+      cursor: not-allowed;
+      &:hover {
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+    `}
+  /* 순서주의 */
+  ${props =>
+    props.outline &&
+    `
+    background-color: ${theme.backgroundColors['white']};
+    outline: solid ${theme.backgroundColors[props.color]} 1px;
+    color: ${theme.colors['default']};
+  `}
+
+  &[type='radio'] + label {
     display: flex;
     align-items: center;
   }
 
-  &[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  &[type='radio']:checked {
+    appearance: none;
+    box-shadow: none;
+    background: ${props => theme.backgroundColors[props.color]};
+  }
+
+  &[type='checkbox'] + label {
+    display: flex;
+    align-items: center;
+  }
+
+  &[type='checkbox']:checked {
+    appearance: none;
+    box-shadow: none;
+    border-radius: 2px;
+    background: ${props => theme.backgroundColors[props.color]};
+  }
+
+  &[type='datetime-local']::-webkit-calendar-picker-indicator {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -167,14 +199,15 @@ const InputStyle = styled.input<{
   ::placeholder {
     transition: all 0.6s ease-in-out;
     ${theme.fontSizes.sm};
-    color: #999999;
+    color: ${theme.colors['placeholder']};
+    opacity: 0.7;
 
     @media (max-width: 768px) {
       ${theme.fontSizes.xs};
     }
   }
   :focus::placeholder {
-    font-size: 10px;
-    transform: translate(-6px, -6px);
+    font-size: 14px;
+    transform: translate(0px, -50%);
   }
 `;

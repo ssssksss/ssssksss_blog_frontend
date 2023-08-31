@@ -1,8 +1,8 @@
-import React from "react";
-import BlogLayout from "@/components/layout/BlogLayout";
-import PostList from "src/components/blog/Post/PostList";
-import BlogMenu from "@/components/blog/BlogUI/BlogMenu";
-import styled from "@emotion/styled";
+import React from 'react';
+import BlogLayout from '@/components/layout/BlogLayout';
+import PostList from 'src/components/blog/Post/PostList';
+import BlogMenu from '@/components/blog/BlogUI/BlogPosts';
+import styled from '@emotion/styled';
 
 //2번째 카테고리 경로
 const Index = () => {

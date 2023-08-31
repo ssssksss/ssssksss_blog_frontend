@@ -1,10 +1,10 @@
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import styled from "@emotion/styled";
-import Button from "../common/button/Button";
-import InputSearch from "../common/input/InputSearch";
-import Pagination from "../common/pagination/Pagination";
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import styled from '@emotion/styled';
+import Button from '../common/button/Button';
+import InputSearch from '../common/input/InputSearch';
+import Pagination from '../common/pagination/Pagination';
 /**
  * Author : Sukyung Lee
  * FileName: ViewShopItemListContainer.tsx
@@ -18,12 +18,12 @@ const ViewShopItemListContainer = () => {
         <h1> 게시판 </h1>
       </Header>
       <CC.RowCenterDiv>
-        <CC.ColumnDiv width={"100%"}>
+        <CC.ColumnDiv width={'100%'}>
           <MainHeader>
             <InputSearch
-              width={"300px"}
-              height={"30px"}
-              img={"/img/ui-icon/search_icon.png"}
+              width={'300px'}
+              height={'30px'}
+              img={'/img/ui-icon/search_icon.png'}
             />
             <select name="area">
               <option value="100"> 최신순 </option>
@@ -39,8 +39,8 @@ const ViewShopItemListContainer = () => {
         </CC.ColumnDiv>
       </CC.RowCenterDiv>
       <MainFooter>
-        <Pagination refetch={() => ""} endPage={21} currentPage={1} />
-        <CC.RowRightDiv padding={"0px 10px 0px 0px"}>
+        <Pagination refetch={() => ''} endPage={21} currentPage={1} />
+        <CC.RowRightDiv padding={'0px 10px 0px 0px'}>
           <Button width="100px"> 상품 등록하기 </Button>
         </CC.RowRightDiv>
       </MainFooter>

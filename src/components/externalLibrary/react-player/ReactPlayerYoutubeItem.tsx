@@ -1,10 +1,10 @@
-import Input from "@/components/common/input/Input";
-import { CC } from "@/styles/commonComponentStyle";
-import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
-import Button from "@/components/common/button/Button";
-import { keyframes } from "@emotion/css";
-import theme from "@/styles/theme";
+import Input from '@/components/common/input/Input';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
+import { useState, useEffect } from 'react';
+import Button from '@/components/common/button/Button';
+import { keyframes } from '@emotion/css';
+import theme from '@/styles/theme';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerYoutubeItem.tsx
@@ -29,12 +29,12 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
 
   return (
     <Container active={props.url === props.choiceYoutubeLink.url}>
-      <CC.ColumnDiv width="60%" gap={8} padding={"0px 0px 0px 8px"}>
+      <CC.ColumnDiv width="60%" gap={8} padding={'0px 0px 0px 8px'}>
         <CC.RowBetweenDiv gap={4}>
           <CC.RowDiv width="50px"> url : </CC.RowDiv>
           <Input
             value={inputValue.url}
-            onChange={(e) => {
+            onChange={e => {
               setInputValue({
                 ...inputValue,
                 url: e.target.value,
@@ -46,7 +46,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           <CC.RowDiv width="50px"> 이름 : </CC.RowDiv>
           <Input
             value={inputValue.name}
-            onChange={(e) => {
+            onChange={e => {
               setInputValue({
                 ...inputValue,
                 name: e.target.value,
@@ -60,17 +60,25 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           width="50px"
           height="50px"
           onClick={() => props.ChoiceYoutubePlayLinkHandler(inputValue, props)}
-          disabled={props.url === props.choiceYoutubeLink.url}>
+          disabled={props.url === props.choiceYoutubeLink.url}
+        >
           선택
         </Button>
         <Button
           width="50px"
           height="50px"
           onClick={() => props.UpdateCacheStorageHandler(inputValue, props)}
-          disabled={props.url === inputValue.url && props.name === inputValue.name}>
+          disabled={
+            props.url === inputValue.url && props.name === inputValue.name
+          }
+        >
           수정
         </Button>
-        <Button width="50px" height="50px" onClick={() => props.DeleteCacheStorageHandler(props)}>
+        <Button
+          width="50px"
+          height="50px"
+          onClick={() => props.DeleteCacheStorageHandler(props)}
+        >
           삭제
         </Button>
       </CC.RowRightDiv>
@@ -143,11 +151,11 @@ const rotation = keyframes`
   `;
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
-  animation: ${(props) => props.active && `${rotation} 1s infinite`};
+  animation: ${props => props.active && `${rotation} 1s infinite`};
   z-index: 10;
   height: 60px;
   gap: 12px;
-  padding: "0px 4px";
+  padding: '0px 4px';
   font-size: ${theme.fontSizes.sm};
   border-top: #ffffffff solid 1px;
 `;

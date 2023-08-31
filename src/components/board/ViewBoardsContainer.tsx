@@ -1,17 +1,17 @@
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useRouter } from "next/router";
-import styled from "@emotion/styled";
-import Button from "../common/button/Button";
-import InputSearch from "../common/input/InputSearch";
-import Pagination from "../common/pagination/Pagination";
-import { useEffect } from "react";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { useState } from "react";
-import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
+import Button from '../common/button/Button';
+import InputSearch from '../common/input/InputSearch';
+import Pagination from '../common/pagination/Pagination';
+import { useEffect } from 'react';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useState } from 'react';
+import { dateFormat4y2m2d } from '../../../utils/fucntion/dateFormat';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
 /**
  * Author : Sukyung Lee
  * FileName: BoardContainer.tsx
@@ -20,10 +20,10 @@ import { RootState } from "@/redux/store/reducers";
  */
 const ViewBoardsContainer = () => {
   const router = useRouter();
-  const [keyword, setKeyword] = useState(router.query.keyword || "");
+  const [keyword, setKeyword] = useState(router.query.keyword || '');
   const [page, setPage] = useState<any>(router.query.page || 1);
   const [sort, setSort] = useState(
-    router.query.sort || "baseTimeEntity.createdAt"
+    router.query.sort || 'baseTimeEntity.createdAt'
   );
   const [size, setSize] = useState<any>(router.query.size || 10);
   const [boardList, setBoardList] = useState([]);
@@ -32,8 +32,8 @@ const ViewBoardsContainer = () => {
 
   const searchHandler = () => {
     AxiosInstance({
-      url: "/api/boards",
-      method: "GET",
+      url: '/api/boards',
+      method: 'GET',
       params: {
         keyword: String(keyword),
         page: Number(0),
@@ -41,23 +41,23 @@ const ViewBoardsContainer = () => {
         sort: sort,
       },
     })
-      .then((response) => {
+      .then(response => {
         setBoardList(response.data.data.boards);
         setSize(size);
         setPage(1);
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${sort}`;
-        router.replace(url, "", { shallow: true });
+        router.replace(url, '', { shallow: true });
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   };
 
   const pageHandler = (page: any) => {
     AxiosInstance({
-      url: "/api/boards",
-      method: "GET",
+      url: '/api/boards',
+      method: 'GET',
       params: {
         keyword: String(keyword),
         page: Number(page - 1),
@@ -65,44 +65,44 @@ const ViewBoardsContainer = () => {
         sort: sort,
       },
     })
-      .then((response) => {
+      .then(response => {
         setBoardList(response.data.data.boards);
         setPage(page);
         setSize(size);
         setSort(sort);
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=${page}&size=${size}&keyword=${keyword}&sort=${sort}`;
-        router.replace(url, "", { shallow: true });
+        router.replace(url, '', { shallow: true });
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   };
 
   const changeOptionHandler = (e: any) => {
     AxiosInstance({
-      url: "/api/boards",
-      method: "GET",
+      url: '/api/boards',
+      method: 'GET',
       params: {
         keyword: String(keyword),
         page: Number(0),
         size: Number(size),
         sort:
-          e.target.value === "" ? "baseTimeEntity.createdAt" : e.target.value,
+          e.target.value === '' ? 'baseTimeEntity.createdAt' : e.target.value,
       },
     })
-      .then((response) => {
+      .then(response => {
         setBoardList(response.data.data.boards);
-        setSort(e.target.value || "baseTimeEntity.createdAt");
+        setSort(e.target.value || 'baseTimeEntity.createdAt');
         setPage(1);
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=1&size=${size}&keyword=${keyword}&sort=${
-          e.target.value || "baseTimeEntity.createdAt"
+          e.target.value || 'baseTimeEntity.createdAt'
         }`;
-        router.replace(url, "", { shallow: true });
+        router.replace(url, '', { shallow: true });
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   };
 
@@ -110,39 +110,39 @@ const ViewBoardsContainer = () => {
   useEffect(() => {
     const urlQueryStringInstance = new URLSearchParams(location.search);
     AxiosInstance({
-      url: "/api/boards",
-      method: "GET",
+      url: '/api/boards',
+      method: 'GET',
       params: {
-        keyword: String(urlQueryStringInstance.get("keyword") || ""),
+        keyword: String(urlQueryStringInstance.get('keyword') || ''),
         page: Number(page - 1),
         size: Number(size),
-        sort: urlQueryStringInstance.get("sort")
-          ? urlQueryStringInstance.get("sort")
-          : "baseTimeEntity.createdAt",
+        sort: urlQueryStringInstance.get('sort')
+          ? urlQueryStringInstance.get('sort')
+          : 'baseTimeEntity.createdAt',
       },
     })
-      .then((response) => {
+      .then(response => {
         setBoardList(response.data.data.boards);
-        setKeyword(String(urlQueryStringInstance.get("keyword") || ""));
-        setSize(Number(urlQueryStringInstance.get("size") || size));
-        setPage(Number(urlQueryStringInstance.get("page")) || page);
+        setKeyword(String(urlQueryStringInstance.get('keyword') || ''));
+        setSize(Number(urlQueryStringInstance.get('size') || size));
+        setPage(Number(urlQueryStringInstance.get('page')) || page);
         setSort(
-          urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt"
+          urlQueryStringInstance.get('sort') || 'baseTimeEntity.createdAt'
         );
         setPageCount(response.data.data.boardsCount);
         const url = `/board?page=${
-          Number(urlQueryStringInstance.get("page")) || page
+          Number(urlQueryStringInstance.get('page')) || page
         }&size=${Number(
-          urlQueryStringInstance.get("size") || size
+          urlQueryStringInstance.get('size') || size
         )}&keyword=${String(
-          urlQueryStringInstance.get("keyword") || ""
+          urlQueryStringInstance.get('keyword') || ''
         )}&sort=${
-          urlQueryStringInstance.get("sort") || "baseTimeEntity.createdAt"
+          urlQueryStringInstance.get('sort') || 'baseTimeEntity.createdAt'
         }`;
-        router.replace(url, "", { shallow: true });
+        router.replace(url, '', { shallow: true });
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   }, []);
 
@@ -152,12 +152,12 @@ const ViewBoardsContainer = () => {
         <h2> 게시판 </h2>
       </Header>
       <CC.RowCenterDiv>
-        <CC.ColumnDiv width={"100%"}>
+        <CC.ColumnDiv width={'100%'}>
           <MainHeader>
             <InputSearch
-              width={"300px"}
-              height={"30px"}
-              img={"/img/ui-icon/search_icon.png"}
+              width={'300px'}
+              height={'30px'}
+              img={'/img/ui-icon/search_icon.png'}
               onChange={(e: any) => setKeyword(e.target.value)}
               onClickSearch={searchHandler}
               defaultValue={router.query.keyword}
@@ -200,9 +200,9 @@ const ViewBoardsContainer = () => {
           endPage={Math.ceil(pageCount / size)}
           currentPage={Number(page)}
         />
-        {authStore.role !== "" && (
-          <CC.RowRightDiv padding={"0px 10px 0px 0px"}>
-            <Button width="100px" onClick={() => router.push("/board/add")}>
+        {authStore.role !== '' && (
+          <CC.RowRightDiv padding={'0px 10px 0px 0px'}>
+            <Button width="100px" onClick={() => router.push('/board/add')}>
               글작성하기
             </Button>
           </CC.RowRightDiv>

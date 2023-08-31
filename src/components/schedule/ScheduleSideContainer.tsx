@@ -1,26 +1,26 @@
-import Button from "@/components/common/button/Button";
-import Input from "@/components/common/input/Input";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "@emotion/styled";
-import { css, keyframes } from "@emotion/react";
-import { RootState } from "@/redux/store/reducers";
-import { useEffect, useState } from "react";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { store } from "@/redux/store";
-import ScheduleOneDayItem from "./ScheduleOneDayItem";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { SET_MONTH_SCHEDULE_DATA } from "../../../redux/store/schedule/actions";
-import Space from "../common/space/Space";
-import ScheduleSelectBox from "./ScheduleSelectBox";
+import Button from '@/components/common/button/Button';
+import Input from '@/components/common/input/Input';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { css, keyframes } from '@emotion/react';
+import { RootState } from '@/redux/store/reducers';
+import { useEffect, useState } from 'react';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { store } from '@/redux/store';
+import ScheduleOneDayItem from './ScheduleOneDayItem';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { SET_MONTH_SCHEDULE_DATA } from '../../../redux/store/schedule/actions';
+import Space from '../common/space/Space';
+import ScheduleSelectBox from './ScheduleSelectBox';
 import {
   dateFormat4y2m2d2h2m2s,
   dateFormat4y2m2d2h2m,
-} from "../../../utils/fucntion/dateFormat";
-import BasicCustomModal from "../Modal/BasicCustomModal";
-import CustomReactQuill from "../common/editor/CustomReactQuill";
-import ScheduleCreateContainer from "./ScheduleCreateContainer";
+} from '../../../utils/fucntion/dateFormat';
+import BasicCustomModal from '../Modal/BasicCustomModal';
+import CustomReactQuill from '../common/editor/CustomReactQuill';
+import ScheduleCreateContainer from './ScheduleCreateContainer';
 /**
  * Author : Sukyung Lee
  * FileName: ScheduleSideContainer.tsx
@@ -47,7 +47,7 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   };
 
   const toggleIsOpenAddScheduleScreen = () => {
-    setIsOpenAddScheduleScreen((prev) => !prev);
+    setIsOpenAddScheduleScreen(prev => !prev);
     setIsEdit(false);
     setUpdateToScheduleState(null);
   };
@@ -55,19 +55,19 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   const updateScheduleHandler = (updateToSchedule: any) => {
     setIsEdit(true);
     setUpdateToScheduleState(updateToSchedule);
-    setIsOpenAddScheduleScreen((prev) => true);
+    setIsOpenAddScheduleScreen(prev => true);
   };
 
   const deleteScheduleHandler = (scheduleId: number) => {
     AxiosInstance({
-      url: "/api/schedule",
-      method: "DELETE",
+      url: '/api/schedule',
+      method: 'DELETE',
       data: {
         id: scheduleId,
       },
     })
-      .then((response) => {
-        console.log("ScheduleSideContainer.tsx : ", response.data);
+      .then(response => {
+        console.log('ScheduleSideContainer.tsx : ', response.data);
         dispatch(
           SET_MONTH_SCHEDULE_DATA(
             scheduleStore.monthScheduleData.filter(
@@ -76,8 +76,8 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
           )
         );
       })
-      .catch((error) => {
-        console.log("ScheduleSideContainer.tsx : ", "에러");
+      .catch(error => {
+        console.log('ScheduleSideContainer.tsx : ', '에러');
       });
   };
 
@@ -91,7 +91,7 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
   }, [scheduleStore.currentScheduleDate, scheduleStore.monthScheduleData]);
 
   useEffect(() => {
-    console.log("ScheduleSideContainer.tsx : ");
+    console.log('ScheduleSideContainer.tsx : ');
   }, []);
 
   return (
@@ -111,7 +111,7 @@ const ScheduleSideContainer = (props: IScheduleSideContainerProps) => {
       <OneDayScheduleList>
         <Button
           width="100%"
-          padding={"10px 0px"}
+          padding={'10px 0px'}
           color="white"
           onClick={() => setIsOpenAddScheduleScreen(true)}
         >
@@ -153,7 +153,7 @@ const Container = styled(CC.ColumnDiv)<{ hide: boolean }>`
   display: static;
   overflow-y: scroll;
   animation: ${animationKeyFrames.RightToLeftFadein} 0.3s linear;
-  ${(props) =>
+  ${props =>
     props.hide &&
     css`
       display: none;

@@ -1,18 +1,18 @@
-import Button from "@/components/common/button/Button";
-import Input from "@/components/common/input/Input";
-import Space from "@/components/common/space/Space";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { UserLoginYup } from "./UserLoginYup";
-import { useDispatch, useSelector } from "react-redux";
-import { setAccessToken, setUserInfo } from "@/redux/store/auth/actions";
-import { RootState } from "@/redux/store/reducers";
-import { store } from "@/redux/store";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
+import Button from '@/components/common/button/Button';
+import Input from '@/components/common/input/Input';
+import Space from '@/components/common/space/Space';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { UserLoginYup } from './UserLoginYup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAccessToken, setUserInfo } from '@/redux/store/auth/actions';
+import { RootState } from '@/redux/store/reducers';
+import { store } from '@/redux/store';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 
 /**
  * Author : Sukyung Lee
@@ -32,10 +32,10 @@ const UserLogin = (props: IUserLoginProps) => {
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      password: "",
-      email: "",
+      password: '',
+      email: '',
     },
   });
   const { errors } = formState;
@@ -44,8 +44,8 @@ const UserLogin = (props: IUserLoginProps) => {
     const { passwordConfirm, ...params } = data;
 
     await AxiosInstance({
-      url: "/api/user",
-      method: "PUT",
+      url: '/api/user',
+      method: 'PUT',
       data: {
         email: params.email,
         password: params.password,
@@ -54,48 +54,60 @@ const UserLogin = (props: IUserLoginProps) => {
       .then((response: any) => {
         dispatch(setAccessToken(response.data.accessToken));
         AxiosInstance({
-          url: "/api/user",
-          method: "GET",
+          url: '/api/user',
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${response.data.accessToken}`,
           },
         })
-          .then((response) => {
+          .then(response => {
             store.dispatch(setUserInfo(response.data.data.user));
             props.toggleModal();
           })
-          .catch((error) => {
-            console.log("UserLogin.tsx : ", error.response);
+          .catch(error => {
+            console.log('UserLogin.tsx : ', error.response);
           });
       })
       .catch((error: any) => {
-        console.log("UserLogin.tsx : ", error.response);
+        console.log('UserLogin.tsx : ', error.response);
         alert(error.response?.data?.errorMsg);
       });
   };
 
   const onClickErrorSubmit = () => {
-    alert("잘못 입력된 값이 존재합니다.");
+    alert('잘못 입력된 값이 존재합니다.');
   };
 
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
-        <CC.ColumnDiv gap={16} padding={"20px 20px 20px 20px"}>
-          <Space title4="이메일" titleWidth={"100px"} height="60px" bg="#E6E6E6" br="4px">
+        <CC.ColumnDiv gap={16} padding={'20px 20px 20px 20px'}>
+          <Space
+            title4="이메일"
+            titleWidth={'100px'}
+            height="60px"
+            bg="#E6E6E6"
+            br="4px"
+          >
             <Input
               placeholder="이메일을 입력하세요"
               type="email"
-              register={register("email")}
+              register={register('email')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               errorMessage={errors.email?.message}
             />
           </Space>
-          <Space title4="비밀번호" titleWidth={"100px"} height="60px" bg="#E6E6E6" br="4px">
+          <Space
+            title4="비밀번호"
+            titleWidth={'100px'}
+            height="60px"
+            bg="#E6E6E6"
+            br="4px"
+          >
             <Input
               placeholder="비밀번호를 입력하세요"
               type="password"
-              register={register("password")}
+              register={register('password')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               errorMessage={errors.password?.message}
             />
@@ -106,11 +118,18 @@ const UserLogin = (props: IUserLoginProps) => {
               height="40px"
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
-              padding={"4px"}
-              status="orange">
+              padding={'4px'}
+              status="orange"
+            >
               로그인
             </Button>
-            <Button width="100%" height="40px" onClick={props.toggleModal} padding={"4px"} status="orange">
+            <Button
+              width="100%"
+              height="40px"
+              onClick={props.toggleModal}
+              padding={'4px'}
+              status="orange"
+            >
               취소
             </Button>
           </CC.RowCenterDiv>

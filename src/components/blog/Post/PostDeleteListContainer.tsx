@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { CC } from "@/styles/commonComponentStyle";
-import Button from "@/components/common/button/Button";
+import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { CC } from '@/styles/commonComponentStyle';
+import Button from '@/components/common/button/Button';
 
 /**
  * Author : Sukyung Lee
@@ -15,27 +15,27 @@ const PostDeleteListContainer = () => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/delete/posts",
-      method: "GET",
+      url: '/api/delete/posts',
+      method: 'GET',
     })
-      .then((response) => {
+      .then(response => {
         setDeletePostList(response.data.data.posts);
       })
-      .catch((error) => {
+      .catch(error => {
         // console.log(error.response);
       });
   }, []);
 
   const deleteHandler = (id: number) => {
     AxiosInstance({
-      url: "/api/remove/post",
-      method: "DELETE",
+      url: '/api/remove/post',
+      method: 'DELETE',
       data: id,
     })
-      .then((response) => {
+      .then(response => {
         console.log(response);
       })
-      .catch((error) => {
+      .catch(error => {
         // console.log(error.response);
       });
   };
@@ -46,7 +46,7 @@ const PostDeleteListContainer = () => {
         <CC.RowBetweenDiv key={index} gap={10}>
           <div> {el.id} </div>
           <div> {el.title} </div>
-          <Button size={"40px"} onClick={() => deleteHandler(el.id)}>
+          <Button size={'40px'} onClick={() => deleteHandler(el.id)}>
             삭제
           </Button>
         </CC.RowBetweenDiv>

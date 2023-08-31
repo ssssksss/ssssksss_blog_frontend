@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import Layout1 from "@/components/layout/Layout1";
-import { CC } from "@/styles/commonComponentStyle";
-import Button from "@/components/common/button/Button";
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import styled from '@emotion/styled';
+import Layout1 from '@/components/layout/Layout1';
+import { CC } from '@/styles/commonComponentStyle';
+import Button from '@/components/common/button/Button';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -11,134 +11,178 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
  * @description 설명
  */
 
-const SolveRender = (props) => {
+const SolveRender = props => {
   let amount = 20;
-  const [arduinoData, setArduinoData] = useState("");
+  const [arduinoData, setArduinoData] = useState('');
   const [motorAngs, setMotorAngs] = useState({
-    motor1: "160",
-    motor2: "160",
-    motor3: "160",
-    motor4: "160",
-    motor5: "160",
-    motor6: "160",
+    motor1: '160',
+    motor2: '160',
+    motor3: '160',
+    motor4: '160',
+    motor5: '160',
+    motor6: '160',
   });
   const [tempMotorAngs, setTempMotorAngs] = useState({
-    motor1: "160",
-    motor2: "160",
-    motor3: "160",
-    motor4: "160",
-    motor5: "160",
-    motor6: "160",
+    motor1: '160',
+    motor2: '160',
+    motor3: '160',
+    motor4: '160',
+    motor5: '160',
+    motor6: '160',
   });
 
   function enterpressed() {
-    props.Socket.send(document.getElementById("txbuff").value);
-    document.getElementById("txbuff").value = "";
+    props.Socket.send(document.getElementById('txbuff').value);
+    document.getElementById('txbuff').value = '';
   }
 
   const btnOrderHandler = (order: any) => {
     switch (order) {
-      case "back":
+      case 'back':
         setMotorAngs({
           ...motorAngs,
-          motor2: Number(motorAngs.motor2) < 180 ? (Number(motorAngs.motor2) + amount).toString() : "180",
+          motor2:
+            Number(motorAngs.motor2) < 180
+              ? (Number(motorAngs.motor2) + amount).toString()
+              : '180',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor2: Number(motorAngs.motor2) < 180 ? (Number(motorAngs.motor2) + amount).toString() : "180",
+            motor2:
+              Number(motorAngs.motor2) < 180
+                ? (Number(motorAngs.motor2) + amount).toString()
+                : '180',
           })
         );
         break;
-      case "left":
+      case 'left':
         setMotorAngs({
           ...motorAngs,
-          motor1: Number(motorAngs.motor1) < 180 ? (Number(motorAngs.motor1) + amount).toString() : "180",
+          motor1:
+            Number(motorAngs.motor1) < 180
+              ? (Number(motorAngs.motor1) + amount).toString()
+              : '180',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor1: Number(motorAngs.motor1) < 180 ? (Number(motorAngs.motor1) + amount).toString() : "180",
+            motor1:
+              Number(motorAngs.motor1) < 180
+                ? (Number(motorAngs.motor1) + amount).toString()
+                : '180',
           })
         );
         break;
-      case "catch":
-        setMotorAngs({ ...motorAngs, motor6: Number(motorAngs.motor6) > 120 ? "80" : "160" });
-        props.Socket.send(JSON.stringify({ ...motorAngs, motor6: Number(motorAngs.motor6) > 120 ? "80" : "160" }));
-        break;
-      case "right":
+      case 'catch':
         setMotorAngs({
           ...motorAngs,
-          motor1: Number(motorAngs.motor1) > 0 ? (Number(motorAngs.motor1) - amount).toString() : "0",
+          motor6: Number(motorAngs.motor6) > 120 ? '80' : '160',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor1: Number(motorAngs.motor1) > 0 ? (Number(motorAngs.motor1) - amount).toString() : "0",
+            motor6: Number(motorAngs.motor6) > 120 ? '80' : '160',
           })
         );
         break;
-      case "front":
+      case 'right':
         setMotorAngs({
           ...motorAngs,
-          motor2: Number(motorAngs.motor2) > 0 ? (Number(motorAngs.motor2) - amount).toString() : "0",
+          motor1:
+            Number(motorAngs.motor1) > 0
+              ? (Number(motorAngs.motor1) - amount).toString()
+              : '0',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor2: Number(motorAngs.motor2) > 0 ? (Number(motorAngs.motor2) - amount).toString() : "0",
+            motor1:
+              Number(motorAngs.motor1) > 0
+                ? (Number(motorAngs.motor1) - amount).toString()
+                : '0',
           })
         );
         break;
-      case "up":
+      case 'front':
         setMotorAngs({
           ...motorAngs,
-          motor3: Number(motorAngs.motor3) > 0 ? (Number(motorAngs.motor3) - amount).toString() : "0",
+          motor2:
+            Number(motorAngs.motor2) > 0
+              ? (Number(motorAngs.motor2) - amount).toString()
+              : '0',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor3: Number(motorAngs.motor3) > 0 ? (Number(motorAngs.motor3) - amount).toString() : "0",
+            motor2:
+              Number(motorAngs.motor2) > 0
+                ? (Number(motorAngs.motor2) - amount).toString()
+                : '0',
           })
         );
         break;
-      case "down":
+      case 'up':
         setMotorAngs({
           ...motorAngs,
-          motor3: Number(motorAngs.motor3) < 180 ? (Number(motorAngs.motor3) + amount).toString() : "180",
+          motor3:
+            Number(motorAngs.motor3) > 0
+              ? (Number(motorAngs.motor3) - amount).toString()
+              : '0',
         });
         props.Socket.send(
           JSON.stringify({
             ...motorAngs,
-            motor3: Number(motorAngs.motor3) < 180 ? (Number(motorAngs.motor3) + amount).toString() : "180",
+            motor3:
+              Number(motorAngs.motor3) > 0
+                ? (Number(motorAngs.motor3) - amount).toString()
+                : '0',
           })
         );
         break;
-      case "init":
+      case 'down':
         setMotorAngs({
-          motor1: "160",
-          motor2: "160",
-          motor3: "160",
-          motor4: "160",
-          motor5: "160",
-          motor6: "160",
+          ...motorAngs,
+          motor3:
+            Number(motorAngs.motor3) < 180
+              ? (Number(motorAngs.motor3) + amount).toString()
+              : '180',
+        });
+        props.Socket.send(
+          JSON.stringify({
+            ...motorAngs,
+            motor3:
+              Number(motorAngs.motor3) < 180
+                ? (Number(motorAngs.motor3) + amount).toString()
+                : '180',
+          })
+        );
+        break;
+      case 'init':
+        setMotorAngs({
+          motor1: '160',
+          motor2: '160',
+          motor3: '160',
+          motor4: '160',
+          motor5: '160',
+          motor6: '160',
         });
         setTempMotorAngs({
-          motor1: "160",
-          motor2: "160",
-          motor3: "160",
-          motor4: "160",
-          motor5: "160",
-          motor6: "160",
+          motor1: '160',
+          motor2: '160',
+          motor3: '160',
+          motor4: '160',
+          motor5: '160',
+          motor6: '160',
         });
         props.Socket.send(
           JSON.stringify({
-            motor1: "160",
-            motor2: "160",
-            motor3: "160",
-            motor4: "160",
-            motor5: "160",
-            motor6: "160",
+            motor1: '160',
+            motor2: '160',
+            motor3: '160',
+            motor4: '160',
+            motor5: '160',
+            motor6: '160',
           })
         );
         break;
@@ -147,7 +191,7 @@ const SolveRender = (props) => {
 
   const onChangeMotorAngs = () => {
     const temp = {};
-    Object.keys(tempMotorAngs).map((i) => {
+    Object.keys(tempMotorAngs).map(i => {
       if (!isNaN(tempMotorAngs[i])) {
         if (tempMotorAngs[i] <= 180 && tempMotorAngs[i] > 0) {
           temp[i] = tempMotorAngs[i];
@@ -157,12 +201,12 @@ const SolveRender = (props) => {
     if (Object.keys(temp).length === 0) return;
     setMotorAngs({ ...motorAngs, ...temp });
     setTempMotorAngs({
-      motor1: "",
-      motor2: "",
-      motor3: "",
-      motor4: "",
-      motor5: "",
-      motor6: "",
+      motor1: '',
+      motor2: '',
+      motor3: '',
+      motor4: '',
+      motor5: '',
+      motor6: '',
     });
   };
 
@@ -173,7 +217,7 @@ const SolveRender = (props) => {
   useEffect((): any => {
     function start() {
       props.Socket.onmessage = function (evt) {
-        document.getElementById("rxConsole").value += evt.data;
+        document.getElementById('rxConsole').value += evt.data;
       };
     }
     window.onload = function (event) {
@@ -192,49 +236,54 @@ const SolveRender = (props) => {
             if (e.keyCode == 13) enterpressed();
           }}
         />
-        <input className="txd" type="button" onClick={enterpressed} value="Send" />
+        <input
+          className="txd"
+          type="button"
+          onClick={enterpressed}
+          value="Send"
+        />
       </CC.RowCenterDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={"60px"} onClick={() => btnOrderHandler("front")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('front')}>
             앞
           </Button>
-          <Button height={"60px"} onClick={() => ""}></Button>
+          <Button height={'60px'} onClick={() => ''}></Button>
         </CC.RowDiv>
       </CC.ColumnDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={"60px"} onClick={() => btnOrderHandler("left")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('left')}>
             좌
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("catch")}>
-            {motorAngs.motor6 > 120 ? "잡기" : "놓기"}
+          <Button height={'60px'} onClick={() => btnOrderHandler('catch')}>
+            {motorAngs.motor6 > 120 ? '잡기' : '놓기'}
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("right")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('right')}>
             우
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("up")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('up')}>
             상
           </Button>
         </CC.RowDiv>
       </CC.ColumnDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={"60px"} onClick={() => ""}>
+          <Button height={'60px'} onClick={() => ''}>
             E
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("back")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('back')}>
             뒤
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("init")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('init')}>
             초기화
           </Button>
-          <Button height={"60px"} onClick={() => btnOrderHandler("down")}>
+          <Button height={'60px'} onClick={() => btnOrderHandler('down')}>
             하
           </Button>
         </CC.RowDiv>
       </CC.ColumnDiv>
-      <div> {"현재 들어온 데이터 : "} </div>
+      <div> {'현재 들어온 데이터 : '} </div>
       <div className="rxd">
         <textarea id="rxConsole" readOnly></textarea>
       </div>
@@ -242,9 +291,9 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 1번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor1}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor1: e.target.value });
             }}
@@ -253,9 +302,9 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 2번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor2}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor2: e.target.value });
             }}
@@ -264,9 +313,9 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 3번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor3}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor3: e.target.value });
             }}
@@ -275,9 +324,9 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 4번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor4}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor4: e.target.value });
             }}
@@ -286,9 +335,9 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 5번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor5}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor5: e.target.value });
             }}
@@ -297,16 +346,20 @@ const SolveRender = (props) => {
         <CC.RowDiv gap={10}>
           <span> 모터 6번 : </span>
           <input
-            type={"number"}
+            type={'number'}
             value={tempMotorAngs.motor6}
-            className={"inputMotor"}
+            className={'inputMotor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor6: e.target.value });
             }}
           />
         </CC.RowDiv>
         <CC.RowCenterDiv>
-          <Button onClick={() => onChangeMotorAngs()} width={"100%"} height={"40px"}>
+          <Button
+            onClick={() => onChangeMotorAngs()}
+            width={'100%'}
+            height={'40px'}
+          >
             변경
           </Button>
         </CC.RowCenterDiv>
@@ -319,7 +372,7 @@ const SolveRender = (props) => {
         ))}
       </div>
       <CC.RowCenterDiv>
-        <Button onClick={() => sendMotorAngs()} width={"260px"} height={"40px"}>
+        <Button onClick={() => sendMotorAngs()} width={'260px'} height={'40px'}>
           전송
         </Button>
       </CC.RowCenterDiv>

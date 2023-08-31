@@ -1,31 +1,31 @@
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/react-editor";
-import Head from "next/head";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { store } from "@/redux/store";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import Button from "@/components/common/button/Button";
-import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState, useEffect, useRef } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/react-editor';
+import Head from 'next/head';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { store } from '@/redux/store';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import Button from '@/components/common/button/Button';
+import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file BlogItemView.tsx
+ * @file BlogPostView.tsx
  * @version 0.0.1 "2023-06-21 01:20:28"
  * @description 설명
  */
 
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
 type PostTypes = {
   id: number;
@@ -36,7 +36,7 @@ type PostTypes = {
   content: string;
 };
 
-const BlogItemView = () => {
+const BlogPostView = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [post, setPost] = useState<PostTypes>();
@@ -45,30 +45,39 @@ const BlogItemView = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const themeStore = useSelector((state: RootState) => state.themeStore);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [blogIndexList, setBlogIndexList] = useState<{ content: String; top: Number; tagName: String }>([]);
+  const [blogIndexList, setBlogIndexList] = useState<{
+    content: String;
+    top: Number;
+    tagName: String;
+  }>([]);
   const [createBlogIndexFlag, setCreateBlogIndexFlag] = useState(false);
 
   const removePostHandler = () => {
     AxiosInstance({
-      url: "/api/blog-item",
-      method: "DELETE",
+      url: '/api/blog-item',
+      method: 'DELETE',
       data: {
         id: post?.id,
       },
     })
-      .then((response) => {
+      .then(response => {
         store.dispatch(
           SET_TOASTIFY_MESSAGE({
-            type: "success",
-            message: "삭제 되었습니다.",
+            type: 'success',
+            message: '삭제 되었습니다.',
           })
         );
-        router.push(window.location.href.substring(0, window.location.href.lastIndexOf("/")));
+        router.push(
+          window.location.href.substring(
+            0,
+            window.location.href.lastIndexOf('/')
+          )
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         store.dispatch(
           SET_TOASTIFY_MESSAGE({
-            type: "error",
+            type: 'error',
             message: error.response?.data?.msg,
           })
         );
@@ -77,32 +86,40 @@ const BlogItemView = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (window.location.pathname.split("/")[3] !== "" && window.location.pathname.split("/")[3] !== "undefined") {
+    if (
+      window.location.pathname.split('/')[3] !== '' &&
+      window.location.pathname.split('/')[3] !== 'undefined'
+    ) {
       AxiosInstance({
-        url: "/api/blog-item",
-        method: "GET",
+        url: '/api/blog-item',
+        method: 'GET',
         params: {
-          id: window.location.pathname.split("/")[4],
+          id: window.location.pathname.split('/')[4],
         },
       })
-        .then((response) => {
+        .then(response => {
           let res = response.data.data.blogItem;
           setPost(res);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(res.content);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           if (error.response?.data.statusCode === 400) {
             store.dispatch(
               SET_TOASTIFY_MESSAGE({
-                type: "error",
+                type: 'error',
                 message: error.response.data.msg,
               })
             );
           }
           setLoading(false);
-          router.push(window.location.href.substring(0, window.location.href.lastIndexOf("/")));
+          router.push(
+            window.location.href.substring(
+              0,
+              window.location.href.lastIndexOf('/')
+            )
+          );
         });
     }
   }, []);
@@ -114,9 +131,11 @@ const BlogItemView = () => {
   const createBlogIndex = () => {
     if (createBlogIndexFlag) return;
     setCreateBlogIndexFlag(true);
-    let temp = document.getElementsByClassName("toastui-editor-contents")[0].querySelectorAll("h1,h2,h3,h4,h5,h6");
+    let temp = document
+      .getElementsByClassName('toastui-editor-contents')[0]
+      .querySelectorAll('h1,h2,h3,h4,h5,h6');
     let htmlTagIndexTempArray = [];
-    temp.forEach((i) => {
+    temp.forEach(i => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
         top: i.getBoundingClientRect().top,
@@ -146,7 +165,11 @@ const BlogItemView = () => {
               </HeaderContainer>
               <BodyContainer theme={themeStore}>
                 {blogIndexList.map((i, index) => (
-                  <button key={index} onClick={() => scrollTo(0, i.top - 40)} className={i.tagName}>
+                  <button
+                    key={index}
+                    onClick={() => scrollTo(0, i.top - 40)}
+                    className={i.tagName}
+                  >
                     {i.content}
                   </button>
                 ))}
@@ -158,8 +181,13 @@ const BlogItemView = () => {
               onClick={() => {
                 createBlogIndex();
                 setIsOpenModal(true);
-              }}>
-              <CC.Img width={"24px"} alt="blog_index" src="/img/ui-icon/list_index_icon.png" />
+              }}
+            >
+              <CC.Img
+                width={'24px'}
+                alt="blog_index"
+                src="/img/ui-icon/list_index_icon.png"
+              />
             </BlogItemIndexSectionButton>
           )}
           <Head>
@@ -199,26 +227,47 @@ const BlogItemView = () => {
                     noCursor={true}
                   />
                   <Button
-                    onClick={() => router.push(router.asPath.substring(0, router.asPath.lastIndexOf("/")))}
-                    padding={"2px"}>
-                    {router.asPath.split("/")[2] + "/" + router.asPath.split("/")[3]}
+                    onClick={() =>
+                      router.push(
+                        router.asPath.substring(
+                          0,
+                          router.asPath.lastIndexOf('/')
+                        )
+                      )
+                    }
+                    size="sm"
+                  >
+                    {router.asPath.split('/')[2] +
+                      '/' +
+                      router.asPath.split('/')[3]}
                   </Button>
                 </CC.RowDiv>
               </CC.RowDiv>
             </CC.ColumnCenterDiv>
             <CC.RowRightDiv padding="0px 5px" gap={5}>
-              {authStore.role === "ROLE_ADMIN" && (
+              {authStore.role === 'ROLE_ADMIN' && (
                 <>
                   <Button
-                    padding={"2px"}
-                    status="green"
-                    size={"40px"}
                     onClick={() =>
-                      router.push(router.asPath.substring(0, router.asPath.lastIndexOf("/")) + "/update?id=" + post?.id)
-                    }>
+                      router.push(
+                        router.asPath.substring(
+                          0,
+                          router.asPath.lastIndexOf('/')
+                        ) +
+                          '/update?id=' +
+                          post?.id
+                      )
+                    }
+                    color="green"
+                    size="sm"
+                  >
                     수정
                   </Button>
-                  <Button size={"40px"} status="lightred" padding={"2px"} onClick={() => removePostHandler()}>
+                  <Button
+                    size="sm"
+                    color="red"
+                    onClick={() => removePostHandler()}
+                  >
                     삭제
                   </Button>
                 </>
@@ -238,7 +287,7 @@ const BlogItemView = () => {
     </>
   );
 };
-export default BlogItemView;
+export default BlogPostView;
 
 const Container = styled.section`
   border-radius: 10px;
@@ -253,7 +302,7 @@ const PostViewTitle = styled.h2`
   min-height: 40px;
   font-size: ${theme.fontSizes.md};
   color: white;
-  background: ${(props) => props.themeStore.menuBackground};
+  background: ${props => props.themeStore.menuBackground};
   font-family: ${theme.fontFamily.cookieRunRegular};
   ${theme.flex.row.center.center};
   z-index: 2;

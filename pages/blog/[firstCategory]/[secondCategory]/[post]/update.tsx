@@ -23,15 +23,18 @@
 // Update.layout = Layout1;
 // export default Update;
 
-import BlogLayout from "@/components/layout/BlogLayout";
-import React from "react";
-import dynamic from "next/dynamic";
-import Loading1 from "@/components/common/loading/Loading1";
+import BlogLayout from '@/components/layout/BlogLayout';
+import React from 'react';
+import dynamic from 'next/dynamic';
+import Loading1 from '@/components/common/loading/Loading1';
 
-const DynamicComponent = dynamic(() => import("src/components/blog/BlogUI/BlogItemView"), {
-  ssr: false,
-  loading: () => <Loading1 />,
-}) as any;
+const DynamicComponent = dynamic(
+  () => import('@/components/blog/BlogUI/BlogPostView'),
+  {
+    ssr: false,
+    loading: () => <Loading1 />,
+  }
+) as any;
 
 const Update = () => {
   return (

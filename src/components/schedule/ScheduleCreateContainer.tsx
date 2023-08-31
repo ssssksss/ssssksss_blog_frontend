@@ -1,24 +1,24 @@
-import Button from "@/components/common/button/Button";
-import Input from "@/components/common/input/Input";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { useEffect, useState } from "react";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { store } from "@/redux/store";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import Space from "../common/space/Space";
-import BasicCustomModal from "../Modal/BasicCustomModal";
-import CustomReactQuill from "../common/editor/CustomReactQuill";
-import ScheduleSelectBox from "./ScheduleSelectBox";
+import Button from '@/components/common/button/Button';
+import Input from '@/components/common/input/Input';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { useEffect, useState } from 'react';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { store } from '@/redux/store';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import Space from '../common/space/Space';
+import BasicCustomModal from '../Modal/BasicCustomModal';
+import CustomReactQuill from '../common/editor/CustomReactQuill';
+import ScheduleSelectBox from './ScheduleSelectBox';
 import {
   dateFormat4y2m2d2h2m,
   dateFormat4y2m2d2h2m2s,
-} from "../../../utils/fucntion/dateFormat";
-import { SET_MONTH_SCHEDULE_DATA } from "@/redux/store/schedule";
-import styled from "@emotion/styled";
-import { css, keyframes } from "@emotion/react";
+} from '../../../utils/fucntion/dateFormat';
+import { SET_MONTH_SCHEDULE_DATA } from '@/redux/store/schedule';
+import styled from '@emotion/styled';
+import { css, keyframes } from '@emotion/react';
 
 /**
  * Author : Sukyung Lee
@@ -27,23 +27,23 @@ import { css, keyframes } from "@emotion/react";
  * Description :
  */
 
-const Schedule_ITEM_COLOR = "#eeeeee";
+const Schedule_ITEM_COLOR = '#eeeeee';
 const addCategoryColorListExample = [
-  { color: "#eb5757", description: "Red" },
-  { color: "#f2994a", description: "Orange" },
-  { color: "#f2c94c", description: "Yellow" },
-  { color: "#219653", description: "Green1" },
-  { color: "#27ae60", description: "Green2" },
-  { color: "#6fcf97", description: "Green3" },
-  { color: "#2f80ed", description: "Blue1" },
-  { color: "#2d9cdb", description: "Blue2" },
-  { color: "#56ccf2", description: "Blue3" },
-  { color: "#9b51e0", description: "Purple1" },
-  { color: "#bb6bd9", description: "Purple2" },
-  { color: "#b085f5", description: "Purple3" },
-  { color: "#828282", description: "gray1" },
-  { color: "#bdbdbd", description: "gray2" },
-  { color: "#e0e0e0", description: "gray3" },
+  { color: '#eb5757', description: 'Red' },
+  { color: '#f2994a', description: 'Orange' },
+  { color: '#f2c94c', description: 'Yellow' },
+  { color: '#219653', description: 'Green1' },
+  { color: '#27ae60', description: 'Green2' },
+  { color: '#6fcf97', description: 'Green3' },
+  { color: '#2f80ed', description: 'Blue1' },
+  { color: '#2d9cdb', description: 'Blue2' },
+  { color: '#56ccf2', description: 'Blue3' },
+  { color: '#9b51e0', description: 'Purple1' },
+  { color: '#bb6bd9', description: 'Purple2' },
+  { color: '#b085f5', description: 'Purple3' },
+  { color: '#828282', description: 'gray1' },
+  { color: '#bdbdbd', description: 'gray2' },
+  { color: '#e0e0e0', description: 'gray3' },
 ];
 
 interface IScheduleCreateContainerProps {
@@ -64,22 +64,22 @@ interface IScheduleCreateContainerProps {
 const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const [title, setTitle] = useState(
-    props.isEdit ? props.updateToScheduleState?.title : ""
+    props.isEdit ? props.updateToScheduleState?.title : ''
   );
   const [content, setContent] = useState(
-    props.isEdit ? props.updateToScheduleState?.content : ""
+    props.isEdit ? props.updateToScheduleState?.content : ''
   );
   const [isOpenAddCategoryModal, setIsOpenAddCategoryModal] = useState(false);
   const [categoryList, setCategoryList] = useState<any>([]);
   // 카테고리 추가할 하는 용도의 state
-  const [addCategoryColor, setAddCategoryColor] = useState("#000000");
-  const [addCategoryName, setAddCategoryName] = useState("");
+  const [addCategoryColor, setAddCategoryColor] = useState('#000000');
+  const [addCategoryName, setAddCategoryName] = useState('');
   // API로 보낼때 사용하는 state
   const [categoryColor, setCategoryColor] = useState(
-    props.isEdit ? props.updateToScheduleState?.backgroundColor : ""
+    props.isEdit ? props.updateToScheduleState?.backgroundColor : ''
   );
   const [categoryName, setCategoryName] = useState(
-    props.isEdit ? props.updateToScheduleState?.categoryName : ""
+    props.isEdit ? props.updateToScheduleState?.categoryName : ''
   );
   const [startDateTime, setStartDateTime] = useState(
     props.isEdit
@@ -93,30 +93,30 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
   );
 
   const onClickAddCategoryHandler = () => {
-    if (addCategoryName !== "" && addCategoryColor !== "#000000") {
+    if (addCategoryName !== '' && addCategoryColor !== '#000000') {
       setCategoryList([
         ...categoryList,
         { categoryName: addCategoryName, backgroundColor: addCategoryColor },
       ]);
-      setAddCategoryName("");
-      setAddCategoryColor("#000000");
+      setAddCategoryName('');
+      setAddCategoryColor('#000000');
       setIsOpenAddCategoryModal(false);
     } else {
-      alert("색상이 검은색이거나 카테고리 이름이 입력되지 않았습니다.");
+      alert('색상이 검은색이거나 카테고리 이름이 입력되지 않았습니다.');
     }
   };
 
   const updateSchedule = () => {
-    if (content === "") {
-      alert("내용을 입력해야 합니다.");
+    if (content === '') {
+      alert('내용을 입력해야 합니다.');
       return;
-    } else if (categoryName === "") {
-      alert("카테고리를 선택해야 합니다.");
+    } else if (categoryName === '') {
+      alert('카테고리를 선택해야 합니다.');
       return;
     }
     AxiosInstance({
-      url: "/api/schedule",
-      method: "PUT",
+      url: '/api/schedule',
+      method: 'PUT',
       data: {
         id: props.updateToScheduleState?.id,
         title,
@@ -127,8 +127,8 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         backgroundColor: categoryColor,
       },
     })
-      .then((response) => {
-        setContent("");
+      .then(response => {
+        setContent('');
         store.dispatch(
           SET_MONTH_SCHEDULE_DATA(
             scheduleStore.monthScheduleData.map((el: any) =>
@@ -148,22 +148,22 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         );
         props.closeHandler();
       })
-      .catch((error) => {
-        console.log("ScheduleCreateContainer.tsx : ", "에러???");
+      .catch(error => {
+        console.log('ScheduleCreateContainer.tsx : ', '에러???');
       });
   };
 
   const createSchedule = () => {
-    if (content === "") {
-      alert("내용을 입력해야 합니다.");
+    if (content === '') {
+      alert('내용을 입력해야 합니다.');
       return;
-    } else if (categoryName === "") {
-      alert("카테고리를 선택해야 합니다.");
+    } else if (categoryName === '') {
+      alert('카테고리를 선택해야 합니다.');
       return;
     }
     AxiosInstance({
-      url: "/api/schedule",
-      method: "POST",
+      url: '/api/schedule',
+      method: 'POST',
       data: {
         title,
         content,
@@ -173,8 +173,8 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         backgroundColor: categoryColor,
       },
     })
-      .then((response) => {
-        setContent("");
+      .then(response => {
+        setContent('');
         store.dispatch(
           SET_MONTH_SCHEDULE_DATA([
             ...scheduleStore.monthScheduleData,
@@ -183,8 +183,8 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         );
         props.closeHandler();
       })
-      .catch((error) => {
-        console.log("ScheduleCreateContainer.tsx : ", "에러???");
+      .catch(error => {
+        console.log('ScheduleCreateContainer.tsx : ', '에러???');
       });
   };
 
@@ -195,13 +195,13 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/schedule-category",
-      method: "GET",
+      url: '/api/schedule-category',
+      method: 'GET',
     })
-      .then((response) => {
+      .then(response => {
         setCategoryList(response.data.data.scheduleCategories);
       })
-      .catch((error) => {});
+      .catch(error => {});
   }, []);
 
   return (
@@ -218,7 +218,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
                 X
               </Button>
             </Title>
-            <CC.ColumnDiv padding={"10px 10px 0px"} gap={10}>
+            <CC.ColumnDiv padding={'10px 10px 0px'} gap={10}>
               <Space
                 title4="카테고리명"
                 titleWidth="160px"
@@ -267,7 +267,7 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         </CC.ColumnCenterDiv>
         <Button onClick={props.closeHandler}> X </Button>
       </Title>
-      <CC.ColumnDiv padding={"10px 10px 0px"} gap={10}>
+      <CC.ColumnDiv padding={'10px 10px 0px'} gap={10}>
         <Space title4="제목" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
           <Input
             placeholder="제목 입력"
@@ -299,14 +299,14 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
           </CC.ColumnDiv>
         </Space>
         <Space title4="구성" titleWidth="160px" bg={Schedule_ITEM_COLOR}>
-          <CC.RowDiv gap={10} padding={"0px 4px 0px 0px"}>
+          <CC.RowDiv gap={10} padding={'0px 4px 0px 0px'}>
             <ScheduleSelectBox
               options={categoryList}
               setSelect={setCategoryHandler}
               defaultValue={{ categoryName, categoryColor }}
             />
             <Button
-              width={"100px"}
+              width={'100px'}
               onClick={() => setIsOpenAddCategoryModal(true)}
             >
               카테고리 추가
@@ -316,8 +316,8 @@ const ScheduleCreateContainer = (props: IScheduleCreateContainerProps) => {
         <Button
           onClick={() => (props.isEdit ? updateSchedule() : createSchedule())}
         >
-          {" "}
-          {props.isEdit ? "수정" : "제출"}{" "}
+          {' '}
+          {props.isEdit ? '수정' : '제출'}{' '}
         </Button>
       </CC.ColumnDiv>
     </Container>
@@ -360,7 +360,7 @@ const AddCategoryContainer = styled(CC.ColumnDiv)`
   min-height: 600px;
 `;
 const CategoryColorListContainer = styled.div`
-  background: "#eeeeee";
+  background: '#eeeeee';
   gap: 20px;
   display: flex;
   flex-flow: wrap row;
@@ -371,7 +371,7 @@ const CategoryColorButton = styled.button<{ backgroundColor: string }>`
   border-radius: 50%;
   width: 40px;
   aspect-ratio: 1;
-  background: ${(props) => props.backgroundColor};
+  background: ${props => props.backgroundColor};
 
   @media (max-width: 768px) {
     width: 30px;

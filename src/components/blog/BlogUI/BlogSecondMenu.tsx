@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import ModalSecondCategory from "../../Modal/ModalSecondCategory";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { SET_SECOND_CATEGORY_PATH } from "@/redux/store/category/actions";
-import { CC } from "../../../../styles/commonComponentStyle";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import theme from "@/styles/theme";
-import { store } from "@/redux/store";
-import { Spinner4 } from "@/components/common/spinner/Spinners";
+import React, { useState, useEffect } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import ModalSecondCategory from '../../Modal/ModalSecondCategory';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { SET_SECOND_CATEGORY_PATH } from '@/redux/store/category/actions';
+import { CC } from '../../../../styles/commonComponentStyle';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import theme from '@/styles/theme';
+import { store } from '@/redux/store';
+import { Spinner4 } from '@/components/common/spinner/Spinners';
 
 const BlogSecondMenu = () => {
   const router = useRouter();
@@ -22,11 +22,15 @@ const BlogSecondMenu = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [secondCategory, setSecondCategory] = useState([]);
   const [categoryChange, setCategoryChange] = useState(false);
-  const firstCategory1 = useSelector((state: RootState) => state.categoryStore.firstCategory);
+  const firstCategory1 = useSelector(
+    (state: RootState) => state.categoryStore.firstCategory
+  );
 
   const SecondCategoryHandler = async (pathValue: string) => {
-    await store.dispatch(SET_SECOND_CATEGORY_PATH({ secondCategory: pathValue }));
-    await router.push("/blog1" + pathValue);
+    await store.dispatch(
+      SET_SECOND_CATEGORY_PATH({ secondCategory: pathValue })
+    );
+    await router.push('/blog1' + pathValue);
   };
 
   type SecondCategoryTypes = {
@@ -39,22 +43,24 @@ const BlogSecondMenu = () => {
   };
 
   useEffect(() => {
-    store.dispatch(SET_SECOND_CATEGORY_PATH(window.location.pathname.split("/")[3]));
+    store.dispatch(
+      SET_SECOND_CATEGORY_PATH(window.location.pathname.split('/')[3])
+    );
   }, []);
 
   useEffect(() => {
     AxiosInstance({
-      url: "/api/second-category",
-      method: "GET",
+      url: '/api/second-category',
+      method: 'GET',
       params: {
         firstHref: firstCategory1,
       },
     })
-      .then((response) => {
+      .then(response => {
         setSecondCategory(response.data.data.secondCategory);
         setIsLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setSecondCategory([]);
         setIsLoading(false);
       });
@@ -78,16 +84,17 @@ const BlogSecondMenu = () => {
             <>
               <MenuTitle>
                 <span>{firstCategory1}</span>
-                {authStore.role === "ROLE_ADMIN" && (
+                {authStore.role === 'ROLE_ADMIN' && (
                   <button
                     onClick={() => {
                       setModalOpen(true);
-                    }}>
+                    }}
+                  >
                     ➕
                   </button>
                 )}
-                <MenuHideButton onClick={() => setIsHideMenu((prev) => !prev)}>
-                  {isHideMenu ? "🔽" : "🔼"}
+                <MenuHideButton onClick={() => setIsHideMenu(prev => !prev)}>
+                  {isHideMenu ? '🔽' : '🔼'}
                 </MenuHideButton>
               </MenuTitle>
               {isHideMenu && (
@@ -97,9 +104,13 @@ const BlogSecondMenu = () => {
                       {secondCategory?.map((i, index) => (
                         <MenuItem
                           key={i.id}
-                          active={i.firstHref + "/" + router.asPath.split("/")[3] === i.secondHref}
+                          active={
+                            i.firstHref + '/' + router.asPath.split('/')[3] ===
+                            i.secondHref
+                          }
                           index={index}
-                          onClick={() => SecondCategoryHandler(i.secondHref)}>
+                          onClick={() => SecondCategoryHandler(i.secondHref)}
+                        >
                           <span> {i.name} </span>
                           <MenuCount> {i.count} </MenuCount>
                         </MenuItem>
@@ -153,11 +164,11 @@ const MenuContainer = styled.div`
 
 const MenuItem = styled.button<{ active: boolean; index: number }>`
   height: 30px;
-  --index: ${(props) => (props.index % 4) + "s"};
+  --index: ${props => (props.index % 4) + 's'};
   animation: ${animationKeyFrames.RightToLeftFadein} var(--index);
   font-size: ${theme.fontSizes.sm};
-  color: ${(props) => (props.active ? theme.backgroundColors.orange : "white")};
-  background: ${(props) => (props.active ? "white" : "transparent")};
+  color: ${props => (props.active ? theme.backgroundColors.orange : 'white')};
+  background: ${props => (props.active ? 'white' : 'transparent')};
   font-family: ${theme.fontFamily.gmarketSansBold};
   cursor: pointer;
   position: relative;
@@ -169,7 +180,7 @@ const MenuItem = styled.button<{ active: boolean; index: number }>`
     border-left: dashed 1px black;
   }
 
-  ${(props) =>
+  ${props =>
     props.active &&
     css`
       & > div {

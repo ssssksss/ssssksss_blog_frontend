@@ -1,12 +1,12 @@
-import Input from "@/components/common/input/Input";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useState, useEffect } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { useRouter } from "next/router";
-import Button from "@/components/common/button/Button";
+import Input from '@/components/common/input/Input';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useState, useEffect } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { useRouter } from 'next/router';
+import Button from '@/components/common/button/Button';
 
 /**
  * Author : Sukyung Lee
@@ -32,7 +32,7 @@ interface IScheduleItemProps {
 
 const ScheduleOneDayItem = (props: IScheduleItemProps) => {
   const dateTimeStringConverter = (date: string) => {
-    return date.slice(0, 10) + " " + date.slice(11, 16);
+    return date.slice(0, 10) + ' ' + date.slice(11, 16);
   };
 
   return (

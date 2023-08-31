@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_49f095812d80906"
   },
   "dependencies": {
     "@emotion/css": "^11.10.5",
@@ -15,6 +18,7 @@
     "@hookform/resolvers": "^2.9.7",
     "@react-three/drei": "^8.20.2",
     "@react-three/fiber": "^7.0.29",
+    "@storybook/addon-styling": "^1.3.7",
     "@toast-ui/editor-plugin-chart": "^3.0.1",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.2",
@@ -54,13 +58,33 @@
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.5",
+    "@emotion/babel-preset-css-prop": "^11.11.0",
+    "@storybook/addon-cssresources": "^6.2.9",
+    "@storybook/addon-essentials": "7.3.2",
+    "@storybook/addon-interactions": "7.3.2",
+    "@storybook/addon-links": "7.3.2",
+    "@storybook/addon-onboarding": "1.0.8",
+    "@storybook/blocks": "7.3.2",
+    "@storybook/nextjs": "7.3.2",
+    "@storybook/react": "7.3.2",
+    "@storybook/testing-library": "0.2.0",
     "@types/node": "^17.0.21",
     "@types/prismjs": "^1.26.0",
     "@types/react": "17.0.39",
     "@types/uuid": "^9.0.0",
+    "chromatic": "^6.24.1",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-storybook": "^0.6.13",
+    "storybook": "7.3.2",
     "typescript": "4.6.2"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "ssssksss_blog@0.1.0"
 }

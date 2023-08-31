@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Layout1 from "src/components/layout/Layout1";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import Loading1 from "@/components/common/loading/Loading1";
+import React, { useEffect, useState } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Layout1 from 'src/components/layout/Layout1';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import Loading1 from '@/components/common/loading/Loading1';
 
 //2번째 카테고리 경로
 const PostList = () => {
@@ -31,21 +31,24 @@ const PostList = () => {
   };
 
   useEffect(() => {
-    if (secondCategory !== "") {
-      if (window.location.pathname.split("/")[3] !== "" && window.location.pathname.split("/")[3] !== "undefined") {
+    if (secondCategory !== '') {
+      if (
+        window.location.pathname.split('/')[3] !== '' &&
+        window.location.pathname.split('/')[3] !== 'undefined'
+      ) {
         AxiosInstance({
-          url: "/api/posts",
-          method: "GET",
+          url: '/api/posts',
+          method: 'GET',
           params: {
-            firstHref: window.location.pathname.split("/")[2],
-            secondHref: window.location.pathname.split("/")[3],
+            firstHref: window.location.pathname.split('/')[2],
+            secondHref: window.location.pathname.split('/')[3],
           },
         })
-          .then((response) => {
+          .then(response => {
             let res = response.data.data.posts;
             setPosts(res);
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
       }
@@ -64,16 +67,22 @@ const PostList = () => {
     <>
       <MenuContainer>
         {posts.length === 0 && <Blank> 아무런 게시글이 없습니다. </Blank>}
-        {authStore.role === "ROLE_ADMIN" && (
+        {authStore.role === 'ROLE_ADMIN' && (
           <MenuAddItem>
-            <Link href={"/blog1/[firstCategory]/[secondCategory]/[post]/add"} as={router.asPath + "/post/add"}>
+            <Link
+              href={'/blog1/[firstCategory]/[secondCategory]/[post]/add'}
+              as={router.asPath + '/post/add'}
+            >
               <a> 글 추가 </a>
             </Link>
           </MenuAddItem>
         )}
         {posts.map((i, index) => (
           <MenuItem key={i.id}>
-            <Link href={"/blog1/[firstCategory]/[secondCategory]/[post]"} as={"/blog1" + i.second_href + "/" + i.id}>
+            <Link
+              href={'/blog1/[firstCategory]/[secondCategory]/[post]'}
+              as={'/blog1' + i.second_href + '/' + i.id}
+            >
               <Item>
                 <ItemTitle>
                   [{index + 1}] {i.title}

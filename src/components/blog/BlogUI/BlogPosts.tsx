@@ -1,29 +1,32 @@
-import theme from "@/styles/theme";
-import styled from "@emotion/styled";
-import Button from "./../../common/button/Button";
-import { RootState } from "@/redux/store/reducers";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { SET_FIRST_CATEGORY_PATH, SET_SECOND_CATEGORY_PATH } from "@/redux/store/category";
-import { css } from "@emotion/react";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { CC } from "@/styles/commonComponentStyle";
-import { store } from "@/redux/store";
-import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
-import CustomModal from "@/components/Modal/CustomModal";
-import Input from "@/components/common/input/Input";
-import Space from "@/components/common/space/Space";
-import { useRouter } from "next/router";
-import { dateFormat4y2m2d } from "@/utils/fucntion/dateFormat";
-import { fewDaysAgoDate } from "@/components/common/function/Date";
-import Image from "next/image";
+import theme from '@/styles/theme';
+import styled from '@emotion/styled';
+import Button from '../../common/button/Button';
+import { RootState } from '@/redux/store/reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import {
+  SET_FIRST_CATEGORY_PATH,
+  SET_SECOND_CATEGORY_PATH,
+} from '@/redux/store/category';
+import { css } from '@emotion/react';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { CC } from '@/styles/commonComponentStyle';
+import { store } from '@/redux/store';
+import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import CustomModal from '@/components/Modal/CustomModal';
+import Input from '@/components/common/input/Input';
+import Space from '@/components/common/space/Space';
+import { useRouter } from 'next/router';
+import { dateFormat4y2m2d } from '@/utils/fucntion/dateFormat';
+import { fewDaysAgoDate } from '@/components/common/function/Date';
+import Image from 'next/image';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file BlogMenu.tsx
+ * @file BlogPosts.tsx
  * @version 0.0.1 "2023-06-17 17:45:26"
- * @description 설명
+ * @description 블로그 글 리스트 UI
  */
 
 interface blogItemType {
@@ -52,19 +55,22 @@ const BlogMenu = () => {
   const [isOpenModal1, setIsOpenModal1] = useState(false);
   const [secondCategoriesState, setSecondCategoriesState] = useState([]);
   const [blogItemList, setBlogItemList] = useState([]);
-  const [createSecondCategoryState, setCreateSecondCategoryState] = useState("");
-  const [updateSecondCategoryState, setUpdateSecondCategoryState] = useState("");
-  const [removeSecondCategoryState, setRemoveSecondCategoryState] = useState("");
+  const [createSecondCategoryState, setCreateSecondCategoryState] =
+    useState('');
+  const [updateSecondCategoryState, setUpdateSecondCategoryState] =
+    useState('');
+  const [removeSecondCategoryState, setRemoveSecondCategoryState] =
+    useState('');
 
   const FirstCategoryButtonList = [
-    ["frontend", "frontend"],
-    ["backend", "backend"],
-    ["database", "database"],
-    ["server-cloud", "server-cloud"],
-    ["github", "github"],
-    ["3d-design", "3d-design"],
-    ["ai-computer-science", "AI-CS"],
-    ["etc", "etc"],
+    ['frontend', 'frontend'],
+    ['backend', 'backend'],
+    ['database', 'database'],
+    ['server-cloud', 'server-cloud'],
+    ['github', 'github'],
+    ['3d-design', '3d-design'],
+    ['ai-computer-science', 'AI-CS'],
+    ['etc', 'etc'],
   ];
 
   /**
@@ -75,7 +81,10 @@ const BlogMenu = () => {
     dispatch(SET_FIRST_CATEGORY_PATH(firstCategory));
     setRandomData(Math.random());
     let secondCategories = await readSecondCategoryHandler(firstCategory);
-    await readBlogItemListHandler(firstCategory, secondCategories?.length === 0 ? "undefined" : secondCategories[0]);
+    await readBlogItemListHandler(
+      firstCategory,
+      secondCategories?.length === 0 ? 'undefined' : secondCategories[0]
+    );
   };
 
   /**
@@ -87,28 +96,28 @@ const BlogMenu = () => {
   const readSecondCategoryHandler = async (firstCategory: string) => {
     let returnValue;
     await AxiosInstance({
-      url: "/api/blog-category",
-      method: "GET",
+      url: '/api/blog-category',
+      method: 'GET',
       params: {
         firstCategory,
       },
     })
-      .then((response) => {
+      .then(response => {
         setSecondCategoriesState(response.data.data.blogSecondeCategory);
         returnValue = response.data.data.blogSecondeCategory;
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response?.status === 409) {
           store.dispatch(
             SET_TOASTIFY_MESSAGE({
-              type: "error",
-              message: "중복된 데이터입니다",
+              type: 'error',
+              message: '중복된 데이터입니다',
             })
           );
         } else {
           store.dispatch(
             SET_TOASTIFY_MESSAGE({
-              type: "error",
+              type: 'error',
               message: error.response?.data.msg,
             })
           );
@@ -119,27 +128,30 @@ const BlogMenu = () => {
   /**
    * @description 블로그 리스트를 불러오는 함수
    */
-  const readBlogItemListHandler = async (firstCategory: string, secondCategory: string) => {
-    router.push("/blog/" + firstCategory + "/" + secondCategory);
+  const readBlogItemListHandler = async (
+    firstCategory: string,
+    secondCategory: string
+  ) => {
+    router.push('/blog/' + firstCategory + '/' + secondCategory);
     store.dispatch(SET_SECOND_CATEGORY_PATH(secondCategory));
-    if (secondCategory === "undefined") {
+    if (secondCategory === 'undefined') {
       setBlogItemList([]);
     }
     await AxiosInstance({
-      url: "/api/blog-items",
-      method: "GET",
+      url: '/api/blog-items',
+      method: 'GET',
       params: {
         firstCategory: firstCategory,
         secondCategory: secondCategory,
       },
     })
-      .then((response) => {
+      .then(response => {
         setBlogItemList(response.data.data.BlogItemList);
       })
-      .catch((error) => {
+      .catch(error => {
         store.dispatch(
           SET_TOASTIFY_MESSAGE({
-            type: "error",
+            type: 'error',
             message: error.response?.data.msg,
           })
         );
@@ -152,52 +164,57 @@ const BlogMenu = () => {
    * @example frontend와 html을 넣으면 [frontend,html] DB필드가 생성이 된다.
    */
   const createSecondCategoryHandler = async () => {
-    if (createSecondCategoryState === "") return;
+    if (createSecondCategoryState === '') return;
     await AxiosInstance({
-      url: "/api/blog-category",
-      method: "POST",
+      url: '/api/blog-category',
+      method: 'POST',
       data: {
         firstCategory: categoryStore.firstCategory,
         secondCategory: createSecondCategoryState,
       },
     })
-      .then((response) => {
+      .then(response => {
         store.dispatch(
           SET_TOASTIFY_MESSAGE({
-            type: "success",
-            message: "카테고리가 추가되었습니다.",
+            type: 'success',
+            message: '카테고리가 추가되었습니다.',
           })
         );
-        setSecondCategoriesState([...secondCategoriesState, createSecondCategoryState]);
+        setSecondCategoriesState([
+          ...secondCategoriesState,
+          createSecondCategoryState,
+        ]);
       })
-      .catch((error) => {
+      .catch(error => {
         if (error?.response?.status === 409) {
           store.dispatch(
             SET_TOASTIFY_MESSAGE({
-              type: "error",
-              message: "중복된 데이터입니다",
+              type: 'error',
+              message: '중복된 데이터입니다',
             })
           );
         } else {
           store.dispatch(
             SET_TOASTIFY_MESSAGE({
-              type: "error",
+              type: 'error',
               message: error.response?.data.msg,
             })
           );
         }
       });
-    setCreateSecondCategoryState("");
+    setCreateSecondCategoryState('');
   };
 
   // url경로를 이용하여 첫번째 카테고리에 포함된 목록들을 받아오는 기능
   useEffect(async () => {
-    let firstCategory = window.location.pathname.split("/")[2];
+    let firstCategory = window.location.pathname.split('/')[2];
     store.dispatch(SET_FIRST_CATEGORY_PATH(firstCategory));
     let secondCategories = await readSecondCategoryHandler(firstCategory);
     await readBlogItemListHandler(
       firstCategory,
-      secondCategories === undefined ? "undefined" : window.location.pathname.split("/")[3]
+      secondCategories === undefined
+        ? 'undefined'
+        : window.location.pathname.split('/')[3]
     );
   }, []);
 
@@ -206,37 +223,57 @@ const BlogMenu = () => {
       {isOpenModal && (
         <CustomModal
           title={categoryStore.firstCategory}
-          height={"40px"}
-          toggleModal={() => setIsOpenModal(!isOpenModal)}>
-          <CC.RowDiv backgroundColor="white" padding={"8px"} gap={4} border={"solid 1px black"}>
+          height={'40px'}
+          toggleModal={() => setIsOpenModal(!isOpenModal)}
+        >
+          <CC.RowDiv
+            backgroundColor="white"
+            padding={'8px'}
+            gap={4}
+            border={'solid 1px black'}
+          >
             <CC.ColumnCenterDiv width="100%" height="60px" gap={2}>
               <span> 카테고리 추가 </span>
               <Input
                 placeholder="영어소문자와 '-'으로만 입력해주세요"
                 value={createSecondCategoryState}
-                onChange={(e) => setCreateSecondCategoryState(e.target.value)}
+                onChange={e => setCreateSecondCategoryState(e.target.value)}
               />
             </CC.ColumnCenterDiv>
-            <Button status="green" width="40px" height="40px" onClick={() => createSecondCategoryHandler()}>
+            <Button
+              onClick={() => createSecondCategoryHandler()}
+              size={'sm'}
+              outline={true}
+            >
               추가
             </Button>
           </CC.RowDiv>
-          <CC.RowDiv backgroundColor="white" padding={"8px"} gap={4} border={"solid 1px black"}>
+          <CC.RowDiv
+            backgroundColor="white"
+            padding={'8px'}
+            gap={4}
+            border={'solid 1px black'}
+          >
             <CC.ColumnDiv width="100%" height="60px" gap={2}>
               <span> 카테고리 변경(작동안됨) </span>
               <Input placeholder="영어소문자와 '-'으로만 입력해주세요" />
               <Input placeholder="영어소문자와 '-'으로만 입력해주세요" />
             </CC.ColumnDiv>
-            <Button status="orange" width="40px" height="40px">
+            <Button size={'sm'} outline={true}>
               버튼
             </Button>
           </CC.RowDiv>
-          <CC.RowDiv backgroundColor="white" padding={"8px"} gap={4} border={"solid 1px black"}>
+          <CC.RowDiv
+            backgroundColor="white"
+            padding={'8px'}
+            gap={4}
+            border={'solid 1px black'}
+          >
             <CC.ColumnDiv width="100%" height="60px" gap={2}>
               <span> 카테고리 삭제(작동안됨) </span>
               <Input placeholder="영어소문자와 '-'으로만 입력해주세요" />
             </CC.ColumnDiv>
-            <Button width="40px" height="40px" status="danger">
+            <Button size={'sm'} outline={true}>
               버튼
             </Button>
           </CC.RowDiv>
@@ -246,23 +283,45 @@ const BlogMenu = () => {
       <CategoryContainer>
         <FirstCategoryContainer themeStore={themeStore}>
           {FirstCategoryButtonList.map((i, index) => (
-            <FirstCategoryItemButton onClick={() => FirstCategoryHandler(i[0])}>
+            <Button onClick={() => FirstCategoryHandler(i[0])} size="sm">
               <div> {i[1]} </div>
               <FirstCategoryItemCount> 1 </FirstCategoryItemCount>
-            </FirstCategoryItemButton>
+            </Button>
           ))}
         </FirstCategoryContainer>
-        <SecondCategoryContainer themeStore={themeStore} categoryStore={categoryStore} key={randomData}>
+        <SecondCategoryContainer
+          themeStore={themeStore}
+          categoryStore={categoryStore}
+          key={randomData}
+        >
           <header>
-            <span>{FirstCategoryButtonList.filter((i) => i[0] === categoryStore.firstCategory).map((i) => i[0])}</span>
-            {authStore.role === "ROLE_ADMIN" && <Button onClick={() => setIsOpenModal(true)}> + </Button>}
+            <span>
+              {FirstCategoryButtonList.filter(
+                i => i[0] === categoryStore.firstCategory
+              ).map(i => i[0])}
+            </span>
+            {authStore.role === 'ROLE_ADMIN' && (
+              <Button
+                onClick={() => setIsOpenModal(true)}
+                outline={true}
+                color={'black'}
+              >
+                추가
+              </Button>
+            )}
           </header>
           <MenuContainer>
             {secondCategoriesState?.map((secondCategory, index) => (
               <SecondCategoryItemButton
                 index={index}
                 active={secondCategory === categoryStore.secondCategory}
-                onClick={() => readBlogItemListHandler(categoryStore.firstCategory, secondCategory)}>
+                onClick={() =>
+                  readBlogItemListHandler(
+                    categoryStore.firstCategory,
+                    secondCategory
+                  )
+                }
+              >
                 <div> {secondCategory} </div>
                 <SecondCategoryItemCount> 1 </SecondCategoryItemCount>
               </SecondCategoryItemButton>
@@ -270,21 +329,42 @@ const BlogMenu = () => {
           </MenuContainer>
         </SecondCategoryContainer>
       </CategoryContainer>
-      <CategoryListContainer themeStore={themeStore} categoryStore={categoryStore}>
-        {authStore.role === "ROLE_ADMIN" && (
+      <CategoryListContainer
+        themeStore={themeStore}
+        categoryStore={categoryStore}
+      >
+        {authStore.role === 'ROLE_ADMIN' && (
           <header>
-            <button onClick={() => router.push(document.location.href + "/add")}>
-              <Image width="24px" height="24px" src="/img/ui-icon/edit_icon.png" />
+            <Button
+              onClick={() => router.push(document.location.href + '/add')}
+              outline={true}
+              color={'black'}
+            >
+              <Image
+                width="24px"
+                height="24px"
+                src="/img/ui-icon/edit_icon.png"
+              />
               글쓰기
-            </button>
+            </Button>
           </header>
         )}
         <CategoryListDiv>
           {blogItemList.map((i: blogItemType) => (
             <Button
               onClick={() =>
-                router.push("/blog/" + categoryStore.firstCategory + "/" + categoryStore.secondCategory + "/" + i.id)
-              }>
+                router.push(
+                  '/blog/' +
+                    categoryStore.firstCategory +
+                    '/' +
+                    categoryStore.secondCategory +
+                    '/' +
+                    i.id
+                )
+              }
+              outline={true}
+              color={'black'}
+            >
               <CC.ColumnBetweenDiv width="100%" gap={16}>
                 <CC.RowBetweenDiv>
                   <BlogItemTitle> {i.title} </BlogItemTitle>
@@ -297,7 +377,9 @@ const BlogMenu = () => {
                 <CC.RowBetweenDiv>
                   <BlogItemDescription> {i.description} </BlogItemDescription>
                   <CC.ColumnDiv>
-                    <span> {fewDaysAgoDate(dateFormat4y2m2d(i.modifiedAt))} </span>
+                    <span>
+                      {fewDaysAgoDate(dateFormat4y2m2d(i.modifiedAt))}
+                    </span>
                   </CC.ColumnDiv>
                 </CC.RowBetweenDiv>
               </CC.ColumnBetweenDiv>
@@ -356,69 +438,37 @@ const FirstCategoryContainer = styled.section`
     height: 100%;
     min-height: 40px;
     font-weight: 600;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    color: ${(props) => props.themeStore.menuIconFontColor};
+    color: ${props => props.themeStore.menuIconFontColor};
   }
 
   @media (max-width: ${theme.deviceSizes.tablet}) {
   }
-  --opacity-bg-color-value: 0.9;
   button:nth-of-type(1) {
-    background: linear-gradient(
-      180deg,
-      rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
-      rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['orange']};
   }
   button:nth-of-type(2) {
-    background: linear-gradient(
-      180deg,
-      rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
-      rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['red']};
   }
   button:nth-of-type(3) {
-    background: linear-gradient(
-      180deg,
-      rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
-      rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['purple']};
   }
   button:nth-of-type(4) {
-    background: linear-gradient(
-      180deg,
-      rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
-      rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['turquoise']};
   }
   button:nth-of-type(5) {
-    background: linear-gradient(
-      180deg,
-      rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
-      rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['bluePink']};
   }
   button:nth-of-type(6) {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
-      rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['blue']};
   }
   button:nth-of-type(7) {
-    background: linear-gradient(
-      180deg,
-      rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
-      rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['greenBrightBrown']};
   }
   button:nth-of-type(8) {
-    background: linear-gradient(
-      180deg,
-      rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
-      rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
-    );
+    background: ${theme.linearGradientColors['redOrange']};
   }
 `;
 
@@ -474,79 +524,46 @@ const SecondCategoryContainer = styled.section`
     border-radius: 4px;
   }
 
-  --opacity-bg-color-value: 0.9;
-  ${(props) =>
-    props.categoryStore.firstCategory === "frontend" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
-        rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "backend" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
-        rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "database" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
-        rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "server-cloud" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
-        rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "github" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
-        rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "3d-design" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
-        rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "ai-computer-science" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
-        rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "etc" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
-        rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
-      );
-    `}
+  ${props =>
+    props.categoryStore.firstCategory === 'frontend' &&
+    `
+    background: ${theme.linearGradientColors['orange']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'backend' &&
+    `
+    background: ${theme.linearGradientColors['red']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'database' &&
+    `
+    background: ${theme.linearGradientColors['purple']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'server-cloud' &&
+    `
+    background: ${theme.linearGradientColors['turquoise']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'github' &&
+    `
+    background: ${theme.linearGradientColors['bluePink']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === '3d-design' &&
+    `
+    background: ${theme.linearGradientColors['blue']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'ai-computer-science' &&
+    `
+    background: ${theme.linearGradientColors['greenBrightBrown']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'etc' &&
+    `
+    background: ${theme.linearGradientColors['redOrange']}
+  `}
 `;
 
 const MenuContainer = styled.div`
@@ -572,43 +589,22 @@ const MenuContainer = styled.div`
 
 const SecondCategoryItemButton = styled.button<{ active: boolean }>`
   position: relative;
-
-  /* mix-blend-mode: ${(props) => props.active && "difference"}; */
-  /* color: ${(props) => (props.active ? "blue" : "white")}; */
-  /* color: ${(props) => props.active && "black"}; */
-  ${(props) =>
+  ${props =>
     props.active ||
     css`
       mix-blend-mode: screen;
     `}
-  ${(props) =>
+  ${props =>
     props.active &&
     css`
-      color: ${(props) => props.active && "black"};
-      background: linear-gradient(
-        90deg,
-        rgba(236, 222, 227, 1) 0%,
-        rgba(222, 220, 233, 1) 20%,
-        rgba(202, 208, 224, 1) 40%,
-        rgba(209, 199, 214, 1) 60%,
-        rgba(239, 199, 200, 1) 80%,
-        rgba(244, 231, 206, 1) 100%
-      );
+      color: ${props => props.active && 'black'};
+      background: ${theme.linearGradientColors['cottonCandy']};
     `}
 
     &:hover {
-    background: linear-gradient(
-      90deg,
-      rgba(236, 222, 227, 1) 0%,
-      rgba(222, 220, 233, 1) 20%,
-      rgba(202, 208, 224, 1) 40%,
-      rgba(209, 199, 214, 1) 60%,
-      rgba(239, 199, 200, 1) 80%,
-      rgba(244, 231, 206, 1) 100%
-    );
+    background: ${theme.linearGradientColors['cottonCandy']};
     transition: 1s;
     cursor: pointer;
-    /* filter: brightness(0) invert(0); */
   }
 `;
 
@@ -619,7 +615,7 @@ const CategoryListContainer = styled.section`
   flex-flow: nowrap column;
   border-radius: 8px;
   overflow: scroll;
-  max-height: calc(100vh - 260px);
+  max-height: calc(100vh - 280px);
   outline: solid black 2px;
   font-size: ${theme.fontSizes.sm};
   position: relative;
@@ -657,85 +653,52 @@ const CategoryListContainer = styled.section`
     }
   }
 
-  --opacity-bg-color-value: 1;
-  ${(props) =>
-    props.categoryStore.firstCategory === "frontend" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(254, 128, 0, var(--opacity-bg-color-value)) 0%,
-        rgba(255, 161, 0, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "backend" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(201, 28, 73, var(--opacity-bg-color-value)) 0%,
-        rgba(247, 37, 84, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "database" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(165, 39, 201, var(--opacity-bg-color-value)) 0%,
-        rgba(167, 98, 230, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "server-cloud" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(5, 156, 139, var(--opacity-bg-color-value)) 0%,
-        rgba(3, 181, 185, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "github" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(52, 148, 230, var(--opacity-bg-color-value)) 0%,
-        rgba(236, 110, 173, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "3d-design" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(0, 108, 209, var(--opacity-bg-color-value)) 0%,
-        rgba(1, 142, 210, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "ai-computer-science" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(77, 160, 176, var(--opacity-bg-color-value)) 0%,
-        rgba(211, 157, 56, var(--opacity-bg-color-value)) 100%
-      );
-    `}
-  ${(props) =>
-    props.categoryStore.firstCategory === "etc" &&
-    css`
-      background: linear-gradient(
-        180deg,
-        rgba(253, 45, 1, var(--opacity-bg-color-value)) 0%,
-        rgba(254, 143, 1, var(--opacity-bg-color-value)) 100%
-      );
-    `}
+  ${props =>
+    props.categoryStore.firstCategory === 'frontend' &&
+    `
+    background: ${theme.linearGradientColors['orange']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'backend' &&
+    `
+    background: ${theme.linearGradientColors['red']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'database' &&
+    `
+    background: ${theme.linearGradientColors['purple']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'server-cloud' &&
+    `
+    background: ${theme.linearGradientColors['turquoise']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'github' &&
+    `
+    background: ${theme.linearGradientColors['bluePink']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === '3d-design' &&
+    `
+    background: ${theme.linearGradientColors['blue']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'ai-computer-science' &&
+    `
+    background: ${theme.linearGradientColors['greenBrightBrown']}
+  `}
+  ${props =>
+    props.categoryStore.firstCategory === 'etc' &&
+    `
+    background: ${theme.linearGradientColors['redOrange']}
+  `}
 `;
 const CategoryListDiv = styled.div`
   display: flex;
   flex-flow: nowrap column;
-  gap: 6px;
-  padding: 0px 4px;
+  gap: 4px;
+  padding: 4px;
 
   button {
     width: 100%;
@@ -754,15 +717,7 @@ const CategoryListDiv = styled.div`
     }
 
     &:hover {
-      background: linear-gradient(
-        90deg,
-        rgba(236, 222, 227, 1) 0%,
-        rgba(222, 220, 233, 1) 20%,
-        rgba(202, 208, 224, 1) 40%,
-        rgba(209, 199, 214, 1) 60%,
-        rgba(239, 199, 200, 1) 80%,
-        rgba(244, 231, 206, 1) 100%
-      );
+      background: ${theme.linearGradientColors['cottonCandy']};
       transition: 1s;
     }
   }

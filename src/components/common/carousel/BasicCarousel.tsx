@@ -1,10 +1,10 @@
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import Button from "@/components/common/button/Button";
-import styled from "@emotion/styled";
-import { keyframes, css } from "@emotion/react";
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import Button from '@/components/common/button/Button';
+import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/react';
 
 /**
  * Author : Sukyung Lee
@@ -64,7 +64,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
       }
       if (currentIndex === arr.length - 2) {
         setCurrentIndex(2);
-        setTransition("");
+        setTransition('');
         setTime(0);
       }
     }
@@ -72,25 +72,25 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
 
   // 2 3 1 2 3 1 2
   const prevIndexHandler = () => {
-    setCurrentIndex((prev) => (prev === 1 ? arr.length - 3 : prev - 1));
+    setCurrentIndex(prev => (prev === 1 ? arr.length - 3 : prev - 1));
     setTime(props.IntervalTime);
     if (currentIndex === arr.length - 3) {
       setTransition(transitionStyle);
     }
     if (currentIndex === 1) {
-      setTransition("");
+      setTransition('');
       setTime(0);
     }
   };
 
   const nextIndexHandler = () => {
-    setCurrentIndex((prev) => (prev === arr.length - 2 ? 2 : prev + 1));
+    setCurrentIndex(prev => (prev === arr.length - 2 ? 2 : prev + 1));
     if (currentIndex === 2) {
       setTransition(transitionStyle);
     }
     if (currentIndex === arr.length - 2) {
       setCurrentIndex(2);
-      setTransition("");
+      setTransition('');
       setTime(0);
     }
   };
@@ -115,8 +115,8 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
                   <CC.Img src={el[1]} width="100%" height="100%" />
                 </Content>
                 <Button
-                  width={"100%"}
-                  height={"40px"}
+                  width={'100%'}
+                  height={'40px'}
                   onClick={(e: any) => router.push(el[2])}
                 >
                   보러 가기
@@ -126,10 +126,10 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
           ))}
         </SliderContainer>
       </SliderSizeContainer>
-      <Button1 onClick={prevIndexHandler}>{"👈"}</Button1>
-      <Button1 onClick={nextIndexHandler}>{"👉"}</Button1>
-      <Button1 onClick={() => setAutoPlay((prev) => !prev)}>
-        {autoPlay ? "⏸" : "▶"}
+      <Button1 onClick={prevIndexHandler}>{'👈'}</Button1>
+      <Button1 onClick={nextIndexHandler}>{'👉'}</Button1>
+      <Button1 onClick={() => setAutoPlay(prev => !prev)}>
+        {autoPlay ? '⏸' : '▶'}
       </Button1>
     </Container>
   );
@@ -155,7 +155,7 @@ const SliderSizeContainer = styled.div`
   margin: auto;
 `;
 const SliderContainer = styled.div<{ arrLength: number }>`
-  width: ${(props) => props.arrLength * 100}%;
+  width: ${props => props.arrLength * 100}%;
   height: 100%;
   display: flex;
   flex-flow: nowrap row;
@@ -170,11 +170,11 @@ const SliderItem = styled.div<{
   width: 100%;
   height: 100%;
   opacity: 0.5;
-  transform: ${(props) =>
+  transform: ${props =>
     props.isCurrent
       ? `translateX(-${props.currentIndex * 100}%)`
       : `translateX(-${props.currentIndex * 100}%) scale(0.7)`};
-  ${(props) =>
+  ${props =>
     props.isCurrent &&
     css`
       width: 100%;

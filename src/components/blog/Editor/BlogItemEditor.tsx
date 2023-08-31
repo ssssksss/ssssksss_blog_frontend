@@ -1,28 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { Editor } from "@toast-ui/react-editor";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { AWSS3Prefix } from "@/components/common/variables/url";
-import { store } from "@/redux/store";
-import Button from "@/components/common/button/Button";
-import theme from "@/styles/theme";
-import chart from "@toast-ui/editor-plugin-chart";
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import "tui-color-picker/dist/tui-color-picker.css";
-import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
-import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
-import { Document } from "next/document";
+import React, { useState, useEffect, useRef } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { Editor } from '@toast-ui/react-editor';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { AWSS3Prefix } from '@/components/common/variables/url';
+import { store } from '@/redux/store';
+import Button from '@/components/common/button/Button';
+import theme from '@/styles/theme';
+import chart from '@toast-ui/editor-plugin-chart';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
+import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import { Document } from 'next/document';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogItemEditor.tsx
@@ -38,7 +38,7 @@ const blogContentForm = [
     "#### <span style='color: #cb00ff'>결과</span> \n" +
     "### <span style='color: #1200ff'>ex2)</span> \n" +
     "#### <span style='color: #cb00ff'>결과</span> \n" +
-    "---",
+    '---',
   "# <span style='color: #f91600'>[] 제목</span> \n" +
     "## <span style='color: #f99700'>{1} 설명</span> \n" +
     "## <span style='color: #f99700'>{2} 문법</span> \n" +
@@ -47,27 +47,33 @@ const blogContentForm = [
     "#### <span style='color: #cb00ff'>결과</span> \n" +
     "### <span style='color: #1200ff'>ex2)</span> \n" +
     "#### <span style='color: #cb00ff'>결과</span> \n" +
-    "---",
-  "| 속성 | 설명 |  \n" + "| --- | --- | \n" + "|  |  | \n" + "|  |  | \n" + "|  |  | \n" + "|  |  | \n",
-  "| 속성 | 사용 | 설명  | \n" +
-    "| --- | --- | --- | \n" +
-    "|  |  |  | \n" +
-    "|  |  |  | \n" +
-    "|  |  |  | \n" +
-    "|  |  |  | ",
+    '---',
+  '| 속성 | 설명 |  \n' +
+    '| --- | --- | \n' +
+    '|  |  | \n' +
+    '|  |  | \n' +
+    '|  |  | \n' +
+    '|  |  | \n',
+  '| 속성 | 사용 | 설명  | \n' +
+    '| --- | --- | --- | \n' +
+    '|  |  |  | \n' +
+    '|  |  |  | \n' +
+    '|  |  |  | \n' +
+    '|  |  |  | ',
 ];
 
-const BlogItemEditor = (props) => {
+const BlogItemEditor = props => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [areaTextContent, setAreaTextContent] = useState(blogContentForm[0]);
   const [blogImages, setBlogImages] = useState([]);
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
-  const blogUrl = "/blog/" + locationHref.split("/")[2] + "/" + locationHref.split("/")[3];
+  const blogUrl =
+    '/blog/' + locationHref.split('/')[2] + '/' + locationHref.split('/')[3];
   const authStore = useSelector((state: RootState) => state.authStore);
   const themeStore = useSelector((state: RootState) => state.themeStore);
   const categoryStore = useSelector((state: RootState) => state.categoryStore);
@@ -81,39 +87,39 @@ const BlogItemEditor = (props) => {
     let formData = new FormData();
 
     // 최종적으로 서버에 올리는 이미지들이 블로그 글에 있는지 확인해서 남아있는 이미지들만 저장
-    tempBlogImage.map((i) => {
+    tempBlogImage.map(i => {
       if (getContent_md.search(i.url) !== -1) {
         tempUrls.push(i.url);
         tempFiles.push(i.file);
         // 이 배열을 서버에 보내서 이미지로 저장을 하고 저장한 후에 이미지 url들을 받아서
         // 기존 url과 바꾸어준다.
-        formData.append("imageFiles", i.file);
-        formData.append("imageUrls", i.url);
+        formData.append('imageFiles', i.file);
+        formData.append('imageUrls', i.url);
       }
     });
 
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("content", getContent_md);
-    formData.append("firstCategory", categoryStore.firstCategory);
-    formData.append("secondCategory", categoryStore.secondCategory);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('content', getContent_md);
+    formData.append('firstCategory', categoryStore.firstCategory);
+    formData.append('secondCategory', categoryStore.secondCategory);
 
     AxiosInstance({
-      url: "/api/blog-item",
-      method: "POST",
+      url: '/api/blog-item',
+      method: 'POST',
       headers: {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
       },
       data: formData,
       withCredentials: true,
     })
-      .then(async (response) => {
+      .then(async response => {
         router.push(blogUrl);
       })
-      .catch((error) => {
-        console.log("BlogItemEditor.tsx 파일 : 실패");
-        console.log("BlogItemEditor.tsx 파일 : ", error.data);
+      .catch(error => {
+        console.log('BlogItemEditor.tsx 파일 : 실패');
+        console.log('BlogItemEditor.tsx 파일 : ', error.data);
         // store.dispatch(
         //   SET_TOASTIFY_MESSAGE({
         //     type: "error",
@@ -130,46 +136,46 @@ const BlogItemEditor = (props) => {
     let formData = new FormData();
 
     // 최종적으로 서버에 올리는 이미지들이 블로그 글에 있는지 확인해서 남아있는 이미지들만 저장
-    tempBlogImage.map((i) => {
+    tempBlogImage.map(i => {
       if (getContent_md.search(i.url) !== -1) {
         // 이 배열을 서버에 보내서 이미지로 저장을 하고 저장한 후에 이미지 url들을 받아서
         // 기존 url과 바꾸어준다.
         // getContent_md = getContent_md.replace(i.url, "여기는 바꿔야할 문자열");
-        formData.append("imageFiles", i.file);
-        formData.append("imageUrls", i.url);
+        formData.append('imageFiles', i.file);
+        formData.append('imageUrls', i.url);
       }
     });
 
     // 기존 이미지들 중에서 삭제할 이미지 경로들을 모아서 서버에 전송하여 서버에서 제거
-    blogImages.map((i) => {
+    blogImages.map(i => {
       if (getContent_md.search(i) === -1) {
-        formData.append("removeImageBucketDirectory", i);
+        formData.append('removeImageBucketDirectory', i);
       }
     });
 
-    formData.append("id", router.query?.id);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("content", getContent_md);
-    formData.append("firstCategory", categoryStore.firstCategory);
-    formData.append("secondCategory", categoryStore.secondCategory);
+    formData.append('id', router.query?.id);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('content', getContent_md);
+    formData.append('firstCategory', categoryStore.firstCategory);
+    formData.append('secondCategory', categoryStore.secondCategory);
 
     AxiosInstance({
-      url: "/api/blog-item",
-      method: "PUT",
+      url: '/api/blog-item',
+      method: 'PUT',
       headers: {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
       },
       data: formData,
       withCredentials: true,
     })
-      .then(async (response) => {
+      .then(async response => {
         router.push(blogUrl);
       })
-      .catch((error) => {
-        console.log("BlogItemEditor.tsx 파일 : 실패");
-        console.log("BlogItemEditor.tsx 파일 : ", error.response);
+      .catch(error => {
+        console.log('BlogItemEditor.tsx 파일 : 실패');
+        console.log('BlogItemEditor.tsx 파일 : ', error.response);
         // store.dispatch(
         //   SET_TOASTIFY_MESSAGE({
         //     type: "error",
@@ -181,20 +187,20 @@ const BlogItemEditor = (props) => {
 
   const uploadHandler = async (file: any) => {
     const url = URL.createObjectURL(file).substring(5);
-    setTempBlogImage((prev) => [...prev, { url, file }]);
+    setTempBlogImage(prev => [...prev, { url, file }]);
     return url;
   };
 
   useEffect(() => {
     if (props.edit) {
       AxiosInstance({
-        url: "/api/blog-item",
-        method: "GET",
+        url: '/api/blog-item',
+        method: 'GET',
         params: {
           id: router.query?.id,
         },
       })
-        .then((response) => {
+        .then(response => {
           let res = response.data.data.blogItem;
           setAreaTextContent(res.content);
           setTitle(res.title);
@@ -209,15 +215,17 @@ const BlogItemEditor = (props) => {
           while (1) {
             let index1 = res.content.indexOf(AWSS3Prefix, index2);
             if (index1 === -1) break;
-            index2 = res.content.indexOf(".", index1 + AWSS3Prefix.length);
-            temp.push(res.content.substring(index1 + AWSS3Prefix.length, index2 + 4));
+            index2 = res.content.indexOf('.', index1 + AWSS3Prefix.length);
+            temp.push(
+              res.content.substring(index1 + AWSS3Prefix.length, index2 + 4)
+            );
           }
           setBlogImages(temp);
         })
-        .catch((error) => {
+        .catch(error => {
           store.dispatch(
             SET_TOASTIFY_MESSAGE({
-              type: "error",
+              type: 'error',
               message: error.response.data.msg,
             })
           );
@@ -226,30 +234,34 @@ const BlogItemEditor = (props) => {
 
     // toast UI 에서 blob 형태로 이미지를 넣게 되면 preview에서 경로를 인식하지 못해 이미지가 나타나지 않는다.
     // 그래서 preview를 볼 경우 blog 객체 이미지들의 경로 앞에 blob:를 붙여서 보게한다.
-    document.querySelector("div[aria-label=Preview]").addEventListener("click", () => {
-      let toastUIPreviewBlobImages = window.document.querySelectorAll("img[src^='" + window.location.origin + "']");
-      toastUIPreviewBlobImages.forEach((i) => {
-        i.setAttribute("src", "blob:" + i.src);
+    document
+      .querySelector('div[aria-label=Preview]')
+      .addEventListener('click', () => {
+        let toastUIPreviewBlobImages = window.document.querySelectorAll(
+          "img[src^='" + window.location.origin + "']"
+        );
+        toastUIPreviewBlobImages.forEach(i => {
+          i.setAttribute('src', 'blob:' + i.src);
+        });
       });
-    });
   }, []);
 
   return (
     <>
-      {authStore.role === "ROLE_ADMIN" && (
+      {authStore.role === 'ROLE_ADMIN' && (
         <Container>
           <Title
             themeStore={themeStore}
             placeholder="제목을 입력해주세요"
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
             }}
           />
           <Description
             placeholder="간략한 설명을 입력해주세요"
             value={description}
-            onChange={(e) => {
+            onChange={e => {
               setDescription(e.target.value);
             }}
           />
@@ -261,28 +273,34 @@ const BlogItemEditor = (props) => {
               initialEditType="markdown"
               useCommandShortcut={true}
               ref={editorRef}
-              plugins={[colorSyntax, [codeSyntaxHighlight, { highlighter: Prism }]]}
+              plugins={[
+                colorSyntax,
+                [codeSyntaxHighlight, { highlighter: Prism }],
+              ]}
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imageURL: any = await uploadHandler(blob);
-                  await callback(imageURL, ""); // 우측에는 이미지 이름인데 비워두면 된다.
+                  await callback(imageURL, ''); // 우측에는 이미지 이름인데 비워두면 된다.
                 },
               }}
               viewer={true}
               // language="ko-KR"
               toolbarItems={[
                 // 툴바 옵션 설정
-                ["heading", "bold", "italic", "strike"],
-                ["hr", "quote"],
-                ["ul", "ol", "task", "indent", "outdent"],
-                ["table", "image", "link"],
-                ["code", "codeblock"],
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol', 'task', 'indent', 'outdent'],
+                ['table', 'image', 'link'],
+                ['code', 'codeblock'],
               ]}
             />
           </EditorContainer>
           <EditorFooter>
-            <Button status="green" onClick={() => (props.edit ? updateHandler() : submitHandler())}>
-              {props.edit ? "수정" : "제출"}
+            <Button
+              status="green"
+              onClick={() => (props.edit ? updateHandler() : submitHandler())}
+            >
+              {props.edit ? '수정' : '제출'}
             </Button>
             <Button status="lightred" onClick={() => router.back()}>
               취소
@@ -295,11 +313,12 @@ const BlogItemEditor = (props) => {
                 navigator.clipboard.writeText(blogContentForm[0]);
                 store.dispatch(
                   SET_TOASTIFY_MESSAGE({
-                    type: "success",
-                    message: "폼1이 복사되었습니다.",
+                    type: 'success',
+                    message: '폼1이 복사되었습니다.',
                   })
                 );
-              }}>
+              }}
+            >
               폼1
             </BlogItemContentFormButton>
             <BlogItemContentFormButton
@@ -308,11 +327,12 @@ const BlogItemEditor = (props) => {
                 navigator.clipboard.writeText(blogContentForm[1]);
                 store.dispatch(
                   SET_TOASTIFY_MESSAGE({
-                    type: "success",
-                    message: "폼2이 복사되었습니다.",
+                    type: 'success',
+                    message: '폼2이 복사되었습니다.',
                   })
                 );
-              }}>
+              }}
+            >
               폼2
             </BlogItemContentFormButton>
             <BlogItemContentFormButton
@@ -321,11 +341,12 @@ const BlogItemEditor = (props) => {
                 navigator.clipboard.writeText(blogContentForm[2]);
                 store.dispatch(
                   SET_TOASTIFY_MESSAGE({
-                    type: "success",
-                    message: "테이블1 이 복사되었습니다.",
+                    type: 'success',
+                    message: '테이블1 이 복사되었습니다.',
                   })
                 );
-              }}>
+              }}
+            >
               테1
             </BlogItemContentFormButton>
             <BlogItemContentFormButton
@@ -334,11 +355,12 @@ const BlogItemEditor = (props) => {
                 navigator.clipboard.writeText(blogContentForm[3]);
                 store.dispatch(
                   SET_TOASTIFY_MESSAGE({
-                    type: "success",
-                    message: "테이블2 이 복사되었습니다.",
+                    type: 'success',
+                    message: '테이블2 이 복사되었습니다.',
                   })
                 );
-              }}>
+              }}
+            >
               테2
             </BlogItemContentFormButton>
           </BlogItemContentFormContainer>
@@ -374,7 +396,7 @@ const Title = styled.input`
   text-align: center;
   /* ${themeStore.menuBackground} 이렇게 하면 무한로딩이 된다 왜 그런지 이유를
   나중에 알아보기 */
-  background: ${(props) => props.themeStore.menuBackground};
+  background: ${props => props.themeStore.menuBackground};
   font-family: ${theme.fontFamily.cookieRunRegular};
   font-size: ${theme.fontSizes.lg};
   padding: 0px 10px;
@@ -405,9 +427,9 @@ const EditorContainer = styled.div`
   height: calc(100vh - 200px);
   background: #fefefe;
   &::before {
-    content: "";
+    content: '';
     background-size: 100%;
-    background-image: url("/img/backgroundImage/원피스.jpg");
+    background-image: url('/img/backgroundImage/원피스.jpg');
     /* background-repeat: repeat-x; */
     background-position: right bottom;
     opacity: 0.1;
@@ -448,6 +470,7 @@ const BlogItemContentFormContainer = styled.section`
 
 const BlogItemContentFormButton = styled.button`
   padding: 2px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
+    rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
   border-radius: 4px;
 `;

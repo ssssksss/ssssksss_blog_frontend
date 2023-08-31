@@ -1,9 +1,9 @@
-import Button from "@/components/common/button/Button";
-import { CC } from "@/styles/commonComponentStyle";
-import { useState } from "react";
-import styled from "@emotion/styled";
-import PostDeleteListContainer from "../Post/PostDeleteListContainer";
-import PortfolioContainer from "./portfolioContainer/PortfolioContainer";
+import Button from '@/components/common/button/Button';
+import { CC } from '@/styles/commonComponentStyle';
+import { useState } from 'react';
+import styled from '@emotion/styled';
+import PostDeleteListContainer from '../Post/PostDeleteListContainer';
+import PortfolioContainer from './portfolioContainer/PortfolioContainer';
 
 /**
  * Author : Sukyung Lee
@@ -12,19 +12,21 @@ import PortfolioContainer from "./portfolioContainer/PortfolioContainer";
  * Description :
  */
 const UserDashBoardContainer = () => {
-  const [menu, setMenu] = useState("home");
+  const [menu, setMenu] = useState('home');
 
   return (
     <Container>
-      <CC.ColumnDiv gap={10} padding={"0px 10px"}>
-        <Button onClick={() => setMenu("home")}> 홈 </Button>
-        <Button onClick={() => setMenu("postRemoveList")}>게시글 삭제 목록</Button>
-        <Button onClick={() => setMenu("portfolio")}> 포트폴리오 </Button>
+      <CC.ColumnDiv gap={10} padding={'0px 10px'}>
+        <Button onClick={() => setMenu('home')}> 홈 </Button>
+        <Button onClick={() => setMenu('postRemoveList')}>
+          게시글 삭제 목록
+        </Button>
+        <Button onClick={() => setMenu('portfolio')}> 포트폴리오 </Button>
       </CC.ColumnDiv>
       <CC.RowDiv>
-        {menu === "home" && <></>}
-        {menu === "postRemoveList" && <PostDeleteListContainer />}
-        {menu === "portfolio" && <PortfolioContainer />}
+        {menu === 'home' && <></>}
+        {menu === 'postRemoveList' && <PostDeleteListContainer />}
+        {menu === 'portfolio' && <PortfolioContainer />}
       </CC.RowDiv>
     </Container>
   );

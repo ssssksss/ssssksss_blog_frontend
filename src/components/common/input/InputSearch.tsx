@@ -1,11 +1,11 @@
-import styled from "@emotion/styled";
-import { url } from "inspector";
-import Link from "next/link";
-import Button from "../button/Button";
-import { CC } from "../../../../styles/commonComponentStyle";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import theme from "@/styles/theme";
-import { KeyboardEvent } from "react";
+import styled from '@emotion/styled';
+import { url } from 'inspector';
+import Link from 'next/link';
+import Button from '../button/Button';
+import { CC } from '../../../../styles/commonComponentStyle';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import theme from '@/styles/theme';
+import { KeyboardEvent } from 'react';
 
 /**
  * Author : Sukyung Lee
@@ -44,7 +44,7 @@ const InputSearch = ({
     <Container>
       <InputStyle
         type="search"
-        placeholder={placeholder || "찾을 내용을 입력해주세요"}
+        placeholder={placeholder || '찾을 내용을 입력해주세요'}
         disabled={disabled}
         height={height}
         width={width}
@@ -52,7 +52,7 @@ const InputSearch = ({
         onChange={onChange}
         defaultValue={defaultValue}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (e.code === "Enter") {
+          if (e.code === 'Enter') {
             onClickSearch && onClickSearch();
           }
         }}
@@ -61,7 +61,7 @@ const InputSearch = ({
       />
       <Button
         onClick={() => onClickSearch && onClickSearch()}
-        status={"orange"}
+        status={'orange'}
       >
         검색
       </Button>
@@ -83,12 +83,12 @@ const InputStyle = styled.input<{
 }>`
   min-width: 200px;
   border-radius: 8px;
-  width: ${(props) => (props.width ? props.width : "auto")};
-  height: ${(props) => (props.height ? props.height : "40px")};
-  margin: ${(props) => (props.margin ? props.margin : "0px")};
+  width: ${props => (props.width ? props.width : 'auto')};
+  height: ${props => (props.height ? props.height : '40px')};
+  margin: ${props => (props.margin ? props.margin : '0px')};
 
   padding: 0px 0px 0px 28px;
-  background-image: ${(props) => `url(${props.img})`};
+  background-image: ${props => `url(${props.img})`};
   background-position: 4px center;
   background-repeat: no-repeat;
   background-size: contain;
