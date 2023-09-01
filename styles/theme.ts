@@ -73,29 +73,29 @@ const fontFamily = {
 
 const btnSizes = {
   xs: {
-    width: '60px',
-    height: '40px',
-    borderRadius: '2px',
+    width: '80px',
+    height: '24px',
+    borderRadius: '4px',
   },
   sm: {
     width: '80px',
-    height: '60px',
-    borderRadius: '5px',
+    height: '30px',
+    borderRadius: '8px',
   },
   md: {
     width: '100px',
-    height: '60px',
-    borderRadius: '10px',
+    height: '36px',
+    borderRadius: '12px',
   },
   lg: {
     width: '120px',
-    height: '60px',
-    borderRadius: '20px',
+    height: '44px',
+    borderRadius: '12px',
   },
   xl: {
     width: '100em',
     height: '60px',
-    borderRadius: '20px',
+    borderRadius: '12px',
   },
 };
 
@@ -106,19 +106,19 @@ const inputSizes = {
       height: '40px',
     },
     sm: {
-      width: '40em',
+      width: '100%',
       height: '40px',
     },
     md: {
-      width: '60em',
+      width: '100%',
       height: '40px',
     },
     lg: {
-      width: '80em',
+      width: '100%',
       height: '40px',
     },
     xl: {
-      width: '100em',
+      width: '100%',
       height: '40px',
     },
   },
@@ -128,19 +128,19 @@ const inputSizes = {
       height: '40px',
     },
     sm: {
-      width: '40em',
+      width: '100%',
       height: '40px',
     },
     md: {
-      width: '60em',
+      width: '100%',
       height: '40px',
     },
     lg: {
-      width: '80em',
+      width: '100%',
       height: '40px',
     },
     xl: {
-      width: '100em',
+      width: '100%',
       height: '40px',
     },
   },
@@ -150,15 +150,15 @@ const inputSizes = {
       height: '40px',
     },
     sm: {
-      width: '40em',
+      width: '100%',
       height: '40px',
     },
     md: {
-      width: '60em',
+      width: '100%',
       height: '40px',
     },
     lg: {
-      width: '80em',
+      width: '100%',
       height: '40px',
     },
     xl: {
@@ -172,19 +172,19 @@ const inputSizes = {
       height: '40px',
     },
     sm: {
-      width: '40em',
+      width: '100%',
       height: '40px',
     },
     md: {
-      width: '60em',
+      width: '100%',
       height: '40px',
     },
     lg: {
-      width: '80em',
+      width: '100%',
       height: '40px',
     },
     xl: {
-      width: '100em',
+      width: '100%',
       height: '40px',
     },
   },
@@ -324,6 +324,7 @@ const linearGradientColors = {
     'linear-gradient(180deg, rgba(253, 45, 1) 0%, rgba(254, 143, 1) 100%)',
   cottonCandy:
     'linear-gradient( 90deg, rgba(236, 222, 227, 1) 0%, rgba(222, 220, 233, 1) 20%, rgba(202, 208, 224, 1) 40%, rgba(209, 199, 214, 1) 60%, rgba(239, 199, 200, 1) 80%, rgba(244, 231, 206, 1) 100%)',
+  skyblue: 'linear-gradient(lightCyan, skyBlue, deepSkyBlue)',
 };
 
 const flex = {

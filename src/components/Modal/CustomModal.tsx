@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
+import { ReactNode } from 'react';
+import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
 
 /**
  * Author : Sukyung Lee
@@ -75,15 +75,16 @@ const Container = styled.div<IContainerProps>`
   top: 50%;
   left: 50%;
   margin-left: 10px;
-  width: ${(props) => (props.width ? props.width : "80%")};
-  height: ${(props) => (props.height ? props.height : "80%")};
+  width: ${props => (props.width ? props.width : '80%')};
+  height: ${props => (props.height ? props.height : '80%')};
   max-width: 600px;
   min-height: 300px;
   overflow-y: auto;
   transform: translate(-50%, -50%);
   box-shadow: -1px -1px 1px 1px black, 1px 1px 1px 1px black;
   z-index: 100;
-  background: #f0f0f0;
+  background: white;
+  color: black;
 `;
 const HeaderContainer = styled.div`
   width: 100%;
@@ -92,7 +93,6 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   position: sticky;
   top: 0;
-  background-color: ${(props: any) => props.theme.menuBackground};
   z-index: 20;
   transform: translateZ(0);
 `;
@@ -103,8 +103,6 @@ const Title = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  color: ${(props: any) => props.theme.menuIconFontColor};
-  border-bottom: solid black 1px;
 `;
 const Exit = styled.button`
   cursor: pointer;
@@ -121,10 +119,10 @@ const Exit = styled.button`
     position: absolute;
     width: 32px;
     height: 4px;
-    background-color: #000;
     border-radius: 4px;
     transition: all 0.4s ease-in-out;
     transform: translateZ(0);
+    background: black;
   }
 
   & > div:nth-of-type(1) {
@@ -146,5 +144,5 @@ const BodyContainer = styled.div`
   width: 100%;
   display: flex;
   flex-flow: nowrap column;
-  background-color: ${(props: any) => props.theme.menuBackground};
+  padding: 2px 4px;
 `;

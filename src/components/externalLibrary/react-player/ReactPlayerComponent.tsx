@@ -207,8 +207,8 @@ const ReactPlayerComponent = () => {
       </ColumnDiv>
       {isOpenModal && (
         <CustomModal title={"유튜브 플레이리스트"} overlayDisable={true} toggleModal={() => setIsOpenModal(!isOpenModal)}>
-          <CC.RowDiv height="60px" gap={12} fontSize={theme.fontSizes.sm}>
-            <CC.ColumnDiv width="60%" gap={8} padding={"0px 0px 0px 8px"}>
+          <CC.RowDiv gap={12} fontSize={theme.fontSizes.sm} backgroundColor={theme.linearGradientColors.skyblue}>
+            <CC.ColumnDiv width="60%" gap={8} padding={"4px 0px 4px 8px"}> 
               <CC.RowBetweenDiv gap={4}>
                 <CC.RowDiv width="50px"> url : </CC.RowDiv>
                 <Input
@@ -237,14 +237,14 @@ const ReactPlayerComponent = () => {
               </CC.RowBetweenDiv>
             </CC.ColumnDiv>
             <CC.RowRightDiv width="40%" >
-              <Button width="50px" height="50px" onClick={() => {
+              <Button size="lg" onClick={() => {
                 AddCacheStorageHandler();
               }}>
                 추가
               </Button>
             </CC.RowRightDiv>
           </CC.RowDiv>
-          <CC.ColumnDiv >
+          <CC.ColumnDiv gap={4}>
           {Object.keys(storage).length !== 0 && (
             Object.entries(storage)?.map(([key, value],index) => (
               <ReactPlayerYoutubeItem
@@ -266,68 +266,6 @@ const ReactPlayerComponent = () => {
 };
 export default ReactPlayerComponent;
 
-const rotation = keyframes`
-  0% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(174, 84, 242, 1) 0%,
-      rgba(247, 84, 34, 1) 20%,
-      rgba(247, 167, 46, 1) 40%,
-      rgba(195, 245, 189, 1) 60%,
-      rgba(250, 238, 167, 1) 80%
-    );
-  }
-  20% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(174, 84, 242, 1) 0%,
-      rgba(247, 84, 34, 1) 20%,
-      rgba(247, 167, 46, 1) 40%,
-      rgba(195, 245, 189, 1) 60%,
-      rgba(250, 238, 167, 1) 80%
-    );
-  }
-  40% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(247, 84, 34, 1)    0%,
-      rgba(247, 167, 46, 1)   20%,
-      rgba(195, 245, 189, 1)  40%,
-      rgba(250, 238, 167, 1)  60%,
-      rgba(174, 84, 242, 1)  80%
-    );
-  }
-  60% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(247, 167, 46, 1)   0%,
-      rgba(195, 245, 189, 1)  20%,
-      rgba(250, 238, 167, 1)  40%,
-      rgba(174, 84, 242, 1)   60%,
-      rgba(247, 84, 34, 1)   80%
-      );
-  }
-  80% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(195, 245, 189, 1)  0%,
-      rgba(250, 238, 167, 1)  20%,
-      rgba(174, 84, 242, 1)   40%,
-      rgba(247, 84, 34, 1)    60%,
-      rgba(247, 167, 46, 1)    80%
-      );
-  }
-  100% {
-    background-image: linear-gradient(
-      90deg,
-    rgba(250, 238, 167, 1)  0%,
-    rgba(174, 84, 242, 1)   20%,
-    rgba(247, 84, 34, 1)    40%,
-    rgba(247, 167, 46, 1)   60%,
-    rgba(195, 245, 189, 1)   80%
-    );
-  }
-  `;
 
 const Container = styled.div`
   width: 320px;
@@ -387,7 +325,7 @@ const ColumnDiv = styled.div<IMenuContainerProps>`
 
   input[type="range"] {
     -webkit-appearance: none;
-    animation: ${rotation} 1s infinite;
+    animation: ${animationKeyFrames.rainbowColors} 1s infinite;
     height: 12px;
     width: 100%;
   }

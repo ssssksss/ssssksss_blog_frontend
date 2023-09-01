@@ -297,12 +297,12 @@ const BlogItemEditor = props => {
           </EditorContainer>
           <EditorFooter>
             <Button
-              status="green"
+              color="green"
               onClick={() => (props.edit ? updateHandler() : submitHandler())}
             >
               {props.edit ? '수정' : '제출'}
             </Button>
-            <Button status="lightred" onClick={() => router.back()}>
+            <Button color="red" onClick={() => router.back()}>
               취소
             </Button>
           </EditorFooter>

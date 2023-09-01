@@ -336,13 +336,6 @@ const TopMenuContainer = styled.section<IMenuContainerProps>`
     border-radius: 10px;
     padding: 0px 2px;
   }
-
-  @media (max-width: ${theme.deviceSizes.laptop}) {
-    button {
-      font-size: ${theme.fontSizes.sm};
-      background-color: transparent;
-    }
-  }
 `;
 
 const LeftToRightFadein = keyframes`

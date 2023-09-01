@@ -59,7 +59,7 @@ export const Button = ({
 export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
-  padding: 2px;
+  padding: 2px 4px 2px 4px;
   min-width: 24px;
   min-height: 24px;
   ${theme.flex.row.center.center}
@@ -67,7 +67,7 @@ const ButtonStyle = styled.button<IButtonProps>`
   color: ${theme.colors.white};
   background-color: ${props => theme.backgroundColors[props.color]};
   border-radius: ${props => theme.btnSizes[props.size].borderRadius};
-  width: ${props => theme.btnSizes[props.size].width};
+  /* width: ${props => theme.btnSizes[props.size].width}; */
   height: ${props => theme.btnSizes[props.size].height};
   &:hover {
     cursor: pointer;

@@ -131,18 +131,18 @@ const InputStyle = styled.input<IInputProps>`
   font-size: 1rem;
   outline: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   display: ${props => (props.display ? props.display : 'block')};
   width: ${props => theme.inputSizes[props.type][props.size].width};
-  height: ${props => theme.inputSizes[props.type][props.size].height};
-  padding-left: 4px;
+  /* height: ${props => theme.inputSizes[props.type][props.size].height}; */
+  padding: 2px 0px 2px 4px;
   &:hover {
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   position: relative;
 
   background-color: ${props => theme.backgroundColors[props.color]};
-  color: ${theme.colors['white']};
+  color: ${theme.colors['black']};
   /* 순서주의 */
   ${props =>
     props.disabled &&

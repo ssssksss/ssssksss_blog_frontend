@@ -1,7 +1,7 @@
-import theme from "./theme";
-import { css, keyframes } from "@emotion/react";
-import Image from "next/image";
-import styled from "@emotion/styled";
+import theme from './theme';
+import { css, keyframes } from '@emotion/react';
+import Image from 'next/image';
+import styled from '@emotion/styled';
 interface IStyleProps {
   gap?: number;
   border?: string;
@@ -31,7 +31,7 @@ const propsCommonStyle = (props: any) => css`
   border-radius: ${props.borderRadius};
   gap: ${props.gap}px;
   color: ${props.color};
-  background-color: ${props.backgroundColor};
+  background: ${props.backgroundColor};
   font-size: ${props.fontSize};
 `;
 
@@ -128,9 +128,9 @@ const Img = styled.img<IStyleProps>`
     `}
 `;
 const ImgContainer = styled.div<IStyleProps>`
-  height: ${(props) => props.minHeight};
-  width: ${(props) => props.minWidth};
-  background: ${(props) => props.backgroundColor};
+  height: ${props => props.minHeight};
+  width: ${props => props.minWidth};
+  background: ${props => props.backgroundColor};
 
   position: relative;
   display: flex;
@@ -146,7 +146,7 @@ const ImgContainer = styled.div<IStyleProps>`
 
   /* &:hover {
     mix-blend-mode: difference;
-    cursor: ${(props) => (props.noCursor ? "default" : "pointer")};
+    cursor: ${props => (props.noCursor ? 'default' : 'pointer')};
     & > span {
       position: absolute;
       animation: ${rotationDownUp} 0.3s ease-in-out;

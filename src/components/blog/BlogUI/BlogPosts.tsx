@@ -339,6 +339,7 @@ const BlogMenu = () => {
               onClick={() => router.push(document.location.href + '/add')}
               outline={true}
               color={'black'}
+              size="xs"
             >
               <Image
                 width="24px"

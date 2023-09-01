@@ -235,7 +235,7 @@ const BlogPostView = () => {
                         )
                       )
                     }
-                    size="sm"
+                    size="xs"
                   >
                     {router.asPath.split('/')[2] +
                       '/' +

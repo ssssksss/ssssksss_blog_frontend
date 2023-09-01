@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import Button from '@/components/common/button/Button';
 import { keyframes } from '@emotion/css';
 import theme from '@/styles/theme';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { css } from '@emotion/react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerYoutubeItem.tsx
@@ -57,16 +59,13 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
       </CC.ColumnDiv>
       <CC.RowRightDiv width="40%" gap={4}>
         <Button
-          width="50px"
-          height="50px"
           onClick={() => props.ChoiceYoutubePlayLinkHandler(inputValue, props)}
           disabled={props.url === props.choiceYoutubeLink.url}
+          color="green"
         >
           선택
         </Button>
         <Button
-          width="50px"
-          height="50px"
           onClick={() => props.UpdateCacheStorageHandler(inputValue, props)}
           disabled={
             props.url === inputValue.url && props.name === inputValue.name
@@ -75,9 +74,8 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           수정
         </Button>
         <Button
-          width="50px"
-          height="50px"
           onClick={() => props.DeleteCacheStorageHandler(props)}
+          color="red"
         >
           삭제
         </Button>
@@ -87,75 +85,16 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
 };
 export default ReactPlayerYoutubeItem;
 
-const rotation = keyframes`
-  0% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(174, 84, 242, 1) 0%,
-      rgba(247, 84, 34, 1) 20%,
-      rgba(247, 167, 46, 1) 40%,
-      rgba(195, 245, 189, 1) 60%,
-      rgba(250, 238, 167, 1) 80%
-    );
-  }
-  20% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(174, 84, 242, 1) 0%,
-      rgba(247, 84, 34, 1) 20%,
-      rgba(247, 167, 46, 1) 40%,
-      rgba(195, 245, 189, 1) 60%,
-      rgba(250, 238, 167, 1) 80%
-    );
-  }
-  40% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(247, 84, 34, 1)    0%,
-      rgba(247, 167, 46, 1)   20%,
-      rgba(195, 245, 189, 1)  40%,
-      rgba(250, 238, 167, 1)  60%,
-      rgba(174, 84, 242, 1)  80%
-    );
-  }
-  60% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(247, 167, 46, 1)   0%,
-      rgba(195, 245, 189, 1)  20%,
-      rgba(250, 238, 167, 1)  40%,
-      rgba(174, 84, 242, 1)   60%,
-      rgba(247, 84, 34, 1)   80%
-      );
-  }
-  80% {
-    background-image: linear-gradient(
-      90deg,
-      rgba(195, 245, 189, 1)  0%,
-      rgba(250, 238, 167, 1)  20%,
-      rgba(174, 84, 242, 1)   40%,
-      rgba(247, 84, 34, 1)    60%,
-      rgba(247, 167, 46, 1)    80%
-      );
-  }
-  100% {
-    background-image: linear-gradient(
-      90deg,
-    rgba(250, 238, 167, 1)  0%,
-    rgba(174, 84, 242, 1)   20%,
-    rgba(247, 84, 34, 1)    40%,
-    rgba(247, 167, 46, 1)   60%,
-    rgba(195, 245, 189, 1)   80%
-    );
-  }
-  `;
-
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
-  animation: ${props => props.active && `${rotation} 1s infinite`};
+  animation: ${props =>
+    props.active &&
+    css`
+      ${animationKeyFrames.rainbowColors} 1s infinite
+    `};
+  background: ${theme.linearGradientColors.skyblue};
   z-index: 10;
   height: 60px;
   gap: 12px;
   padding: '0px 4px';
   font-size: ${theme.fontSizes.sm};
-  border-top: #ffffffff solid 1px;
 `;
