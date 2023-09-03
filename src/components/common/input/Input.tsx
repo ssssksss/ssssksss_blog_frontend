@@ -51,6 +51,10 @@ interface IInputProps {
   errorMessage?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   outline?: boolean;
+  padding?: String;
+  leftIconImage?: String;
+  width?: String;
+  height?: String;
 }
 
 const Input = ({
@@ -71,6 +75,10 @@ const Input = ({
   onKeyPress,
   errorMessage,
   size = 'md',
+  padding,
+  leftIconImage,
+  width,
+  height,
   ...props
 }: IInputProps) => {
   return (
@@ -91,6 +99,10 @@ const Input = ({
         checked={checked}
         size={size}
         errorMessage={errorMessage}
+        padding={padding}
+        leftIconImage={leftIconImage}
+        width={width}
+        height={height}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (
             e.key === 'Enter' &&
@@ -108,7 +120,7 @@ const Input = ({
         {...props}
       />
       {errorMessage ? (
-        <ErrorMessageSpan padding={padding}> {errorMessage} </ErrorMessageSpan>
+        <ErrorMessageSpan> {errorMessage} </ErrorMessageSpan>
       ) : (
         <></>
       )}
@@ -117,6 +129,7 @@ const Input = ({
 };
 export default Input;
 
+// 제거할 부분
 const ErrorMessageSpan = styled.span`
   color: red;
   position: absolute;
@@ -131,17 +144,20 @@ const InputStyle = styled.input<IInputProps>`
   font-size: 1rem;
   outline: none;
   border: none;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   display: ${props => (props.display ? props.display : 'block')};
-  width: ${props => theme.inputSizes[props.type][props.size].width};
+  width: ${props =>
+    props.width && theme.inputSizes[props.type][props.size]?.width};
   /* height: ${props => theme.inputSizes[props.type][props.size].height}; */
-  padding: 2px 0px 2px 4px;
+  height: ${props => props.height || '24px'};
+  padding: ${props => props.padding || '2px 0px 2px 4px'};
   &:hover {
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   position: relative;
 
-  background-color: ${props => theme.backgroundColors[props.color]};
+  background-color: ${props =>
+    theme.backgroundColors[props.color] || '#fafafa'};
   color: ${theme.colors['black']};
   /* 순서주의 */
   ${props =>
@@ -159,19 +175,33 @@ const InputStyle = styled.input<IInputProps>`
     props.outline &&
     `
     background-color: ${theme.backgroundColors['white']};
-    outline: solid ${theme.backgroundColors[props.color]} 1px;
+    outline: solid ${theme.backgroundColors[props.color] || 'black'} 1px;
     color: ${theme.colors['default']};
+  `}
+
+  ${props =>
+    props.leftIconImage &&
+    `
+      background-image: url(${props.leftIconImage});
+      padding: 0px 0px 0px calc(${props.height ? props.height : '40px'} + 4px);
+      background-position: 4px center;
+      background-repeat: no-repeat;
+      background-size: contain;
   `}
 
   &[type='radio'] + label {
     display: flex;
     align-items: center;
+    position: relative;
   }
 
   &[type='radio']:checked {
     appearance: none;
     box-shadow: none;
     background: ${props => theme.backgroundColors[props.color]};
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
   }
 
   &[type='checkbox'] + label {
@@ -182,7 +212,6 @@ const InputStyle = styled.input<IInputProps>`
   &[type='checkbox']:checked {
     appearance: none;
     box-shadow: none;
-    border-radius: 2px;
     background: ${props => theme.backgroundColors[props.color]};
   }
 
@@ -198,16 +227,22 @@ const InputStyle = styled.input<IInputProps>`
 
   ::placeholder {
     transition: all 0.6s ease-in-out;
-    ${theme.fontSizes.sm};
     color: ${theme.colors['placeholder']};
     opacity: 0.7;
+    font-size: 100%;
 
     @media (max-width: 768px) {
-      ${theme.fontSizes.xs};
+      /* font-size: ${theme.fontSizes.xs}; */
+      font-size: 100%;
     }
   }
   :focus::placeholder {
-    font-size: 14px;
-    transform: translate(0px, -50%);
+    transform: translate(-2px, -50%);
+
+    ${props =>
+      props.type === 'search' &&
+      `
+    color: transparent;
+  `}
   }
 `;

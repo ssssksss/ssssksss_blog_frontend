@@ -4,7 +4,6 @@ import theme from '@/styles/theme';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import Button from '../common/button/Button';
-import InputSearch from '../common/input/InputSearch';
 import Pagination from '../common/pagination/Pagination';
 import { useEffect } from 'react';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
@@ -12,6 +11,7 @@ import { useState } from 'react';
 import { dateFormat4y2m2d } from '../../../utils/fucntion/dateFormat';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
+import Input from '../common/input/Input';
 /**
  * Author : Sukyung Lee
  * FileName: BoardContainer.tsx
@@ -21,6 +21,9 @@ import { RootState } from '@/redux/store/reducers';
 const ViewBoardsContainer = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState(router.query.keyword || '');
+  const [keywordResult, setKeywordResult] = useState(
+    router.query.keyword || ''
+  );
   const [page, setPage] = useState<any>(router.query.page || 1);
   const [sort, setSort] = useState(
     router.query.sort || 'baseTimeEntity.createdAt'
@@ -31,6 +34,7 @@ const ViewBoardsContainer = () => {
   const [pageCount, setPageCount] = useState(1);
 
   const searchHandler = () => {
+    setKeywordResult(keyword);
     AxiosInstance({
       url: '/api/boards',
       method: 'GET',
@@ -149,24 +153,60 @@ const ViewBoardsContainer = () => {
   return (
     <Container>
       <Header>
-        <h2> 게시판 </h2>
+        <h3> 게시판 </h3>
       </Header>
       <CC.RowCenterDiv>
         <CC.ColumnDiv width={'100%'}>
-          <MainHeader>
-            <InputSearch
-              width={'300px'}
-              height={'30px'}
-              img={'/img/ui-icon/search_icon.png'}
+          <MainHeader width={'100%'}>
+            <Input
+              type="search"
+              outline="true"
               onChange={(e: any) => setKeyword(e.target.value)}
-              onClickSearch={searchHandler}
-              defaultValue={router.query.keyword}
+              leftIconImage={'/img/ui-icon/search_icon.png'}
+              width="100%"
+              placeholder="제목을 입력하세요"
             />
+            <Button
+              width="60px"
+              disabled={!keyword}
+              size="sm"
+              onClick={() => searchHandler()}
+            >
+              검색
+            </Button>
             <select name="area" onChange={changeOptionHandler}>
               <option value=""> 최신순 </option>
               <option value="views"> 조회순 </option>
             </select>
           </MainHeader>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'auto 120px',
+              padding: '4px 2px 8px 0px',
+            }}
+          >
+            <div
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              검색결과
+              <span
+                style={{
+                  fontWeight: '600',
+                  paddingLeft: '4px',
+                }}
+              >
+                {keywordResult}
+              </span>
+            </div>
+            <div style={{ width: '360px' }}>
+              총 <span style={{ color: 'red' }}> {pageCount} </span>건 의 게시물
+            </div>
+          </div>
           <Main>
             <BoardListTitle>
               <CC.RowCenterDiv> 번호 </CC.RowCenterDiv>
@@ -241,17 +281,17 @@ const Main = styled.main`
   gap: 10px;
   display: flex;
   flex-flow: nowrap column;
-  min-height: 600px;
+  padding-bottom: 20px;
 `;
 const BoardListTitle = styled.div`
   width: 100%;
   height: 40px;
-  color: white;
   display: grid;
   grid-template-columns: 40px auto 60px 100px 60px;
   align-items: center;
-  background: ${theme.backgroundColors.grayDark};
   font-family: ${theme.fontFamily.gmarketSansBold};
+  background: ${theme.backgroundColors.grayDark};
+  outline: solid black 2px;
 `;
 const BoardItem = styled.button`
   width: 100%;
@@ -259,13 +299,9 @@ const BoardItem = styled.button`
   display: grid;
   grid-template-columns: 40px auto 60px 100px 60px;
   align-items: center;
-
-  &:nth-of-type(2n + 1) {
-    background: ${theme.backgroundColors.gray};
-  }
-  &:nth-of-type(2n) {
-    background: ${theme.backgroundColors.grayLight};
-  }
+  outline: solid black 2px;
+  border-radius: 2px;
+  background: #fafafa;
 
   &:hover {
     cursor: pointer;
@@ -277,8 +313,8 @@ const MainFooter = styled(CC.ColumnDiv)`
   position: sticky;
   display: flex;
   align-items: center;
-  padding: 20px 0px;
+  padding: 10px 0px;
   gap: 10px;
   bottom: 0px;
-  background: rgba(255, 255, 255, 0.5);
+  background: #eaeaeacc;
 `;

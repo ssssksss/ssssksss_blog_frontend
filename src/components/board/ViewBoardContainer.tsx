@@ -1,16 +1,17 @@
-import { useRouter } from "next/router";
-import styled from "@emotion/styled";
-import { useState, useEffect, useRef } from "react";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { Viewer } from "@toast-ui/react-editor";
-import { CC } from "../../../styles/commonComponentStyle";
-import Head from "next/head";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { dateFormat4y2m2d } from "../../../utils/fucntion/dateFormat";
-import theme from "@/styles/theme";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import { css } from "@emotion/react";
+import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
+import { useState, useEffect, useRef } from 'react';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { Viewer } from '@toast-ui/react-editor';
+import { CC } from '../../../styles/commonComponentStyle';
+import Head from 'next/head';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { dateFormat4y2m2d } from '../../../utils/fucntion/dateFormat';
+import theme from '@/styles/theme';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { css } from '@emotion/react';
+import Button from '../common/button/Button';
 /**
  * Author : Sukyung Lee
  * FileName: ViewBoardContainer.tsx
@@ -43,17 +44,17 @@ const ViewBoardContainer = () => {
 
   const removeBoardHandler = () => {
     AxiosInstance({
-      url: "/api/board",
-      method: "DELETE",
+      url: '/api/board',
+      method: 'DELETE',
       data: {
         id: boardData?.id,
       },
     })
-      .then((response) => {
-        alert("게시글이 삭제되었습니다.");
+      .then(response => {
+        alert('게시글이 삭제되었습니다.');
         router.back();
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -61,21 +62,21 @@ const ViewBoardContainer = () => {
   useEffect(() => {
     if (router.isReady) {
       AxiosInstance({
-        url: "/api/board",
-        method: "GET",
+        url: '/api/board',
+        method: 'GET',
         params: {
           id: router.query.boardNumber,
         },
       })
-        .then((response) => {
+        .then(response => {
           setLoading(false);
           setBoardData(response.data.data.board);
           const viewerInstance = editorRef.current?.getInstance();
           viewerInstance?.setMarkdown(response.data.data.board.content);
         })
-        .catch((error) => {
+        .catch(error => {
           setLoading(false);
-          alert("존재하지 않는 게시물입니다.");
+          alert('존재하지 않는 게시물입니다.');
           router.back();
         });
     }
@@ -115,33 +116,42 @@ const ViewBoardContainer = () => {
               </CC.RowDiv>
             </BoardContainer1>
             <BoardContainer2>
-              {(authStore.role === "ROLE_ADMIN" ||
+              {(authStore.role === 'ROLE_ADMIN' ||
                 authStore.nickname === boardData?.writer) && (
                 <>
                   <Button
-                    actionType="edit"
                     onClick={() =>
                       router.push(
                         router.asPath.substring(
                           0,
-                          router.asPath.lastIndexOf("/")
+                          router.asPath.lastIndexOf('/')
                         ) +
-                          "/board/update?id=" +
+                          '/board/update?id=' +
                           boardData?.id
                       )
                     }
+                    color="green"
+                    outline="true"
                   >
                     수정
                   </Button>
                   <Button
-                    actionType="remove"
-                    onClick={() => removeBoardHandler()}
+                    onClick={() => {
+                      if (
+                        !confirm('확인(예) 또는 취소(아니오)를 선택해주세요.')
+                      ) {
+                      } else {
+                        removeBoardHandler();
+                      }
+                    }}
+                    color="red"
+                    outline="true"
                   >
                     삭제
                   </Button>
                 </>
               )}
-              <Button actionType="list" onClick={() => router.push("/board")}>
+              <Button onClick={() => router.push('/board')} outline="true">
                 목록
               </Button>
             </BoardContainer2>
@@ -203,42 +213,42 @@ const BoardContainer2 = styled.div`
     cursor: pointer;
   }
 `;
-const Button = styled.button<{ actionType?: string }>`
-  width: 100px;
-  height: 40px;
-  display: flex;
-  flex-flow: wrap row;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 4px;
-  font-family: ${theme.fontFamily.cookieRunRegular};
-  font-size: 16px;
-  border-radius: 10px;
+// const Button = styled.button<{ actionType?: string }>`
+//   width: 100px;
+//   height: 40px;
+//   display: flex;
+//   flex-flow: wrap row;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 0px 4px;
+//   font-family: ${theme.fontFamily.cookieRunRegular};
+//   font-size: 16px;
+//   border-radius: 10px;
 
-  ${(props) =>
-    props.actionType === "edit" &&
-    css`
-      background-color: ${theme.backgroundColors.green};
-    `}
+//   ${props =>
+//     props.actionType === 'edit' &&
+//     css`
+//       background-color: ${theme.backgroundColors.green};
+//     `}
 
-  ${(props) =>
-    props.actionType === "remove" &&
-    css`
-      background-color: ${theme.backgroundColors.lightred};
-    `}
+//   ${props =>
+//     props.actionType === 'remove' &&
+//     css`
+//       background-color: ${theme.backgroundColors.lightred};
+//     `}
 
-  ${(props) =>
-    props.actionType === "list" &&
-    css`
-      background-color: ${theme.backgroundColors.purple};
-    `}
+//   ${props =>
+//     props.actionType === 'list' &&
+//     css`
+//       background-color: ${theme.backgroundColors.purple};
+//     `}
 
-    &:hover {
-    color: white;
-    animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
-    height: 48px;
-  }
-`;
+//     &:hover {
+//     color: white;
+//     animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
+//     height: 48px;
+//   }
+// `;
 const Title = styled.h2`
   width: 100%;
   min-height: 40px;

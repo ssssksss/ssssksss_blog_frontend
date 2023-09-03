@@ -73,12 +73,12 @@ const fontFamily = {
 
 const btnSizes = {
   xs: {
-    width: '80px',
+    width: '60px',
     height: '24px',
     borderRadius: '4px',
   },
   sm: {
-    width: '80px',
+    width: '60px',
     height: '30px',
     borderRadius: '8px',
   },

@@ -20,6 +20,8 @@ interface ButtonProps {
     | 'pink';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   outline?: boolean;
+  width?: string;
+  height?: string;
 }
 
 /**
@@ -33,7 +35,9 @@ export const Button = ({
   children = 'button',
   disabled = false,
   color = 'blue',
-  size = 'md',
+  size = 'sm',
+  width,
+  height,
   ...props
 }: ButtonProps) => {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -49,6 +53,8 @@ export const Button = ({
       disabled={disabled}
       color={color}
       size={size}
+      width={width}
+      height={height}
       {...props}
     >
       {children}
@@ -59,7 +65,7 @@ export const Button = ({
 export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
-  padding: 2px 4px 2px 4px;
+  padding: 2px 4px;
   min-width: 24px;
   min-height: 24px;
   ${theme.flex.row.center.center}
@@ -68,6 +74,7 @@ const ButtonStyle = styled.button<IButtonProps>`
   background-color: ${props => theme.backgroundColors[props.color]};
   border-radius: ${props => theme.btnSizes[props.size].borderRadius};
   /* width: ${props => theme.btnSizes[props.size].width}; */
+
   height: ${props => theme.btnSizes[props.size].height};
   &:hover {
     cursor: pointer;
@@ -81,7 +88,7 @@ const ButtonStyle = styled.button<IButtonProps>`
       cursor: not-allowed;
       &:hover {
         box-shadow: none;
-        cursor: not-allowed;
+        cursor: not-allowed;  
       }
     `}
   /* 순서주의 */
@@ -92,4 +99,7 @@ const ButtonStyle = styled.button<IButtonProps>`
     outline: solid ${theme.backgroundColors[props.color]} 1px;
     color: ${theme.backgroundColors[props.color]};
   `}
+
+${props => props.height && `height: ${props.height}`}
+${props => `width: ${props.width || 'max-content'}`};
 `;

@@ -139,7 +139,18 @@ const PostView = () => {
                   >
                     수정
                   </Button>
-                  <Button onClick={() => removePostHandler()}>삭제</Button>
+                  <Button
+                    onClick={() => {
+                      if (
+                        !confirm('확인(예) 또는 취소(아니오)를 선택해주세요.')
+                      ) {
+                      } else {
+                        removePostHandler();
+                      }
+                    }}
+                  >
+                    삭제
+                  </Button>
                 </>
               )}
               <Button

@@ -9,7 +9,8 @@ import { keyframes } from '@emotion/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { useEffect } from 'react';
-import { UserSignupYup } from './UserSignupYup';
+import InputBox from '@/components/common/inputBox/inputBox';
+import { UserSignupYup } from '@/components/yup/UserSignupYup';
 
 /**
  * Author : Sukyung Lee
@@ -76,133 +77,106 @@ const UserSignUp = (props: IUserSignUpProps) => {
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
         <CC.ColumnDiv gap={10} padding={'20px 20px 20px 20px'}>
-          <Space
-            title4="닉네임"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
+          <InputBox
+            labelMessage={'닉네임'}
+            labelWidth={'100px'}
+            errorMessage={errors.nickname?.message}
+            height="60px"
           >
             <Input
               placeholder="닉네임을 입력하세요"
               register={register('nickname')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.nickname?.message}
             />
-          </Space>
-          <Space
-            title4="비밀번호"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
+          </InputBox>
+          <InputBox
+            labelMessage={'비밀번호'}
+            labelWidth={'100px'}
+            errorMessage={errors.password?.message}
           >
             <Input
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register('password')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.password?.message}
             />
-          </Space>
-          <Space
-            title4="비번확인"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
+          </InputBox>
+          <InputBox
+            labelMessage={'비번확인'}
+            labelWidth={'100px'}
+            errorMessage={errors.passwordConfirm?.message}
           >
             <Input
               placeholder="비밀번호를 재입력하세요"
               type="password"
               register={register('passwordConfirm')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.passwordConfirm?.message}
             />
-          </Space>
-          <Space
-            title4="이메일"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
+          </InputBox>
+          <InputBox
+            labelMessage={'이메일'}
+            labelWidth={'100px'}
+            errorMessage={errors.email?.message}
           >
             <Input
               placeholder="이메일을 입력하세요"
               type="email"
               register={register('email')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.email?.message}
             />
-          </Space>
-          <Space
-            title4="성별"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
-          >
-            <CC.RowDiv gap={10}>
-              <CC.RowDiv gap={10}>
+          </InputBox>
+          <InputBox labelMessage={'성별'} labelWidth={'100px'}>
+            <CC.RowBetweenDiv gap={10} width="100%" padding="2px 20px">
+              <CC.RowDiv gap={10} width="50%">
                 <Input
                   placeholder="남"
                   type="radio"
-                  width="20px"
                   id="man"
                   name="gender"
                   value="m"
                   register={register('gender')}
                   errorMessage={errors.gender?.message}
+                  size="sm"
+                  color="red"
                 />
                 <label htmlFor="man"> 남 </label>
               </CC.RowDiv>
-              <CC.RowDiv gap={10}>
+              <CC.RowDiv gap={10} width="50%">
                 <Input
                   placeholder="여"
                   type="radio"
-                  width="20px"
                   id="woman"
                   name="gender"
                   value="w"
                   register={register('gender')}
                   errorMessage={errors.gender?.message}
+                  size="sm"
+                  color="red"
                 />
                 <label htmlFor="woman"> 여 </label>
               </CC.RowDiv>
-            </CC.RowDiv>
-          </Space>
-          <Space
-            title4="생년월일"
-            titleWidth={'140px'}
-            height="70px"
-            bg="#E6E6E6"
-            br="4px"
+            </CC.RowBetweenDiv>
+          </InputBox>
+          <InputBox
+            labelMessage={'생년월일'}
+            labelWidth={'100px'}
+            errorMessage={errors.birthDate?.message}
           >
             <Input
               placeholder="생년월일을 8자리로 입력하세요"
               register={register('birthDate')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.birthDate?.message}
             />
-          </Space>
+          </InputBox>
           <CC.RowCenterDiv gap={20}>
             <Button
               width="100%"
-              height="40px"
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
-              padding={'4px'}
-              status="orange"
             >
               가입
             </Button>
-            <Button
-              width="100%"
-              height="40px"
-              onClick={props.toggleModal}
-              padding={'4px'}
-              status="orange"
-            >
+            <Button width="100%" onClick={props.toggleModal}>
               취소
             </Button>
           </CC.RowCenterDiv>
@@ -227,11 +201,8 @@ const UpDownAnimation = keyframes`
 
 const Container = styled.div`
   width: calc(100% - 40px);
-  min-height: 80%;
   border-radius: 4px;
-  background-color: ${theme.backgroundColors.orange};
   z-index: 80;
-  margin-top: 20px;
 
   input::placeholder {
     font-size: ${theme.fontSizes.sm};
@@ -247,9 +218,9 @@ const Container = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: white;
-  box-shadow: 10px 10px 1px 1px ${theme.backgroundColors.purple};
   animation: ${UpDownAnimation} 0.6s ease-in-out;
   animation-fill-mode: forwards;
   color: black;
+  background: ${theme.linearGradientColors.skyblue};
+  outline: solid ${theme.backgroundColors.grayLight} 2px;
 `;

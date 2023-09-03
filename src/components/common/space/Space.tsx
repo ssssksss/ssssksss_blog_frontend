@@ -1,7 +1,7 @@
-import { CC } from "@/styles/commonComponentStyle";
-import { ReactNode } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import { CC } from '@/styles/commonComponentStyle';
+import { ReactNode } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 /*
  * Author : Sukyung Lee
@@ -45,7 +45,12 @@ const Space = ({
   br,
 }: ISpaceProps) => {
   return (
-    <Container height={height} padding={padding} background={bg} borderRadius={br}>
+    <Container
+      height={height}
+      padding={padding}
+      background={bg}
+      borderRadius={br}
+    >
       {title1 && (
         <ContainerColumn gap={gap}>
           {title1 && (
@@ -54,7 +59,8 @@ const Space = ({
               titleFontWeight={titleFontWeight}
               titleWidth={titleWidth}
               titleBg={titleBg}
-              padding={titleP}>
+              padding={titleP}
+            >
               {title1}
             </TitleDiv>
           )}
@@ -64,7 +70,12 @@ const Space = ({
       {title4 && (
         <ContainerRow gap={gap}>
           {title4 && (
-            <TitleDiv titleFontWeight={titleFontWeight} titleWidth={titleWidth} titleBg={titleBg} padding={titleP}>
+            <TitleDiv
+              titleFontWeight={titleFontWeight}
+              titleWidth={titleWidth}
+              titleBg={titleBg}
+              padding={titleP}
+            >
               {title4}
             </TitleDiv>
           )}
@@ -75,7 +86,12 @@ const Space = ({
         <ContainerColumn gap={gap}>
           <ChildrenDiv> {children} </ChildrenDiv>
           {title3 && (
-            <TitleDiv padding={titleP} titleFontWeight={titleFontWeight} titleWidth={titleWidth} titleBg={titleBg}>
+            <TitleDiv
+              padding={titleP}
+              titleFontWeight={titleFontWeight}
+              titleWidth={titleWidth}
+              titleBg={titleBg}
+            >
               {title3}
             </TitleDiv>
           )}
@@ -90,18 +106,18 @@ const Container = styled.div<{
   padding?: string;
   background?: string;
 }>`
-  padding: ${(props) => props.padding || "6px 4px"};
-  ${(props) =>
+  padding: ${props => props.padding || '6px 4px'};
+  ${props =>
     props.height &&
     css`
       height: ${props.height};
     `}
-  ${(props) =>
+  ${props =>
     props.background &&
     css`
       background: ${props.background};
     `}
-  ${(props) =>
+  ${props =>
     props.borderRadius &&
     css`
       border-radius: ${props.borderRadius};
@@ -110,18 +126,18 @@ const Container = styled.div<{
 
 const ContainerColumn = styled(CC.ColumnDiv)`
   height: 100%;
-  ${(props) =>
+  ${props =>
     props.gap &&
     css`
       gap: ${props.gap}px;
     `}
 `;
 
-const ContainerRow = styled(CC.RowStartDiv)`
+const ContainerRow = styled(CC.RowBetweenDiv)`
   height: 100%;
   display: flex;
   align-items: center;
-  ${(props) =>
+  ${props =>
     props.gap &&
     css`
       gap: ${props.gap}px;
@@ -138,7 +154,7 @@ const TitleDiv = styled.div<{
     css`
       width: ${props.titleWidth};
       padding: ${props.padding};
-      font-size: ${props.titleFontSize || "16px"};
+      font-size: ${props.titleFontSize || '16px'};
       font-weight: ${props.titleFontWeight || 600};
       background: ${props.titleBg};
     `}

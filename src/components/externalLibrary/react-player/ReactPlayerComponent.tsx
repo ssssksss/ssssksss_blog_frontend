@@ -237,7 +237,7 @@ const ReactPlayerComponent = () => {
               </CC.RowBetweenDiv>
             </CC.ColumnDiv>
             <CC.RowRightDiv width="40%" >
-              <Button size="lg" onClick={() => {
+              <Button onClick={() => {
                 AddCacheStorageHandler();
               }}>
                 추가

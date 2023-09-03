@@ -74,7 +74,12 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           수정
         </Button>
         <Button
-          onClick={() => props.DeleteCacheStorageHandler(props)}
+          onClick={() => {
+            if (!confirm('확인(예) 또는 취소(아니오)를 선택해주세요.')) {
+            } else {
+              props.DeleteCacheStorageHandler(props);
+            }
+          }}
           color="red"
         >
           삭제

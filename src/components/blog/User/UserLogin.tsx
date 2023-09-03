@@ -6,13 +6,14 @@ import theme from '@/styles/theme';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { UserLoginYup } from './UserLoginYup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken, setUserInfo } from '@/redux/store/auth/actions';
 import { RootState } from '@/redux/store/reducers';
 import { store } from '@/redux/store';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import InputBox from '@/components/common/inputBox/inputBox';
+import { UserLoginYup } from '@/components/yup/UserLoginYup';
 
 /**
  * Author : Sukyung Lee
@@ -81,55 +82,42 @@ const UserLogin = (props: IUserLoginProps) => {
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
-        <CC.ColumnDiv gap={16} padding={'20px 20px 20px 20px'}>
-          <Space
-            title4="이메일"
-            titleWidth={'100px'}
-            height="60px"
-            bg="#E6E6E6"
-            br="4px"
+        <CC.ColumnDiv gap={16} padding={'20px 20px 20px 20px'} width={'100%'}>
+          <InputBox
+            labelMessage={'이메일'}
+            labelWidth={'100px'}
+            errorMessage={errors.email?.message}
           >
             <Input
               placeholder="이메일을 입력하세요"
               type="email"
               register={register('email')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.email?.message}
+              defaultValue={'temp@test.com'}
             />
-          </Space>
-          <Space
-            title4="비밀번호"
-            titleWidth={'100px'}
-            height="60px"
-            bg="#E6E6E6"
-            br="4px"
+          </InputBox>
+          <InputBox
+            labelMessage={'비밀번호'}
+            labelWidth={'100px'}
+            errorMessage={errors.password?.message}
+            defaultValue={'P@ssw0rd!'}
           >
             <Input
               placeholder="비밀번호를 입력하세요"
               type="password"
               register={register('password')}
               onKeyPress={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-              errorMessage={errors.password?.message}
             />
-          </Space>
-          <CC.RowCenterDiv gap={20}>
+          </InputBox>
+          <CC.RowCenterDiv gap={20} width={'100%'}>
             <Button
-              width="100%"
-              height="40px"
               onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
               disabled={!formState.isValid}
-              padding={'4px'}
-              status="orange"
+              width="100%"
             >
               로그인
             </Button>
-            <Button
-              width="100%"
-              height="40px"
-              onClick={props.toggleModal}
-              padding={'4px'}
-              status="orange"
-            >
+            <Button width="100%" onClick={props.toggleModal}>
               취소
             </Button>
           </CC.RowCenterDiv>
@@ -154,11 +142,9 @@ const UpDownAnimation = keyframes`
 
 const Container = styled.div`
   width: calc(100% - 40px);
-  min-height: 80%;
   border-radius: 4px;
-  background-color: ${theme.backgroundColors.orange};
   z-index: 80;
-  margin-top: 20px;
+  transform: translate(0%, 50%);
 
   input::placeholder {
     font-size: ${theme.fontSizes.sm};
@@ -174,11 +160,9 @@ const Container = styled.div`
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-  /* background-color: ${theme.backgroundColors.purple}; */
-  /* background-color: ${theme.backgroundColors.background2}; */
-  background-color: white;
-  box-shadow: 10px 10px 1px 1px ${theme.backgroundColors.purple};
   animation: ${UpDownAnimation} 0.6s ease-in-out;
   animation-fill-mode: forwards;
   color: black;
+  background: ${theme.linearGradientColors.skyblue};
+  outline: solid ${theme.backgroundColors.grayLight} 2px;
 `;
