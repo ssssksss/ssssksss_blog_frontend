@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import styled from "@emotion/styled";
+import { ReactNode } from 'react';
+import styled from '@emotion/styled';
 
 /**
  * Author : Sukyung Lee
@@ -47,7 +47,7 @@ const Container = styled.div<{ height?: string }>`
   width: 50%;
   height: 50%;
   overflow-y: auto;
-  height: ${(props) => (props.height ? props.height : "80%")};
+  height: ${props => (props.height ? props.height : '80%')};
   transform: translate(-50%, -50%);
   border: 0px;
   z-index: 100;

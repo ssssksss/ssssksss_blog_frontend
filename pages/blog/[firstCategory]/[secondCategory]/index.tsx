@@ -14,8 +14,8 @@ const Index = () => {
     </>
   );
 };
-Index.layout = BlogLayout;
 export default Index;
+Index.layout = BlogLayout;
 
 const Container = styled.div`
   margin: auto;

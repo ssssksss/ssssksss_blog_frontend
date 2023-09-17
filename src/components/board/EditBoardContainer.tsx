@@ -1,9 +1,9 @@
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import dynamic from "next/dist/shared/lib/dynamic";
-import styled from "@emotion/styled";
-import Loading1 from "../common/loading/Loading1";
-import BoardEditor from "./BoardEditor";
+import { CC } from '@/styles/commonComponentStyle';
+import theme from '@/styles/theme';
+import dynamic from 'next/dist/shared/lib/dynamic';
+import styled from '@emotion/styled';
+import Loading1 from '../common/loading/Loading1';
+import BoardEditor from './BoardEditor';
 /**
  * Author : Sukyung Lee
  * FileName: EditBoardContainer.tsx
@@ -11,7 +11,7 @@ import BoardEditor from "./BoardEditor";
  * Description :
  */
 
-const Editor = dynamic(() => import("./BoardEditor"), {
+const Editor = dynamic(() => import('./BoardEditor'), {
   ssr: false,
   loading: () => <Loading1 />,
 }) as any;
@@ -28,7 +28,11 @@ const EditBoardContainer = (props: IEditBoardContainerProps) => {
   );
 };
 export default EditBoardContainer;
-const Container = styled(CC.ColumnDiv)`
-  padding-top: 40px;
-  align-items: center;
+const Container = styled.div`
+  background: ${theme.backgroundColors.background2};
+  border-radius: 10px;
+  padding: 10px 10px 0px 10px;
+  font-size: ${theme.fontSizes.sm};
+  max-width: ${theme.customScreen.maxWidth};
+  margin: 0px auto;
 `;

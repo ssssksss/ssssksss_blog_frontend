@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { MouseEvent, useState } from "react";
-import theme from "@/styles/theme";
+import styled from '@emotion/styled';
+import { MouseEvent, useState } from 'react';
+import theme from '@/styles/theme';
 
 interface IPaginationProps {
   refetch: any;
@@ -18,18 +18,18 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
 
   // 아래 보여줄 페이지 번호들
   const movePage = (event: MouseEvent<HTMLButtonElement>) => {
-    if (event.currentTarget.id === "prev") {
-      setStartPage((prev) => (prev > 10 ? prev - 10 : 1));
+    if (event.currentTarget.id === 'prev') {
+      setStartPage(prev => (prev > 10 ? prev - 10 : 1));
       refetch({ page: currentPage > 10 ? currentPage - 10 : 1 });
-    } else if (event.currentTarget.id === "morePrev") {
+    } else if (event.currentTarget.id === 'morePrev') {
       setStartPage(1);
       refetch({ page: 1 });
-    } else if (event.currentTarget.id === "next") {
-      setStartPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
+    } else if (event.currentTarget.id === 'next') {
+      setStartPage(prev => (prev + 10 <= endPage ? prev + 10 : endPage));
       refetch({
         page: currentPage + 10 <= endPage ? currentPage + 10 : endPage,
       });
-    } else if (event.currentTarget.id === "moreNext") {
+    } else if (event.currentTarget.id === 'moreNext') {
       if (endPage % 10 === 0) {
         const temp = endPage - 9;
         setStartPage(temp);
@@ -48,15 +48,19 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
 
   return (
     <Container>
-      {currentPage > 10 && (
+      {currentPage > 10 ? (
         <MoveButton id="morePrev" onClick={movePage}>
-          ◀◀
+          ⏪
         </MoveButton>
+      ) : (
+        <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
-      {currentPage !== 1 && (
+      {currentPage !== 1 ? (
         <MoveButton id="prev" onClick={movePage}>
-          ◀
+          ◀️
         </MoveButton>
+      ) : (
+        <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
       {new Array(10).fill(1).map(
         (_, index) =>
@@ -72,15 +76,19 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
           )
       )}
 
-      {startPage + 10 > endPage || (
+      {startPage + 10 < endPage ? (
         <MoveButton id="next" onClick={movePage}>
-          ▶
+          ▶️
         </MoveButton>
+      ) : (
+        <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
-      {startPage + 10 > endPage || (
+      {startPage + 10 < endPage ? (
         <MoveButton id="moreNext" onClick={movePage}>
-          ▶▶
+          ⏩
         </MoveButton>
+      ) : (
+        <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
     </Container>
   );
@@ -91,31 +99,27 @@ export default Pagination;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 2px;
+  justify-content: center;
+  gap: 1px;
+  width: 100%;
 
   button {
-    width: 30px;
+    width: calc(100% / 15);
+    max-width: 32px;
     aspect-ratio: 1;
-    height: 100%;
-    /* border: 1px solid black; */
     display: flex;
     justify-content: center;
     align-items: center;
-    background: transparent;
+    /* background: transparent; */
     &:hover {
       background: black;
       color: white;
-      border-radius: 25%;
-    }
-
-    @media (max-width: 600px) {
-      width: 26px;
     }
   }
 `;
 const PageNumberButton = styled.button<{ isActive: boolean }>`
-  color: ${(props) => (props.isActive ? "red" : "black")};
-  font-size: ${(props) => (props.isActive ? "24px" : "16px")};
+  color: ${props => (props.isActive ? 'red' : 'black')};
+  font-size: ${props => (props.isActive ? '1.2em' : '1em')};
   font-family: ${theme.fontFamily.cookieRunRegular};
 `;
 const MoveButton = styled.button``;

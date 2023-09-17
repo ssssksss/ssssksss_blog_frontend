@@ -50,6 +50,7 @@ const BlogMenu = () => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
   const categoryStore = useSelector((state: RootState) => state.categoryStore);
   const authStore = useSelector((state: RootState) => state.authStore);
+  const [isHideCategoryMenu, setIsHideCategoryMenu] = useState(false);
   const [randomData, setRandomData] = useState(Math.random());
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenModal1, setIsOpenModal1] = useState(false);
@@ -279,59 +280,68 @@ const BlogMenu = () => {
           </CC.RowDiv>
         </CustomModal>
       )}
-
-      <CategoryContainer>
-        <FirstCategoryContainer themeStore={themeStore}>
-          {FirstCategoryButtonList.map((i, index) => (
-            <Button onClick={() => FirstCategoryHandler(i[0])} size="sm">
-              <div> {i[1]} </div>
-              <FirstCategoryItemCount> 1 </FirstCategoryItemCount>
-            </Button>
-          ))}
-        </FirstCategoryContainer>
-        <SecondCategoryContainer
-          themeStore={themeStore}
-          categoryStore={categoryStore}
-          key={randomData}
-        >
-          <header>
-            <span>
-              {FirstCategoryButtonList.filter(
-                i => i[0] === categoryStore.firstCategory
-              ).map(i => i[0])}
-            </span>
-            {authStore.role === 'ROLE_ADMIN' && (
-              <Button
-                onClick={() => setIsOpenModal(true)}
-                outline={true}
-                color={'black'}
-              >
-                추가
+      <BlogCategoryMenuHideToggleButton
+        onClick={() => setIsHideCategoryMenu(!isHideCategoryMenu)}
+        outline="true"
+      >
+        {isHideCategoryMenu ? '⏬' : '⏫'}
+      </BlogCategoryMenuHideToggleButton>
+      {isHideCategoryMenu || (
+        <CategoryContainer>
+          {/* <Button onClick={() => setIsHideCategoryMenu(true)}>숨겨져라</Button> */}
+          <FirstCategoryContainer themeStore={themeStore}>
+            {FirstCategoryButtonList.map((i, index) => (
+              <Button onClick={() => FirstCategoryHandler(i[0])} size="sm">
+                <div> {i[1]} </div>
+                <FirstCategoryItemCount> 1 </FirstCategoryItemCount>
               </Button>
-            )}
-          </header>
-          <MenuContainer>
-            {secondCategoriesState?.map((secondCategory, index) => (
-              <SecondCategoryItemButton
-                index={index}
-                active={secondCategory === categoryStore.secondCategory}
-                onClick={() =>
-                  readBlogItemListHandler(
-                    categoryStore.firstCategory,
-                    secondCategory
-                  )
-                }
-              >
-                <div> {secondCategory} </div>
-                <SecondCategoryItemCount> 1 </SecondCategoryItemCount>
-              </SecondCategoryItemButton>
             ))}
-          </MenuContainer>
-        </SecondCategoryContainer>
-      </CategoryContainer>
+          </FirstCategoryContainer>
+          <SecondCategoryContainer
+            themeStore={themeStore}
+            categoryStore={categoryStore}
+            key={randomData}
+          >
+            <header>
+              <span>
+                {FirstCategoryButtonList.filter(
+                  i => i[0] === categoryStore.firstCategory
+                ).map(i => i[0])}
+              </span>
+              {authStore.role === 'ROLE_ADMIN' && (
+                <Button
+                  onClick={() => setIsOpenModal(true)}
+                  outline={true}
+                  color={'black'}
+                >
+                  추가
+                </Button>
+              )}
+            </header>
+            <MenuContainer>
+              {secondCategoriesState?.map((secondCategory, index) => (
+                <SecondCategoryItemButton
+                  index={index}
+                  active={secondCategory === categoryStore.secondCategory}
+                  onClick={() =>
+                    readBlogItemListHandler(
+                      categoryStore.firstCategory,
+                      secondCategory
+                    )
+                  }
+                >
+                  <div> {secondCategory} </div>
+                  <SecondCategoryItemCount> 1 </SecondCategoryItemCount>
+                </SecondCategoryItemButton>
+              ))}
+            </MenuContainer>
+          </SecondCategoryContainer>
+        </CategoryContainer>
+      )}
       <CategoryListContainer
         themeStore={themeStore}
         categoryStore={categoryStore}
+        isHideCategoryMenu={isHideCategoryMenu}
       >
         {authStore.role === 'ROLE_ADMIN' && (
           <header>
@@ -400,6 +410,11 @@ const Container = styled.div`
   display: flex;
   flex-flow: nowrap column;
   gap: 10px;
+`;
+
+const BlogCategoryMenuHideToggleButton = styled(Button)`
+  height: 20px;
+  width: 100%;
 `;
 
 const CategoryContainer = styled.div`
@@ -611,16 +626,17 @@ const SecondCategoryItemButton = styled.button<{ active: boolean }>`
 
 const SecondCategoryItemCount = styled(FirstCategoryItemCount)``;
 
-const CategoryListContainer = styled.section`
+const CategoryListContainer = styled.section<{ isHideCategoryMenu: boolean }>`
   display: flex;
   flex-flow: nowrap column;
   border-radius: 8px;
   overflow: scroll;
-  max-height: calc(100vh - 280px);
   outline: solid black 2px;
   font-size: ${theme.fontSizes.sm};
   position: relative;
 
+  max-height: ${props =>
+    props.isHideCategoryMenu ? 'calc(100vh - 80px)' : 'calc(100vh - 280px)'};
   header {
     position: sticky;
     background: transparent;

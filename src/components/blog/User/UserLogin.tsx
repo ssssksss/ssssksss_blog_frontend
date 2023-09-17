@@ -144,7 +144,6 @@ const Container = styled.div`
   width: calc(100% - 40px);
   border-radius: 4px;
   z-index: 80;
-  transform: translate(0%, 50%);
 
   input::placeholder {
     font-size: ${theme.fontSizes.sm};

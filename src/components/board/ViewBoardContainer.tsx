@@ -121,14 +121,7 @@ const ViewBoardContainer = () => {
                 <>
                   <Button
                     onClick={() =>
-                      router.push(
-                        router.asPath.substring(
-                          0,
-                          router.asPath.lastIndexOf('/')
-                        ) +
-                          '/board/update?id=' +
-                          boardData?.id
-                      )
+                      router.push('/board/update?id=' + boardData?.id)
                     }
                     color="green"
                     outline="true"

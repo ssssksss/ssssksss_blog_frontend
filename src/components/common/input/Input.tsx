@@ -183,7 +183,7 @@ const InputStyle = styled.input<IInputProps>`
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
-      padding: 0px 0px 0px calc(${props.height ? props.height : '40px'} + 4px);
+      padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 4px);
       background-position: 4px center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -229,11 +229,10 @@ const InputStyle = styled.input<IInputProps>`
     transition: all 0.6s ease-in-out;
     color: ${theme.colors['placeholder']};
     opacity: 0.7;
-    font-size: 100%;
+    font-size: ${theme.fontSizes.md};
 
-    @media (max-width: 768px) {
-      /* font-size: ${theme.fontSizes.xs}; */
-      font-size: 100%;
+    @media (max-width: ${theme.deviceSizes.laptop}) {
+      font-size: ${theme.fontSizes.sm};
     }
   }
   :focus::placeholder {

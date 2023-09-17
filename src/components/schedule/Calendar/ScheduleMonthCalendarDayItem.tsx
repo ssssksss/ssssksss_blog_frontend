@@ -3,11 +3,12 @@ import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';
 import theme from '@/styles/theme';
 import { dateFormat4y2m2d } from '@/utils/fucntion/dateFormat';
-import React, { ReactNode, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { forwardRef, ReactNode, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { SET_CURRENT_SCHEDULE_DATE } from '@/redux/store/schedule/actions';
+import { store } from '@/redux/store/index';
 
 type CalendarDayItemType = {
   color?: string;
@@ -19,75 +20,55 @@ type CalendarDayItemType = {
   date?: string;
   data?: any | any[];
   dayW?: number;
-  sideOpenToggleHandler: () => void;
+  refIndex?: number;
+  // sideOpenToggleHandler: () => void;
 };
 
-const ScheduleMonthCalendarDayItem = (props: CalendarDayItemType) => {
-  const dispatch = useDispatch();
+const ScheduleMonthCalendarDayItem = (props: CalendarDayItemType, ref: any) => {
   const setCurrentScheduleDate = (currentScheduleDate: any) => {
-    dispatch(SET_CURRENT_SCHEDULE_DATE(currentScheduleDate));
-  };
-  const onClickHandler = () => {
-    if (props.isThisMonth) {
-      setCurrentScheduleDate(props.id);
-      props.sideOpenToggleHandler();
-    }
+    store.dispatch(SET_CURRENT_SCHEDULE_DATE(currentScheduleDate));
   };
 
-  useEffect(() => {
-    console.log('ScheduleMonthCalendarDayItem.tsx : ');
-  }, []);
-
+  // const onClickHandler = () => {
+  //   if (props.isThisMonth) {
+  //     setCurrentScheduleDate(props.id);
+  //     props.sideOpenToggleHandler();
+  //   }
+  // };
   return (
     <Container
       today={dateFormat4y2m2d(new Date()) === props.id}
-      onClick={onClickHandler}
+      // onClick={onClickHandler}
       isThisMonth={props.isThisMonth}
+      // ref={elem => (ref.current[props.refIndex] = elem)}
     >
       {/* 일 수 */}
       <DayTitle>
         <DaySpan dayW={props.dayW}>{props.day}일</DaySpan>
         {/* <DayScheduleCount> {props.data?.length} 개 </DayScheduleCount> */}
       </DayTitle>
-      <TodayScheduleList>
-        {props.data?.map((el: any, index: number) => (
-          <ScheduleItem key={index}>
-            <ScheduleMarkColor style={{ background: el.backgroundColor }} />
-            <CC.OverflowText> {el.title} </CC.OverflowText>
-          </ScheduleItem>
-        ))}
-      </TodayScheduleList>
+      <TodayScheduleList
+        ref={elem => (ref.current[props.refIndex] = elem)}
+      ></TodayScheduleList>
     </Container>
   );
 };
 
-export default ScheduleMonthCalendarDayItem;
+export default forwardRef(ScheduleMonthCalendarDayItem);
 
 const Container = styled.button<{ today?: boolean; isThisMonth?: boolean }>`
   min-height: 120px;
-  padding: 4px;
   box-shadow: 0px 0px 1px 1px #aeaeae inset;
-  background-color: ${(props: any) => props.today && '#fffaaa'};
+  /* background-color: ${(props: any) => props.today && '#fffaaa'}; */
+  width: 100%;
   display: flex;
-  align-items: flex-start;
-  width: calc(100%);
-  flex-flow: nowrap column;
-  opacity: 0.6;
-  cursor: not-allowed;
-  ${props =>
-    props.isThisMonth &&
-    css`
-      opacity: 1;
-      cursor: pointer;
-      &:hover {
-        outline: solid black 3px;
-        z-index: 5;
-      }
-    `}
+  flex-flow: wrap column;
+  gap: 2px;
 `;
 const DayTitle = styled(CC.RowBetweenDiv)`
   width: 100%;
-  padding: 0px 4px 6px;
+  grid-row-start: 1;
+  padding: 2px;
 `;
 const DaySpan = styled.span<{ dayW?: number }>`
   font-size: 16px;
@@ -98,9 +79,26 @@ const DaySpan = styled.span<{ dayW?: number }>`
     font-size: 12px;
   }
 `;
-const TodayScheduleList = styled(CC.ColumnDiv)`
-  gap: 4px;
-  width: calc(100% - 2px);
+const TodayScheduleList = styled.div`
+  width: 100%;
+  display: grid;
+
+  /* scheduleBar 요소 */
+  & > button {
+    height: 22px;
+    z-index: 20;
+    border-radius: 0px 8px 8px 0px;
+    font-size: 1em;
+    color: white;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      outline: 2px solid black;
+    }
+  }
 `;
 const ScheduleItem = styled(CC.RowDiv)`
   padding: 2px 4px;

@@ -162,23 +162,27 @@ const NavBar = () => {
                 ) : (
                   <div> </div>
                 )}
-                <button
+                <Button
                   onClick={() => {
-                    authStore.nickname
-                      ? logoutHandler()
-                      : setIsModalOpen1(true);
+                    if (authStore.nickname) {
+                      logoutHandler();
+                    } else {
+                      setIsModalOpen(false);
+                      setIsModalOpen1(true);
+                    }
                   }}
                 >
                   {authStore.nickname ? '로그아웃' : '로그인'}
-                </button>
+                </Button>
                 {authStore.nickname || (
-                  <button
+                  <Button
                     onClick={() => {
                       setIsModalOpen(true);
+                      setIsModalOpen1(false);
                     }}
                   >
                     회원가입
-                  </button>
+                  </Button>
                 )}
                 {authStore.nickname ? (
                   <div> </div>
@@ -475,7 +479,7 @@ const GoToTheTopButton = styled.img`
   width: 24px;
   aspect-ratio: 1;
   right: 4px;
-  bottom: calc(10% + 15px);
+  bottom: calc(10% + 30px);
   z-index: 110;
 
   &:hover {
@@ -490,7 +494,7 @@ const GoToTheBottomButton = styled.img`
   width: 24px;
   aspect-ratio: 1;
   right: 4px;
-  bottom: calc(10% - 15px);
+  bottom: calc(10%);
   z-index: 110;
 
   &:hover {

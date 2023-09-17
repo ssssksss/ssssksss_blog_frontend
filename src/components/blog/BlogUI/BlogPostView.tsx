@@ -260,6 +260,7 @@ const BlogPostView = () => {
                     }
                     color="green"
                     size="sm"
+                    width="100%"
                   >
                     수정
                   </Button>
@@ -267,6 +268,7 @@ const BlogPostView = () => {
                     size="sm"
                     color="red"
                     onClick={() => removePostHandler()}
+                    width="100%"
                   >
                     삭제
                   </Button>

@@ -167,9 +167,8 @@ const ViewBoardsContainer = () => {
               placeholder="제목을 입력하세요"
             />
             <Button
-              width="60px"
+              width="80px"
               disabled={!keyword}
-              size="sm"
               onClick={() => searchHandler()}
             >
               검색
@@ -182,8 +181,9 @@ const ViewBoardsContainer = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'auto 120px',
-              padding: '4px 2px 8px 0px',
+              justifyContent: 'space-between',
+              gridTemplateColumns: '120px auto',
+              padding: '0px 0px 12px 0px',
             }}
           >
             <div
@@ -203,7 +203,7 @@ const ViewBoardsContainer = () => {
                 {keywordResult}
               </span>
             </div>
-            <div style={{ width: '360px' }}>
+            <div>
               총 <span style={{ color: 'red' }}> {pageCount} </span>건 의 게시물
             </div>
           </div>
@@ -257,13 +257,24 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-flow: nowrap column;
+  font-size: ${theme.fontSizes.md};
+
+  @media (max-width: ${theme.deviceSizes.laptop}) {
+    //max-width보다 작을 떄
+    font-size: ${theme.fontSizes.sm};
+  }
 `;
 const Header = styled.div`
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32px;
+  font-size: ${theme.fontSizes.xl};
+
+  @media (max-width: ${theme.deviceSizes.laptop}) {
+    //max-width보다 작을 떄
+    height: 40px;
+  }
 `;
 const MainHeader = styled(CC.RowDiv)`
   margin: auto;
@@ -287,21 +298,33 @@ const BoardListTitle = styled.div`
   width: 100%;
   height: 40px;
   display: grid;
-  grid-template-columns: 40px auto 60px 100px 60px;
+  grid-template-columns: 40px auto 60px 80px 60px;
   align-items: center;
   font-family: ${theme.fontFamily.gmarketSansBold};
   background: ${theme.backgroundColors.grayDark};
   outline: solid black 2px;
+  @media (max-width: ${theme.deviceSizes.tablet}) {
+    grid-template-columns: 40px auto 60px 80px 40px;
+  }
 `;
 const BoardItem = styled.button`
   width: 100%;
   height: 40px;
   display: grid;
-  grid-template-columns: 40px auto 60px 100px 60px;
+  grid-template-columns: 40px auto 60px 80px 60px;
   align-items: center;
   outline: solid black 2px;
   border-radius: 2px;
   background: #fafafa;
+  overflow: hidden;
+
+  @media (max-width: ${theme.deviceSizes.tablet}) {
+    grid-template-columns: 40px auto 60px 80px 40px;
+  }
+
+  & > div {
+    overflow: ;
+  }
 
   &:hover {
     cursor: pointer;
@@ -317,4 +340,9 @@ const MainFooter = styled(CC.ColumnDiv)`
   gap: 10px;
   bottom: 0px;
   background: #eaeaeacc;
+
+  @media (max-width: ${theme.deviceSizes.laptop}) {
+    //max-width보다 작을 떄
+    font-size: ${theme.fontSizes.sm};
+  }
 `;

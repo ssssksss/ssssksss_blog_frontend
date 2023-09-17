@@ -23,7 +23,6 @@ const InputBox = ({
   children = <Input value="컴포넌트를 넣어주면 된다." color="white" />,
   ...props
 }: IInputBoxProps) => {
-  console.log('inputBox.tsx 파일 : ', props.errorMessage);
   return (
     <Container height={props.height}>
       <Main>

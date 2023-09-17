@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import AxiosInstance from "@/utils/axios/AxiosInstance";
-import { Editor } from "@toast-ui/react-editor";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import { AWSS3Prefix } from "@/components/common/variables/url";
-import { store } from "../../../redux/store/index";
-import theme from "@/styles/theme";
+import React, { useState, useEffect, useRef } from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { Editor } from '@toast-ui/react-editor';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
+import { AWSS3Prefix } from '@/components/common/variables/url';
+import { store } from '../../../redux/store/index';
+import theme from '@/styles/theme';
 
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import "tui-color-picker/dist/tui-color-picker.css";
-import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
+import Input from '@/components/common/input/Input';
+import { Button } from '@/components/common/button/Button';
 
 interface IBoardEditorProps {
   edit?: boolean;
@@ -28,30 +30,30 @@ interface IBoardEditorProps {
 
 const BoardEditor = (props: IBoardEditorProps) => {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [areaTextContent, setAreaTextContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [areaTextContent, setAreaTextContent] = useState('');
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [imgUrl, SetImgUrl] = useState("");
+  const [imgUrl, SetImgUrl] = useState('');
 
   const submitHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/api/board",
-      method: "POST",
+      url: '/api/board',
+      method: 'POST',
       data: {
         title: title,
         content: getContent_md,
         writer: authStore.nickname,
       },
     })
-      .then((response) => {
-        router.push("/board");
+      .then(response => {
+        router.push('/board');
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   };
 
@@ -59,43 +61,43 @@ const BoardEditor = (props: IBoardEditorProps) => {
     const editorInstance = editorRef.current?.getInstance();
     const MarkdownContent = editorInstance?.getMarkdown();
     AxiosInstance({
-      url: "/api/board",
-      method: "PUT",
+      url: '/api/board',
+      method: 'PUT',
       data: {
         id: Number(router.query?.id),
         title: title,
         content: MarkdownContent,
       },
     })
-      .then((response) => {
+      .then(response => {
         // 그냥 글 리스트로 이동하는 것이 편해서 수정
         // router.push(boardUrlHref + "/" + router.query?.id);
       })
-      .catch((error) => {
-        alert("에러가 발생하였습니다.");
+      .catch(error => {
+        alert('에러가 발생하였습니다.');
       });
   };
 
   const uploadHandler = async (file: any) => {
     let formData = new FormData();
-    formData.append("files", file);
-    formData.append("directory", "/" + locationHref.split("/")[1]);
+    formData.append('files', file);
+    formData.append('directory', '/' + locationHref.split('/')[1]);
     let temp;
     await AxiosInstance({
-      url: "/s3/image",
-      method: "POST",
+      url: '/s3/image',
+      method: 'POST',
       headers: {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
       },
       data: formData,
       withCredentials: true,
     })
-      .then((response) => {
+      .then(response => {
         temp = response.data;
       })
-      .catch((error) => {
-        console.log("index.tsx : ", error.response);
+      .catch(error => {
+        console.log('index.tsx : ', error.response);
       });
     return temp;
   };
@@ -103,22 +105,22 @@ const BoardEditor = (props: IBoardEditorProps) => {
   useEffect(() => {
     if (props.edit) {
       AxiosInstance({
-        url: "/api/post",
-        method: "GET",
+        url: '/api/post',
+        method: 'GET',
         params: {
-          firstHref: router.asPath.split("/")[2],
-          secondHref: router.asPath.split("/")[3],
+          firstHref: router.asPath.split('/')[2],
+          secondHref: router.asPath.split('/')[3],
           id: router.query?.id,
         },
       })
-        .then((response) => {
+        .then(response => {
           let res = response.data.data.post;
           setAreaTextContent(res.content);
           setTitle(res.title);
           const editorInstance = editorRef.current?.getInstance();
           editorInstance?.setMarkdown(res.content);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -132,7 +134,7 @@ const BoardEditor = (props: IBoardEditorProps) => {
           <BoardTitle
             placeholder="게시판 제목을 입력해주세요."
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
             }}
           />
@@ -150,25 +152,30 @@ const BoardEditor = (props: IBoardEditorProps) => {
               hooks={{
                 addImageBlobHook: async (blob, callback) => {
                   const imageURL: any = await uploadHandler(blob);
-                  callback(`${AWSS3Prefix}${imageURL[0]}`, "");
+                  callback(`${AWSS3Prefix}${imageURL[0]}`, '');
                   // "blog"+directory+"/"+fileName
                 },
               }}
               toolbarItems={[
                 // 툴바 옵션 설정
-                ["heading", "bold", "italic", "strike"],
-                ["hr", "quote"],
-                ["ul", "ol", "task", "indent", "outdent"],
-                ["table", "image", "link"],
-                ["code", "codeblock"],
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol', 'task', 'indent', 'outdent'],
+                ['table', 'image', 'link'],
+                ['code', 'codeblock'],
               ]}
             />
           </EditorContainer>
           <EditorFooter>
-            <SubmitButton onClick={() => (props.edit ? updateHandler() : submitHandler())}>
-              {props.edit ? "수정" : "제출"}
-            </SubmitButton>
-            <CancelButton onClick={() => router.back()}>취소</CancelButton>
+            <Button
+              width="100%"
+              onClick={() => (props.edit ? updateHandler() : submitHandler())}
+            >
+              {props.edit ? '수정' : '제출'}
+            </Button>
+            <Button width="100%" onClick={() => router.back()}>
+              취소
+            </Button>
           </EditorFooter>
         </Container>
       )}
@@ -185,49 +192,37 @@ const Container = styled.section`
 
   .toastui-editor-toolbar {
     position: sticky;
-    top: 0px;
+    top: 40px;
     z-index: 1;
   }
   .toastui-editor-main {
-    padding-top: 20px;
+    border-top: solid transparent 4px;
+    padding-top: 4px;
   }
 `;
-const Title = styled.div`
+const Title = styled.h1`
   width: 100%;
   ${theme.flex.row.center.center};
-  font-size: 36px;
-  background: #dedede;
   margin-bottom: 20px;
   border-radius: 8px;
-  padding: 20px 0px;
 `;
-const BoardTitle = styled.input`
+const BoardTitle = styled(Input)`
   width: 100%;
+  height: 40px;
   font-size: 20px;
-  color: white;
-  text-align: center;
-  background: ${theme.backgroundColors.skyblue};
+  border-radius: 10px 10px 0px 0px;
   font-family: ${theme.fontFamily.cookieRunRegular};
-  padding: 10px 10px;
-  z-index: 2;
-
-  &::placeholder {
-    transition: all 0.6s ease-in-out;
-    ${theme.fontSizes.sm};
-    color: white;
-
-    @media (max-width: 768px) {
-      ${theme.fontSizes.xs};
-    }
-  }
-  &:focus::placeholder {
-    color: transparent;
-  }
+  font-size: ${theme.fontSizes.lg};
+  padding: 0px 10px;
+  border: none;
+  background: white;
+  outline: solid black 2px;
+  z-index: 3;
 `;
 const Writer = styled.div`
-  background: ${theme.backgroundColors.skyblue};
   padding: 8px 0px 8px 10px;
-  color: white;
+  background: white;
+  outline: solid black 2px;
 `;
 const EditorFooter = styled.div`
   margin-top: 5px;
@@ -241,10 +236,12 @@ const EditorFooter = styled.div`
 `;
 const EditorContainer = styled.div`
   background-color: white;
+  outline: solid black 2px;
+  z-index: 2;
   &::before {
-    content: "";
+    content: '';
     background-size: 50%;
-    background-image: url("/img/backgroundImage/원피스.jpg");
+    background-image: url('/img/backgroundImage/원피스.jpg');
     background-repeat: repeat-x;
     background-position: right bottom;
     opacity: 0.2;
@@ -254,24 +251,4 @@ const EditorContainer = styled.div`
     right: 0px;
     bottom: 80px;
   }
-`;
-
-const Button = css`
-  background: white;
-  height: 30px;
-  border-radius: 10px;
-  border: solid black 1px;
-  font-size: 1.1rem;
-  font-family: ${theme.fontFamily.cookieRunRegular};
-  ${theme.flex.row.center.center};
-  cursor: pointer;
-  &:hover {
-    background: #aeaeae;
-  }
-`;
-const SubmitButton = styled.button`
-  ${Button}
-`;
-const CancelButton = styled.button`
-  ${Button}
 `;

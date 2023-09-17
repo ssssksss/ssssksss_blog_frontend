@@ -1,6 +1,6 @@
-import ViewBoardsContainer from "@/components/board/ViewBoardsContainer";
-import Layout1 from "@/components/layout/Layout1";
-import styled from "@emotion/styled";
+import ViewBoardsContainer from '@/components/board/ViewBoardsContainer';
+import BlogLayout from '@/components/layout/BlogLayout';
+import styled from '@emotion/styled';
 
 /**
  * Author : Sukyung Lee
@@ -12,13 +12,13 @@ import styled from "@emotion/styled";
 const BoardPage = () => {
   return (
     <Container>
-      {typeof window !== "undefined" && <ViewBoardsContainer />}
+      {typeof window !== 'undefined' && <ViewBoardsContainer />}
     </Container>
   );
 };
 export default BoardPage;
-BoardPage.layout = Layout1;
+BoardPage.layout = BlogLayout;
 
 const Container = styled.div`
-  width: 100%;
+  margin: auto;
 `;
