@@ -1,10 +1,10 @@
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import Totoro from "../threejs/glTF/Totoro";
-import MyRoom from "../threejs/glTF/room/MyRoom";
+import { CC } from '@/styles/commonComponentStyle';
+import { commonTheme } from '@/styles/theme';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import Totoro from '../threejs/glTF/Totoro';
+import MyRoom from '../threejs/glTF/room/MyRoom';
 /**
  * Author : Sukyung Lee
  * FileName: IntroduceChapter.tsx
@@ -29,7 +29,7 @@ const IntroduceChapter = () => {
 };
 export default IntroduceChapter;
 const Container = styled(CC.RowBetweenDiv)`
-  @media (max-width: ${theme.customScreen.sm}) {
+  @media (max-width: ${commonTheme.customScreen.sm}) {
     flex-flow: nowrap column-reverse;
   }
 `;
@@ -38,14 +38,14 @@ const TextDiv = styled(CC.ColumnLeftDiv)`
   width: 360px;
   justify-content: center;
   padding: 20px 0px 20px 50px;
-  @media (max-width: ${theme.customScreen.sm}) {
+  @media (max-width: ${commonTheme.customScreen.sm}) {
     padding: 10px;
   }
 `;
 
 const Title = styled.span`
-  font-family: ${theme.fontFamily.gmarketSansBold};
-  font-size: ${theme.fontSizes.xl};
+  font-family: ${commonTheme.fontFamily.gmarketSansBold};
+  font-size: ${commonTheme.fontSizes.xl};
   line-height: 48px;
 `;
 
@@ -59,7 +59,7 @@ const ObjectModel = styled(CC.RowDiv)`
   height: 100%;
   align-items: center;
 
-  @media (max-width: ${theme.customScreen.sm}) {
+  @media (max-width: ${commonTheme.customScreen.sm}) {
     justify-content: center;
     width: 100%;
     transform: scale(80%);

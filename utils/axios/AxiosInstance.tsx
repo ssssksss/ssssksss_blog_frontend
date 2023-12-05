@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/reducers';
 
 const AxiosInstance = axios.create({
-  // baseURL: 'http://localhost:8080',
-  baseURL: 'https://blog-server.ssssksss.xyz',
+  baseURL: 'http://localhost:8080',
+  // baseURL: 'https://blog-server.ssssksss.xyz',
   //timeout: 1000,
   headers: {
     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ AxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  error => {
+  err => {
     return Promise.reject(error);
   }
 );
@@ -57,7 +57,7 @@ AxiosInstance.interceptors.response.use(
     return response;
   },
   (error: any) => {
-    const originalRequest = error.config;
+    const originalRequest = error.response.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용
       let existNewAccessToken = true;
@@ -79,7 +79,6 @@ AxiosInstance.interceptors.response.use(
         return AxiosInstance(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
     } else if (error.response.status === 406) {
-      console.log('AxiosInstance.tsx : ', '리프레시토큰 만료');
       AxiosInstance({
         url: '/api/user',
         method: 'DELETE',

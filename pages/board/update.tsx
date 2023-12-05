@@ -1,19 +1,34 @@
-import EditBoardContainer from "@/components/board/EditBoardContainer";
-import styled from "@emotion/styled";
-import BlogLayout from "@/components/layout/BlogLayout";
-import { CC } from "@/styles/commonComponentStyle";
+import styled from '@emotion/styled';
+import Layout1 from '@/components/layout/Layout1';
+import dynamic from 'next/dynamic';
+import CreateUpdateBoardContainer from '@/components/board/CreateUpdateBoardContainer';
+import { Spinner37 } from '@/components/spinner/Spinners';
+
 /**
- * Author : Sukyung Lee
- * FileName: update.tsx
- * Date: 2022-09-23 23:36:28
- * Description :
+ * @author Sukyung Lee <ssssksss@naver.com>
+ * @file createUpdate.tsx
+ * @version 0.0.1 "2023-10-14 00:37:24"
+ * @description 설명
  */
-const UpdateBoardPage = () => {
+
+const UpdateBoardCSR = dynamic(
+  () => import('@/components/board/CreateUpdateBoardContainer'),
+  {
+    ssr: false,
+    loading: () => <Spinner37 />,
+  }
+);
+
+const CreateUpdate = () => {
   return (
-    <CC.Container>
-      <EditBoardContainer edit={true} />
-    </CC.Container>
+    <Container>
+      {typeof window !== 'undefined' && <UpdateBoardCSR edit={true} />}
+    </Container>
   );
 };
-export default UpdateBoardPage;
-UpdateBoardPage.layout = BlogLayout;
+export default CreateUpdate;
+CreateUpdate.layout = Layout1;
+
+const Container = styled.div`
+  margin: auto;
+`;

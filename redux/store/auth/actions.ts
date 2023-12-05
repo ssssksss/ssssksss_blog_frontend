@@ -11,16 +11,18 @@ type USER_INFO_STATE = {
   email: string;
   role: string;
   nickname: string;
+  id: number;
 };
 
 // 액션 함수의 역할 : 파라미터로 인자값을 받아서 redux의 state값을 어떻게 바꿀지를 작성한다.
 export const setUserInfo = (user: USER_INFO_STATE) => {
   return {
-    type: "SET_USER_INFO",
+    type: 'SET_USER_INFO',
     payload: {
       email: user.email,
       role: user.role,
       nickname: user.nickname,
+      id: user.id,
     },
   };
 };
@@ -30,7 +32,7 @@ type ACCESS_TOKEN_STATE = {
 };
 export const setAccessToken = (accessToken: ACCESS_TOKEN_STATE) => {
   return {
-    type: "SET_ACCESS_TOKEN",
+    type: 'SET_ACCESS_TOKEN',
     payload: {
       accessToken: accessToken,
     },

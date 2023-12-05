@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SolveRender.tsx
  * @version 0.0.1 "2023-06-08 00:32:59"
- * @description 설명
+ * @description 웹과 연동하여 로봇팔 작동시키는 코드
  */
 
 const SolveRender = props => {

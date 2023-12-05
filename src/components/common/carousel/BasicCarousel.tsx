@@ -1,5 +1,5 @@
 import { CC } from '@/styles/commonComponentStyle';
-import theme from '@/styles/theme';
+import { commonTheme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/common/button/Button';
@@ -194,7 +194,7 @@ const SliderContent = styled(CC.ColumnDiv)`
 const Title = styled(CC.RowCenterDiv)`
   height: 40px;
   font-size: 24px;
-  font-family: ${theme.fontFamily.gmarketSansBold};
+  font-family: ${commonTheme.fontFamily.gmarketSansBold};
   color: white;
 `;
 const Content = styled(CC.RowDiv)`
@@ -210,7 +210,7 @@ const Button1 = styled.button`
   left: calc(50% - 160px);
   width: 40px;
   height: 40px;
-  background: ${theme.backgroundColors.transparent};
+  /* background: ${commonTheme.backgroundColors.transparent}; */
   color: white;
   box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05),
     25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),

@@ -1,22 +1,17 @@
-import type { AppProps } from "next/app";
-import type { NextPage } from "next";
-import React, { ReactElement, ReactNode, useState, useEffect } from "react";
-import Layout1 from "src/components/layout/Layout1";
-import BlogLayout from "@/components/layout/BlogLayout";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store/index";
-import BlogFooter from "src/components/blog/BlogUI/BlogFooter";
-import NextjsHeader from "src/components/common/NextjsHeader";
-// import PageTransitions from "@/components/common/reactTransitionGroup/PageTransitions";
-import BlogFirstMenu from "@/components/blog/BlogUI/BlogFirstMenu";
-import BlogSecondMenu from "@/components/blog/BlogUI/BlogSecondMenu";
-import "react-quill/dist/quill.snow.css";
-import { ThemeProvider } from "@emotion/react";
-import GlobalStyles from "@/styles/GlobalStyles";
-import { Global } from "@emotion/react";
-import theme from "@/styles/theme";
-import NavBar from "@/components/layout/NavBar";
-import ReactToastifyComponents from "@/components/externalLibrary/react-toastify/ReactToastifyComponents";
+import type { AppProps } from 'next/app';
+import type { NextPage } from 'next';
+import React, { ReactElement, ReactNode, useState, useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store/index';
+import 'react-quill/dist/quill.snow.css';
+import { ThemeProvider } from '@emotion/react';
+import GlobalStyles from '@/styles/GlobalStyles';
+import { Global } from '@emotion/react';
+import { purpleTheme, darkTheme } from '@/styles/theme';
+import NavBar from '@/components/layout/NavBar';
+import ReactToastifyComponents from '@/components/react-toastify/ReactToastifyComponents';
+import 'prismjs/themes/prism-tomorrow.css';
+
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
   layout: typeof Layout1 | typeof BlogLayout;
@@ -25,8 +20,9 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout || ((page) => page);
-  const Layout = Component.layout || ((children: ReactElement) => <> {children} </>);
+  const getLayout = Component.getLayout || (page => page);
+  const Layout =
+    Component.layout || ((children: ReactElement) => <> {children} </>);
   // const [routingPageOffset, setRoutingPageOffset] = useState(0);
 
   // useEffect(() => {
@@ -38,22 +34,23 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={purpleTheme}>
         <Global styles={GlobalStyles} />
-        <NextjsHeader />
-        <NavBar />
+        {/* <NextjsHeader /> */}
         <ReactToastifyComponents />
         {/* <PageTransitions
           route={router.asPath}
           routingPageOffset={routingPageOffset}
-        >
+          >
+          <Layout>
+          <Component {...pageProps} />
+          </Layout>
+        </PageTransitions> */}
+        <NavBar>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </PageTransitions> */}
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        </NavBar>
       </ThemeProvider>
     </Provider>
   );

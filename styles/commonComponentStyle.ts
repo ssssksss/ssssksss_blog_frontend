@@ -1,101 +1,164 @@
-import theme from './theme';
+import { commonTheme } from './theme';
 import { css, keyframes } from '@emotion/react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 interface IStyleProps {
   gap?: number;
-  border?: string;
-  padding?: string;
-  height?: string;
-  minHeight?: string;
-  width?: string;
-  minWidth?: string;
-  backgroundColor?: string;
+  br?: string;
+  brR?: string;
+  pd?: string;
+  mg?: string;
+  h?: string;
+  minH?: string;
+  w?: string;
+  minW?: string;
+  bg?: string;
+  maxW?: string;
   color?: string;
+  noCursor?: boolean; // 나중에 삭제 고려해보기 별 필요없는 props
+  imgSize?: string; // 이미지 정사각형 형태일때 사용하는 용도인데 나중에 고려해보기
   fontSize?: string;
-  borderRadius?: string;
-  noCursor?: boolean;
-  size?: string;
-  maxWidth?: string;
-  fontSize?: string;
+  overflow?: boolean
+  outline?: boolean;
+  first?: string; // grid 너비 정하는데 사용
+  second?: string; // grid 너비 정하는데 사용
+  third?: string; // grid 너비 정하는데 사용
 }
 
 const propsCommonStyle = (props: any) => css`
-  width: ${props.width};
-  min-width: ${props.minWidth};
-  height: ${props.height};
-  min-height: ${props.minHeight};
-  padding: ${props.padding};
-  margin: ${props.margin};
-  border: ${props.border};
-  border-radius: ${props.borderRadius};
   gap: ${props.gap}px;
+  border: ${props.br};
+  border-radius: ${props.brR};
+  padding: ${props.pd};
+  margin: ${props.mg};
+  height: ${props.h};
+  min-height: ${props.minH};
+  width: ${props.w};
+  min-width: ${props.minW};
+  background: ${props.theme.colors.[props.bg] || props.theme.main.[props.bg]};
+  max-width: ${props.maxW};
   color: ${props.color};
-  background: ${props.backgroundColor};
   font-size: ${props.fontSize};
+  ${
+    props.overflow &&
+    css`
+        overflow: scroll;
+    `};
+
+    & > h1, h2, h3, span, div{
+  ${
+    props.overflow === 'hidden' &&
+    css`
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      `};
+    }
+  ${
+    props.outline &&
+    css`
+      outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
+      background: transparent;
+    `};
 `;
 
 const RowDiv = styled.div<IStyleProps>`
-  ${theme.flex.row._.center};
+  ${commonTheme.flex.row._.center};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowStartDiv = styled.div<IStyleProps>`
-  ${theme.flex.row._.start}
+  ${commonTheme.flex.row._.start}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowRightDiv = styled.div<IStyleProps>`
   width: 100%;
-  ${theme.flex.row.end.center};
+  ${commonTheme.flex.row.end.center};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowCenterDiv = styled.div<IStyleProps>`
-  ${theme.flex.row.center.center}
+  ${commonTheme.flex.row.center.center}
   width: 100%;
   ${(props: any) => propsCommonStyle(props)};
 `;
 const RowBetweenDiv = styled.div<IStyleProps>`
   width: 100%;
-  ${theme.flex.row.between.center}
+  ${commonTheme.flex.row.between.center}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const RowBetweenStartDiv = styled.div<IStyleProps>`
-  ${theme.flex.row.between.start}
+  ${commonTheme.flex.row.between.start}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnLeftDiv = styled.div<IStyleProps>`
   /*  */
   width: 100%;
-  ${theme.flex.column._.start}
+  ${commonTheme.flex.column._.start}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+const ColumnLeftCenterDiv = styled.div<IStyleProps>`
+  /*  */
+  width: 100%;
+  ${commonTheme.flex.column._.start}
+  justify-content: center;
   ${(props: any) => propsCommonStyle(props)};
 `;
 const ColumnDiv = styled.div<IStyleProps>`
-  ${theme.flex.column}
+  ${commonTheme.flex.column}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+const ColumnStartDiv = styled.div<IStyleProps>`
+  ${commonTheme.flex.column.start}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+const ColumnStartCenterDiv = styled.div<IStyleProps>`
+  ${commonTheme.flex.column.start.center};
   ${(props: any) => propsCommonStyle(props)};
 `;
 const ColumnEndDiv = styled.div<IStyleProps>`
-  ${theme.flex.column.end}
+  ${commonTheme.flex.column.end}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnBetweenDiv = styled.div<IStyleProps>`
-  ${theme.flex.column.between}
+  ${commonTheme.flex.column.between}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnCenterDiv = styled.div<IStyleProps>`
   width: 100%;
-  ${theme.flex.column.center}
+  ${commonTheme.flex.column.center}
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const ColumnCenterCenterDiv = styled.div<IStyleProps>`
   width: 100%;
-  ${theme.flex.column.center.center}
+  ${commonTheme.flex.column.center.center}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridColumn2 = styled.div<IStyleProps>`
+  ${commonTheme.grid.column2};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridColumn2Adjust = styled.div<IStyleProps>`
+  display: grid;
+  grid-template-columns: ${props => `${props.first || "auto"} ${props.second || "auto"}`};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridColumn3 = styled.div<IStyleProps>`
+  ${commonTheme.grid.column3};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridColumn4 = styled.div<IStyleProps>`
+  ${commonTheme.grid.column4};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
@@ -121,8 +184,8 @@ const Img = styled.img<IStyleProps>`
   ${(props: any) =>
     css`
       background-color: ${props.backgroundColor};
-      width: ${props.size || props.width};
-      height: ${props.size || props.height};
+      width: ${props.imgSize || props.width};
+      height: ${props.imgSize || props.height};
       padding: ${props.padding};
       border-radius: ${props.borderRadius};
     `}
@@ -195,11 +258,18 @@ export const CC = {
   RowCenterDiv,
   RowBetweenStartDiv,
   ColumnLeftDiv,
+  ColumnLeftCenterDiv,
   ColumnBetweenDiv,
   ColumnDiv,
+  ColumnStartDiv,
+  ColumnStartCenterDiv,
   ColumnCenterDiv,
   ColumnCenterCenterDiv,
   ColumnEndDiv,
+  GridColumn2,
+  GridColumn2Adjust,
+  GridColumn3,
+  GridColumn4,
   ErrorDiv,
   Img,
   ImgContainer,

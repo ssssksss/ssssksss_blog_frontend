@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { MouseEvent, useState } from 'react';
-import theme from '@/styles/theme';
+import { commonTheme } from '@/styles/theme';
+import { Icons } from '@/components/common/icons/Icons';
+import Image from 'next/image';
 
 interface IPaginationProps {
   refetch: any;
@@ -8,6 +10,29 @@ interface IPaginationProps {
   currentPage: number;
 }
 
+// 상태값 예시
+// const [paginationParameters, setPaginationParameters] = useState({
+//   searchKeyword: "",
+//   pageIndex: 1,
+//   sizePerPage: 10,
+//   sortBy: router.query.sort || 'baseTimeEntity.createdAt',
+// });
+// const [result,setResult] = useState({
+//   data: [],
+//   totalNumber: 100;
+//   searchKeyword: "",
+// })
+
+/**
+ *
+ * @param refetch 페이지를 갱신할 함수
+ * @example ={({ page }: any) => { pageHandler(page);}}
+ * @param endPage
+ * @example ={Math.ceil(pageCount / size)}
+ * @param currentPage
+ * @example ={Number(page)}
+ * @handler
+ */
 const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
   // 페이지 1개당 보여줄 갯수
   const [perPageCount, setPerPageCount] = useState(10); // eslint-disable-line no-unused-vars
@@ -50,14 +75,14 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
     <Container>
       {currentPage > 10 ? (
         <MoveButton id="morePrev" onClick={movePage}>
-          ⏪
+          <Image src={Icons.LeftDoubleArrowIcon} alt="" />
         </MoveButton>
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
-      {currentPage !== 1 ? (
+      {currentPage > 1 ? (
         <MoveButton id="prev" onClick={movePage}>
-          ◀️
+          <Image src={Icons.LeftArrowIcon} alt="" />
         </MoveButton>
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
@@ -69,7 +94,7 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
               key={index + startPage}
               id={String(startPage + index)}
               onClick={movePage}
-              isActive={startPage + index === (currentPage || 1)}
+              isActive={startPage + index === Number(currentPage || 1)}
             >
               {index + startPage}
             </PageNumberButton>
@@ -78,14 +103,14 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
 
       {startPage + 10 < endPage ? (
         <MoveButton id="next" onClick={movePage}>
-          ▶️
+          <Image src={Icons.RightArrowIcon} alt="" />
         </MoveButton>
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
       {startPage + 10 < endPage ? (
         <MoveButton id="moreNext" onClick={movePage}>
-          ⏩
+          <Image src={Icons.RightDoubleArrowIcon} alt="" />
         </MoveButton>
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
@@ -110,16 +135,16 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: transparent; */
+    /* color: ${props => props.theme.main.primary80}; */
     &:hover {
-      background: black;
+      background: ${props => props.theme.main.primary20};
       color: white;
     }
   }
 `;
 const PageNumberButton = styled.button<{ isActive: boolean }>`
-  color: ${props => (props.isActive ? 'red' : 'black')};
-  font-size: ${props => (props.isActive ? '1.2em' : '1em')};
-  font-family: ${theme.fontFamily.cookieRunRegular};
+  color: ${props => (props.isActive ? props.theme.main.primary100 : 'black')};
+  font-size: ${props => (props.isActive ? '1.4em' : '1em')};
+  font-weight: ${props => props.isActive && 600};
 `;
 const MoveButton = styled.button``;
