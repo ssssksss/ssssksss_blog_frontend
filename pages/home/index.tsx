@@ -16,7 +16,7 @@ const Index = props => {
   return (
     <Container>
       <LoadingComponent mode={'car'} top={300} />
-      <div> 여기는 홈 : {props.from} </div>
+      {/* <div> 여기는 홈 : {props.from} </div>
       <div> 급하니 기존 내용들을 그냥 옮기고 천천히 수정해 나가기 </div>
       <div> 할일들 디자인 잡기 </div>
       <div> 일정 디자인 잡기 </div>
@@ -65,7 +65,7 @@ const Index = props => {
       <div>
         {' '}
         24. 최근에 읽은 내용 캐시나 등등으로 저장해서 바로 이동가능하게 하기{' '}
-      </div>
+      </div> */}
     </Container>
   );
 };
