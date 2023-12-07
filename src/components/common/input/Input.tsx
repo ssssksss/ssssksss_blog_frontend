@@ -152,7 +152,7 @@ export const Input = React.forwardRef((props,ref) => {
         errorLocation={props.errorLocation}
         defaultImageUrl={props.defaultImageUrl}
         onFocus={props.onFocus}
-        onFocus={props.onBlur}
+        onBlur={props.onBlur}
         onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
           if (
             // props.defaultValue !== ref?.current.value &&
@@ -218,7 +218,7 @@ display: block;
 ${props=>props.theme.flex.row.center.center};
 border-radius: 10px;
 position: relative;
-background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] ||  props.theme.main.contrast};
+background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
   &:hover {
     cursor: pointer;
   }
@@ -235,14 +235,13 @@ background:  ${props => props.theme.colors.[props.background] || props.theme.mai
     outline: none;
     box-shadow: none;
   `}
-  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
+  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
 
   button {
     position: absolute;
     top: 4px;
     right: 4px;
     z-index: 4;
-    background: red;
   }
 `
 
@@ -255,13 +254,15 @@ const InputStyle = styled.input<IInputProps>`
   height: ${props => props.height || '24px'};
   padding: ${props => props.padding || '2px 0px 2px 4px'};
   border-radius: ${props => props.borderRadius || "10px"};
+
+  background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
+  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
+
   &:hover {
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   position: relative;
 
-  background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] ||  props.theme.main.contrast};
-  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
   /* 순서주의 */
   ${props =>
     props.disabled &&
@@ -321,21 +322,6 @@ const InputStyle = styled.input<IInputProps>`
     }
   }
 
-  ::placeholder {
-    transition: all 0.6s ease-in-out;
-    opacity: 0.7;
-    font-size: ${props=>props.theme.fontSizes.sm};
-    color: ${props=> props.placeholderColor ? props.theme.colors.[props.placeholderColor] : props.theme.colors.black80};
-  }
-  :focus::placeholder {
-    transform: translate(-2px, -50%);
-
-    ${props =>
-      props.type === 'search' &&
-      `
-    color: transparent;
-  `}
-  }
 
     /* 순서주의 */
     ${props =>
@@ -358,20 +344,23 @@ const InputStyle = styled.input<IInputProps>`
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-    height: 40px;
-    color: ${props.theme.colors.white80};
+    height: ${props.height || "40px"};
+    color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
     ::placeholder {
       transition: all 0.6s ease-in-out;
       opacity: 0.7;
       font-size: ${props.theme.fontSizes.sm};
-      color: ${props.theme.colors.white80};
+      color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
       padding: '6px';
     }
   `}
 
 &:focus {
-  background: ${props => `${props.theme.main.primary40}2f`};
+  outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
+  /* outline: solid black 4px; */
 }
+
+
 
 /* &:focus {
       --clr: ${props=>props.theme.main.primary60};

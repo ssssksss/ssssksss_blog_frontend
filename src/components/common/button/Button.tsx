@@ -87,7 +87,7 @@ export const Button = ({
       fontFamily={fontFamily}
       fontWeight={fontWeight}
       styleTypes={styleTypes}
-      active={  active}
+      active={active}
       {...props}
     >
       {children}
@@ -109,10 +109,8 @@ const ButtonStyle = styled.button<IButtonProps>`
   font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
   font-weight: ${props=>props.fontWeight};
   font-size: ${props=>props.theme.calcRem(16)};
-  /* background-color: ${props => commonTheme.backgroundColors[props.color]}; */
-  /* border-radius: ${props =>
-    commonTheme.btnSizes[props.size].borderRadius}; */
-  /* width: ${props => commonTheme.btnSizes[props.size].width}; */
+  width: ${props => props.width};
+  height: ${props => props.height};
 
   &:hover {
     cursor: pointer;
@@ -120,7 +118,6 @@ const ButtonStyle = styled.button<IButtonProps>`
     outline: 1px solid ${props => props.theme.main.contrast};
     outline-offset: 3px;
   }
-  /* 순서주의 */
   ${props =>
     props.disabled &&
     `
@@ -131,7 +128,6 @@ const ButtonStyle = styled.button<IButtonProps>`
       cursor: not-allowed;  
     }
     `}
-  /* 순서주의 */
   ${props =>
     props.outline &&
     `
@@ -154,46 +150,5 @@ ${props=>props.styleTypes === 1 && `
         border-radius: 10px;
       `}
   font-size: ${props => props.size === "xs" ? "0.6rem" : props.size === "sm" ? "0.7rem" : "1rem"};
-  height: ${props => props.height};
-  ${props => `width: ${props.width || 'max-content'}`};
-
-  /* @keyframes animate-in {
-    0% {
-      background-size: 0 var(--active-outline), 0 0, 0 0, 0 0; 
-    }
-
-    25% {
-      background-size: 100% var(--active-outline), 0 0, 0 0, 0 0; 
-    }
-
-    50% {
-      background-size: 100% var(--active-outline), var(--active-outline) 100%, 0 0, 0 0; 
-    }
-
-    75% {
-      background-size: 100% var(--active-outline), var(--active-outline) 100%, 100% var(--active-outline), 0 0; 
-    }
-
-    100% {
-      background-size: 100% var(--active-outline), var(--active-outline) 100%, 100% var(--active-outline), var(--active-outline) 100%;
-    }
-  } */
-
-&:focus {
-      /* --active-outline: 2px; */
-      /* --clr: ${props=>props.theme.main.primary60}; */
-
-      /* background-image: linear-gradient(to right, var(--clr), var(--clr)),  */
-      /* linear-gradient(to bottom, var(--clr), var(--clr)),  */
-      /* linear-gradient(to right, var(--clr), var(--clr)), */
-      /* linear-gradient(to bottom, var(--clr), var(--clr));  */
-      /* background-position: 0 0, 100% 0, 100% 100%, 0 100%;  */
-      /* background-size: 100% var(--active-outline), var(--active-outline) 100%, 100% var(--active-outline), var(--active-outline) 100%;  */
-      /* background-repeat: no-repeat;    */
-      /* animation-name: animate-in;  */
-      /* animation-duration: 1s; */
-      /* animation-fill-mode: both; */
-
-    }
 
 `;

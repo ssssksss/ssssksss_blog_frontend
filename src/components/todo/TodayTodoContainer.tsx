@@ -11,6 +11,8 @@ import { Input } from '@/components/common/input/Input';
 import TodoItem from './TodoItem';
 import CalendarItem from './CalendarItem';
 import React from 'react';
+import ModalButton from '../common/button/ModalButton';
+import TodoModal from './modal/todoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file TodayTodoContainer.tsx
@@ -28,17 +30,27 @@ const TodayTodoContainer = (props: ITodayTodoContainerProps) => {
     <Container active={props.active} onClick={props.onClick}>
       {props.active === 0 ? (
         <CC.RowCenterDiv h={'100%'}>
-          <CC.ColumnStartCenterDiv overflow={true} h={'100%'}>
-            <h3> 오늘의 할일 </h3>
-            <CC.ColumnDiv gap={2} pd={'2px'} w={'100%'}>
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
-            </CC.ColumnDiv>
+          <CC.ColumnStartCenterDiv h={'100%'}>
+            <Title>
+              <h3> 오늘의 할일 </h3>
+              <ModalButton
+                color={'primary80'}
+                outline={true}
+                modal={<TodoModal />}
+                overlayVisible={true}
+                modalW={'300px'}
+                bg={'contrast'}
+              >
+                +
+              </ModalButton>
+            </Title>
+            <TodoTodayContainer h={'100%'} pd={'4px'} gap={10}>
+              <TodoListContainer>
+                <li>
+                  <TodoItem />
+                </li>
+              </TodoListContainer>
+            </TodoTodayContainer>
           </CC.ColumnStartCenterDiv>
           <CC.ColumnStartCenterDiv overflow={true} h={'100%'}>
             <h3> 오늘의 일정 </h3>
@@ -67,27 +79,11 @@ const Container = styled.section<{
   outline: solid ${props => props.theme.colors.black60} 1px;
   gap: 4px;
   padding: 4px;
-  & > div {
-    gap: 4px;
-  }
+
   & > div > div {
     outline: solid ${props => props.theme.main.primary20} 1px;
     border-radius: 10px;
     background: ${props => props.theme.main.contrast};
-    overflow: scroll
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar { display: none; } /* Chrome, Safari, Opera*/ 
-
-    h3 {
-      padding: 4px 0px;
-      background: ${props => props.theme.main.primary20};
-      width: 100%;
-      ${props => props.theme.flex.row.center};
-      position: sticky;
-      top: 0px;
-      z-index: 10;
-    }
   }
 
   ${props =>
@@ -117,6 +113,47 @@ const Container = styled.section<{
           ${props.theme.flex.row.center.center};
           cursor: pointer;
         `};
+`;
+
+const Title = styled(CC.RowDiv)`
+  /* position: relative; */
+  height: 30px;
+  width: 100%;
+  padding: 2px;
+  align-items: center;
+
+  h3 {
+    padding: 4px 0px;
+    width: 100%;
+    ${props => props.theme.flex.row.center};
+  }
+
+  & > button {
+    background: ${props => props.theme.main.primary20};
+    /* position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translate(0, -50%); */
+    width: 24px;
+  }
+`;
+
+const TodoTodayContainer = styled(CC.ColumnDiv)`
+  height: 100%;
+`;
+
+const TodoListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
+  height: calc(100% - 30px);
+  overflow: scroll;
+  width: 100%;
+  gap: 4px;
+  & {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 const FoldStateDiv = styled.div`

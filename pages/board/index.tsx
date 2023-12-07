@@ -5,7 +5,6 @@ import { Input } from '@/components/common/input/Input';
 import Button from '@/components/common/button/Button';
 import Dropdown from '@/components/common/dropdown/Dropdown';
 import { Icons } from '@/components/common/icons/Icons';
-import Shell from '@/components/common/shell/Shell';
 import Pagination from '@/components/common/pagination/Pagination';
 import { useEffect, useRef, useState } from 'react';
 import { BoardAPI } from '@/api/BoardAPI';

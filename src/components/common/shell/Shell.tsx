@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { MouseEventHandler, ReactNode, useCallback } from 'react';
 import { animationKeyFrames } from '@/styles/animationKeyFrames';
 import { commonTheme } from '@/styles/theme';
+import { CC } from '@/styles/commonComponentStyle';
 
 interface ShellProps {
   children: ReactNode;
@@ -25,6 +26,7 @@ interface ShellProps {
   fontFamily?: string;
   fontWeight?: number;
   styleTypes?: number;
+  gap?: number;
 }
 
 /**
@@ -47,6 +49,7 @@ export const Shell = ({
   fontWeight,
   outline,
   styleTypes,
+  gap,
   ...props
 }: ShellProps) => {
   return (
@@ -63,6 +66,7 @@ export const Shell = ({
     fontFamily={fontFamily}
     fontWeight={fontWeight}
     styleTypes={styleTypes}
+    gap={gap}
       {...props}
     >
       {children}
@@ -72,11 +76,10 @@ export const Shell = ({
 
 export default Shell;
 
-const ShellStyle = styled.div<IShellProps>`
+const ShellStyle = styled(CC.ColumnDiv)<IShellProps>`
   padding: ${props=>props.padding || "2px 4px"};
   min-width: 24px;
   min-height: 24px;
-  ${props => props.theme.flex.row.center.center};
   border: none;
   border-radius: ${props => props.theme.borderRadius.[props.borderRadius] || props.theme.borderRadius.br10};
   color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
@@ -84,6 +87,7 @@ const ShellStyle = styled.div<IShellProps>`
   font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
   font-weight: ${props=>props.fontWeight};
   font-size: 1em;
+  gap: ${props => props.gap}px;
   /* background-color: ${props => commonTheme.backgroundColors[props.color]}; */
   /* border-radius: ${props =>
     commonTheme.btnSizes[props.size].borderRadius}; */

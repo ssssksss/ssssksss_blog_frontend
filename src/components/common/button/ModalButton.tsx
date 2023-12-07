@@ -171,7 +171,7 @@ const ModalComponent = styled.section<{ width: string, height: string }>`
   position: fixed;
   width: ${props => props.width};
   height: ${props => props.height};
-  max-width: max-content;
+  min-width: max-content;
   max-height: 100%;
   top: 50%;
   left: 50%;

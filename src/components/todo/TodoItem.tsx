@@ -16,19 +16,22 @@ const TodoItem = ({ children, props }) => {
 
   return (
     <Container isChecked={isChecked}>
-      <Title isChecked={isChecked} onClick={() => alert('test')}>
-        제목 및 내용111111111111111111111111111111111111111111111111111111111{' '}
+      <Title isChecked={isChecked}>
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
+        제목 및 내용111111111111111111111111111111111111111111111111111111111
       </Title>
-      <CC.RowDiv gap={4}>
-        <Input
-          type="checkbox"
-          outline={true}
-          color={'red100'}
-          w={'28px'}
-          h={'28px'}
-          onClick={() => setIsChecked(prev => !prev)}
-        />
-      </CC.RowDiv>
+      <Input
+        type="checkbox"
+        outline={true}
+        color={'red100'}
+        w={'28px'}
+        h={'28px'}
+        onClick={() => setIsChecked(prev => !prev)}
+      />
     </Container>
   );
 };
@@ -45,19 +48,16 @@ const Container = styled.div<{ isChecked: boolean }>`
   font-size: 0.8rem;
   gap: 8px;
   ${props => props.theme.flex.row.between.center};
-  .title {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 `;
 
 const Title = styled.span<{ isChecked: boolean }>`
+  width: calc(100% - 28px);
   font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+  word-break: break-all;
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
   text-decoration: ${props => props.isChecked && 'line-through'};
   cursor: pointer;
 `;
