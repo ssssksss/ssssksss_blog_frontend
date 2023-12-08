@@ -13,16 +13,17 @@ interface IAPiProcessHandlerProps {
   url: string;
   method: string;
   params?: {};
-  apiCategory: string;
-  isShowMessage: boolean;
+  apiCategory?: string;
+  isShowMessage?: boolean;
 }
 
 
-export const ApiProcessHandler = async (props: any) => {
+export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
   let toasttifyResponse = ['success', ''];
   let PromiseType = 'response';
   let data;
   let code;
+  let jsonObject;
   let apiMethod = {
     GET: "조회",
     POST: "추가",
@@ -37,6 +38,7 @@ export const ApiProcessHandler = async (props: any) => {
       toasttifyResponse = ['success', props.apiCategory +' ' + apiMethod.[props.method] +' 성공'];
       data = res.data.data;
       code = 200;
+      jsonObject = res.data.jsonObject;
     })
     .catch(async error => {
       // if (error?.response?.status === 403 || error?.response?.status === 401) {
@@ -84,6 +86,7 @@ export const ApiProcessHandler = async (props: any) => {
         type: PromiseType,
         code: code,
         data: data,
+        jsonObject: jsonObject,
       });
     }else {
       return Promise.reject({
