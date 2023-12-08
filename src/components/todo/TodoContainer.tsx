@@ -10,47 +10,61 @@ import { DeleteIcon } from '/public/img/ui-icon/ic-delete.svg';
 import { Input } from '@/components/common/input/Input';
 import TodoItem from './TodoItem';
 import CalendarItem from './CalendarItem';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ModalButton from '../common/button/ModalButton';
 import TodoModal from './modal/todoModal';
+import { TodoAPI } from '@/api/TodoAPI';
+import { store } from '@/redux/store';
+import { SET_TODO_LIST } from '@/redux/store/todo';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/reducers';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file TodayTodoContainer.tsx
+ * @file TodoContainer.tsx
  * @version 0.0.1 "2023-09-29 02:19:47"
  * @description 설명
  */
 
-interface ITodayTodoContainerProps {
+interface ITodoContainerProps {
   active: number;
   onClick: () => void;
 }
 
-const TodayTodoContainer = (props: ITodayTodoContainerProps) => {
+const TodoContainer = (props: ITodoContainerProps) => {
+  const todoStore = useSelector((state: RootState) => state.todoStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
+
+  useEffect(() => {
+    TodoAPI.getTodoList().then(res => {
+      store.dispatch(SET_TODO_LIST(res.jsonObject.todoList));
+    });
+  }, []);
+
   return (
     <Container active={props.active} onClick={props.onClick}>
       {props.active === 0 ? (
         <CC.RowCenterDiv h={'100%'}>
           <CC.ColumnStartCenterDiv h={'100%'}>
             <Title>
-              <h3> 오늘의 할일 </h3>
+              <h3> TODO </h3>
               <ModalButton
                 color={'primary80'}
                 outline={true}
                 modal={<TodoModal />}
                 overlayVisible={true}
-                modalW={'300px'}
+                modalW={'50%'}
                 bg={'contrast'}
               >
                 +
               </ModalButton>
             </Title>
-            <TodoTodayContainer h={'100%'} pd={'4px'} gap={10}>
-              <TodoListContainer>
+            <TodoListContainer>
+              {todoStore.todoList.map(i => (
                 <li>
-                  <TodoItem />
+                  <TodoItem data={i} />
                 </li>
-              </TodoListContainer>
-            </TodoTodayContainer>
+              ))}
+            </TodoListContainer>
           </CC.ColumnStartCenterDiv>
           <CC.ColumnStartCenterDiv overflow={true} h={'100%'}>
             <h3> 오늘의 일정 </h3>
@@ -67,7 +81,7 @@ const TodayTodoContainer = (props: ITodayTodoContainerProps) => {
     </Container>
   );
 };
-export default React.memo(TodayTodoContainer);
+export default React.memo(TodoContainer);
 
 const Container = styled.section<{
   active: number;
@@ -119,7 +133,7 @@ const Title = styled(CC.RowDiv)`
   /* position: relative; */
   height: 30px;
   width: 100%;
-  padding: 2px;
+  padding: 2px 4px;
   align-items: center;
 
   h3 {
@@ -137,16 +151,13 @@ const Title = styled(CC.RowDiv)`
     width: 24px;
   }
 `;
-
-const TodoTodayContainer = styled(CC.ColumnDiv)`
-  height: 100%;
-`;
-
 const TodoListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
-  height: calc(100% - 30px);
-  overflow: scroll;
   width: 100%;
+  height: 100%;
+  overflow: scroll;
   gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
   & {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */

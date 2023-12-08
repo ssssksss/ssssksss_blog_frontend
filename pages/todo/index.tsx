@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import TodayTodoContainer from '@/components/todo/TodayTodoContainer';
+import TodoContainer from '@/components/todo/TodoContainer';
 import WeekTodoContainer from './../../src/components/todo/WeekTodoContainer';
 import MemoTodoContainer from '@/components/todo/MemoTodoContainer';
 import AllTodoContainer from '@/components/todo/AllTodoContainer';
@@ -17,8 +17,8 @@ const Index = () => {
   const [activeTodoMenu, setActiveTodoMenu] = useState(0); // 0~3으로 표현
 
   return (
-    <TodoContainer activeTodoMenu>
-      <TodayTodoContainer
+    <Container activeTodoMenu>
+      <TodoContainer
         active={activeTodoMenu}
         onClick={() => setActiveTodoMenu(0)}
       />
@@ -34,13 +34,13 @@ const Index = () => {
         active={activeTodoMenu}
         onClick={() => setActiveTodoMenu(3)}
       />
-    </TodoContainer>
+    </Container>
   );
 };
 export default Index;
 Index.layout = Layout1;
 
-const TodoContainer = styled.div<{ activeTodoMenu: string }>`
+const Container = styled.div<{ activeTodoMenu: string }>`
   width: calc(100%);
   height: calc(100vh - 68px);
   overflow: scroll;

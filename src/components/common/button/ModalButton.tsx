@@ -125,7 +125,7 @@ const ModalButtonStyle = styled.button<IModalButtonProps>`
   background: transparent;
   /* background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.theme.main.primary80}; */
   border-radius: ${props => props.theme.borderRadius.[props.borderRadius] || props.theme.borderRadius.br10};
-  color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
+  color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
   font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
   font-weight: ${props=>props.fontWeight};
   font-size: ${props=>props.fontSize};

@@ -180,10 +180,10 @@ export const Input = React.forwardRef((props,ref) => {
           color={props.color}
           htmlFor={props.id} 
           role="button" 
-          styleTypes={props.styleTypes} 
+          styleTypes={props.styleTypes}
           width={props.w}
-          height={props.h} 
-          isImageUrl={imageUrl}           
+          height={props.h}
+          isImageUrl={imageUrl}         
           onDragEnter={onDragEnter}
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}

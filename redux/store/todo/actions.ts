@@ -1,11 +1,11 @@
-export type ACTION_INSTANCE = ReturnType<typeof SET_TODAY_TODO_LIST>;
+export type ACTION_INSTANCE = ReturnType<typeof SET_TODO_LIST>;
 
-type TODAY_TODO_STATE = {
-  todayTodoList: [];
+type TODO_STATE = {
+  todoList: [];
 };
-export const SET_TODAY_TODO_LIST = (payload: TODAY_TODO_STATE) => {
+export const SET_TODO_LIST = (payload: TODO_STATE) => {
   return {
-    type: 'TODAY_TODO_LIST',
+    type: 'TODO_LIST',
     payload: payload,
   };
 };
