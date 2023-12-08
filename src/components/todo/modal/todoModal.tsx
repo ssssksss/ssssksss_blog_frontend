@@ -78,6 +78,18 @@ const TodoModal = (props: ITodoModalProps) => {
     });
   };
 
+  useEffect(() => {
+    let keyDownEventFunc = (e: Event) => {
+      if (e.key == 'Enter') {
+        props.edit ? updateTodoHandler() : addTodoHandler();
+      }
+    };
+    window.addEventListener('keydown', keyDownEventFunc);
+    return () => {
+      window.removeEventListener('keydown', keyDownEventFunc);
+    };
+  }, []);
+
   return (
     <Container>
       <Shell outline={true} w={'100%'} gap={8} pd={'8px 4px'}>
