@@ -106,10 +106,10 @@ const TodoModal = (props: ITodoModalProps) => {
       {props.edit ? (
         <CC.RowDiv gap={8}>
           <Button w={'100%'} onClick={() => updateTodoHandler()}>
-            수정
+            일정 수정
           </Button>
           <Button w={'100%'} onClick={() => removeTodoHandler()}>
-            삭제
+            일정 삭제
           </Button>
         </CC.RowDiv>
       ) : (
