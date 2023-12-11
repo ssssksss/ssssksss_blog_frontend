@@ -533,6 +533,16 @@ const grid = {
   },
 };
 
+const scroll = {
+  hidden: {
+    [`-ms-overflow-style`]: 'none',
+    scrollbarWidth: 'none',
+    [`& > ::-webkit-scrollbar`]: {
+      display: 'none',
+    },
+  },
+};
+
 export const commonTheme = {
   fontSize,
   borderRadius,
@@ -546,6 +556,7 @@ export const commonTheme = {
   flex,
   grid,
   calcRem,
+  scroll,
 };
 
 export const darkTheme = {
