@@ -139,7 +139,7 @@ export const Input = React.forwardRef((props,ref) => {
         id={props.id}
         display={props.display}
         checked={props.checked}
-        size={props.size || "md"}
+        size={props.size}
         errorMessage={props.errorMessage}
         padding={props.pd}
         leftIconImage={props.leftIconImage}
@@ -260,7 +260,6 @@ const InputStyle = styled.input<IInputProps>`
     props.outline &&
     css`
       outline: solid ${(props.theme.colors.[props.background] || props.theme.main.[props.background])} 1px;
-      background: transparent;
     `}
 
   &:hover {

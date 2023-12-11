@@ -107,7 +107,7 @@ const ModalButton = ({
             e.stopPropagation();
             setIsOpen(false);
           }}>
-            <Image src={Icons.ExitIcon} alt="exit" />
+            <Image src={Icons.ExitIcon} alt="exit" width={"36px"} height={"36px"}/>
           </Exit>
           {{...modal, props: {...modal.props, "closeModal": ()=>closeModal()}}}
         </ModalComponent>
@@ -167,30 +167,35 @@ const Overlay = styled.div<{overlayVisible: boolean}>`
   z-index: 90;
   background: ${props=>props.overlayVisible && props.theme.colors.gray60};
 `;
-const ModalComponent = styled.section<{ width: string, height: string }>`
+const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string }>`
   position: fixed;
   width: ${props => props.width};
   height: ${props => props.height};
   min-width: max-content;
-  max-height: 100%;
+  max-height: calc(100% - 40px);
+  padding-top: 40px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
   background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || props.theme.linearGradientColors.purple40deg70blue40};
   border-radius: ${props => props.theme.borderRadius.br10};
-  overflow: scroll;
   outline: solid ${props=>props.theme.colors.black80} 2px;
   cursor: default;
+  ${props=>props.theme.scroll.hidden};
 
--ms-overflow-style: none; /* IE and Edge */
-scrollbar-width: none; /* Firefox */
-&::-webkit-scrollbar { display: none; } /* Chrome, Safari, Opera*/ 
+  & > * {
+    overflow: scroll;
+  }
 `;
-const Exit = styled(CC.RowCenterDiv)`
-  width: 40px;
-  height: 40px;
+const Exit = styled(CC.RowRightDiv)`
   position: absolute;
-  right: 0px;
-  top: 0px;
+  top: 0;
+  width: 100%;
+  height: 40px; 
+  background: ${props=>props.theme.colors.white100};
+    border-radius: 10px 10px 0px 0px;
+  & img:hover {
+    cursor: pointer
+  }
 `;
