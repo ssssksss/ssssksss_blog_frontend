@@ -92,27 +92,29 @@ const TodoModal = (props: ITodoModalProps) => {
 
   return (
     <Container>
-      <Shell outline={true} w={'100%'} gap={8} pd={'8px 4px'}>
-        <CC.RowStartDiv w={'100%'}> 할일 내용 </CC.RowStartDiv>
+      <CC.ColumnStartDiv h={'100%'} gap={10}>
+        <CC.RowStartDiv w={'100%'} font>
+          할일
+        </CC.RowStartDiv>
         <Input
-          placeholder={'내용을 작성해주세요'}
+          placeholder={'일정을 작성해주세요'}
           ref={inputRef}
           defaultValue={props.data?.content}
-          pd={'12px'}
+          outline={true}
         />
-      </Shell>
+      </CC.ColumnStartDiv>
       {props.edit ? (
-        <CC.RowDiv gap={4}>
-          <Button w={'100%'} h={'30px'} onClick={() => updateTodoHandler()}>
+        <CC.RowDiv gap={8}>
+          <Button w={'100%'} onClick={() => updateTodoHandler()}>
             수정
           </Button>
-          <Button w={'100%'} h={'30px'} onClick={() => removeTodoHandler()}>
+          <Button w={'100%'} onClick={() => removeTodoHandler()}>
             삭제
           </Button>
         </CC.RowDiv>
       ) : (
-        <Button w={'100%'} h={'30px'} onClick={() => addTodoHandler()}>
-          추가
+        <Button w={'100%'} onClick={() => addTodoHandler()}>
+          일정 추가
         </Button>
       )}
     </Container>
@@ -121,9 +123,11 @@ const TodoModal = (props: ITodoModalProps) => {
 export default TodoModal;
 
 const Container = styled(CC.ColumnDiv)`
-  padding: 40px 10px 10px 10px;
   gap: 28px;
-  color: ${props => props.theme.colors.white80};
+  padding: 10px;
+  color: ${props => props.theme.colors.black80};
   overflow: scroll;
   background: ${props => props.theme.main.primary40};
+  font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+  font-size: ${props => props.theme.fontSize.xl};
 `;
