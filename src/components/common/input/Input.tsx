@@ -254,7 +254,7 @@ const InputStyle = styled.input<IInputProps>`
   position: relative;
   background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
   color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
-
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50);
       /* 순서주의 */
   ${props =>
     props.outline &&
