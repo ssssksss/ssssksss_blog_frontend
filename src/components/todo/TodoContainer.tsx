@@ -9,15 +9,16 @@ import { Icons } from '@/components/common/icons/Icons';
 import { DeleteIcon } from '/public/img/ui-icon/ic-delete.svg';
 import { Input } from '@/components/common/input/Input';
 import TodoItem from './TodoItem';
-import CalendarItem from './CalendarItem';
 import React, { useEffect } from 'react';
 import ModalButton from '../common/button/ModalButton';
-import TodoModal from './modal/todoModal';
+import TodoModal from './modal/TodoModal';
 import { TodoAPI } from '@/api/TodoAPI';
 import { store } from '@/redux/store';
 import { SET_TODO_LIST } from '@/redux/store/todo';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
+import ScheduleItem from '@/components/schedule/ScheduleItem';
+import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file TodoContainer.tsx
@@ -67,12 +68,26 @@ const TodoContainer = (props: ITodoContainerProps) => {
             </TodoListContainer>
           </CC.ColumnStartCenterDiv>
           <CC.ColumnStartCenterDiv overflow={true} h={'100%'}>
-            <h3> 오늘의 일정 </h3>
-            <CC.ColumnDiv gap={2} pd={'2px'} w={'100%'}>
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-            </CC.ColumnDiv>
+            <Title>
+              <h3> 오늘의 일정 </h3>
+              <ModalButton
+                color={'primary80'}
+                outline={true}
+                modal={<ScheduleModal />}
+                overlayVisible={true}
+                modalW={'50%'}
+                bg={'contrast'}
+              >
+                +
+              </ModalButton>
+            </Title>
+            <TodoListContainer>
+              {todoStore.todoList.map(i => (
+                <li>
+                  <ScheduleItem />
+                </li>
+              ))}
+            </TodoListContainer>
           </CC.ColumnStartCenterDiv>
         </CC.RowCenterDiv>
       ) : (

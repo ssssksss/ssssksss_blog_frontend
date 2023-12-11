@@ -100,7 +100,7 @@ interface IContainerProps {
 const Container = styled.aside<IContainerProps>`
   ${props => props.theme.flex.column.between};
   background: ${props => props.theme.main.contrast};
-  font-size: ${props => props.theme.fontSizes.sm};
+  font-size: ${props => props.theme.fontSize.sm};
   font-weight: 600;
   position: relative;
   width: 44px;

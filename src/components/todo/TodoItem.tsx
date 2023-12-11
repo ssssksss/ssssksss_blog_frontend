@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import ModalButton from '@/components/common/button/ModalButton';
 import { inflate } from 'zlib';
-import TodoModal from './modal/todoModal';
+import TodoModal from './modal/TodoModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import { TodoAPI } from '@/api/TodoAPI';

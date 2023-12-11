@@ -45,7 +45,7 @@ const TextDiv = styled(CC.ColumnLeftDiv)`
 
 const Title = styled.span`
   font-family: ${commonTheme.fontFamily.gmarketSansBold};
-  font-size: ${commonTheme.fontSizes.xl};
+  font-size: ${commonTheme.fontSize.xl};
   line-height: 48px;
 `;
 

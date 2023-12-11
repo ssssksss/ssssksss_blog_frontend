@@ -207,7 +207,7 @@ const ReactPlayerComponent = () => {
       </ColumnDiv>
       {isOpenModal && (
         <CustomModal title={"유튜브 플레이리스트"} overlayDisable={true} toggleModal={() => setIsOpenModal(!isOpenModal)}>
-          <CC.RowDiv gap={12} fontSize={commonTheme.fontSizes.sm} backgroundColor={commonTheme.linearGradientColors.skyblue}>
+          <CC.RowDiv gap={12} fontSize={commonTheme.fontSize.sm} backgroundColor={commonTheme.linearGradientColors.skyblue}>
             <CC.ColumnDiv width="60%" gap={8} padding={"4px 0px 4px 8px"}> 
               <CC.RowBetweenDiv gap={4}>
                 <CC.RowDiv width="50px"> url : </CC.RowDiv>
@@ -317,7 +317,7 @@ const PlayControlButton = styled.img<IMenuContainerProps>`
 const ColumnDiv = styled.div<IMenuContainerProps>`
   display: flex;
   flex-flow: nowrap column;
-  font-size: ${commonTheme.fontSizes.xs};
+  font-size: ${commonTheme.fontSize.xs};
   justify-content: center;
   align-items: center;
   gap: 4px;

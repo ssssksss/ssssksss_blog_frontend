@@ -7,7 +7,7 @@
 
 const calcRem = (size: number) => `${size / 16}rem`;
 
-const fontSizes = {
+const fontSize = {
   xs: `${calcRem(12)}`,
   sm: `${calcRem(14)}`,
   md: `${calcRem(16)}`,
@@ -534,7 +534,7 @@ const grid = {
 };
 
 export const commonTheme = {
-  fontSizes,
+  fontSize,
   borderRadius,
   padding,
   deviceSizes,

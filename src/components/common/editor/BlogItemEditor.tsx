@@ -398,7 +398,7 @@ const Title = styled.input`
   나중에 알아보기 */
   background: ${props => props.themeStore.menuBackground};
   font-family: ${commonTheme.fontFamily.cookieRunRegular};
-  font-size: ${commonTheme.fontSizes.lg};
+  font-size: ${commonTheme.fontSize.lg};
   padding: 0px 10px;
   border: none;
   z-index: 2;
@@ -413,7 +413,7 @@ const Description = styled.input`
   text-align: center;
   color: black;
   font-family: ${commonTheme.fontFamily.cookieRunRegular};
-  font-size: ${commonTheme.fontSizes.md};
+  font-size: ${commonTheme.fontSize.md};
   z-index: 2;
   padding: 0px 10px;
   border: none;

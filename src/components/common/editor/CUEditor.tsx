@@ -236,7 +236,7 @@ const Title = styled.input`
   text-align: center;
   /* background: ${commonTheme.backgroundColors.green}; */
   font-family: ${commonTheme.fontFamily.cookieRunRegular};
-  font-size: ${commonTheme.fontSizes.lg};
+  font-size: ${commonTheme.fontSize.lg};
   padding: 0px 10px;
   z-index: 2;
   border: none;
@@ -251,7 +251,7 @@ const Description = styled.input`
   text-align: center;
   color: black;
   font-family: ${commonTheme.fontFamily.cookieRunRegular};
-  font-size: ${commonTheme.fontSizes.md};
+  font-size: ${commonTheme.fontSize.md};
   z-index: 2;
   padding: 0px 10px;
   border: none;

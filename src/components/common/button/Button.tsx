@@ -17,7 +17,7 @@ interface ButtonProps {
     | 'skyblue'
     | 'purple'
     | 'pink';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' ;
   outline?: boolean;
   w?: string;
   h?: string;
@@ -98,19 +98,19 @@ export const Button = ({
 export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
-  padding: ${props=>props.padding};
-  min-width: 24px;
-  min-height: 24px;
+  min-width: max-content;
+  min-height: 32px;
+  width: ${props => props.width};
+  height : ${props => props.height || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : props.size === "lg" ? "60px" : "32px") };
   ${props => props.theme.flex.row.center.center};
+  padding: ${props=>props.padding || "2px"};
   border: none;
   border-radius: ${props => props.theme.borderRadius.[props.borderRadius] || props.theme.borderRadius.br10};
   color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
   background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || props.theme.main.primary80};
   font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
   font-weight: ${props=>props.fontWeight};
-  font-size: ${props=>props.theme.calcRem(16)};
-  width: ${props => props.width};
-  height: ${props => props.height};
+  font-size: ${props=>props.theme.fontSize.md};
 
   &:hover {
     cursor: pointer;

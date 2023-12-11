@@ -46,7 +46,7 @@ interface IInputProps {
   id?: string;
   display?: string;
   errorMessage?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' ;
   outline?: boolean;
   pd?: string;
   leftIconImage?: string;
@@ -212,8 +212,8 @@ const Container = styled.div`
 `;
 
 const InputLabel = styled.label`
-width: 100%;
-height: 60px;
+width: ${props => props.width || '100%'};
+height: ${props => props.height || '32px'};
 display: block;
 ${props=>props.theme.flex.row.center.center};
 border-radius: 10px;
@@ -229,8 +229,6 @@ background:  ${props => props.theme.colors.[props.background] || props.theme.mai
       height: 40px;
       color: ${props.theme.colors.white80};
   `}
-  width: ${props => props.width || '100%'};
-  height: ${props => props.height || '24px'};
   ${props => props.isImageUrl && css`
     outline: none;
     box-shadow: none;
@@ -246,22 +244,35 @@ background:  ${props => props.theme.colors.[props.background] || props.theme.mai
 `
 
 const InputStyle = styled.input<IInputProps>`
-  font-size: 1rem;
-  outline: none;
+  width: ${props => props.width || '100%'};
+  height : ${props => props.height || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px") };
+  font-size: ${props=>props.theme.fontSize.md};
   border: none;
   display: ${props => (props.display ? props.display : 'block')};
-  width: ${props => props.width || '100%'};
-  height: ${props => props.height || '24px'};
   padding: ${props => props.padding || '2px 0px 2px 4px'};
   border-radius: ${props => props.borderRadius || "10px"};
-
+  position: relative;
   background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
   color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
+
+      /* 순서주의 */
+  ${props =>
+    props.outline &&
+    css`
+      outline: solid ${(props.theme.colors.[props.background] || props.theme.main.[props.background])} 1px;
+      background: transparent;
+    `}
 
   &:hover {
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
-  position: relative;
+
+  &:focus {
+  outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
+  /* outline: solid black 4px; */
+}
+
+
 
   /* 순서주의 */
   ${props =>
@@ -323,13 +334,6 @@ const InputStyle = styled.input<IInputProps>`
   }
 
 
-    /* 순서주의 */
-    ${props =>
-    props.outline &&
-    css`
-      outline: solid ${(props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast)} 1px;
-      background: transparent;
-    `}
   ${props =>
     props.leftIconImage &&
     `
@@ -349,16 +353,12 @@ const InputStyle = styled.input<IInputProps>`
     ::placeholder {
       transition: all 0.6s ease-in-out;
       opacity: 0.7;
-      font-size: ${props.theme.fontSizes.sm};
+      font-size: ${props.theme.fontSize.sm};
       color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
       padding: '6px';
     }
   `}
 
-&:focus {
-  outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
-  /* outline: solid black 4px; */
-}
 
 
 

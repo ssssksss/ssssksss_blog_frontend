@@ -101,5 +101,5 @@ const Container = styled(CC.RowDiv)<{ active: boolean }>`
   height: 60px;
   gap: 12px;
   padding: '0px 4px';
-  font-size: ${commonTheme.fontSizes.sm};
+  font-size: ${commonTheme.fontSize.sm};
 `;
