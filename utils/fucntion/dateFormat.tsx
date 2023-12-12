@@ -76,3 +76,23 @@ export const fewDaysAgoDate = valueDate => {
   if (day < 365) return `${day}일전`;
   return `${Math.floor(day / 365)}년전`;
 };
+
+export const todayDayOfTheWeek = () => {
+  const temp = new Date().getDay();
+  switch (temp) {
+    case 0:
+      return '일';
+    case 1:
+      return '월';
+    case 2:
+      return '화';
+    case 3:
+      return '수';
+    case 4:
+      return '목';
+    case 5:
+      return '금';
+    case 6:
+      return '토';
+  }
+};
