@@ -63,6 +63,7 @@ const ViewBlogContainer = () => {
   };
 
   useEffect(() => {
+    console.log('ViewBlogContainer.tsx 파일 : ???');
     loadingFunction(
       BlogAPI.getBlogPost({
         id: router.query.id,
@@ -75,9 +76,16 @@ const ViewBlogContainer = () => {
         viewerInstance?.setMarkdown(res.data.blogItem.content);
 
         document.querySelectorAll('pre').forEach(i => {
-          i.addEventListener('click', e => {
+          let test = document.createElement('button');
+          test.style.position = 'absolute';
+          test.style.right = '4px';
+          test.style.top = '4px';
+          test.style.width = '24px';
+          test.style.height = '24px';
+          test.addEventListener('click', e => {
             navigator.clipboard.writeText(
-              i.childNodes[0].childNodes[0].nodeValue
+              // i.childNodes[0].childNodes[0].nodeValue
+              i.childNodes[0].textContent
             );
             store.dispatch(
               SET_TOASTIFY_MESSAGE({
@@ -86,30 +94,11 @@ const ViewBlogContainer = () => {
               })
             );
           });
+          i.appendChild(test);
         });
       })
       .catch(err => {});
 
-    // onClick={() => {
-    //   navigator.clipboard.writeText(i.content);
-    //   store.dispatch(
-    //     SET_TOASTIFY_MESSAGE({
-    //       type: 'success',
-    //       message: `복사되었습니다.`,
-    //     })
-    //   );
-    // }}
-
-    // document.getElementsByTagName('code')?.addEventListener('click', e => {
-    //   console.log('ViewBlogContainer.tsx 파일 : ', e);
-    //   // navigator.clipboard.writeText(i.content);
-    //   // store.dispatch(
-    //   //   SET_TOASTIFY_MESSAGE({
-    //   //     type: 'success',
-    //   //     message: `복사되었습니다.`,
-    //   //   })
-    //   // );
-    // });
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
         router.back();
@@ -366,7 +355,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
       font-size: ${props => props.theme.calcRem(12)};
 
-      &:hover::before {
+      & > button {
         content: '';
         ${props =>
           props.icon &&
