@@ -146,6 +146,9 @@ const BlogCategoryBarContainer1 = styled(overflowHoverVerticalScroll)`
   overflow-y: hidden;
   padding: 10px 4px;
   height: 60px;
+  & > button {
+    color: ${props => props.theme.main.contrast};
+  }
 
   & > button {
     flex: 0 0 auto;

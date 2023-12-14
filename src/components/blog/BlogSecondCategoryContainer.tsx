@@ -155,10 +155,11 @@ const Container = styled(CC.RowDiv)`
   padding: 10px 4px;
   flex-wrap: wrap;
 
-  button {
+  & > button {
     padding: 0px 10px;
     height: 28px;
     border-radius: ${props => props.theme.borderRadius.br10};
     font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
+    color: ${props => props.theme.main.contrast};
   }
 `;
