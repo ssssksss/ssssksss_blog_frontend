@@ -6,7 +6,7 @@ import { CC } from '@/styles/commonComponentStyle';
 import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
 import Span from '@/components/common/span/Span';
-import Time from '@/utils/fucntion/Time';
+import { Time } from '@/utils/function/Time';
 import Animations from '@/components/common/animations/Animations';
 import ReactPlayer from 'react-player/lazy';
 import Modal from '@/components/common/modal/Modal';
