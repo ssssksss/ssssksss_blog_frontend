@@ -244,8 +244,6 @@ background:  ${props => props.theme.colors.[props.background] || props.theme.mai
 `
 
 const InputStyle = styled.input<IInputProps>`
-  width: ${props => props.width || '100%'};
-  height : ${props => props.height || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px") };
   font-size: ${props=>props.theme.fontSize.md};
   border: none;
   display: ${props => (props.display ? props.display : 'block')};
@@ -296,9 +294,21 @@ const InputStyle = styled.input<IInputProps>`
     } */
   }
 
+&[type='search'] {
+    padding-left: px;
+  }
+
   &[type='checkbox'] {
     appearance: none;
     outline: solid ${props=>props.theme.main.contrast} 1px;
+    ${props=>props.size === "sm" && `
+      width: 32px;
+      webkit-aspect-ratio: 1;
+    `}
+    ${props=>props.size === "md" && `
+          width: 48px;
+      webkit-aspect-ratio: 1;
+    `}
   }
 
   &[type='checkbox']:checked { 
@@ -333,11 +343,12 @@ const InputStyle = styled.input<IInputProps>`
   }
 
 
+  /* 왼쪽에 이미지를 넣은 경우 padding left에 값을 주어 이미지 크기 만큼은 밀어준다. */
   ${props =>
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
-      padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 4px);
+      padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 8px);
       background-position: 4px center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -358,6 +369,8 @@ const InputStyle = styled.input<IInputProps>`
     }
   `}
 
+width: ${props => props.width || '100%'};
+  height : ${props => props.height || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px") };
 
 
 
