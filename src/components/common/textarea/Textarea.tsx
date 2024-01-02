@@ -40,15 +40,16 @@ interface ITextareaProps {
   bg?: string;
   outline?: boolean;
   submit?: (e: Event) => void;
+  resizeMode?: boolean;
 }
 
 const Textarea = (props: ITextareaProps, ref) => {
   const textRef = ref || useRef(null);
-  const [textAreaValue, setTextAreaValue] = useState(props.defaultValue);
+  const [textareaValue, setTextareaValue] = useState(props.defaultValue);
   const handleResizeHeight = useCallback(() => {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = textRef.current.scrollHeight + 'px';
-    setTextAreaValue(textRef.current.value);
+    setTextareaValue(textRef.current.value);
   }, []);
 
   return (
@@ -75,7 +76,7 @@ const Textarea = (props: ITextareaProps, ref) => {
         borderRadius={props.brR}
         styleTypes={props.styleTypes}
         outline={props.outline}
-        onInput={handleResizeHeight}
+        onInput={props.resizeMode && handleResizeHeight}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter' && props.onKeyPress) {
             onKeyPress();
@@ -85,7 +86,7 @@ const Textarea = (props: ITextareaProps, ref) => {
         {...props.register}
         {...props}
       />
-      {textAreaValue !== props.defaultValue && (
+      {props.defaultValue != textareaValue && (
         <button>
           <Image
             src={Icons.RightArrowIcon}
@@ -106,14 +107,27 @@ export default forwardRef(Textarea);
 
 const Container = styled.div`
   position: relative;
-  padding: 0px 0px 16px 0px;
+  height: 100%;
   button {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    right: 10px;
+    bottom: 10px;
     background: transparent;
+    width: 24px;
+    height: 24px;
   }
 `;
 const TextareaStyle = styled.textarea`
   width: 100%;
+  min-height: max-content;
+  appearance: none;
+  resize: none;
+  border-radius: 10px;
+  padding: ${props => props.padding || '2px'};
+  height: ${props => props.height};
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+
+  &:focus {
+    outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
+  }
 `;
