@@ -20,7 +20,7 @@ import { store } from '@/redux/store';
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogMainContainer.tsx
  * @version 0.0.1 "2023-09-25 03:17:13"
- * @description menus=[{name. func}]
+ * @description menuList=[{name. func}]
  */
 const BlogMainContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
@@ -113,7 +113,7 @@ const BlogMainContainer = () => {
             brR={'0px'}
             bg={'gray20'}
             w={'90px'}
-            menus={[
+            menuList={[
               { name: '최신순', func: orderRecentBlogPostList },
               { name: '조회수순', func: orderViewBlogPostList },
               { name: '좋아요순', func: orderLikeBlogPostList },
@@ -147,13 +147,13 @@ const BlogMainContainer = () => {
       </MainContainer>
       <FixedContainer gap={4}>
         {authStore.role === 'ROLE_ADMIN' && (
-          <Button>
+          <BlogSearchItem>
             <Link href={`/blog/create`}>
               <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
                 <Image src={Icons.EditIcon} alt="edit" />
               </CC.RowCenterDiv>
             </Link>
-          </Button>
+          </BlogSearchItem>
         )}
         <Button onClick={() => window.scrollTo(0, 0)}>
           <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
@@ -181,6 +181,11 @@ const Container = styled(CC.ColumnDiv)`
   outline: solid ${props => props.theme.main.primary40} 2px;
   border-radius: 10px;
 `;
+const BlogSearchItem = styled.li`
+  cursor: pointer;
+  background: ${props => props.theme.main.contrast};
+`;
+
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   padding: 0px 4px;
@@ -197,14 +202,8 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
 
 const MainContainer = styled(CC.ColumnDiv)`
   gap: 4px;
-  overflow: scroll;
-  & {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
-  }
+  ${props => props.theme.scroll.hidden};
+
   padding: 4px 2px;
 `;
 
