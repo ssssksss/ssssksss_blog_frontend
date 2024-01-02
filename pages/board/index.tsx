@@ -9,7 +9,7 @@ import Pagination from '@/components/common/pagination/Pagination';
 import { useEffect, useRef, useState } from 'react';
 import { BoardAPI } from '@/api/BoardAPI';
 import { useRouter } from 'next/router';
-import { dateFormat4y2m2d } from '@/utils/fucntion/dateFormat';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import useLoading from '@/src/hooks/useLoading';
 import { Viewer } from '@toast-ui/react-editor';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
@@ -17,8 +17,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { RootState } from '@/redux/store/reducers';
 import { useSelector } from 'react-redux';
-import timeFromToday from '@/utils/fucntion/timeFromToday';
-import UrlQueryStringToObject from '@/utils/fucntion/UrlQueryStringToObject';
+import timeFromToday from '@/utils/function/timeFromToday';
+import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -179,23 +179,23 @@ const Index = () => {
             w={'40px'}
             h={'28px'}
             size="md"
-            bg={'primary100'}
+            bg={'primary80'}
             pd={'0px 0px'}
+            color={'contrast'}
             onClick={() => searchKeyword(keywordRef)}
           >
             검색
           </Button>
           <Dropdown
             w={'90px'}
-            h={'28px'}
             outline={true}
             color={'primary80'}
             brR={'0px'}
             bg={'gray20'}
-            menus={[
+            menuList={[
               { name: '최신순', func: () => orderRecent() },
               { name: '조회수순', func: () => orderViews() },
-              { name: '좋아요순', func: () => orderLikes() },
+              // { name: '좋아요순', func: () => orderLikes() },
             ]}
           ></Dropdown>
         </CC.RowBetweenDiv>
@@ -209,7 +209,6 @@ const Index = () => {
       </SearchNavContainer>
       <CC.ColumnBetweenDiv
         outline={true}
-        color={'primary40'}
         brR={'10px'}
         pd={'8px'}
         overflow={true}
@@ -319,12 +318,13 @@ const BoardListTitle = styled.div`
   outline: solid black 2px;
   background: ${props => props.theme.main.primary20};
   gap: 4px;
+  line-height: 100%;
 
   & > span {
     text-align: center;
   }
 
-  & > span:nth-of-type(1) {
+  /* & > span:nth-of-type(1) {
     font-size: 0.8rem;
   }
 
@@ -336,7 +336,7 @@ const BoardListTitle = styled.div`
   & > span:nth-of-type(4) {
     font-size: 0.8rem;
     color: ${props => props.theme.colors.black60};
-  }
+  } */
 
   grid-template-columns: 30px auto 60px 60px 40px;
   @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
@@ -348,7 +348,9 @@ const BoardListTitle = styled.div`
 `;
 const BoardListContainer = styled(CC.ColumnBetweenDiv)`
   gap: 8px;
-  height: 520px;
+  min-height: max-content;
+  padding: 4px;
+  ${props => props.theme.scroll.hidden};
 `;
 
 const BoardItem = styled.div`
@@ -379,7 +381,6 @@ const BoardItem = styled.div`
 
   & > span:nth-of-type(4) {
     font-size: 0.8rem;
-    color: ${props => props.theme.colors.black60};
   }
 
   grid-template-columns: 30px auto 60px 60px 40px;
