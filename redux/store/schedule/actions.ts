@@ -5,7 +5,11 @@ export type ACTION_INSTANCE =
   | ReturnType<typeof SET_CALENDAR_MONTH>
   | ReturnType<typeof SET_CALENDAR_DAY>
   | ReturnType<typeof SET_CALENDAR_DAY_OF_WEEK>
-  | ReturnType<typeof SET_CALENDAR_START_DATE_OF_WEEK_LIST>;
+  | ReturnType<typeof SET_CALENDAR_START_DATE_OF_WEEK_LIST>
+  | ReturnType<typeof SET_TODAY_SCHEDULE_LIST>
+  | ReturnType<typeof SET_SCHEDULE_CATEGORY_LIST>
+  | ReturnType<typeof SET_MONTH_SCHEDULE_LIST>
+  | ReturnType<typeof SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE>;
 
 type CURRENT_SCHEDULE_DATE_STATE = {
   currentScheduleDate: string;
@@ -88,13 +92,69 @@ type SET_CALENDAR_START_DATE_OF_WEEK_LIST_STATE = {
   calendarStartDateOfWeekList: [];
 };
 /**
- * @param 달력에서 각주의 첫재날짜를 모아놓은 배열
+ * @description 달력에서 각주의 첫재날짜를 모아놓은 배열
  */
 export const SET_CALENDAR_START_DATE_OF_WEEK_LIST = (
   payload: SET_CALENDAR_START_DATE_OF_WEEK_LIST_STATE
 ) => {
   return {
     type: 'CALENDAR_START_DATE_OF_WEEK_LIST',
+    payload: payload,
+  };
+};
+
+type TODAY_SCHEDULE_STATE = {
+  todayScheduleList: [];
+};
+/**
+ * @description 오늘의 할일들을 모아놓는 배열
+ */
+export const SET_TODAY_SCHEDULE_LIST = (payload: TODAY_SCHEDULE_STATE) => {
+  return {
+    type: 'TODAY_SCHEDULE_LIST',
+    payload: payload,
+  };
+};
+
+type SCHEDULE_CATEGORY_STATE = {
+  scheduleCategoryList: [];
+};
+/**
+ * @description 할일의 카테고리를 모아놓은 배열
+ */
+export const SET_SCHEDULE_CATEGORY_LIST = (
+  payload: SCHEDULE_CATEGORY_STATE
+) => {
+  return {
+    type: 'SCHEDULE_CATEGORY_LIST',
+    payload: payload,
+  };
+};
+
+type MONTH_SCHEDULE_STATE = {
+  monthScheduleList: [];
+};
+/**
+ * @description 할일의 1달의 일정을 모아놓은 배열
+ */
+export const SET_MONTH_SCHEDULE_LIST = (payload: MONTH_SCHEDULE_STATE) => {
+  return {
+    type: 'MONTH_SCHEDULE_LIST',
+    payload: payload,
+  };
+};
+
+type TOGGLE_UP_TO_DATE_MONTH_SCHEDULE_STATE = {
+  toggleUptoDateMonthSchedule: boolean;
+};
+/**
+ * @description 할일의 1달의 일정을 모아놓은 배열
+ */
+export const SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE = (
+  payload: TOGGLE_UP_TO_DATE_MONTH_SCHEDULE_STATE
+) => {
+  return {
+    type: 'TOGGLE_UP_TO_DATE_MONTH_SCHEDULE',
     payload: payload,
   };
 };

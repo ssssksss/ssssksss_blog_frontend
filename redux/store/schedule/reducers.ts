@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { dateFormat4y2m2d } from '../../../utils/fucntion/dateFormat';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 
 const initialState = {
   currentScheduleDate: '',
@@ -10,6 +10,10 @@ const initialState = {
   calendarDay: new Date().getDate(),
   calendarDayOfWeek: new Date().getDay(),
   calendarStartDateOfWeekList: [],
+  todayScheduleList: [],
+  scheduleCategoryList: [],
+  monthScheduleList: [],
+  toggleUptoDateMonthSchedule: true,
 };
 
 export const scheduleReducer = (state = initialState, action: any) => {
@@ -29,6 +33,14 @@ export const scheduleReducer = (state = initialState, action: any) => {
       return { ...state, calendarDay: action.payload };
     case 'CALENDAR_DAY_OF_WEEK':
       return { ...state, calendarDayOfWeek: action.payload };
+    case 'TODAY_SCHEDULE_LIST':
+      return { ...state, todayScheduleList: action.payload };
+    case 'SCHEDULE_CATEGORY_LIST':
+      return { ...state, scheduleCategoryList: action.payload };
+    case 'MONTH_SCHEDULE_LIST':
+      return { ...state, monthScheduleList: action.payload };
+    case 'TOGGLE_UP_TO_DATE_MONTH_SCHEDULE':
+      return { ...state, toggleUptoDateMonthSchedule: action.payload };
     default:
       return state;
   }
