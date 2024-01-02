@@ -20,7 +20,7 @@ import {
   SET_SECOND_CATEGORY_ID_AND_NAME,
   SET_SECOND_CATEGORY_LIST,
 } from '@/redux/store/blog';
-import UrlQueryStringToObject from '@/utils/fucntion/UrlQueryStringToObject';
+import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -139,6 +139,7 @@ const BlogSecondCategoryContainer = () => {
               />
             }
             overlayVisible={true}
+            w={'36px'}
           >
             <span style={{ fontSize: '28px' }}>
               <Image src={Icons.SettingIcon} alt="" width={16} height={16} />
@@ -155,11 +156,28 @@ const Container = styled(CC.RowDiv)`
   padding: 10px 4px;
   flex-wrap: wrap;
 
+  @media (max-height: 600px) {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    /* ${props => props.theme.scroll.hidden}; */
+    ::-webkit-scrollbar {
+      width: auto;
+      height: 8px;
+      display: contents;
+      position: fixed;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${props => props.theme.main.secondary20};
+      border-radius: 16px;
+    }
+  }
+
   & > button {
     padding: 0px 10px;
     height: 28px;
     border-radius: ${props => props.theme.borderRadius.br10};
     font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
     color: ${props => props.theme.main.contrast};
+    flex-shrink: 0;
   }
 `;
