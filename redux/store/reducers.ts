@@ -7,6 +7,7 @@ import { toastifyReducer } from './toastify/reducers';
 import { leftNavItemReducer } from './leftNav';
 import { blogContentTemplateReducer } from './blogContentTemplate';
 import { todoReducer } from './todo';
+import { memoReducer } from './memo';
 
 const rootReducer = combineReducers({
   blogStore: blogReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   leftNavItemStore: leftNavItemReducer,
   blogContentTemplateStore: blogContentTemplateReducer,
   todoStore: todoReducer,
+  memoStore: memoReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
