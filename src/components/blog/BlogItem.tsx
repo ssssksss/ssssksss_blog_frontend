@@ -1,5 +1,5 @@
 import { CC } from '@/styles/commonComponentStyle';
-import { dateFormat4y2m2d } from '@/utils/fucntion/dateFormat';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { AWSS3Prefix } from '@/utils/variables/url';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -19,9 +19,8 @@ interface IBlogItemProps {
 
 const BlogItem = (props: IBlogItemProps) => {
   return (
-    <a>
-      <Container>
-        {/* {props.viewMode && (
+    <Container>
+      {/* {props.viewMode && (
           <BlogItemImageBox>
             <Image
               src={`${AWSS3Prefix}${props.element.thumbnailImageUrl}`}
@@ -30,36 +29,35 @@ const BlogItem = (props: IBlogItemProps) => {
             />
           </BlogItemImageBox>
         )} */}
-        {props.viewMode || (
-          <BlogItemImageBox>
-            <Image
-              src={`${AWSS3Prefix}${props.element.thumbnailImageUrl}`}
-              width={'80px'}
-              height={'80px'}
-            />
-          </BlogItemImageBox>
-        )}
-        <CC.ColumnDiv gap={4} w={'100%'} pd={'5px 0px'}>
-          <BlogItemTitle> {props.element.title} </BlogItemTitle>
-          <BlogItemSubTitle> {props.element.description} </BlogItemSubTitle>
-          <CC.RowBetweenDiv pd={'10px 0px 0px 0px'} w={'100%'}>
-            <BlogItemDate>
-              {dateFormat4y2m2d(props.element.baseTimeEntity.createdAt)}
-            </BlogItemDate>
-            <BlogItemViewAndLIke>
-              <CC.RowDiv gap={2} h={'20px'}>
-                <Image src={Icons.ViewIcon} alt="view" />
-                <span> {props.element.viewNumber} </span>
-              </CC.RowDiv>
-              <CC.RowDiv gap={2} h={'20px'}>
-                <Image src={Icons.LikeIcon} alt="like" />
-                <span> {props.element.likeNumber} </span>
-              </CC.RowDiv>
-            </BlogItemViewAndLIke>
-          </CC.RowBetweenDiv>
-        </CC.ColumnDiv>
-      </Container>
-    </a>
+      {props.viewMode || (
+        <BlogItemImageBox>
+          <Image
+            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl}`}
+            width={'80px'}
+            height={'80px'}
+          />
+        </BlogItemImageBox>
+      )}
+      <CC.ColumnDiv gap={4} w={'100%'} pd={'5px 0px'}>
+        <BlogItemTitle> {props.element.title} </BlogItemTitle>
+        <BlogItemSubTitle> {props.element.description} </BlogItemSubTitle>
+        <CC.RowBetweenDiv pd={'10px 0px 0px 0px'} w={'100%'}>
+          <BlogItemDate>
+            {dateFormat4y2m2d(props.element.baseTimeEntity.createdAt)}
+          </BlogItemDate>
+          <BlogItemViewAndLIke>
+            <CC.RowDiv gap={2} h={'20px'}>
+              <Image src={Icons.ViewIcon} alt="view" />
+              <span> {props.element.viewNumber} </span>
+            </CC.RowDiv>
+            <CC.RowDiv gap={2} h={'20px'}>
+              <Image src={Icons.LikeIcon} alt="like" />
+              <span> {props.element.likeNumber} </span>
+            </CC.RowDiv>
+          </BlogItemViewAndLIke>
+        </CC.RowBetweenDiv>
+      </CC.ColumnDiv>
+    </Container>
   );
 };
 export default BlogItem;

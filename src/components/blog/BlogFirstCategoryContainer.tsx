@@ -23,7 +23,7 @@ import {
   SET_FIRST_CATEGORY_ID_AND_NAME,
   SET_FIRST_CATEGORY_LIST,
 } from '@/redux/store/blog';
-import UrlQueryStringToObject from '@/utils/fucntion/UrlQueryStringToObject';
+import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogFirstCategoryContainer.tsx
