@@ -19,11 +19,10 @@ export const overflowHoverVerticalScroll = styled.div`
       position: fixed;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${props => props.theme.main.primary100};
+      background: ${props => props.theme.main.primary20};
       border-radius: 16px;
     }
     ::-webkit-scrollbar-track {
-      background: ${props => props.theme.colors.black20};
     }
   }
 `;

@@ -18,6 +18,7 @@ interface IStyleProps {
   noCursor?: boolean; // 나중에 삭제 고려해보기 별 필요없는 props
   imgSize?: string; // 이미지 정사각형 형태일때 사용하는 용도인데 나중에 고려해보기
   fontSize?: string;
+  fw?: boolean; // font weight
   overflow?: boolean
   outline?: boolean;
   first?: string; // grid 너비 정하는데 사용
@@ -37,8 +38,9 @@ const propsCommonStyle = (props: any) => css`
   min-width: ${props.minW};
   background: ${props.theme.colors.[props.bg] || props.theme.main.[props.bg]};
   max-width: ${props.maxW};
-  color: ${props.color};
+  color: ${props.theme.colors.[props.color] || props.theme.main.[props.color]};
   font-size: ${props.fontSize};
+  font-weight: ${props.fw && "800"};
   ${
     props.overflow &&
     css`

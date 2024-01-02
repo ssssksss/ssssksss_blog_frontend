@@ -15,15 +15,7 @@ const fontSize = {
   xl: `${calcRem(20)}`,
 };
 
-interface IFontFamily {
-  cookieRunRegular: string;
-  gmarketSansBold: string;
-  typoHelloPOP: string;
-  yanoljaYacheBold: string;
-  yanoljaYacheRegular: string;
-}
-
-const fontFamily: IFontFamily = {
+const fontFamily = {
   cookieRunRegular: 'cookieRunRegular',
   gmarketSansBold: 'gmarketSansBold',
   typoHelloPOP: 'typoHelloPOP',
@@ -535,15 +527,26 @@ const grid = {
 
 const scroll = {
   hidden: {
+    overflow: 'scroll',
     [`-ms-overflow-style`]: 'none',
     scrollbarWidth: 'none',
-    [`& > ::-webkit-scrollbar`]: {
+    [`&::-webkit-scrollbar`]: {
       display: 'none',
     },
   },
 };
 
-export const commonTheme = {
+interface IcommonThemeProps {
+  fontFamily: {
+    cookieRunRegular: string;
+    gmarketSansBold: string;
+    typoHelloPOP: string;
+    yanoljaYacheBold: string;
+    yanoljaYacheRegular: string;
+  };
+}
+
+export const commonTheme: IcommonThemeProps = {
   fontSize,
   borderRadius,
   padding,
