@@ -63,7 +63,9 @@ const Container = styled.div`
     border-radius: 10px;
     background-color: transparent;
     color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
-    
+    position: relative;
+
+
     &:disabled {
       cursor: not-allowed;
     }
@@ -110,9 +112,9 @@ const Container = styled.div`
     }
 
     option {
-      /* background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] ||  props.theme.main.contrast}; */
       color: ${props=>props.theme.main.primary80};
     }
+
   }
 `;
 
