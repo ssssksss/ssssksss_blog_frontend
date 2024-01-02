@@ -11,6 +11,9 @@ import { purpleTheme, darkTheme } from '@/styles/theme';
 import NavBar from '@/components/layout/NavBar';
 import ReactToastifyComponents from '@/components/react-toastify/ReactToastifyComponents';
 import 'prismjs/themes/prism-tomorrow.css';
+// react-date-range 라이브러리
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
