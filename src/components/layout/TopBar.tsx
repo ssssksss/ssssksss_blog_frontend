@@ -69,14 +69,14 @@ const TopBar = () => {
       ) : (
         <Main>
           <Title> 가출한토토로의 블로그 </Title>
-          <ModalButton h={'100%'} onClick={() => alert('test')}>
+          <ModalButton h={'100%'}>
             <Image
               src={Icons.MailIcon}
               alt="mail"
               onClick={() => alert('제작 계획 중')}
             />
           </ModalButton>
-          <ModalButton h={'100%'} onClick={() => alert('test')}>
+          <ModalButton h={'100%'}>
             <Image
               src={Icons.AlarmIcon}
               alt="alarm"

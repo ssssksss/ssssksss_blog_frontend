@@ -1,6 +1,6 @@
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import HamburgerMenu from '@/components/common/menus/HamburgerMenu';
+import HamburgerMenu from '@/components/common/button/HamburgerMenu';
 import Image from 'next/image';
 import { Icons } from '@/components/common/icons/Icons';
 import { useEffect, useState } from 'react';
