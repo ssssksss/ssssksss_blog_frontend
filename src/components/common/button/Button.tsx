@@ -106,8 +106,8 @@ const ButtonStyle = styled.button<IButtonProps>`
   padding: ${props=>props.padding || "2px"};
   border: none;
   border-radius: ${props => props.theme.borderRadius.[props.borderRadius] || props.theme.borderRadius.br10};
-  color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
-  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || props.theme.main.primary80};
+  color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.black80 };
+  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background};
   font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
   font-weight: ${props=>props.fontWeight};
   font-size: ${props=>props.theme.fontSize.md};
@@ -115,19 +115,9 @@ const ButtonStyle = styled.button<IButtonProps>`
   &:hover {
     cursor: pointer;
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-    outline: 1px solid ${props => props.theme.main.contrast};
-    outline-offset: 3px;
+    outline: inset ${props => props.theme.main.secondary80} 1px;
+    outline-offset: 1px;
   }
-  ${props =>
-    props.disabled &&
-    `
-    background-color: ${props=>props.theme.colors.disabled};
-    cursor: not-allowed;
-    &:hover {
-      box-shadow: none;
-      cursor: not-allowed;  
-    }
-    `}
   ${props =>
     props.outline &&
     `
@@ -135,20 +125,29 @@ const ButtonStyle = styled.button<IButtonProps>`
     background: transparent;
     `}
 
-${props=>props.styleTypes === 1 && `
+  ${props=>props.styleTypes === 1 && `
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-    color: ${props.theme.colors.white80};
   `}
 
   ${props =>
       props.active &&
       css`
         color: white;
+        background: ${props.theme.main.primary40};
         animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
         border-radius: 10px;
       `}
-  font-size: ${props => props.size === "xs" ? "0.6rem" : props.size === "sm" ? "0.7rem" : "1rem"};
 
+    ${props =>
+    props.disabled &&
+    css`
+        background: ${props.theme.colors.gray80};
+        &:hover {
+          box-shadow: none;
+          cursor: not-allowed;  
+        }
+    `}
+  font-size: ${props => props.size === "xs" ? "0.6rem" : props.size === "sm" ? "0.7rem" : "1rem"};
 `;
