@@ -47,6 +47,14 @@ const TodoItem = (props: ITodoItemProps) => {
 
   return (
     <Container isChecked={props?.data.isChecked}>
+      <Input
+        type="checkbox"
+        outline={true}
+        w={'24px'}
+        h={'24px'}
+        checked={props?.data.isChecked}
+        onClick={() => _IsCheckedToggleHandler()}
+      />
       <Title
         isChecked={props?.data?.isChecked}
         modal={<TodoModal edit={true} data={props?.data} />}
@@ -55,15 +63,6 @@ const TodoItem = (props: ITodoItemProps) => {
       >
         {props?.data.content}
       </Title>
-      <Input
-        type="checkbox"
-        outline={true}
-        color={'red100'}
-        w={'28px'}
-        h={'28px'}
-        checked={props?.data.isChecked}
-        onClick={() => _IsCheckedToggleHandler()}
-      />
     </Container>
   );
 };
@@ -74,10 +73,9 @@ const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
     props.isChecked
       ? props.theme.colors.black20
       : props.theme.main.secondary20};
-  padding: 8px 4px;
+  padding: 4px;
   border-radius: 4px;
-  font-size: 0.8rem;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const Title = styled(ModalButton)<{ isChecked: boolean }>`

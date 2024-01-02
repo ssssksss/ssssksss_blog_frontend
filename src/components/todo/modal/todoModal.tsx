@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@react-three/fiber';
 import { store } from '@/redux/store';
 import { SET_TODO_LIST } from '@/redux/store/todo';
-
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file todoModal.tsx
@@ -122,7 +121,7 @@ const TodoModal = (props: ITodoModalProps) => {
 };
 export default TodoModal;
 
-const Container = styled(CC.ColumnDiv)`
+const Container = styled(CC.ColumnBetweenDiv)`
   gap: 28px;
   padding: 10px;
   color: ${props => props.theme.colors.black80};
@@ -130,4 +129,5 @@ const Container = styled(CC.ColumnDiv)`
   background: ${props => props.theme.main.primary40};
   font-family: ${props => props.theme.fontFamily.cookieRunRegular};
   font-size: ${props => props.theme.fontSize.xl};
+  min-height: 260px;
 `;

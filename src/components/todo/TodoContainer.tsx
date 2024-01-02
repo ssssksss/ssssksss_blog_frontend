@@ -9,16 +9,19 @@ import { Icons } from '@/components/common/icons/Icons';
 import { DeleteIcon } from '/public/img/ui-icon/ic-delete.svg';
 import { Input } from '@/components/common/input/Input';
 import TodoItem from './TodoItem';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalButton from '../common/button/ModalButton';
 import TodoModal from './modal/TodoModal';
 import { TodoAPI } from '@/api/TodoAPI';
-import { store } from '@/redux/store';
 import { SET_TODO_LIST } from '@/redux/store/todo';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import ScheduleItem from '@/components/schedule/ScheduleItem';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
+import { todayDayOfTheWeek } from '@/utils/function/dateFormat';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
+import { store } from '@/redux/store';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file TodoContainer.tsx
@@ -34,152 +37,116 @@ interface ITodoContainerProps {
 const TodoContainer = (props: ITodoContainerProps) => {
   const todoStore = useSelector((state: RootState) => state.todoStore);
   const authStore = useSelector((state: RootState) => state.authStore);
+  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
+  const dayOfTheWeek = useState(todayDayOfTheWeek);
 
   useEffect(() => {
     TodoAPI.getTodoList().then(res => {
       store.dispatch(SET_TODO_LIST(res.jsonObject.todoList));
     });
+
+    ScheduleAPI.getScheduleList({
+      type: 'today',
+    })
+      .then(res => {
+        store.dispatch(SET_TODAY_SCHEDULE_LIST(res.jsonObject.scheduleList));
+      })
+      .catch(err => {
+        console.log('TodoContainer.tsx 파일 : ', err);
+      });
   }, []);
 
   return (
-    <Container active={props.active} onClick={props.onClick}>
-      {props.active === 0 ? (
-        <CC.RowCenterDiv h={'100%'}>
-          <CC.ColumnStartCenterDiv h={'100%'}>
-            <Title>
-              <h3> TODO </h3>
-              <ModalButton
-                color={'primary80'}
-                outline={true}
-                modal={<TodoModal />}
-                overlayVisible={true}
-                modalW={'50%'}
-                bg={'contrast'}
-              >
-                +
-              </ModalButton>
-            </Title>
-            <TodoListContainer>
-              {todoStore.todoList.map(i => (
-                <li>
-                  <TodoItem data={i} />
-                </li>
-              ))}
-            </TodoListContainer>
-          </CC.ColumnStartCenterDiv>
-          <CC.ColumnStartCenterDiv overflow={true} h={'100%'}>
-            <Title>
-              <h3> 오늘의 일정 </h3>
-              <ModalButton
-                color={'primary80'}
-                outline={true}
-                modal={<ScheduleModal />}
-                overlayVisible={true}
-                modalW={'50%'}
-                bg={'contrast'}
-              >
-                +
-              </ModalButton>
-            </Title>
-            <TodoListContainer>
-              {todoStore.todoList.map(i => (
-                <li>
-                  <ScheduleItem />
-                </li>
-              ))}
-            </TodoListContainer>
-          </CC.ColumnStartCenterDiv>
-        </CC.RowCenterDiv>
-      ) : (
-        <FoldStateDiv> TODAY </FoldStateDiv>
-      )}
+    <Container>
+      <CC.ColumnDiv>
+        <Title>
+          <h3> 할일 </h3>
+          <ModalButton
+            modal={<TodoModal />}
+            color={'primary80'}
+            bg={'primary20'}
+            overlayVisible={true}
+            modalW={'50%'}
+            w={'24px'}
+            h={'24px'}
+          >
+            +
+          </ModalButton>
+        </Title>
+        <ListContainer>
+          {todoStore.todoList.map(i => (
+            <li>
+              <TodoItem data={i} />
+            </li>
+          ))}
+        </ListContainer>
+      </CC.ColumnDiv>
+      <CC.ColumnDiv>
+        <Title>
+          <h3> 오늘의 일정 ({dayOfTheWeek}) </h3>
+          <ModalButton
+            modal={<ScheduleModal />}
+            color={'primary80'}
+            bg={'primary20'}
+            overlayVisible={true}
+            modalW={'50%'}
+            w={'24px'}
+            h={'24px'}
+          >
+            +
+          </ModalButton>
+        </Title>
+        <ListContainer>
+          {scheduleStore.todayScheduleList?.map((i, index) => (
+            <li key={index}>
+              <ScheduleItem data={i} />
+            </li>
+          ))}
+        </ListContainer>
+      </CC.ColumnDiv>
     </Container>
   );
 };
-export default React.memo(TodoContainer);
+// export default React.memo(TodoContainer);
+export default TodoContainer;
 
-const Container = styled.section<{
-  active: number;
-}>`
-  --height: 44px;
-  --width: 44px;
-  font-size: 1rem;
-  border-radius: 10px;
-  outline: solid ${props => props.theme.colors.black60} 1px;
-  gap: 4px;
-  padding: 4px;
+const Container = styled(CC.GridColumn2)`
+  height: 100%;
 
-  & > div > div {
-    outline: solid ${props => props.theme.main.primary20} 1px;
+  & > div {
+    width: 100%;
+    height: 100%;
+    ${props => props.theme.scroll.hidden};
+    background: ${props => props.theme.colors.white80};
+    outline: solid black 1px;
     border-radius: 10px;
-    background: ${props => props.theme.main.contrast};
   }
-
-  ${props =>
-    props.active === 0
-      ? css`
-          background: ${props.theme.main.primary20};
-          width: calc(100% - var(--width));
-          height: calc(100% - var(--height));
-          ${props.theme.flex.column};
-        `
-      : props.active === 1
-      ? css`
-          width: var(--width);
-          height: calc(100% - var(--height));
-          font-size: 2rem;
-          text-transform: uppercase;
-          writing-mode: vertical-rl;
-          text-orientation: upright;
-          letter-spacing: 0.1rem;
-          ${props.theme.flex.row.center.center};
-          cursor: pointer;
-        `
-      : css`
-          font-size: 2rem;
-          width: calc(50%);
-          height: calc(var(--height));
-          ${props.theme.flex.row.center.center};
-          cursor: pointer;
-        `};
 `;
 
-const Title = styled(CC.RowDiv)`
+const Title = styled(CC.GridColumn2)`
   /* position: relative; */
-  height: 30px;
   width: 100%;
-  padding: 2px 4px;
+  height: 48px;
+  font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+  grid-template-columns: 1fr 24px;
   align-items: center;
-
-  h3 {
-    padding: 4px 0px;
+  outline: solid black 1px;
+  border-radius: 10px;
+  padding: 0px 4px;
+  & > h3 {
     width: 100%;
     ${props => props.theme.flex.row.center};
   }
-
-  & > button {
-    background: ${props => props.theme.main.primary20};
-    /* position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translate(0, -50%); */
-    width: 24px;
-  }
 `;
-const TodoListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
+const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   height: 100%;
   overflow: scroll;
   gap: 4px;
-  padding: 4px;
   border-radius: 10px;
-  & {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
-  }
+  outline: solid black 1px;
+  ${props => props.theme.scroll.hidden};
+  padding: 4px 4px 12px 4px;
 `;
 
 const FoldStateDiv = styled.div`
