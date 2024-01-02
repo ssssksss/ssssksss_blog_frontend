@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Input } from '@/components/common/input/Input';
 import { Icons } from '@/components/common/icons/Icons';
 import { useEffect, useRef, useState } from 'react';
-import { delaySearch } from '@/utils/fucntion/delaySearch';
+import { delaySearch } from '@/utils/function/delaySearch';
 import { CC } from '@/styles/commonComponentStyle';
 import Link from 'next/link';
 import BlogItem from './BlogItem';
@@ -27,14 +27,12 @@ const BlogSearchContainer = () => {
         keyword: inputRef.current.value,
       })
     ).then(res => {
-      console.log('BlogSearchContainer.tsx 파일 : ', res);
       setSearchBlogPostList(res.data.blogList);
     });
   };
 
   useEffect(() => {
     const temp = () => {
-      console.log('BlogSearchContainer.tsx 파일 : ', inputRef);
       setIsOpenBlogItemList(false);
     };
     // if (isOpenBlogItemList) {
@@ -58,24 +56,29 @@ const BlogSearchContainer = () => {
         h={'40px'}
         ref={inputRef}
         leftIconImage={Icons.SearchIcon.src}
-        onChange={delaySearch(SearchHandler, 1000)}
-        onFocus={() => setIsOpenBlogItemList(true)}
-        onBlur={() => setIsOpenBlogItemList(false)}
+        onChange={delaySearch(SearchHandler, 600)}
+        onClick={() => setIsOpenBlogItemList(prev => !prev)}
       />
 
       {isOpenBlogItemList && (
-        <BlogSearchItemContainer>
-          <CC.ColumnDiv>
-            {searchBlogPostList.map((i, index) => (
-              <BlogSearchItem>
-                <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
-                  <a>
-                    <BlogItem element={i}></BlogItem>
-                  </a>
-                </Link>
-              </BlogSearchItem>
-            ))}
-          </CC.ColumnDiv>
+        <BlogSearchItemContainer
+          onBlur={() => {
+            setIsOpenBlogItemList(false);
+          }}
+        >
+          {searchBlogPostList?.map((i, index) => (
+            <li key={index}>
+              <Link
+                href={`/blog/${i.id}`}
+                key={`${i.id}${index}`}
+                onClick={() => console.log('test')}
+              >
+                <a>
+                  <BlogItem element={i}></BlogItem>
+                </a>
+              </Link>
+            </li>
+          ))}
         </BlogSearchItemContainer>
       )}
     </Container>
@@ -83,21 +86,22 @@ const BlogSearchContainer = () => {
 };
 export default BlogSearchContainer;
 
-const Container = styled.section`
+const Container = styled.div`
   position: relative;
 `;
 
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   position: absolute;
-  background: ${props => props.theme.main.primary80};
-  outline: solid ${props => props.theme.main.primary80} 1px;
-  transform: translate(0px, -1px);
+  background: ${props => props.theme.colors.white100};
+  outline: solid ${props => props.theme.main.primary80} 4px;
+  transform: translate(0px, 6px);
+  border-radius: 10px;
   gap: 8px;
   padding: 4px;
-  z-index: 20;
-`;
-const BlogSearchItem = styled.li`
-  cursor: pointer;
-  background: ${props => props.theme.main.contrast};
+  z-index: 40;
+
+  a {
+    z-index: 50;
+  }
 `;
