@@ -14,7 +14,6 @@ import useModal from '@/src/hooks/useModal';
 import Button from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
 import YoutubePlayerModal from '@/components/common/modal/YoutubePlayerModal';
-import { css } from '@emotion/react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayer.tsx
@@ -118,14 +117,9 @@ const Container = styled.div`
 
   input[type='range'] {
     -webkit-appearance: none;
-    ${props =>
-      props.play
-        ? css`
-            animation: ${Animations.rainbowColors} 1s infinite;
-          `
-        : css`
-            animation-play-state: paused;
-          `}
+    animation: ${props =>
+      props.play && `${Animations.rainbowColors} 1s infinite`};
+    animation-play-state: ${props => props.play || 'paused'};
     height: 10px;
     width: calc(100% - 12px);
   }

@@ -1,5 +1,4 @@
 import { CC } from '@/styles/commonComponentStyle';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Calendar from './../calendar/Calendar';
 import Image from 'next/image';

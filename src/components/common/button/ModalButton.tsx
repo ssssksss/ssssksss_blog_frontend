@@ -12,62 +12,47 @@ interface IModalButtonProps {
   onClick?: (event: any) => void;
   children: ReactNode;
   disabled?: boolean;
+  w?: string;
+  h?: string;
+  bg?: string;
+  brR?: string;
   color?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   outline?: boolean;
-  w?: string;
-  h?: string;
-  brR?: string;
+  outlineColor?: string;
   fontFamily?: string;
   fontWeight?: number;
+  styleTypes?: number;
+  active?: boolean;
   modal?: ReactNode;
-  modal1W?: string;
-  modal1MaxW?: string;
-  modal1H?: string;
-  overlayVisible?: boolean;
-  bg?: string;
-  btnBg?: string;
+  modalW?: string;
+  modalMinW?: string;
+  modalMaxW?: string;
+  modalH?: string;
+  modalMinH?: string;
+  modalMaxH?: string;
+  modalOverlayVisible?: boolean;
+  modalBg?: string;
   beforeCloseFunction?: ()=>void;
 }
 
 /**
  * @Param onClick = () => void;
  * @Param disable = "true | false"
- * @param overlayVisible
+ * @param modalOverlayVisible
  * @param modal = {모달컴포넌트}
  */
 const ModalButton: IModalButtonProps = ({
   onClick: _onClick,
   onClickCapture: _onClickCapture,
   children,
-  disabled = false,
-  color,
-  size,
-  w,
-  h,
-  maxH,
-  pd,
-  brR,
-  fontFamily, 
-  fw,
-  fontSize,
-  outline,
-  modal,
-  modalW,
-  modal1MaxW,
-  modalH,
-  overlayVisible = false,
-  bg,
-  btnBg,
   ...props
 }: IModalButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (props.disabled) return;
-    if(modal && !isOpen) {
-      // event.preventDefault();
-      // event.stopPropagation();
+    if(props.modal && !isOpen) {
       setIsOpen(true);
       _onClick?.(event);
     };
@@ -75,11 +60,9 @@ const ModalButton: IModalButtonProps = ({
   
   const onClickCapture: MouseEventHandler<HTMLButtonElement> = useCallback(
     event => {
-    // if (props.disabled) return;
-    // event.stopPropagation();
     _onClickCapture?.(event);
   },
-  [_onClickCapture, disabled]
+  [_onClickCapture, props.disabled]
 );
 
 
@@ -91,35 +74,23 @@ const ModalButton: IModalButtonProps = ({
     <ModalButtonStyle
     onClick={onClick} // {onClick}은 위에서 정의한 함수이다.
     onClickCapture={onClickCapture}
-    disabled={disabled}
-    color={color}
-    size={size}
-    width={w}
-    height={h}
-    padding={pd}
-    borderRadius={brR}
-    outline={outline}
-    fontFamily={fontFamily}
-    fontWeight={fw}
-    fontSize={fontSize}
-    background={btnBg ?? bg}
       {...props}
     >
         {children}
-      {isOpen && <Overlay overlayVisible={overlayVisible} onClickCapture={(e) => 
+      {isOpen && <Overlay modalOverlayVisible={props.modalOverlayVisible} onClickCapture={(e) => 
         {
           e.stopPropagation();
           setIsOpen(false);
         }} />}
       {isOpen && (
-        <ModalComponent width={modalW} height={modalH} background={bg} maxH={maxH} maxW={props.modalMaxW}>
+        <ModalComponent width={props.modalW} height={props.modalH} background={props.modalBg} maxH={props.modalMaxH} maxW={props.modalMaxW}>
           <Exit onClickCapture={(e) =>{ 
             e.stopPropagation();
             setIsOpen(false);
           }}>
             <Image src={Icons.ExitIcon} alt="exit" width={"36px"} height={"36px"}/>
           </Exit>
-          {{...modal, props: {...modal.props, "closeModal": ()=>{
+          {{...props.modal, props: {...props.modal.props, "closeModal": ()=>{
             {props.beforeCloseFunction && props.beforeCloseFunction()}
             closeModal();
           }}}}
@@ -131,48 +102,33 @@ const ModalButton: IModalButtonProps = ({
 
 export default React.memo(ModalButton);
 
-const ModalButtonStyle = styled.button<IModalButtonProps>`
-  padding: ${props=>props.padding};
-  border: none;
-  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background};
-  /* background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.theme.main.primary80}; */
-  border-radius: ${props => props.theme.borderRadius.[props.borderRadius] || props.theme.borderRadius.br10};
-  color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
-  font-family: ${props=>props.theme.fontFamily.[props.fontFamily]};
-  font-weight: ${props=>props.fontWeight};
-  font-size: ${props=>props.fontSize};
-  height: ${props => props.height || '24px'};
-  max-width: ${props => props.maxW};
+const ModalButtonStyle = styled(Button)<IModalButtonProps>`
+// ! Button(커스텀태그)에 있는 속성을 상속받아서 사용
+// 외곽 디자인(border-radius, outline, box-shadow) //
+
+// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: relative;
+  max-width: ${props => props.maxW};
+// 배경색(background) //
 
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 
-  &:hover {
-    cursor: pointer;
-  }
-  /* 순서주의 */
-  ${props =>
-    props.disabled &&
-    `
-    cursor: not-allowed;
-    &:hover {
-      box-shadow: none;
-      cursor: not-allowed;  
-    }
-    `}
-  /* 순서주의 */
-  ${props =>
-    props.outline &&
-    `
-    outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
-    background: transparent;
-    `}
-  width: ${props => props.width || 'max-content'};
+// 애니메이션(animation) //
+
+// 이벤트(active, focus, hover, visited, focus-within, disabled) //
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+// 반응형(media-query) //
+// 커스텀(custom css) //
+
 
 `;
-const Overlay = styled.div<{overlayVisible: boolean}>`
-      ${props =>
-    props.overlayVisible &&
+
+
+const Overlay = styled.div<{modalOverlayVisible: boolean}>`
+
+    ${props =>
+    props.modalOverlayVisible &&
     css`
       position: fixed;
       width: 100vw;
@@ -182,42 +138,66 @@ const Overlay = styled.div<{overlayVisible: boolean}>`
       opacity: 0.8;
       border: 0px;
       z-index: 90;
-      background: ${props=>props.overlayVisible && props.theme.colors.gray60};
+      background: ${props.theme.colors.gray60};
     `}
 
 `;
+
 const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, maxH: string, maxW: string }>`
+// 외곽 디자인(border-radius, outline, box-shadow) //
+  border-radius: ${props => props.theme.borderRadius.br10};
+  outline: solid ${props=>props.theme.colors.black80} 2px;
+
+
+// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: fixed;
-  max-height: calc(100% - 80px);
-  max-height: ${props => props.maxH && props.maxH };
   padding-top: 40px;
   top: 50%;
   left: 50%;
   z-index: 100;
+  transform: translate(-50%, -50%);
+  height: ${props => props.height};
+  max-height: ${props => props.maxH || `calc(100% - 80px)` };
+  width: ${props => `calc(${props.width})`};
+  max-width: ${props => props.maxW};
+
+// 배경색(background) //
   background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || props.theme.linearGradientColors.purple40deg70blue40};
-  border-radius: ${props => props.theme.borderRadius.br10};
-  outline: solid ${props=>props.theme.colors.black80} 2px;
+
+// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+
+
+// 애니메이션(animation) //
+
+
+// 이벤트(active, focus, hover, visited, focus-within, disabled) //
+
+
+// 반응형(media-query, overflow, scroll) //
   cursor: default;
   ${props=>props.theme.scroll.hidden};
-  transform: translate(-50%, -50%);
-  
   & > * {
     ${props=>props.theme.scroll.hidden};
   }
-  max-width: ${props => props.maxW};
-  height: ${props => props.height};
-  width: ${props => `calc(${props.width})`};
+
+// 커스텀(custom css) //
+
 `;
 const Exit = styled(CC.RowRightDiv)`
+// 외곽 디자인(border-radius, outline, box-shadow) //
+  outline: solid black 1px;
+  border-radius: 10px 10px 0px 0px;
+// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: absolute;
   top: 0;
   width: 100%;
   height: 40px; 
-  background: ${props=>props.theme.colors.white100};
-    border-radius: 10px 10px 0px 0px;
-  outline: solid black 1px;
   z-index: 20;
-  & img:hover {
-    cursor: pointer
-  }
+// 배경색(background) //
+  background: ${props=>props.theme.colors.white80};
+// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+// 애니메이션(animation) //
+// 이벤트(active, focus, hover, visited, focus-within, disabled) //
+// 반응형(media-query, overflow, scroll) //
+// 커스텀(custom css) //
 `;

@@ -1,5 +1,4 @@
 import { CC } from '@/styles/commonComponentStyle';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@/components/common/button/Button';
 import { Shell } from '@/components/common/shell/Shell';
@@ -19,7 +18,6 @@ import { store } from '@/redux/store';
 import { addDays } from 'date-fns';
 import { DateRangePicker } from 'react-date-range';
 import ko from 'date-fns/locale/ko';
-import Select from '@/components/common/select/Select';
 import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
 import Dropdown from '@/components/common/dropdown/Dropdown';
 import Textarea from '@/components/common/textarea/Textarea';

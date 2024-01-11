@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,7 +23,7 @@ import { AWSS3Prefix } from '@/utils/variables/url';
 import { Input } from '@/components/common/input/Input';
 import { CC } from '@/styles/commonComponentStyle';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 
 /**
@@ -210,7 +209,7 @@ const CreateUpdateBoardContainer = (
               </EditorContainer>
               <EditorFooter>
                 <Button
-                  width="100%"
+                  w={'100%'}
                   outline={true}
                   onClick={() =>
                     props.edit ? updateHandler() : submitHandler()
@@ -218,11 +217,7 @@ const CreateUpdateBoardContainer = (
                 >
                   {props.edit ? '수정' : '제출'}
                 </Button>
-                <Button
-                  width="100%"
-                  outline={true}
-                  onClick={() => router.back()}
-                >
+                <Button w={'100%'} outline={true} onClick={() => router.back()}>
                   취소
                 </Button>
               </EditorFooter>
@@ -256,18 +251,17 @@ const Container = styled.section`
 
 const Title = styled(Input)`
   width: 100%;
-  height: 60px;
+  height: 48px;
   font-family: ${props => props.theme.fontFamily.cookieRunRegular};
   color: ${props => props.theme.colors.black80};
-  padding: 0px 10px;
+  padding: 16px;
   z-index: 3;
   border: none;
-  font-size: 2rem;
+  font-size: 1.6rem;
   border-radius: 0px;
   border-bottom: 2px solid ${props => props.theme.colors.black40};
-
   &::placeholder {
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: ${props => props.theme.colors.black40};
   }
 `;

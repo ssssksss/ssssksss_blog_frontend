@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { Viewer } from '@toast-ui/react-editor';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import Link from 'next/link';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { RootState } from '@/redux/store/reducers';
@@ -44,9 +44,9 @@ const ViewBoardContainer = () => {
     ? 'sort=' + urlQueryObject.sort
     : 'sort=latest';
 
-  const removeHandler = () => {
+  const deleteHandler = () => {
     loadingFunction(
-      BoardAPI.removeBoard({
+      BoardAPI.deleteBoard({
         id: router.query.id,
       })
     ).then(res => {
@@ -73,7 +73,11 @@ const ViewBoardContainer = () => {
       ) : (
         <Container gap={4}>
           <CC.ColumnDiv pd={'0px 8px'} w={'100%'}>
-            <CC.RowDiv pd={'16px 0px 0px 0px'} overflow={'hidden'}>
+            <CC.RowDiv
+              pd={'16px 0px 0px 0px'}
+              h={'max-content'}
+              overflow={'hidden'}
+            >
               <h1> {boardElements?.title} </h1>
             </CC.RowDiv>
             <CC.RowRightDiv gap={4}>
@@ -108,7 +112,7 @@ const ViewBoardContainer = () => {
                 alt=""
                 width={24}
                 height={24}
-                onClick={() => removeHandler()}
+                onClick={() => deleteHandler()}
               />
             )}
             <Link href={`/board?${urlPage}${urlSize}${urlKeyword}${urlSort}`}>
@@ -130,11 +134,14 @@ const Container = styled(CC.ColumnDiv)`
     border-radius: 10px;
   }
   & > div:nth-of-type(1) {
-    height: 120px;
     background: ${props => props.theme.main.contrast};
+    padding: 4px;
 
     & > div:nth-of-type(1) {
       font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+      h1 {
+        padding-top: 2px;
+      }
     }
 
     & > div:nth-of-type(2) {

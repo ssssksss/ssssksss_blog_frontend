@@ -1,15 +1,15 @@
-import React from "react";
-import { useState } from "react";
-import { css, keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
+import React from 'react';
+import { useState } from 'react';
+import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const PortfolioContainer = () => {
-  const [stackItem, setStackItem] = useState("frontend");
+  const [stackItem, setStackItem] = useState('frontend');
 
   return (
     <Container>
       <Title>
-        <TitleIcon rotateAni alt="" src={"/img/stackIcon/shipsteer.svg"} />
+        <TitleIcon rotateAni alt="" src={'/img/stackIcon/shipsteer.svg'} />
         <Water> </Water>
       </Title>
       <Introduction>
@@ -19,14 +19,22 @@ const PortfolioContainer = () => {
         <IntroductionItem> 이메일 : ssssksss@naver.com </IntroductionItem>
         <IntroductionItem>
           깃허브 :
-          <a href="https://github.com/ssssksss" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/ssssksss"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             https://github.com/ssssksss
           </a>
           👈
         </IntroductionItem>
         <IntroductionItem>
           블로그 :
-          <a href="http://blog.ssssksss.xyz" target="_blank" rel="noopener noreferrer">
+          <a
+            href="http://blog.ssssksss.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             blog.ssssksss.xyz
           </a>
           👈
@@ -37,153 +45,177 @@ const PortfolioContainer = () => {
           <h1> 기술/스택 </h1>
         </StackTitle>
         <StackMenu>
-          <StackMenuButton onClick={() => setStackItem("frontend")}>프론트엔드</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("backend")}>백엔드</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("server")}>서버</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("database")}>DB</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('frontend')}>
+            프론트엔드
+          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('backend')}>
+            백엔드
+          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('server')}>
+            서버
+          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('database')}>
+            DB
+          </StackMenuButton>
         </StackMenu>
         <br />
         <StackMenu>
-          <StackMenuButton onClick={() => setStackItem("cicd")}>CI/CD</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("configuration_management")}>형상관리</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("communication_tool")}>협업도구</StackMenuButton>
-          <StackMenuButton onClick={() => setStackItem("etc")}>기타</StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('cicd')}>
+            CI/CD
+          </StackMenuButton>
+          <StackMenuButton
+            onClick={() => setStackItem('configuration_management')}
+          >
+            형상관리
+          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('communication_tool')}>
+            협업도구
+          </StackMenuButton>
+          <StackMenuButton onClick={() => setStackItem('etc')}>
+            기타
+          </StackMenuButton>
         </StackMenu>
         <StackMain>
-          {stackItem === "frontend" && (
+          {stackItem === 'frontend' && (
             <>
               <h2> 프론트엔드 </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/html.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/html.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/css.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/css.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/javascript.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/javascript.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/react.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/react.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/redux.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/redux.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/typescript.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/typescript.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/stylecomponent.svg"} />
+                    <StackImg
+                      alt=""
+                      src={'/img/stackIcon/stylecomponent.svg'}
+                    />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "backend" && (
+          {stackItem === 'backend' && (
             <>
               <h2> 백엔드 </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/java.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/java.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/springboot.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/springboot.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/springsecurity.svg"} />
+                    <StackImg
+                      alt=""
+                      src={'/img/stackIcon/springsecurity.svg'}
+                    />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "server" && (
+          {stackItem === 'server' && (
             <>
               <h2> 서버 </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/linux.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/linux.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/centos.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/centos.svg'} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "database" && (
+          {stackItem === 'database' && (
             <>
               <h2> Database </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/mysql.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/mysql.svg'} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "cicd" && (
+          {stackItem === 'cicd' && (
             <>
               <h2> CICD </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/jenkins.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/jenkins.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/githubaction.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/githubaction.svg'} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "configuration_management" && (
+          {stackItem === 'configuration_management' && (
             <>
               <h2> 형상관리 </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/git.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/git.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/github.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/github.svg'} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "communication_tool" && (
+          {stackItem === 'communication_tool' && (
             <>
               <h2> 협업도구 </h2>
               <StackGrid>
                 <StackGridList>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/figma.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/figma.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/slack.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/slack.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/notion.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/notion.svg'} />
                   </StackItem>
                   <StackItem>
-                    <StackImg alt="" src={"/img/stackIcon/gathertown.svg"} />
+                    <StackImg alt="" src={'/img/stackIcon/gathertown.svg'} />
                   </StackItem>
                 </StackGridList>
                 <StackDescription>설명</StackDescription>
               </StackGrid>
             </>
           )}
-          {stackItem === "etc" && (
+          {stackItem === 'etc' && (
             <>
               <h2> </h2>
               <StackGrid>
@@ -253,14 +285,7 @@ const TitleIcon = styled.img<{ rotateAni: any }>`
   width: 320px;
   height: 320px;
   border-radius: 160px;
-
-  ${(props) => {
-    if (props.rotateAni) {
-      return css`
-        animation: ${rotation} 8s ease-in-out infinite;
-      `;
-    }
-  }}
+  animation: ${props => `${props.rotation} 8s ease-in-out infinite`};
 `;
 const Introduction = styled.div`
   background: white;
@@ -309,7 +334,7 @@ const Stack = styled.div`
   &::-webkit-scrollbar {
     display: none;
   } /* Chrome, Safari, Opera*/
-  font-family: "Cafe24Ssurround";
+  font-family: 'Cafe24Ssurround';
 `;
 const StackTitle = styled.div`
   height: 60px;
@@ -347,7 +372,7 @@ const StackGrid = styled.div`
   display: grid;
   grid-template-columns: 245px calc(100% - 245px);
 
-  @media only screen and (max-width: "1440px") {
+  @media only screen and (max-width: '1440px') {
     grid-template-columns: 205px calc(100% - 205px);
   }
 `;
@@ -357,7 +382,7 @@ const StackGridList = styled.div`
   display: grid;
   grid-template-columns: 100px 100px;
 
-  @media only screen and (max-width: "1440px") {
+  @media only screen and (max-width: '1440px') {
     width: 60px;
     height: 60px;
     grid-template-columns: 80px 80px;
@@ -374,7 +399,7 @@ const StackItem = styled.button`
   align-content: center;
   box-shadow: 0px 4px 2px 2px black, 0px -1px 1px 1px #6f6f6f;
 
-  @media only screen and (max-width: "1440px") {
+  @media only screen and (max-width: '1440px') {
     width: 80px;
     height: 80px;
   }
@@ -383,7 +408,7 @@ const StackImg = styled.img`
   width: 80px;
   height: 80px;
 
-  @media only screen and (max-width: "1440px") {
+  @media only screen and (max-width: '1440px') {
     width: 60px;
     height: 60px;
   }

@@ -1,7 +1,6 @@
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import Animations from '../common/animations/Animations';
-import { css } from '@emotion/react';
 import { Button } from '@/components/common/button/Button';
 import MemoItem from './MemoItem';
 import Image from 'next/image';
@@ -102,9 +101,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
         ))}
         <ModalButton
           modal={<MemoCategoryModal />}
-          btnBg={'gray60'}
-          bg={'primary40'}
-          overlayVisible={true}
+          modalOverlayVisible={true}
           h={'32px'}
           modalW={'50%'}
           modalH={'200%'}

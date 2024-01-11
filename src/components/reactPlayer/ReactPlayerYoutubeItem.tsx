@@ -6,7 +6,6 @@ import Button from '@/components/common/button/Button';
 import { keyframes } from '@emotion/css';
 import { commonTheme } from '@/styles/theme';
 import { animationKeyFrames } from '@/styles/animationKeyFrames';
-import { css } from '@emotion/react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerYoutubeItem.tsx
@@ -92,10 +91,7 @@ export default ReactPlayerYoutubeItem;
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
   animation: ${props =>
-    props.active &&
-    css`
-      ${animationKeyFrames.rainbowColors} 1s infinite
-    `};
+    props.active && `${animationKeyFrames.rainbowColors} 1s infinite`} 
   background: ${commonTheme.linearGradientColors.skyblue};
   z-index: 10;
   height: 60px;

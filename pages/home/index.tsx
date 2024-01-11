@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { Viewer } from '@toast-ui/react-editor';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 /**

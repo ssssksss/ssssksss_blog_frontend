@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { Viewer } from '@toast-ui/react-editor';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import Link from 'next/link';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { RootState } from '@/redux/store/reducers';
@@ -18,7 +18,6 @@ import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import { store } from '@/redux/store';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { AWSS3Prefix } from '@/utils/variables/url';
-import { css } from '@emotion/react';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -52,18 +51,17 @@ const ViewBlogContainer = () => {
   }
   let backUrl = `/blog`;
 
-  const removeHandler = () => {
-    // loadingFunction(
-    //   BlogAPI.removeBlog({
-    //     id: router.query.id,
-    //   })
-    // ).then(res => {
-    //   router.back();
-    // });
+  const deleteHandler = () => {
+    loadingFunction(
+      BlogAPI.deleteBlogPost({
+        id: router.query.id,
+      })
+    ).then(res => {
+      router.back();
+    });
   };
 
   useEffect(() => {
-    console.log('ViewBlogContainer.tsx 파일 : ???');
     loadingFunction(
       BlogAPI.getBlogPost({
         id: router.query.id,
@@ -205,8 +203,8 @@ const ViewBlogContainer = () => {
                   }}
                 >
                   <Image
-                    width={'24px'}
-                    height={'24px'}
+                    width={24}
+                    height={24}
                     alt="blog_index"
                     src={Icons.MenuIcon}
                   />
@@ -223,7 +221,7 @@ const ViewBlogContainer = () => {
                   alt=""
                   width={24}
                   height={24}
-                  onClick={() => removeHandler()}
+                  onClick={() => deleteHandler()}
                 />
               )}
               <Link href={backUrl}>
@@ -314,6 +312,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
     ${props => props.theme.flex.column};
     gap: 20px;
     font-size: ${props => props.theme.calcRem(16)};
+    min-height: calc(100vh - 268px);
 
     h1[data-nodeid] {
       background: ${props => props.theme.main.primary20};
@@ -357,11 +356,8 @@ const ViewerContainer = styled.div<{ icon: any }>`
 
       & > button {
         content: '';
-        ${props =>
-          props.icon &&
-          css`
-            background-image: url('/img/ui-icon/ic-board.svg');
-          `}
+        background-image: ${props =>
+          props.icon && `url('/img/ui-icon/ic-board.svg')`};
         width: 24px;
         aspect-ratio: 1;
         position: absolute;

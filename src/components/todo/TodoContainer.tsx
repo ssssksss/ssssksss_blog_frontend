@@ -1,7 +1,6 @@
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import Animations from '../common/animations/Animations';
-import { css } from '@emotion/react';
 import { Shell } from '@/components/common/shell/Shell';
 import { Button } from '@/components/common/button/Button';
 import Image from 'next/image';
@@ -65,7 +64,7 @@ const TodoContainer = (props: ITodoContainerProps) => {
             modal={<TodoModal />}
             color={'primary80'}
             bg={'primary20'}
-            overlayVisible={true}
+            modalOverlayVisible={true}
             modalW={'50%'}
             w={'24px'}
             h={'24px'}
@@ -88,7 +87,7 @@ const TodoContainer = (props: ITodoContainerProps) => {
             modal={<ScheduleModal />}
             color={'primary80'}
             bg={'primary20'}
-            overlayVisible={true}
+            modalOverlayVisible={true}
             modalW={'50%'}
             w={'24px'}
             h={'24px'}

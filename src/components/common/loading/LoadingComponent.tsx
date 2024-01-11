@@ -2,7 +2,6 @@ import { Spinner1, Spinner34, Spinner37 } from '@/components/spinner/Spinners';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import { inflate } from 'zlib';
-import { css } from '@emotion/react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file LoadingComponent.tsx

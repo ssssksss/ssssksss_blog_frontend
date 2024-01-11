@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -124,7 +123,6 @@ const CUEditor = (props: ICUEditorProps) => {
       })
         .then(response => {
           let res = response.data.data.post;
-          console.log('CUEditor.tsx 파일 : ', res.content);
           setAreaTextContent(res.content);
           setTitle(res.title);
           setDescription(res.description);

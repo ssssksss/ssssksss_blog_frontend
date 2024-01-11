@@ -12,7 +12,7 @@ import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { store } from '@/redux/store';
 import { setAccessToken, setUserInfo } from '@/redux/store/auth';
 import { useEffect } from 'react';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { Spinner1 } from '../spinner/Spinners';
 import { UserAPI } from '@/api/UserAPI';
 
@@ -27,7 +27,7 @@ const TopBar = () => {
   const [isLoading, loadingFunction] = useLoading();
 
   //* 로그아웃 함수
-  const logoutHandler = () => {
+  const signOutHandler = () => {
     (async () => {
       await AxiosInstance({
         url: '/api/user',
@@ -69,50 +69,52 @@ const TopBar = () => {
       ) : (
         <Main>
           <Title> 가출한토토로의 블로그 </Title>
-          <ModalButton h={'100%'}>
-            <Image
-              src={Icons.MailIcon}
-              alt="mail"
-              onClick={() => alert('제작 계획 중')}
-            />
-          </ModalButton>
-          <ModalButton h={'100%'}>
-            <Image
-              src={Icons.AlarmIcon}
-              alt="alarm"
-              onClick={() => alert('제작 계획 중')}
-            />
-          </ModalButton>
-          {useLoading ? (
-            <div>
-              {authStore.email ? (
-                <Button
-                  color={'secondary80'}
-                  outline={'true'}
-                  pd={'4px'}
-                  fontWeight={600}
-                  onClick={() => logoutHandler()}
-                >
-                  로그아웃
-                </Button>
-              ) : (
-                <ModalButton
-                  modal={<AuthModal />}
-                  modalW={'400px'}
-                  w={'80px'}
-                  h={'100%'}
-                  color={'secondary80'}
-                  outline={'true'}
-                  pd={'4px'}
-                  fontWeight={600}
-                >
-                  Login / Sign up
-                </ModalButton>
-              )}
-            </div>
-          ) : (
-            <div> 로딩중 </div>
-          )}
+          <CC.RowDiv gap={8}>
+            <ModalButton h={'100%'}>
+              <Image
+                src={Icons.MailIcon}
+                alt="mail"
+                onClick={() => alert('제작 계획 중')}
+              />
+            </ModalButton>
+            <ModalButton h={'100%'}>
+              <Image
+                src={Icons.AlarmIcon}
+                alt="alarm"
+                onClick={() => alert('제작 계획 중')}
+              />
+            </ModalButton>
+            {useLoading ? (
+              <>
+                {authStore.email ? (
+                  <Button
+                    color={'secondary80'}
+                    outline={'true'}
+                    pd={'4px'}
+                    fontWeight={600}
+                    onClick={() => signOutHandler()}
+                  >
+                    Sign Out
+                  </Button>
+                ) : (
+                  <ModalButton
+                    modal={<AuthModal />}
+                    modalW={'400px'}
+                    w={'max-content'}
+                    h={'100%'}
+                    color={'secondary80'}
+                    outline={'true'}
+                    pd={'4px'}
+                    fontWeight={600}
+                  >
+                    Sign In / Sign up
+                  </ModalButton>
+                )}
+              </>
+            ) : (
+              <div> 로딩중 </div>
+            )}
+          </CC.RowDiv>
         </Main>
       )}
     </Container>
@@ -135,13 +137,13 @@ const Title = styled.h3`
 `;
 
 const Main = styled.div`
-  display: grid;
+  display: flex;
   background: ${props => props.theme.main.contrast};
   height: 44px;
   border-radius: 10px;
   overflow: hidden;
-  grid-template-columns: auto 24px 24px 80px;
   gap: 8px;
   padding: 4px 4px;
   align-items: center;
+  justify-content: space-between;
 `;

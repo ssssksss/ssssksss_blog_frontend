@@ -15,7 +15,7 @@ import { useReducer, useRef, useState } from 'react';
 import { Button } from './../common/button/Button';
 import { useSelector } from 'react-redux';
 import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@/redux/store/blogContentTemplate';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { BlogAPI } from '@/api/BlogAPI';
 import { store } from '@/redux/store';
 import Select from '../common/select/Select';

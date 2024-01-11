@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BoardAPI } from '@/api/BoardAPI';
 import { useRouter } from 'next/router';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { Viewer } from '@toast-ui/react-editor';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 import Link from 'next/link';
@@ -19,6 +19,7 @@ import { RootState } from '@/redux/store/reducers';
 import { useSelector } from 'react-redux';
 import timeFromToday from '@/utils/function/timeFromToday';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
+import Select from '@/components/common/select/Select';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -70,57 +71,53 @@ const Index = () => {
       .catch(err => {});
   }, [router.isReady]);
 
-  const orderRecent = () => {
-    loadingFunction(
-      BoardAPI.getBoardListData({
-        keyword: router.query.keyword,
-        page: router.query.page - 1,
-        size: router.query.size,
-        sort: 'latest',
-      })
-    ).then(res => {
-      setBoardList(res.data.boardList);
-      setBoardCount(res.data.boardCount);
-      const url = `/board?${urlPage}${urlSize}${urlKeyword}${urlSort}`;
-      router.replace(url, '', { shallow: true });
-      urlSort = 'latest';
-    });
-  };
-
-  const orderViews = () => {
-    loadingFunction(
-      BoardAPI.getBoardListData({
-        keyword: router.query.keyword,
-        page: router.query.page - 1,
-        size: router.query.size,
-        sort: 'views',
-      })
-    ).then(res => {
-      setBoardList(res.data.boardList);
-      setBoardCount(res.data.boardCount);
-      const url = `/board?${urlPage}${urlSize}${urlKeyword}sort=views`;
-      router.replace(url, '', { shallow: true });
-      urlSort = 'views';
-    });
-  };
-
-  const orderLikes = () => {
-    alert('현재 DB에 likes 컬럼이 존재하지 않음');
-    return;
-    loadingFunction(
-      BoardAPI.getBoardListData({
-        keyword: router.query.keyword,
-        page: router.query.page - 1,
-        size: router.query.size,
-        sort: 'likes',
-      })
-    ).then(res => {
-      setBoardList(res.data.boardList);
-      setBoardCount(res.data.boardCount);
-      const url = `/board?${urlPage}${urlSize}${urlKeyword}sort=likes`;
-      router.replace(url, '', { shallow: true });
-      urlSort = 'likes';
-    });
+  const orderListHandler = props => {
+    if (props.value == 'viewNumber') {
+      loadingFunction(
+        BoardAPI.getBoardListData({
+          keyword: router.query.keyword,
+          page: router.query.page - 1,
+          size: router.query.size,
+          sort: 'views',
+        })
+      ).then(res => {
+        setBoardList(res.data.boardList);
+        setBoardCount(res.data.boardCount);
+        const url = `/board?${urlPage}${urlSize}${urlKeyword}sort=views`;
+        router.replace(url, '', { shallow: true });
+        urlSort = 'views';
+      });
+    } else if (props.value == 'likeViewNumber') {
+      loadingFunction(
+        BoardAPI.getBoardListData({
+          keyword: router.query.keyword,
+          page: router.query.page - 1,
+          size: router.query.size,
+          sort: 'likes',
+        })
+      ).then(res => {
+        setBoardList(res.data.boardList);
+        setBoardCount(res.data.boardCount);
+        const url = `/board?${urlPage}${urlSize}${urlKeyword}sort=likes`;
+        router.replace(url, '', { shallow: true });
+        urlSort = 'likes';
+      });
+    } else {
+      loadingFunction(
+        BoardAPI.getBoardListData({
+          keyword: router.query.keyword,
+          page: router.query.page - 1,
+          size: router.query.size,
+          sort: 'latest',
+        })
+      ).then(res => {
+        setBoardList(res.data.boardList);
+        setBoardCount(res.data.boardCount);
+        const url = `/board?${urlPage}${urlSize}${urlKeyword}${urlSort}`;
+        router.replace(url, '', { shallow: true });
+        urlSort = 'latest';
+      });
+    }
   };
 
   const changePage = (props: { page: number }) => {
@@ -161,7 +158,7 @@ const Index = () => {
   return (
     <Container>
       <h1> 게시판 </h1>
-      <CC.GridColumn2Adjust second={'130px'} gap={10}>
+      <CC.GridColumn2Adjust second={'160px'} gap={10}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
@@ -186,18 +183,28 @@ const Index = () => {
           >
             검색
           </Button>
-          <Dropdown
-            w={'90px'}
-            outline={true}
-            color={'primary80'}
-            brR={'0px'}
-            bg={'gray20'}
-            menuList={[
-              { name: '최신순', func: () => orderRecent() },
-              { name: '조회수순', func: () => orderViews() },
-              // { name: '좋아요순', func: () => orderLikes() },
+          <Select
+            w={'110px'}
+            defaultValue={{
+              value: '',
+              name: '최신순',
+            }}
+            data={[
+              {
+                value: '',
+                name: '최신순',
+              },
+              {
+                value: 'viewNumber',
+                name: '조회수 순',
+              },
+              {
+                value: 'likeNumber',
+                name: '좋아요 순',
+              },
             ]}
-          ></Dropdown>
+            onChange={orderListHandler}
+          ></Select>
         </CC.RowBetweenDiv>
       </CC.GridColumn2Adjust>
       <SearchNavContainer>
@@ -301,7 +308,7 @@ const SearchResultContainer = styled.div`
 `;
 
 const SearchResult = styled.div`
-  color: ${props => props.theme.colors.black40};
+  color: ${props => props.theme.colors.red80};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

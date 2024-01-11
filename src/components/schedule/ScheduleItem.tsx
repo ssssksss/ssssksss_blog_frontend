@@ -56,7 +56,7 @@ const ScheduleItem = (props: IScheduleItemProps) => {
   return (
     <Container isChecked={props?.data?.isChecked} bg={props?.data?.scheduleCategory?.backgroundColor}
     modal={<ScheduleModal edit={true} data={props?.data} />}
-    overlayVisible={true}
+    modalOverlayVisible={true}
     modalW={'50%'}
     >
       <CategoryName color={'black40'} h={'18px'} fw={true} color={props?.data?.scheduleCategory?.backgroundColor}>

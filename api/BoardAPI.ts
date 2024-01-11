@@ -36,11 +36,11 @@ const getBoard = async (props: { id: number }) => {
   });
 };
 
-const removeBoard = async (props: { id: number }) => {
+const deleteBoard = async (props: { id: number }) => {
   return await ApiProcessHandler({
     url: '/api/board',
     method: 'DELETE',
-    params: {
+    data: {
       id: props.id,
     },
     apiCategory: '게시판',
@@ -50,5 +50,5 @@ const removeBoard = async (props: { id: number }) => {
 export const BoardAPI = {
   getBoardListData,
   getBoard,
-  removeBoard,
+  deleteBoard,
 };

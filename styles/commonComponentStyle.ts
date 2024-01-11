@@ -24,6 +24,7 @@ interface IStyleProps {
   first?: string; // grid 너비 정하는데 사용
   second?: string; // grid 너비 정하는데 사용
   third?: string; // grid 너비 정하는데 사용
+  outlineColor?: string
 }
 
 const propsCommonStyle = (props: any) => css`
@@ -45,10 +46,10 @@ const propsCommonStyle = (props: any) => css`
     props.overflow &&
     css`
         overflow: scroll;
-    `};
-
-    & > h1, h2, h3, span, div{
-  ${
+        `};
+        
+        & > h1, h2, h3, span, div{
+          ${
     props.overflow === 'hidden' &&
     css`
       overflow: hidden;
@@ -59,7 +60,7 @@ const propsCommonStyle = (props: any) => css`
   ${
     props.outline &&
     css`
-      outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
+      outline: inset ${props.theme.colors.[props.outlineColor] || props.theme.main.[props.outlineColor] || props.outlineColor} 1px;
       background: transparent;
     `};
 `;

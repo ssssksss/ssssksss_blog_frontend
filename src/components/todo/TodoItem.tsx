@@ -58,8 +58,9 @@ const TodoItem = (props: ITodoItemProps) => {
       <Title
         isChecked={props?.data?.isChecked}
         modal={<TodoModal edit={true} data={props?.data} />}
-        overlayVisible={true}
+        modalOverlayVisible={true}
         modalW={'50%'}
+        hover={false}
       >
         {props?.data.content}
       </Title>
@@ -76,6 +77,11 @@ const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
   padding: 4px;
   border-radius: 4px;
   gap: 10px;
+
+  &:focus,
+  &:hover {
+    background: ${props => props.theme.main.secondary40};
+  }
 `;
 
 const Title = styled(ModalButton)<{ isChecked: boolean }>`
@@ -84,6 +90,7 @@ const Title = styled(ModalButton)<{ isChecked: boolean }>`
   text-align: left;
   background: none;
   height: max-content;
+  outline: none;
   /* white-space: nowrap; */
   word-break: break-all;
   /* white-space: nowrap; */
@@ -91,9 +98,4 @@ const Title = styled(ModalButton)<{ isChecked: boolean }>`
   /* text-overflow: ellipsis; */
   text-decoration: ${props => props.isChecked && 'line-through'};
   cursor: pointer;
-
-  &:focus,
-  &:hover {
-    outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
-  }
 `;

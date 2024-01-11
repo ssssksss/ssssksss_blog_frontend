@@ -89,7 +89,6 @@ const LoginModal = props => {
   };
 
   const onClickErrorSubmit = () => {
-    console.log('LoginModal.tsx 파일 : ???');
     alert('잘못 입력된 값이 존재합니다.');
   };
 

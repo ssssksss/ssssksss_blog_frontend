@@ -5,7 +5,6 @@ import { CC } from '@/styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
-import { css } from '@emotion/react';
 import { Primary } from './../../stories/Button.stories';
 import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
@@ -57,7 +56,7 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       }
       color={'primary80'}
       bg={'primary20'}
-      overlayVisible={true}
+      modalOverlayVisible={true}
       modalW={'100%'}
       w={'100%'}
     >
@@ -76,6 +75,8 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
 export default CalendarDayItem;
 
 const Container = styled(ModalButton)`
+  width: 100%;
+
   &:not(:has(.todoBar:hover)):hover {
     outline: solid black 2px;
     outline-offset: -2px;

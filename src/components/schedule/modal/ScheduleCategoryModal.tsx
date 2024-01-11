@@ -3,7 +3,6 @@ import { CC } from '@/styles/commonComponentStyle';
 import { Input } from '@/components/common/input/Input';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import Dropdown from '@/components/common/dropdown/Dropdown';

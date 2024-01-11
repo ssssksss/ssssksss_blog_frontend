@@ -4,7 +4,6 @@ import HamburgerMenu from '@/components/common/button/HamburgerMenu';
 import Image from 'next/image';
 import { Icons } from '@/components/common/icons/Icons';
 import { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
 import Animations from '@/components/common/animations/Animations';
 import ReactPlayerContainer from '../reactPlayer/ReactPlayerContainer';
 import { useSelector } from 'react-redux';
@@ -34,7 +33,7 @@ const SideBar = () => {
     [Icons.HomeIcon, '홈', 'home'],
     [Icons.BlogIcon, '블로그', 'blog'],
     [Icons.BoardIcon, '게시판', 'board'],
-    [Icons.WorkListIcon, '할일', 'todo'],
+    // [Icons.WorkListIcon, '할일', 'todo'],
     // [Icons.CalendarIcon, '일정', 'calendar'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
     // [Icons.SettingIcon, '설정', 'setting'],

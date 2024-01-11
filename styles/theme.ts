@@ -49,164 +49,66 @@ const deviceSizes = {
 // 버튼은 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const btnSizes = {
   xs: {
-    width: '100%',
     height: '16px',
     borderRadius: borderRadius.br4,
   },
   sm: {
-    width: '100%',
-    height: '20px',
-    borderRadius: borderRadius.br10,
-  },
-  md: {
-    width: '100%',
     height: '24px',
     borderRadius: borderRadius.br10,
   },
-  lg: {
-    width: '100%',
+  md: {
     height: '32px',
     borderRadius: borderRadius.br10,
   },
-  xl: {
-    width: '100%',
+  lg: {
     height: '40px',
+    borderRadius: borderRadius.br10,
+  },
+  xl: {
+    height: '48px',
     borderRadius: borderRadius.br16,
   },
 };
 
 // 인풋도 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const inputSizes = {
-  text: {
+  [('text', 'password', 'email', 'search')]: {
     xs: {
-      width: '100%',
       height: '16px',
     },
     sm: {
-      width: '100%',
-      height: '20px',
-    },
-    md: {
-      width: '100%',
       height: '24px',
     },
-    lg: {
-      width: '100%',
-      height: '32px',
-    },
-    xl: {
-      width: '100%',
-      height: '40px',
-    },
-  },
-  password: {
-    xs: {
-      width: '100%',
-      height: '16px',
-    },
-    sm: {
-      width: '100%',
-      height: '20px',
-    },
     md: {
-      width: '100%',
-      height: '24px',
-    },
-    lg: {
-      width: '100%',
       height: '32px',
     },
-    xl: {
-      width: '100%',
-      height: '40px',
-    },
-  },
-  email: {
-    xs: {
-      width: '100%',
-      height: '16px',
-    },
-    sm: {
-      width: '100%',
-      height: '20px',
-    },
-    md: {
-      width: '100%',
-      height: '24px',
-    },
     lg: {
-      width: '100%',
-      height: '32px',
-    },
-    xl: {
-      width: '100%',
       height: '40px',
     },
-  },
-  search: {
-    xs: {
-      width: '100%',
-      height: '16px',
-    },
-    sm: {
-      width: '100%',
-      height: '20px',
-    },
-    md: {
-      width: '100%',
-      height: '24px',
-    },
-    lg: {
-      width: '100%',
-      height: '32px',
-    },
     xl: {
-      width: '100%',
-      height: '40px',
+      height: '48px',
     },
   },
-  radio: {
+  [('radio', 'checkbox')]: {
     xs: {
       width: '16px',
-      height: '16px',
+      ['aspect-ratio']: 1,
     },
     sm: {
       width: '20px',
-      height: '20px',
+      ['aspect-ratio']: 1,
     },
     md: {
       width: '24px',
-      height: '24px',
+      ['aspect-ratio']: 1,
     },
     lg: {
-      width: '32px',
-      height: '32px',
+      width: '28px',
+      ['aspect-ratio']: 1,
     },
     xl: {
-      width: '40px',
-      height: '40px',
-    },
-  },
-  checkbox: {
-    xs: {
-      width: '16px',
-      height: '16px',
-    },
-    sm: {
-      width: '20px',
-      height: '20px',
-    },
-    md: {
-      width: '24px',
-      height: '24px',
-    },
-    lg: {
       width: '32px',
-      height: '32px',
-    },
-    xl: {
-      width: '40px',
-      height: '40px',
+      ['aspect-ratio']: 1,
     },
   },
 };

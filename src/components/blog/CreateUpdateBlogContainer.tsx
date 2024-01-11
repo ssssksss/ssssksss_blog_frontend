@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -23,7 +22,7 @@ import { AWSS3Prefix } from '@/utils/variables/url';
 import { Input } from '@/components/common/input/Input';
 import { CC } from '@/styles/commonComponentStyle';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 import Select from '@/components/common/select/Select';
 import Image from 'next/image';
@@ -71,8 +70,14 @@ const CreateUpdateBlogContainer = (
   const [categoryList, setCategoryList] = useState({});
   const [firstCategoryList, setFirstCategoryList] = useState([]);
   const [secondCategoryList, setSecondCategoryList] = useState([]);
-  const [firstCategoryId, setFirstCategoryId] = useState('');
-  const [secondCategoryId, setSecondCategoryId] = useState('');
+  const [firstCategory, setFirstCategory] = useState({
+    id: '',
+    name: '',
+  });
+  const [secondCategory, setSecondCategory] = useState({
+    id: '',
+    name: '',
+  });
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
@@ -120,7 +125,8 @@ const CreateUpdateBlogContainer = (
       !firstCategoryRef.current.value ||
       !secondCategoryRef.current.value ||
       !title ||
-      !description
+      !description ||
+      !getContent_md
     ) {
       alert('값이 비어있음');
       return;
@@ -148,7 +154,9 @@ const CreateUpdateBlogContainer = (
       })
     )
       .then(res => {
-        router.replace(`/blog/${res.data.id}`);
+        router.replace(`/blog/${res.data.id}`, `/blog/${res.data.id}`, {
+          shallow: true,
+        });
       })
       .catch(error => {
         console.log('CreateUpdateBlogContainer.tsx 파일 : ', error);
@@ -172,7 +180,8 @@ const CreateUpdateBlogContainer = (
       !firstCategoryRef.current.value ||
       !secondCategoryRef.current.value ||
       !title ||
-      !description
+      !description ||
+      !getContent_md
     ) {
       alert('값이 비어있음');
       return;
@@ -216,11 +225,49 @@ const CreateUpdateBlogContainer = (
       });
   };
 
-  const onChangeFirstCategoryHandler = async () => {
-    await categoryList
-      .filter(i => i[1].id === firstCategoryRef.current.value)
-      .map(i => {
-        if (i[1].categoryList[0].id === null) {
+  const onChangeFirstCategoryHandler = async props => {
+    setFirstCategory({
+      id: props.value,
+      name: props.name,
+    });
+    categoryList
+      .filter(i => i.id == props.value)
+      .map(j => {
+        setSecondCategory({
+          id: j.secondCategoryList[0]?.id,
+          name: j.secondCategoryList[0]?.name,
+        });
+        secondCategoryRef.current = {
+          value: j.secondCategoryList[0]?.id,
+          name: j.secondCategoryList[0]?.name,
+        };
+        if (j.secondCategoryList.length > 0) {
+          // 2번째 카테고리가 1개라도 있다면
+          setTitle(
+            '[' +
+              j.secondCategoryList[0]?.name.toUpperCase() +
+              '] ' +
+              title?.substr(title.indexOf(']') + 1, title.length).trim()
+          );
+          setSecondCategoryList(
+            j.secondCategoryList.map(k => ({
+              id: k.id,
+              name: k.name,
+            }))
+          );
+          setDefaultImageUrl(j.secondCategoryList[0].thumbnailImageUrl);
+          // secondCategoryRef.current = {
+          //   id: j.secondCategoryList[0]?.id,
+          //   name: j.secondCategoryList[0]?.name,
+          // };
+          BlogAPI.getBlogContentTemplate({
+            secondCategoryId: j.secondCategoryList[0].id,
+          }).then(res => {
+            store.dispatch(
+              SET_BLOG_CONTENT_TEMPLATE_LIST(res.data?.blogContentTemplateList)
+            );
+          });
+        } else {
           setSecondCategoryList([]);
           setDefaultImageUrl('');
           setTitle(
@@ -228,44 +275,29 @@ const CreateUpdateBlogContainer = (
               '] ' +
               title?.substr(title.indexOf(']') + 1, title.length).trim()
           );
-          secondCategoryRef.current.setAttribute('disabled', 'true');
-          secondCategoryRef.current.value = undefined;
-        } else {
-          setSecondCategoryList(i[1].categoryList);
-          secondCategoryRef.current.removeAttribute('disabled');
-          secondCategoryRef.current.value = i[1].categoryList[0].id;
-          setTitle(
-            '[' +
-              i[1].categoryList[0].name.toUpperCase() +
-              '] ' +
-              title?.substr(title.indexOf(']') + 1, title.length).trim()
-          );
-          setDefaultImageUrl(i[1].categoryList[0].thumbnailImageUrl);
-          BlogAPI.getBlogContentTemplate({
-            secondCategoryId: i[1].categoryList[0].id,
-          }).then(res => {
-            store.dispatch(
-              SET_BLOG_CONTENT_TEMPLATE_LIST(res.data?.blogContentTemplateList)
-            );
-          });
+          store.dispatch(SET_BLOG_CONTENT_TEMPLATE_LIST([]));
         }
       });
   };
 
-  const onChangeSecondCategoryHandler = () => {
-    if (secondCategoryRef.current?.value) {
+  const onChangeSecondCategoryHandler = props => {
+    if (props.value) {
+      setSecondCategory({
+        id: props.value,
+        name: props.name,
+      });
       BlogAPI.getBlogContentTemplate({
-        secondCategoryId: secondCategoryRef.current.value,
+        secondCategoryId: props.value,
       }).then(res => {
         store.dispatch(
           SET_BLOG_CONTENT_TEMPLATE_LIST(res.data?.blogContentTemplateList)
         );
       });
       categoryList
-        .filter(i => i[1].id === firstCategoryRef.current.value)
+        .filter(i => i.id == firstCategory.id)
         .map(i => {
-          i[1].categoryList.map(j => {
-            if (j.id === secondCategoryRef.current.value) {
+          i.secondCategoryList.map(j => {
+            if (j.id == props.value) {
               setDefaultImageUrl(j.thumbnailImageUrl);
               setTitle(
                 '[' +
@@ -280,7 +312,8 @@ const CreateUpdateBlogContainer = (
   };
 
   useEffect(async () => {
-    let categoryListTemp;
+    let _categoryListTemp = [];
+    let _firstCategoryListTemp = [];
     let stop;
     await loadingFunction(BlogAPI.getCategoryList())
       .then(res => {
@@ -288,11 +321,19 @@ const CreateUpdateBlogContainer = (
           alert('카테고리를 먼저 생성하세요');
           router.back();
         }
-        categoryListTemp = res.data;
-        setCategoryList(Object.entries(res.data)?.map(i => i));
-        setFirstCategoryList(
-          Object.entries(res.data)?.map(i => [i[0], i[1].id])
-        );
+        Object.entries(res.data)?.map(i => {
+          _firstCategoryListTemp.push({
+            id: i[1].id,
+            name: i[0],
+          });
+          _categoryListTemp.push({
+            id: i[1].id,
+            name: i[0],
+            secondCategoryList: i[1].categoryList,
+          });
+        });
+        setFirstCategoryList(_firstCategoryListTemp);
+        setCategoryList(_categoryListTemp);
       })
       .catch(err => {
         console.log('CreateUpdateBlogContainer.tsx 파일 : ', err);
@@ -309,28 +350,54 @@ const CreateUpdateBlogContainer = (
           id: router.query.id,
         })
       ).then(res => {
-        Object.entries(categoryListTemp)?.map(([key, value], index) => {
-          if (Number(value.id) === res.data.blogItem.blogDao.firstCategoryId) {
-            setSecondCategoryList(value.categoryList);
+        let _data: {
+          id: number;
+          firstCategoryId: number;
+          secondCategoryId: number;
+          title: string;
+        } = res.data.blogItem.blogDao;
+
+        _categoryListTemp.map(i => {
+          if (i.id == _data.firstCategoryId) {
+            setFirstCategory({
+              id: i.id,
+              name: i.name,
+            });
+            firstCategoryRef.current = {
+              value: i.id,
+              name: i.name,
+            };
+            setSecondCategory({
+              id: i.secondCategoryList[0]?.id,
+              name: i.secondCategoryList[0]?.name,
+            });
+            setSecondCategoryList(
+              i.secondCategoryList.map(j => ({
+                id: j.id,
+                name: j.name,
+              }))
+            );
+            secondCategoryRef.current = {
+              value: i.secondCategoryList[0]?.id,
+              name: i.secondCategoryList[0]?.name,
+            };
+            setTitle(_data.title);
+            setDescription(_data.description);
+            setDefaultImageUrl(_data.thumbnailImageUrl);
           }
         });
-        setFirstCategoryId(Number(res.data.blogItem.blogDao.firstCategoryId));
-        setSecondCategoryId(Number(res.data.blogItem.blogDao.secondCategoryId));
-        setTitle(res.data.blogItem.blogDao.title);
-        setDescription(res.data.blogItem.blogDao.description);
-        setDefaultImageUrl(res.data.blogItem.blogDao.thumbnailImageUrl);
         const viewerInstance = editorRef.current?.getInstance();
         viewerInstance?.setMarkdown(res.data.blogItem.content);
 
         BlogAPI.getBlogContentTemplate({
-          secondCategoryId: res.data.blogItem.blogDao.secondCategoryId,
+          secondCategoryId: _data.secondCategoryId,
         }).then(res => {
           store.dispatch(
             SET_BLOG_CONTENT_TEMPLATE_LIST(res.data?.blogContentTemplateList)
           );
         });
 
-        let temp = [];
+        let _blogContentImageList = [];
         let index2 = 0;
         /**
          * 블로그 글 내용에서 AWS경로Prefix를 찾고 확장자명 앞에 있는 .을 기준으로 bucket에 저장된 이미지 경로들을 추출
@@ -350,35 +417,9 @@ const CreateUpdateBlogContainer = (
             )
           );
         }
-        setBlogContentImageList(temp);
+        setBlogContentImageList(_blogContentImageList);
       });
-    } else {
-      firstCategoryRef.current?.focus();
     }
-
-    // 이거 지워도 될것 같은데...
-    // if (secondCategoryRef.current.value) {
-    //   BlogAPI.getBlogContentTemplate({
-    //     secondCategoryId: secondCategoryRef.current.value,
-    //   }).then(res => {
-    //     store.dispatch(
-    //       SET_BLOG_CONTENT_TEMPLATE_LIST(res.data?.blogContentTemplateList)
-    //     );
-    //   });
-    // }
-
-    // toast UI 에서 blob 형태로 이미지를 넣게 되면 preview에서 경로를 인식하지 못해 이미지가 나타나지 않는다.
-    // 그래서 preview를 볼 경우 blog 객체 이미지들의 경로 앞에 blob:를 붙여서 보게한다.
-    // document
-    //   .querySelector('div[aria-label=Preview]')
-    //   .addEventListener('click', () => {
-    //     let toastUIPreviewBlobImages = window.document.querySelectorAll(
-    //       "img[src^='" + window.location.origin + "']"
-    //     );
-    //     toastUIPreviewBlobImages.forEach(i => {
-    //       i.setAttribute('src', 'blob:' + i.src);
-    //     });
-    //   });
 
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
@@ -417,47 +458,34 @@ const CreateUpdateBlogContainer = (
                 </Button>
                 <HideContainer isHide={isHideContainer}>
                   <CC.RowBetweenDiv gap={8}>
-                    {firstCategoryList !== null && (
-                      <Select
-                        id={'firstCategory'}
-                        ref={firstCategoryRef}
-                        onChange={() => onChangeFirstCategoryHandler()}
-                        bg={'contrast'}
-                        color={'black80'}
-                        focus={true}
-                        selected={true}
-                      >
-                        <option value={''} selected={!props.edit} disabled>
-                          1번째 카테고리
-                        </option>
-                        {firstCategoryList?.map(i => (
-                          <option
-                            value={i[1]}
-                            selected={i[1] == firstCategoryId}
-                          >
-                            {i[0]}
-                          </option>
-                        ))}
-                      </Select>
-                    )}
                     <Select
+                      w={'100%'}
+                      ref={firstCategoryRef}
+                      placeholder={'1번째 카테고리'}
+                      onChange={onChangeFirstCategoryHandler}
+                      defaultValue={{
+                        value: firstCategory?.id,
+                        name: firstCategory?.name,
+                      }}
+                      data={firstCategoryList.map(i => ({
+                        value: i.id,
+                        name: i.name,
+                      }))}
+                    ></Select>
+                    <Select
+                      w={'100%'}
                       ref={secondCategoryRef}
-                      onChange={() => onChangeSecondCategoryHandler()}
-                      bg={'contrast'}
-                      color={'black80'}
-                    >
-                      <option selected={!props.edit} disabled>
-                        2번째 카테고리
-                      </option>
-                      {secondCategoryList?.map(i => (
-                        <option
-                          value={i?.id}
-                          selected={i.id == secondCategoryId}
-                        >
-                          {i?.name}
-                        </option>
-                      ))}
-                    </Select>
+                      placeholder={'2번째 카테고리'}
+                      onChange={onChangeSecondCategoryHandler}
+                      defaultValue={{
+                        value: secondCategory?.id,
+                        name: secondCategory?.name,
+                      }}
+                      data={secondCategoryList.map(i => ({
+                        value: i.id,
+                        name: i.name,
+                      }))}
+                    ></Select>
                   </CC.RowBetweenDiv>
                   <Title
                     placeholder="제목을 입력해주세요"
@@ -535,8 +563,7 @@ const CreateUpdateBlogContainer = (
               </EditorContainer>
               <EditorFooter>
                 <Button
-                  h={'32px'}
-                  width="100%"
+                  w={'100%'}
                   outline={true}
                   onClick={() =>
                     props.edit ? updateHandler() : submitHandler()
@@ -544,12 +571,7 @@ const CreateUpdateBlogContainer = (
                 >
                   {props.edit ? '수정' : '제출'}
                 </Button>
-                <Button
-                  h={'32px'}
-                  width="100%"
-                  outline={true}
-                  onClick={() => router.back()}
-                >
+                <Button w={'100%'} outline={true} onClick={() => router.back()}>
                   취소
                 </Button>
               </EditorFooter>
@@ -563,7 +585,7 @@ const CreateUpdateBlogContainer = (
                       secondCategoryId={secondCategoryRef.current?.value}
                     />
                   }
-                  overlayVisible={true}
+                  modalOverlayVisible={true}
                   modalW={'80%'}
                   bg={'contrast'}
                 >
@@ -645,13 +667,13 @@ const CreateUpdateBlogContainer = (
               <Iframe
                 hide={isHideBrowser}
                 src={'https://www.bing.com/'}
-                name={'cocojuan'}
-                id={'cocojuan'}
+                name={''}
+                id={''}
                 frameBorder={'1'}
                 scrolLing={'yes'}
                 aligh={'middle'}
               >
-                iframe이 있어던 자리 입니다
+                iframe이 있었던 자리 입니다
               </Iframe>
             </Container>
           )}
@@ -733,20 +755,6 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
       padding: 2px;
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-
-      &:hover::before {
-        content: '';
-        ${props =>
-          props.icon &&
-          css`
-            background-image: url('/img/ui-icon/ic-board.svg');
-          `}
-        width: 24px;
-        aspect-ratio: 1;
-        position: absolute;
-        right: 4px;
-        top: 4px;
-      }
     }
 
     th {
@@ -889,7 +897,6 @@ const BlogItemContentFormButton = styled.button`
 const Description = styled(Input)`
   --font-size: 1.4rem;
   width: 100%;
-  height: 30px;
   font-family: ${props => props.theme.fontFamily.cookieRunRegular};
   font-size: var(--font-size);
   color: ${props => props.theme.colors.black60};

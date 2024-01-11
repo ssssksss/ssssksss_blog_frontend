@@ -11,7 +11,7 @@ import { CC } from '@/styles/commonComponentStyle';
 const NavBar = ({ children }) => {
   return (
     <Container id="nav">
-      <SideBar></SideBar>
+      <SideBar />
       <CC.ColumnDiv w={'100%'} padding={'4px'}>
         <TopBar></TopBar>
         <Main>{children}</Main>

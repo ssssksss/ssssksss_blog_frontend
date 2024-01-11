@@ -1,5 +1,4 @@
 import { CC } from '@/styles/commonComponentStyle';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@/components/common/button/Button';
 import { Shell } from '@/components/common/shell/Shell';

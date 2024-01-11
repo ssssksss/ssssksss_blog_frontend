@@ -115,7 +115,7 @@ const MemoItem = (props: IMemoItemProps) => {
           <CC.RowCenterDiv> {props.data?.memoCategory.name || "메모 작성"} </CC.RowCenterDiv>
           {
             props.data && 
-            <Button className={'deleteIcon'} onClick={()=> deleteMemoHandler()}>
+            <Button className={'deleteIcon'} onClick={()=> deleteMemoHandler()} bg={"transparent"} hover={false}>
             <Image src={Icons.ExitIcon} weight={20} height={20} alt="" />
           </Button>
           }

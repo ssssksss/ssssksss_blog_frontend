@@ -3,7 +3,7 @@ interface ICreateFirstCategoryHandlerProps {
   href: string;
 }
 
-interface IRemoveFirstCategoryHandlerProps {
+interface IDeleteFirstCategoryHandlerProps {
   href: string;
 }
 
@@ -18,15 +18,15 @@ interface IUpdateSecondCategoryHandlerProps {
   id: number;
 }
 
-interface IRemoveSecondCategoryHandlerProps {
+interface IDeleteSecondCategoryHandlerProps {
   id: number;
   name: string;
 }
 
 export const BlogAPIType = {
   ICreateFirstCategoryHandlerProps,
-  IRemoveFirstCategoryHandlerProps,
+  IDeleteFirstCategoryHandlerProps,
   ICreateSecondCategoryHandlerProps,
   IUpdateSecondCategoryHandlerProps,
-  IRemoveSecondCategoryHandlerProps,
+  IDeleteSecondCategoryHandlerProps,
 };
