@@ -13,9 +13,9 @@ import { AnyAction } from 'redux';
 import { store } from '@/redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Select from '../select/Select';
+import Select from '../common/select/Select';
 import { BlogAPI } from '@/api/BlogAPI';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { ImageAPI } from '@/api/ImageAPI';
 import { useSelector } from 'react-redux';
 import { SET_SECOND_CATEGORY_LIST } from '@/redux/store/blog';
@@ -45,23 +45,17 @@ const BlogSecondaryCategoryModal = (props: { closeModal: () => void }) => {
 
   const createSecondCategoryHandler = (data: any) => {
     const { ...params } = data;
-
+    s;
     loadingFunction(
       BlogAPI.addSecondCategory({
         name: params.createSecondCategoryName,
-        firstCategoryId: blogStore.firstCategoryId,
+        secondCategoryId: blogStore.secondCategoryId,
         files: fileRef.current.files[0],
-        directory: `/blog-category/${blogStore.firstCategoryId}/${params.createSecondCategoryName}`,
+        directory: `/blog-category/${blogStore.secondCategoryId}/${params.createSecondCategoryName}`,
       })
     ).then(async res => {
       // 부모에있는 state 값 변경
       let temp = res.data.createBlogSecondCategory;
-      // {
-      //   blogFirstcategory: {},
-      //   id: 2,
-      //   name: "html"
-      //   userId: 13,h
-      // }
       store.dispatch(
         SET_SECOND_CATEGORY_LIST([...blogStore.secondCategoryList, temp])
       );
@@ -84,7 +78,7 @@ const BlogSecondaryCategoryModal = (props: { closeModal: () => void }) => {
         id: selectUpdateRef.current.value,
         name: params.updateSecondCategoryName || _secondCategoryName,
         files: fileRef.current.files[0],
-        directory: `/blog-category/${blogStore.firstCategoryId}/${
+        directory: `/blog-category/${blogStore.secondCategoryId}/${
           params.createSecondCategoryName || _secondCategoryName
         }`,
       })
@@ -186,7 +180,7 @@ const BlogSecondaryCategoryModal = (props: { closeModal: () => void }) => {
             <CC.ColumnDiv gap={28}>
               <Input
                 styleTypes={1}
-                value={blogStore.firstCategoryName}
+                value={blogStore.secondCategoryName}
                 disabled={true}
               />
               <Input
@@ -230,7 +224,7 @@ const BlogSecondaryCategoryModal = (props: { closeModal: () => void }) => {
               <CC.ColumnDiv gap={28}>
                 <Input
                   styleTypes={1}
-                  value={blogStore.firstCategoryName}
+                  value={blogStore.secondCategoryName}
                   disabled={true}
                 />
                 <Select
@@ -356,10 +350,6 @@ const Container = styled(CC.ColumnDiv)`
   font-size: 1.2rem;
   max-width: 600px;
   margin: auto;
-  /* 
-  @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
-    ${props => props.theme.flex.row._};
-  } */
 `;
 
 const BlogCategoryBox = styled(CC.ColumnBetweenDiv)`

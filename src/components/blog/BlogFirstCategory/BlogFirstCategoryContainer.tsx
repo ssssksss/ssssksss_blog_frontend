@@ -6,17 +6,17 @@ import Image from 'next/image';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import { overflowHoverVerticalScroll } from '@/styles/themeOverrideStyle';
 import ModalButton from '@/components/common/button/ModalButton';
-import BlogFirstCategoryModal from '@/components/common/modal/BlogFirstCategoryModal';
-import BlogSecondaryCategoryModal from '@/components/common/modal/BlogSecondaryCategoryModal';
+import BlogFirstCategoryModal from '@/components/blog/BlogFirstCategory/BlogFirstCategoryModal';
+import BlogSecondaryCategoryModal from '@/components/blog/BlogSecondaryCategoryModal';
 import { Icons } from '@/components/common/icons/Icons';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { store } from '@/redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import { BlogAPI } from '@/api/BlogAPI';
-import { Spinner1 } from '../spinner/Spinners';
-import BlogSecondCategoryContainer from './BlogSecondCategoryContainer';
+import { Spinner1 } from '../../spinner/Spinners';
+import BlogSecondCategoryContainer from '../BlogSecondCategory/BlogSecondCategoryContainer';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
@@ -101,10 +101,11 @@ const BlogFirstCategoryContainer = () => {
           {blogStore.firstCategoryList?.map((i, index) => (
             <Button
               key={i.id}
-              bg={'primary80'}
               onClick={e => activeFirstCategoryHandler(i.id, i.name, index)}
               active={i.id === activeFirstCategory}
               index={index}
+              bg={'gray80'}
+              color={'contrast'}
             >
               {i.name}
             </Button>
@@ -113,10 +114,9 @@ const BlogFirstCategoryContainer = () => {
             authStore.id == blogStore.firstCategoryList[0]?.userId && (
               <ModalButton
                 color={'primary80'}
-                outline={true}
                 modal={<BlogFirstCategoryModal />}
-                overlayVisible={true}
-                modalW={'80%'}
+                modalOverlayVisible={true}
+                modalW={'300px'}
               >
                 <Image src={Icons.SettingIcon} alt="" />
               </ModalButton>
@@ -146,9 +146,6 @@ const BlogCategoryBarContainer1 = styled(overflowHoverVerticalScroll)`
   overflow-y: hidden;
   padding: 10px 4px;
   height: 60px;
-  & > button {
-    color: ${props => props.theme.main.contrast};
-  }
 
   & > button {
     flex: 0 0 auto;

@@ -28,7 +28,7 @@ const getFirstCategory = async () => {
 };
 
 const updateFirstCategory = async (
-  props: BlogAPIType.IRemoveFirstCategoryHandlerProps
+  props: BlogAPIType.IDeleteFirstCategoryHandlerProps
 ) => {
   return await ApiProcessHandler({
     url: '/api/blog-first-category',
@@ -42,8 +42,8 @@ const updateFirstCategory = async (
   });
 };
 
-const removeFirstCategory = async (
-  props: BlogAPIType.IRemoveFirstCategoryHandlerProps
+const deleteFirstCategory = async (
+  props: BlogAPIType.IDeleteFirstCategoryHandlerProps
 ) => {
   return await ApiProcessHandler({
     url: '/api/blog-first-category',
@@ -97,7 +97,6 @@ const updateSecondCategory = async (
   formData.append('name', props.name);
   formData.append('files', props.files);
   formData.append('directory', props.directory);
-  console.log('BlogAPI.ts 파일 : ', props.files);
 
   return await ApiProcessHandler({
     url: '/api/blog-second-category',
@@ -112,8 +111,8 @@ const updateSecondCategory = async (
   });
 };
 
-const removeSecondCategory = async (
-  props: BlogAPIType.IRemoveSecondCategoryHandlerProps
+const deleteSecondCategory = async (
+  props: BlogAPIType.IDeleteSecondCategoryHandlerProps
 ) => {
   return await ApiProcessHandler({
     url: '/api/blog-second-category',
@@ -184,8 +183,8 @@ const updateBlogPost = async (props: string) => {
   formData.append('thumbnailImageFile', props.thumbnailImageFile);
   formData.append('directory', props.S3directory);
 
-  props.removeImageBucketDirectory?.map(i => {
-    formData.append('removeImageBucketDirectory', i);
+  props.deleteImageBucketDirectory?.map(i => {
+    formData.append('deleteImageBucketDirectory', i);
   });
 
   props.imageUrlList?.map(i => {
@@ -204,6 +203,16 @@ const updateBlogPost = async (props: string) => {
       'Access-Control-Allow-Origin': '*',
     },
     data: formData,
+  });
+};
+
+const deleteBlogPost = async (props: { id: string }) => {
+  return await ApiProcessHandler({
+    url: '/api/blog',
+    method: 'DELETE',
+    data: {
+      id: props.id,
+    },
   });
 };
 
@@ -252,7 +261,7 @@ const getBlogContentTemplate = async (props: string) => {
   });
 };
 
-const removeBlogContentTemplate = async (props: string) => {
+const deleteBlogContentTemplate = async (props: string) => {
   return await ApiProcessHandler({
     url: '/api/blog/template',
     method: 'DELETE',
@@ -268,18 +277,19 @@ export const BlogAPI = {
   addFirstCategory,
   getFirstCategory,
   updateFirstCategory,
-  removeFirstCategory,
+  deleteFirstCategory,
   addSecondCategory,
   getSecondCategory,
   updateSecondCategory,
-  removeSecondCategory,
+  deleteSecondCategory,
   getCategoryList,
   addBlogPost,
   getBlogPost,
+  deleteBlogPost,
   updateBlogPost,
   getBlogPostList,
   addBlogContentTemplate,
-  removeBlogContentTemplate,
+  deleteBlogContentTemplate,
   getBlogContentTemplate,
   getSearchBlogPostList,
 };

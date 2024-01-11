@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import Button from '../common/button/Button';
-import ModalButton from '../common/button/ModalButton';
+import Button from '../../common/button/Button';
+import ModalButton from '../../common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
-import BlogSecondaryCategoryModal from '../common/modal/BlogSecondaryCategoryModal';
+import BlogSecondCategoryModal from './BlogSecondCategoryModal';
 import { CC } from '@/styles/commonComponentStyle';
 import { useEffect, useState } from 'react';
-import useLoading from '@/src/hooks/useLoading';
-import { Spinner1 } from '../spinner/Spinners';
+import { useLoading } from '@/src/hooks/useLoading';
+import { Spinner1 } from '../../spinner/Spinners';
 import { BlogAPI } from '@/api/BlogAPI';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -116,7 +116,7 @@ const BlogSecondCategoryContainer = () => {
         blogStore.secondCategoryList?.map(i => (
           <Button
             key={i.id}
-            bg={'secondary80'}
+            bg={'gray80'}
             onClick={() => activeSecondCategoryHandler(i.id, i.name)}
             active={String(i.id) === String(activeSecondCategory)}
           >
@@ -127,10 +127,10 @@ const BlogSecondCategoryContainer = () => {
       {authStore.id &&
         authStore.id == blogStore.firstCategoryList[0]?.userId && (
           <ModalButton
-            color={'secondary80'}
             outline={true}
+            modalW={'300px'}
             modal={
-              <BlogSecondaryCategoryModal
+              <BlogSecondCategoryModal
                 secondCategoryListUpdateHandler={
                   secondCategoryListUpdateHandler
                 }
@@ -138,7 +138,7 @@ const BlogSecondCategoryContainer = () => {
                 firstCategoryId={blogStore.firstCategoryId}
               />
             }
-            overlayVisible={true}
+            modalOverlayVisible={true}
             w={'36px'}
           >
             <span style={{ fontSize: '28px' }}>

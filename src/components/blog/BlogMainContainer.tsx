@@ -6,16 +6,18 @@ import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
 import Button from '../common/button/Button';
 import Dropdown from '../common/dropdown/Dropdown';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Input } from '@/components/common/input/Input';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { BlogAPI } from '@/api/BlogAPI';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import BlogItem from './BlogItem';
 import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
 import { store } from '@/redux/store';
+import Select from '@/components/common/select/Select';
+import { IconsSvg } from '../common/icons/IconsSvg';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogMainContainer.tsx
@@ -29,48 +31,32 @@ const BlogMainContainer = () => {
   const router = useRouter();
   const [isLoading, loadingFunction] = useLoading();
   const [blogOrderListOption, setBlogOrderListOption] = useState();
+  const mainContainerRef = useRef<null>();
 
-  const orderRecentBlogPostList = () => {
+  const orderBlogListHandler = (data: any) => {
     if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
     loadingFunction(
       BlogAPI.getBlogPostList({
         secondCategoryId: blogStore.secondCategoryId,
+        sort: data.value,
       })
     )
       .then(res => {
         store.dispatch(SET_BLOG_POST_LIST(res.data.blogList));
       })
-      .catch(err => {});
-  };
-
-  const orderViewBlogPostList = () => {
-    if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
-    loadingFunction(
-      BlogAPI.getBlogPostList({
-        secondCategoryId: blogStore.secondCategoryId,
-        sort: 'viewNumber',
-      })
-    )
-      .then(res => {
-        store.dispatch(SET_BLOG_POST_LIST(res.data.blogList));
-      })
-      .catch(err => {});
-  };
-
-  const orderLikeBlogPostList = () => {
-    if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
-    loadingFunction(
-      BlogAPI.getBlogPostList({
-        secondCategoryId: blogStore.secondCategoryId,
-        sort: 'likeNumber',
-      })
-    ).then(res => {
-      store.dispatch(SET_BLOG_POST_LIST(res.data.blogList));
-    });
+      .catch(err => {
+        if (err.code === 400) {
+          store.dispatch(SET_BLOG_POST_LIST([]));
+        }
+      });
   };
 
   useEffect(() => {
-    if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
+    if (
+      !blogStore.secondCategoryId ||
+      blogStore.secondCategoryId == 'undefined'
+    )
+      return;
     loadingFunction(
       BlogAPI.getBlogPostList({
         secondCategoryId: blogStore.secondCategoryId,
@@ -107,18 +93,20 @@ const BlogMainContainer = () => {
           검색결과 : {blogStore.blogPostList?.length}
         </span>
         <CC.RowDiv pd={'4px'} gap={8}>
-          <Dropdown
-            outline={true}
-            color={'primary80'}
-            brR={'0px'}
-            bg={'gray20'}
+          <Select
+            onChange={orderBlogListHandler}
+            defaultValue={{
+              value: '',
+              name: '최신순',
+            }}
             w={'90px'}
-            menuList={[
-              { name: '최신순', func: orderRecentBlogPostList },
-              { name: '조회수순', func: orderViewBlogPostList },
-              { name: '좋아요순', func: orderLikeBlogPostList },
+            data={[
+              { name: '최신순', value: '', bg: '' },
+              { name: '조회수순', value: 'viewNumber', bg: '' },
+              { name: '좋아요순', value: 'likeNumber', bg: '' },
             ]}
-          />
+          ></Select>
+
           {/* <CC.RowDiv>
             {viewMode ? (
               <Image
@@ -136,7 +124,7 @@ const BlogMainContainer = () => {
           </CC.RowDiv> */}
         </CC.RowDiv>
       </HeaderContainer>
-      <MainContainer>
+      <MainContainer ref={mainContainerRef}>
         {blogStore.blogPostList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
@@ -144,28 +132,34 @@ const BlogMainContainer = () => {
             </a>
           </Link>
         ))}
-      </MainContainer>
-      <FixedContainer gap={4}>
-        {authStore.role === 'ROLE_ADMIN' && (
-          <BlogSearchItem>
-            <Link href={`/blog/create`}>
+        <FixedContainer gap={4}>
+          {authStore.role === 'ROLE_ADMIN' && (
+            <BlogSearchItem href={`/blog/create`}>
               <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
-                <Image src={Icons.EditIcon} alt="edit" />
+                <IconsSvg.EditIcon fill={'black80'} w={'32px'} />
               </CC.RowCenterDiv>
-            </Link>
-          </BlogSearchItem>
-        )}
-        <Button onClick={() => window.scrollTo(0, 0)}>
-          <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
-            <Image src={Icons.UpArrowIcon} alt="up-arrow" />
-          </CC.RowCenterDiv>
-        </Button>
-        <Button onClick={() => window.scrollTo(0, document.body.scrollHeight)}>
-          <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
-            <Image src={Icons.DownArrowIcon} alt="down-arrow" />
-          </CC.RowCenterDiv>
-        </Button>
-      </FixedContainer>
+            </BlogSearchItem>
+          )}
+          <Button onClick={() => mainContainerRef.current.scrollTo(0, 0)}>
+            <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
+              <Image src={Icons.UpArrowIcon} alt="up-arrow" />
+            </CC.RowCenterDiv>
+          </Button>
+          {/* onClick={() => window.scrollTo(0, document.body.scrollHeight)} */}
+          <Button
+            onClick={() =>
+              mainContainerRef.current.scrollTo(
+                0,
+                mainContainerRef.current.scrollHeight
+              )
+            }
+          >
+            <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
+              <Image src={Icons.DownArrowIcon} alt="down-arrow" />
+            </CC.RowCenterDiv>
+          </Button>
+        </FixedContainer>
+      </MainContainer>
     </Container>
   );
 };
@@ -181,7 +175,7 @@ const Container = styled(CC.ColumnDiv)`
   outline: solid ${props => props.theme.main.primary40} 2px;
   border-radius: 10px;
 `;
-const BlogSearchItem = styled.li`
+const BlogSearchItem = styled(Link)`
   cursor: pointer;
   background: ${props => props.theme.main.contrast};
 `;
@@ -203,14 +197,22 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
 const MainContainer = styled(CC.ColumnDiv)`
   gap: 4px;
   ${props => props.theme.scroll.hidden};
-
   padding: 4px 2px;
+  position: relative;
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
-  position: fixed;
-  right: 10px;
+  position: sticky;
+  width: max-content;
+  left: calc(100% - 20px);
   bottom: 10px;
   padding: 4px;
   opacity: 0.8;
+  border-radius: 8px;
+  background: ${props => props.theme.main.primary20};
+
+  & > :hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 `;

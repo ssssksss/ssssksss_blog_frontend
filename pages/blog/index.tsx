@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import BlogFirstCategoryContainer from '@/components/blog/BlogFirstCategoryContainer';
+import BlogFirstCategoryContainer from '@/components/blog/BlogFirstCategory/BlogFirstCategoryContainer';
 import BlogMainContainer from '@/components/blog/BlogMainContainer';
 import { CC } from '@/styles/commonComponentStyle';
 import BlogSearchContainer from '@/components/blog/BlogSearchContainer';
-import BlogSecondCategoryContainer from '@/components/blog/BlogSecondCategoryContainer';
+import BlogSecondCategoryContainer from '@/components/blog/BlogSecondCategory/BlogSecondCategoryContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -38,6 +38,23 @@ Index.layout = Layout1;
 const Container = styled.section`
   ${props => props.theme.flex.column};
   width: 100%;
+
+
+
+
+
+
+
+
+
+
+  0
+
+
+
+
+  00
+  0
   padding: 4px;
   border-radius: 0.625rem;
   border: 1px solid ${props => props.theme.main.primary100};

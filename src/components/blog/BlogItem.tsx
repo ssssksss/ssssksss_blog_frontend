@@ -69,6 +69,7 @@ const Container = styled(CC.RowDiv)`
   cursor: pointer;
   gap: 4px;
   padding: 0px 4px;
+  background: ${props => props.theme.colors.white80};
 
   outline-offset: 0px;
   text-shadow: none;

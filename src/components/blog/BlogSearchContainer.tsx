@@ -6,7 +6,7 @@ import { delaySearch } from '@/utils/function/delaySearch';
 import { CC } from '@/styles/commonComponentStyle';
 import Link from 'next/link';
 import BlogItem from './BlogItem';
-import useLoading from '@/src/hooks/useLoading';
+import { useLoading } from '@/src/hooks/useLoading';
 import { BlogAPI } from '@/api/BlogAPI';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -53,7 +53,7 @@ const BlogSearchContainer = () => {
         color={'black80'}
         outline={true}
         brR={'6px'}
-        h={'40px'}
+        h={'32px'}
         ref={inputRef}
         leftIconImage={Icons.SearchIcon.src}
         onChange={delaySearch(SearchHandler, 600)}
@@ -65,6 +65,7 @@ const BlogSearchContainer = () => {
           onBlur={() => {
             setIsOpenBlogItemList(false);
           }}
+          isEmpty={isOpenBlogItemList.length >= 1}
         >
           {searchBlogPostList?.map((i, index) => (
             <li key={index}>
@@ -93,12 +94,15 @@ const Container = styled.div`
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   position: absolute;
-  background: ${props => props.theme.colors.white100};
-  outline: solid ${props => props.theme.main.primary80} 4px;
+  background: ${props => props.theme.colors.gray80};
+  padding: 16px;
+  {
+    props.isEmpty && 
+    outline: inset ${props => props.theme.main.primary80} 4px;
+  }
   transform: translate(0px, 6px);
   border-radius: 10px;
   gap: 8px;
-  padding: 4px;
   z-index: 40;
 
   a {

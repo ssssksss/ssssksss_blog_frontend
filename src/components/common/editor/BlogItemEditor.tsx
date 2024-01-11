@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -118,14 +117,7 @@ const BlogItemEditor = props => {
         router.push(blogUrl);
       })
       .catch(error => {
-        console.log('BlogItemEditor.tsx 파일 : 실패');
         console.log('BlogItemEditor.tsx 파일 : ', error.data);
-        // store.dispatch(
-        //   SET_TOASTIFY_MESSAGE({
-        //     type: "error",
-        //     message: error..data.msg,
-        //   })
-        // );
       });
   };
 
