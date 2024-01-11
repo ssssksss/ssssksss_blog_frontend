@@ -1,76 +1,213 @@
+import { CC } from '@/styles/commonComponentStyle';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef } from 'react';
+import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Select.tsx
  * @version 0.0.1 "2023-10-19 04:29:50"
+ * @description react-hook-form
+ * 
  * @description 설명
- */
-const Select = ({ children, ...props }, ref) => {
+*/
+
+interface ISelectProps {
+  children: ReactNode;
+  placeholder?: string;
+  defaultValue?: string;
+  data?: [{value: string, name: string, bg: string}];
+  outline?: boolean;
+  outlineColor?: string;
+  w?: string;
+  h?: string;
+  value?: {
+    value: any,
+    name: any,
+    bg: string,
+  };
+  // react-hook-form에서 사용하는 용도
+  setValue?: any;
+  trigger?: any;
+  // 클릭후 바로 최신 데이터가 필요한 경우에는 onChange에서 props를 이용하여 값을 받아 사용하면 된다.
+  onChange?: ({
+    value: any,
+    name: any,
+    bg: string,
+  })=>void;
+}
+
+const Select = ({ children, ...props }, ref): ISelectProps => {
+  const [data,setData] = useState({
+    value: '',
+    name: '',
+    bg: '',
+  });
+  const [isOpen,setIsOpen] = useState(false);
+  const inputRef = useRef<null>();
+
+  useEffect(()=>{
+    const _windowClickHandler = () => {
+      setIsOpen(false);
+    };
+    if (isOpen) {
+      window.addEventListener('click', _windowClickHandler);
+    }
+    
+    return () => {
+      window.removeEventListener('click', _windowClickHandler);
+    };
+  }, [isOpen]);
+
+  useEffect(()=>{
+    setData({
+      ...data,
+      value: props.defaultValue?.value,
+      name: props.defaultValue?.name || props.placeholder,
+      bg: props.defaultValue?.bg,
+    })
+  },[ref?.current])
+
   return (
-    <Container background={props.bg} outline={props.outline} color={props.color} height={props.h}>
-      <select ref={ref} onChange={() => props.onChange && props.onChange()} disabled={props.disabled || children?.length === 0} defaultValue={props.defaultValue} {...props}>
-        {children}
-      </select>
-      <IconSVG
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
+    <Container {...props} onClick={()=>setIsOpen(prev=>!prev)}>
+      <CC.RowCenterDiv>
+        {data.name || data.value}
+      </CC.RowCenterDiv>
+      {
+        isOpen && (
+      <ul>
+        {
+          props.data?.filter(j=>j.value != data.value).map((i)=>(
+            <li 
+            onClick={(e)=>{
+              {
+                props.onChange && props.onChange({
+                  value: i.value,
+                  name: i.name,
+                  bg: i.bg
+                });
+              }
+              if(props.setValue && props.trigger) {
+                props.setValue(props.register.name,i.value);
+                props.trigger(props.register.name);
+              }
+              setData({
+                ...data,
+                value: i.value,
+                name: i.name,
+                bg: i.bg,
+              });
+                if(ref) {
+                  ref.current = {
+                    ...data,
+                    value: i.value,
+                    name: i.name,
+                    bg: i.bg,
+                  };
+                }
+            }}> {i.name || i.value} </li>
+          ))
+        }
+      </ul>
+        )
+      }
+      {/* {/* <IconSVG
+        width="18"
+        height="15"
+        viewBox="0 0 18 15"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         >
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
-          d="M10 14L16 6H4L10 14Z"
+          d="M9 0L17.6603 15H0.339746L9 0Z"
           fill="#1A1A1A"
-          // fill="#1A1A1A"
+          />
+      </IconSVG> */}
+      <IconSVG 
+        width="18"
+        height="15"
+        viewBox="0 0 18 15"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9 15L0 0L17 0L9 15Z"
           />
       </IconSVG>
     </Container>
   );
 };
 export default forwardRef(Select);
+{/* <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 0L17.6603 15H0.339746L9 0Z" fill="black"/>
+</svg> */}
 
-const Container = styled.div`
-  width: 100%;
+
+const Container = styled.div<ISelectProps>`
+// 외곽 디자인(border-radius, outline, box-shadow) //
+  outline: inset ${props=>(props.theme.colors.[props.outlineColor] || props.theme.main.[props.outlineColor] ||  props.theme.main.primary80)} 1px;
+
+// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: flex;
-  background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] ||  props.theme.main.contrast};
-  height: ${props => props.height || "30px"};
-  border-radius: 10px;
+  width: ${props => props.w || 'max-content'};
+  height : ${props => props.h || '32px'};
   position: relative;
+  padding-right: 18px;
   
-  ${props =>
-    props.outline &&
-    css`
-      outline: solid ${(props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast)} 1px;
-      background: transparent;
-    `}
-      
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
-    min-width: 0;
-    display: block;
+  // 배경색(background) //
+  background:  ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] ||  props.theme.colors.white80};
+  
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  color: ${props=>props.theme.colors.black60};
+  justify-content: flex-start;
+  
+  // 애니메이션(animation) //
+  
+
+// 이벤트(active, focus, hover, visited, focus-within, disabled) //
+
+
+// 반응형(media-query, overflow, scroll) //
+
+
+// 커스텀(custom css) //
+
+  div:nth-of-type(1) {
+
+  }
+
+  input {
+    display: none;
+  }
+  
+  ul {
+    background: transparent;
+    position: absolute;
+    z-index: 5;
     width: 100%;
-    padding: 0px 4px;
-    line-height: inherit;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    background-color: transparent;
-    color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] ||  props.theme.main.contrast};
-    position: relative;
+    top: 32px;
+    max-height: 160px;
+    overflow: scroll;
+    outline: inset ${props=>props.theme.main.primary80} 1px;
+  }
+  li {
+    width: 100%;
+    height: 32px;
+    background: white;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    color: ${props=>props.theme.colors.black60};
 
-
-    &:disabled {
-      cursor: not-allowed;
+    &:hover {
+      background: ${props=>props.theme.main.primary20};
     }
+  }
 
-    &:focus {
+  &:focus {
       --clr: ${props=>props.theme.main.primary60};
 
       animation-name: animate-in; 
@@ -110,18 +247,23 @@ const Container = styled.div`
         border-radius: 10px 10px 10px 10px; 
       }
     }
-
-    option {
-      color: ${props=>props.theme.main.primary80};
+  
+      
+  &:disabled {
+      cursor: not-allowed;
     }
 
-  }
+
+
 `;
 
 const IconSVG = styled.svg`
-position: absolute;
-right: 0;
+  position: absolute;
+  right: 0;
   align-self: center;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  aspect-ratio: 1;
+  path {
+    fill: ${props=>props.theme.main.primary80};
+  }
 `;

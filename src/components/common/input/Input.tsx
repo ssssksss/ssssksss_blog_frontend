@@ -7,12 +7,19 @@ import { Icons } from '../icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
 import { AWSS3Prefix } from '@/utils/variables/url';
 
-
 /**
- * Author : Sukyung Lee
- * FileName: Input.tsx
- * Date: 2022-06-17 02:19:41
- * Description : 커스텀 Input 컴포넌트
+ * @author Sukyung Lee <ssssksss@naver.com>
+ * @file Input.tsx
+ * @version 0.0.1 "2022-06-17 02:19:41"
+ * @description 커스텀 Input 컴포넌트
+ * @description react-hook-form 이미지
+ * <Input
+ *   type={'file'}
+ *   register={register('레지스터명')}
+ *   setValue={setValue}
+ *   trigger={trigger}
+ * />
+ * @description react-hook-form 텍스트
  */
 
 interface IInputProps {
@@ -30,6 +37,7 @@ interface IInputProps {
    * react-hook-form 사용시 필요한 파라미터
    */
   register?: any;
+  setValue?: any;
   /**
    * react-hook-form 사용시 필요한 파라미터
    */
@@ -39,8 +47,6 @@ interface IInputProps {
   checked?: boolean;
   color?: string;
   placeholderColor?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyPressAction?: (e: KeyboardEventEvent) => void;
   value?: string | number | boolean;
   name?: string;
   id?: string;
@@ -58,12 +64,15 @@ interface IInputProps {
   outline?: boolean;
   errorLocation?: string;
   defaultImageUrl?: string
+  center?: string;
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyPressAction?: (e: KeyboardEventEvent) => void;
 }
 
 export const Input = React.forwardRef((props,ref) => {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState('/');
   const [isDragging, setIsDragging] = useState(false);
 
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -91,12 +100,14 @@ export const Input = React.forwardRef((props,ref) => {
       alert("파일이 없습니다!");
       return;
     }
-    const dataTranster = new DataTransfer();
-  Array.from(e.dataTransfer.files)
-    .forEach(file => {
-        dataTranster.items.add(file);
-    });
-    ref.current.files = dataTranster.files;
+    // if(!props.register) {
+    //   const dataTransfer = new DataTransfer();
+    //   Array.from(e.dataTransfer.files)
+    //   .forEach(file => {
+    //       dataTransfer.items.add(file);
+    //   });
+    //   ref.current.files = dataTransfer.files;
+    // }
     const result = URL.createObjectURL(file);
     setImageUrl(result);
     setIsDragging(false);
@@ -113,92 +124,100 @@ export const Input = React.forwardRef((props,ref) => {
   };
 
   useEffect(()=>{
-    if(props.type === "file") {
-      setImageUrl();
+    // 만일 props로 초기에 이미지가 존재한다면 이미지 경로를 넣어준다.
+    if(props.type == "file") {
+      setImageUrl('/');
       if(props.defaultImageUrl) {
         setImageUrl(`${AWSS3Prefix}${props.defaultImageUrl}`);
       }
     }
   },[props.defaultImageUrl])
 
+  // ! type을 변수로 주게되면 id값을 무시해서 htmlFor이 제대로 작동되지 않는 문제 존재 
   return (
     <Container>
-      <InputStyle
-        type={props.type ?? 'text'}
+      {props.type == "file" ? <InputStyle
+        type={'file'}
         placeholder={props.placeholder ?? "입력창"}
-        disabled={props.disabled}
-        defaultValue={props.defaultValue}
-        checked={props.checked}
-        onChange={props.type === "file" ? onChangeFile : props.onChange}
-        onDrop={props.type === "file" && onDrop}
-        value={props.value}
+        id={'imageUpload'}
         ref={ref ?? null}
-        color={props.color}
-        placeholderColor={props.placeholderColor}
-        name={props.name}
-        id={props.id}
-        display={props.display}
-        checked={props.checked}
-        size={props.size}
-        errorMessage={props.errorMessage}
-        padding={props.pd}
-        leftIconImage={props.leftIconImage}
-        background={props.bg}
-        width={props.w}
-        height={props.h}
-        borderRadius={props.brR}
-        styleTypes={props.styleTypes}
-        outline={props.outline}
-        errorLocation={props.errorLocation}
-        defaultImageUrl={props.defaultImageUrl}
-        onFocus={props.onFocus}
-        onBlur={props.onBlur}
-        onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (
-            // props.defaultValue !== ref?.current.value &&
-            e.key == 'Enter' &&
-            // (props.type === 'text' ||
-            // props.type === 'password' ||
-            // props.type === 'email' ||
-            // props.type === 'search')
-            props.onKeyPressAction
+        {...props}
+        {...props.register}
+        onChange={(e)=> {
+          // ! onChangeFile(e)와 아래 조건문 순서 바꾸지 말것 바꾸면 e의 값이 초기화 되면서 제대로 작동이 되지를 않는다.
+          onChangeFile(e);
+          if(props.register) {
+            // props.register.onChange(e);
+            props.setValue(props.register.name,e.target.files[0]);
+            props.trigger(props.register.name);
+          }
+        }}
+        /> : <InputStyle
+      type={props.type ? props.type : 'text'}
+      placeholder={props.placeholder ?? "입력창"}
+      onChange={(e)=> {
+        if(props.register) {
+          // ? react-hook-form 사용시 필요한 코드
+          props.register.onChange(e);
+        }
+        if(props.onChange) {
+          props.onChange(e);
+        }
+      }}
+      ref={ref ?? null}
+      onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
+        if (
+          e.key == 'Enter' &&
+          props.onKeyPressAction
           ) {
             props.onKeyPressAction();
           }
         }}
-        {...props.field}
-        {...props.register}
         {...props}
-      />
+        {...props.register}
+    />}
+
       {props.errorMessage ? (
         <ErrorMessageSpan height={props.h}> {props.errorMessage} </ErrorMessageSpan>
       ) : (
         <></>
       )}
-      {props.type === "file" && (
-        <InputLabel 
+      {props.type == "file" && (
+        <ImageFileContainer 
           color={props.color}
-          htmlFor={props.id} 
-          role="button" 
+          htmlFor={'imageUpload'} 
           styleTypes={props.styleTypes}
-          width={props.w}
-          height={props.h}
+          w={props.w}
+          h={props.h}
           isImageUrl={imageUrl}         
+          bg={props.bg}
           onDragEnter={onDragEnter}
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}
-          onDrop={onDrop}
-          background={props.bg}
+          onDrop={(e)=> {
+            if(props.register) {
+              // ? react-hook-form 사용시 필요한 코드
+              let event = e;
+              event.target.value = e.dataTransfer.files?.[0];
+              event.target.name = props.register.name;
+              props.register.onChange(event);
+            }
+            onDrop(e);
+          }}
         > 
-        {imageUrl && <button onClick={()=>{
-          event.preventDefault();
-          setImageUrl("");
-        }}> <Image src={Icons.DeleteIcon} width={24} height={24}/> </button>} 
-        {imageUrl ? <Image src={imageUrl} layout='fill'/> : <CC.ColumnCenterDiv h={"100%"} > 
+        {imageUrl && <button onClick={(e)=>{
+          e.preventDefault();
+          setImageUrl("/");
+          if(props.register) {
+            props.setValue(props.register.name,'');
+            props.trigger(props.register.name);
+          }
+        }}> <Image src={Icons.ExitIcon} width={24} height={24}/> </button>} 
+        {imageUrl != "/" ? <Image src={imageUrl} layout='fill'/> : <CC.ColumnCenterDiv h={"100%"} > 
             <Image src={Icons.CloudIcon} width={48} height={48}/>
             <CC.RowCenterDiv> drag file to upload  </CC.RowCenterDiv>
            </CC.ColumnCenterDiv>} 
-        </InputLabel>
+        </ImageFileContainer>
       )}
     </Container>
   );
@@ -209,93 +228,60 @@ export const Input = React.forwardRef((props,ref) => {
 
 const Container = styled.div`
   position: relative;
+
+  label {
+    z-index: 2;
+  }
 `;
 
-const InputLabel = styled.label`
-width: ${props => props.width || '100%'};
-height: ${props => props.height || '32px'};
-display: block;
-${props=>props.theme.flex.row.center.center};
-border-radius: 10px;
-position: relative;
-background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
-  &:hover {
-    cursor: pointer;
-  }
-  ${props=>props.styleTypes === 1 && `
-      outline: solid ${props.theme.colors.white80} 1px;
-      background: rgba(0, 0, 0, 0.01);
-      box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-      height: 40px;
-      color: ${props.theme.colors.white80};
-  `}
-  ${props => props.isImageUrl && css`
-    outline: none;
-    box-shadow: none;
-  `}
-  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
-
-  button {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    z-index: 4;
-  }
-`
-
 const InputStyle = styled.input<IInputProps>`
-  font-size: ${props=>props.theme.fontSize.md};
-  border: none;
-  display: ${props => (props.display ? props.display : 'block')};
-  padding: ${props => props.padding || '2px 0px 2px 4px'};
+// 외곽 디자인(border-radius, outline, box-shadow) //
   border-radius: ${props => props.borderRadius || "10px"};
-  position: relative;
-  background:  ${props => props.theme.colors.[props.background] || props.theme.main.[props.background]};
-  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50);
-      /* 순서주의 */
-  ${props =>
-    props.outline &&
-    css`
-      outline: solid ${(props.theme.colors.[props.background] || props.theme.main.[props.background])} 1px;
-    `}
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50), inset 1px 1px 2px 0px rgba(0, 0, 0, 0.50);
+  outline: ${props => `inset ${(props.theme.colors.[props.bg] || props.theme.main.[props.bg])} 1px`};
+  width: ${props => props.w || '100%'};
+  height : ${props => props.h || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px") };
 
+
+// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  display: ${props => (props.display ? props.display : 'block')};
+  border: none;
+  padding: ${props => props.padding || '2px 0px 2px 4px'};
+  position: relative;
+  text-align: ${props => props.center && "center" };
+  
+  // 배경색(background) //
+  background:  ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg]};
+  
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  font-size: ${props=>props.theme.fontSize.md};
+  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
+
+// 애니메이션(animation) //
+
+
+// 이벤트(active, focus, hover, visited, focus-within, disabled) //
   &:hover {
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 
   &:focus {
-  outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
-  /* outline: solid black 4px; */
-}
+    outline: inset ${props => `${props.theme.main.primary80}2f`} 5px;
+  }
 
-
-
-  /* 순서주의 */
   ${props =>
     props.disabled &&
     `
     background-color: ${props.theme.colors.disabled};
+    cursor: not-allowed;
+    &:hover {
+      box-shadow: none;
       cursor: not-allowed;
-      &:hover {
-        box-shadow: none;
-        cursor: not-allowed;
-      }
-    `}
+    }
+  `}
 
-
-&[type='file'] {
-    height: 100%;
-    appearance: none;
-    display: none;
-
-    /* &::file-selector-button {
-        display: none;
-    } */
-  }
-
-&[type='search'] {
-    padding-left: px;
+  &[type='search'] {
+    padding-left: 4px;
   }
 
   &[type='checkbox'] {
@@ -342,87 +328,98 @@ const InputStyle = styled.input<IInputProps>`
     }
   }
 
+  &[type='file'] {
+    height: 100%;
+    appearance: none;
+    display: none;
+  }
 
-  /* 왼쪽에 이미지를 넣은 경우 padding left에 값을 주어 이미지 크기 만큼은 밀어준다. */
+      /* 왼쪽에 이미지를 넣은 경우 padding left에 값을 주어 이미지 크기 만큼은 밀어준다. */
   ${props =>
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
-      padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 8px);
+      padding: 0px 0px 0px calc(${props.h ? props.h : '32px'} + 8px);
       background-position: 4px center;
       background-repeat: no-repeat;
       background-size: contain;
+      ::placeholder {
+        transition: all 0.6s ease-in-out;
+        opacity: 0.7;
+        font-size: ${props.theme.fontSize.sm};
+        color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
+    }
+    &[type='search'] {
+      padding-left: calc(${props.h ? props.h : '32px'} + 8px);
+    }
   `}
 
-  ${props=>props.styleTypes === 1 && `
+// 반응형(media-query, overflow, scroll) //
+
+
+// 커스텀(custom css) //
+${props=>props.styleTypes === 1 && `
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-    height: ${props.height || "40px"};
+    height: ${props.h || "40px"};
     color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
     ::placeholder {
       transition: all 0.6s ease-in-out;
-      opacity: 0.7;
       font-size: ${props.theme.fontSize.sm};
-      color: ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.white80};
+      color: ${props.theme.colors.black60};
       padding: '6px';
     }
   `}
 
-width: ${props => props.width || '100%'};
-  height : ${props => props.height || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px") };
 
 
-
-/* &:focus {
-      --clr: ${props=>props.theme.main.primary60};
-
-      animation-name: animate-in; 
-      animation-duration: 1s;
-      background-image: linear-gradient(to right, var(--clr), var(--clr)), 
-      linear-gradient(to bottom, var(--clr), var(--clr)), 
-      linear-gradient(to right, var(--clr), var(--clr)),
-      linear-gradient(to bottom, var(--clr), var(--clr)); 
-      background-position: 0 0, 100% 0, 100% 100%, 0 100%; 
-      background-size: 100% 4px, 4px 100%, 100% 4px, 4px 100%; 
-      background-repeat: no-repeat;   
-    }
-
-    @keyframes animate-in {
-  0% {
-    background-size: 0 4px, 0 0, 0 0, 0 0; 
-  }
-
-  25% {
-    background-size: 100% 4px, 0 0, 0 0, 0 0; 
-    border-radius: 10px 10px 0px 0px;
-  }
-
-  50% {
-    background-size: 100% 4px, 4px 100%, 0 0, 0 0; 
-    border-radius: 10px 10px 10px 0px;
-  }
-
-  75% {
-    background-size: 100% 4px, 4px 100%, 100% 4px, 0 0; 
-    border-radius: 10px 10px 10px 10px;
-  }
-
-  100% {
-    background-size: 100% 4px, 4px 100%, 100% 4px, 4px 100%;
-    border-radius: 10px 10px 10px 10px; 
-  }
-} */
 `;
-
 
 const ErrorMessageSpan = styled.span`
   --height: ${props=> props.errorLocation || "44px"};
   top: var(--height);
   color: red;
   position: absolute;
-  font-size: 10px;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
   word-break: keep-all;
 `;
+
+
+const ImageFileContainer = styled.label`
+width: ${props => props.w || '100%'};
+height: ${props => props.h || '32px'};
+display: block;
+${props=>props.theme.flex.row.center.center};
+border-radius: 10px;
+position: relative;
+background:  ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg]};
+  &:hover {
+    cursor: pointer;
+  }
+  ${props=>props.styleTypes === 1 && `
+      outline: solid ${props.theme.colors.white80} 1px;
+      background: rgba(0, 0, 0, 0.01);
+      box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+      color: ${props.theme.colors.white80};
+  `}
+  ${props => props.isImageUrl && css`
+    outline: none;
+    box-shadow: none;
+  `}
+  color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
+
+  button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 4;
+    background: transparent;
+  }
+`
+
+
+
+
