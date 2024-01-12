@@ -25,6 +25,7 @@ interface ISelectProps {
     name: any,
     bg: string,
   };
+  bg?: string;
   // react-hook-form에서 사용하는 용도
   setValue?: any;
   trigger?: any;
@@ -69,7 +70,7 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
 
   return (
     <Container {...props} onClick={()=>setIsOpen(prev=>!prev)}>
-      <CC.RowCenterDiv>
+      <CC.RowCenterDiv bg={data.bg}>
         {data.name || data.value}
       </CC.RowCenterDiv>
       {
@@ -77,7 +78,8 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
       <ul>
         {
           props.data?.filter(j=>j.value != data.value).map((i)=>(
-            <li 
+            <SelectItem 
+            bg={i.bg}
             onClick={(e)=>{
               {
                 props.onChange && props.onChange({
@@ -104,7 +106,7 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
                     bg: i.bg,
                   };
                 }
-            }}> {i.name || i.value} </li>
+            }}> {i.name || i.value} </SelectItem>
           ))
         }
       </ul>
@@ -196,7 +198,6 @@ const Container = styled.div<ISelectProps>`
   li {
     width: 100%;
     height: 32px;
-    background: white;
     padding-left: 4px;
     display: flex;
     align-items: center;
@@ -256,6 +257,11 @@ const Container = styled.div<ISelectProps>`
 
 
 `;
+
+const SelectItem = styled.li<{props: any}>`
+  background:  ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] || props.theme.colors.white80};
+`;
+
 
 const IconSVG = styled.svg`
   position: absolute;
