@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import TodoContainer from '@/components/todo/TodoContainer';
+import TodoScheduleContainer from '@/components/todo/TodoScheduleContainer';
 import WeekTodoContainer from './../../src/components/todo/WeekTodoContainer';
 import MemoContainer from '@/components/todo/MemoContainer';
 import AllTodoContainer from '@/components/schedule/CalendarContainer';
@@ -33,7 +33,7 @@ const Index = () => {
         </Button>
       </NavContainer>
       <MainContainer>
-        {menu === 0 && <TodoContainer />}
+        {menu === 0 && <TodoScheduleContainer />}
         {menu === 2 && <MemoContainer />}
         {menu === 3 && <CalendarContainer />}
       </MainContainer>
