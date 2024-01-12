@@ -19,7 +19,6 @@ import { addDays } from 'date-fns';
 import { DateRangePicker } from 'react-date-range';
 import ko from 'date-fns/locale/ko';
 import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
-import Dropdown from '@/components/common/dropdown/Dropdown';
 import Textarea from '@/components/common/textarea/Textarea';
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import {
@@ -28,6 +27,7 @@ import {
   SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE,
 } from '@/redux/store/schedule';
 import { Time } from '@/utils/function/Time';
+import Select from '@/components/common/select/Select';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ScheduleModal.tsx
@@ -86,6 +86,14 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   };
 
   const addScheduleHandler = () => {
+    if (
+      !scheduleTitleRef.current.value ||
+      !scheduleContentRef.current.value ||
+      !scheduleCategory.id
+    ) {
+      alert('비어있는 공간이 있습니다');
+    }
+
     ScheduleAPI.addSchedule({
       title: scheduleTitleRef.current.value,
       content: scheduleContentRef.current.value,
@@ -217,21 +225,19 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           <div> 카테고리 </div>
         </CC.RowBetweenDiv>
         <CC.RowDiv gap={4}>
-          <Dropdown
-            brR={'0px'}
+          <Select
             w={'100%'}
-            hoverOff={true}
             value={scheduleCategory}
-            defaultPlaceHolder={props.edit ? '' : '색상을 선택해주세요'}
-            bg={scheduleCategory.backgroundColor}
-            menuList={scheduleStore.scheduleCategoryList.map(i => {
-              return {
-                name: i.name,
-                func: () => changeScheduleCategory(i),
-                bg: i.backgroundColor,
-              };
+            placeholder={props.edit ? '' : '색상을 선택해주세요'}
+            bg={scheduleCategory.backgroundColor || 'white80'}
+            outline={true}
+            onChange={i =>
+              setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
+            }
+            data={scheduleStore.scheduleCategoryList.map(i => {
+              return { value: i.id, name: i.name, bg: i.backgroundColor };
             })}
-          />
+          ></Select>
           <ModalButton
             color={'primary80'}
             bg={'primary20'}
@@ -282,20 +288,22 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         <CC.RowDiv gap={8}>
           <Button
             w={'100%'}
+            bg={'white80'}
             onClick={() => updateScheduleHandler()}
-            bg={'primary80'}
+            outline={true}
           >
             일정 수정
           </Button>
           <Button
             w={'100%'}
+            bg={'red60'}
+            outline={true}
             onClick={() =>
               deleteScheduleHandler({
                 data: props.data,
                 closeModal: props.closeModal,
               })
             }
-            bg={'red60'}
           >
             일정 삭제
           </Button>
@@ -303,8 +311,9 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       ) : (
         <Button
           w={'100%'}
+          bg={'white80'}
           onClick={() => addScheduleHandler()}
-          bg={'primary80'}
+          outline={true}
         >
           일정 추가
         </Button>
@@ -315,8 +324,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
 export default ScheduleModal;
 
 const Container = styled(CC.ColumnBetweenDiv)`
-  gap: 16px;
-  padding: 4px;
+  gap: 4px;
+  padding: 8px 8px;
   color: ${props => props.theme.colors.black80};
   overflow: scroll;
   background: ${props => props.theme.main.primary40};
@@ -347,5 +356,8 @@ const Container = styled(CC.ColumnBetweenDiv)`
     @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
       font-size: 0.7rem;
     }
+  }
+  & > button {
+    flex-shrink: 0;
   }
 `;
