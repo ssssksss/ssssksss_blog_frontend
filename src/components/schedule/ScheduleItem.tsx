@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import ScheduleModal from './modal/ScheduleModal';
 import { dateFormat4y2m2d } from './../../../utils/function/dateFormat';
+import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { store } from '@/redux/store';
 /**
  *
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -37,19 +40,19 @@ interface IScheduleItemProps {
 
 const ScheduleItem = (props: IScheduleItemProps) => {
   const inputRef = useRef<null>();
-  const todoStore = useSelector((state: RootState) => state.todoStore);
+  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
 
   const _IsCheckedToggleHandler = () => {
-    TodoAPI.toggleCheckTodo({
+    ScheduleAPI.toggleCheckSchedule({
       id: props.data?.id,
     }).then((res: any) => {
-      let temp = todoStore.todoList.map(i => {
+      let temp = scheduleStore.todayScheduleList.map(i => {
         if (i.id == props.data?.id) {
           i.isChecked = !props.data?.isChecked;
         }
         return i;
       });
-      store.dispatch(SET_TODO_LIST(temp));
+      store.dispatch(SET_TODAY_SCHEDULE_LIST(temp));
     });
   };
 
@@ -75,8 +78,8 @@ const ScheduleItem = (props: IScheduleItemProps) => {
           w={"24px"}
           h={"24px"}
           checked={props?.data?.isChecked}
-          // onClick={() => _IsCheckedToggleHandler()}
           onClick={(e) => {
+            _IsCheckedToggleHandler();
             e.stopPropagation();
           }}
         />
@@ -106,9 +109,14 @@ const Container = styled(ModalButton)<{ isChecked: boolean, bg: string }>`
   align-items: flex-start;
   width: 100%;
   height: max-content;
+  background: ${props => props.isChecked && props.theme.colors.gray40};
+  &:focus,
   &:hover {
-    outline: solid ${props => `${props.theme.main.primary80}8f`} 5px;
+    background: ${props => props.theme.colors.[props.bg]};
   }
+  /* &:hover {
+    outline: solid ${props => `${props.theme.main.primary80}8f`} 5px;
+  } */
 `;
 
 const CategoryName = styled(CC.RowDiv)<{color: string}>`

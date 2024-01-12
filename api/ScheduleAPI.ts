@@ -109,6 +109,17 @@ const deleteSchedule = props => {
   });
 };
 
+const toggleCheckSchedule = props => {
+  return ApiProcessHandler({
+    url: '/api/schedule/check',
+    method: 'PATCH',
+    apiCategory: '할일 체크',
+    data: {
+      id: props.id,
+    },
+  });
+};
+
 export const ScheduleAPI = {
   addScheduleCategory,
   getScheduleCategoryList,
@@ -118,4 +129,5 @@ export const ScheduleAPI = {
   getScheduleList,
   updateSchedule,
   deleteSchedule,
+  toggleCheckSchedule,
 };
