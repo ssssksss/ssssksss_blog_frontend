@@ -410,7 +410,7 @@ const CreateUpdateBlogContainer = (
             '.',
             index1 + AWSS3Prefix.length
           );
-          temp.push(
+          _blogContentImageList.push(
             res.data.blogItem.content.substring(
               index1 + AWSS3Prefix.length,
               index2 + 4

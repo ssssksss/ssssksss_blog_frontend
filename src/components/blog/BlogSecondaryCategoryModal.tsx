@@ -45,7 +45,6 @@ const BlogSecondaryCategoryModal = (props: { closeModal: () => void }) => {
 
   const createSecondCategoryHandler = (data: any) => {
     const { ...params } = data;
-    s;
     loadingFunction(
       BlogAPI.addSecondCategory({
         name: params.createSecondCategoryName,
