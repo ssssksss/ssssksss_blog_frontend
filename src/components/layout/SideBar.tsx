@@ -30,10 +30,10 @@ const SideBar = () => {
   }, []);
 
   const LeftNavItems = [
-    [Icons.HomeIcon, '홈', 'home'],
+    [Icons.HomeIcon, '홈', ''],
     [Icons.BlogIcon, '블로그', 'blog'],
     [Icons.BoardIcon, '게시판', 'board'],
-    // [Icons.WorkListIcon, '할일', 'todo'],
+    [Icons.WorkListIcon, '할일', 'todo'],
     // [Icons.CalendarIcon, '일정', 'calendar'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
     // [Icons.SettingIcon, '설정', 'setting'],
