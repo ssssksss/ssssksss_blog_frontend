@@ -109,6 +109,8 @@ const ModalButtonStyle = styled(Button)<IModalButtonProps>`
 // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: relative;
   max-width: ${props => props.maxW};
+  width: ${props => props.w};
+  height: ${props => props.h};
 // 배경색(background) //
 
 // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
