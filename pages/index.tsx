@@ -8,13 +8,14 @@ import BlogFooter from '@/components/blog/BlogUI/BlogFooter';
 import React from 'react';
 import HomeThreejs from '@/components/Introduce/threejs/HomeThreejs';
 import Content from '@/components/threejs/Content';
+import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 
 const HomePage = ({ test }: any) => {
   return (
     <Container>
       {/* <HomeThreejs />
       <Content /> */}
-      111111111
+      <LoadingComponent mode={'car'} top={300} />
     </Container>
   );
 };
