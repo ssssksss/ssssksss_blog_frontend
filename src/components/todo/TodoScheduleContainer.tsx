@@ -23,17 +23,17 @@ import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { store } from '@/redux/store';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file TodoContainer.tsx
+ * @file TodoScheduleContainer.tsx
  * @version 0.0.1 "2023-09-29 02:19:47"
  * @description 설명
  */
 
-interface ITodoContainerProps {
+interface ITodoScheduleContainerProps {
   active: number;
   onClick: () => void;
 }
 
-const TodoContainer = (props: ITodoContainerProps) => {
+const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
   const todoStore = useSelector((state: RootState) => state.todoStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
@@ -51,7 +51,7 @@ const TodoContainer = (props: ITodoContainerProps) => {
         store.dispatch(SET_TODAY_SCHEDULE_LIST(res.jsonObject.scheduleList));
       })
       .catch(err => {
-        console.log('TodoContainer.tsx 파일 : ', err);
+        console.log('TodoScheduleContainer.tsx 파일 : ', err);
       });
   }, []);
 
@@ -89,8 +89,8 @@ const TodoContainer = (props: ITodoContainerProps) => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
-            w={'24px'}
-            h={'24px'}
+            w={'32px'}
+            h={'32px'}
           >
             +
           </ModalButton>
@@ -106,8 +106,8 @@ const TodoContainer = (props: ITodoContainerProps) => {
     </Container>
   );
 };
-// export default React.memo(TodoContainer);
-export default TodoContainer;
+// export default React.memo(TodoScheduleContainer);
+export default TodoScheduleContainer;
 
 const Container = styled(CC.GridColumn2)`
   height: 100%;
