@@ -37,7 +37,7 @@ const updateTodo = props => {
   });
 };
 
-const removeTodo = props => {
+const deleteTodo = props => {
   return ApiProcessHandler({
     url: '/api/todo',
     method: 'DELETE',
@@ -45,6 +45,7 @@ const removeTodo = props => {
     data: {
       id: props.id,
     },
+    isShowMessage: true,
   });
 };
 
@@ -63,6 +64,6 @@ export const TodoAPI = {
   addTodo,
   getTodoList,
   updateTodo,
-  removeTodo,
+  deleteTodo,
   toggleCheckTodo,
 };
