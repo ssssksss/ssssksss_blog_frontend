@@ -6,7 +6,7 @@ import { Input } from '@/components/common/input/Input';
 import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
 import ModalButton from '@/components/common/button/ModalButton';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UserSignupYup } from '@/components/yup/UserSignupYup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -35,6 +35,7 @@ interface ITodoModalProps {
 const TodoModal = (props: ITodoModalProps) => {
   const inputRef = useRef<null>();
   const todoStore = useSelector((state: RootState) => state.todoStore);
+  const [inputValue, setInputValue] = useState('');
 
   const addTodoHandler = () => {
     if (inputRef.current.value === '') return;
@@ -66,8 +67,8 @@ const TodoModal = (props: ITodoModalProps) => {
     });
   };
 
-  const removeTodoHandler = () => {
-    TodoAPI.removeTodo({
+  const deleteTodoHandler = () => {
+    TodoAPI.deleteTodo({
       id: props.data.id,
     }).then((res: any) => {
       let temp = todoStore.todoList.filter(i => i.id != props.data.id);
@@ -77,6 +78,7 @@ const TodoModal = (props: ITodoModalProps) => {
   };
 
   useEffect(() => {
+    setInputValue(props.data?.content);
     let keyDownEventFunc = (e: Event) => {
       if (e.key == 'Enter') {
         props.edit ? updateTodoHandler() : addTodoHandler();
@@ -99,19 +101,30 @@ const TodoModal = (props: ITodoModalProps) => {
           ref={inputRef}
           defaultValue={props.data?.content}
           outline={true}
+          onChange={e => setInputValue(e.target.value)}
         />
       </CC.ColumnStartDiv>
       {props.edit ? (
         <CC.RowDiv gap={8}>
-          <Button w={'100%'} onClick={() => updateTodoHandler()}>
+          <Button
+            w={'100%'}
+            onClick={() => updateTodoHandler()}
+            disabled={props.data.content == inputValue}
+            bg={'contrast'}
+          >
             일정 수정
           </Button>
-          <Button w={'100%'} onClick={() => removeTodoHandler()}>
+          <Button w={'100%'} onClick={() => deleteTodoHandler()} bg={'red60'}>
             일정 삭제
           </Button>
         </CC.RowDiv>
       ) : (
-        <Button w={'100%'} onClick={() => addTodoHandler()}>
+        <Button
+          w={'100%'}
+          onClick={() => addTodoHandler()}
+          disabled={!inputValue}
+          bg={'contrast'}
+        >
           일정 추가
         </Button>
       )}
