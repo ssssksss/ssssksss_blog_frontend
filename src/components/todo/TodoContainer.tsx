@@ -66,8 +66,8 @@ const TodoContainer = (props: ITodoContainerProps) => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
-            w={'24px'}
-            h={'24px'}
+            w={'32px'}
+            h={'32px'}
           >
             +
           </ModalButton>
@@ -127,7 +127,7 @@ const Title = styled(CC.GridColumn2)`
   width: 100%;
   height: 48px;
   font-family: ${props => props.theme.fontFamily.gmarketSansBold};
-  grid-template-columns: 1fr 24px;
+  grid-template-columns: 1fr 32px;
   align-items: center;
   outline: solid black 1px;
   border-radius: 10px;
