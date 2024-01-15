@@ -35,6 +35,7 @@ interface ITextareaProps {
   pd?: string;
   w?: string;
   h?: string;
+  minH?: string;
   brR?: string;
   styleTypes?: number;
   bg?: string;
@@ -56,26 +57,7 @@ const Textarea = (props: ITextareaProps, ref) => {
     <Container>
       <TextareaStyle
         rows={1}
-        placeholder={props.placeholder}
-        disabled={props.disabled}
-        defaultValue={props.defaultValue}
-        onChange={props.onChange}
-        value={props.value}
         ref={textRef}
-        color={props.color}
-        placeholderColor={props.placeholderColor}
-        name={props.name}
-        id={props.id}
-        display={props.display}
-        size={props.size}
-        errorMessage={props.errorMessage}
-        padding={props.pd}
-        background={props.bg}
-        width={props.w}
-        height={props.h}
-        borderRadius={props.brR}
-        styleTypes={props.styleTypes}
-        outline={props.outline}
         onInput={props.resizeMode && handleResizeHeight}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter' && props.onKeyPress) {
@@ -123,8 +105,8 @@ const TextareaStyle = styled.textarea`
   appearance: none;
   resize: none;
   border-radius: 10px;
-  padding: ${props => props.padding || '2px'};
-  height: ${props => props.height};
+  padding: ${props => props.pd || '2px'};
+  height: ${props => props.h};
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
 
   &:focus {
