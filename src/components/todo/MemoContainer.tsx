@@ -12,7 +12,6 @@ import { store } from '@/redux/store';
 import { MemoAPI } from '@/api/MemoAPI';
 import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@/redux/store/memo';
 import ModalButton from '@/components/common/button/ModalButton';
-import MemoModal from '../memo/modal/MemoModal';
 import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -44,7 +43,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
         props.closeModal();
       })
       .catch((err: any) => {
-        console.log('MemoModal.tsx 파일 : ', err);
+        console.log('MemoContainer.tsx 파일 : ', err);
       });
   };
 
@@ -99,6 +98,9 @@ const MemoContainer = (props: IMemoContainerProps) => {
             {i.name}
           </Button>
         ))}
+        {memoStore.memoCategoryList.length == 0 && (
+          <div> 우측에서 카테고리를 먼저 추가해주세요 </div>
+        )}
         <ModalButton
           modal={<MemoCategoryModal />}
           modalOverlayVisible={true}
@@ -110,17 +112,17 @@ const MemoContainer = (props: IMemoContainerProps) => {
         </ModalButton>
       </MemoMenuNavListContainer>
       <MainContainer>
-        {activeMenu.type !== 'all' && (
+        {activeMenu.type != 'all' && (
           <MemoItem edit={false} category={activeMenu} />
         )}
         {memoStore.memoList
           .filter(i =>
-            activeMenu.type === 'all'
+            activeMenu.type == 'all'
               ? true
-              : i.memoCategory.name === activeMenu.type
+              : i.memoCategory.name == activeMenu.type
           )
           .map(i => (
-            <MemoItem data={i} edit={true} />
+            <MemoItem data={i} edit={true} key={i.id} />
           ))}
       </MainContainer>
     </Container>
@@ -129,7 +131,8 @@ const MemoContainer = (props: IMemoContainerProps) => {
 export default MemoContainer;
 
 const Container = styled(CC.ColumnStartDiv)`
-  height: 100%;
+  height: max-content;
+  margin-bottom: 12px;
 `;
 
 const MemoMenuNavListContainer = styled(CC.RowDiv)`
@@ -152,9 +155,9 @@ const MainContainer = styled.div`
   gap: 8px;
   outline: solid black 1px;
   border-radius: 4px;
-  padding: 8px;
+  padding: 8px 8px 16px 8px;
   background: ${props => props.theme.colors.gray20};
-  height: calc(100% - 48px - 16px);
+  height: max-content;
 
   @media (min-width: ${props => props.theme.deviceSizes.mobile}) {
     grid-template-columns: repeat(2, 1fr);
