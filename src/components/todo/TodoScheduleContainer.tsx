@@ -17,7 +17,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import ScheduleItem from '@/components/schedule/ScheduleItem';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
-import { todayDayOfTheWeek } from '@/utils/function/dateFormat';
+import {
+  dateFormat4y2m2d,
+  todayDayOfTheWeek,
+} from '@/utils/function/dateFormat';
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { store } from '@/redux/store';
@@ -58,8 +61,10 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
   return (
     <Container>
       <CC.ColumnDiv>
-        <Title>
-          <h3> 할일 </h3>
+        <TitleContainer>
+          <Title>
+            <h3> 할일 </h3>
+          </Title>
           <ModalButton
             modal={<TodoModal />}
             color={'primary80'}
@@ -71,7 +76,7 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
           >
             +
           </ModalButton>
-        </Title>
+        </TitleContainer>
         <ListContainer>
           {todoStore.todoList.map(i => (
             <li>
@@ -81,20 +86,23 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
         </ListContainer>
       </CC.ColumnDiv>
       <CC.ColumnDiv>
-        <Title>
-          <h3> 오늘의 일정 ({dayOfTheWeek}) </h3>
+        <TitleContainer>
+          <Title>
+            <h3> 오늘의 일정 ({dayOfTheWeek}) </h3>
+            <span> {dateFormat4y2m2d(new Date())} </span>
+          </Title>
           <ModalButton
             modal={<ScheduleModal />}
             color={'primary80'}
             bg={'primary20'}
             modalOverlayVisible={true}
-            modalW={'50%'}
+            modalW={'80%'}
             w={'32px'}
             h={'32px'}
           >
             +
           </ModalButton>
-        </Title>
+        </TitleContainer>
         <ListContainer>
           {scheduleStore.todayScheduleList?.map((i, index) => (
             <li key={index}>
@@ -122,7 +130,7 @@ const Container = styled(CC.GridColumn2)`
   }
 `;
 
-const Title = styled(CC.GridColumn2)`
+const TitleContainer = styled(CC.GridColumn2)`
   /* position: relative; */
   width: 100%;
   height: 48px;
@@ -132,11 +140,14 @@ const Title = styled(CC.GridColumn2)`
   outline: solid black 1px;
   border-radius: 10px;
   padding: 0px 4px;
-  & > h3 {
-    width: 100%;
-    ${props => props.theme.flex.row.center};
+`;
+const Title = styled(CC.ColumnCenterCenterDiv)`
+  & > span {
+    font-size: 0.8rem;
+    color: ${props => props.theme.colors.black40};
   }
 `;
+
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   height: 100%;
