@@ -4,11 +4,11 @@ import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import { Input } from '@/components/common/input/Input';
-import Dropdown from '@/components/common/dropdown/Dropdown';
 import { Button } from '@/components/common/button/Button';
+import Select from '@/components/common/select/Select';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AddScheduleBox.tsx
@@ -16,7 +16,6 @@ import { Button } from '@/components/common/button/Button';
  * @description 설명
  */
 const AddScheduleCategoryBox = props => {
-  let addScheduleCategoryBackgroundColor = '';
   const categoryColors = [
     '',
     'red40',
@@ -31,13 +30,13 @@ const AddScheduleCategoryBox = props => {
   ];
 
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const addInputCategoryRef = useRef<null>();
+  const [addCategoryRequestData, setAddCategoryRequestData] = useState();
   const addScheduleCategoryHandler = () => {
-    if (addInputCategoryRef.current.value === '') return;
-    if (addScheduleCategoryBackgroundColor === '') return;
+    if (addCategoryRequestData.title === '') return;
+    if (addCategoryRequestData.id === '') return;
     ScheduleAPI.addScheduleCategory({
-      name: addInputCategoryRef.current.value,
-      backgroundColor: addScheduleCategoryBackgroundColor,
+      name: addCategoryRequestData.title,
+      backgroundColor: addCategoryRequestData.bg,
     }).then((res: any) => {
       store.dispatch(
         SET_SCHEDULE_CATEGORY_LIST([
@@ -49,40 +48,44 @@ const AddScheduleCategoryBox = props => {
     });
   };
 
-  const changeAddScheduleCategoryBackgroundColor = i => {
-    console.log('AddScheduleCategoryBox.tsx 파일 : ', i);
-    return;
-    addScheduleCategoryBackgroundColor = i;
-  };
-
   return (
     <Container>
       <CC.RowStartDiv w={'100%'}>일정 카테고리 추가</CC.RowStartDiv>
       <Input
         placeholder={'일정 카테고리를 작성해주세요'}
-        ref={addInputCategoryRef}
         outline={true}
+        onChange={e =>
+          setAddCategoryRequestData(prev => ({
+            ...prev,
+            title: e.target.value,
+          }))
+        }
       />
-      <Dropdown
-        key={'add'}
-        brR={'0px'}
-        bg={'white100'}
+      <Select
         w={'100%'}
-        hoverOff={true}
-        defaultPlaceHolder={'카테고리를 색상을 선택해주세요'}
-        menuList={categoryColors.map(i => {
-          return {
-            name: '',
-            func: () => changeAddScheduleCategoryBackgroundColor(i),
-            bg: i,
-          };
+        placeholder={'카테고리 색상을 선택해주세요'}
+        outline={true}
+        data={categoryColors.map(i => {
+          return { value: i, name: ' ', bg: i };
         })}
-      />
+        onChange={i =>
+          setAddCategoryRequestData(prev => ({
+            ...prev,
+            id: i.value,
+            name: i.name,
+            bg: i.bg,
+          }))
+        }
+      ></Select>
       <CC.RowDiv pd={'16px 0px'}>
         <Button
           w={'100%'}
+          bg={'white80'}
           onClick={() => addScheduleCategoryHandler()}
-          bg={'primary80'}
+          outline={true}
+          disabled={
+            !addCategoryRequestData?.id || !addCategoryRequestData?.title
+          }
         >
           일정 추가
         </Button>
