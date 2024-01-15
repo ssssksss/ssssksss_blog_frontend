@@ -7,8 +7,11 @@ import { RootState } from '@/redux/store/reducers';
 import { useRef, useState } from 'react';
 import { MemoAPI } from '@/api/MemoAPI';
 import { Input } from '@/components/common/input/Input';
-import Dropdown from '@/components/common/dropdown/Dropdown';
 import { Button } from '@/components/common/button/Button';
+import Select from '@/components/common/select/Select';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { MemoUpdateYup } from '@/components/yup/MemoYup';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -18,7 +21,6 @@ import { Button } from '@/components/common/button/Button';
  */
 const UpdateMemoCategoryBox = props => {
   const categoryColors = [
-    '',
     'red40',
     'orange40',
     'yellow40',
@@ -29,49 +31,41 @@ const UpdateMemoCategoryBox = props => {
     'pink40',
     'gray40',
   ];
-  const updateInputCategoryRef = useRef<null>();
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  let updateMemoCategoryName = '';
-  let updateMemoCategoryBackgroundColor = '';
-  const [updateChoiceCategory, setUpdateChoiceCategory] = useState({
-    id: '',
-    name: '',
-    bg: '',
+  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+    resolver: yupResolver(MemoUpdateYup),
+    mode: 'onChange',
+    defaultValues: {
+      pickUpdateMemoCategory: '',
+      updateMemoCategoryName: '',
+      updateMemoCategoryColor: '',
+    },
   });
-
-  const choiceUpdateMemoCategory = i => {
-    updateInputCategoryRef.current.value = i.name;
-    updateMemoCategoryBackgroundColor = i.backgroundColor;
-    setUpdateChoiceCategory({
-      id: i.id,
-      name: i.name,
-      bg: i.backgroundColor,
-    });
+  const { errors } = formState;
+  const onClickErrorSubmit = () => {
+    alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const changeUpdateMemoCategoryBackgroundColor = i => {
-    updateMemoCategoryBackgroundColor = i;
-  };
-
-  const updateMemoCategoryHandler = () => {
+  const updateMemoCategoryHandler = (data: {
+    pickUpdateMemoCategory: string;
+    updateMemoCategoryName: string;
+    updateMemoCategoryColor: string;
+  }) => {
     if (
-      ((!updateInputCategoryRef.current.value ||
-        updateInputCategoryRef.current.value === updateChoiceCategory.name) &&
-        (!updateMemoCategoryBackgroundColor ||
-          updateMemoCategoryBackgroundColor ===
-            updateChoiceCategory.backgroundColor)) ||
-      !updateChoiceCategory.id
+      !data.updateMemoCategoryColor ||
+      !data.updateMemoCategoryName ||
+      !data.pickUpdateMemoCategory
     )
       return;
     MemoAPI.updateMemoCategory({
-      id: updateChoiceCategory.id,
-      name: updateInputCategoryRef.current.value,
-      backgroundColor: updateMemoCategoryBackgroundColor,
+      id: data.pickUpdateMemoCategory,
+      name: data.updateMemoCategoryName,
+      backgroundColor: data.updateMemoCategoryColor,
     }).then((res: any) => {
       let temp = memoStore.memoCategoryList.map(i => {
         if (i.id == res.jsonObject.memoCategory.id) {
-          i.name = updateInputCategoryRef.current.value;
-          i.backgroundColor = updateMemoCategoryBackgroundColor;
+          i.name = data.updateMemoCategoryName;
+          i.backgroundColor = data.updateMemoCategoryColor;
         }
         return i;
       });
@@ -84,56 +78,49 @@ const UpdateMemoCategoryBox = props => {
     <Container>
       <CC.RowStartDiv w={'100%'}>메모 카테고리 수정 </CC.RowStartDiv>
       <CC.ColumnDiv gap={32}>
-        <Dropdown
-          key={'update1'}
-          brR={'0px'}
-          bg={'white100'}
+        <Select
           w={'100%'}
-          defaultPlaceHolder={'변경할 카테고리를 선택해주세요'}
-          menuList={memoStore.memoCategoryList?.map(i => {
-            return {
-              name: i.name,
-              func: () => choiceUpdateMemoCategory(i),
-              bg: i.backgroundColor,
-            };
+          register={register('pickUpdateMemoCategory')}
+          trigger={trigger}
+          placeholder={'변경할 카테고리를 선택해주세요'}
+          setValue={setValue}
+          bg={'transparent'}
+          outline={true}
+          data={memoStore.memoCategoryList?.map(i => {
+            return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
-        />
+        ></Select>
         <CC.ColumnDiv gap={8}>
           <Input
-            placeholder={''}
-            ref={updateInputCategoryRef}
-            outline={true}
-            defaultValue={updateChoiceCategory.name}
             placeholder={'변경할 카테고리명을 작성해주세요'}
+            register={register('updateMemoCategoryName')}
+            errorMessage={errors.updateMemoCategoryName?.message}
           />
-          <Dropdown
-            key={'update2'}
-            brR={'0px'}
-            bg={'white100'}
+          <Select
             w={'100%'}
-            hoverOff={true}
-            defaultPlaceHolder={'변경하려는 색상을 선택해주세요'}
-            value={{
-              id: updateChoiceCategory.id,
-              name: '',
-              bg: updateChoiceCategory.bg,
-            }}
-            menuList={categoryColors.map(i => {
-              return {
-                name: '',
-                func: () => changeUpdateMemoCategoryBackgroundColor(i),
-                bg: i,
-              };
+            register={register('updateMemoCategoryColor')}
+            trigger={trigger}
+            placeholder={'변경하려는 색상을 선택해주세요'}
+            setValue={setValue}
+            bg={'transparent'}
+            outline={true}
+            data={categoryColors?.map(i => {
+              return { value: i, name: ' ', bg: i };
             })}
-          />
+          ></Select>
         </CC.ColumnDiv>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'16px 0px'}>
         <Button
           w={'100%'}
-          onClick={() => ''}
-          bg={'primary80'}
-          onClick={() => updateMemoCategoryHandler()}
+          h={'40px'}
+          outline={true}
+          onClickCapture={handleSubmit(
+            updateMemoCategoryHandler,
+            onClickErrorSubmit
+          )}
+          disabled={!formState.isValid}
+          bg={'contrast'}
         >
           메모 수정
         </Button>

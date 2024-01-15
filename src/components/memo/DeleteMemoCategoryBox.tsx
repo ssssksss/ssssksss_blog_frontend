@@ -7,8 +7,11 @@ import { RootState } from '@/redux/store/reducers';
 import { useRef, useState } from 'react';
 import { MemoAPI } from '@/api/MemoAPI';
 import { Input } from '@/components/common/input/Input';
-import Dropdown from '@/components/common/dropdown/Dropdown';
 import { Button } from '@/components/common/button/Button';
+import Select from '@/components/common/select/Select';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { MemoDeleteYup } from '@/components/yup/MemoYup';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file DeleteMemoBox.tsx
@@ -17,17 +20,25 @@ import { Button } from '@/components/common/button/Button';
  */
 const DeleteMemoCategoryBox = props => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  let deleteMemoCategory = '';
-  const choiceDeleteMemoCategory = i => {
-    deleteMemoCategory = i;
+  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+    resolver: yupResolver(MemoDeleteYup),
+    mode: 'onChange',
+    defaultValues: {
+      pickDeleteMemoCategory: '',
+    },
+  });
+  const { errors } = formState;
+  const onClickErrorSubmit = () => {
+    alert('잘못 입력된 값이 존재합니다.');
   };
-
-  const deleteMemoCategoryHandler = () => {
+  const deleteMemoCategoryHandler = (data: {
+    pickDeleteMemoCategory: string;
+  }) => {
     MemoAPI.deleteMemoCategory({
-      id: deleteMemoCategory.id,
+      id: data.pickDeleteMemoCategory,
     }).then((res: any) => {
       let temp = memoStore.memoCategoryList.filter(
-        i => i.id != deleteMemoCategory.id
+        i => i.id != data.pickDeleteMemoCategory
       );
       store.dispatch(SET_MEMO_CATEGORY_LIST(temp));
       props.closeModal();
@@ -38,26 +49,30 @@ const DeleteMemoCategoryBox = props => {
     <Container>
       <CC.RowStartDiv w={'100%'}>메모 카테고리 삭제</CC.RowStartDiv>
       <CC.ColumnDiv gap={32}>
-        <Dropdown
-          key={'delete'}
-          brR={'0px'}
-          bg={'white100'}
+        <Select
           w={'100%'}
-          menuList={memoStore.memoCategoryList?.map(i => {
-            return {
-              name: i.name,
-              func: () => choiceDeleteMemoCategory(i),
-              bg: i.backgroundColor,
-            };
+          register={register('pickDeleteMemoCategory')}
+          trigger={trigger}
+          placeholder={'변경할 카테고리를 선택해주세요'}
+          setValue={setValue}
+          bg={'transparent'}
+          outline={true}
+          data={memoStore.memoCategoryList?.map(i => {
+            return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
-        />
+        ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>
         <Button
           w={'100%'}
-          onClick={() => ''}
-          bg={'primary80'}
-          onClick={() => deleteMemoCategoryHandler()}
+          h={'40px'}
+          outline={true}
+          onClickCapture={handleSubmit(
+            deleteMemoCategoryHandler,
+            onClickErrorSubmit
+          )}
+          disabled={!formState.isValid}
+          bg={'contrast'}
         >
           메모 삭제
         </Button>
