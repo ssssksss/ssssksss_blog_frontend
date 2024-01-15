@@ -12,28 +12,34 @@ const CalendarBar = (props) => {
     const [activeModal,setActiveModal] = useState(false);
 
     return (
-    <Container
-    className={"todoBar"}
-    type="button"
-    period={props.data.period}
-    layer={props.data.layer}
-    isChecked={props.data.isChecked}
-    backgroundColor={props.data.scheduleCategory.backgroundColor}
-    onClick={()=>setActiveModal(true)}
-    activeModal={activeModal}
-    modal={
-      <ScheduleModal
+      <Container
+        className={"todoBar"}
+        type="button"
+        period={props.data.period}
+        layer={props.data.layer}
+        isChecked={props.data.isChecked}
+        backgroundColor={props.data.scheduleCategory.backgroundColor}
+        onClick={(event)=>{
+          setActiveModal(true);
+          event.stopPropagation();
+        }}
+        activeModal={activeModal}
+        modal={
+          <ScheduleModal
+          data={props.data}
+          methodType={'month'}
+          edit={true}
+          />
+        }
+        beforeCloseFunction={()=>{
+          setActiveModal(false);
+        }}
+        modalOverlayVisible={true}
         modalW={'80%'}
-        data={props.data}
-        methodType={'month'}
-        edit={true}
-        beforeCloseFunction={()=>setActiveModal(false)}
-      />
-    }
-    >
-    {props.data.content}
-  </Container>
-  );
+        >
+        {props.data.content}
+      </Container>
+    );
 };
 export default CalendarBar
 
@@ -57,7 +63,7 @@ height: 24px;
 padding-left: 4px;
 margin-left: 4px;
 grid-row-start: ${props => props.layer};
-z-index: ${props => props.activeModal ? 6 : 4};
+z-index: ${props => props.activeModal ? 10 : 4};
 justify-content: flex-start;
 
 // 배경색(background) //
@@ -74,7 +80,10 @@ text-overflow: ellipsis;
 
 
 // 이벤트(active, focus, hover, visited, focus-within, disabled) //
-
+/* 렌더링이 발생하기전까지 z-index가 낮아저 다른 bar가 위로 보이는 문제가 있어서 일단 보이지 않게하기 위한 설정 */
+&:focus {
+  z-index: 10;
+}
 
 // 반응형(media-query, overflow, scroll) //
 overflow-x: auto;
