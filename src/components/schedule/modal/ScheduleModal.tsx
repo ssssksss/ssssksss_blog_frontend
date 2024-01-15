@@ -180,7 +180,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       });
   };
 
-  const deleteScheduleHandler = props => {
+  const deleteScheduleHandler = () => {
     ScheduleAPI.deleteSchedule({
       id: props.data.id,
     })
@@ -210,86 +210,102 @@ const ScheduleModal = (props: IScheduleModalProps) => {
 
     if (props.edit) {
       setScheduleCategory({
-        id: props.data.scheduleCategory.id,
-        name: props.data.scheduleCategory.name,
-        userId: props.data.scheduleCategory.userId,
-        backgroundColor: props.data.scheduleCategory.backgroundColor,
+        id: props.data.scheduleCategory?.id,
+        name: props.data.scheduleCategory?.name,
+        userId: props.data.scheduleCategory?.userId,
+        bg: props.data.scheduleCategory?.backgroundColor,
       });
     }
   }, []);
 
   return (
     <Container>
-      <CC.ColumnStartDiv h={'100%'} gap={4}>
-        <CC.RowBetweenDiv w={'100%'}>
-          <div> 카테고리 </div>
-        </CC.RowBetweenDiv>
-        <CC.RowDiv gap={4}>
-          <Select
-            w={'100%'}
-            value={scheduleCategory}
-            placeholder={props.edit ? '' : '색상을 선택해주세요'}
-            bg={scheduleCategory.backgroundColor || 'white80'}
-            outline={true}
-            onChange={i =>
-              setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
-            }
-            data={scheduleStore.scheduleCategoryList.map(i => {
-              return { value: i.id, name: i.name, bg: i.backgroundColor };
-            })}
-          ></Select>
-          <ModalButton
-            color={'primary80'}
-            bg={'primary20'}
-            modalW={'100%'}
-            modalH={'100%'}
-            w={'24px'}
-            h={'24px'}
-            maxH={'100%'}
-            modal={<ScheduleCategoryModal />}
-          >
-            <Image src={Icons.SettingIcon} alt="" />
-          </ModalButton>
-        </CC.RowDiv>
-      </CC.ColumnStartDiv>
-      <CC.ColumnStartDiv h={'100%'} gap={4}>
-        <CC.RowStartDiv w={'100%'}>일정 제목</CC.RowStartDiv>
-        <Input
-          placeholder={'제목을 작성해주세요'}
-          ref={scheduleTitleRef}
-          defaultValue={props.data?.content}
-          outline={true}
-        />
-      </CC.ColumnStartDiv>
-      <CC.ColumnStartDiv h={'100%'} gap={4}>
-        <CC.RowStartDiv w={'100%'}>일정 내용</CC.RowStartDiv>
-        <Textarea
-          submit={() => alert('test')}
-          h={'120px'}
-          pd={'8px'}
-          ref={scheduleContentRef}
-          defaultValue={props.data?.content}
-          placeholder={'일정 내용을 작성해주세요'}
-        />
-      </CC.ColumnStartDiv>
-      <CC.ColumnCenterDiv h={'100%'} gap={4}>
-        <DateRangePicker
-          onChange={item => {
-            setState([item.selection]);
-          }}
-          showSelectionPreview={true}
-          // moveRangeOnFirstSelection={true}
-          showDateDisplay={false}
-          months={2}
-          ranges={state}
-        />
-      </CC.ColumnCenterDiv>
+      <ReactiveDiv>
+        <CC.ColumnDiv pd={'0px 4px'}>
+          <CC.ColumnStartDiv gap={4}>
+            <CC.RowBetweenDiv w={'100%'}>
+              <div>카테고리</div>
+            </CC.RowBetweenDiv>
+            <CC.RowDiv gap={4}>
+              <Select
+                w={'100%'}
+                placeholder={
+                  props.edit
+                    ? ''
+                    : scheduleStore.scheduleCategoryList.length == 0
+                    ? '우측에서 카테고리를 생성해주세요'
+                    : '카테고리를 선택해주세요'
+                }
+                outline={true}
+                onChange={i =>
+                  setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
+                }
+                defaultValue={{
+                  value: props.data?.scheduleCategory?.id,
+                  name: props.data?.scheduleCategory?.name,
+                  bg: props.data?.scheduleCategory?.backgroundColor,
+                }}
+                data={scheduleStore.scheduleCategoryList.map(i => {
+                  return { value: i.id, name: i.name, bg: i.backgroundColor };
+                })}
+              ></Select>
+              <ModalButton
+                color={'primary80'}
+                bg={'primary20'}
+                modalW={'100%'}
+                modalH={'100%'}
+                w={'24px'}
+                h={'24px'}
+                modalMaxH={'100%'}
+                modal={<ScheduleCategoryModal />}
+              >
+                <Image src={Icons.SettingIcon} alt="" />
+              </ModalButton>
+            </CC.RowDiv>
+          </CC.ColumnStartDiv>
+          <CC.ColumnStartDiv gap={4}>
+            <CC.RowStartDiv w={'100%'}>일정 제목</CC.RowStartDiv>
+            <Input
+              placeholder={'제목을 작성해주세요'}
+              ref={scheduleTitleRef}
+              defaultValue={props.data?.content}
+              outline={true}
+            />
+          </CC.ColumnStartDiv>
+          <CC.ColumnStartDiv h={'100%'} gap={4}>
+            <CC.RowStartDiv w={'100%'}>일정 내용</CC.RowStartDiv>
+            <Textarea
+              submit={() => alert('test')}
+              h={'100%'}
+              pd={'8px'}
+              ref={scheduleContentRef}
+              defaultValue={props.data?.content}
+              placeholder={'일정 내용을 작성해주세요'}
+            />
+          </CC.ColumnStartDiv>
+        </CC.ColumnDiv>
+        <CC.ColumnCenterDiv h={'100%'} gap={4} pd={'0px 4px'}>
+          <DateRangePicker
+            onChange={item => {
+              setState([item.selection]);
+            }}
+            showSelectionPreview={true}
+            // moveRangeOnFirstSelection={true}
+            showDateDisplay={false}
+            months={2}
+            ranges={state}
+          />
+        </CC.ColumnCenterDiv>
+      </ReactiveDiv>
       {props.edit ? (
         <CC.RowDiv gap={8}>
           <Button
             w={'100%'}
             bg={'white80'}
-            onClick={() => updateScheduleHandler()}
+            onClick={e => {
+              updateScheduleHandler();
+              e.stopPropagation();
+            }}
             outline={true}
           >
             일정 수정
@@ -298,12 +314,10 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             w={'100%'}
             bg={'red60'}
             outline={true}
-            onClick={() =>
-              deleteScheduleHandler({
-                data: props.data,
-                closeModal: props.closeModal,
-              })
-            }
+            onClick={e => {
+              deleteScheduleHandler();
+              e.stopPropagation();
+            }}
           >
             일정 삭제
           </Button>
@@ -312,7 +326,10 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         <Button
           w={'100%'}
           bg={'white80'}
-          onClick={() => addScheduleHandler()}
+          onClick={e => {
+            addScheduleHandler();
+            e.stopPropagation();
+          }}
           outline={true}
         >
           일정 추가
@@ -352,12 +369,29 @@ const Container = styled(CC.ColumnBetweenDiv)`
   }
   .rdrMonth {
     outline: solid ${props => props.theme.main.primary40} 2px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
       font-size: 0.7rem;
     }
   }
   & > button {
     flex-shrink: 0;
+  }
+`;
+
+const ReactiveDiv = styled.div`
+  display: flex;
+  flex-flow: nowrap column;
+  gap: 4px;
+
+  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+    flex-flow: nowrap row;
+    & > div {
+      width: 50%;
+    }
+  }
+
+  textarea {
+    min-height: 200px;
   }
 `;
