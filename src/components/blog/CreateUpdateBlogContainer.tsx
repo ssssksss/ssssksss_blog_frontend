@@ -84,22 +84,22 @@ const CreateUpdateBlogContainer = (
   const [isHideBrowser, hideBrowserToggle] = useReducer(v => !v, true);
 
   const blogContentForm = [
-    "# <span style='color: #f91600'>[] 제목</span> \n" +
-      "## <span style='color: #f99700'>{1} 설명</span> \n" +
-      "## <span style='color: #f99700'>{2} 예시</span> \n" +
-      "### <span style='color: #1200ff'>ex1)</span> \n" +
-      "#### <span style='color: #cb00ff'>결과</span> \n" +
-      "### <span style='color: #1200ff'>ex2)</span> \n" +
-      "#### <span style='color: #cb00ff'>결과</span> \n" +
+    '# <span>[] 제목</span> \n' +
+      '## <span>{1} 설명</span> \n' +
+      '## <span>{2} 예시</span> \n' +
+      '### <span>ex1)</span> \n' +
+      '#### <span>결과</span> \n' +
+      '### <span>ex2)</span> \n' +
+      '#### <span>결과</span> \n' +
       '---',
-    "# <span style='color: #f91600'>[] 제목</span> \n" +
-      "## <span style='color: #f99700'>{1} 설명</span> \n" +
-      "## <span style='color: #f99700'>{2} 문법</span> \n" +
-      "## <span style='color: #f99700'>{3} 예시</span> \n" +
-      "### <span style='color: #1200ff'>ex1)</span> \n" +
-      "#### <span style='color: #cb00ff'>결과</span> \n" +
-      "### <span style='color: #1200ff'>ex2)</span> \n" +
-      "#### <span style='color: #cb00ff'>결과</span> \n" +
+    '# <span>[] 제목</span> \n' +
+      '## <span>{1} 설명</span> \n' +
+      '## <span>{2} 문법</span> \n' +
+      '## <span>{3} 예시</span> \n' +
+      '### <span>ex1)</span> \n' +
+      '#### <span>결과</span> \n' +
+      '### <span>ex2)</span> \n' +
+      '#### <span>결과</span> \n' +
       '---',
     '| 속성 | 설명 |  \n' +
       '| --- | --- | \n' +
@@ -611,12 +611,6 @@ const CreateUpdateBlogContainer = (
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(blogContentForm[0]);
-                    // store.dispatch(
-                    //   SET_TOASTIFY_MESSAGE({
-                    //     type: 'success',
-                    //     message: '폼1이 복사되었습니다.',
-                    //   })
-                    // );
                   }}
                 >
                   폼1
@@ -624,12 +618,6 @@ const CreateUpdateBlogContainer = (
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(blogContentForm[1]);
-                    // store.dispatch(
-                    //   SET_TOASTIFY_MESSAGE({
-                    //     type: 'success',
-                    //     message: '폼2이 복사되었습니다.',
-                    //   })
-                    // );
                   }}
                 >
                   폼2
@@ -637,12 +625,6 @@ const CreateUpdateBlogContainer = (
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(blogContentForm[2]);
-                    // store.dispatch(
-                    //   SET_TOASTIFY_MESSAGE({
-                    //     type: 'success',
-                    //     message: '테이블1 이 복사되었습니다.',
-                    //   })
-                    // );
                   }}
                 >
                   테1
@@ -650,12 +632,6 @@ const CreateUpdateBlogContainer = (
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(blogContentForm[3]);
-                    // store.dispatch(
-                    //   SET_TOASTIFY_MESSAGE({
-                    //     type: 'success',
-                    //     message: '테이블2 이 복사되었습니다.',
-                    //   })
-                    // );
                   }}
                 >
                   테2
@@ -718,43 +694,46 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
     font-size: 16px;
 
     h1[data-nodeid] {
-      background: ${props => props.theme.main.primary20};
-      opacity: 0.8;
-      padding: 16px 0px;
-      font-size: 1.6rem;
-      border-radius: 10px;
-      box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.red20 + '33'};
+      font-size: ${props => props.theme.calcRem(28)};
+      padding: 4px 0px;
+    }
+    h1[data-nodeid]::before {
+      content: '📌 ';
     }
     h2[data-nodeid] {
-      padding: 8px 0px;
-      font-size: 1.4rem;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      background: ${props => props.theme.main.secondary20};
-      border-radius: 10px;
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.orange20 + '33'};
+      font-size: ${props => props.theme.calcRem(24)};
+      padding: 2px 0px;
+    }
+    h2[data-nodeid]::before {
+      content: '🚩 ';
     }
     h3[data-nodeid] {
-      padding: 6px 0px;
-      font-size: 1.2rem;
-      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
-      border-radius: 10px;
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.orange20 + '33'};
+      font-size: ${props => props.theme.calcRem(20)};
     }
-    h4[data-nodeid] {
-      padding: 8px 0px;
-      border-radius: 10px;
-      background: ${props => props.theme.colors.orange20};
-      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    h3[data-nodeid]::before {
+      content: '🔶 ';
     }
-    h5[data-nodeid] {
-      padding: 4px 0px;
-      margin: 0;
+    h4[data-nodeid]::before {
+      content: '🔸 ';
     }
-
     pre {
       outline: solid ${props => props.theme.main.primary80} 1px;
       border-radius: 10px;
       padding: 2px;
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+      font-size: ${props => props.theme.calcRem(12)};
+      background: ${props => props.theme.colors.white80};
+      position: relative;
     }
 
     th {

@@ -151,6 +151,7 @@ export default forwardRef(Select);
 const Container = styled.div<ISelectProps>`
 // 외곽 디자인(border-radius, outline, box-shadow) //
   outline: inset ${props=>(props.theme.colors.[props.outlineColor] || props.theme.main.[props.outlineColor] ||  props.theme.main.primary80)} 1px;
+  border-radius: 8px;
 
 // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: flex;
@@ -196,15 +197,17 @@ const Container = styled.div<ISelectProps>`
     outline: inset ${props=>props.theme.main.primary80} 1px;
   }
   li {
+    --pd-left: 2px;
     width: 100%;
     height: 32px;
     display: flex;
     align-items: center;
     color: ${props=>props.theme.colors.black60};
-    padding-left: 4px;
+    padding-left: var(--pd-left);
+    cursor: pointer;
     
     &:hover {
-      border: solid ${props=>props.theme.colors.black80} 4px;
+      border: solid ${props=>props.theme.colors.black80} var(--pd-left);
       padding-left: 0px;
     }
   }

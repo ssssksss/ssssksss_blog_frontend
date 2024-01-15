@@ -92,7 +92,7 @@ const BlogMainContainer = () => {
           {`[${blogStore.firstCategoryName}/${blogStore.secondCategoryName}]`}
           검색결과 : {blogStore.blogPostList?.length}
         </span>
-        <CC.RowDiv pd={'4px'} gap={8}>
+        <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
           <Select
             onChange={orderBlogListHandler}
             defaultValue={{

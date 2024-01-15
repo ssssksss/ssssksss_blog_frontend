@@ -307,7 +307,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
   margin-bottom: 10px;
 
   .toastui-editor-contents {
-    background: ${props => props.theme.colors.white60};
+    background: ${props => props.theme.colors.white80};
     padding: 4px 16px;
     ${props => props.theme.flex.column};
     gap: 20px;
@@ -315,35 +315,39 @@ const ViewerContainer = styled.div<{ icon: any }>`
     min-height: calc(100vh - 268px);
 
     h1[data-nodeid] {
-      background: ${props => props.theme.main.primary20};
-      opacity: 0.8;
-      padding: 16px 0px;
-      font-size: 1.6rem;
-      border-radius: 10px;
-      box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.red20 + '33'};
+      font-size: ${props => props.theme.calcRem(28)};
+      border-radius: 8px;
+      padding: 4px 0px;
+    }
+    h1[data-nodeid]::before {
+      content: '📌 ';
     }
     h2[data-nodeid] {
-      padding: 8px 0px;
-      font-size: 1.4rem;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      background: ${props => props.theme.main.secondary20};
-      border-radius: 10px;
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.orange20 + '33'};
+      font-size: ${props => props.theme.calcRem(24)};
+      border-radius: 8px;
+      padding: 2px 0px;
+    }
+    h2[data-nodeid]::before {
+      content: '🚩 ';
     }
     h3[data-nodeid] {
-      padding: 6px 0px;
-      font-size: 1.2rem;
-      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
-      border-radius: 10px;
+      border: none;
+      width: 100%;
+      background: ${props => props.theme.colors.orange20 + '33'};
+      font-size: ${props => props.theme.calcRem(20)};
+      border-radius: 8px;
     }
-    h4[data-nodeid] {
-      padding: 8px 0px;
-      border-radius: 10px;
-      background: ${props => props.theme.colors.orange20};
-      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    h3[data-nodeid]::before {
+      content: '🔶 ';
     }
-    h5[data-nodeid] {
-      padding: 8px 0px;
-      border-radius: 10px;
+    h4[data-nodeid]::before {
+      content: '🔸 ';
     }
 
     pre {
@@ -353,6 +357,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
       font-size: ${props => props.theme.calcRem(12)};
+      background: ${props => props.theme.colors.white80};
 
       & > button {
         content: '';
