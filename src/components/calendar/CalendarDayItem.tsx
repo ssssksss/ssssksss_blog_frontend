@@ -57,11 +57,15 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       color={'primary80'}
       bg={'primary20'}
       modalOverlayVisible={true}
-      modalW={'100%'}
-      w={'100%'}
+      modalW={'80%'}
     >
-      <RelativePositionBox onClick={event => event.stopPropagation()}>
-        <DayTitle>{props.day} </DayTitle>
+      <DayTitle>{props.day} </DayTitle>
+      <RelativePositionBox
+        onClick={event => {
+          event.stopPropagation();
+        }}
+      >
+        {/* <RelativePositionBox onClick={event => event.stopPropagation()}> */}
         <CalendarListBox layer={props.layer}>
           {props.data?.map(i => (
             <CalendarBar data={i} />
@@ -107,6 +111,8 @@ const DayTitle = styled.div`
   padding: 2px 0px 0px 4px;
   font-size: 0.8rem;
   display: flex;
+  justify-content: flex-start;
+  width: 100%;
 `;
 
 const CalendarListBox = styled.div<{ layer: number }>`
