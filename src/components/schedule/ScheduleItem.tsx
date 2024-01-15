@@ -60,7 +60,7 @@ const ScheduleItem = (props: IScheduleItemProps) => {
     <Container isChecked={props?.data?.isChecked} bg={props?.data?.scheduleCategory?.backgroundColor}
     modal={<ScheduleModal edit={true} data={props?.data} />}
     modalOverlayVisible={true}
-    modalW={'50%'}
+    modalW={'80%'}
     >
       <CategoryName color={'black40'} h={'18px'} fw={true} color={props?.data?.scheduleCategory?.backgroundColor}>
         {props?.data?.scheduleCategory?.name}
@@ -110,7 +110,6 @@ const Container = styled(ModalButton)<{ isChecked: boolean, bg: string }>`
   width: 100%;
   height: max-content;
   background: ${props => props.isChecked && props.theme.colors.gray40};
-  &:focus,
   &:hover {
     background: ${props => props.theme.colors.[props.bg]};
   }
