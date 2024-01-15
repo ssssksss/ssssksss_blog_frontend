@@ -353,21 +353,31 @@ const ViewerContainer = styled.div<{ icon: any }>`
     pre {
       outline: solid ${props => props.theme.main.primary80} 1px;
       border-radius: 10px;
-      padding: 2px;
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
       font-size: ${props => props.theme.calcRem(12)};
       background: ${props => props.theme.colors.white80};
 
       & > button {
+        display: none;
         content: '';
         background-image: ${props =>
           props.icon && `url('/img/ui-icon/ic-board.svg')`};
-        width: 24px;
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position-x: 50%;
+        background-position-y: 50%;
         aspect-ratio: 1;
         position: absolute;
-        right: 4px;
-        top: 4px;
+        width: max-content;
+        top: 0px;
+
+        aspect-ratio: 1;
+        padding: 0px;
+        border: none;
+      }
+      &:hover > button {
+        display: flex;
       }
     }
 
