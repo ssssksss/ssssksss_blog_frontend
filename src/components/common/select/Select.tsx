@@ -39,9 +39,9 @@ interface ISelectProps {
 
 const Select = ({ children, ...props }, ref): ISelectProps => {
   const [data,setData] = useState({
-    value: '',
-    name: '',
-    bg: '',
+    value: props.defaultValue?.value,
+    name: props.defaultValue?.name,
+    bg: props.defaultValue?.bg,
   });
   const [isOpen,setIsOpen] = useState(false);
   const inputRef = useRef<null>();
@@ -70,14 +70,14 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
 
   return (
     <Container {...props} onClick={()=>setIsOpen(prev=>!prev)}>
-      <CC.RowCenterDiv bg={data.bg}>
-        {data.name || data.value}
+      <CC.RowCenterDiv bg={data?.bg || 'white80'}>
+        {data?.name || data?.value}
       </CC.RowCenterDiv>
       {
         isOpen && (
       <ul>
         {
-          props.data?.filter(j=>j.value != data.value).map((i)=>(
+          props.data?.filter(j=>data.value != j.value ).map((i)=>(
             <SelectItem 
             bg={i.bg}
             onClick={(e)=>{
@@ -160,7 +160,7 @@ const Container = styled.div<ISelectProps>`
   padding-right: 18px;
   
   // 배경색(background) //
-  background:  ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] ||  props.theme.colors.white80};
+  background: transparent;
   
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
   color: ${props=>props.theme.colors.black60};
@@ -198,13 +198,14 @@ const Container = styled.div<ISelectProps>`
   li {
     width: 100%;
     height: 32px;
-    padding-left: 4px;
     display: flex;
     align-items: center;
     color: ${props=>props.theme.colors.black60};
-
+    padding-left: 4px;
+    
     &:hover {
-      background: ${props=>props.theme.main.primary20};
+      border: solid ${props=>props.theme.colors.black80} 4px;
+      padding-left: 0px;
     }
   }
 
