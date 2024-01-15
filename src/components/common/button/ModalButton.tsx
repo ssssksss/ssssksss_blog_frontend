@@ -66,7 +66,8 @@ const ModalButton: IModalButtonProps = ({
 );
 
 
-  const closeModal = useCallback(() => {
+  const closeModal = useCallback((e) => {
+    if(props.beforeCloseFunction) { props.beforeCloseFunction(); }
     setIsOpen(false);
   },[])
 
@@ -77,23 +78,13 @@ const ModalButton: IModalButtonProps = ({
       {...props}
     >
         {children}
-      {isOpen && <Overlay modalOverlayVisible={props.modalOverlayVisible} onClickCapture={(e) => 
-        {
-          e.stopPropagation();
-          setIsOpen(false);
-        }} />}
+      {isOpen && <Overlay modalOverlayVisible={props.modalOverlayVisible} onClickCapture={closeModal} />}
       {isOpen && (
         <ModalComponent width={props.modalW} height={props.modalH} background={props.modalBg} maxH={props.modalMaxH} maxW={props.modalMaxW}>
-          <Exit onClickCapture={(e) =>{ 
-            e.stopPropagation();
-            setIsOpen(false);
-          }}>
+          <Exit onClickCapture={closeModal}>
             <Image src={Icons.ExitIcon} alt="exit" width={"36px"} height={"36px"}/>
           </Exit>
-          {{...props.modal, props: {...props.modal.props, "closeModal": ()=>{
-            {props.beforeCloseFunction && props.beforeCloseFunction()}
-            closeModal();
-          }}}}
+          {{...props.modal, props: {...props.modal.props, "closeModal": ()=>closeModal()}}}
         </ModalComponent>
       )}
     </ModalButtonStyle>
