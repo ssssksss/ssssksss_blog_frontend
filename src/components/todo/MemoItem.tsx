@@ -35,6 +35,7 @@ interface IMemoItemProps {
     type: string;
     categoryId: number;
   }
+  key?: string;
 }
 
 const MemoItem = (props: IMemoItemProps) => {
@@ -47,25 +48,25 @@ const MemoItem = (props: IMemoItemProps) => {
       memoCategoryId: Number(props.category.categoryId),
     })
       .then((res: any) => {
+        let temp = [...memoStore.memoList];
+        temp.unshift({
+          id: res.jsonObject.memo.id,
+          content: res.jsonObject.memo.content,
+          memoCategory: {
+            id: Number(res.jsonObject.memo.memoCategory.id),
+            name: res.jsonObject.memo.memoCategory.name,
+            backgroundColor:
+            res.jsonObject.memo.memoCategory.backgroundColor,
+          },
+        });
+        console.log("MemoItem.tsx 파일 : ",temp);
         store.dispatch(
-          SET_MEMO_LIST([
-            {
-              id: res.jsonObject.memo.id,
-              content: res.jsonObject.memo.content,
-              memoCategory: {
-                id: Number(res.jsonObject.memo.memoCategory.id),
-                name: res.jsonObject.memo.memoCategory.name,
-                backgroundColor:
-                res.jsonObject.memo.memoCategory.backgroundColor,
-              },
-            },
-            ...memoStore.memoList,
-          ])
+          SET_MEMO_LIST([...temp])
         );
-        props.closeModal();
+        memoContentRef.current.value = '';
       })
       .catch((err: any) => {
-        console.log('MemoModal.tsx 파일 : ', err);
+        console.log("MemoItem.tsx 파일 : ");
       });
   };
 
@@ -89,12 +90,12 @@ const MemoItem = (props: IMemoItemProps) => {
               },
             };
           }
+          return i;
         });
         store.dispatch(SET_MEMO_LIST(temp));
-        props.closeModal();
       })
       .catch((err: any) => {
-        console.log('MemoModal.tsx 파일 : ', err);
+        console.log("MemoItem.tsx 파일 : ", err);
       });
   };
 
@@ -102,15 +103,15 @@ const MemoItem = (props: IMemoItemProps) => {
     MemoAPI.deleteMemo({
       id: props.data.id
     }).then((res)=>{
-      let temp = memoStore.memoList.filter(i => props.data.id !== i.id);
-      store.dispatch(SET_MEMO_LIST(temp));
+      let temp = memoStore.memoList.filter(i => props.data.id != i.id);
+      store.dispatch(SET_MEMO_LIST([...temp]));
     }).catch((err)=>{
 
     })
   };
 
   return (
-    <Container bg={props.data?.memoCategory.backgroundColor}>
+    <Container bg={props.data?.memoCategory.backgroundColor} key={props.key}>
       <Header>
           <CC.RowCenterDiv> {props.data?.memoCategory.name || "메모 작성"} </CC.RowCenterDiv>
           {
