@@ -48,9 +48,7 @@ const CreateUpdateBlogContainer = (
   const router = useRouter();
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
-  const [areaTextContent, setAreaTextContent] = useState(
-    '# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n'
-  );
+  const [areaTextContent, setAreaTextContent] = useState('# \n ##  \n');
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
   const postUrlHref =
@@ -84,22 +82,22 @@ const CreateUpdateBlogContainer = (
   const [isHideBrowser, hideBrowserToggle] = useReducer(v => !v, true);
 
   const blogContentForm = [
-    '# <span>[] 제목</span> \n' +
-      '## <span>{1} 설명</span> \n' +
-      '## <span>{2} 예시</span> \n' +
-      '### <span>ex1)</span> \n' +
-      '#### <span>결과</span> \n' +
-      '### <span>ex2)</span> \n' +
-      '#### <span>결과</span> \n' +
+    '# 제목 \n' +
+      '## 설명 \n' +
+      '## 예시 \n' +
+      '### ex1) \n' +
+      '#### 결과 \n' +
+      '### ex2) \n' +
+      '#### 결과 \n' +
       '---',
-    '# <span>[] 제목</span> \n' +
-      '## <span>{1} 설명</span> \n' +
-      '## <span>{2} 문법</span> \n' +
-      '## <span>{3} 예시</span> \n' +
-      '### <span>ex1)</span> \n' +
-      '#### <span>결과</span> \n' +
-      '### <span>ex2)</span> \n' +
-      '#### <span>결과</span> \n' +
+    '# 제목 \n' +
+      '## 설명 \n' +
+      '## 문법 \n' +
+      '## 예시 \n' +
+      '### ex1) \n' +
+      '#### 결과 \n' +
+      '### ex2) \n' +
+      '#### 결과 \n' +
       '---',
     '| 속성 | 설명 |  \n' +
       '| --- | --- | \n' +
@@ -122,8 +120,8 @@ const CreateUpdateBlogContainer = (
     let imageFileList = [];
 
     if (
-      !firstCategoryRef.current.value ||
-      !secondCategoryRef.current.value ||
+      !firstCategory.id ||
+      !secondCategory.id ||
       !title ||
       !description ||
       !getContent_md
@@ -145,10 +143,10 @@ const CreateUpdateBlogContainer = (
         title: title,
         description: description,
         content: getContent_md,
-        firstCategoryId: firstCategoryRef.current.value,
-        secondCategoryId: secondCategoryRef.current.value,
+        firstCategoryId: firstCategory.id,
+        secondCategoryId: secondCategory.id,
         thumbnailImageFile: fileRef.current.files[0],
-        directory: `/blog/thumbnail/${firstCategoryRef.current.value}/${secondCategoryRef.current.value}`,
+        directory: `/blog/thumbnail/${firstCategory.id}/${secondCategory.id}`,
         imageUrlList: imageUrlList,
         imageFileList: imageFileList,
       })
@@ -159,6 +157,8 @@ const CreateUpdateBlogContainer = (
         });
       })
       .catch(error => {
+        // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
+        navigator.clipboard.writeText(getContent_md);
         console.log('CreateUpdateBlogContainer.tsx 파일 : ', error);
       });
   };
@@ -177,8 +177,8 @@ const CreateUpdateBlogContainer = (
     let removeImageBucketDirectory = [];
 
     if (
-      !firstCategoryRef.current.value ||
-      !secondCategoryRef.current.value ||
+      !firstCategory.id ||
+      !secondCategory.id ||
       !title ||
       !description ||
       !getContent_md
@@ -208,10 +208,10 @@ const CreateUpdateBlogContainer = (
         title: title,
         description: description,
         content: getContent_md,
-        firstCategoryId: firstCategoryRef.current.value,
-        secondCategoryId: secondCategoryRef.current.value,
+        firstCategoryId: firstCategory.id,
+        secondCategoryId: secondCategory.id,
         thumbnailImageFile: fileRef.current.files[0],
-        S3directory: `/blog/thumbnail/${firstCategoryRef.current.value}/${secondCategoryRef.current.value}`,
+        S3directory: `/blog/thumbnail/${firstCategory.id}/${secondCategory.id}`,
         imageUrlList: imageUrlList,
         imageFileList: imageFileList,
         removeImageBucketDirectory: removeImageBucketDirectory,
@@ -221,6 +221,8 @@ const CreateUpdateBlogContainer = (
         router.replace(`/blog/${router.query.id}`);
       })
       .catch(error => {
+        // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
+        navigator.clipboard.writeText(getContent_md);
         console.log('CreateUpdateBlogContainer.tsx 파일1 : ', error);
       });
   };
@@ -356,6 +358,7 @@ const CreateUpdateBlogContainer = (
           secondCategoryId: number;
           title: string;
         } = res.data.blogItem.blogDao;
+        let _secondCategoryName;
 
         _categoryListTemp.map(i => {
           if (i.id == _data.firstCategoryId) {
@@ -367,9 +370,12 @@ const CreateUpdateBlogContainer = (
               value: i.id,
               name: i.name,
             };
+            _secondCategoryName = i.secondCategoryList.filter(
+              j => j.id == _data.secondCategoryId
+            )[0].name;
             setSecondCategory({
-              id: i.secondCategoryList[0]?.id,
-              name: i.secondCategoryList[0]?.name,
+              id: _data.secondCategoryId,
+              name: _secondCategoryName,
             });
             setSecondCategoryList(
               i.secondCategoryList.map(j => ({
@@ -378,8 +384,8 @@ const CreateUpdateBlogContainer = (
               }))
             );
             secondCategoryRef.current = {
-              value: i.secondCategoryList[0]?.id,
-              name: i.secondCategoryList[0]?.name,
+              id: _data.secondCategoryId,
+              name: _secondCategoryName,
             };
             setTitle(_data.title);
             setDescription(_data.description);
@@ -431,7 +437,9 @@ const CreateUpdateBlogContainer = (
     window.addEventListener('keydown', keyDownEventFunc);
 
     return () => {
+      console.log('CreateUpdateBlogContainer.tsx 파일 : ?????');
       window.removeEventListener('keydown', keyDownEventFunc);
+      console.log(editorInstance?.getMarkdown());
     };
   }, []);
 
@@ -856,7 +864,9 @@ const Title = styled(Input)`
   }
 `;
 
-const EditorContainer = styled.div``;
+const EditorContainer = styled.div`
+  padding-top: 48px;
+`;
 const EditorFooter = styled(CC.GridColumn2)`
   gap: 10px;
   position: sticky;
