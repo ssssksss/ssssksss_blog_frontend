@@ -59,7 +59,6 @@ const MemoItem = (props: IMemoItemProps) => {
             res.jsonObject.memo.memoCategory.backgroundColor,
           },
         });
-        console.log("MemoItem.tsx 파일 : ",temp);
         store.dispatch(
           SET_MEMO_LIST([...temp])
         );
