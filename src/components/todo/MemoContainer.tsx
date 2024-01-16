@@ -32,21 +32,6 @@ const MemoContainer = (props: IMemoContainerProps) => {
     categoryId: '',
   });
 
-  const deleteMemoHandler = props => {
-    MemoAPI.deleteMemo({
-      id: props.data.id,
-    })
-      .then((res: any) => {
-        store.dispatch(
-          SET_MEMO_LIST(memoStore.memoList?.filter(i => i.id != props.data.id))
-        );
-        props.closeModal();
-      })
-      .catch((err: any) => {
-        console.log('MemoContainer.tsx 파일 : ', err);
-      });
-  };
-
   useEffect(() => {
     MemoAPI.getMemoCategoryList()
       .then((res: any) => {
