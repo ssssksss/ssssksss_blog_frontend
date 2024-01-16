@@ -94,6 +94,7 @@ const ViewBlogContainer = () => {
           });
           i.appendChild(test);
         });
+        createBlogIndex();
       })
       .catch(err => {});
 
@@ -118,12 +119,12 @@ const ViewBlogContainer = () => {
     setCreateBlogIndexFlag(true);
     let temp = document
       .getElementsByClassName('toastui-editor-contents')[0]
-      .querySelectorAll('h1,h2,h3,h4,h5,h6');
+      .querySelectorAll('h1,h2,h3');
     let htmlTagIndexTempArray = [];
     temp.forEach(i => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
-        top: i.getBoundingClientRect().top,
+        top: i.getBoundingClientRect().top - 40,
         tagName: i.tagName,
       });
     });
@@ -198,7 +199,7 @@ const ViewBlogContainer = () => {
               ) : (
                 <BlogTopicInlineLinksButton
                   onClick={() => {
-                    createBlogIndex();
+                    // createBlogIndex();
                     IsOpenModalToggle();
                   }}
                 >
@@ -394,9 +395,15 @@ const ViewerContainer = styled.div<{ icon: any }>`
       background: ${props => props.theme.main.secondary80};
     }
 
-    p > img {
-      margin: auto;
-      display: block;
+    p[data-nodeid]:has(img) {
+      display: flex;
+      justify-content: center;
+      img {
+        @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
+          max-width: 600px;
+          max-height: 600px;
+        }
+      }
     }
   }
 `;
@@ -406,7 +413,6 @@ const FixContainer = styled(CC.ColumnDiv)`
   right: 10px;
   bottom: ${props => props.theme.calcRem(60)};
   gap: 8px;
-  opacity: 0.8;
   background: ${props => props.theme.main.primary80};
   color: ${props => props.theme.main.contrast};
   outline: solid black 1px;
@@ -519,33 +525,37 @@ const BlogTopicInlineLinkListBodyContainer = styled.div`
     align-items: start;
     text-align: start;
     :hover {
-      background: ${props => props.theme.main.primary80};
-      color: ${props => props.theme.main.contrast};
+      background: ${props => props.theme.main.primary20};
+      /* color: ${props => props.theme.main.contrast}; */
     }
   }
 
   .H1 {
-    color: #f91600;
-    padding: 4px 0px;
+    padding: 2px 0px;
+    color: ${props => props.theme.colors.black100};
+    font-weight: 800;
   }
   .H2 {
-    padding-left: 2px;
-    color: #f99700;
+    padding: 2px 0px 2px 4px;
+    color: ${props => props.theme.colors.black80};
+    font-weight: 600;
   }
   .H3 {
-    padding-left: 6px;
-    color: #1200ff;
+    padding: 2px 0px 2px 8px;
+    color: ${props => props.theme.colors.black60};
+    font-weight: 400;
   }
-  .H4 {
-    padding-left: 8px;
+  /* .H4 {
     color: #cb00ff;
+    font-size: ${props => props.theme.calcRem(18)};
+    padding-left: 6px;
   }
   .H5 {
     padding-left: 10px;
   }
   .H6 {
     padding-left: 12px;
-  }
+  } */
 `;
 
 const BlogTopicInlineLinksButton = styled.button`
