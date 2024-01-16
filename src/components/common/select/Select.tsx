@@ -198,6 +198,7 @@ const Container = styled.div<ISelectProps>`
   }
   li {
     --pd-left: 2px;
+    --scale-value: 1.4;
     width: 100%;
     height: 32px;
     display: flex;
@@ -207,8 +208,12 @@ const Container = styled.div<ISelectProps>`
     cursor: pointer;
     
     &:hover {
-      border: solid ${props=>props.theme.colors.black80} var(--pd-left);
-      padding-left: 0px;
+      /* border: solid ${props=>props.theme.colors.black80} var(--pd-left); */
+      /* padding-left: 0px; */
+
+      background: ${props=>props.theme.main.primary20};
+      font-weight: 800;
+      transition: all 0.6s ease;
     }
   }
 
