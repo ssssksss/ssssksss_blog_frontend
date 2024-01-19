@@ -68,9 +68,16 @@ const TopBar = () => {
         <Spinner1 />
       ) : (
         <Main>
-          <Title> 가출한토토로의 블로그 </Title>
+          <Title>
+            <Image
+              src={Icons.LogoIcon}
+              alt="logo"
+              width={'36px'}
+              height={'36px'}
+            />
+          </Title>
           <CC.RowDiv gap={8}>
-            <ModalButton h={'100%'}>
+            {/* <ModalButton h={'100%'}>
               <Image
                 src={Icons.MailIcon}
                 alt="mail"
@@ -83,7 +90,7 @@ const TopBar = () => {
                 alt="alarm"
                 onClick={() => alert('제작 계획 중')}
               />
-            </ModalButton>
+            </ModalButton> */}
             {useLoading ? (
               <>
                 {authStore.email ? (

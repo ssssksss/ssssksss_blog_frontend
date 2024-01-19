@@ -48,24 +48,25 @@ const MemoItem = (props: IMemoItemProps) => {
       memoCategoryId: Number(props.category.categoryId),
     })
       .then((res: any) => {
+        console.log("MemoItem.tsx 파일 : ",res);
         let temp = [...memoStore.memoList];
         temp.unshift({
-          id: res.jsonObject.memo.id,
-          content: res.jsonObject.memo.content,
+          id: res.jsonObject.id,
+          content: res.jsonObject.content,
           memoCategory: {
-            id: Number(res.jsonObject.memo.memoCategory.id),
-            name: res.jsonObject.memo.memoCategory.name,
+            id: Number(res.jsonObject.memoCategory.id),
+            name: res.jsonObject.memoCategory.name,
             backgroundColor:
-            res.jsonObject.memo.memoCategory.backgroundColor,
+            res.jsonObject.memoCategory.backgroundColor,
           },
         });
         store.dispatch(
-          SET_MEMO_LIST([...temp])
+          SET_MEMO_LIST(temp)
         );
         memoContentRef.current.value = '';
       })
       .catch((err: any) => {
-        console.log("MemoItem.tsx 파일 : ");
+        console.log("MemoItem.tsx 파일 : err", err);
       });
   };
 
@@ -78,14 +79,14 @@ const MemoItem = (props: IMemoItemProps) => {
         let temp = memoStore.memoList.map(i => {
           if (i.id == props.data.id) {
             return {
-              id: res.jsonObject.memo.id,
-              content: res.jsonObject.memo.content,
+              id: res.jsonObject.id,
+              content: res.jsonObject.content,
               memoCategory: {
-                id: Number(res.jsonObject.memo.memoCategory.id),
-                name: res.jsonObject.memo.memoCategory.name,
+                id: Number(res.jsonObject.memoCategory.id),
+                name: res.jsonObject.memoCategory.name,
                 backgroundColor:
-                  res.jsonObject.memo.memoCategory.backgroundColor,
-                userId: res.jsonObject.memo.memoCategory.userId,
+                  res.jsonObject.memoCategory.backgroundColor,
+                userId: res.jsonObject.memoCategory.userId,
               },
             };
           }

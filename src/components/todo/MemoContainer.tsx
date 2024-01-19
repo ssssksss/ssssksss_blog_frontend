@@ -40,7 +40,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
         );
       })
       .catch((err: any) => {
-        console.log('MemoCategoryModal.tsx 파일1 err: ', err);
+        console.log('MemoContainer.tsx 파일 : ', err);
       });
 
     MemoAPI.getMemoList({
@@ -50,7 +50,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
         store.dispatch(SET_MEMO_LIST(res.jsonObject?.memoList));
       })
       .catch((err: any) => {
-        console.log('MemoCategoryModal.tsx 파일2 err: ', err);
+        console.log('MemoContainer.tsx 파일 : ', err);
       });
   }, []);
 
@@ -143,6 +143,7 @@ const MainContainer = styled.div`
   padding: 8px 8px 16px 8px;
   background: ${props => props.theme.colors.gray20};
   height: max-content;
+  min-height: 300px;
 
   @media (min-width: ${props => props.theme.deviceSizes.mobile}) {
     grid-template-columns: repeat(2, 1fr);

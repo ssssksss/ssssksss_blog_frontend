@@ -21,13 +21,15 @@ const BlogSearchContainer = () => {
   const [isLoading, loadingFunction] = useLoading();
 
   const SearchHandler = () => {
-    setIsOpenBlogItemList(true);
     loadingFunction(
       BlogAPI.getSearchBlogPostList({
         keyword: inputRef.current.value,
       })
     ).then(res => {
       setSearchBlogPostList(res.data.blogList);
+      res.data.blogList.length > 0
+        ? setIsOpenBlogItemList(true)
+        : setIsOpenBlogItemList(false);
     });
   };
 
@@ -57,7 +59,11 @@ const BlogSearchContainer = () => {
         ref={inputRef}
         leftIconImage={Icons.SearchIcon.src}
         onChange={delaySearch(SearchHandler, 600)}
-        onClick={() => setIsOpenBlogItemList(prev => !prev)}
+        onClick={() =>
+          setIsOpenBlogItemList(prev =>
+            searchBlogPostList.length > 0 ? !prev : false
+          )
+        }
       />
 
       {isOpenBlogItemList && (

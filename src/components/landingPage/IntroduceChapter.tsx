@@ -14,14 +14,7 @@ import MyRoom from '../threejs/glTF/room/MyRoom';
 const IntroduceChapter = () => {
   return (
     <Container>
-      {/* <TextDiv>
-        <Title> 가출한 토토로의 공간에 오신것을 환영합니다. </Title>
-        <SubTitle> 공부 기록과 토이 프로젝트의 공간 </SubTitle>
-        <SubTitle> 블로그 글 정리 중(오래 걸릴 예정)~ </SubTitle>
-        <SubTitle> 공부하면서 만들었던 것들을 합치는 중~ </SubTitle>
-      </TextDiv> */}
       <ObjectModel>
-        {/* <Totoro /> */}
         <MyRoom />
       </ObjectModel>
     </Container>

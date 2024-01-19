@@ -43,20 +43,17 @@ const propsCommonStyle = (props: any) => css`
   font-size: ${props.fontSize};
   font-weight: ${props.fw && "800"};
   ${
-    props.overflow &&
-    css`
-        overflow: scroll;
-        `};
-        
-        & > h1, h2, h3, span, div{
-          ${
     props.overflow === 'hidden' &&
     css`
-      overflow: hidden;
+      overflow: scroll,
+      -ms-overflow-style: none,
+      scrollbarWidth: none,
+      &::-webkit-scrollbar: {
+        display: none,
+      },
       text-overflow: ellipsis;
       white-space: nowrap;
-      `};
-    }
+      `}
   ${
     props.outline &&
     css`
