@@ -163,7 +163,7 @@ const CreateUpdateBoardContainer = (
 
   return (
     <>
-      {authStore.role === 'ROLE_ADMIN' && (
+      {(authStore.role === 'ROLE_ADMIN' || authStore.role === 'ROLE_USER') && (
         <>
           {isLoading ? (
             <LoadingComponent mode={'board'}> 로딩중 </LoadingComponent>
@@ -188,13 +188,13 @@ const CreateUpdateBoardContainer = (
                     colorSyntax,
                     [codeSyntaxHighlight, { highlighter: Prism }],
                   ]}
-                  hooks={{
-                    addImageBlobHook: async (blob, callback) => {
-                      const imageURL: any = await uploadHandler(blob);
-                      callback(`${AWSS3Prefix}${imageURL[0]}`, '');
-                      // "blog"+directory+"/"+fileName
-                    },
-                  }}
+                  // hooks={{
+                  //   addImageBlobHook: async (blob, callback) => {
+                  //     const imageURL: any = await uploadHandler(blob);
+                  //     callback(`${AWSS3Prefix}${imageURL[0]}`, '');
+                  //     // "blog"+directory+"/"+fileName
+                  //   },
+                  // }}
                   viewer={true}
                   // language="ko-KR"
                   toolbarItems={[
@@ -308,7 +308,7 @@ const EditorFooter = styled(CC.GridColumn2)`
   button {
     color: ${props => props.theme.main.primary80};
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.2);
       background: ${props => props.theme.main.primary80};
       color: ${props => props.theme.main.contrast};
     }
