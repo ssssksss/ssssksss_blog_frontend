@@ -164,6 +164,7 @@ export const Input = React.forwardRef((props,ref) => {
           props.onChange(e);
         }
       }}
+      defaultValue={props.defaultValue}
       ref={ref ?? null}
       onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
         if (
@@ -228,7 +229,6 @@ export const Input = React.forwardRef((props,ref) => {
 
 const Container = styled.div`
   position: relative;
-
   label {
     z-index: 2;
   }
@@ -236,7 +236,10 @@ const Container = styled.div`
 
 const InputStyle = styled.input<IInputProps>`
 // 외곽 디자인(border-radius, outline, box-shadow) //
-  border-radius: ${props => props.borderRadius || "10px"};
+// ! border-radius를 넣으니 focus 되었을 때 다른 요소가 흐려지는 버그 발생
+  border-radius: ${props => `calc(1% + 10px)`};
+  ${props => props.brR && `border-radius: calc( ${props.brR} + 10px)`};
+  /* border-radius: ${props => `calc(1% + 10px)`}; */
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50), inset 1px 1px 2px 0px rgba(0, 0, 0, 0.50);
   outline: ${props => `inset ${(props.theme.colors.[props.bg] || props.theme.main.[props.bg])} 1px`};
   width: ${props => props.w || '100%'};
@@ -246,7 +249,7 @@ const InputStyle = styled.input<IInputProps>`
 // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: ${props => (props.display ? props.display : 'block')};
   border: none;
-  padding: ${props => props.padding || '2px 0px 2px 4px'};
+  padding: ${props => props.pd || '2px 0px 2px 4px'};
   position: relative;
   text-align: ${props => props.center && "center" };
   
@@ -258,7 +261,6 @@ const InputStyle = styled.input<IInputProps>`
   color:  ${props => props.theme.colors.[props.color] || props.theme.main.[props.color]};
 
 // 애니메이션(animation) //
-
 
 // 이벤트(active, focus, hover, visited, focus-within, disabled) //
   &:hover {
