@@ -31,16 +31,16 @@ const ViewBoardContainer = () => {
   const [isLoading, loadingFunction] = useLoading();
   const authStore = useSelector((state: RootState) => state.authStore);
   const urlQueryObject = UrlQueryStringToObject(window.location.href);
-  let urlPage = urlQueryObject.page
+  let urlPage = urlQueryObject?.page
     ? 'page=' + urlQueryObject.page + '&'
     : 'page=1&';
-  let urlSize = urlQueryObject.size
+  let urlSize = urlQueryObject?.size
     ? 'size=' + urlQueryObject.size + '&'
     : 'size=10&';
-  let urlKeyword = urlQueryObject.keyword
+  let urlKeyword = urlQueryObject?.keyword
     ? 'keyword=' + urlQueryObject.keyword + '&'
     : '';
-  let urlSort = urlQueryObject.sort
+  let urlSort = urlQueryObject?.sort
     ? 'sort=' + urlQueryObject.sort
     : 'sort=latest';
 
@@ -101,12 +101,12 @@ const ViewBoardContainer = () => {
             />
           </ViewerContainer>
           <FixContainer>
-            {authStore.role === 'ROLE_ADMIN' && (
+            {authStore.id == boardElements?.userId && (
               <Link href={`/board/update?id=${router.query.id}`}>
                 <Image src={Icons.EditIcon} alt="" width={20} height={20} />
               </Link>
             )}
-            {authStore.role === 'ROLE_ADMIN' && (
+            {authStore.id == boardElements?.userId && (
               <Image
                 src={Icons.DeleteIcon}
                 alt=""
@@ -128,7 +128,6 @@ export default ViewBoardContainer;
 
 const Container = styled(CC.ColumnDiv)`
   height: calc(100vh - 80px);
-  overflow: scroll;
   position: relative;
   & > div {
     border-radius: 10px;
