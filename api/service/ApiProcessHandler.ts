@@ -65,6 +65,11 @@ export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
         PromiseType = 'error';
         code = 400;
       }
+        else if(error?.response?.status == 409) {
+        toasttifyResponse = ['error', '데이터 중복'];
+        PromiseType = 'error';
+        code = 400;
+      }
         else {
         toasttifyResponse = ['error', '서버 에러'];
         PromiseType = 'error';
