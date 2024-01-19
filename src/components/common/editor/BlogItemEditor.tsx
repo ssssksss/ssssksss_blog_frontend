@@ -30,22 +30,21 @@ import { Document } from 'next/document';
  */
 
 const blogContentForm = [
-  "# <span style='color: #f91600'>[] 제목</span> \n" +
-    "## <span style='color: #f99700'>{1} 설명</span> \n" +
-    "## <span style='color: #f99700'>{2} 예시</span> \n" +
-    "### <span style='color: #1200ff'>ex1)</span> \n" +
-    "#### <span style='color: #cb00ff'>결과</span> \n" +
-    "### <span style='color: #1200ff'>ex2)</span> \n" +
-    "#### <span style='color: #cb00ff'>결과</span> \n" +
+  '#  [] 제목 \n' +
+    '##  1} 설명 \n' +
+    '##  {2} 예시 \n' +
+    '###  ex1) \n' +
+    '####  결과 \n' +
+    '###  ex2) \n' +
+    '####  결과 \n' +
     '---',
-  "# <span style='color: #f91600'>[] 제목</span> \n" +
-    "## <span style='color: #f99700'>{1} 설명</span> \n" +
-    "## <span style='color: #f99700'>{2} 문법</span> \n" +
-    "## <span style='color: #f99700'>{3} 예시</span> \n" +
-    "### <span style='color: #1200ff'>ex1)</span> \n" +
-    "#### <span style='color: #cb00ff'>결과</span> \n" +
-    "### <span style='color: #1200ff'>ex2)</span> \n" +
-    "#### <span style='color: #cb00ff'>결과</span> \n" +
+  '# [] 제목 \n' +
+    '## {2} 문법 \n' +
+    '## {3} 예시 \n' +
+    '###  ex1) \n' +
+    '#### 결과 \n' +
+    '###  ex2) \n' +
+    '####  결과 \n' +
     '---',
   '| 속성 | 설명 |  \n' +
     '| --- | --- | \n' +
@@ -166,7 +165,6 @@ const BlogItemEditor = props => {
         router.push(blogUrl);
       })
       .catch(error => {
-        console.log('BlogItemEditor.tsx 파일 : 실패');
         console.log('BlogItemEditor.tsx 파일 : ', error.response);
         // store.dispatch(
         //   SET_TOASTIFY_MESSAGE({
