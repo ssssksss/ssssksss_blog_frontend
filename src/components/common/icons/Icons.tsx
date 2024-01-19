@@ -32,6 +32,7 @@ import SearchIcon from '/public/img/ui-icon/ic-search.svg';
 import MenuIcon from '/public/img/ui-icon/ic-menu.svg';
 import CloudIcon from '/public/img/ui-icon/ic-cloud.svg';
 import SwapIcon from '/public/img/ui-icon/ic-swap.svg';
+import LogoIcon from '/public/img/ui-icon/ic-logo.svg';
 
 export const Icons = {
   HomeIcon,
@@ -68,4 +69,5 @@ export const Icons = {
   MenuIcon,
   CloudIcon,
   SwapIcon,
+  LogoIcon,
 };

@@ -79,6 +79,7 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
         {
           props.data?.filter(j=>data.value != j.value ).map((i)=>(
             <SelectItem 
+            key={i.value}
             bg={i.bg}
             onClick={(e)=>{
               {
@@ -208,9 +209,6 @@ const Container = styled.div<ISelectProps>`
     cursor: pointer;
     
     &:hover {
-      /* border: solid ${props=>props.theme.colors.black80} var(--pd-left); */
-      /* padding-left: 0px; */
-
       background: ${props=>props.theme.main.primary20};
       font-weight: 800;
       transition: all 0.6s ease;

@@ -28,8 +28,8 @@ const LoginModal = props => {
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
     defaultValues: {
-      password: '',
-      email: '',
+      password: 'P@ssw0rd!',
+      email: 'test@naver.com',
     },
   });
   const { errors } = formState;
@@ -96,14 +96,14 @@ const LoginModal = props => {
     <Container>
       <Header>
         <span>
-          가출한토토로의 블로그에 <br /> 오신것을 환영합니다.{' '}
+          {/* 가출한토토로의 블로그에 <br /> 오신것을 환영합니다.{' '} */}
+          로그인
         </span>
         <span> 로그인을 하시면 일정과 할일 메뉴를 사용할 수 있습니다. </span>
       </Header>
       <CC.ColumnDiv gap={28}>
         <Input
           placeholder="이메일"
-          styleTypes={1}
           type="email"
           register={register('email')}
           onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
@@ -111,7 +111,6 @@ const LoginModal = props => {
         />
         <Input
           placeholder="비밀번호"
-          styleTypes={1}
           type="password"
           register={register('password')}
           onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
@@ -119,16 +118,16 @@ const LoginModal = props => {
         />
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
-        <CC.RowCenterDiv gap={20}>
+        {/* <CC.RowCenterDiv gap={20}>
           <Image src={Icons.GoogleIcon} alt="google" />
           <Image src={Icons.KakaoIcon} alt="kakao" />
-        </CC.RowCenterDiv>
+        </CC.RowCenterDiv> */}
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 없으시다면?</span>
           <Button
             onClickCapture={() => props.changeAuthScreen()}
-            styleTypes={1}
             pd={'2px 8px'}
+            bg={'white80'}
           >
             회원가입
           </Button>
@@ -137,8 +136,8 @@ const LoginModal = props => {
           w={'100%'}
           h={'40px'}
           outline={true}
-          styleTypes={1}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          bg={'white80'}
           pd={'2px 8px'}
         >
           로그인

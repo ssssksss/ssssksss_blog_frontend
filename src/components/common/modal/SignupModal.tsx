@@ -76,7 +76,8 @@ const SignupModal = props => {
     <Container>
       <Header>
         <span>
-          가출한토토로의 블로그에 <br /> 오신것을 환영합니다.
+          {/* 가출한토토로의 블로그에 <br /> 오신것을 환영합니다. */}
+          회원가입
         </span>
         <span>
           비밀번호는 암호화처리되며 <br /> 개인정보는 다른 곳에 사용되지
@@ -98,24 +99,22 @@ const SignupModal = props => {
         />
         <Input
           placeholder="비밀번호"
-          styleTypes={1}
           register={register('password')}
           errorMessage={errors.password?.message}
           type="password"
         />
         <Input
           placeholder="비밀번호확인"
-          styleTypes={1}
           register={register('passwordConfirm')}
           errorMessage={errors.passwordConfirm?.message}
           type="password"
         />
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
-        <CC.RowCenterDiv gap={20}>
+        {/* <CC.RowCenterDiv gap={20}>
           <Image src={Icons.GoogleIcon} alt="google" />
           <Image src={Icons.KakaoIcon} alt="kakao" />
-        </CC.RowCenterDiv>
+        </CC.RowCenterDiv> */}
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 없으시다면?</span>
           <Button
@@ -123,8 +122,8 @@ const SignupModal = props => {
               e.stopPropagation();
               props.changeAuthScreen();
             }}
-            styleTypes={1}
             pd={'2px 8px'}
+            bg={'white80'}
           >
             로그인
           </Button>
@@ -133,7 +132,7 @@ const SignupModal = props => {
           w={'100%'}
           h={'40px'}
           outline={true}
-          styleTypes={1}
+          bg={'white80'}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
         >
           회원가입

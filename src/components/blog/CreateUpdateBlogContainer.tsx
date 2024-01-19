@@ -437,9 +437,7 @@ const CreateUpdateBlogContainer = (
     window.addEventListener('keydown', keyDownEventFunc);
 
     return () => {
-      console.log('CreateUpdateBlogContainer.tsx 파일 : ?????');
       window.removeEventListener('keydown', keyDownEventFunc);
-      console.log(editorInstance?.getMarkdown());
     };
   }, []);
 
