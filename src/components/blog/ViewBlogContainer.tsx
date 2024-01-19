@@ -314,6 +314,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
     gap: 20px;
     font-size: ${props => props.theme.calcRem(16)};
     min-height: calc(100vh - 268px);
+    counter-reset: section;
 
     h1[data-nodeid] {
       border: none;
@@ -324,7 +325,8 @@ const ViewerContainer = styled.div<{ icon: any }>`
       padding: 4px 0px;
     }
     h1[data-nodeid]::before {
-      content: '📌 ';
+      counter-increment: section;
+      content: '📌 [' counter(section) '] ';
     }
     h2[data-nodeid] {
       border: none;
@@ -518,6 +520,7 @@ const BlogTopicInlineLinkListBodyContainer = styled.div`
   justify-content: start;
   height: 300px;
   overflow: scroll;
+  counter-reset: section;
 
   button {
     display: flex;
@@ -534,6 +537,10 @@ const BlogTopicInlineLinkListBodyContainer = styled.div`
     padding: 2px 0px;
     color: ${props => props.theme.colors.black100};
     font-weight: 800;
+  }
+  .H1::before {
+    counter-increment: section;
+    content: '[' counter(section) '] ';
   }
   .H2 {
     padding: 2px 0px 2px 4px;
