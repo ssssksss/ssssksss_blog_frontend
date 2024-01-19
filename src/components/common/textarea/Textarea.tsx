@@ -60,8 +60,11 @@ const Textarea = (props: ITextareaProps, ref) => {
         ref={textRef}
         onInput={props.resizeMode && handleResizeHeight}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === 'Enter' && props.onKeyPress) {
-            onKeyPress();
+          // if (e.key === 'Enter' && props.onKeyPress) {
+          //   onKeyPress();
+          // }
+          if (e.which == 13 && e.ctrlKey) {
+            props.submit();
           }
         }}
         {...props.field}
