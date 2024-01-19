@@ -20,7 +20,7 @@ import { useState } from 'react';
  * @version 0.0.1 "2024-01-08 17:51:28"
  * @description 설명
  */
-const BlogSecondCategoryUpdateBox = () => {
+const BlogSecondCategoryUpdateBox = (props: any) => {
   const [isLoading, loadingFunction] = useLoading();
   const selectUpdateRef = useRef<HTMLSelectElement>(null);
   const blogStore = useSelector((state: RootState) => state.blogStore);
@@ -41,12 +41,6 @@ const BlogSecondCategoryUpdateBox = () => {
   };
 
   const updateSecondCategoryHandler = async (data: any) => {
-    console.log('BlogSecondCategoryUpdateBox.tsx 파일 : ', data);
-    console.log(
-      'BlogSecondCategoryUpdateBox.tsx 파일 : ',
-      data.updateSecondCategoryImageFile
-    );
-    return;
     loadingFunction(
       BlogAPI.updateSecondCategory({
         id: data.updateSecondCategory,
@@ -67,6 +61,7 @@ const BlogSecondCategoryUpdateBox = () => {
           return i;
         });
         store.dispatch(SET_SECOND_CATEGORY_LIST(temp));
+        props.closeModal();
       })
       .catch(err => {
         console.log('BlogSecondCategoryUpdateBox.tsx 파일 : ', err);

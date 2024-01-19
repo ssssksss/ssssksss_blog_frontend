@@ -49,7 +49,6 @@ const BlogFirstCategoryDeleteBox = () => {
         );
         store.dispatch(SET_BLOG_POST_LIST([]));
         store.dispatch(SET_FIRST_CATEGORY_LIST(temp));
-        console.log('BlogFirstCategoryDeleteBox.tsx 파일 : ', temp);
         store.dispatch(
           SET_SECOND_CATEGORY_LIST([...temp[0]?.secondCategoryList])
         );

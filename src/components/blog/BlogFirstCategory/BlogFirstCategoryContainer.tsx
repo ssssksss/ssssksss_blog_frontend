@@ -7,7 +7,6 @@ import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import { overflowHoverVerticalScroll } from '@/styles/themeOverrideStyle';
 import ModalButton from '@/components/common/button/ModalButton';
 import BlogFirstCategoryModal from '@/components/blog/BlogFirstCategory/BlogFirstCategoryModal';
-import BlogSecondaryCategoryModal from '@/components/blog/BlogSecondaryCategoryModal';
 import { Icons } from '@/components/common/icons/Icons';
 import { useLoading } from '@/src/hooks/useLoading';
 import { useCallback, useEffect, useRef, useState } from 'react';
