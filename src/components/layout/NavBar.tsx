@@ -13,7 +13,7 @@ const NavBar = ({ children }) => {
     <Container id="nav">
       <SideBar />
       <CC.ColumnDiv w={'100%'} padding={'4px'}>
-        <TopBar></TopBar>
+        <TopBar />
         <Main>{children}</Main>
       </CC.ColumnDiv>
     </Container>

@@ -11,3 +11,9 @@ export const SET_BLOG_CONTENT_TEMPLATE_LIST = (
     payload: payload,
   };
 };
+
+const blogContentTemplateAction = {
+  SET_BLOG_CONTENT_TEMPLATE_LIST,
+};
+
+export default blogContentTemplateAction;

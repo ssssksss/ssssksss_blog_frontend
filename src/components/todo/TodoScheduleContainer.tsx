@@ -44,14 +44,14 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
 
   useEffect(() => {
     TodoAPI.getTodoList().then(res => {
-      store.dispatch(SET_TODO_LIST(res.jsonObject.todoList));
+      store.dispatch(SET_TODO_LIST(res.json.todoList));
     });
 
     ScheduleAPI.getScheduleList({
       type: 'today',
     })
       .then(res => {
-        store.dispatch(SET_TODAY_SCHEDULE_LIST(res.jsonObject.scheduleList));
+        store.dispatch(SET_TODAY_SCHEDULE_LIST(res.json.scheduleList));
       })
       .catch(err => {
         console.log('TodoScheduleContainer.tsx 파일 : ', err);

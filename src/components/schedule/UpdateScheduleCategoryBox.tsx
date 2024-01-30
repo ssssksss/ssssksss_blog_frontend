@@ -67,7 +67,7 @@ const UpdateScheduleCategoryBox = props => {
       backgroundColor: updateCategoryRequestData.bg,
     }).then((res: any) => {
       let temp = scheduleStore.scheduleCategoryList.map(i => {
-        if (i.id == res.jsonObject.scheduleCategory.id) {
+        if (i.id == res.json.scheduleCategory.id) {
           i.name = updateCategoryRequestData.name;
           i.backgroundColor = updateCategoryRequestData.bg;
         }

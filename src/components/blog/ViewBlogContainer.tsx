@@ -26,6 +26,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import BlogType from './../../../api/type/Blog.d';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -33,7 +34,26 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
  * @version 0.0.1 "2023-10-10 02:35:13"
  * @description 설명
  */
-const ViewBlogContainer = () => {
+
+interface IBlogResDataProps {
+  json: {
+    id: number;
+    title: string;
+    description: string;
+    userId: number;
+    likeNumber: number;
+    commentNumber: number;
+    viewNumber: number;
+    firstCategoryId: number;
+    secondCategoryId: number;
+    thumbnailImageUrl: string;
+    createdAt: string;
+    blogContentId: string;
+  };
+}
+
+const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
+  let backUrl = `/blog`;
   const router = useRouter();
   const [blogElements, setBlogElements] = useState();
   const editorRef = useRef<Viewer>(null);
@@ -46,57 +66,58 @@ const ViewBlogContainer = () => {
     top: Number;
     tagName: String;
   }>([]);
-  {
-    /* /blog?first-category=29&second-category=78 */
-  }
-  let backUrl = `/blog`;
-
-  const deleteHandler = () => {
-    loadingFunction(
-      BlogAPI.deleteBlogPost({
-        id: router.query.id,
-      })
-    ).then(res => {
-      router.back();
-    });
-  };
+  const blogResData: IBlogResDataProps = BlogAPI.getBlog({
+    id: router.query.id,
+    onSuccessHandler: res => {
+      // backUrl = `/blog?first-category=${res.data?.json?.firstCategoryId}&second-category=${res.data?.json?.secondCategoryId}`;
+      // const viewerInstance = editorRef.current?.getInstance();
+      // viewerInstance?.setMarkdown(res.data?.json?.content);
+      // document.querySelectorAll('pre').forEach(i => {
+      //   let test = document.createElement('button');
+      //   test.style.position = 'absolute';
+      //   test.style.right = '4px';
+      //   test.style.top = '4px';
+      //   test.style.width = '24px';
+      //   test.style.height = '24px';
+      //   test.addEventListener('click', e => {
+      //     navigator.clipboard.writeText(i.childNodes[0].textContent);
+      //     store.dispatch(
+      //       SET_TOASTIFY_MESSAGE({
+      //         type: 'success',
+      //         message: `복사되었습니다.`,
+      //       })
+      //     );
+      //   });
+      //   i.appendChild(test);
+      // });
+      // createBlogIndex();
+    },
+  });
 
   useEffect(() => {
-    loadingFunction(
-      BlogAPI.getBlogPost({
-        id: router.query.id,
-      })
-    )
-      .then(res => {
-        backUrl = `/blog?first-category=${res.data.blogItem.blogDao?.firstCategoryId}&second-category=${res.data.blogItem.blogDao?.secondCategoryId}`;
-        setBlogElements(res.data.blogItem.blogDao);
-        const viewerInstance = editorRef.current?.getInstance();
-        viewerInstance?.setMarkdown(res.data.blogItem.content);
+    backUrl = `/blog?first-category=${props.data?.firstCategoryId}&second-category=${props.data?.secondCategoryId}`;
+    const viewerInstance = editorRef.current?.getInstance();
+    viewerInstance?.setMarkdown(props.data?.content);
 
-        document.querySelectorAll('pre').forEach(i => {
-          let test = document.createElement('button');
-          test.style.position = 'absolute';
-          test.style.right = '4px';
-          test.style.top = '4px';
-          test.style.width = '24px';
-          test.style.height = '24px';
-          test.addEventListener('click', e => {
-            navigator.clipboard.writeText(
-              // i.childNodes[0].childNodes[0].nodeValue
-              i.childNodes[0].textContent
-            );
-            store.dispatch(
-              SET_TOASTIFY_MESSAGE({
-                type: 'success',
-                message: `복사되었습니다.`,
-              })
-            );
-          });
-          i.appendChild(test);
-        });
-        createBlogIndex();
-      })
-      .catch(err => {});
+    document.querySelectorAll('pre').forEach(i => {
+      let test = document.createElement('button');
+      test.style.position = 'absolute';
+      test.style.right = '4px';
+      test.style.top = '4px';
+      test.style.width = '24px';
+      test.style.height = '24px';
+      test.addEventListener('click', e => {
+        navigator.clipboard.writeText(i.childNodes[0].textContent);
+        store.dispatch(
+          SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: `복사되었습니다.`,
+          })
+        );
+      });
+      i.appendChild(test);
+    });
+    createBlogIndex();
 
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
@@ -109,6 +130,22 @@ const ViewBlogContainer = () => {
       window.removeEventListener('keydown', keyDownEventFunc);
     };
   }, []);
+
+  const deleteHandler = () => {
+    loadingFunction(
+      BlogAPI.deleteBlogPost({
+        id: router.query.id,
+      })
+    ).then(res => {
+      router.replace(
+        `/blog?first-category=${
+          store.getState().blogStore.activeBlogFirstCategoryId
+        }&second-category=${
+          store.getState().blogStore.activeBlogSecondCategoryId
+        }`
+      );
+    });
+  };
 
   /**
    *
@@ -133,105 +170,101 @@ const ViewBlogContainer = () => {
 
   return (
     <>
-      {isLoading ? (
-        <LoadingComponent mode={'blog'}> 로딩중 </LoadingComponent>
-      ) : (
-        <Container gap={4} id="viewBlogContainer">
-          <HeaderContainer
-            pd={'0px 8px'}
-            w={'100%'}
-            h={'200px'}
-            imageUrl={`${AWSS3Prefix}${blogElements?.thumbnailImageUrl}`}
-          >
-            <Title pd={'16px 0px 8px 0px'}>
-              <h1> {blogElements?.title} </h1>
-              <h3> {blogElements?.description} </h3>
-            </Title>
-            <CC.RowRightDiv>
-              <CC.ColumnDiv>
-                <CC.RowRightDiv gap={4}>
-                  <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-                  {blogElements?.likeNumber}
-                </CC.RowRightDiv>
-                <CC.RowDiv>
-                  {dateFormat4y2m2d(blogElements?.baseTimeEntity.createdAt)}
-                </CC.RowDiv>
-              </CC.ColumnDiv>
-            </CC.RowRightDiv>
-          </HeaderContainer>
-          <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+      <Container gap={4} id="viewBlogContainer">
+        <HeaderContainer
+          pd={'0px 8px'}
+          w={'100%'}
+          h={'200px'}
+          imageUrl={`${AWSS3Prefix}${blogElements?.thumbnailImageUrl}`}
+        >
+          <Title pd={'16px 0px 8px 0px'}>
+            <h1> {props.data?.title} </h1>
+            <h3> {props.data?.description} </h3>
+          </Title>
+          <CC.RowRightDiv>
+            <CC.ColumnDiv>
+              <CC.RowRightDiv gap={4}>
+                <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+                {props.data?.likeNumber}
+              </CC.RowRightDiv>
+              <CC.RowDiv>{dateFormat4y2m2d(props.data?.createdAt)}</CC.RowDiv>
+            </CC.ColumnDiv>
+          </CC.RowRightDiv>
+        </HeaderContainer>
+        <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+          {props.data?.content && (
             <Viewer
-              initialValue={blogElements?.content}
+              initialValue={props.data?.content}
               theme="black"
               ref={editorRef}
               plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
             />
-            <FixContainer>
-              {isOpenModal ? (
-                <BlogTopicInlineLinkListContainer>
-                  <BlogTopicInlineLinkListHeaderContainer>
-                    <Title1 onClick={() => IsOpenModalToggle()}>목차</Title1>
-                    <Exit onClick={() => IsOpenModalToggle()}>
-                      <div> </div>
-                      <div> </div>
-                      <div> </div>
-                    </Exit>
-                  </BlogTopicInlineLinkListHeaderContainer>
-                  <BlogTopicInlineLinkListBodyContainer>
-                    {blogIndexList.map((i, index) => (
-                      <button
-                        key={index}
-                        onClickCapture={() => {
-                          // window.scrollTo(0, 2000);
-                          document
-                            .getElementById('viewBlogContainer')
-                            .scrollTo(0, i.top - 60);
-                          // toastui-editor-contents
-                          // window.scrollTo(0, i.top - 40);
-                        }}
-                        className={i.tagName}
-                      >
-                        {i.content}
-                      </button>
-                    ))}
-                  </BlogTopicInlineLinkListBodyContainer>
-                </BlogTopicInlineLinkListContainer>
-              ) : (
-                <BlogTopicInlineLinksButton
-                  onClick={() => {
-                    // createBlogIndex();
-                    IsOpenModalToggle();
-                  }}
-                >
-                  <Image
-                    width={24}
-                    height={24}
-                    alt="blog_index"
-                    src={Icons.MenuIcon}
-                  />
-                </BlogTopicInlineLinksButton>
-              )}
-              {authStore.role === 'ROLE_ADMIN' && (
-                <Link href={`/blog/update?id=${router.query.id}`}>
-                  <Image src={Icons.EditIcon} alt="" width={24} height={24} />
-                </Link>
-              )}
-              {authStore.role === 'ROLE_ADMIN' && (
+          )}
+          <FixContainer>
+            {isOpenModal ? (
+              <BlogTopicInlineLinkListContainer>
+                <BlogTopicInlineLinkListHeaderContainer>
+                  <Title1 onClick={() => IsOpenModalToggle()}>목차</Title1>
+                  <Exit onClick={() => IsOpenModalToggle()}>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                  </Exit>
+                </BlogTopicInlineLinkListHeaderContainer>
+                <BlogTopicInlineLinkListBodyContainer>
+                  {blogIndexList.map((i, index) => (
+                    <button
+                      key={index}
+                      onClickCapture={() => {
+                        // window.scrollTo(0, 2000);
+                        document
+                          .getElementById('viewBlogContainer')
+                          .scrollTo(0, i.top - 60);
+                        // toastui-editor-contents
+                        // window.scrollTo(0, i.top - 40);
+                      }}
+                      className={i.tagName}
+                    >
+                      {i.content}
+                    </button>
+                  ))}
+                </BlogTopicInlineLinkListBodyContainer>
+              </BlogTopicInlineLinkListContainer>
+            ) : (
+              <BlogTopicInlineLinksButton
+                onClick={() => {
+                  // createBlogIndex();
+                  IsOpenModalToggle();
+                }}
+              >
                 <Image
-                  src={Icons.DeleteIcon}
-                  alt=""
                   width={24}
                   height={24}
-                  onClick={() => deleteHandler()}
+                  alt="blog_index"
+                  src={Icons.MenuIcon}
                 />
-              )}
-              <Link href={backUrl}>
-                <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
+              </BlogTopicInlineLinksButton>
+            )}
+            {authStore.role === 'ROLE_ADMIN' && (
+              <Link href={`/blog/update?id=${router.query.id}`}>
+                <Image src={Icons.EditIcon} alt="" width={24} height={24} />
               </Link>
-            </FixContainer>
-          </ViewerContainer>
-        </Container>
-      )}
+            )}
+            {authStore.role === 'ROLE_ADMIN' && (
+              <Image
+                src={Icons.DeleteIcon}
+                alt=""
+                width={24}
+                height={24}
+                onClick={() => deleteHandler()}
+              />
+            )}
+            <Link href={backUrl}>
+              <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
+            </Link>
+          </FixContainer>
+        </ViewerContainer>
+      </Container>
     </>
   );
 };
@@ -242,6 +275,7 @@ const Container = styled(CC.ColumnDiv)`
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  scroll-behavior: smooth;
   &::-webkit-scrollbar {
     display: none;
   }

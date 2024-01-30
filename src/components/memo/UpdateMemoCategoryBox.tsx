@@ -63,7 +63,7 @@ const UpdateMemoCategoryBox = props => {
       backgroundColor: data.updateMemoCategoryColor,
     }).then((res: any) => {
       let temp = memoStore.memoCategoryList.map(i => {
-        if (i.id == res.jsonObject.memoCategory.id) {
+        if (i.id == res.json.memoCategory.id) {
           i.name = data.updateMemoCategoryName;
           i.backgroundColor = data.updateMemoCategoryColor;
         }

@@ -42,9 +42,7 @@ const TodoModal = (props: ITodoModalProps) => {
     TodoAPI.addTodo({
       content: inputRef.current.value,
     }).then((res: any) => {
-      store.dispatch(
-        SET_TODO_LIST([...todoStore.todoList, res.jsonObject.todo])
-      );
+      store.dispatch(SET_TODO_LIST([...todoStore.todoList, res.json.todo]));
       props.closeModal();
     });
   };

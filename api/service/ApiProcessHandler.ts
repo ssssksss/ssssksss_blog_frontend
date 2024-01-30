@@ -23,7 +23,7 @@ export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
   let PromiseType = 'response';
   let data;
   let code;
-  let jsonObject;
+  let json;
   let apiMethod = {
     GET: "조회",
     POST: "추가",
@@ -36,9 +36,9 @@ export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
   })
     .then(res => {
       toasttifyResponse = ['success', props.apiCategory +' ' + apiMethod.[props.method] +' 성공'];
-      data = res.data.data;
+      data = res.data.json;
       code = 200;
-      jsonObject = res.data.jsonObject;
+      json = res.data.json;
     })
     .catch(async error => {
       // if (error?.response?.status === 403 || error?.response?.status === 401) {
@@ -91,7 +91,7 @@ export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
         type: PromiseType,
         code: code,
         data: data,
-        jsonObject: jsonObject,
+        json: json,
       });
     }else {
       return Promise.reject({

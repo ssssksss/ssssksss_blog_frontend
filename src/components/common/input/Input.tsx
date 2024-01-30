@@ -171,7 +171,7 @@ export const Input = React.forwardRef((props,ref) => {
           e.key == 'Enter' &&
           props.onKeyPressAction
           ) {
-            props.onKeyPressAction();
+            props.onKeyPressAction(e.target.value);
           }
         }}
         {...props}
@@ -237,7 +237,7 @@ const Container = styled.div`
 const InputStyle = styled.input<IInputProps>`
 // 외곽 디자인(border-radius, outline, box-shadow) //
 // ! border-radius를 넣으니 focus 되었을 때 다른 요소가 흐려지는 버그 발생
-  border-radius: ${props => `calc(1% + 10px)`};
+  border-radius: ${props => `calc(10px)`};
   ${props => props.brR && `border-radius: calc( ${props.brR} + 10px)`};
   /* border-radius: ${props => `calc(1% + 10px)`}; */
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50), inset 1px 1px 2px 0px rgba(0, 0, 0, 0.50);
@@ -379,11 +379,11 @@ ${props=>props.styleTypes === 1 && `
 `;
 
 const ErrorMessageSpan = styled.span`
-  --height: ${props=> props.errorLocation || "44px"};
-  top: var(--height);
+  --height: ${props=> props.errorLocation || props.h || (props.size && props.size === 'sm' ? "32px" : props.size === "md" ? "48px" : "32px")};
+  top: calc(var(--height) + 0.6rem);
   color: red;
   position: absolute;
-  font-size: 0.8rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   word-break: keep-all;

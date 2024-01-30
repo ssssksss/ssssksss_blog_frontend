@@ -1,13 +1,13 @@
 import { store } from '@/redux/store';
-import { setAccessToken, setUserInfo } from '@/redux/store/auth';
+import { SET_ACCESS_TOKEN, SET_USER_INFO } from '@/redux/store/auth';
 import axios from 'axios';
 import SocialButton from '../../src/components/common/button/SocialButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/reducers';
 
 const AxiosInstance = axios.create({
-  // baseURL: 'http://localhost:8080',
-  baseURL: 'https://blog-server.ssssksss.xyz',
+  baseURL: 'http://localhost:8080',
+  // baseURL: 'https://blog-server.ssssksss.xyz',
   //timeout: 1000,
   headers: {
     'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const setApiUserInfo = async () => {
     },
   })
     .then((response: any) => {
-      store.dispatch(setUserInfo(response.data.data.user));
+      store.dispatch(SET_USER_INFO(response.data.data.user));
     })
     .catch(error => {});
 };
@@ -58,7 +58,7 @@ AxiosInstance.interceptors.response.use(
   },
   (error: any) => {
     const originalRequest = error.response.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (error.response.status == 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용
       let existNewAccessToken = true;
       AxiosInstance({
@@ -66,7 +66,7 @@ AxiosInstance.interceptors.response.use(
         method: 'GET',
       })
         .then(async res => {
-          store.dispatch(setAccessToken(res.data.accessToken));
+          store.dispatch(SET_ACCESS_TOKEN(res.data.accessToken));
           originalRequest.headers['Authorization'] =
             'Bearer ' + store.getState().authStore.accessToken;
           await setApiUserInfo();
@@ -78,7 +78,7 @@ AxiosInstance.interceptors.response.use(
         originalRequest._retry = true;
         return AxiosInstance(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
-    } else if (error.response.status === 406) {
+    } else if (error.response.status == 406) {
       AxiosInstance({
         url: '/api/user',
         method: 'DELETE',
@@ -88,13 +88,13 @@ AxiosInstance.interceptors.response.use(
             // alert("로그인이 필요합니다.");
           }
           store.dispatch(
-            setUserInfo({
+            SET_USER_INFO({
               email: '',
               role: '',
               nickname: '',
             })
           );
-          store.dispatch(setAccessToken({ accessToken: '' }));
+          store.dispatch(SET_ACCESS_TOKEN({ accessToken: '' }));
         })
         .catch(error => {});
     }

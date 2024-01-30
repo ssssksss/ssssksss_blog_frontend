@@ -1,8 +1,9 @@
 import { store } from '@/redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
 import axios from 'axios';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
+import { UseQueryHook } from '@/components/useHook/useQueryHook';
+import { useQuery } from 'react-query';
 
 const addMemoCategory = props => {
   return ApiProcessHandler({
@@ -17,11 +18,22 @@ const addMemoCategory = props => {
   });
 };
 
-const getMemoCategoryList = props => {
-  return ApiProcessHandler({
-    url: '/api/memo/category',
-    method: 'GET',
-    apiCategory: '할일 카테고리',
+// const getMemoCategoryList = props => {
+//   return ApiProcessHandler({
+//     url: '/api/memo/category',
+//     method: 'GET',
+//     apiCategory: '할일 카테고리',
+//   });
+// };
+
+const getMemoCategoryList = () => {
+  return UseQueryHook({
+    queryKey: ['memoList'],
+    requestData: {
+      url: '/api/memo/category',
+      method: 'GET',
+    },
+    isRefetchWindowFocus: false,
   });
 };
 

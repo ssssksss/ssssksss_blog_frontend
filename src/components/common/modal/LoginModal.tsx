@@ -14,8 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { UserLoginYup } from '@/components/yup/UserLoginYup';
 import { store } from '@/redux/store';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { setAccessToken, setUserInfo } from '@/redux/store/auth/actions';
+import { SET_ACCESS_TOKEN, SET_USER_INFO } from '@/redux/store/auth/actions';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import { UserAPI } from '@/api/UserAPI';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -33,59 +34,16 @@ const LoginModal = props => {
     },
   });
   const { errors } = formState;
-
+  const signInMutate = UserAPI.signInUser();
   const onClickSubmit = async (data: any) => {
     const { passwordConfirm, ...params } = data;
     let toastifyMessage = '';
     let toastifyType = 'success';
-
-    await AxiosInstance({
-      url: '/api/user',
-      method: 'PUT',
-      data: {
-        email: params.email,
-        password: params.password,
-      },
-    })
-      .then((response: any) => {
-        store.dispatch(setAccessToken(response.data.accessToken));
-        AxiosInstance({
-          url: '/api/user',
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${response.data.accessToken}`,
-          },
-        })
-          .then(response => {
-            store.dispatch(setUserInfo(response.data.data.user));
-            toastifyType = 'success';
-            toastifyMessage = '로그인을 완료했습니다.';
-            props.closeModal();
-          })
-          .catch(error => {
-            toastifyType = 'error';
-            toastifyMessage = '에러';
-            console.log('UserLogin.tsx : ', error.response);
-          })
-          .finally(() => {
-            store.dispatch(
-              SET_TOASTIFY_MESSAGE({
-                type: toastifyType,
-                message: toastifyMessage,
-              })
-            );
-          });
-      })
-      .catch((error: any) => {
-        console.log('LoginModal.tsx 파일 : ', error.response);
-        toastifyMessage = error.response?.data?.errorMsg;
-        store.dispatch(
-          SET_TOASTIFY_MESSAGE({
-            type: 'error',
-            message: '로그인 실패',
-          })
-        );
-      });
+    // UserAPI.signInUser({ email: params.email, password: params.password })
+    signInMutate({
+      email: params.email,
+      password: params.password,
+    });
   };
 
   const onClickErrorSubmit = () => {

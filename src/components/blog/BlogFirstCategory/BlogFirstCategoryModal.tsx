@@ -13,7 +13,9 @@ import BlogFirstCategoryDeleteBox from './BlogFirstCategoryDeleteBox';
  * @description 설명
  */
 
-const BlogFirstCategoryModal = () => {
+export const BlogFirstCategoryModal = (props: {
+  blogCategoryListResData: any;
+}) => {
   const [menu, setMenu] = useState('add');
 
   return (
@@ -42,12 +44,19 @@ const BlogFirstCategoryModal = () => {
         </Button>
       </CC.RowDiv>
       {menu === 'add' && <BlogFirstCategoryCreateBox />}
-      {menu === 'update' && <BlogFirstCategoryUpdateBox />}
-      {menu === 'delete' && <BlogFirstCategoryDeleteBox />}
+      {menu === 'update' && (
+        <BlogFirstCategoryUpdateBox
+          blogCategoryListResData={props.blogCategoryListResData}
+        />
+      )}
+      {menu === 'delete' && (
+        <BlogFirstCategoryDeleteBox
+          blogCategoryListResData={props.blogCategoryListResData}
+        />
+      )}
     </Container>
   );
 };
-export default BlogFirstCategoryModal;
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;

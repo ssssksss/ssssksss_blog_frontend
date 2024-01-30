@@ -46,6 +46,15 @@ const deviceSizes = {
   maxWidth: '1440px',
 };
 
+const positionStyle = {
+  absolute: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 // 버튼은 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const btnSizes = {
   xs: {
@@ -462,6 +471,7 @@ export const commonTheme: IcommonThemeProps = {
   grid,
   calcRem,
   scroll,
+  positionStyle,
 };
 
 export const darkTheme = {

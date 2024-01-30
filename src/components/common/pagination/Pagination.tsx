@@ -3,6 +3,7 @@ import { MouseEvent, useState } from 'react';
 import { commonTheme } from '@/styles/theme';
 import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
+import { Button } from '@/components/common/button/Button';
 
 interface IPaginationProps {
   refetch: any;
@@ -135,14 +136,9 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* color: ${props => props.theme.main.primary80}; */
-    &:hover {
-      background: ${props => props.theme.main.primary20};
-      color: white;
-    }
   }
 `;
-const PageNumberButton = styled.button<{ isActive: boolean }>`
+const PageNumberButton = styled(Button)<{ isActive: boolean }>`
   color: ${props => (props.isActive ? props.theme.main.primary100 : 'black')};
   font-size: ${props => (props.isActive ? '1.4em' : '1em')};
   font-weight: ${props => props.isActive && 600};

@@ -3,61 +3,85 @@ import Layout1 from '@/components/layout/Layout1';
 import BlogFirstCategoryContainer from '@/components/blog/BlogFirstCategory/BlogFirstCategoryContainer';
 import BlogMainContainer from '@/components/blog/BlogMainContainer';
 import { CC } from '@/styles/commonComponentStyle';
-import BlogSearchContainer from '@/components/blog/BlogSearchContainer';
-import BlogSecondCategoryContainer from '@/components/blog/BlogSecondCategory/BlogSecondCategoryContainer';
+import BlogHeaderContainer from '@/components/blog/BlogHeaderContainer';
+import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryContainer';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { store } from '@/redux/store';
+import { rootActions } from './../../redux/store/actions';
+import { useEffect } from 'react';
+import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
+import { batch } from 'react-redux';
+import { useRouter } from 'next/router';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
  * @version 0.0.1 "2023-09-25 00:05:43"
  * @description 설명
  */
-const Index = () => {
+export async function getServerSideProps() {
+  const { data } = await AxiosInstance.get('/api/blog-category-list');
+  // ! next-redux-wrapper 공부해보기
+  return { props: data };
+}
+
+const Index = props => {
+  const router = useRouter();
+  useEffect(() => {
+    store.dispatch(
+      rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
+        props.json.blogFirstCategoryList
+      )
+    );
+    let urlQueryObject = UrlQueryStringToObject(window.location.href);
+    let _activeFirstCategoryName = props.json.blogFirstCategoryList.filter(
+      i => i.id == urlQueryObject?.[`first-category`]
+    )[0]?.name;
+    batch(() => {
+      store.dispatch(
+        rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
+          activeBlogFirstCategoryId:
+            urlQueryObject?.[`first-category`] ||
+            props.json.blogFirstCategoryList[0].id,
+          activeBlogFirstCategoryName:
+            _activeFirstCategoryName ||
+            props.json.blogFirstCategoryList[0].name,
+        })
+      );
+      store.dispatch(
+        rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
+          activeBlogSecondCategoryId:
+            urlQueryObject?.[`second-category`] ||
+            props.json.blogFirstCategoryList[0].secondCategoryList[0].id,
+          activeBlogSecondCategoryName:
+            props.json.blogFirstCategoryList[0].secondCategoryList[0].name,
+        })
+      );
+      store.dispatch(
+        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json.userId)
+      );
+    });
+  }, []);
+
   return (
-    <CC.ColumnDiv
-      gap={16}
-      w={'100%'}
-      bg={'contrast'}
-      brR={'10px'}
-      h={'calc(100vh - 66px)'}
-      pd={'8px 4px 4px 4px'}
-    >
-      <BlogSearchContainer />
-      {typeof window !== 'undefined' && (
-        <Container>
-          <BlogFirstCategoryContainer />
-          <BlogSecondCategoryContainer />
-        </Container>
-      )}
+    <Container>
+      <BlogHeaderContainer />
+      <BlogCategoryContainer />
       <BlogMainContainer />
-    </CC.ColumnDiv>
+    </Container>
   );
 };
 export default Index;
 Index.layout = Layout1;
 
-const Container = styled.section`
-  ${props => props.theme.flex.column};
+const Container = styled(CC.ColumnDiv)`
+  gap: 8px;
   width: 100%;
-
-
-
-
-
-
-
-
-
-
-  0
-
-
-
-
-  00
-  0
+  background: ${props => props.theme.main.contrast};
+  border-radius: 8px;
+  height: calc(100vh - 64px - 4px);
   padding: 4px;
-  border-radius: 0.625rem;
-  border: 1px solid ${props => props.theme.main.primary100};
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-  gap: 4px;
+
+  & > * {
+    outline: solid ${props => props.theme.main.primary80} 2px;
+  }
 `;

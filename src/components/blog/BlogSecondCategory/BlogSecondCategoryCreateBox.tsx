@@ -13,6 +13,7 @@ import { Button } from '@/components/common/button/Button';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { store } from '@/redux/store';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogSecondCategoryCreateBox.tsx
@@ -23,6 +24,7 @@ const BlogSecondCategoryCreateBox = props => {
   const [isLoading, loadingFunction] = useLoading();
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const fileRef = useRef<HTMLInputElement>(null);
+  const createSecondCategoryMutation = BlogAPI.createSecondCategory();
   const { register, handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
     mode: 'onChange',
@@ -39,25 +41,12 @@ const BlogSecondCategoryCreateBox = props => {
 
   const createSecondCategoryHandler = async (data: any) => {
     const file = data.createSecondCategoryImageFile;
-    loadingFunction(
-      BlogAPI.addSecondCategory({
-        name: data.createSecondCategoryName,
-        firstCategoryId: blogStore.firstCategoryId,
-        files: file,
-        directory: `/blog-category/${blogStore.secondCategoryId}/${data.createSecondCategoryName}`,
-      })
-    )
-      .then(res => {
-        // 부모에있는 state 값 변경
-        let temp = res.data.createBlogSecondCategory;
-        store.dispatch(
-          SET_SECOND_CATEGORY_LIST([...blogStore.secondCategoryList, temp])
-        );
-        props.closeModal();
-      })
-      .catch(err => {
-        console.log('BlogSecondCategoryCreateBox.tsx 파일 : ', err);
-      });
+    createSecondCategoryMutation({
+      name: data.createSecondCategoryName,
+      blogFirstCategoryId: blogStore.activeBlogFirstCategoryId,
+      files: file,
+      directory: `/blog-category/${blogStore.activeBlogSecondCategoryId}/${data.createSecondCategoryName}`,
+    });
   };
 
   return (
@@ -67,7 +56,7 @@ const BlogSecondCategoryCreateBox = props => {
       </Header>
       <CC.ColumnDiv gap={28}>
         <Input
-          value={blogStore.firstCategoryName}
+          value={blogStore.activeBlogFirstCategoryName}
           disabled={true}
           center={true}
         />

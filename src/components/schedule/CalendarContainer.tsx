@@ -172,9 +172,9 @@ const CalendarContainer = () => {
       endDateTime: new Date(endDateOfMonth),
     })
       .then(async res => {
-        SET_MONTH_SCHEDULE_LIST(res.jsonObject.scheduleList);
+        SET_MONTH_SCHEDULE_LIST(res.json.scheduleList);
         const promises = scheduleSort(
-          res.jsonObject.scheduleList,
+          res.json.scheduleList,
           startDateOfMonth,
           endDateOfMonth
         ).map(i => {

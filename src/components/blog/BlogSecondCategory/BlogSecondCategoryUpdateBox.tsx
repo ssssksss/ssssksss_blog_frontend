@@ -2,7 +2,7 @@ import { Input } from '@/components/common/input/Input';
 import { BlogSecondCategoryUpdateYup } from '@/components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useLoading } from '@/src/hooks/useLoading';
 import { BlogAPI } from '@/api/BlogAPI';
 import { useSelector } from 'react-redux';
@@ -25,16 +25,16 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
   const selectUpdateRef = useRef<HTMLSelectElement>(null);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const [updateImageUrl, setUpdateImageUrl] = useState();
-  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+  const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryUpdateYup),
     mode: 'onChange',
     defaultValues: {
-      updateSecondCategory: '',
+      updateSecondCategoryId: '',
       updateSecondCategoryName: '',
       updateSecondCategoryImageFile: '',
     },
   });
-  const { errors } = formState;
+  const { errors } = methods.formState;
 
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
@@ -43,98 +43,112 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
   const updateSecondCategoryHandler = async (data: any) => {
     loadingFunction(
       BlogAPI.updateSecondCategory({
-        id: data.updateSecondCategory,
+        id: data.updateSecondCategoryId,
         name: data.updateSecondCategoryName,
         files: data.updateSecondCategoryImageFile,
         directory: `/blog-category/${blogStore.secondCategoryId}/${data.updateSecondCategoryName}`,
       })
     )
       .then(res => {
-        let temp = blogStore.secondCategoryList.map(i => {
-          if (i.id == data.updateSecondCategory) {
-            return {
-              id: i.id,
-              name: data.updateSecondCategoryName,
-              userId: i.userId,
-            };
-          }
-          return i;
-        });
-        store.dispatch(SET_SECOND_CATEGORY_LIST(temp));
+        console.log('BlogSecondCategoryUpdateBox.tsx 파일 : '.res);
+        let temp = blogStore.blogCategoryList
+          .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
+          .secondCategoryList.map(i => {
+            if (i.id == data.updateSecondCategory) {
+              return {
+                ...id,
+                name: data.updateSecondCategoryName,
+              };
+            }
+            return i;
+          });
+        // store.dispatch(
+        //   rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
+        //     blogStore.blogCategoryList.map(i => {
+        //       if (i.id == blogStore.activeBlogFirstCategoryId) {
+        //         i.secondCategoryList = temp;
+        //         return i;
+        //       } else {
+        //         return i;
+        //       }
+        //     })
+        //   )
+        // );
         props.closeModal();
       })
-      .catch(err => {
-        console.log('BlogSecondCategoryUpdateBox.tsx 파일 : ', err);
-      });
+      .catch(err => {});
   };
 
   const changeUpdateCategoryImage = data => {
+    methods.setValue('updateSecondCategoryId', data.value);
     setUpdateImageUrl(
-      blogStore.secondCategoryList.filter(i => i.id == data.value)[0]
-        .thumbnailImageUrl
+      blogStore.blogCategoryList
+        .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
+        .secondCategoryList.filter(i => i.id == data.value)[0].thumbnailImageUrl
     );
   };
 
   return (
-    <Container gap={28} pd={'8px'} color={'contrast'} brR={'10px'}>
-      <Header>
-        <span>블로그 2번째 카테고리 수정 </span>
-      </Header>
-      <CC.ColumnDiv gap={28}>
-        <Input
-          value={blogStore.firstCategoryName}
-          disabled={true}
-          center={true}
-        />
-        <Select
-          w={'100%'}
-          placeholder={'2번째 카테고리 목록'}
-          bg={'transparent'}
-          outline={true}
-          register={register('updateSecondCategory')}
-          data={blogStore.secondCategoryList.map(i => {
-            return { value: i.id, name: i.name, bg: '' };
-          })}
-          setValue={setValue}
-          trigger={trigger}
-          onChange={changeUpdateCategoryImage}
-        ></Select>
-        <Input
-          placeholder="2번째 카테고리 수정할 이름"
-          styleTypes={1}
-          register={register('updateSecondCategoryName')}
-          onKeyPressAction={handleSubmit(
-            updateSecondCategoryHandler,
-            onClickErrorSubmit
-          )}
-          errorMessage={errors.updateSecondCategoryName?.message}
-        />
-        <Input
-          type={'file'}
-          styleTypes={1}
-          register={register('updateSecondCategoryImageFile')}
-          h={'200px'}
-          setValue={setValue}
-          trigger={trigger}
-          defaultImageUrl={updateImageUrl}
-        />
-      </CC.ColumnDiv>
-      <CC.ColumnDiv gap={8}>
-        <Button
-          w={'100%'}
-          h={'40px'}
-          outline={true}
-          onClickCapture={handleSubmit(
-            updateSecondCategoryHandler,
-            onClickErrorSubmit
-          )}
-          disabled={!formState.isValid}
-          bg={'contrast'}
-        >
-          수정
-        </Button>
-      </CC.ColumnDiv>
-    </Container>
+    <FormProvider {...methods}>
+      <Container gap={28} pd={'8px'} color={'contrast'} brR={'10px'}>
+        <Header>
+          <span>블로그 2번째 카테고리 수정 </span>
+        </Header>
+        <CC.ColumnDiv gap={28}>
+          <Input
+            value={blogStore.activeBlogFirstCategoryName}
+            disabled={true}
+            center={true}
+          />
+          <Select
+            w={'100%'}
+            placeholder={'2번째 카테고리 목록'}
+            bg={'transparent'}
+            outline={true}
+            data={blogStore.blogCategoryList
+              .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
+              .secondCategoryList.map(i => {
+                return { value: i.id, name: i.name, bg: '' };
+              })}
+            onChange={changeUpdateCategoryImage}
+          ></Select>
+          <Input
+            placeholder="2번째 카테고리 수정할 이름"
+            styleTypes={1}
+            register={methods.register('updateSecondCategoryName')}
+            onKeyPressAction={methods.handleSubmit(
+              updateSecondCategoryHandler,
+              onClickErrorSubmit
+            )}
+            errorMessage={errors.updateSecondCategoryName?.message}
+          />
+          <Input
+            type={'file'}
+            styleTypes={1}
+            register={methods.register('updateSecondCategoryImageFile')}
+            setValue={methods.setValue}
+            trigger={methods.trigger}
+            h={'200px'}
+            defaultImageUrl={updateImageUrl}
+          />
+        </CC.ColumnDiv>
+        <CC.ColumnDiv gap={8}>
+          <Button
+            w={'100%'}
+            h={'40px'}
+            outline={true}
+            onClickCapture={methods.handleSubmit(
+              updateSecondCategoryHandler,
+              onClickErrorSubmit
+            )}
+            disabled={!methods.formState.isValid}
+            bg={'contrast'}
+          >
+            수정
+          </Button>
+        </CC.ColumnDiv>
+      </Container>
+    </FormProvider>
   );
 };
 export default BlogSecondCategoryUpdateBox;

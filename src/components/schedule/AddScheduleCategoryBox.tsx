@@ -41,7 +41,7 @@ const AddScheduleCategoryBox = props => {
       store.dispatch(
         SET_SCHEDULE_CATEGORY_LIST([
           ...scheduleStore.scheduleCategoryList,
-          res.jsonObject.scheduleCategory,
+          res.json.scheduleCategory,
         ])
       );
       props.closeModal();

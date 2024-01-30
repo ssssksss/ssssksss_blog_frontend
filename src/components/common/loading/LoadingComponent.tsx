@@ -30,9 +30,15 @@ export const LoadingComponent = (props: ILoadingComponentProps) => {
 };
 
 const Container = styled(CC.RowCenterDiv)<ILoadingComponentProps>`
-  --top: calc(100 * 1px);
-  position: absolute;
-  left: ${props => props.left || '50%'};
+  /* left: ${props => props.left || '50%'};
   top: ${props => (props.top ? `calc(${props.top} * 1px)` : '50%')};
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
+  max-width: 60px;
+  max-height: 60px;
+  aspect-ratio: 1 / 1;
+
+  & > div {
+    height: 100%;
+    aspect-ratio: 1;
+  }
 `;

@@ -14,6 +14,8 @@ import 'prismjs/themes/prism-tomorrow.css';
 // react-date-range 라이브러리
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,6 +28,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || (page => page);
   const Layout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
+  const queryClient = new QueryClient();
+  // const [queryClient] = useState(() => new QueryClient());
   // const [routingPageOffset, setRoutingPageOffset] = useState(0);
 
   // useEffect(() => {
@@ -37,11 +41,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <Provider store={store}>
-      <ThemeProvider theme={purpleTheme}>
-        <Global styles={GlobalStyles} />
-        {/* <NextjsHeader /> */}
-        <ReactToastifyComponents />
-        {/* <PageTransitions
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={purpleTheme}>
+          <Global styles={GlobalStyles} />
+          {/* <NextjsHeader /> */}
+          <ReactToastifyComponents />
+          {/* <PageTransitions
           route={router.asPath}
           routingPageOffset={routingPageOffset}
           >
@@ -49,12 +54,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Component {...pageProps} />
           </Layout>
         </PageTransitions> */}
-        <NavBar>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </NavBar>
-      </ThemeProvider>
+          <NavBar>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </NavBar>
+        </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </Provider>
   );
 }

@@ -10,6 +10,7 @@ import { RootState } from '@/redux/store/reducers';
 import { SET_FIRST_CATEGORY_LIST } from '@/redux/store/blog';
 import { CC } from '@/styles/commonComponentStyle';
 import { Button } from '@/components/common/button/Button';
+
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogFirstCategoryCreateBox.tsx
@@ -27,6 +28,7 @@ const BlogFirstCategoryCreateBox = () => {
     },
   });
   const { errors } = formState;
+  const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory();
 
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
@@ -34,22 +36,11 @@ const BlogFirstCategoryCreateBox = () => {
 
   const createFirstCategoryHandler = (data: any) => {
     const { ...params } = data;
-    loadingFunction(
-      BlogAPI.addFirstCategory({
-        name: params.createFirstCategoryName,
-      })
-    )
-      .then(res => {
-        // 부모에있는 state 값 변경
-        let temp = blogStore.firstCategoryList;
-        temp?.push(res.data.createBlogFirstCategory);
-        store.dispatch(SET_FIRST_CATEGORY_LIST(temp));
-      })
-      .catch(err => {
-        console.log('BlogFirstCategoryCreateBox.tsx 파일 : ', err);
-      });
-  };
 
+    createBlogFirstCategoryMutation({
+      name: params.createFirstCategoryName,
+    });
+  };
   return (
     <Container gap={28} pd={'8px'} color={'contrast'} brR={'10px'}>
       <Header>

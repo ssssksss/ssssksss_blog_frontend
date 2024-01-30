@@ -19,32 +19,35 @@ import BlogSecondCategoryContainer from '../BlogSecondCategory/BlogSecondCategor
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
+  SET_ACTIVE_BLOG_FIRST_CATEGORY,
   SET_FIRST_CATEGORY_ID_AND_NAME,
   SET_FIRST_CATEGORY_LIST,
 } from '@/redux/store/blog';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
+import { IBlogCategoryListResDataProps } from './type/BlogFirstCategoryContainer.type.d';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogFirstCategoryContainer.tsx
  * @version 0.0.1 "2023-09-25 01:28:42"
  * @description 설명
  */
+
 const BlogFirstCategoryContainer = () => {
   const [isLoading, loadingFunction] = useLoading();
-  const [secondCategoryProps, setSecondCategoryProps] = useState();
   const [activeFirstCategory, setActiveFirstCategory] = useState();
   const router = useRouter();
   const scrollRef = useRef();
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const urlQueryObject = UrlQueryStringToObject(window.location.href);
+  const blogCategoryListResData = BlogAPI.getBlogCategoryList();
   /**
    * 카테고리 클릭시 활성화 및 url 주조 변경
    */
   const activeFirstCategoryHandler = (
     id: number,
     name: string,
-    index: number
+    userId: number
   ) => {
     if (activeFirstCategory == id) return;
     setActiveFirstCategory(id);
@@ -62,34 +65,9 @@ const BlogFirstCategoryContainer = () => {
     scrollRef.current.scrollLeft = 80 * index;
   };
 
-  useEffect(() => {
-    let _firstCategoryId;
-    let _firstCategoryName;
-    loadingFunction(BlogAPI.getFirstCategory()).then(res => {
-      store.dispatch(SET_FIRST_CATEGORY_LIST(res.data.blogFirstCategoryList));
-      res.data.blogFirstCategoryList.map(i => {
-        if (urlQueryObject?.['first-category'] == i.id) {
-          _firstCategoryId = i.id;
-          _firstCategoryName = i.name;
-        }
-      });
-      store.dispatch(
-        SET_FIRST_CATEGORY_ID_AND_NAME({
-          firstCategoryId:
-            _firstCategoryId || res.data.blogFirstCategoryList[0]?.id,
-          firstCategoryName:
-            _firstCategoryName || res.data.blogFirstCategoryList[0]?.name,
-        })
-      );
-      setActiveFirstCategory(
-        _firstCategoryId || res.data.blogFirstCategoryList[0]?.id
-      );
-    });
-  }, []);
-
   return (
     <>
-      {isLoading ? (
+      {blogFirstCategoryListResData?.isLoading ? (
         <BlogCategoryBarContainer1>
           <div>
             <Spinner1 />
@@ -97,29 +75,47 @@ const BlogFirstCategoryContainer = () => {
         </BlogCategoryBarContainer1>
       ) : (
         <BlogCategoryBarContainer1 ref={scrollRef}>
-          {blogStore.firstCategoryList?.map((i, index) => (
-            <Button
-              key={i.id}
-              onClick={e => activeFirstCategoryHandler(i.id, i.name, index)}
-              active={i.id === activeFirstCategory}
-              index={index}
-              bg={'gray80'}
-              color={'contrast'}
-            >
-              {i.name}
-            </Button>
-          ))}
-          {authStore.id &&
-            authStore.id == blogStore.firstCategoryList[0]?.userId && (
-              <ModalButton
-                color={'primary80'}
-                modal={<BlogFirstCategoryModal />}
-                modalOverlayVisible={true}
-                modalW={'300px'}
+          {blogCategoryListResData?.data.json?.blogFirstCategoryList.map(
+            (i, index) => (
+              <Button
+                key={i.id}
+                // onClick={e => activeFirstCategoryHandler(i.id, i.name, index)}
+                active={i.id == blogStore.activeBlogFirstCategoryId}
+                index={index}
+                bg={'gray80'}
+                color={'contrast'}
               >
-                <Image src={Icons.SettingIcon} alt="" />
-              </ModalButton>
-            )}
+                {i.name}
+              </Button>
+            )
+          )}
+          {blogCategoryListResData?.data.json?.blogFirstCategoryList
+            .filter(k => {
+              return k.id == blogStore.activeBlogFirstCategoryId;
+            })[0]
+            .secondCategoryList?.map((i, index) => (
+              <Button
+                // active={i.id == blogStore.activeBlogSecondCategoryId}
+                key={i.id}
+                bg={'gray80'}
+                // onClick={() => activeSecondCategoryHandler(i.id, i.name)}
+                // active={String(i.id) === String(activeSecondCategory)}
+              >
+                {i.name}
+              </Button>
+            ))}
+          {authStore.id ==
+            blogFirstCategoryListResData?.data.json?.blogFirstCategoryList[0]
+              .userId && (
+            <ModalButton
+              color={'primary80'}
+              modal={<BlogFirstCategoryModal />}
+              modalOverlayVisible={true}
+              modalW={'300px'}
+            >
+              <Image src={Icons.SettingIcon} alt="" />
+            </ModalButton>
+          )}
         </BlogCategoryBarContainer1>
       )}
     </>

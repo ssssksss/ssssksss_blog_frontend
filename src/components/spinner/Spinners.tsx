@@ -76,7 +76,7 @@ const Container = styled.div`
 `;
 
 export const Spinner1 = styled.div`
-  width: 50px;
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 8px solid;

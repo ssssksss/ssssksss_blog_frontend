@@ -30,42 +30,18 @@ const ViewBoardContainer = () => {
   const editorRef = useRef<Viewer>(null);
   const [isLoading, loadingFunction] = useLoading();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const urlQueryObject = UrlQueryStringToObject(window.location.href);
-  let urlPage = urlQueryObject?.page
-    ? 'page=' + urlQueryObject.page + '&'
-    : 'page=1&';
-  let urlSize = urlQueryObject?.size
-    ? 'size=' + urlQueryObject.size + '&'
-    : 'size=10&';
-  let urlKeyword = urlQueryObject?.keyword
-    ? 'keyword=' + urlQueryObject.keyword + '&'
-    : '';
-  let urlSort = urlQueryObject?.sort
-    ? 'sort=' + urlQueryObject.sort
-    : 'sort=latest';
+  const boardStore = useSelector((state: RootState) => state.boardStore);
+  const boardResData = BoardAPI.getBoard({
+    id: router.query.id,
+  });
+  const deleteBoardMutate = BoardAPI.deleteBoard();
 
   const deleteHandler = () => {
-    loadingFunction(
-      BoardAPI.deleteBoard({
-        id: router.query.id,
-      })
-    ).then(res => {
-      router.back();
+    deleteBoardMutate({
+      id: router.query.id,
     });
   };
 
-  useEffect(() => {
-    let urlSplit = window.location.pathname.split('/');
-    loadingFunction(
-      BoardAPI.getBoard({
-        id: urlSplit[urlSplit.length - 1],
-      })
-    ).then(res => {
-      setBoardElements(res.data.board);
-      const viewerInstance = editorRef.current?.getInstance();
-      viewerInstance?.setMarkdown(res.data.board.content);
-    });
-  }, []);
   return (
     <>
       {isLoading ? (
@@ -78,35 +54,37 @@ const ViewBoardContainer = () => {
               h={'max-content'}
               overflow={'hidden'}
             >
-              <h1> {boardElements?.title} </h1>
+              <h1> {boardResData.data.json?.board.title} </h1>
             </CC.RowDiv>
             <CC.RowRightDiv gap={4}>
               <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-              {boardElements?.views}
+              {boardResData.data.json?.board.views}
             </CC.RowRightDiv>
             <CC.RowBetweenDiv>
               <CC.RowDiv>
-                작성자 : {boardElements?.writer || 'undefined'}
+                작성자 : {boardResData.data.json?.board.writer || 'undefined'}
               </CC.RowDiv>
               <CC.RowDiv>
-                {dateFormat4y2m2d(boardElements?.modifiedAt)}
+                {dateFormat4y2m2d(boardResData.data.json?.board.modifiedAt)}
               </CC.RowDiv>
             </CC.RowBetweenDiv>
           </CC.ColumnDiv>
           <ViewerContainer>
-            <Viewer
-              initialValue={boardElements?.content}
-              theme="black"
-              ref={editorRef}
-            />
+            {boardResData.status == 'success' && (
+              <Viewer
+                initialValue={boardResData.data.json?.board.content}
+                theme="black"
+                ref={editorRef}
+              />
+            )}
           </ViewerContainer>
           <FixContainer>
-            {authStore.id == boardElements?.userId && (
+            {authStore.id == boardResData.data.json?.board.userId && (
               <Link href={`/board/update?id=${router.query.id}`}>
                 <Image src={Icons.EditIcon} alt="" width={20} height={20} />
               </Link>
             )}
-            {authStore.id == boardElements?.userId && (
+            {authStore.id == boardResData.data.json?.board.userId && (
               <Image
                 src={Icons.DeleteIcon}
                 alt=""
@@ -115,7 +93,11 @@ const ViewBoardContainer = () => {
                 onClick={() => deleteHandler()}
               />
             )}
-            <Link href={`/board?${urlPage}${urlSize}${urlKeyword}${urlSort}`}>
+            <Link
+              href={`/board?keyword=${boardStore.keyword}&page=${
+                boardStore.page + 1
+              }&size=${boardStore.size}&sor=${boardStore.sort}`}
+            >
               <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
             </Link>
           </FixContainer>

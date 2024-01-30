@@ -353,6 +353,22 @@ const BlogItemEditor = props => {
             >
               테2
             </BlogItemContentFormButton>
+            <BlogItemContentFormButton
+              theme={themeStore}
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `<a href="" target="_blank" rel="noopener noreferrer"> 새 탭에서 보기</a>`
+                );
+                store.dispatch(
+                  SET_TOASTIFY_MESSAGE({
+                    type: 'success',
+                    message: '테이블2 이 복사되었습니다.',
+                  })
+                );
+              }}
+            >
+              링
+            </BlogItemContentFormButton>
           </BlogItemContentFormContainer>
         </Container>
       )}

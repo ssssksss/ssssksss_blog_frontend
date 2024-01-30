@@ -1,7 +1,7 @@
 export type ACTION_INSTANCE = ReturnType<typeof SET_TOASTIFY_MESSAGE>;
 
 type TOASTIFY_MESSAGE_STATE = {
-  type: String;
+  type: 'success' | 'error' | 'warning' | 'info' | 'default';
   message: String;
 };
 /**
@@ -10,7 +10,13 @@ type TOASTIFY_MESSAGE_STATE = {
  */
 export const SET_TOASTIFY_MESSAGE = (payload: TOASTIFY_MESSAGE_STATE) => {
   return {
-    type: "TOASTIFY_MESSAGE",
+    type: 'TOASTIFY_MESSAGE',
     payload: payload,
   };
 };
+
+const toastifyAction = {
+  SET_TOASTIFY_MESSAGE,
+};
+
+export default toastifyAction;

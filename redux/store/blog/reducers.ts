@@ -1,5 +1,22 @@
+import { IBlogCategoryListResProps } from '@/api/type/BlogAPI';
 import * as actions from './actions';
-const initialState = {
+
+type initialStateType = {
+  firstCategoryId: number | string;
+  firstCategoryName: string;
+  secondCategoryId: number | string;
+  secondCategoryName: string;
+  firstCategoryList: [];
+  secondCategoryList: [];
+  blogPostList: [];
+  activeBlogFirstCategoryId: number;
+  activeBlogSecondCategoryId: number;
+  activeBlogFirstCategoryName: number;
+  activeBlogSecondCategoryName: number;
+  activeBlogUserId: number;
+  blogCategoryList: IBlogCategoryListResProps;
+};
+const initialState: initialStateType = {
   firstCategoryId: '',
   firstCategoryName: '',
   secondCategoryId: '',
@@ -7,6 +24,10 @@ const initialState = {
   firstCategoryList: [],
   secondCategoryList: [],
   blogPostList: [],
+  activeBlogFirstCategoryId: -1,
+  activeBlogSecondCategoryId: -1,
+  activeBlogUserId: -1,
+  blogCategoryList: [],
 };
 export const blogReducer = (
   state = initialState,
@@ -39,6 +60,30 @@ export const blogReducer = (
       return {
         ...state,
         blogPostList: action.payload,
+      };
+    // case 'ACTIVE_BLOG_FIRST_CATEGORY':
+    case 'ACTIVE_BLOG_FIRST_CATEGORY':
+      return {
+        ...state,
+        activeBlogFirstCategoryId: action.payload.activeBlogFirstCategoryId,
+        activeBlogFirstCategoryName: action.payload.activeBlogFirstCategoryName,
+      };
+    case 'ACTIVE_BLOG_SECOND_CATEGORY':
+      return {
+        ...state,
+        activeBlogSecondCategoryId: action.payload.activeBlogSecondCategoryId,
+        activeBlogSecondCategoryName:
+          action.payload.activeBlogSecondCategoryName,
+      };
+    case 'ACTIVE_BLOG_USER_ID':
+      return {
+        ...state,
+        activeBlogUserId: action.payload,
+      };
+    case 'BLOG_CATEGORY_LIST':
+      return {
+        ...state,
+        blogCategoryList: action.payload,
       };
     default:
       return state;

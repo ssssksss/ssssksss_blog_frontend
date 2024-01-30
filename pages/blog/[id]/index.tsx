@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
 import ViewBlogContainer from '@/components/blog/ViewBlogContainer';
 import dynamic from 'next/dynamic';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -10,6 +11,12 @@ import dynamic from 'next/dynamic';
  * @description 설명
  */
 
+export async function getServerSideProps(context) {
+  const { data } = await AxiosInstance.get(`/api/blog?id=${context.params.id}`);
+  // ! next-redux-wrapper 공부해보기
+  return { props: data };
+}
+
 const ViewBlogCSR = dynamic(
   () => import('@/components/blog/ViewBlogContainer'),
   {
@@ -17,9 +24,15 @@ const ViewBlogCSR = dynamic(
   }
 );
 
-const Index = () => {
+const Index = props => {
+  console.log('index.tsx 파일 : ', props);
   return (
-    <Container>{typeof window !== 'undefined' && <ViewBlogCSR />}</Container>
+    <>
+      {/* <ViewBlogContainer data={props.json} /> */}
+      <Container>
+        {typeof window !== 'undefined' && <ViewBlogCSR data={props.json} />}
+      </Container>
+    </>
   );
 };
 export default Index;

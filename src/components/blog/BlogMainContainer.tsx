@@ -32,6 +32,7 @@ const BlogMainContainer = () => {
   const [isLoading, loadingFunction] = useLoading();
   const [blogOrderListOption, setBlogOrderListOption] = useState();
   const mainContainerRef = useRef<null>();
+  const blogPostListResData = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: any) => {
     if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
@@ -52,29 +53,14 @@ const BlogMainContainer = () => {
   };
 
   useEffect(() => {
-    if (
-      !blogStore.secondCategoryId ||
-      blogStore.secondCategoryId == 'undefined'
-    )
-      return;
-    loadingFunction(
-      BlogAPI.getBlogPostList({
-        secondCategoryId: blogStore.secondCategoryId,
-      })
-    )
-      .then(res => {
-        store.dispatch(SET_BLOG_POST_LIST(res.data.blogList));
-      })
-      .catch(err => {
-        if (err.code === 400) {
-          store.dispatch(SET_BLOG_POST_LIST([]));
-        }
-      });
-  }, [blogStore.secondCategoryId]);
-
-  useEffect(() => {
     let keyDownEventFunc = (e: Event) => {
-      if (e.which === 32 && e.shiftKey) {
+      // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
+      if (
+        e.which === 32 &&
+        e.shiftKey &&
+        store.getState().blogStore.activeBlogUserId ==
+          store.getState().authStore.id
+      ) {
         router.push('/blog/create');
       }
     };
@@ -87,10 +73,12 @@ const BlogMainContainer = () => {
 
   return (
     <Container>
-      <HeaderContainer color={'primary80'} outline={true}>
+      <HeaderContainer color={'primary80'}>
         <span>
-          {`[${blogStore.firstCategoryName}/${blogStore.secondCategoryName}]`}
-          검색결과 : {blogStore.blogPostList?.length}
+          {`[${store.getState().blogStore.activeBlogFirstCategoryName}/${
+            store.getState().blogStore.activeBlogSecondCategoryName
+          }]`}
+          검색결과 : {blogPostListResData?.data?.json?.blogList.length || '0'}
         </span>
         <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
           <Select
@@ -106,36 +94,28 @@ const BlogMainContainer = () => {
               { name: '좋아요순', value: 'likeNumber', bg: '' },
             ]}
           ></Select>
-
-          {/* <CC.RowDiv>
-            {viewMode ? (
-              <Image
-                src={Icons.ViewList}
-                alt=""
-                onClick={() => setViewMode(false)}
-              />
-            ) : (
-              <Image
-                src={Icons.ViewCheckboard}
-                alt=""
-                onClick={() => setViewMode(true)}
-              />
-            )}
-          </CC.RowDiv> */}
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef}>
-        {blogStore.blogPostList?.map((i, index) => (
+        {blogPostListResData?.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
               <BlogItem element={i}></BlogItem>
             </a>
           </Link>
         ))}
-        <FixedContainer gap={4}>
-          {authStore.role === 'ROLE_ADMIN' && (
+        <FixedContainer>
+          {store.getState().authStore.id ===
+            store.getState().blogStore.activeBlogUserId && (
             <BlogSearchItem href={`/blog/create`}>
-              <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
+              <CC.RowCenterDiv
+                pd={'2px'}
+                gap={2}
+                w={'32px'}
+                h={'32px'}
+                bg={'white80'}
+                brR={'10px'}
+              >
                 <IconsSvg.EditIcon fill={'black80'} w={'32px'} />
               </CC.RowCenterDiv>
             </BlogSearchItem>
@@ -145,7 +125,6 @@ const BlogMainContainer = () => {
               <Image src={Icons.UpArrowIcon} alt="up-arrow" />
             </CC.RowCenterDiv>
           </Button>
-          {/* onClick={() => window.scrollTo(0, document.body.scrollHeight)} */}
           <Button
             onClick={() =>
               mainContainerRef.current.scrollTo(
@@ -166,14 +145,13 @@ const BlogMainContainer = () => {
 export default BlogMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  width: 100%;
-  height: 100%;
-  gap: 8px;
-  position: relative;
-  overflow: scroll;
-  padding: 4px;
-  outline: solid ${props => props.theme.main.primary40} 2px;
   border-radius: 10px;
+  background: ${props => props.theme.main.primary20};
+  padding: 4px;
+  gap: 4px;
+  ${props => props.theme.scroll.hidden};
+  position: relative;
+  height: 100%;
 `;
 const BlogSearchItem = styled(Link)`
   cursor: pointer;
@@ -187,32 +165,43 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
   border-radius: ${props => props.theme.borderRadius.br10};
   padding: 4px;
   height: 40px;
+  background: ${props => props.theme.main.contrast};
 
   & > span:nth-of-type(1) {
     color: ${props => props.theme.colors.black40};
     font-weight: 600;
+    padding: 4px;
   }
 `;
 
 const MainContainer = styled(CC.ColumnDiv)`
   gap: 4px;
   ${props => props.theme.scroll.hidden};
-  padding: 4px 2px;
-  position: relative;
+  background: ${props => props.theme.main.contrast};
+  border-radius: ${props => props.theme.borderRadius.br10};
+  padding: 4px;
+  height: 100%;
+  scroll-behavior: smooth;
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
   width: max-content;
   left: calc(100% - 20px);
-  bottom: 10px;
+  bottom: 20px;
   padding: 4px;
-  opacity: 0.8;
+  opacity: 0.9;
   border-radius: 8px;
-  background: ${props => props.theme.main.primary20};
+  background: ${props => props.theme.main.secondary40};
+  gap: 4px;
+
+  & > button {
+    background: ${props => props.theme.main.contrast};
+  }
 
   & > :hover {
     transform: scale(1.2);
     cursor: pointer;
+    background: ${props => props.theme.main.primary80};
   }
 `;

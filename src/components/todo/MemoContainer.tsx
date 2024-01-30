@@ -13,6 +13,9 @@ import { MemoAPI } from '@/api/MemoAPI';
 import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@/redux/store/memo';
 import ModalButton from '@/components/common/button/ModalButton';
 import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';
+import { useQuery } from 'react-query';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { UseQueryHook } from './../useHook/useQueryHook';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file MemoContainer.tsx
@@ -30,24 +33,17 @@ const MemoContainer = (props: IMemoContainerProps) => {
   const [activeMenu, setActiveMenu] = useState({
     type: 'all',
     categoryId: '',
+    isShowMessage: true,
   });
 
-  useEffect(() => {
-    MemoAPI.getMemoCategoryList()
-      .then((res: any) => {
-        store.dispatch(
-          SET_MEMO_CATEGORY_LIST(res.jsonObject?.memoCategoryList)
-        );
-      })
-      .catch((err: any) => {
-        console.log('MemoContainer.tsx 파일 : ', err);
-      });
+  const memoListQueryResData = MemoAPI.getMemoCategoryList();
 
+  useEffect(() => {
     MemoAPI.getMemoList({
       type: 'all',
     })
       .then((res: any) => {
-        store.dispatch(SET_MEMO_LIST(res.jsonObject?.memoList));
+        store.dispatch(SET_MEMO_LIST(res.json?.memoList));
       })
       .catch((err: any) => {
         console.log('MemoContainer.tsx 파일 : ', err);
@@ -69,21 +65,26 @@ const MemoContainer = (props: IMemoContainerProps) => {
         >
           ALL
         </Button>
-        {memoStore.memoCategoryList?.map(i => (
-          <Button
-            bg={i.backgroundColor}
-            active={activeMenu.type === i.name}
-            onClick={() =>
-              setActiveMenu({
-                type: i.name,
-                categoryId: i.id,
-              })
-            }
-          >
-            {i.name}
-          </Button>
-        ))}
-        {memoStore.memoCategoryList.length == 0 && (
+        {memoListQueryResData.state ? (
+          <CC.RowDiv h={'32px'} w={'36px'}>
+            {memoListQueryResData.data}
+          </CC.RowDiv>
+        ) : memoListQueryResData.data?.json?.memoCategoryList.length != 0 ? (
+          memoListQueryResData.data?.json?.memoCategoryList.map(i => (
+            <Button
+              bg={i.backgroundColor}
+              active={activeMenu.type === i.name}
+              onClick={() =>
+                setActiveMenu({
+                  type: i.name,
+                  categoryId: i.id,
+                })
+              }
+            >
+              {i.name}
+            </Button>
+          ))
+        ) : (
           <div> 우측에서 카테고리를 먼저 추가해주세요 </div>
         )}
         <ModalButton

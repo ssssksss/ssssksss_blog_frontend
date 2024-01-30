@@ -59,7 +59,7 @@ const AddMemoCategoryBox = props => {
       store.dispatch(
         SET_MEMO_CATEGORY_LIST([
           ...memoStore.memoCategoryList,
-          res.jsonObject.memoCategory,
+          res.json.memoCategory,
         ])
       );
       props.closeModal();

@@ -113,17 +113,17 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             SET_TODAY_SCHEDULE_LIST([
               ...scheduleStore.todayScheduleList,
               {
-                id: res.jsonObject.schedule.id,
-                title: res.jsonObject.schedule.title,
-                content: res.jsonObject.schedule.content,
-                startDateTime: res.jsonObject.schedule.startDateTime,
-                endDateTime: res.jsonObject.schedule.endDateTime,
+                id: res.json.schedule.id,
+                title: res.json.schedule.title,
+                content: res.json.schedule.content,
+                startDateTime: res.json.schedule.startDateTime,
+                endDateTime: res.json.schedule.endDateTime,
                 scheduleCategory: {
-                  id: Number(res.jsonObject.schedule.scheduleCategory.id),
-                  name: res.jsonObject.schedule.scheduleCategory.name,
+                  id: Number(res.json.schedule.scheduleCategory.id),
+                  name: res.json.schedule.scheduleCategory.name,
                   backgroundColor:
-                    res.jsonObject.schedule.scheduleCategory.backgroundColor,
-                  userId: res.jsonObject.schedule.scheduleCategory.userId,
+                    res.json.schedule.scheduleCategory.backgroundColor,
+                  userId: res.json.schedule.scheduleCategory.userId,
                 },
               },
             ])
@@ -156,17 +156,17 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           let temp = scheduleStore.todayScheduleList.map(i => {
             if (i.id == props.data.id) {
               return {
-                id: res.jsonObject.schedule.id,
-                title: res.jsonObject.schedule.title,
-                content: res.jsonObject.schedule.content,
-                startDateTime: res.jsonObject.schedule.startDateTime,
-                endDateTime: res.jsonObject.schedule.endDateTime,
+                id: res.json.schedule.id,
+                title: res.json.schedule.title,
+                content: res.json.schedule.content,
+                startDateTime: res.json.schedule.startDateTime,
+                endDateTime: res.json.schedule.endDateTime,
                 scheduleCategory: {
-                  id: Number(res.jsonObject.schedule.scheduleCategory.id),
-                  name: res.jsonObject.schedule.scheduleCategory.name,
+                  id: Number(res.json.schedule.scheduleCategory.id),
+                  name: res.json.schedule.scheduleCategory.name,
                   backgroundColor:
-                    res.jsonObject.schedule.scheduleCategory.backgroundColor,
-                  userId: res.jsonObject.schedule.scheduleCategory.userId,
+                    res.json.schedule.scheduleCategory.backgroundColor,
+                  userId: res.json.schedule.scheduleCategory.userId,
                 },
               };
             }
@@ -201,7 +201,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     ScheduleAPI.getScheduleCategoryList()
       .then((res: any) => {
         store.dispatch(
-          SET_SCHEDULE_CATEGORY_LIST(res.jsonObject?.scheduleCategoryList)
+          SET_SCHEDULE_CATEGORY_LIST(res.json?.scheduleCategoryList)
         );
       })
       .catch((err: any) => {

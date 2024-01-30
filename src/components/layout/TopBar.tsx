@@ -10,11 +10,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { store } from '@/redux/store';
-import { setAccessToken, setUserInfo } from '@/redux/store/auth';
+import { SET_ACCESS_TOKEN, SET_USER_INFO } from '@/redux/store/auth';
 import { useEffect } from 'react';
 import { useLoading } from '@/src/hooks/useLoading';
 import { Spinner1 } from '../spinner/Spinners';
 import { UserAPI } from '@/api/UserAPI';
+import { LoadingComponent } from '../common/loading/LoadingComponent';
+import authAction from './../../../redux/store/auth/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -25,6 +27,7 @@ import { UserAPI } from '@/api/UserAPI';
 const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isLoading, loadingFunction] = useLoading();
+  const authUserInfo = UserAPI.getUser();
 
   //* 로그아웃 함수
   const signOutHandler = () => {
@@ -35,37 +38,37 @@ const TopBar = () => {
       })
         .then(response => {
           store.dispatch(
-            setUserInfo({
+            SET_USER_INFO({
               email: '',
               role: '',
               nickname: '',
             })
           );
-          store.dispatch(setAccessToken({ accessToken: '' }));
+          store.dispatch(authAction.SET_ACCESS_TOKEN({ accessToken: '' }));
         })
         .catch(error => {});
     })();
   };
 
-  useEffect(() => {
-    // console.log('TopBar.tsx 파일 ======= : ');
-    // //* 처음 페이지에 들어오면 사용자의 정보를 받아오는 함수
-    loadingFunction(
-      UserAPI.getUser()
-        .then(response => {
-          store.dispatch(setUserInfo(response.data.user));
-          store.dispatch(setAccessToken(response.data.user.accessToken));
-        })
-        .catch(error => {
-          // console.log('TopBar.tsx 파일 에러 : ', error);
-        })
-    );
-  }, []);
+  // useEffect(() => {
+  //   // console.log('TopBar.tsx 파일 ======= : ');
+  //   // //* 처음 페이지에 들어오면 사용자의 정보를 받아오는 함수
+  //   loadingFunction(
+  //     UserAPI.getUser()
+  //       .then(response => {
+  //         store.dispatch(SET_USER_INFO(response.data.user));
+  //         store.dispatch(SET_ACCESS_TOKEN(response.data.user.accessToken));
+  //       })
+  //       .catch(error => {
+  //         // console.log('TopBar.tsx 파일 에러 : ', error);
+  //       })
+  //   );
+  // }, []);
 
   return (
     <Container>
       {isLoading ? (
-        <Spinner1 />
+        <LoadingComponent />
       ) : (
         <Main>
           <Title>

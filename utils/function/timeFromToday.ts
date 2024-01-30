@@ -1,6 +1,6 @@
 // 몇 시간, 몇 분전과 같이 보여주는 함수
 
-export default function timeFromToday(time) {
+export const timeFromToday = time => {
   const today = new Date();
   const timeValue = new Date(time);
 
@@ -23,4 +23,4 @@ export default function timeFromToday(time) {
   }
 
   return `${Math.floor(betweenTimeDay / 365)}년전`;
-}
+};

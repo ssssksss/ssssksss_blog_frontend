@@ -11,6 +11,7 @@ import { RootState } from '@/redux/store/reducers';
 import { store } from '@/redux/store';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SideBar.tsx
@@ -22,19 +23,23 @@ const SideBar = () => {
   const [youtubePlay, setYoutubePlay] = useState(false);
   const activeMenu = useSelector((state: RootState) => state.leftNavItemStore);
   const authStore = useSelector((state: RootState) => state.authStore);
+  const boardStore = useSelector((state: RootState) => state.boardStore);
+  const router = useRouter();
 
   useEffect(() => {
-    store.dispatch(
-      SET_LEFT_NAV_ITEM_ACTIVE(window.location.pathname.split('/')[1] + '')
-    );
-  }, []);
+
+    if(router.isReady) {
+      store.dispatch(
+        SET_LEFT_NAV_ITEM_ACTIVE('/'+window.location.pathname.split('/')[1])
+      );
+    }
+  }, [router.isReady]);
 
   const LeftNavItems = [
-    [Icons.HomeIcon, '홈', ''],
-    [Icons.BlogIcon, '블로그', 'blog'],
-    [Icons.BoardIcon, '게시판', 'board'],
-    [Icons.WorkListIcon, '할일', 'todo'],
-    // [Icons.CalendarIcon, '일정', 'calendar'],
+    [Icons.HomeIcon, '홈', '/'],
+    [Icons.BlogIcon, '블로그', '/blog'],
+    [Icons.BoardIcon, '게시판', `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`],
+    [Icons.WorkListIcon, '할일', '/todo'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
     // [Icons.SettingIcon, '설정', 'setting'],
   ];
@@ -48,13 +53,13 @@ const SideBar = () => {
             onClickHideMenu={() => setIsNavbarOpen(prev => !prev)}
           />
           {LeftNavItems.map((i, index) => (
-            <Link href={`/${i[2]}`} prefetch={false}>
+            <Link href={`${i[2]}`} prefetch={false}>
               <NavItemContainer
                 isNavbarOpen={isNavbarOpen}
                 onClick={() => {
                   store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
                 }}
-                active={activeMenu.leftNavActiveItem === i[2]}
+                active={activeMenu.leftNavActiveItem.split('?')[0] === i[2].split('?')[0]}
               >
                 <>
                   <Image src={i[0]} alt={i[1]} />

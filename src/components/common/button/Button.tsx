@@ -19,6 +19,7 @@ interface ButtonProps {
   fontWeight?: number;
   styleTypes?: number;
   active?: boolean;
+  activeBg?: string;
   hover?: boolean;
 }
 
@@ -86,7 +87,7 @@ const ButtonStyle = styled.button<IButtonProps>`
   }
 
 // 배경색(background) //
-  background: ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] || props.bg};
+  background: ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] || props.bg || props.theme.colors.white80};
 
 // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
   color: ${props => props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.colors.black80 };
@@ -125,7 +126,7 @@ const ButtonStyle = styled.button<IButtonProps>`
     props.active &&
     css`
       color: ${props.theme.main.contrast};
-      background: ${props.theme.main.primary40};
+      background: ${ props.theme.colors.[props.activeBg] || props.theme.main.[props.activeBg] || props.activeBg || props.theme.main.primary60};
       animation: ${animationKeyFrames.UpToDownRepeat} 1s infinite;
   `}
 
@@ -134,7 +135,7 @@ const ButtonStyle = styled.button<IButtonProps>`
 
 // 커스텀(custom css) //
 ${props=>props.styleTypes === 1 && `
-    outline: solid ${props.theme.colors.white80} 1px;
+    outline: solid ${props.theme.colors.white100} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
   `}

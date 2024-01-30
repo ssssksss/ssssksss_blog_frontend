@@ -15,6 +15,11 @@ const HomePage = ({ test }: any) => {
     <Container>
       {/* <HomeThreejs />
       <Content /> */}
+      <div> 홈 화면 아직 미구성 </div>
+      <div>
+        블로그는 실행했던 코드나 정리를 위한 블로그, 아직 설명용도의 블로그는
+        아닙니다.
+      </div>
       <LoadingComponent mode={'car'} top={300} />
     </Container>
   );

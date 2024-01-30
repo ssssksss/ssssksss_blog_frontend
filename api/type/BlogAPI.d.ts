@@ -1,32 +1,44 @@
-interface ICreateFirstCategoryHandlerProps {
+export interface ICreateFirstCategoryHandlerProps {
   name: string;
   href: string;
 }
 
-interface IDeleteFirstCategoryHandlerProps {
+export interface IDeleteFirstCategoryHandlerProps {
   href: string;
 }
 
-interface ICreateSecondCategoryHandlerProps {
+export interface ICreateSecondCategoryHandlerProps {
   name: string;
   firstCategoryId: number;
   files: File;
   directory: string;
 }
 
-interface IUpdateSecondCategoryHandlerProps {
+export interface IUpdateSecondCategoryHandlerProps {
   id: number;
 }
 
-interface IDeleteSecondCategoryHandlerProps {
+export interface IDeleteSecondCategoryHandlerProps {
   id: number;
   name: string;
 }
 
-export const BlogAPIType = {
-  ICreateFirstCategoryHandlerProps,
-  IDeleteFirstCategoryHandlerProps,
-  ICreateSecondCategoryHandlerProps,
-  IUpdateSecondCategoryHandlerProps,
-  IDeleteSecondCategoryHandlerProps,
-};
+export interface IBlogCategoryListResProps {
+  statusCode: number;
+  msg: string;
+  json: {
+    blogFirstCategoryList: [
+      {
+        name: string;
+        secondCategoryList: [
+          {
+            name: string;
+            thumbnailImageUrl: string;
+            id: number;
+          }
+        ];
+      }
+    ];
+    userId: number;
+  };
+}

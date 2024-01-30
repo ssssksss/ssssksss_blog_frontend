@@ -19,7 +19,7 @@ const ViewBoardCSR = dynamic(
 
 const Index = () => {
   return (
-    <Container>{typeof window !== 'undefined' && <ViewBoardCSR />}</Container>
+    <Container>{typeof window != 'undefined' && <ViewBoardCSR />}</Container>
   );
 };
 export default Index;

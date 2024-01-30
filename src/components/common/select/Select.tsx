@@ -66,7 +66,7 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
       name: props.defaultValue?.name || props.placeholder,
       bg: props.defaultValue?.bg,
     })
-  },[ref?.current])
+  },[props.defaultValue])
 
   return (
     <Container {...props} onClick={()=>setIsOpen(prev=>!prev)}>
@@ -82,31 +82,19 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
             key={i.value}
             bg={i.bg}
             onClick={(e)=>{
-              {
-                props.onChange && props.onChange({
-                  value: i.value,
-                  name: i.name,
-                  bg: i.bg
-                });
-              }
-              if(props.setValue && props.trigger) {
-                props.setValue(props.register.name,i.value);
-                props.trigger(props.register.name);
-              }
               setData({
                 ...data,
                 value: i.value,
                 name: i.name,
                 bg: i.bg,
               });
-                if(ref) {
-                  ref.current = {
-                    ...data,
-                    value: i.value,
-                    name: i.name,
-                    bg: i.bg,
-                  };
-                }
+              {
+                let temp = props.onChange && props.onChange({
+                  value: i.value,
+                  name: i.name,
+                  bg: i.bg
+                });
+              }
             }}> {i.name || i.value} </SelectItem>
           ))
         }
@@ -162,7 +150,7 @@ const Container = styled.div<ISelectProps>`
   padding-right: 18px;
   
   // 배경색(background) //
-  background: transparent;
+  background: ${props => props.theme.colors.[props.bg] || props.theme.main.[props.bg] || props.bg || props.theme.colors.white80};
   
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
   color: ${props=>props.theme.colors.black60};
@@ -172,7 +160,9 @@ const Container = styled.div<ISelectProps>`
   
 
 // 이벤트(active, focus, hover, visited, focus-within, disabled) //
-
+&:hover {
+  cursor: pointer;
+}
 
 // 반응형(media-query, overflow, scroll) //
 

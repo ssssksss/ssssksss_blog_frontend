@@ -155,8 +155,7 @@ const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, max
   max-width: ${props => props.maxW};
 
 // 배경색(background) //
-  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || props.theme.linearGradientColors.purple40deg70blue40};
-
+  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};
 // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 
 
@@ -178,7 +177,6 @@ const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, max
 `;
 const Exit = styled(CC.RowRightDiv)`
 // 외곽 디자인(border-radius, outline, box-shadow) //
-  outline: solid black 1px;
   border-radius: 10px 10px 0px 0px;
 // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: absolute;
@@ -187,7 +185,6 @@ const Exit = styled(CC.RowRightDiv)`
   height: 40px; 
   z-index: 20;
 // 배경색(background) //
-  background: ${props=>props.theme.colors.white80};
 // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 // 애니메이션(animation) //
 // 이벤트(active, focus, hover, visited, focus-within, disabled) //

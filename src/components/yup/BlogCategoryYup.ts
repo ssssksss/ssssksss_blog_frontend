@@ -37,10 +37,44 @@ export const BlogSecondCategoryCreateYup = yup.object().shape({
 });
 
 export const BlogSecondCategoryUpdateYup = yup.object().shape({
-  updateSecondCategory: yup.string().required('필수 입력'),
+  updateSecondCategoryId: yup.string().required('필수 입력'),
   updateSecondCategoryName: yup.string().required('필수 입력'),
 });
 
 export const BlogSecondCategoryDeleteYup = yup.object().shape({
   deleteSecondCategoryId: yup.string().required('필수 입력'),
+});
+
+export const BlogCreateYup = yup.object().shape({
+  selectFirstCategoryId: yup.string().required('필수 입력'),
+  selectFirstCategoryName: yup.string().required('필수 입력'),
+  selectSecondCategoryId: yup.string().required('필수 입력'),
+  selectSecondCategoryName: yup.string().required('필수 입력'),
+  title: yup.string().required('필수 입력'),
+  description: yup.string().required('필수 입력'),
+  content: yup.string().required('필수 입력'),
+  // thumbnailImageFile:
+  //   yup.string()
+  //   yup
+  //     .mixed()
+  //     .required('필수 입력')
+  //     .test('is-valid-type', 'Not a valid image type', value =>
+  //       isValidFileType(value && value.name.toLowerCase(), 'image')
+  //     ),
+});
+
+export const BlogUpdateYup = yup.object().shape({
+  selectFirstCategoryId: yup.string().required('필수 입력'),
+  selectFirstCategoryName: yup.string().required('필수 입력'),
+  selectSecondCategoryId: yup.string().required('필수 입력'),
+  selectSecondCategoryName: yup.string().required('필수 입력'),
+  title: yup.string().required('필수 입력'),
+  description: yup.string().required('필수 입력'),
+  content: yup.string().required('필수 입력'),
+  // thumbnailImageFile: yup
+  //   .mixed()
+  //   .required('필수 입력')
+  //   .test('is-valid-type', 'Not a valid image type', value =>
+  //     isValidFileType(value && value.name.toLowerCase(), 'image')
+  //   ),
 });

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { CC } from '@/styles/commonComponentStyle';
 
-export const overflowHoverVerticalScroll = styled.div`
+export const overflowHoverVerticalScrollStyle = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;

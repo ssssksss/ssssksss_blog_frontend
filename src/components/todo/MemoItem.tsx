@@ -51,13 +51,13 @@ const MemoItem = (props: IMemoItemProps) => {
         console.log("MemoItem.tsx 파일 : ",res);
         let temp = [...memoStore.memoList];
         temp.unshift({
-          id: res.jsonObject.id,
-          content: res.jsonObject.content,
+          id: res.json.id,
+          content: res.json.content,
           memoCategory: {
-            id: Number(res.jsonObject.memoCategory.id),
-            name: res.jsonObject.memoCategory.name,
+            id: Number(res.json.memoCategory.id),
+            name: res.json.memoCategory.name,
             backgroundColor:
-            res.jsonObject.memoCategory.backgroundColor,
+            res.json.memoCategory.backgroundColor,
           },
         });
         store.dispatch(
@@ -79,14 +79,14 @@ const MemoItem = (props: IMemoItemProps) => {
         let temp = memoStore.memoList.map(i => {
           if (i.id == props.data.id) {
             return {
-              id: res.jsonObject.id,
-              content: res.jsonObject.content,
+              id: res.json.id,
+              content: res.json.content,
               memoCategory: {
-                id: Number(res.jsonObject.memoCategory.id),
-                name: res.jsonObject.memoCategory.name,
+                id: Number(res.json.memoCategory.id),
+                name: res.json.memoCategory.name,
                 backgroundColor:
-                  res.jsonObject.memoCategory.backgroundColor,
-                userId: res.jsonObject.memoCategory.userId,
+                  res.json.memoCategory.backgroundColor,
+                userId: res.json.memoCategory.userId,
               },
             };
           }

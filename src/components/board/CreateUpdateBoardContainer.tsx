@@ -25,6 +25,10 @@ import { CC } from '@/styles/commonComponentStyle';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import { useLoading } from '@/src/hooks/useLoading';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import { BoardAPI } from '@/api/BoardAPI';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { BoardCreateYup, BoardUpdateYup } from '../yup/BoardYup';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -41,125 +45,54 @@ const CreateUpdateBoardContainer = (
   props: IEditCreateUpdateBoardContainerProps
 ) => {
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [areaTextContent, setAreaTextContent] = useState(
-    '# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n# 📌 [] \n## 🔸 () \n'
-  );
   const editorRef = useRef<Editor>(null);
   const locationHref = window.location.pathname;
   const postUrlHref =
     '/blog/' + locationHref.split('/')[2] + '/' + locationHref.split('/')[3];
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isLoading, loadingFunction] = useLoading();
+  const createBoardMutation = BoardAPI.createBoard();
+  const updateBoardMutation = BoardAPI.updateBoard();
+  const boardResData = BoardAPI.getBoard({
+    id: router.query.id,
+    onSuccessHandler: res => {
+      methods.setValue('title', res.data.json?.board.title);
+      methods.setValue('content', res.data.json?.board.content, {
+        shouldValidate: true,
+      });
+      methods.trigger('title');
+    },
+    enabled: props.edit,
+  });
+  const methods = useForm({
+    resolver: yupResolver(props.edit ? BoardUpdateYup : BoardCreateYup),
+    mode: 'onChange',
+    defaultValues: {
+      title: '',
+      content: '# \n ##  \n',
+    },
+  });
 
   const submitHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
-    AxiosInstance({
-      url: '/api/board',
-      method: 'POST',
-      data: {
-        title: title,
-        content: getContent_md,
-        writer: authStore.nickname,
-      },
-    })
-      .then(res => {
-        router.replace(`/board/${res.data.data.id}`);
-      })
-      .catch(error => {
-        store.dispatch(
-          SET_TOASTIFY_MESSAGE({
-            type: 'error',
-            message: '에러 발생',
-          })
-        );
-      });
+
+    createBoardMutation({
+      title: methods.getValues('title'),
+      content: getContent_md,
+      writer: authStore.nickname,
+    });
   };
 
   const updateHandler = () => {
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
-    let message = '';
-    let type = 'success';
-    AxiosInstance({
-      url: '/api/board',
-      method: 'PUT',
-      data: {
-        id: Number(router.query?.id),
-        title: title,
-        content: getContent_md,
-      },
-    })
-      .then(response => {
-        message = '게시글이 수정되었습니다.';
-        router.back();
-      })
-      .catch(error => {
-        message = '수정 중 에러발생';
-        type = 'error';
-      })
-      .finally(() => {
-        store.dispatch(
-          SET_TOASTIFY_MESSAGE({
-            type: type,
-            message: message,
-          })
-        );
-      });
+    updateBoardMutation({
+      id: router.query.id,
+      title: methods.getValues('title'),
+      content: getContent_md,
+    });
   };
-
-  const uploadHandler = async (file: any) => {
-    // let formData = new FormData();
-    // formData.append('files', file);
-    // formData.append('directory', '/' + locationHref.split('/')[2]);
-    // let temp;
-    // await AxiosInstance({
-    //   url: '/s3/image',
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    //   data: formData,
-    //   withCredentials: true,
-    // })
-    //   .then(response => {
-    //     temp = response.data;
-    //   })
-    //   .catch(error => {
-    //     console.log('index.tsx : ', error.response);
-    //   });
-    // return temp;
-  };
-
-  useEffect(() => {
-    if (props.edit) {
-      const temp = AxiosInstance({
-        url: '/api/board',
-        method: 'GET',
-        params: {
-          id: router.query.id,
-        },
-      })
-        .then(res => {
-          const viewerInstance = editorRef.current?.getInstance();
-          viewerInstance?.setMarkdown(res.data.data.board.content);
-          setTitle(res.data.data.board.title);
-        })
-        .catch(error => {
-          store.dispatch(
-            SET_TOASTIFY_MESSAGE({
-              type: 'error',
-              message: '정보들 받아오지 못했습니다.',
-            })
-          );
-          router.back();
-        });
-      loadingFunction(temp);
-    }
-  }, []);
 
   return (
     <>
@@ -169,43 +102,41 @@ const CreateUpdateBoardContainer = (
             <LoadingComponent mode={'board'}> 로딩중 </LoadingComponent>
           ) : (
             <Container gap={4}>
-              <Title
-                placeholder="제목을 입력해주세요"
-                value={title}
-                onChange={e => {
-                  setTitle(e.target.value);
-                }}
-              />
-              <EditorContainer>
-                <Editor
-                  initialValue={areaTextContent}
-                  previewStyle="tab"
-                  height="calc(100vh - 182px)"
-                  initialEditType="markdown"
-                  useCommandShortcut={true}
-                  ref={editorRef}
-                  plugins={[
-                    colorSyntax,
-                    [codeSyntaxHighlight, { highlighter: Prism }],
-                  ]}
-                  // hooks={{
-                  //   addImageBlobHook: async (blob, callback) => {
-                  //     const imageURL: any = await uploadHandler(blob);
-                  //     callback(`${AWSS3Prefix}${imageURL[0]}`, '');
-                  //     // "blog"+directory+"/"+fileName
-                  //   },
-                  // }}
-                  viewer={true}
-                  // language="ko-KR"
-                  toolbarItems={[
-                    // 툴바 옵션 설정
-                    ['heading', 'bold', 'italic', 'strike'],
-                    ['hr', 'quote'],
-                    ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
-                    ['code', 'codeblock'],
-                  ]}
+              {(!props.edit || boardResData?.status == 'success') && (
+                <Title
+                  placeholder="제목을 입력해주세요"
+                  defaultValue={methods.getValues('title')}
+                  register={methods.register('title')}
+                  onChange={e => {
+                    setTitle(e.target.value);
+                  }}
                 />
+              )}
+              <EditorContainer>
+                {(!props.edit || boardResData?.status == 'success') && (
+                  <Editor
+                    initialValue={boardResData?.data?.json?.board.content}
+                    previewStyle={'tab'}
+                    height={'calc(100vh - 182px)'}
+                    initialEditType="markdown"
+                    useCommandShortcut={true}
+                    ref={editorRef}
+                    plugins={[
+                      colorSyntax,
+                      [codeSyntaxHighlight, { highlighter: Prism }],
+                    ]}
+                    viewer={true}
+                    // language="ko-KR"
+                    toolbarItems={[
+                      // 툴바 옵션 설정
+                      ['heading', 'bold', 'italic', 'strike'],
+                      ['hr', 'quote'],
+                      ['ul', 'ol', 'task', 'indent', 'outdent'],
+                      ['table', 'image', 'link'],
+                      ['code', 'codeblock'],
+                    ]}
+                  />
+                )}
               </EditorContainer>
               <EditorFooter>
                 <Button
