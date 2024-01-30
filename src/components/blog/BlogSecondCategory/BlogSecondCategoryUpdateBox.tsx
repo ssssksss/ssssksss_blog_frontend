@@ -50,7 +50,6 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
       })
     )
       .then(res => {
-        console.log('BlogSecondCategoryUpdateBox.tsx 파일 : '.res);
         let temp = blogStore.blogCategoryList
           .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
           .secondCategoryList.map(i => {

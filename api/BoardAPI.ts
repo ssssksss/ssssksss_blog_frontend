@@ -113,7 +113,6 @@ const updateBoard = () => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data, variables, context }) => {
-      console.log('BoardAPI.ts 파일 : ', variables);
       let _url = `/board/${variables.id}`;
       router.replace(_url);
       store.dispatch(

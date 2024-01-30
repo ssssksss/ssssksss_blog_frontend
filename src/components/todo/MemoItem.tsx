@@ -48,7 +48,6 @@ const MemoItem = (props: IMemoItemProps) => {
       memoCategoryId: Number(props.category.categoryId),
     })
       .then((res: any) => {
-        console.log("MemoItem.tsx 파일 : ",res);
         let temp = [...memoStore.memoList];
         temp.unshift({
           id: res.json.id,

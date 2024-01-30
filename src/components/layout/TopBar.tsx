@@ -50,21 +50,6 @@ const TopBar = () => {
     })();
   };
 
-  // useEffect(() => {
-  //   // console.log('TopBar.tsx 파일 ======= : ');
-  //   // //* 처음 페이지에 들어오면 사용자의 정보를 받아오는 함수
-  //   loadingFunction(
-  //     UserAPI.getUser()
-  //       .then(response => {
-  //         store.dispatch(SET_USER_INFO(response.data.user));
-  //         store.dispatch(SET_ACCESS_TOKEN(response.data.user.accessToken));
-  //       })
-  //       .catch(error => {
-  //         // console.log('TopBar.tsx 파일 에러 : ', error);
-  //       })
-  //   );
-  // }, []);
-
   return (
     <Container>
       {isLoading ? (

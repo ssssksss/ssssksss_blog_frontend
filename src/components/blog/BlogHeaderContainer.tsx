@@ -74,11 +74,7 @@ const BlogHeaderContainer = () => {
         >
           {searchBlogPostList?.map((i, index) => (
             <li key={index}>
-              <Link
-                href={`/blog/${i.id}`}
-                key={`${i.id}${index}`}
-                onClick={() => console.log('test')}
-              >
+              <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
                 <a>
                   <BlogItem element={i}></BlogItem>
                 </a>

@@ -25,7 +25,6 @@ const ViewBlogCSR = dynamic(
 );
 
 const Index = props => {
-  console.log('index.tsx 파일 : ', props);
   return (
     <>
       {/* <ViewBlogContainer data={props.json} /> */}

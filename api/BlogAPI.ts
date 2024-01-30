@@ -263,7 +263,6 @@ const createSecondCategory = () => {
         rootActions.blogStore.SET_BLOG_CATEGORY_LIST([
           ...store.getState().blogStore.blogCategoryList.map(i => {
             if (i.id == variables.blogFirstCategoryId) {
-              console.log('BlogAPI.ts 파일 : ', i);
               i.secondCategoryList = _secondCategoryList;
               return i;
             } else {
