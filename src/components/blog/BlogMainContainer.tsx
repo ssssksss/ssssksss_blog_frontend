@@ -151,7 +151,6 @@ const Container = styled(CC.ColumnDiv)`
   gap: 4px;
   ${props => props.theme.scroll.hidden};
   position: relative;
-  height: 100%;
 `;
 const BlogSearchItem = styled(Link)`
   cursor: pointer;
@@ -171,6 +170,10 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
     color: ${props => props.theme.colors.black40};
     font-weight: 600;
     padding: 4px;
+    @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+      //max-width보다 작을 떄
+      font-size: 0.8rem;
+    }
   }
 `;
 
@@ -180,8 +183,10 @@ const MainContainer = styled(CC.ColumnDiv)`
   background: ${props => props.theme.main.contrast};
   border-radius: ${props => props.theme.borderRadius.br10};
   padding: 4px;
-  height: 100%;
   scroll-behavior: smooth;
+  @media (pointer: coarse) {
+    max-height: calc(100% - 128px - 72px - 60px - 40px);
+  }
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
@@ -203,5 +208,17 @@ const FixedContainer = styled(CC.ColumnDiv)`
     transform: scale(1.2);
     cursor: pointer;
     background: ${props => props.theme.main.primary80};
+  }
+
+  @media (max-width: 400px) {
+    //max-width보다 작을 떄
+    bottom: 4px;
+    div {
+      width: 24px;
+    }
+    button {
+      width: 24px;
+      aspect-ratio: 1;
+    }
   }
 `;

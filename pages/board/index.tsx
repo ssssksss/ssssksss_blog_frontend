@@ -99,11 +99,12 @@ const Index = () => {
 export default Index;
 Index.layout = Layout1;
 
-const Container = styled(CC.ColumnDiv)`
+const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 68px);
   gap: 10px;
   background: ${props => props.theme.main.contrast};
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
   padding: 4px;
+  display: grid;
+  grid-template-rows: 88px calc(100% - 92px);
 `;

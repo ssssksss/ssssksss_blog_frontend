@@ -29,7 +29,6 @@ const GlobalStyles = css`
     padding: 0;
     box-sizing: border-box;
     outline: none;
-    font-size: ${props => props.theme.calcRem(16)};
   }
   html,
   body {
@@ -40,6 +39,16 @@ const GlobalStyles = css`
       display: none;
       /* width: 5px; */
     }
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    font-size: 16px;
+    @media (pointer: coarse) {
+      font-size: 14px;
+    }
+    line-height: 1;
   }
   button {
     cursor: pointer;
@@ -59,9 +68,6 @@ const GlobalStyles = css`
   }
 
   /*  */
-
-  html,
-  body,
   div,
   span,
   applet,
@@ -160,9 +166,6 @@ const GlobalStyles = css`
   nav,
   section {
     display: block;
-  }
-  body {
-    line-height: 1;
   }
   ol,
   ul {

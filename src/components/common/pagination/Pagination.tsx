@@ -126,12 +126,17 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
   width: 100%;
+
+  @media (min-width: 400px) {
+    gap: 4px;
+  }
 
   button {
     width: calc(100% / 15);
-    max-width: 32px;
+    max-width: 24px;
+    max-height: 24px;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
@@ -140,7 +145,7 @@ const Container = styled.div`
 `;
 const PageNumberButton = styled(Button)<{ isActive: boolean }>`
   color: ${props => (props.isActive ? props.theme.main.primary100 : 'black')};
-  font-size: ${props => (props.isActive ? '1.4em' : '1em')};
+  font-size: ${props => (props.isActive ? '1.4em' : '0.8em')};
   font-weight: ${props => props.isActive && 600};
 `;
 const MoveButton = styled.button``;

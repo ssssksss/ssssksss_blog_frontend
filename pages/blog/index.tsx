@@ -78,8 +78,6 @@ const Container = styled(CC.ColumnDiv)`
   width: 100%;
   background: ${props => props.theme.main.contrast};
   border-radius: 8px;
-  height: calc(100vh - 64px - 4px);
-  padding: 4px;
 
   & > * {
     outline: solid ${props => props.theme.main.primary80} 2px;

@@ -64,89 +64,85 @@ const BoardMainContainer = () => {
           총 {boardListResData?.data?.json?.boardCount} 건의 게시물
         </CC.RowRightDiv>
       </SearchNavContainer>
-      <CC.ColumnBetweenDiv
-        outline={true}
-        brR={'10px'}
-        pd={'8px'}
-        overflow={true}
-      >
-        <BoardListContainer>
-          <CC.ColumnDiv gap={8} height={'420px'}>
-            <BoardListTitle>
-              <span> 번호 </span>
-              <span> 제목 </span>
-              <span> 작성자 </span>
-              <span> 날짜 </span>
-              <span> 조회수 </span>
-            </BoardListTitle>
-            {boardListResData?.data?.json?.boardList?.map(
-              (el: any, index: number) => (
-                <Link
-                  href={`/board/${el.id}`}
-                  as={`/board/${el.id}?
+      <BoardListContainer>
+        <CC.ColumnDiv>
+          <BoardListTitle>
+            <span> 번호 </span>
+            <span> 제목 </span>
+            <span> 작성자 </span>
+            <span> 날짜 </span>
+            <span> 조회수 </span>
+          </BoardListTitle>
+          {boardListResData?.data?.json?.boardList?.map(
+            (el: any, index: number) => (
+              <Link
+                href={`/board/${el.id}`}
+                as={`/board/${el.id}?
                     page=${store.getState().boardStore.page}
                     &size=${store.getState().boardStore.size}
                     &keyword=${store.getState().boardStore.keyword}
                     &sort=${store.getState().boardStore.sort}`}
-                  key={index}
-                >
-                  <BoardItem>
-                    <span> {el.id} </span>
-                    <span> {el.title} </span>
-                    <span> {el.writer} </span>
-                    <span>
-                      {timeFromToday(
-                        dateFormat4y2m2d(el.baseTimeEntity.createdAt)
-                      )}
-                    </span>
-                    <span>{el.views}</span>
-                  </BoardItem>
-                </Link>
-              )
-            )}
-          </CC.ColumnDiv>
-          <BoardListBottomContainer>
-            {store.getState().authStore.nickname && (
-              <WriteButtonContainer>
-                <Link href={'/board/create'}>
-                  <CC.RowDiv>
-                    <Image src={Icons.EditIcon} alt="" width={20} height={20} />
-                    <span> 글쓰기 </span>
-                  </CC.RowDiv>
-                </Link>
-              </WriteButtonContainer>
-            )}
-            <Pagination
-              refetch={props => changePage(props)}
-              endPage={Math.ceil(boardListResData?.data?.json?.boardCount / 10)}
-              currentPage={Number(boardStore.page + 1)}
-            />
-          </BoardListBottomContainer>
-        </BoardListContainer>
-      </CC.ColumnBetweenDiv>
+                key={index}
+              >
+                <BoardItem>
+                  <span> {el.id} </span>
+                  <span> {el.title} </span>
+                  <span> {el.writer} </span>
+                  <span>
+                    {timeFromToday(
+                      dateFormat4y2m2d(el.baseTimeEntity.createdAt)
+                    )}
+                  </span>
+                  <span>{el.views}</span>
+                </BoardItem>
+              </Link>
+            )
+          )}
+        </CC.ColumnDiv>
+      </BoardListContainer>
+      <BoardListBottomContainer>
+        {store.getState().authStore.nickname && (
+          <WriteButtonContainer>
+            <Link href={'/board/create'}>
+              <CC.RowDiv>
+                <Image src={Icons.EditIcon} alt="" width={16} height={16} />
+                <span> 글쓰기 </span>
+              </CC.RowDiv>
+            </Link>
+          </WriteButtonContainer>
+        )}
+        <Pagination
+          refetch={props => changePage(props)}
+          endPage={Math.ceil(boardListResData?.data?.json?.boardCount / 10)}
+          currentPage={Number(boardStore.page + 1)}
+        />
+      </BoardListBottomContainer>
     </Container>
   );
 };
 export default BoardMainContainer;
 
-const Container = styled(CC.ColumnDiv)`
+const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 68px);
-  gap: 10px;
+  max-height: 100%;
+  gap: 4px;
   background: ${props => props.theme.main.contrast};
-  border-radius: 10px;
   padding: 4px;
+  /* ${props => props.theme.scroll.hidden}; */
+  display: grid;
+  grid-template-rows: 30px auto 72px;
 `;
 
 const SearchNavContainer = styled.div`
   display: grid;
   grid-template-columns: calc(100% - 150px) 150px;
+  align-items: center;
+  outline: solid ${props => props.theme.main.primary20} 4px;
 `;
 
 const SearchResultContainer = styled.div`
   display: grid;
   grid-template-columns: 70px calc(100% - 70px);
-  padding-right: 2px;
 `;
 
 const SearchResult = styled.div`
@@ -173,20 +169,6 @@ const BoardListTitle = styled.div`
     text-align: center;
   }
 
-  /* & > span:nth-of-type(1) {
-    font-size: 0.8rem;
-  }
-
-  & > span:nth-of-type(2) {
-    text-align: start;
-    font-weight: 800;
-  }
-
-  & > span:nth-of-type(4) {
-    font-size: 0.8rem;
-    color: ${props => props.theme.colors.black60};
-  } */
-
   grid-template-columns: 30px auto 60px 60px 40px;
   @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
     grid-template-columns: 30px auto 40px 60px 40px;
@@ -195,11 +177,16 @@ const BoardListTitle = styled.div`
     grid-template-columns: 30px auto 40px 40px 40px;
   }
 `;
-const BoardListContainer = styled(CC.ColumnBetweenDiv)`
-  gap: 8px;
-  min-height: max-content;
-  padding: 4px;
+const BoardListContainer = styled(CC.ColumnDiv)`
+  max-height: 100%;
   ${props => props.theme.scroll.hidden};
+  outline: solid ${props => props.theme.main.primary20} 4px;
+  padding: 4px;
+
+  & > div {
+    gap: 8px;
+    padding: 4px 0px;
+  }
 `;
 
 const BoardItem = styled.div`
@@ -252,7 +239,8 @@ const BoardItem = styled.div`
 `;
 
 const BoardListBottomContainer = styled.div`
-  padding-bottom: 8px;
+  outline: solid ${props => props.theme.main.primary20} 4px;
+  padding: 0px 4px;
 `;
 
 const WriteButtonContainer = styled(CC.RowRightDiv)`
@@ -263,7 +251,6 @@ const WriteButtonContainer = styled(CC.RowRightDiv)`
     cursor: pointer;
     background: ${props => props.theme.main.primary80};
     color: ${props => props.theme.main.contrast};
-    outline: solid black 1px;
     padding: 4px;
     border-radius: 10px;
     gap: 4px;

@@ -72,10 +72,8 @@ const BoardHeaderContainer = () => {
 
   return (
     <Container>
-      <CC.RowCenterDiv>
-        <button onClick={() => reset()}>
-          <h1> 게시판 </h1>
-        </button>
+      <CC.RowCenterDiv bg={'transparent'}>
+        <h1 onClick={() => reset()}> 게시판 </h1>
       </CC.RowCenterDiv>
       <CC.GridColumn2Adjust second={'160px'} gap={10}>
         <Input
@@ -132,13 +130,13 @@ const BoardHeaderContainer = () => {
 export default BoardHeaderContainer;
 
 const Container = styled.div`
+  border-radius: 8px;
   h1 {
     padding: 8px 0px;
     font-size: 36px;
     color: ${props => props.theme.main.primary100};
     ${props => props.theme.flex.row.center.center};
     font-family: ${props => props.theme.fontFamily.gmarketSansBold};
-
     :hover {
       cursor: pointer;
     }

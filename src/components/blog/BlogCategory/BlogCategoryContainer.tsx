@@ -198,11 +198,9 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   padding: 10px 4px;
   height: 60px;
   background: ${props => props.theme.main.contrast};
-
-  @media (max-height: 600px) {
+  @media screen (max-height: 600px) {
     flex-wrap: nowrap;
     overflow-x: scroll;
-    /* ${props => props.theme.scroll.hidden}; */
   }
 
   ::-webkit-scrollbar {

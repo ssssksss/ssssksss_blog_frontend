@@ -16,9 +16,9 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 
 export default Layout1;
 const Container = styled.div`
-  height: 100%;
-  margin: 8px 4px 10px 4px;
+  padding: 4px;
   border-radius: ${props => props.theme.borderRadius.br10};
+  height: 100%;
 `;
 
 const Container1 = styled.div`
@@ -29,5 +29,14 @@ const Container1 = styled.div`
   @media (min-width: ${props => props.theme.deviceSizes.pc}) {
     width: calc(100vw - 130px);
     margin: auto;
+  }
+
+  & > div {
+    --top-navbar-height: 64px;
+    max-height: calc(100vh - var(--top-navbar-height));
+    padding: 2px;
+    @media (pointer: coarse) {
+      max-height: calc(100vh - var(--top-navbar-height) - 72px);
+    }
   }
 `;
