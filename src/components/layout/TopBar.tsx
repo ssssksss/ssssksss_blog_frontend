@@ -17,6 +17,7 @@ import { Spinner1 } from '../spinner/Spinners';
 import { UserAPI } from '@/api/UserAPI';
 import { LoadingComponent } from '../common/loading/LoadingComponent';
 import authAction from './../../../redux/store/auth/actions';
+import { rootActions } from '@/redux/store/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -37,6 +38,12 @@ const TopBar = () => {
         method: 'DELETE',
       })
         .then(response => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: '로그아웃 되었습니다.',
+            })
+          );
           store.dispatch(
             SET_USER_INFO({
               email: '',

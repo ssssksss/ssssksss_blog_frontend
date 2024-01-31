@@ -30,6 +30,7 @@ import { rootActions } from '@/redux/store/actions';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { setIsLoading } from '@/redux/store/loading';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -184,6 +185,7 @@ const CreateUpdateBlogContainer = (
     enabled: props.edit && !!blogCategoryListResData.data?.json,
   });
   const submitHandler = async () => {
+    store.dispatch(setIsLoading(true));
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
@@ -220,6 +222,9 @@ const CreateUpdateBlogContainer = (
       .catch(error => {
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
         navigator.clipboard.writeText(getContent_md);
+      })
+      .finally(() => {
+        store.dispatch(setIsLoading(false));
       });
   };
 

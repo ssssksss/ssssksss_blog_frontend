@@ -1,4 +1,9 @@
 import styled from '@emotion/styled';
+import { Spinner1 } from '../spinner/Spinners';
+import { store } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { setIsLoading } from '@/redux/store/loading';
 // import PageTransitions from ".@/components/common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
@@ -7,9 +12,17 @@ type AppLayoutProps = {
 
 // 블로그 용도의 레이아웃
 const Layout1 = ({ children }: AppLayoutProps) => {
+  const isLoading = useSelector(state => state.loadingStore.value);
+
   return (
     <Container>
-      <Container1>{children}</Container1>
+      {isLoading ? (
+        <LoadingContainer>
+          <Spinner1 />
+        </LoadingContainer>
+      ) : (
+        <Container1>{children}</Container1>
+      )}
     </Container>
   );
 };
@@ -19,6 +32,7 @@ const Container = styled.div`
   padding: 4px;
   border-radius: ${props => props.theme.borderRadius.br10};
   height: 100%;
+  position: relative;
 `;
 
 const Container1 = styled.div`
@@ -39,4 +53,13 @@ const Container1 = styled.div`
       max-height: calc(100vh - var(--top-navbar-height) - 44px);
     }
   }
+`;
+
+const LoadingContainer = styled.div`
+  position: absolute;
+  width: 50%;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

@@ -9,6 +9,7 @@ import { blogContentTemplateReducer } from './blogContentTemplate';
 import { todoReducer } from './todo';
 import { memoReducer } from './memo';
 import { boardReducer } from './board';
+import loadingReducer from './loading';
 
 const rootReducer = combineReducers({
   blogStore: blogReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   todoStore: todoReducer,
   memoStore: memoReducer,
   boardStore: boardReducer,
+  loadingStore: loadingReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
