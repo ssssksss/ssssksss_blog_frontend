@@ -8,6 +8,5 @@ const testMiddleware = (store: any) => dispatch => action => {
 
 export const store = createStore(
   rootReducer,
-  ['Use Redux'],
   composeWithDevTools(applyMiddleware(testMiddleware))
 );

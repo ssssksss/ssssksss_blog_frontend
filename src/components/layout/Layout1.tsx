@@ -36,7 +36,7 @@ const Container1 = styled.div`
     max-height: calc(100vh - var(--top-navbar-height));
     padding: 2px;
     @media (pointer: coarse) {
-      max-height: calc(100vh - var(--top-navbar-height) - 72px);
+      max-height: calc(100vh - var(--top-navbar-height) - 44px);
     }
   }
 `;

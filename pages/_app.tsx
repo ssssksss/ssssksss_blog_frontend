@@ -16,6 +16,7 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import Head from 'next/head';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -54,6 +55,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Component {...pageProps} />
           </Layout>
         </PageTransitions> */}
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+          </Head>
           <NavBar>
             <Layout>
               <Component {...pageProps} />
