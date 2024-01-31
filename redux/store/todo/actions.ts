@@ -9,3 +9,9 @@ export const SET_TODO_LIST = (payload: TODO_LIST_STATE) => {
     payload: payload,
   };
 };
+
+const todoAction = {
+  SET_TODO_LIST,
+};
+
+export default todoAction;

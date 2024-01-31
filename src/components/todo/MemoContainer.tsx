@@ -13,9 +13,7 @@ import { MemoAPI } from '@/api/MemoAPI';
 import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@/redux/store/memo';
 import ModalButton from '@/components/common/button/ModalButton';
 import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';
-import { useQuery } from 'react-query';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { UseQueryHook } from './../useHook/useQueryHook';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file MemoContainer.tsx
@@ -30,15 +28,28 @@ interface IMemoContainerProps {
 
 const MemoContainer = (props: IMemoContainerProps) => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const [activeMenu, setActiveMenu] = useState({
     type: 'all',
     categoryId: '',
     isShowMessage: true,
   });
 
-  const memoListQueryResData = MemoAPI.getMemoCategoryList();
+  // const memoCategoryListQueryResData = MemoAPI.getMemoCategoryList();
+  // const memoListQueryResData = MemoAPI.getMemoList({
+  //   type: 'all',
+  // });
 
   useEffect(() => {
+    if (!authStore.id) return;
+    MemoAPI.getMemoCategoryList()
+      .then((res: any) => {
+        store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
+      })
+      .catch((err: any) => {
+        console.log('MemoContainer.tsx 파일 : ', err);
+      });
+
     MemoAPI.getMemoList({
       type: 'all',
     })
@@ -48,7 +59,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
       .catch((err: any) => {
         console.log('MemoContainer.tsx 파일 : ', err);
       });
-  }, []);
+  }, [authStore.id]);
 
   return (
     <Container>
@@ -65,44 +76,38 @@ const MemoContainer = (props: IMemoContainerProps) => {
         >
           ALL
         </Button>
-        {memoListQueryResData.state ? (
-          <CC.RowDiv h={'32px'} w={'36px'}>
-            {memoListQueryResData.data}
-          </CC.RowDiv>
-        ) : memoListQueryResData.data?.json?.memoCategoryList.length != 0 ? (
-          memoListQueryResData.data?.json?.memoCategoryList.map(i => (
-            <Button
-              bg={i.backgroundColor}
-              active={activeMenu.type === i.name}
-              onClick={() =>
-                setActiveMenu({
-                  type: i.name,
-                  categoryId: i.id,
-                })
-              }
-            >
-              {i.name}
-            </Button>
-          ))
-        ) : (
-          <div> 우측에서 카테고리를 먼저 추가해주세요 </div>
+        {memoStore.memoCategoryList?.map(i => (
+          <Button
+            bg={i.backgroundColor}
+            active={activeMenu.type === i.name}
+            onClick={() =>
+              setActiveMenu({
+                type: i.name,
+                categoryId: i.id,
+              })
+            }
+          >
+            {i.name}
+          </Button>
+        ))}
+        {authStore.id && (
+          <ModalButton
+            modal={<MemoCategoryModal />}
+            modalOverlayVisible={true}
+            h={'32px'}
+            modalW={'50%'}
+            modalH={'200%'}
+          >
+            <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
+          </ModalButton>
         )}
-        <ModalButton
-          modal={<MemoCategoryModal />}
-          modalOverlayVisible={true}
-          h={'32px'}
-          modalW={'50%'}
-          modalH={'200%'}
-        >
-          <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
-        </ModalButton>
       </MemoMenuNavListContainer>
       <MainContainer>
-        {activeMenu.type != 'all' && (
+        {activeMenu.type != 'all' && authStore.id && (
           <MemoItem edit={false} category={activeMenu} />
         )}
         {memoStore.memoList
-          .filter(i =>
+          ?.filter(i =>
             activeMenu.type == 'all'
               ? true
               : i.memoCategory.name == activeMenu.type

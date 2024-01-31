@@ -21,3 +21,10 @@ export const SET_MEMO_CATEGORY_LIST = (payload: MEMO_CATEGORY_LIST_STATE) => {
     payload: payload,
   };
 };
+
+const memoAction = {
+  SET_MEMO_LIST,
+  SET_MEMO_CATEGORY_LIST,
+};
+
+export default memoAction;

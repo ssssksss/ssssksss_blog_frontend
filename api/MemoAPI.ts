@@ -18,24 +18,24 @@ const addMemoCategory = props => {
   });
 };
 
-// const getMemoCategoryList = props => {
-//   return ApiProcessHandler({
-//     url: '/api/memo/category',
-//     method: 'GET',
-//     apiCategory: '할일 카테고리',
-//   });
-// };
-
-const getMemoCategoryList = () => {
-  return UseQueryHook({
-    queryKey: ['memoList'],
-    requestData: {
-      url: '/api/memo/category',
-      method: 'GET',
-    },
-    isRefetchWindowFocus: false,
+const getMemoCategoryList = props => {
+  return ApiProcessHandler({
+    url: '/api/memo/category',
+    method: 'GET',
+    apiCategory: '할일 카테고리',
   });
 };
+
+// const getMemoCategoryList = () => {
+//   return UseQueryHook({
+//     queryKey: ['memoList'],
+//     requestData: {
+//       url: '/api/memo/category',
+//       method: 'GET',
+//     },
+//     isRefetchWindowFocus: false,
+//   });
+// };
 
 const updateMemoCategory = props => {
   return ApiProcessHandler({
@@ -105,7 +105,7 @@ const deleteMemo = props => {
     url: '/api/memo',
     method: 'DELETE',
     apiCategory: '메모',
-    data: {
+    params: {
       id: props.id,
     },
   });

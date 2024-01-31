@@ -6,7 +6,7 @@ import Image from 'next/image';
 import ModalButton from '@/components/common/button/ModalButton';
 import LoginModal from '../common/modal/LoginModal';
 import AuthModal from '../common/modal/AuthModal';
-import { useSelector } from 'react-redux';
+import { batch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { store } from '@/redux/store';
@@ -18,6 +18,8 @@ import { UserAPI } from '@/api/UserAPI';
 import { LoadingComponent } from '../common/loading/LoadingComponent';
 import authAction from './../../../redux/store/auth/actions';
 import { rootActions } from '@/redux/store/actions';
+import { useQueryClient } from 'react-query';
+import { SET_MEMO_LIST, SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -29,6 +31,7 @@ const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isLoading, loadingFunction] = useLoading();
   const authUserInfo = UserAPI.getUser();
+  const queryClient = useQueryClient();
 
   //* 로그아웃 함수
   const signOutHandler = () => {
@@ -51,7 +54,20 @@ const TopBar = () => {
               nickname: '',
             })
           );
-          store.dispatch(authAction.SET_ACCESS_TOKEN({ accessToken: '' }));
+          batch(() => {
+            store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
+            store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
+            store.dispatch(rootActions.todoStore.SET_TODO_LIST([]));
+            store.dispatch(
+              rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' })
+            );
+            store.dispatch(
+              rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([])
+            );
+            store.dispatch(
+              rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([])
+            );
+          });
         })
         .catch(error => {});
     })();

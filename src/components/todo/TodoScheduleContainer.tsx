@@ -56,7 +56,7 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
       .catch(err => {
         console.log('TodoScheduleContainer.tsx 파일 : ', err);
       });
-  }, []);
+  }, [authStore.id]);
 
   return (
     <Container>

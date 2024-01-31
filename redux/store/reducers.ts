@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { blogReducer } from './blog';
 import { authReducer } from './auth';
-import { scheduleReducer } from './schedule';
+import { scheduleReducer, scheduleSlice } from './schedule';
 import { themeReducer } from './theme';
 import { toastifyReducer } from './toastify/reducers';
 import { leftNavItemReducer } from './leftNav';
@@ -23,6 +23,7 @@ const rootReducer = combineReducers({
   memoStore: memoReducer,
   boardStore: boardReducer,
   loadingStore: loadingReducer,
+  scheduleStore1: scheduleSlice.reducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

@@ -29,6 +29,7 @@ const CalendarContainer = () => {
     Number(todayDate.getMonth())
   );
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
 
   const moveLeftDate = () => {
     if (calendarMonth === 0) {
@@ -164,8 +165,8 @@ const CalendarContainer = () => {
         endDateOfMonth = i[0];
       }
     });
-    // setCalendarDayList(Object.assign({}, temp));
-    // setCalendarDayList(Object.assign({}, temp));
+    setCalendarDayList(Object.assign({}, temp));
+    if (!authStore.id) return;
     await ScheduleAPI.getScheduleList({
       type: 'month',
       startDateTime: new Date(startDateOfMonth),
@@ -186,8 +187,11 @@ const CalendarContainer = () => {
       })
       .catch(err => {
         console.log('CalendarContainer.tsx 파일 : ', err);
+      })
+      .finally(() => {
+        setCalendarDayList(Object.assign({}, temp));
       });
-  }, [calendarMonth, scheduleStore.toggleUptoDateMonthSchedule]);
+  }, [calendarMonth, scheduleStore.toggleUptoDateMonthSchedule, authStore.id]);
 
   return (
     <Container>
