@@ -45,9 +45,10 @@ const GlobalStyles = css`
     font: inherit;
     vertical-align: baseline;
     font-size: 16px;
-    @media (pointer: coarse) {
+    @media all and ((max-height: 600px) or (max-width: 600px)  or (pointer: coarse)) {
       font-size: 14px;
     }
+
     line-height: 1;
   }
   button {
