@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/reducers';
 
 const AxiosInstance = axios.create({
-  // baseURL: 'http://localhost:8080',
-  // baseURL: 'https://blog-server.ssssksss.xyz',
   baseURL:
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:8080'
