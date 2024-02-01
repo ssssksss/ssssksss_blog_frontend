@@ -27,6 +27,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import BlogType from './../../../api/type/Blog.d';
+import { rootActions } from '@/redux/store/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

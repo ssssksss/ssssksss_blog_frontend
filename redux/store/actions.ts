@@ -6,6 +6,7 @@ import boardAction from './board/actions';
 import scheduleAction from './schedule/actions';
 import todoAction from './todo/actions';
 import memoAction from './memo/actions';
+import { loadingAction } from './loading';
 
 export const rootActions = {
   blogStore: blogAction,
@@ -16,4 +17,5 @@ export const rootActions = {
   scheduleStore: scheduleAction,
   todoStore: todoAction,
   memoStore: memoAction,
+  loadingStore: loadingAction,
 };

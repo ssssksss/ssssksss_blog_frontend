@@ -235,6 +235,7 @@ const CreateUpdateBlogContainer = (
   };
 
   const updateHandler = () => {
+    store.dispatch(setIsLoading(true));
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
@@ -281,6 +282,9 @@ const CreateUpdateBlogContainer = (
       .catch(error => {
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
         navigator.clipboard.writeText(getContent_md);
+      })
+      .finally(() => {
+        store.dispatch(setIsLoading(false));
       });
   };
 

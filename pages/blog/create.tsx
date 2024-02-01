@@ -15,7 +15,11 @@ const CreateBlogCSR = dynamic(
   () => import('@/components/blog/CreateUpdateBlogContainer'),
   {
     ssr: false,
-    loading: () => <Spinner37 />,
+    loading: () => (
+      <Container1>
+        <Spinner37 />
+      </Container1>
+    ),
   }
 );
 
@@ -31,4 +35,12 @@ CreateUpdate.layout = Layout1;
 
 const Container = styled.div`
   margin: auto;
+`;
+
+const Container1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
 `;

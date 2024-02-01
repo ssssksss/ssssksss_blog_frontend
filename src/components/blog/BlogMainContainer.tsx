@@ -18,6 +18,8 @@ import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
 import { store } from '@/redux/store';
 import Select from '@/components/common/select/Select';
 import { IconsSvg } from '../common/icons/IconsSvg';
+import { rootActions } from '@/redux/store/actions';
+import { loadingSlice } from './../../../redux/store/loading/index';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogMainContainer.tsx
@@ -26,8 +28,9 @@ import { IconsSvg } from '../common/icons/IconsSvg';
  */
 const BlogMainContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [viewMode, setViewMode] = useState(true);
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const loadingSlice: loadingStore = useSelector(state => state.loadingSlice);
+  const [viewMode, setViewMode] = useState(true);
   const router = useRouter();
   const [isLoading, loadingFunction] = useLoading();
   const [blogOrderListOption, setBlogOrderListOption] = useState();
@@ -64,6 +67,7 @@ const BlogMainContainer = () => {
         router.push('/blog/create');
       }
     };
+
     window.addEventListener('keydown', keyDownEventFunc);
 
     return () => {
