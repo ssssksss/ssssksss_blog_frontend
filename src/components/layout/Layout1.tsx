@@ -82,7 +82,7 @@ const LoadingContainer = styled.div`
 `;
 
 const Spinner32 = styled.div`
-  --box-size: 30vw;
+  --box-size: 160px;
   & {
     width: var(--box-size);
     height: var(--box-size);
