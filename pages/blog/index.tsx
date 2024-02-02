@@ -19,8 +19,12 @@ import { useRouter } from 'next/router';
  * @description 설명
  */
 export async function getServerSideProps() {
-  const { data } = await AxiosInstance.get('/api/blog-category-list');
+  const res = await AxiosInstance.get('/api/blog-category-list');
+  let data = {};
   // ! next-redux-wrapper 공부해보기
+  if (res) {
+    data = res.data;
+  }
   return { props: data };
 }
 
@@ -29,11 +33,11 @@ const Index = props => {
   useEffect(() => {
     store.dispatch(
       rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-        props.json.blogFirstCategoryList
+        props.json?.blogFirstCategoryList
       )
     );
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
-    let _activeFirstCategoryName = props.json.blogFirstCategoryList.filter(
+    let _activeFirstCategoryName = props.json?.blogFirstCategoryList.filter(
       i => i.id == urlQueryObject?.[`first-category`]
     )[0]?.name;
     batch(() => {
@@ -41,23 +45,23 @@ const Index = props => {
         rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
           activeBlogFirstCategoryId:
             urlQueryObject?.[`first-category`] ||
-            props.json.blogFirstCategoryList[0].id,
+            props.json?.blogFirstCategoryList[0].id,
           activeBlogFirstCategoryName:
             _activeFirstCategoryName ||
-            props.json.blogFirstCategoryList[0].name,
+            props.json?.blogFirstCategoryList[0].name,
         })
       );
       store.dispatch(
         rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
           activeBlogSecondCategoryId:
             urlQueryObject?.[`second-category`] ||
-            props.json.blogFirstCategoryList[0].secondCategoryList[0].id,
+            props.json?.blogFirstCategoryList[0].secondCategoryList[0].id,
           activeBlogSecondCategoryName:
-            props.json.blogFirstCategoryList[0].secondCategoryList[0].name,
+            props.json?.blogFirstCategoryList[0].secondCategoryList[0].name,
         })
       );
       store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json.userId)
+        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json?.userId)
       );
     });
   }, []);
