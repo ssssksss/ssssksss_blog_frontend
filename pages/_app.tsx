@@ -1,15 +1,13 @@
 import type { AppProps } from 'next/app';
 import type { NextPage } from 'next';
-import React, { ReactElement, ReactNode, useState, useEffect } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store/index';
-import 'react-quill/dist/quill.snow.css';
 import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@/styles/GlobalStyles';
 import { Global } from '@emotion/react';
 import { purpleTheme, darkTheme } from '@/styles/theme';
-import NavBar from '@/components/layout/NavBar';
-import ReactToastifyComponents from '@/components/react-toastify/ReactToastifyComponents';
+import 'react-quill/dist/quill.snow.css';
 import 'prismjs/themes/prism-tomorrow.css';
 // react-date-range 라이브러리
 import 'react-date-range/dist/styles.css'; // main style file
@@ -17,6 +15,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,6 +24,18 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+const NavBar = dynamic(() => import('@/components/layout/NavBar'), {
+  loading: () => <p>Loading...</p>,
+});
+
+const ReactToastifyComponents = dynamic(
+  () => import('@/components/react-toastify/ReactToastifyComponents'),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || (page => page);
   const Layout =

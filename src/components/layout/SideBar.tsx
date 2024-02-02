@@ -1,23 +1,30 @@
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import HamburgerMenu from '@/components/common/button/HamburgerMenu';
 import Image from 'next/image';
 import { Icons } from '@/components/common/icons/Icons';
 import { useEffect, useState } from 'react';
 import Animations from '@/components/common/animations/Animations';
-import ReactPlayerContainer from '../reactPlayer/ReactPlayerContainer';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
 import { store } from '@/redux/store';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SideBar.tsx
  * @version 0.0.1 "2023-09-20 10:42:22"
  * @description 설명
  */
+const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
+  loading: () => <p>Loading...</p>
+});
+
+const HamburgerMenu = dynamic(() => import('@/components/common/button/HamburgerMenu'), {
+  loading: () => <p>Loading...</p>
+});
+
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [youtubePlay, setYoutubePlay] = useState(false);
