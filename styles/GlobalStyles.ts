@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import theme from './theme';
 
 const GlobalStyles = css`
-  @font-face {
+  /* @font-face {
     font-family: 'gmarketSansBold';
     src: url('/fonts/GmarketSansTTFBold.ttf') format('truetype');
     font-weight: normal;
@@ -23,7 +23,7 @@ const GlobalStyles = css`
   @font-face {
     font-family: 'yanoljaYacheRegular';
     src: url('/fonts/YanoljaYacheRegular.ttf') format('truetype');
-  }
+  } */
   * {
     margin: 0;
     padding: 0;
@@ -48,6 +48,7 @@ const GlobalStyles = css`
     @media all and ((max-height: 600px) or (max-width: 600px)  or (pointer: coarse)) {
       font-size: 14px;
     }
+    font-display: swap;
 
     line-height: 1;
   }
