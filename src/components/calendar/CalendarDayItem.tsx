@@ -82,12 +82,13 @@ const Container = styled(ModalButton)`
   width: 100%;
 
   &:not(:has(.todoBar:hover)):hover {
-    outline: solid black 2px;
-    outline-offset: -2px;
+    background: ${props => props.theme.main.primary80};
+    color: ${props => props.theme.main.contrast};
   }
 
   .todoBar:not(:has(.todoBar:hover)):hover {
-    outline: solid black 2px;
+    background: ${props => props.theme.main.primary80};
+    color: ${props => props.theme.main.contrast};
   }
 
   background-color: #ffffff;
