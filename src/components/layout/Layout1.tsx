@@ -97,7 +97,7 @@ const Spinner32 = styled.div`
     height: calc(var(--box-size) / 2);
     position: absolute;
     left: 0;
-    top: -calc(var(--box-size) / 2);
+    top: calc(-1 * var(--box-size) / 2);
     animation: animloader 4s ease infinite;
   }
   &::after {
@@ -108,7 +108,7 @@ const Spinner32 = styled.div`
     top: 0;
     width: calc(var(--box-size) / 2);
     height: calc(var(--box-size) / 2);
-    /* background: rgba(255, 255, 255, 0.85); */
+    background: rgba(255, 255, 255, 0.85);
     /* 이게 이동하는 블럭 색상 */
     background: ${props => props.theme.main.primary80};
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
