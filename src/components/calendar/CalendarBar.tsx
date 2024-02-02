@@ -37,7 +37,9 @@ const CalendarBar = (props) => {
         modalOverlayVisible={true}
         modalW={'80%'}
         >
+          <ContentContainer>
         {props.data.content}
+          </ContentContainer>
       </Container>
     );
 };
@@ -60,7 +62,7 @@ border-radius: 0px 8px 8px 0px;
 // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
 width: ${props => `calc(${100 * props.period + '%'} - 5px)`};
 height: 24px;
-padding-left: 4px;
+padding: 0px 4px;
 margin-left: 4px;
 grid-row-start: ${props => props.layer};
 z-index: ${props => props.activeModal ? 10 : 4};
@@ -69,12 +71,11 @@ justify-content: flex-start;
 // 배경색(background) //
 background: ${props => props.theme.colors.[props.backgroundColor] || props.theme.main.[props.backgroundColor] || props.backgroundColor};
 
-
 // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 font-size: 1em;
-color: white;
+font-family: ${props => props.theme.fontFamily.cookieRunRegular};
 white-space: nowrap;
-text-overflow: ellipsis;
+overflow: hidden;
 
 // 애니메이션(animation) //
 
@@ -85,10 +86,19 @@ text-overflow: ellipsis;
   z-index: 10;
 }
 
+
 // 반응형(media-query, overflow, scroll) //
-overflow-x: auto;
-overflow-y: none;
+/* overflow-x: auto; */
+/* overflow-y: none; */
 
 // 커스텀(custom css) //
 
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 `;
