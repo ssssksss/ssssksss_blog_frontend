@@ -169,6 +169,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   userId: res.json.schedule.scheduleCategory.userId,
                 },
               };
+            } else {
+              return i;
             }
           });
           store.dispatch(SET_TODAY_SCHEDULE_LIST(temp));
@@ -241,9 +243,13 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
                 }
                 defaultValue={{
-                  value: props.data?.scheduleCategory?.id,
-                  name: props.data?.scheduleCategory?.name,
-                  bg: props.data?.scheduleCategory?.backgroundColor,
+                  value:
+                    scheduleCategory.id || props.data?.scheduleCategory?.id,
+                  name:
+                    scheduleCategory.name || props.data?.scheduleCategory?.name,
+                  bg:
+                    scheduleCategory.bg ||
+                    props.data?.scheduleCategory?.backgroundColor,
                 }}
                 data={scheduleStore.scheduleCategoryList.map(i => {
                   return { value: i.id, name: i.name, bg: i.backgroundColor };
