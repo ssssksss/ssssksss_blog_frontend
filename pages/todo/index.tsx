@@ -2,18 +2,29 @@ import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
 import TodoScheduleContainer from '@/components/todo/TodoScheduleContainer';
 import WeekTodoContainer from './../../src/components/todo/WeekTodoContainer';
-import MemoContainer from '@/components/todo/MemoContainer';
-import AllTodoContainer from '@/components/schedule/CalendarContainer';
+import AllTodoContainer from '@/components/schedule/ScheduleContainer';
 import Button from '@/components/common/button/Button';
 import { useState } from 'react';
 import { CC } from '@/styles/commonComponentStyle';
-import CalendarContainer from '@/components/schedule/CalendarContainer';
+import dynamic from 'next/dynamic';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
  * @version 0.0.1 "2023-09-25 00:05:43"
  * @description 설명
  */
+
+const MemoContainer = dynamic(() => import('@/components/todo/MemoContainer'), {
+  loading: () => <p>Loading...</p>,
+});
+
+const ScheduleContainer = dynamic(
+  () => import('@/components/schedule/ScheduleContainer'),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
+
 const Index = () => {
   const [menu, setMenu] = useState(0);
   return (
@@ -35,7 +46,7 @@ const Index = () => {
       <MainContainer>
         {menu === 0 && <TodoScheduleContainer />}
         {menu === 2 && <MemoContainer />}
-        {menu === 3 && <CalendarContainer />}
+        {menu === 3 && <ScheduleContainer />}
       </MainContainer>
     </Container>
   );
