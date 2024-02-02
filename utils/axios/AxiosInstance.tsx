@@ -1,9 +1,9 @@
 import { store } from '@/redux/store';
-import { SET_ACCESS_TOKEN, SET_USER_INFO } from '@/redux/store/auth';
 import axios from 'axios';
 import SocialButton from '../../src/components/common/button/SocialButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/reducers';
+import { rootActions } from '@/redux/store/actions';
 
 const AxiosInstance = axios.create({
   baseURL:
@@ -31,7 +31,9 @@ const setApiUserInfo = async () => {
     },
   })
     .then((response: any) => {
-      store.dispatch(SET_USER_INFO(response.data.data.user));
+      store.dispatch(
+        rootActions.authStore.SET_USER_INFO(response.data.data.user)
+      );
     })
     .catch(error => {});
 };
@@ -59,8 +61,11 @@ AxiosInstance.interceptors.response.use(
     return response;
   },
   (error: any) => {
-    const originalRequest = error.response.config;
-    if (error.response.status == 403 && !originalRequest._retry) {
+    if (error.response == null) {
+      return;
+    }
+    const originalRequest = error.response?.config;
+    if (error.response?.status == 777 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용
       let existNewAccessToken = true;
       AxiosInstance({
@@ -68,7 +73,9 @@ AxiosInstance.interceptors.response.use(
         method: 'GET',
       })
         .then(async res => {
-          store.dispatch(SET_ACCESS_TOKEN(res.data.accessToken));
+          store.dispatch(
+            rootActions.authStore.SET_ACCESS_TOKEN(res.data.accessToken)
+          );
           originalRequest.headers['Authorization'] =
             'Bearer ' + store.getState().authStore.accessToken;
           await setApiUserInfo();
@@ -80,7 +87,7 @@ AxiosInstance.interceptors.response.use(
         originalRequest._retry = true;
         return AxiosInstance(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
-    } else if (error.response.status == 406) {
+    } else if (error.response?.status == 888) {
       AxiosInstance({
         url: '/api/user',
         method: 'DELETE',
@@ -96,7 +103,16 @@ AxiosInstance.interceptors.response.use(
               nickname: '',
             })
           );
-          store.dispatch(SET_ACCESS_TOKEN({ accessToken: '' }));
+          store.dispatch(rootActions.authStore.SET_USER_INFO());
+          store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN());
+          if (store.getState().authStore.id) {
+            store.dispatch(
+              rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+                type: 'error',
+                message: '로그인이 필요합니다!!!!',
+              })
+            );
+          }
         })
         .catch(error => {});
     }
