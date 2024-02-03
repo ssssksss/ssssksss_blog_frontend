@@ -1,18 +1,17 @@
-import { BlogAPI } from '@/api/BlogAPI';
-import { Spinner1 } from '@/components/spinner/Spinners';
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import { Button } from '@/components/common/button/Button';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { useRouter } from 'next/router';
 import { BlogFirstCategoryModal } from '@/components/blog/BlogFirstCategory/BlogFirstCategoryModal';
+import BlogSecondCategoryModal from '@/components/blog/BlogSecondCategory/BlogSecondCategoryModal';
+import { Button } from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
+import { Spinner1 } from '@/components/spinner/Spinners';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { batch, useSelector } from 'react-redux';
-import BlogSecondCategoryModal from '@/components/blog/BlogSecondCategory/BlogSecondCategoryModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogCategoryContainer.tsx
@@ -99,22 +98,28 @@ const BlogCategoryContainer = () => {
         <>
           <BlogFirstCategoryContainer ref={blogFirstCategoryVerticalScrollRef}>
             {blogStore.blogCategoryList?.map((i, index) => (
-              <Button
-                key={i.id}
-                active={
-                  i.id == store.getState().blogStore.activeBlogFirstCategoryId
-                }
-                index={index}
-                onClick={e => {
-                  blogFirstCategoryHandler(i);
-                  blogFirstCategoryVerticalScrollRef.current.scrollLeft =
-                    e.target.offsetLeft +
-                    e.target.offsetWidth / 2 -
-                    e.target.offsetParent.offsetWidth / 2;
-                }}
-              >
-                {i.name}
-              </Button>
+              <ButtonBox key={i.id}>
+                <Button
+                  active={
+                    i.id == store.getState().blogStore.activeBlogFirstCategoryId
+                  }
+                  index={index}
+                  onClick={e => {
+                    blogFirstCategoryHandler(i);
+                    blogFirstCategoryVerticalScrollRef.current.scrollLeft =
+                      e.target.offsetLeft +
+                      e.target.offsetWidth / 2 -
+                      e.target.offsetParent.offsetWidth / 2;
+                  }}
+                >
+                  {i.name}
+                </Button>
+                <Badge>
+                  {i.secondCategoryList
+                    .map(i => i.count)
+                    .reduce((i, j) => i + j)}
+                </Badge>
+              </ButtonBox>
             ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
@@ -137,22 +142,25 @@ const BlogCategoryContainer = () => {
                 );
               })[0]
               ?.secondCategoryList?.map((i, index) => (
-                <Button
-                  active={
-                    i.id ==
-                    store.getState().blogStore.activeBlogSecondCategoryId
-                  }
-                  key={i.id}
-                  onClick={e => {
-                    blogSecondCategoryHandler(i);
-                    blogSecondCategoryVerticalScrollRef.current.scrollLeft =
-                      e.target.offsetLeft +
-                      e.target.offsetWidth / 2 -
-                      e.target.offsetParent.offsetWidth / 2;
-                  }}
-                >
-                  {i.name}
-                </Button>
+                <ButtonBox key={i.id}>
+                  <Button
+                    active={
+                      i.id ==
+                      store.getState().blogStore.activeBlogSecondCategoryId
+                    }
+                    key={i.id}
+                    onClick={e => {
+                      blogSecondCategoryHandler(i);
+                      blogSecondCategoryVerticalScrollRef.current.scrollLeft =
+                        e.target.offsetLeft +
+                        e.target.offsetWidth / 2 -
+                        e.target.offsetParent.offsetWidth / 2;
+                    }}
+                  >
+                    {i.name}
+                  </Button>
+                  <Badge>{i.count}</Badge>
+                </ButtonBox>
               ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
@@ -185,6 +193,26 @@ const Container = styled(CC.ColumnDiv)`
   }
 `;
 
+const ButtonBox = styled.div`
+  position: relative;
+`;
+
+const Badge = styled.div`
+  position: absolute;
+  border-radius: 50%;
+  right: 4px;
+  top: 4px;
+  transform: translate(50%, -50%);
+  background: ${props => props.theme.main.primary40};
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  aspect-ratio: 1;
+`;
+
 const SpinnerBox = styled.div`
   width: 80px;
   aspect-ratio: 1;
@@ -214,7 +242,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
     border-radius: 16px;
   }
 
-  & > button {
+  & > div > button {
     flex: 0 0 auto;
     min-width: 90px;
     height: 36px;
@@ -225,7 +253,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 `;
 
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
-  gap: 4px;
+  gap: 6px;
   padding: 10px 4px;
   flex-wrap: wrap;
   background: ${props => props.theme.main.contrast};
@@ -246,7 +274,7 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
     }
   }
 
-  & > button {
+  & > div > button {
     padding: 0px 10px;
     height: 28px;
     border-radius: ${props => props.theme.borderRadius.br10};
