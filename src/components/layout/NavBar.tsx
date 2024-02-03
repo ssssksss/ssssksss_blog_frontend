@@ -48,8 +48,14 @@ const Container = styled.div<{ themeStore: any }>`
     height: calc(100vh - 80px);
   }
   background: ${props => rootTheme[props.themeStore.theme].main.primary20};
-  transition: all 2s ease-in-out;
+  transition: all 1.2s ease-in-out;
+  transition-property: background-color;
+  animation-fill-mode: forwards;
 `;
 const Main = styled.main`
   height: 100%;
+  -webkit-transition-property: none;
+  -moz-transition-property: none;
+  -o-transition-property: none;
+  transition-property: none;
 `;

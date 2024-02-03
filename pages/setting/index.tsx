@@ -13,11 +13,11 @@ import styled from '@emotion/styled';
 const Index = () => {
   return (
     <Container>
-      <CC.RowDiv h={'40px'} bg={'white80'}>
+      <CC.RowDiv h={'40px'} bg={'white80'} fontSize={'1.2rem'}>
         전체 색상 설정
       </CC.RowDiv>
       <CC.ColumnDiv>
-        {['darkTheme', 'purpleTheme'].map(i => (
+        {Object.keys(rootTheme).map(i => (
           <ThemeColorBox
             theme={i}
             onClick={() => {

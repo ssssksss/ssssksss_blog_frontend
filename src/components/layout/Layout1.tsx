@@ -27,7 +27,6 @@ const Layout1 = ({ children }: AppLayoutProps) => {
       store.dispatch(rootActions.loadingStore.setIsLoading(false));
     };
 
-    window.localStorage.setItem('theme', 'purpleTheme');
     router.events.on('routeChangeStart', start);
     router.events.on('routeChangeComplete', end);
     router.events.on('routeChangeError', end);

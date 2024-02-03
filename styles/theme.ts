@@ -496,7 +496,7 @@ export const darkTheme = {
   ...commonTheme,
 };
 
-export const purpleTheme = {
+export const theme1 = {
   main: {
     primary100: colors.purple100,
     primary80: colors.purple80,
@@ -518,9 +518,57 @@ export const purpleTheme = {
   ...commonTheme,
 };
 
+// https://colorhunt.co/palette/40a2e3fff6e9bbe2ec0d9276
+export const theme2 = {
+  main: {
+    primary100: '#40A2E3ff',
+    primary80: '#40A2E3cc',
+    primary60: '#40A2E399',
+    primary40: '#40A2E366',
+    primary20: '#40A2E333',
+    secondary100: '#FFF6E9ff',
+    secondary80: '#FFF6E9cc',
+    secondary60: '#FFF6E999',
+    secondary40: '#FFF6E966',
+    secondary20: '#FFF6E933',
+    third100: '#BBE2ECff',
+    third80: '#BBE2ECcc',
+    third60: '#BBE2EC99',
+    third40: '#BBE2EC66',
+    third20: '#BBE2EC33',
+    contrast: colors.white80,
+  },
+  ...commonTheme,
+};
+
+// https://colorhunt.co/palette/cdfadbf6fdc3ffcf96ff8080
+export const theme3 = {
+  main: {
+    primary100: '#CDFADBff',
+    primary80: '#CDFADBcc',
+    primary60: '#CDFADB99',
+    primary40: '#CDFADB66',
+    primary20: '#CDFADB33',
+    secondary100: '#F6FDC3ff',
+    secondary80: '#F6FDC3cc',
+    secondary60: '#F6FDC399',
+    secondary40: '#F6FDC366',
+    secondary20: '#F6FDC333',
+    third100: '#FFCF96ff',
+    third80: '#FFCF96cc',
+    third60: '#FFCF9699',
+    third40: '#FFCF9666',
+    third20: '#FFCF9633',
+    contrast: colors.white80,
+  },
+  ...commonTheme,
+};
+
 const rootTheme = {
   darkTheme,
-  purpleTheme,
+  theme1,
+  theme2,
+  theme3,
 };
 
 export default rootTheme;
