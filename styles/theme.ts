@@ -517,3 +517,10 @@ export const purpleTheme = {
   },
   ...commonTheme,
 };
+
+const rootTheme = {
+  darkTheme,
+  purpleTheme,
+};
+
+export default rootTheme;

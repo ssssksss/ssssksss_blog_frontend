@@ -1,14 +1,22 @@
-import * as actions from './actions';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {};
+export * from './actions';
+export * from './reducers';
 
-export const themeReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case 'LEFT_NAVBAR':
-      return {
-        ...state,
-      };
-    default:
-      return state;
-  }
+export const themeSlice = createSlice({
+  name: 'theme',
+  initialState: { theme: 'darkTheme' },
+  reducers: {
+    setTheme: (state, action) => {
+      state.theme = action.payload;
+    },
+  },
+});
+export const { setTheme } = themeSlice.actions;
+export default themeSlice.reducer;
+
+const themeAction = {
+  setTheme,
 };
+
+export { themeAction };

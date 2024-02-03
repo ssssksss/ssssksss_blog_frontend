@@ -1,7 +1,6 @@
-import { commonTheme } from './theme';
 import { css, keyframes } from '@emotion/react';
-import Image from 'next/image';
 import styled from '@emotion/styled';
+import { commonTheme } from './theme';
 interface IStyleProps {
   gap?: number;
   br?: string;
@@ -37,9 +36,9 @@ const propsCommonStyle = (props: any) => css`
   min-height: ${props.minH};
   width: ${props.w};
   min-width: ${props.minW};
-  background: ${props.theme.colors.[props.bg] || props.theme.main.[props.bg]};
+  background: ${props.theme.colors.[props.bg] || props.theme.main?.[props.bg]};
   max-width: ${props.maxW};
-  color: ${props.theme.colors.[props.color] || props.theme.main.[props.color]};
+  color: ${props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
   font-size: ${props.fontSize};
   font-weight: ${props.fw && "800"};
   ${

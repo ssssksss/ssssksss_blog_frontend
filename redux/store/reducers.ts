@@ -1,21 +1,20 @@
 import { combineReducers } from 'redux';
-import { blogReducer } from './blog';
 import { authReducer } from './auth';
-import { scheduleReducer, scheduleSlice } from './schedule';
-import { themeReducer } from './theme';
-import { toastifyReducer } from './toastify/reducers';
-import { leftNavItemReducer } from './leftNav';
+import { blogReducer } from './blog';
 import { blogContentTemplateReducer } from './blogContentTemplate';
-import { todoReducer } from './todo';
-import { memoReducer } from './memo';
 import { boardReducer } from './board';
+import { leftNavItemReducer } from './leftNav';
 import loadingReducer from './loading';
+import { memoReducer } from './memo';
+import { scheduleReducer, scheduleSlice } from './schedule';
+import { themeSlice } from './theme';
+import { toastifyReducer } from './toastify/reducers';
+import { todoReducer } from './todo';
 
 const rootReducer = combineReducers({
   blogStore: blogReducer,
   authStore: authReducer,
   scheduleStore: scheduleReducer,
-  themeStore: themeReducer,
   toastifyStore: toastifyReducer,
   leftNavItemStore: leftNavItemReducer,
   blogContentTemplateStore: blogContentTemplateReducer,
@@ -24,6 +23,7 @@ const rootReducer = combineReducers({
   boardStore: boardReducer,
   loadingStore: loadingReducer,
   scheduleStore1: scheduleSlice.reducer,
+  themeStore: themeSlice.reducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

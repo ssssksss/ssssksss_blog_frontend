@@ -242,6 +242,15 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
     border-radius: 16px;
   }
 
+  & > button {
+    flex: 0 0 auto;
+    min-width: 90px;
+    height: 36px;
+    border-radius: ${props => props.theme.borderRadius.br10};
+    font-size: 1.2rem;
+    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
+  }
+
   & > div > button {
     flex: 0 0 auto;
     min-width: 90px;
@@ -272,6 +281,14 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
       background: ${props => props.theme.main.secondary20};
       border-radius: 16px;
     }
+  }
+
+  & > button {
+    padding: 0px 10px;
+    height: 28px;
+    border-radius: ${props => props.theme.borderRadius.br10};
+    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
+    flex-shrink: 0;
   }
 
   & > div > button {

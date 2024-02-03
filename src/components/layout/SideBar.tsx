@@ -1,16 +1,16 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
-import { useEffect, useState } from 'react';
 import Animations from '@/components/common/animations/Animations';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
+import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
+import { RootState } from '@/redux/store/reducers';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SideBar.tsx
@@ -48,7 +48,7 @@ const SideBar = () => {
     [Icons.BoardIcon, '게시판', `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`],
     [Icons.WorkListIcon, '할일', '/todo'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
-    // [Icons.SettingIcon, '설정', 'setting'],
+    [Icons.SettingIcon, '설정', 'setting'],
   ];
 
   return (

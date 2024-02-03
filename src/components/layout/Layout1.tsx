@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
 import { store } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { rootActions } from '@/redux/store/actions';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 // import PageTransitions from ".@/components/common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
@@ -15,6 +15,11 @@ const Layout1 = ({ children }: AppLayoutProps) => {
   const isLoading = useSelector(state => state.loadingStore.value);
   const router = useRouter();
   useEffect(() => {
+    if (window.localStorage.getItem('theme')) {
+      store.dispatch(
+        rootActions.themeStore.setTheme(window.localStorage.getItem('theme'))
+      );
+    }
     const start = () => {
       store.dispatch(rootActions.loadingStore.setIsLoading(true));
     };
@@ -22,6 +27,7 @@ const Layout1 = ({ children }: AppLayoutProps) => {
       store.dispatch(rootActions.loadingStore.setIsLoading(false));
     };
 
+    window.localStorage.setItem('theme', 'purpleTheme');
     router.events.on('routeChangeStart', start);
     router.events.on('routeChangeComplete', end);
     router.events.on('routeChangeError', end);

@@ -1,27 +1,23 @@
-import styled from '@emotion/styled';
-import Button from '../../common/button/Button';
-import ModalButton from '../../common/button/ModalButton';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import BlogSecondCategoryModal from './BlogSecondCategoryModal';
-import { CC } from '@/styles/commonComponentStyle';
-import { useEffect, useState } from 'react';
-import { useLoading } from '@/src/hooks/useLoading';
-import { Spinner1 } from '../../spinner/Spinners';
 import { BlogAPI } from '@/api/BlogAPI';
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
-import { SET_BlOG_LIST } from '@/redux/store/blog';
 import {
-  SET_FIRST_CATEGORY_ID,
-  SET_FIRST_CATEGORY_PATH,
-  SET_SECOND_CATEGORY_ID,
+  SET_BLOG_POST_LIST,
   SET_SECOND_CATEGORY_ID_AND_NAME,
   SET_SECOND_CATEGORY_LIST,
 } from '@/redux/store/blog';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
-import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from '../../common/button/Button';
+import ModalButton from '../../common/button/ModalButton';
+import { Spinner1 } from '../../spinner/Spinners';
+import BlogSecondCategoryModal from './BlogSecondCategoryModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogSecondCategoryContainer.tsx
