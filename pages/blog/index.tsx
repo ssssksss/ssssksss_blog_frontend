@@ -1,17 +1,16 @@
-import styled from '@emotion/styled';
-import Layout1 from '@/components/layout/Layout1';
-import BlogFirstCategoryContainer from '@/components/blog/BlogFirstCategory/BlogFirstCategoryContainer';
-import BlogMainContainer from '@/components/blog/BlogMainContainer';
-import { CC } from '@/styles/commonComponentStyle';
-import BlogHeaderContainer from '@/components/blog/BlogHeaderContainer';
 import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryContainer';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import BlogHeaderContainer from '@/components/blog/BlogHeaderContainer';
+import BlogMainContainer from '@/components/blog/BlogMainContainer';
+import Layout1 from '@/components/layout/Layout1';
 import { store } from '@/redux/store';
-import { rootActions } from './../../redux/store/actions';
-import { useEffect } from 'react';
+import { CC } from '@/styles/commonComponentStyle';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
-import { batch } from 'react-redux';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { batch } from 'react-redux';
+import { rootActions } from './../../redux/store/actions';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx

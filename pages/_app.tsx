@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import NavBar from '@/components/layout/NavBar';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,10 +25,6 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
-
-const NavBar = dynamic(() => import('@/components/layout/NavBar'), {
-  loading: () => <p>Loading...</p>,
-});
 
 const ReactToastifyComponents = dynamic(
   () => import('@/components/react-toastify/ReactToastifyComponents'),

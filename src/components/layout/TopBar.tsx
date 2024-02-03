@@ -1,25 +1,29 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Button from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import ModalButton from '@/components/common/button/ModalButton';
-import LoginModal from '../common/modal/LoginModal';
-import AuthModal from '../common/modal/AuthModal';
-import { batch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { store } from '@/redux/store';
-import { SET_ACCESS_TOKEN, SET_USER_INFO } from '@/redux/store/auth';
-import { useEffect } from 'react';
-import { useLoading } from '@/src/hooks/useLoading';
-import { Spinner1 } from '../spinner/Spinners';
+const LoginModal = dynamic(
+  () => import('@/components/common/modal/LoginModal'),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
+
+const AuthModal = dynamic(() => import('@/components/common/modal/AuthModal'), {
+  loading: () => <p>Loading...</p>,
+});
+
 import { UserAPI } from '@/api/UserAPI';
-import { LoadingComponent } from '../common/loading/LoadingComponent';
-import authAction from './../../../redux/store/auth/actions';
+import Button from '@/components/common/button/Button';
+import ModalButton from '@/components/common/button/ModalButton';
+import { Icons } from '@/components/common/icons/Icons';
+import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
+import { RootState } from '@/redux/store/reducers';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useQueryClient } from 'react-query';
-import { SET_MEMO_LIST, SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
+import { batch, useSelector } from 'react-redux';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -27,6 +31,7 @@ import { SET_MEMO_LIST, SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
  * @version 0.0.1 "2023-09-20 10:42:16"
  * @description 설명
  */
+
 const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isLoading, loadingFunction] = useLoading();
@@ -48,7 +53,7 @@ const TopBar = () => {
             })
           );
           store.dispatch(
-            SET_USER_INFO({
+            rootActions.authStore.SET_USER_INFO({
               email: '',
               role: '',
               nickname: '',
@@ -75,20 +80,17 @@ const TopBar = () => {
 
   return (
     <Container>
-      {isLoading ? (
-        <LoadingComponent />
-      ) : (
-        <Main>
-          <Title>
-            <Image
-              src={Icons.LogoIcon}
-              alt="logo"
-              width={'36px'}
-              height={'36px'}
-            />
-          </Title>
-          <CC.RowDiv gap={8}>
-            {/* <ModalButton h={'100%'}>
+      <Main>
+        <Title>
+          <Image
+            src={Icons.LogoIcon}
+            alt="logo"
+            width={'36px'}
+            height={'36px'}
+          />
+        </Title>
+        <CC.RowDiv gap={8}>
+          {/* <ModalButton h={'100%'}>
               <Image
                 src={Icons.MailIcon}
                 alt="mail"
@@ -102,39 +104,38 @@ const TopBar = () => {
                 onClick={() => alert('제작 계획 중')}
               />
             </ModalButton> */}
-            {useLoading ? (
-              <>
-                {authStore.email ? (
-                  <Button
-                    color={'secondary80'}
-                    outline={'true'}
-                    pd={'4px'}
-                    fontWeight={600}
-                    onClick={() => signOutHandler()}
-                  >
-                    Sign Out
-                  </Button>
-                ) : (
-                  <ModalButton
-                    modal={<AuthModal />}
-                    modalW={'400px'}
-                    w={'max-content'}
-                    h={'100%'}
-                    color={'secondary80'}
-                    outline={'true'}
-                    pd={'4px'}
-                    fontWeight={600}
-                  >
-                    Sign In / Sign up
-                  </ModalButton>
-                )}
-              </>
-            ) : (
-              <div> 로딩중 </div>
-            )}
-          </CC.RowDiv>
-        </Main>
-      )}
+          {useLoading ? (
+            <>
+              {authStore.email ? (
+                <Button
+                  color={'secondary80'}
+                  outline={'true'}
+                  pd={'4px'}
+                  fontWeight={600}
+                  onClick={() => signOutHandler()}
+                >
+                  Sign Out
+                </Button>
+              ) : (
+                <ModalButton
+                  modal={<AuthModal />}
+                  modalW={'400px'}
+                  w={'max-content'}
+                  h={'100%'}
+                  color={'secondary80'}
+                  outline={'true'}
+                  pd={'4px'}
+                  fontWeight={600}
+                >
+                  Sign In / Sign up
+                </ModalButton>
+              )}
+            </>
+          ) : (
+            <div> 로딩중 </div>
+          )}
+        </CC.RowDiv>
+      </Main>
     </Container>
   );
 };

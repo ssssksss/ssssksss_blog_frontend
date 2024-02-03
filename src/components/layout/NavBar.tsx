@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
-import SideBar from '@/components/layout/SideBar';
-import TopBar from '@/components/layout/TopBar';
 import { CC } from '@/styles/commonComponentStyle';
+import dynamic from 'next/dynamic';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file NavBar.tsx
  * @version 0.0.1 "2023-09-20 10:40:44"
  * @description 설명
  */
+
+const SideBar = dynamic(() => import('@/components/layout/SideBar'), {
+  loading: () => <p>Loading...</p>,
+});
+
+const TopBar = dynamic(() => import('@/components/layout/TopBar'), {
+  loading: () => <p>Loading...</p>,
+});
+
 const NavBar = ({ children }) => {
   return (
     <Container id="nav">
