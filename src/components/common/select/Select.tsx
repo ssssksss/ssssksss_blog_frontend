@@ -1,5 +1,4 @@
 import { CC } from '@/styles/commonComponentStyle';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
 /**
@@ -199,7 +198,6 @@ const Container = styled.div<ISelectProps>`
     cursor: pointer;
     
     &:hover {
-      background: ${props=>props.theme.main.primary20};
       font-weight: 800;
       transition: all 0.6s ease;
     }
