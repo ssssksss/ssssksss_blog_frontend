@@ -1,33 +1,26 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Button from '@/components/common/button/Button';
-import { Shell } from '@/components/common/shell/Shell';
-import { Input } from '@/components/common/input/Input';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import ModalButton from '@/components/common/button/ModalButton';
-import { useEffect, useRef, useState } from 'react';
-import { UserSignupYup } from '@/components/yup/UserSignupYup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { TodoAPI } from '@/api/TodoAPI';
-import { useSelector } from 'react-redux';
-import { RootState } from '@react-three/fiber';
-import { store } from '@/redux/store';
-import { addDays } from 'date-fns';
-import { DateRangePicker } from 'react-date-range';
-import ko from 'date-fns/locale/ko';
-import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
-import Textarea from '@/components/common/textarea/Textarea';
 import { ScheduleAPI } from '@/api/ScheduleAPI';
+import Button from '@/components/common/button/Button';
+import ModalButton from '@/components/common/button/ModalButton';
+import { Icons } from '@/components/common/icons/Icons';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
+import Textarea from '@/components/common/textarea/Textarea';
+import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
 import {
   SET_SCHEDULE_CATEGORY_LIST,
   SET_TODAY_SCHEDULE_LIST,
-  SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE,
 } from '@/redux/store/schedule';
+import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
-import Select from '@/components/common/select/Select';
+import styled from '@emotion/styled';
+import { RootState } from '@react-three/fiber';
+import { addDays } from 'date-fns';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import { DateRangePicker } from 'react-date-range';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ScheduleModal.tsx
@@ -102,11 +95,26 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       scheduleCategoryId: Number(scheduleCategory.id),
     })
       .then((res: any) => {
+        console.log('ScheduleModal.tsx 파일 : ', res);
         if (props.methodType === 'month') {
           store.dispatch(
-            SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE(
-              !scheduleStore.toggleUptoDateMonthSchedule
-            )
+            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([
+              ...store.getState().scheduleStore.monthScheduleList,
+              {
+                id: res.json.schedule.id,
+                title: res.json.schedule.title,
+                content: res.json.schedule.content,
+                startDateTime: res.json.schedule.startDateTime,
+                endDateTime: res.json.schedule.endDateTime,
+                scheduleCategory: {
+                  id: Number(res.json.schedule.scheduleCategory.id),
+                  name: res.json.schedule.scheduleCategory.name,
+                  backgroundColor:
+                    res.json.schedule.scheduleCategory.backgroundColor,
+                  userId: res.json.schedule.scheduleCategory.userId,
+                },
+              },
+            ])
           );
         } else {
           store.dispatch(
@@ -147,10 +155,30 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     })
       .then((res: any) => {
         if (props.methodType === 'month') {
+          let temp1 = store
+            .getState()
+            .scheduleStore.monthScheduleList.map(i => {
+              if (i.id == props.data.id) {
+                return {
+                  id: res.json.schedule.id,
+                  title: res.json.schedule.title,
+                  content: res.json.schedule.content,
+                  startDateTime: res.json.schedule.startDateTime,
+                  endDateTime: res.json.schedule.endDateTime,
+                  scheduleCategory: {
+                    id: Number(res.json.schedule.scheduleCategory.id),
+                    name: res.json.schedule.scheduleCategory.name,
+                    backgroundColor:
+                      res.json.schedule.scheduleCategory.backgroundColor,
+                    userId: res.json.schedule.scheduleCategory.userId,
+                  },
+                };
+              } else {
+                return i;
+              }
+            });
           store.dispatch(
-            SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE(
-              !scheduleStore.toggleUptoDateMonthSchedule
-            )
+            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(temp1)
           );
         } else {
           let temp = scheduleStore.todayScheduleList.map(i => {
@@ -190,6 +218,15 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         store.dispatch(
           SET_TODAY_SCHEDULE_LIST(
             scheduleStore.todayScheduleList.filter(i => i.id != props.data.id)
+          )
+        );
+        store.dispatch(
+          rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(
+            store
+              .getState()
+              .scheduleStore.monthScheduleList.filter(
+                i => i.id != props.data.id
+              )
           )
         );
         props.closeModal();

@@ -1,33 +1,26 @@
-import styled from '@emotion/styled';
-import { CC } from '@/styles/commonComponentStyle';
-import Image from 'next/image';
-import { LikeIcon } from '/public/img/ui-icon/ic-like.svg';
-import { Icons } from '@/components/common/icons/Icons';
-import { useEffect, useReducer, useRef, useState } from 'react';
 import { BlogAPI } from '@/api/BlogAPI';
-import { useRouter } from 'next/router';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import { Viewer } from '@toast-ui/react-editor';
-import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
-import { useLoading } from '@/src/hooks/useLoading';
-import Link from 'next/link';
-import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
-import { RootState } from '@/redux/store/reducers';
-import { useSelector } from 'react-redux';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { RootState } from '@/redux/store/reducers';
+import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { AWSS3Prefix } from '@/utils/variables/url';
+import styled from '@emotion/styled';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/react-editor';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import { useEffect, useReducer, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import BlogType from './../../../api/type/Blog.d';
-import { rootActions } from '@/redux/store/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -467,12 +460,13 @@ const FixContainer = styled(CC.ColumnDiv)`
 `;
 
 const BlogTopicInlineLinkListContainer = styled.nav`
-  right: 0px;
-  top: 180px;
   width: ${props => props.theme.calcRem(200)};
   overflow: scroll;
   position: fixed;
+  right: 0px;
+  top: 20px;
   z-index: 20;
+  max-height: calc(100vh - 100px);
   background: ${props => props.theme.colors.white80};
   outline: solid ${props => props.theme.main.primary80} 2px;
   /* IE and Edge , Firefox */
@@ -498,15 +492,16 @@ const BlogTopicInlineLinkListHeaderContainer = styled.div`
 `;
 const Title1 = styled.div`
   padding-left: 10px;
-  font-size: ${props => props.theme.calcRem(10)};
+  font-size: ${props => props.theme.calcRem(14)};
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
   border-bottom: solid black 1px;
-  color: ${props => props.theme.main.primary80};
-
+  color: black;
+  background: ${props => props.theme.main.third20};
+  font-weight: 800;
   &:hover {
     cursor: pointer;
   }
@@ -604,7 +599,7 @@ const BlogTopicInlineLinksButton = styled.button`
   width: 30px;
   aspect-ratio: 1;
   right: 0px;
-  top: 180px;
+  top: 20px;
   overflow: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

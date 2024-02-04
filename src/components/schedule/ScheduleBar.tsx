@@ -1,14 +1,14 @@
-import styled from "@emotion/styled";
 import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
+import styled from "@emotion/styled";
 import { useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com> 
- * @file CalendarBar.tsx
+ * @file ScheduleBar.tsx
  * @version 0.0.1 "2024-01-02 06:20:40"
  * @description 설명 
  */
-const CalendarBar = (props) => {
+const ScheduleBar = (props) => {
     const [activeModal,setActiveModal] = useState(false);
 
     return (
@@ -35,7 +35,7 @@ const CalendarBar = (props) => {
           setActiveModal(false);
         }}
         modalOverlayVisible={true}
-        modalW={'80%'}
+        modalW={'320px'}
         >
           <ContentContainer>
         {props.data.content}
@@ -43,7 +43,7 @@ const CalendarBar = (props) => {
       </Container>
     );
 };
-export default CalendarBar
+export default ScheduleBar
 
 interface ICalendarBoxProps {
     isChecked: boolean;

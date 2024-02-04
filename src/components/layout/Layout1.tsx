@@ -60,6 +60,8 @@ const Container = styled.div`
 `;
 
 const Container1 = styled.div`
+  container-name: main-container;
+  container-type: inline-size;
   max-width: 1440px;
   /* LeftBar.tsx에 있는 너비와 맞추어주어야 한다. */
   /* 마진 5px * 2 + leftBar(44px) */

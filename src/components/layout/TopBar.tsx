@@ -119,7 +119,8 @@ const TopBar = () => {
               ) : (
                 <ModalButton
                   modal={<AuthModal />}
-                  modalW={'400px'}
+                  modalW={'360px'}
+                  modalMaxW={'400px'}
                   w={'max-content'}
                   h={'100%'}
                   color={'secondary80'}

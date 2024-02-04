@@ -1,18 +1,15 @@
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import ModalButton from '@/components/common/button/ModalButton';
+import { Input } from '@/components/common/input/Input';
+import { store } from '@/redux/store';
+import { RootState } from '@/redux/store/reducers';
+import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import { Input } from '@/components/common/input/Input';
-import Button from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import { useRef, useState } from 'react';
-import ModalButton from '@/components/common/button/ModalButton';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import ScheduleModal from './modal/ScheduleModal';
 import { dateFormat4y2m2d } from './../../../utils/function/dateFormat';
-import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { store } from '@/redux/store';
+import ScheduleModal from './modal/ScheduleModal';
 /**
  *
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -58,9 +55,9 @@ const ScheduleItem = (props: IScheduleItemProps) => {
 
   return (
     <Container isChecked={props?.data?.isChecked} bg={props?.data?.scheduleCategory?.backgroundColor}
-    modal={<ScheduleModal edit={true} data={props?.data} />}
-    modalOverlayVisible={true}
-    modalW={'80%'}
+      modal={<ScheduleModal edit={true} data={props?.data} />}
+      modalOverlayVisible={true}
+      modalMinW={'80%'}
     >
       <CategoryName color={'black40'} h={'18px'} fw={true} color={props?.data?.scheduleCategory?.backgroundColor}>
         {props?.data?.scheduleCategory?.name}

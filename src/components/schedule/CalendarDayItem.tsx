@@ -1,14 +1,8 @@
-import theme from '@/styles/theme';
-import styled from '@emotion/styled';
-import React, { ReactNode, useEffect, useReducer, useState } from 'react';
-import { CC } from '@/styles/commonComponentStyle';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import { Primary } from './../../stories/Button.stories';
 import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
-import CalendarBar from './CalendarBar';
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
+import ScheduleBar from './ScheduleBar';
 
 type CalendarDayItemType = {
   color?: string;
@@ -57,7 +51,7 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       color={'primary80'}
       bg={'primary20'}
       modalOverlayVisible={true}
-      modalW={'80%'}
+      modalW={'320px'}
     >
       <DayTitle>{props.day} </DayTitle>
       <RelativePositionBox
@@ -68,7 +62,7 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
         {/* <RelativePositionBox onClick={event => event.stopPropagation()}> */}
         <CalendarListBox layer={props.layer}>
           {props.data?.map(i => (
-            <CalendarBar data={i} />
+            <ScheduleBar data={i} />
           ))}
         </CalendarListBox>
       </RelativePositionBox>

@@ -1,12 +1,10 @@
+import { Button } from '@/components/common/button/Button';
+import { Icons } from '@/components/common/icons/Icons';
+import { CC } from '@/styles/commonComponentStyle';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
-import { animationKeyFrames } from '@/styles/animationKeyFrames';
-import { commonTheme } from '@/styles/theme';
-import { CC } from '@/styles/commonComponentStyle';
-import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
-import { Button } from '@/components/common/button/Button';
+import React, { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
 
 interface IModalButtonProps {
   onClick?: (event: any) => void;
@@ -80,7 +78,7 @@ const ModalButton: IModalButtonProps = ({
         {children}
       {isOpen && <Overlay modalOverlayVisible={props.modalOverlayVisible} onClickCapture={closeModal} />}
       {isOpen && (
-        <ModalComponent width={props.modalW} height={props.modalH} background={props.modalBg} maxH={props.modalMaxH} maxW={props.modalMaxW}>
+        <ModalComponent width={props.modalW} height={props.modalH} background={props.modalBg} maxH={props.modalMaxH} maxW={props.modalMaxW} minW={props.modalMinW}>
           <Exit onClickCapture={closeModal}>
             <Image src={Icons.ExitIcon} alt="exit" width={"36px"} height={"36px"}/>
           </Exit>
@@ -136,7 +134,7 @@ const Overlay = styled.div<{modalOverlayVisible: boolean}>`
 
 `;
 
-const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, maxH: string, maxW: string }>`
+const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, maxH: string, maxW: string, minW: string }>`
 // 외곽 디자인(border-radius, outline, box-shadow) //
   border-radius: ${props => props.theme.borderRadius.br10};
   outline: solid ${props=>props.theme.colors.black80} 2px;
@@ -153,6 +151,7 @@ const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, max
   max-height: ${props => props.maxH || `calc(100% - 80px)` };
   width: ${props => `calc(${props.width})`};
   max-width: ${props => props.maxW};
+  min-width: ${props => props.minW};
 
 // 배경색(background) //
   background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};

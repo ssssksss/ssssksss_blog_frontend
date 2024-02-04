@@ -1,16 +1,13 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Calendar from './../calendar/Calendar';
-import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
 import { ScheduleAPI } from '@/api/ScheduleAPI';
-import CalendarDayItem from '../calendar/CalendarDayItem';
-import React, { useEffect, useState } from 'react';
-import { store } from '@/redux/store';
+import { Icons } from '@/components/common/icons/Icons';
+import { RootState } from '@/redux/store/reducers';
 import { SET_MONTH_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { scheduleSort } from '@/utils/function/schedule/scheduleSort';
-import { RootState } from '@/redux/store/reducers';
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import CalendarDayItem from './CalendarDayItem';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -192,7 +189,7 @@ const ScheduleContainer = () => {
       .finally(() => {
         setCalendarDayList(Object.assign({}, temp));
       });
-  }, [calendarMonth, scheduleStore.toggleUptoDateMonthSchedule, authStore.id]);
+  }, [calendarMonth, scheduleStore.monthScheduleList, authStore.id]);
 
   return (
     <Container>
