@@ -2,7 +2,6 @@ import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import ScheduleBar from './ScheduleBar';
 
 type CalendarDayItemType = {
   color?: string;
@@ -51,7 +50,7 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       color={'primary80'}
       bg={'primary20'}
       modalOverlayVisible={true}
-      modalW={'320px'}
+      modalMinW={'320px'}
     >
       <DayTitle>{props.day} </DayTitle>
       <RelativePositionBox
@@ -59,7 +58,6 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
           event.stopPropagation();
         }}
       >
-        {/* <RelativePositionBox onClick={event => event.stopPropagation()}> */}
         <CalendarListBox layer={props.layer}>
           {props.data?.map(i => (
             <ScheduleBar data={i} />
@@ -74,7 +72,6 @@ export default CalendarDayItem;
 
 const Container = styled(ModalButton)`
   width: 100%;
-
   &:not(:has(.todoBar:hover)):hover {
     background: ${props => props.theme.main.primary80};
     color: ${props => props.theme.main.contrast};

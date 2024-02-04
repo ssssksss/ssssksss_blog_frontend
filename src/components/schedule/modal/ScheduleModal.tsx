@@ -411,7 +411,6 @@ const Container = styled(CC.ColumnBetweenDiv)`
     gap: 8px;
   }
   .rdrMonth {
-    outline: solid ${props => props.theme.main.primary40} 2px;
     font-size: 0.8rem;
     @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
       font-size: 0.7rem;
