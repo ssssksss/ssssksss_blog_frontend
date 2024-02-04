@@ -58,7 +58,7 @@ export const SET_SECOND_CATEGORY_LIST = (
 };
 
 type BLOG_POST_LIST_STATE = {
-  blogPostList: [];
+  blogList: [];
 };
 export const SET_BLOG_POST_LIST = (payload: BLOG_POST_LIST_STATE) => {
   return {

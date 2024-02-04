@@ -127,7 +127,7 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
 
   const deleteHandler = () => {
     loadingFunction(
-      BlogAPI.deleteBlogPost({
+      BlogAPI.deleteBlog({
         id: router.query.id,
       })
     ).then(res => {

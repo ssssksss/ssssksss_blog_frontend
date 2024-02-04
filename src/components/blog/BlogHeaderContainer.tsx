@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import { Input } from '@/components/common/input/Input';
-import { Icons } from '@/components/common/icons/Icons';
-import { useEffect, useRef, useState } from 'react';
-import { delaySearch } from '@/utils/function/delaySearch';
-import { CC } from '@/styles/commonComponentStyle';
-import Link from 'next/link';
-import BlogItem from './BlogItem';
-import { useLoading } from '@/src/hooks/useLoading';
 import { BlogAPI } from '@/api/BlogAPI';
+import { Icons } from '@/components/common/icons/Icons';
+import { Input } from '@/components/common/input/Input';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
+import { delaySearch } from '@/utils/function/delaySearch';
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import BlogItem from './BlogItem';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogHeaderContainer.tsx
@@ -16,18 +16,18 @@ import { BlogAPI } from '@/api/BlogAPI';
  */
 const BlogHeaderContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
-  const [searchBlogPostList, setSearchBlogPostList] = useState([]);
+  const [searchBlogList, setSearchBlogList] = useState([]);
   const inputRef = useRef<null>();
   const [isLoading, loadingFunction] = useLoading();
 
   const SearchHandler = () => {
     loadingFunction(
-      BlogAPI.getSearchBlogPostList({
+      BlogAPI.getSearchBlogList({
         keyword: inputRef.current.value,
       })
     ).then(res => {
       // ! API쪽 코드 응답 형식이 달라서 나중에 수정 필요
-      setSearchBlogPostList(res?.data?.blogList);
+      setSearchBlogList(res?.data?.blogList);
       res.data?.blogList?.length > 0
         ? setIsOpenBlogItemList(true)
         : setIsOpenBlogItemList(false);
@@ -60,7 +60,7 @@ const BlogHeaderContainer = () => {
         onChange={delaySearch(SearchHandler, 600)}
         onClick={() =>
           setIsOpenBlogItemList(prev =>
-            searchBlogPostList?.length > 0 ? !prev : false
+            searchBlogList?.length > 0 ? !prev : false
           )
         }
       />
@@ -72,7 +72,7 @@ const BlogHeaderContainer = () => {
           }}
           isEmpty={isOpenBlogItemList.length >= 1}
         >
-          {searchBlogPostList?.map((i, index) => (
+          {searchBlogList?.map((i, index) => (
             <li key={index}>
               <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
                 <a>

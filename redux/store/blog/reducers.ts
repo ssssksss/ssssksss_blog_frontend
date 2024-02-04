@@ -8,7 +8,7 @@ type initialStateType = {
   secondCategoryName: string;
   firstCategoryList: [];
   secondCategoryList: [];
-  blogPostList: [];
+  blogList: [];
   activeBlogFirstCategoryId: number;
   activeBlogSecondCategoryId: number;
   activeBlogFirstCategoryName: number;
@@ -23,7 +23,7 @@ const initialState: initialStateType = {
   secondCategoryName: '',
   firstCategoryList: [],
   secondCategoryList: [],
-  blogPostList: [],
+  blogList: [],
   activeBlogFirstCategoryId: -1,
   activeBlogSecondCategoryId: -1,
   activeBlogUserId: -1,
@@ -59,7 +59,7 @@ export const blogReducer = (
     case 'BLOG_POST_LIST':
       return {
         ...state,
-        blogPostList: action.payload,
+        blogList: action.payload,
       };
     // case 'ACTIVE_BLOG_FIRST_CATEGORY':
     case 'ACTIVE_BLOG_FIRST_CATEGORY':

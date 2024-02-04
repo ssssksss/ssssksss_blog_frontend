@@ -1,7 +1,3 @@
-import { store } from '@/redux/store';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import axios from 'axios';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
 const addScheduleCategory = props => {
@@ -44,7 +40,7 @@ const deleteScheduleCategory = props => {
     url: '/api/schedule/category',
     method: 'DELETE',
     apiCategory: '할일 카테고리',
-    data: {
+    params: {
       id: props.id,
     },
     isShowMessage: true,
@@ -101,7 +97,7 @@ const deleteSchedule = props => {
   return ApiProcessHandler({
     url: '/api/schedule',
     method: 'DELETE',
-    data: {
+    params: {
       id: props.id,
     },
     apiCategory: '할일',

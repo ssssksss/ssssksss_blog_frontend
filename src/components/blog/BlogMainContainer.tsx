@@ -1,25 +1,19 @@
-import styled from '@emotion/styled';
-import { CC } from '@/styles/commonComponentStyle';
-import { ViewIcon } from '/public/img/ui-icon/ic-like.svg';
-import { LikeIcon } from '/public/img/ui-icon/ic-view.svg';
+import { BlogAPI } from '@/api/BlogAPI';
 import { Icons } from '@/components/common/icons/Icons';
+import Select from '@/components/common/select/Select';
+import { store } from '@/redux/store';
+import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
 import Image from 'next/image';
-import Button from '../common/button/Button';
-import Dropdown from '../common/dropdown/Dropdown';
-import { useEffect, useState, useRef } from 'react';
-import { Input } from '@/components/common/input/Input';
-import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { BlogAPI } from '@/api/BlogAPI';
-import { useLoading } from '@/src/hooks/useLoading';
-import BlogItem from './BlogItem';
-import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
-import { store } from '@/redux/store';
-import Select from '@/components/common/select/Select';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import Button from '../common/button/Button';
 import { IconsSvg } from '../common/icons/IconsSvg';
-import { rootActions } from '@/redux/store/actions';
-import { loadingSlice } from './../../../redux/store/loading/index';
+import BlogItem from './BlogItem';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogMainContainer.tsx
@@ -35,12 +29,12 @@ const BlogMainContainer = () => {
   const [isLoading, loadingFunction] = useLoading();
   const [blogOrderListOption, setBlogOrderListOption] = useState();
   const mainContainerRef = useRef<null>();
-  const blogPostListResData = BlogAPI.getBlogList();
+  const blogListResData = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: any) => {
     if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
     loadingFunction(
-      BlogAPI.getBlogPostList({
+      BlogAPI.getBlogList({
         secondCategoryId: blogStore.secondCategoryId,
         sort: data.value,
       })
@@ -82,7 +76,7 @@ const BlogMainContainer = () => {
           {`[${store.getState().blogStore.activeBlogFirstCategoryName}/${
             store.getState().blogStore.activeBlogSecondCategoryName
           }]`}
-          검색결과 : {blogPostListResData?.data?.json?.blogList.length || '0'}
+          검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
         </span>
         <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
           <Select
@@ -101,7 +95,7 @@ const BlogMainContainer = () => {
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef}>
-        {blogPostListResData?.data?.json?.blogList?.map((i, index) => (
+        {blogListResData?.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
               <BlogItem element={i}></BlogItem>

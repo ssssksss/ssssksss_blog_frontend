@@ -1,9 +1,4 @@
-import { store } from '@/redux/store';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import axios from 'axios';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
-import { useQuery } from 'react-query';
 
 const addMemoCategory = props => {
   return ApiProcessHandler({
@@ -56,7 +51,7 @@ const deleteMemoCategory = props => {
     url: '/api/memo/category',
     method: 'DELETE',
     apiCategory: '할일 카테고리',
-    data: {
+    params: {
       id: props.id,
     },
     isShowMessage: true,

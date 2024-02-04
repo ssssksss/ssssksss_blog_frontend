@@ -1,17 +1,13 @@
-import { store } from '@/redux/store';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import axios from 'axios';
-import { ApiProcessHandler } from './service/ApiProcessHandler';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
 import { IBlogCategoryListResDataProps } from '@/components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
-import { rootActions } from '@/redux/store/actions';
-import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { useMutationHook } from '@/components/useHook/useMutationHook';
-import { useRouter } from 'next/router';
-import { IAfterMutationHandlerProps } from './type/CommonAPI';
+import { UseQueryHook } from '@/components/useHook/useQueryHook';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { batch } from 'react-redux';
-import { previousDay } from 'date-fns';
+import { ApiProcessHandler } from './service/ApiProcessHandler';
+import { IAfterMutationHandlerProps } from './type/CommonAPI';
 
 const getBlogCategoryList = () => {
   return UseQueryHook({
@@ -195,7 +191,7 @@ const deleteFirstCategory = async (props: IDeleteFirstCategoryHandlerProps) => {
   return await ApiProcessHandler({
     url: '/api/blog-first-category',
     method: 'DELETE',
-    data: {
+    params: {
       id: props.id,
     },
     apiCategory: '블로그 카테고리1',
@@ -316,7 +312,7 @@ const deleteSecondCategory = async (
   return await ApiProcessHandler({
     url: '/api/blog-second-category',
     method: 'DELETE',
-    data: {
+    params: {
       id: props.id,
     },
     apiCategory: '블로그 카테고리2',
@@ -372,7 +368,7 @@ const createBlog = async (props: string) => {
 //   });
 // };
 
-const updateBlogPost = async (props: string) => {
+const updateBlog = async (props: string) => {
   let formData = new FormData();
   formData.append('id', props.id);
   formData.append('title', props.title);
@@ -406,17 +402,17 @@ const updateBlogPost = async (props: string) => {
   });
 };
 
-const deleteBlogPost = async (props: { id: string }) => {
+const deleteBlog = async (props: { id: string }) => {
   return await ApiProcessHandler({
     url: '/api/blog',
     method: 'DELETE',
-    data: {
+    params: {
       id: props.id,
     },
   });
 };
 
-const getSearchBlogPostList = async (props: string) => {
+const getSearchBlogList = async (props: string) => {
   return await ApiProcessHandler({
     url: '/api/blog/search',
     method: 'GET',
@@ -454,7 +450,7 @@ const deleteBlogContentTemplate = async (props: string) => {
   return await ApiProcessHandler({
     url: '/api/blog/template',
     method: 'DELETE',
-    data: {
+    params: {
       id: props.id,
     },
     apiCategory: '블로그 템플릿',
@@ -474,11 +470,11 @@ export const BlogAPI = {
   deleteSecondCategory,
   createBlog,
   getBlog,
-  deleteBlogPost,
-  updateBlogPost,
+  deleteBlog,
+  updateBlog,
   getBlogList,
   addBlogContentTemplate,
   deleteBlogContentTemplate,
   getBlogContentTemplate,
-  getSearchBlogPostList,
+  getSearchBlogList,
 };

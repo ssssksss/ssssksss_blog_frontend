@@ -1,36 +1,33 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
-import styled from '@emotion/styled';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Editor } from '@toast-ui/react-editor';
-import { store } from '@/redux/store';
+import { BlogAPI } from '@/api/BlogAPI';
 import Button from '@/components/common/button/Button';
-import chart from '@toast-ui/editor-plugin-chart';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import { Icons } from '@/components/common/icons/Icons';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
+import { setIsLoading } from '@/redux/store/loading';
+import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
+import { CC } from '@/styles/commonComponentStyle';
+import { AWSS3Prefix } from '@/utils/variables/url';
+import styled from '@emotion/styled';
+import { yupResolver } from '@hookform/resolvers/yup';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
-import { AWSS3Prefix } from '@/utils/variables/url';
-import { Input } from '@/components/common/input/Input';
-import { CC } from '@/styles/commonComponentStyle';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
-import Select from '@/components/common/select/Select';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
-import { BlogAPI } from '@/api/BlogAPI';
-import ModalButton from '../common/button/ModalButton';
-import BlogContentTemplateModal from './BlogContentTemplateModal';
-import { rootActions } from '@/redux/store/actions';
-import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
+import { useRouter } from 'next/router';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { setIsLoading } from '@/redux/store/loading';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import ModalButton from '../common/button/ModalButton';
+import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
+import BlogContentTemplateModal from './BlogContentTemplateModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -257,7 +254,7 @@ const CreateUpdateBlogContainer = (
       }
     });
 
-    BlogAPI.updateBlogPost({
+    BlogAPI.updateBlog({
       id: router.query.id,
       title: methods.getValues('title'),
       description: methods.getValues('description'),
