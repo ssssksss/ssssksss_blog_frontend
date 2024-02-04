@@ -1,19 +1,17 @@
+import { MemoAPI } from '@/api/MemoAPI';
+import { Button } from '@/components/common/button/Button';
+import ModalButton from '@/components/common/button/ModalButton';
+import { Icons } from '@/components/common/icons/Icons';
+import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';
+import { store } from '@/redux/store';
+import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@/redux/store/memo';
+import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import Animations from '../common/animations/Animations';
-import { Button } from '@/components/common/button/Button';
-import MemoItem from './MemoItem';
 import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
 import { useEffect, useState } from 'react';
-import { store } from '@/redux/store';
-import { MemoAPI } from '@/api/MemoAPI';
-import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@/redux/store/memo';
-import ModalButton from '@/components/common/button/ModalButton';
-import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useSelector } from 'react-redux';
+import MemoItem from './MemoItem';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file MemoContainer.tsx
@@ -95,7 +93,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
             modal={<MemoCategoryModal />}
             modalOverlayVisible={true}
             h={'32px'}
-            modalW={'50%'}
+            modalMinW={'320px'}
             modalH={'200%'}
           >
             <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />

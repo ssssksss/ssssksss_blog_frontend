@@ -6,11 +6,11 @@ export const MemoCreateYup = yup.object().shape({
 });
 
 export const MemoUpdateYup = yup.object().shape({
-  pickUpdateMemoCategory: yup.string().required('필수 입력'),
+  pickUpdateMemoCategoryId: yup.string().required('필수 입력'),
   updateMemoCategoryName: yup.string().required('필수 입력'),
   updateMemoCategoryColor: yup.string().required('필수 입력'),
 });
 
 export const MemoDeleteYup = yup.object().shape({
-  pickDeleteMemoCategory: yup.string().required('필수 입력'),
+  pickDeleteMemoCategoryId: yup.string().required('필수 입력'),
 });

@@ -1,17 +1,16 @@
-import styled from '@emotion/styled';
+import { MemoAPI } from '@/api/MemoAPI';
+import { Button } from '@/components/common/button/Button';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
+import { MemoUpdateYup } from '@/components/yup/MemoYup';
 import { store } from '@/redux/store';
 import { SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
-import { CC } from '@/styles/commonComponentStyle';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/reducers';
-import { useRef, useState } from 'react';
-import { MemoAPI } from '@/api/MemoAPI';
-import { Input } from '@/components/common/input/Input';
-import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
-import { useForm } from 'react-hook-form';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MemoUpdateYup } from '@/components/yup/MemoYup';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -36,7 +35,7 @@ const UpdateMemoCategoryBox = props => {
     resolver: yupResolver(MemoUpdateYup),
     mode: 'onChange',
     defaultValues: {
-      pickUpdateMemoCategory: '',
+      pickUpdateMemoCategoryId: '',
       updateMemoCategoryName: '',
       updateMemoCategoryColor: '',
     },
@@ -46,19 +45,36 @@ const UpdateMemoCategoryBox = props => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
+  const selectChangeMemoCategoryHandler = (props: {
+    value: string;
+    name: string;
+    bg: string;
+  }) => {
+    setValue('pickUpdateMemoCategoryId', props.value);
+    trigger('pickUpdateMemoCategoryId');
+  };
+  const selectChangeMemoCategoryBackgroundColorHandler = (props: {
+    value: string;
+    name: string;
+    bg: string;
+  }) => {
+    setValue('updateMemoCategoryColor', props.bg);
+    trigger('updateMemoCategoryColor');
+  };
+
   const updateMemoCategoryHandler = (data: {
-    pickUpdateMemoCategory: string;
+    pickUpdateMemoCategoryId: string;
     updateMemoCategoryName: string;
     updateMemoCategoryColor: string;
   }) => {
     if (
       !data.updateMemoCategoryColor ||
       !data.updateMemoCategoryName ||
-      !data.pickUpdateMemoCategory
+      !data.pickUpdateMemoCategoryId
     )
       return;
     MemoAPI.updateMemoCategory({
-      id: data.pickUpdateMemoCategory,
+      id: data.pickUpdateMemoCategoryId,
       name: data.updateMemoCategoryName,
       backgroundColor: data.updateMemoCategoryColor,
     }).then((res: any) => {
@@ -80,15 +96,13 @@ const UpdateMemoCategoryBox = props => {
       <CC.ColumnDiv gap={32}>
         <Select
           w={'100%'}
-          register={register('pickUpdateMemoCategory')}
-          trigger={trigger}
           placeholder={'변경할 카테고리를 선택해주세요'}
-          setValue={setValue}
           bg={'transparent'}
           outline={true}
           data={memoStore.memoCategoryList?.map(i => {
             return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
+          onChange={i => selectChangeMemoCategoryHandler(i)}
         ></Select>
         <CC.ColumnDiv gap={8}>
           <Input
@@ -98,10 +112,8 @@ const UpdateMemoCategoryBox = props => {
           />
           <Select
             w={'100%'}
-            register={register('updateMemoCategoryColor')}
-            trigger={trigger}
             placeholder={'변경하려는 색상을 선택해주세요'}
-            setValue={setValue}
+            onChange={i => selectChangeMemoCategoryBackgroundColorHandler(i)}
             bg={'transparent'}
             outline={true}
             data={categoryColors?.map(i => {

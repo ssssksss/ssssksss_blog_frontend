@@ -1,14 +1,8 @@
-import styled from '@emotion/styled';
 import { CC } from '@/styles/commonComponentStyle';
-import { Input } from '@/components/common/input/Input';
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/common/button/Button';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import Dropdown from '@/components/common/dropdown/Dropdown';
-import AddMemoCategoryBox from '../AddMemoCategoryBox';
-import UpdateMemoCategoryBox from '../UpdateMemoCategoryBox';
+import styled from '@emotion/styled';
+import CreateMemoCategoryBox from '../CreateMemoCategoryBox';
 import DeleteMemoCategoryBox from '../DeleteMemoCategoryBox';
+import UpdateMemoCategoryBox from '../UpdateMemoCategoryBox';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file MemoCategoryModal.tsx
@@ -18,7 +12,7 @@ import DeleteMemoCategoryBox from '../DeleteMemoCategoryBox';
 const MemoCategoryModal = props => {
   return (
     <Container>
-      <AddMemoCategoryBox closeModal={props.closeModal} />
+      <CreateMemoCategoryBox closeModal={props.closeModal} />
       <UpdateMemoCategoryBox closeModal={props.closeModal} />
       <DeleteMemoCategoryBox closeModal={props.closeModal} />
     </Container>

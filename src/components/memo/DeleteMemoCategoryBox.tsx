@@ -1,17 +1,15 @@
-import styled from '@emotion/styled';
-import { store } from '@/redux/store';
-import { SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
-import { CC } from '@/styles/commonComponentStyle';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { useRef, useState } from 'react';
 import { MemoAPI } from '@/api/MemoAPI';
-import { Input } from '@/components/common/input/Input';
 import { Button } from '@/components/common/button/Button';
 import Select from '@/components/common/select/Select';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { MemoDeleteYup } from '@/components/yup/MemoYup';
+import { store } from '@/redux/store';
+import { SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
+import { RootState } from '@/redux/store/reducers';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file DeleteMemoBox.tsx
@@ -24,21 +22,31 @@ const DeleteMemoCategoryBox = props => {
     resolver: yupResolver(MemoDeleteYup),
     mode: 'onChange',
     defaultValues: {
-      pickDeleteMemoCategory: '',
+      pickDeleteMemoCategoryId: '',
     },
   });
   const { errors } = formState;
+
+  const selectChangeMemoCategoryHandler = (props: {
+    value: string;
+    name: string;
+    bg: string;
+  }) => {
+    setValue('pickDeleteMemoCategoryId', props.value);
+    trigger('pickDeleteMemoCategoryId');
+  };
+
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
   const deleteMemoCategoryHandler = (data: {
-    pickDeleteMemoCategory: string;
+    pickDeleteMemoCategoryId: string;
   }) => {
     MemoAPI.deleteMemoCategory({
-      id: data.pickDeleteMemoCategory,
+      id: data.pickDeleteMemoCategoryId,
     }).then((res: any) => {
       let temp = memoStore.memoCategoryList.filter(
-        i => i.id != data.pickDeleteMemoCategory
+        i => i.id != data.pickDeleteMemoCategoryId
       );
       store.dispatch(SET_MEMO_CATEGORY_LIST(temp));
       props.closeModal();
@@ -51,15 +59,13 @@ const DeleteMemoCategoryBox = props => {
       <CC.ColumnDiv gap={32}>
         <Select
           w={'100%'}
-          register={register('pickDeleteMemoCategory')}
-          trigger={trigger}
           placeholder={'변경할 카테고리를 선택해주세요'}
-          setValue={setValue}
           bg={'transparent'}
           outline={true}
           data={memoStore.memoCategoryList?.map(i => {
             return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
+          onChange={i => selectChangeMemoCategoryHandler(i)}
         ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>

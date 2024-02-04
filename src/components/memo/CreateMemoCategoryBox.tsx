@@ -1,26 +1,23 @@
+import { MemoAPI } from '@/api/MemoAPI';
+import { Button } from '@/components/common/button/Button';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
+import { MemoCreateYup } from '@/components/yup/MemoYup';
 import { store } from '@/redux/store';
 import { SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
+import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { useRef } from 'react';
-import { MemoAPI } from '@/api/MemoAPI';
-import { Input } from '@/components/common/input/Input';
-import Dropdown from '@/components/common/dropdown/Dropdown';
-import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MemoCreateYup } from '@/components/yup/MemoYup';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AddMemoBox.tsx
  * @version 0.0.1 "2023-12-17 16:56:30"
  * @description 설명
  */
-const AddMemoCategoryBox = props => {
-  let addMemoCategoryBackgroundColor = '';
+const CreateMemoCategoryBox = props => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -34,7 +31,6 @@ const AddMemoCategoryBox = props => {
   ];
 
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const addInputCategoryRef = useRef<null>();
   const { register, handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(MemoCreateYup),
     mode: 'onChange',
@@ -47,6 +43,16 @@ const AddMemoCategoryBox = props => {
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
+
+  const selectChangeMemoCategoryHandler = (props: {
+    value: string;
+    name: string;
+    bg: string;
+  }) => {
+    setValue('createMemoCategoryName', props.name);
+    setValue('createMemoCategoryColor', props.bg);
+  };
+
   const addMemoCategoryHandler = (data: {
     createMemoCategoryColor: string;
     createMemoCategoryName: string;
@@ -76,15 +82,13 @@ const AddMemoCategoryBox = props => {
       />
       <Select
         w={'100%'}
-        register={register('createMemoCategoryColor')}
-        trigger={trigger}
         placeholder={'1번째 카테고리'}
-        setValue={setValue}
         bg={'transparent'}
         outline={true}
         data={categoryColors.map(i => {
           return { value: i, name: ' ', bg: i };
         })}
+        onChange={i => selectChangeMemoCategoryHandler(i)}
       ></Select>
       <CC.RowDiv pd={'16px 0px'}>
         <Button
@@ -104,7 +108,7 @@ const AddMemoCategoryBox = props => {
     </Container>
   );
 };
-export default AddMemoCategoryBox;
+export default CreateMemoCategoryBox;
 
 const Container = styled(CC.ColumnStartDiv)`
   gap: 8px;
