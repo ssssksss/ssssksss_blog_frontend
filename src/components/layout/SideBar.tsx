@@ -1,3 +1,11 @@
+const HamburgerMenu = dynamic(() => import('@/components/common/button/HamburgerMenu'), {
+  loading: () => <p>Loading...</p>
+});
+
+const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
+  loading: () => <p>Loading...</p>
+});
+
 import Animations from '@/components/common/animations/Animations';
 import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
@@ -17,13 +25,7 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-09-20 10:42:22"
  * @description 설명
  */
-const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
-  loading: () => <p>Loading...</p>
-});
 
-const HamburgerMenu = dynamic(() => import('@/components/common/button/HamburgerMenu'), {
-  loading: () => <p>Loading...</p>
-});
 
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);

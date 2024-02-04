@@ -1,19 +1,17 @@
-import styled from '@emotion/styled';
-import { useCallback, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import Span from '@/components/common/span/Span';
-import { Time } from '@/utils/function/Time';
 import Animations from '@/components/common/animations/Animations';
-import ReactPlayer from 'react-player/lazy';
-import Modal from '@/components/common/modal/Modal';
-import useModal from '@/src/hooks/useModal';
-import Button from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
+import { Icons } from '@/components/common/icons/Icons';
 import YoutubePlayerModal from '@/components/common/modal/YoutubePlayerModal';
+import Span from '@/components/common/span/Span';
+import { RootState } from '@/redux/store/reducers';
+import useModal from '@/src/hooks/useModal';
+import { CC } from '@/styles/commonComponentStyle';
+import { Time } from '@/utils/function/Time';
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayer.tsx
@@ -24,24 +22,10 @@ interface IReactPlayerContainerProps {
   play: boolean;
 }
 
-const Form = () => {
-  return (
-    <form>
-      <input placeholder="입력바람" />
-    </form>
-  );
-};
-
 const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
   const player = useRef(null);
   const [modalOption, showModal] = useModal();
-
-  // const onClick = useCallback(() => {
-  //   console.log('ReactPlayerContainer.tsx 파일 : ', 'test');
-  //   Modal1();
-  //   showModal(true, '안녕하세요', () => console.log('모달 on'), null, <Form />);
-  // }, [modalOption]);
 
   const [playTime, setPlayTime] = useState({
     playedSeconds: 0,
@@ -97,7 +81,11 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
           />
         </div>
       </CC.ColumnCenterDiv>
-      <ModalButton modal={<YoutubePlayerModal />} modalW={'300px'} h={'100%'}>
+      <ModalButton
+        modal={<YoutubePlayerModal />}
+        modalMinW={'320px'}
+        h={'100%'}
+      >
         <Image src={Icons.EtcIcon} alt="etc" width={10} />
       </ModalButton>
     </Container>
