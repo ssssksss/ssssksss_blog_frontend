@@ -431,6 +431,7 @@ const ReactiveDiv = styled.div`
     flex-flow: nowrap row;
     & > div {
       width: 50%;
+      min-width: 320px;
     }
   }
 

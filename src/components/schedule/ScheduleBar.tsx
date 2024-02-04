@@ -35,7 +35,7 @@ const ScheduleBar = (props) => {
           setActiveModal(false);
         }}
         modalOverlayVisible={true}
-        modalW={'320px'}
+        modalMinW={'320px'}
         >
           <ContentContainer>
         {props.data.content}
