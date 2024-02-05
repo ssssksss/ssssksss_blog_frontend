@@ -2,6 +2,7 @@ import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
+import ScheduleBar from './ScheduleBar';
 
 type CalendarDayItemType = {
   color?: string;
@@ -73,24 +74,27 @@ export default CalendarDayItem;
 const Container = styled(ModalButton)`
   width: 100%;
   &:not(:has(.todoBar:hover)):hover {
-    background: ${props => props.theme.main.primary80};
-    color: ${props => props.theme.main.contrast};
+    /* background: ${props => props.theme.main.primary40}; */
+    /* color: ${props => props.theme.main.contrast}; */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
   }
 
   .todoBar:not(:has(.todoBar:hover)):hover {
-    background: ${props => props.theme.main.primary80};
-    color: ${props => props.theme.main.contrast};
+    /* background: ${props => props.theme.main.primary40}; */
+    /* color: ${props => props.theme.main.contrast}; */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
   }
 
   background-color: #ffffff;
   font-weight: 600;
-  outline: 1px solid #666666;
+  outline: 1px solid #999999;
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   padding: 2px 0px;
   min-height: 120px;
   ${props => props.theme.flex.column.start};
   height: auto;
+  border-radius: 0px;
   /* height: min-content; */
 `;
 
@@ -108,7 +112,6 @@ const DayTitle = styled.div`
 `;
 
 const CalendarListBox = styled.div<{ layer: number }>`
-  border-radius: 8px;
   width: 100%;
   display: grid;
   grid-template-rows: ${props => `repeat(${props.layer}, 1fr)`};

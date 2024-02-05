@@ -1,11 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import Animations from '@/components/common/animations/Animations';
-import { css } from '@emotion/react';
-import Image from 'next/image';
-import { Icons } from '../icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
 import { AWSS3Prefix } from '@/utils/variables/url';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { Icons } from '../icons/Icons';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -316,7 +315,7 @@ const InputStyle = styled.input<IInputProps>`
     top: 50%;
     transform: translate(-50%,-50%);
     ${props=>props.theme.flex.row.center.center};
-    font-size: 1.4em;
+    font-size: 1em;
   }
   
 
