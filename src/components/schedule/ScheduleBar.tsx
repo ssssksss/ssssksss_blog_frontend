@@ -1,7 +1,10 @@
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { Button } from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
 import styled from "@emotion/styled";
 import { useState } from 'react';
+import { Input } from '../common/input/Input';
 /**
  * @author Sukyung Lee <ssssksss@naver.com> 
  * @file ScheduleBar.tsx
@@ -10,6 +13,23 @@ import { useState } from 'react';
  */
 const ScheduleBar = (props) => {
     const [activeModal,setActiveModal] = useState(false);
+    const [isChecked, setIsChecked] = useState(props.data.isChecked);
+
+    const _IsCheckedToggleHandler = () => {
+      ScheduleAPI.toggleCheckSchedule({
+        id: props.data?.id,
+      }).then((res: any) => {
+        // let temp = store.getState().scheduleStore.monthScheduleList.map(i => {
+        //   if (i.id == props.data?.id) {
+          // i.isChecked = !props.data?.isChecked;
+        //     setIsChecked(prev => !prev);
+        //   }
+        //   return i;
+        // });
+        // store.dispatch(rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(temp));
+        setIsChecked(prev => !prev);
+      });
+    };
 
     return (
       <Container
@@ -17,7 +37,7 @@ const ScheduleBar = (props) => {
         type="button"
         period={props.data.period}
         layer={props.data.layer}
-        isChecked={props.data.isChecked}
+        isChecked={isChecked}
         backgroundColor={props.data.scheduleCategory.backgroundColor}
         onClick={(event)=>{
           setActiveModal(true);
@@ -37,9 +57,21 @@ const ScheduleBar = (props) => {
         modalOverlayVisible={true}
         modalMinW={'320px'}
         >
-          <ContentContainer>
-        {props.data.content}
-          </ContentContainer>
+          <Title isChecked={isChecked}>
+        {props.data.title}
+          </Title>
+                <Input
+          type="checkbox"
+          outline={true}
+          color={'red100'}
+          w={'16px'} 
+          h={'16px'} 
+          checked={isChecked}
+          onClick={(e) => {
+            _IsCheckedToggleHandler();
+            e.stopPropagation();
+          }}
+        />
       </Container>
     );
 };
@@ -56,49 +88,44 @@ interface ICalendarBoxProps {
   const Container = styled(ModalButton)<{
     props: ICalendarBoxProps;
   }>`
-// 외곽 디자인(border-radius, outline, box-shadow) //
-border-radius: 0px 8px 8px 0px;
+  // 외곽 디자인(border-radius, outline, box-shadow) //
+  border-radius: 0px 8px 8px 0px;
 
-// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
-width: ${props => `calc(${100 * props.period + '%'} - 5px)`};
-height: 24px;
-padding: 0px 4px;
-margin-left: 4px;
-grid-row-start: ${props => props.layer};
-z-index: ${props => props.activeModal ? 10 : 4};
-justify-content: flex-start;
+  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  width: ${props => `calc(${100 * props.period + '%'} - 5px)`};
+  height: 16px;
+  margin-left: 4px;
+  grid-row-start: ${props => props.layer};
+  z-index: ${props => props.activeModal ? 10 : 4};
+  justify-content: flex-start;
 
-// 배경색(background) //
-background: ${props => props.theme.colors.[props.backgroundColor] || props.theme.main.[props.backgroundColor] || props.backgroundColor};
+  // 배경색(background) //
+  background: ${props => props.isChecked ? props.theme.colors.gray40 : props.theme.colors.[props.backgroundColor] || props.theme.main.[props.backgroundColor] || props.backgroundColor};
 
-// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-font-size: 1em;
-font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-white-space: nowrap;
-overflow: hidden;
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  font-size: 0.7em;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 800;
 
-// 애니메이션(animation) //
-
-
-// 이벤트(active, focus, hover, visited, focus-within, disabled) //
-/* 렌더링이 발생하기전까지 z-index가 낮아저 다른 bar가 위로 보이는 문제가 있어서 일단 보이지 않게하기 위한 설정 */
-&:focus {
-  z-index: 10;
-}
-
-
-// 반응형(media-query, overflow, scroll) //
-/* overflow-x: auto; */
-/* overflow-y: none; */
-
-// 커스텀(custom css) //
-
+  &:focus {
+    z-index: 10;
+  }
 `;
 
-const ContentContainer = styled.div`
+const Title = styled.div<{ isChecked: boolean }>`
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  text-decoration: ${props => props.isChecked && 'line-through'};
+
+`;
+
+const VisibleButton = styled(Button)`
+  width: 8px;
+  height: 16px;
+  border-radius: 0px 8px 8px 0px;
+  z-index: 9;
 `;

@@ -1,14 +1,12 @@
-import styled from '@emotion/styled';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { Button } from '@/components/common/button/Button';
+import Select from '@/components/common/select/Select';
 import { store } from '@/redux/store';
+import { RootState } from '@/redux/store/reducers';
 import { SET_SCHEDULE_CATEGORY_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { useRef, useState } from 'react';
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { Input } from '@/components/common/input/Input';
-import Dropdown from '@/components/common/dropdown/Dropdown';
-import { Button } from '@/components/common/button/Button';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file DeleteScheduleBox.tsx
@@ -22,12 +20,16 @@ const DeleteScheduleCategoryBox = props => {
     deleteScheduleCategory = i;
   };
 
-  const deleteScheduleCategoryHandler = () => {
+  const deleteScheduleCategoryHandler = (props: {
+    value: number;
+    name: string;
+    bg: string;
+  }) => {
     ScheduleAPI.deleteScheduleCategory({
-      id: deleteScheduleCategory.id,
+      id: props.id,
     }).then((res: any) => {
       let temp = scheduleStore.scheduleCategoryList.filter(
-        i => i.id != deleteScheduleCategory.id
+        i => i.id != props.id
       );
       store.dispatch(SET_SCHEDULE_CATEGORY_LIST(temp));
       props.closeModal();
@@ -38,19 +40,20 @@ const DeleteScheduleCategoryBox = props => {
     <Container>
       <CC.RowStartDiv w={'100%'}>일정 카테고리 삭제</CC.RowStartDiv>
       <CC.ColumnDiv gap={32}>
-        <Dropdown
+        <Select
           key={'delete'}
-          brR={'0px'}
-          bg={'white100'}
           w={'100%'}
-          menuList={scheduleStore.scheduleCategoryList?.map(i => {
+          placeholder={'변경할 카테고리를 선택해주세요'}
+          outline={true}
+          data={scheduleStore.scheduleCategoryList?.map(i => {
             return {
+              value: i.id,
               name: i.name,
-              func: () => choiceDeleteScheduleCategory(i),
               bg: i.backgroundColor,
             };
           })}
-        />
+          onChange={i => choiceDeleteScheduleCategory(i)}
+        ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>
         <Button
