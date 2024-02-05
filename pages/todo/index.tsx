@@ -1,12 +1,10 @@
-import styled from '@emotion/styled';
+import Button from '@/components/common/button/Button';
 import Layout1 from '@/components/layout/Layout1';
 import TodoScheduleContainer from '@/components/todo/TodoScheduleContainer';
-import WeekTodoContainer from './../../src/components/todo/WeekTodoContainer';
-import AllTodoContainer from '@/components/schedule/ScheduleContainer';
-import Button from '@/components/common/button/Button';
-import { useState } from 'react';
 import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -39,14 +37,10 @@ const Index = () => {
         <Button onClick={() => setMenu(2)} active={menu === 2}>
           MEMO
         </Button>
-        <Button onClick={() => setMenu(3)} active={menu === 3}>
-          달력
-        </Button>
       </NavContainer>
       <MainContainer>
         {menu === 0 && <TodoScheduleContainer />}
         {menu === 2 && <MemoContainer />}
-        {menu === 3 && <ScheduleContainer />}
       </MainContainer>
     </Container>
   );

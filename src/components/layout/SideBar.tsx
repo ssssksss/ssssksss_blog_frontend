@@ -50,6 +50,7 @@ const SideBar = () => {
     [Icons.BoardIcon, '게시판', `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`],
     [Icons.WorkListIcon, '할일', '/todo'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
+    [Icons.CalendarIcon, '일정', 'schedule'],
     [Icons.SettingIcon, '설정', 'setting'],
   ];
 

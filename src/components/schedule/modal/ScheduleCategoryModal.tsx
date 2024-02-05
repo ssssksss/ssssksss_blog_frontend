@@ -1,14 +1,8 @@
-import styled from '@emotion/styled';
 import { CC } from '@/styles/commonComponentStyle';
-import { Input } from '@/components/common/input/Input';
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/common/button/Button';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import Dropdown from '@/components/common/dropdown/Dropdown';
+import styled from '@emotion/styled';
 import AddScheduleCategoryBox from '../AddScheduleCategoryBox';
-import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';
 import DeleteScheduleCategoryBox from '../DeleteScheduleCategoryBox';
+import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ScheduleCategoryModal.tsx

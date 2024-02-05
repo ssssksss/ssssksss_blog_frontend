@@ -1,5 +1,7 @@
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import { Icons } from '@/components/common/icons/Icons';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
 import { RootState } from '@/redux/store/reducers';
 import { SET_MONTH_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { scheduleSort } from '@/utils/function/schedule/scheduleSort';
@@ -66,6 +68,18 @@ const ScheduleContainer = () => {
   };
 
   useEffect(async () => {
+    ScheduleAPI.getScheduleCategoryList()
+      .then((res: any) => {
+        store.dispatch(
+          rootActions.scheduleStore.SET_SCHEDULE_CATEGORY_LIST(
+            res.json?.scheduleCategoryList
+          )
+        );
+      })
+      .catch((err: any) => {
+        console.log('ScheduleCategoryModal.tsx 파일 err: ', err);
+      });
+
     const baseDate = new Date(calendarYear, calendarMonth, 1);
     const baseDateStartDayW = baseDate.getDay(); // 0-6
     const baseDateEndDay = new Date(

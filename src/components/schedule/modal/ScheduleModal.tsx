@@ -8,10 +8,7 @@ import Textarea from '@/components/common/textarea/Textarea';
 import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
-import {
-  SET_SCHEDULE_CATEGORY_LIST,
-  SET_TODAY_SCHEDULE_LIST,
-} from '@/redux/store/schedule';
+import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
 import styled from '@emotion/styled';
@@ -58,25 +55,13 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       startDate: props.data?.startDateTime
         ? new Date(props.data?.startDateTime)
         : new Date(),
-      endDate: addDays(
-        props.data?.startDateTime
-          ? new Date(props.data?.startDateTime)
-          : new Date(),
-        6
-      ),
+      endDate: props.data?.endDateTime
+        ? new Date(props.data?.endDateTime)
+        : addDays(new Date(props.data?.startDateTime), 6),
       key: 'selection',
     },
   ]);
   let choiceScheduleCategory = '';
-
-  const changeScheduleCategory = (i: {
-    id: number;
-    name: string;
-    userId: number;
-    backgroundColor: string;
-  }) => {
-    setScheduleCategory(i);
-  };
 
   const addScheduleHandler = () => {
     if (
@@ -95,23 +80,23 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       scheduleCategoryId: Number(scheduleCategory.id),
     })
       .then((res: any) => {
-        console.log('ScheduleModal.tsx 파일 : ', res);
+        const scheduleData = res.json.schedule;
         if (props.methodType === 'month') {
           store.dispatch(
             rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([
               ...store.getState().scheduleStore.monthScheduleList,
               {
-                id: res.json.schedule.id,
-                title: res.json.schedule.title,
-                content: res.json.schedule.content,
-                startDateTime: res.json.schedule.startDateTime,
-                endDateTime: res.json.schedule.endDateTime,
+                id: scheduleData.id,
+                title: scheduleData.title,
+                content: scheduleData.content,
+                startDateTime: scheduleData.startDateTime,
+                endDateTime: scheduleData.endDateTime,
                 scheduleCategory: {
-                  id: Number(res.json.schedule.scheduleCategory.id),
-                  name: res.json.schedule.scheduleCategory.name,
+                  id: Number(scheduleData.scheduleCategory.id),
+                  name: scheduleData.scheduleCategory.name,
                   backgroundColor:
-                    res.json.schedule.scheduleCategory.backgroundColor,
-                  userId: res.json.schedule.scheduleCategory.userId,
+                    scheduleData.scheduleCategory.backgroundColor,
+                  userId: scheduleData.scheduleCategory.userId,
                 },
               },
             ])
@@ -121,17 +106,17 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             SET_TODAY_SCHEDULE_LIST([
               ...scheduleStore.todayScheduleList,
               {
-                id: res.json.schedule.id,
-                title: res.json.schedule.title,
-                content: res.json.schedule.content,
-                startDateTime: res.json.schedule.startDateTime,
-                endDateTime: res.json.schedule.endDateTime,
+                id: scheduleData.id,
+                title: scheduleData.title,
+                content: scheduleData.content,
+                startDateTime: scheduleData.startDateTime,
+                endDateTime: scheduleData.endDateTime,
                 scheduleCategory: {
-                  id: Number(res.json.schedule.scheduleCategory.id),
-                  name: res.json.schedule.scheduleCategory.name,
+                  id: Number(scheduleData.scheduleCategory.id),
+                  name: scheduleData.scheduleCategory.name,
                   backgroundColor:
-                    res.json.schedule.scheduleCategory.backgroundColor,
-                  userId: res.json.schedule.scheduleCategory.userId,
+                    scheduleData.scheduleCategory.backgroundColor,
+                  userId: scheduleData.scheduleCategory.userId,
                 },
               },
             ])
@@ -154,23 +139,24 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       scheduleCategoryId: Number(scheduleCategory.id),
     })
       .then((res: any) => {
+        const scheduleData = res.json.schedule;
         if (props.methodType === 'month') {
           let temp1 = store
             .getState()
             .scheduleStore.monthScheduleList.map(i => {
               if (i.id == props.data.id) {
                 return {
-                  id: res.json.schedule.id,
-                  title: res.json.schedule.title,
-                  content: res.json.schedule.content,
-                  startDateTime: res.json.schedule.startDateTime,
-                  endDateTime: res.json.schedule.endDateTime,
+                  id: scheduleData.id,
+                  title: scheduleData.title,
+                  content: scheduleData.content,
+                  startDateTime: scheduleData.startDateTime,
+                  endDateTime: scheduleData.endDateTime,
                   scheduleCategory: {
-                    id: Number(res.json.schedule.scheduleCategory.id),
-                    name: res.json.schedule.scheduleCategory.name,
+                    id: Number(scheduleData.scheduleCategory.id),
+                    name: scheduleData.scheduleCategory.name,
                     backgroundColor:
-                      res.json.schedule.scheduleCategory.backgroundColor,
-                    userId: res.json.schedule.scheduleCategory.userId,
+                      scheduleData.scheduleCategory.backgroundColor,
+                    userId: scheduleData.scheduleCategory.userId,
                   },
                 };
               } else {
@@ -184,17 +170,17 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           let temp = scheduleStore.todayScheduleList.map(i => {
             if (i.id == props.data.id) {
               return {
-                id: res.json.schedule.id,
-                title: res.json.schedule.title,
-                content: res.json.schedule.content,
-                startDateTime: res.json.schedule.startDateTime,
-                endDateTime: res.json.schedule.endDateTime,
+                id: scheduleData.id,
+                title: scheduleData.title,
+                content: scheduleData.content,
+                startDateTime: scheduleData.startDateTime,
+                endDateTime: scheduleData.endDateTime,
                 scheduleCategory: {
-                  id: Number(res.json.schedule.scheduleCategory.id),
-                  name: res.json.schedule.scheduleCategory.name,
+                  id: Number(scheduleData.scheduleCategory.id),
+                  name: scheduleData.scheduleCategory.name,
                   backgroundColor:
-                    res.json.schedule.scheduleCategory.backgroundColor,
-                  userId: res.json.schedule.scheduleCategory.userId,
+                    scheduleData.scheduleCategory.backgroundColor,
+                  userId: scheduleData.scheduleCategory.userId,
                 },
               };
             } else {
@@ -237,16 +223,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   };
 
   useEffect(() => {
-    ScheduleAPI.getScheduleCategoryList()
-      .then((res: any) => {
-        store.dispatch(
-          SET_SCHEDULE_CATEGORY_LIST(res.json?.scheduleCategoryList)
-        );
-      })
-      .catch((err: any) => {
-        console.log('ScheduleCategoryModal.tsx 파일 err: ', err);
-      });
-
     if (props.edit) {
       setScheduleCategory({
         id: props.data.scheduleCategory?.id,
@@ -311,7 +287,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             <Input
               placeholder={'제목을 작성해주세요'}
               ref={scheduleTitleRef}
-              defaultValue={props.data?.content}
+              defaultValue={props.data?.title}
               outline={true}
             />
           </CC.ColumnStartDiv>
@@ -390,7 +366,7 @@ const Container = styled(CC.ColumnBetweenDiv)`
   overflow: scroll;
   background: ${props => props.theme.main.primary40};
   font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-  font-size: ${props => props.theme.fontSize.xl};
+  font-size: 0.8rem;
   min-height: 260px;
 
   .rdrCalendarWrapper {

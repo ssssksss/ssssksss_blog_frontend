@@ -1,14 +1,14 @@
-import styled from '@emotion/styled';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { Button } from '@/components/common/button/Button';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
 import { store } from '@/redux/store';
+import { RootState } from '@/redux/store/reducers';
 import { SET_SCHEDULE_CATEGORY_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
+import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { Input } from '@/components/common/input/Input';
-import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file UpdateScheduleBox.tsx
