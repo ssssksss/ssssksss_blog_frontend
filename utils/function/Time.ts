@@ -31,8 +31,27 @@ function jsDateTypeAddDays(date, days) {
   return temp.toJSON();
 }
 
+function dayIntervalCalc(start: Date, end: Date) {
+  if (start.getTime() - end.getTime() < 0) {
+    return (
+      Math.ceil(
+        Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24)
+      ) + 1
+    );
+  } else {
+    return (
+      -1 *
+        Math.ceil(
+          Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24)
+        ) +
+      1
+    );
+  }
+}
+
 export const Time = {
   msToTime,
   secToTime,
   jsDateTypeAddDays,
+  dayIntervalCalc,
 };

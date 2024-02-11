@@ -2,7 +2,7 @@ import { store } from '@/redux/store/index';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import 'prismjs/themes/prism-tomorrow.css';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, StrictMode } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
 // react-date-range 라이브러리
@@ -38,23 +38,25 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const queryClient = new QueryClient();
 
   return getLayout(
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <Global styles={GlobalStyles} />
-        <Head>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <NavBar>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </NavBar>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </Provider>
+    <StrictMode>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <Global styles={GlobalStyles} />
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+          </Head>
+          <NavBar>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </NavBar>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </Provider>
+    </StrictMode>
   );
 }
 

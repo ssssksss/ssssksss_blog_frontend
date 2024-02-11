@@ -54,6 +54,7 @@ const TopBar = () => {
           );
           store.dispatch(
             rootActions.authStore.SET_USER_INFO({
+              id: '',
               email: '',
               role: '',
               nickname: '',
