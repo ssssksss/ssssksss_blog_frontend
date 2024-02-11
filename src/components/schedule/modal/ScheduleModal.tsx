@@ -59,19 +59,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       : {}
   );
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
-  useEffect(() => {
-    if (scheduleCategoryListResData.isFetching) return;
-    let _temp = store
-      .getState()
-      .scheduleStore.scheduleCategoryList.filter(
-        i => i.id == scheduleCategory?.id
-      )[0];
-    if (_temp) {
-      setScheduleCategory(_temp);
-    } else {
-      if (!props.edit) return;
-    }
-  }, [scheduleCategoryListResData.dataUpdatedAt]);
 
   const [state, setState] = useState([
     {
@@ -297,6 +284,34 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         console.log('ScheduleModal.tsx 파일 : ', err);
       });
   };
+
+  useEffect(async () => {
+    let keyDownEventFunc = (e: Event) => {
+      if (e.key === 'Escape') {
+      } else if (e.which === 32 && e.ctrlKey) {
+        props.edit ? updateScheduleHandler() : createScheduleHandler();
+      }
+    };
+    window.addEventListener('keydown', keyDownEventFunc);
+
+    return () => {
+      window.removeEventListener('keydown', keyDownEventFunc);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (scheduleCategoryListResData.isFetching) return;
+    let _temp = store
+      .getState()
+      .scheduleStore.scheduleCategoryList.filter(
+        i => i.id == scheduleCategory?.id
+      )[0];
+    if (_temp) {
+      setScheduleCategory(_temp);
+    } else {
+      if (!props.edit) return;
+    }
+  }, [scheduleCategoryListResData.dataUpdatedAt]);
 
   return (
     <Container>
