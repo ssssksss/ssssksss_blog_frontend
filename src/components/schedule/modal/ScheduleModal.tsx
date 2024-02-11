@@ -46,6 +46,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   const scheduleTitleRef = useRef<null>();
   const scheduleContentRef = useRef<null>();
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const queryClient = useQueryClient();
   const [scheduleCategory, setScheduleCategory] = useState(
     props.edit
@@ -103,6 +104,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     })
       .then((res: any) => {
         const scheduleData = res.json.schedule;
+        const { id, title, content, startDateTime, endDateTime, isChecked } =
+          scheduleData;
         if (props.methodType === 'month') {
           queryClient.setQueryData(
             [
@@ -120,12 +123,12 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 ) {
                   _index = index;
                   oldData.json.scheduleList.splice(index, 0, {
-                    id: scheduleData.id,
-                    title: scheduleData.title,
-                    content: scheduleData.content,
-                    startDateTime: scheduleData.startDateTime,
-                    endDateTime: scheduleData.endDateTime,
-                    isChecked: scheduleData.isChecked,
+                    id,
+                    title,
+                    content,
+                    startDateTime,
+                    endDateTime,
+                    isChecked,
                     scheduleCategory: {
                       id: Number(scheduleData.scheduleCategory.id),
                       name: scheduleData.scheduleCategory.name,
@@ -158,26 +161,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               return oldData;
             }
           );
-
-          // store.dispatch(
-          //   rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([
-          //     ...store.getState().scheduleStore.monthScheduleList,
-          //     {
-          //       id: scheduleData.id,
-          //       title: scheduleData.title,
-          //       content: scheduleData.content,
-          //       startDateTime: scheduleData.startDateTime,
-          //       endDateTime: scheduleData.endDateTime,
-          //       scheduleCategory: {
-          //         id: Number(scheduleData.scheduleCategory.id),
-          //         name: scheduleData.scheduleCategory.name,
-          //         backgroundColor:
-          //           scheduleData.scheduleCategory.backgroundColor,
-          //         userId: scheduleData.scheduleCategory.userId,
-          //       },
-          //     },
-          //   ])
-          // );
         } else {
           store.dispatch(
             SET_TODAY_SCHEDULE_LIST([
@@ -220,7 +203,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     })
       .then((res: any) => {
         const scheduleData = res.json.schedule;
-        if (scheduleData.id == 54)
+        if (scheduleData.id == props.data.id)
           if (props.methodType == 'month') {
             queryClient.setQueryData(
               [
@@ -255,32 +238,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 return oldData;
               }
             );
-
-            // let temp1 = store
-            //   .getState()
-            //   .scheduleStore.monthScheduleList.map(i => {
-            //     if (i.id == props.data.id) {
-            //       return {
-            //         id: scheduleData.id,
-            //         title: scheduleData.title,
-            //         content: scheduleData.content,
-            //         startDateTime: scheduleData.startDateTime,
-            //         endDateTime: scheduleData.endDateTime,
-            //         scheduleCategory: {
-            //           id: Number(scheduleData.scheduleCategory.id),
-            //           name: scheduleData.scheduleCategory.name,
-            //           backgroundColor:
-            //             scheduleData.scheduleCategory.backgroundColor,
-            //           userId: scheduleData.scheduleCategory.userId,
-            //         },
-            //       };
-            //     } else {
-            //       return i;
-            //     }
-            //   });
-            // store.dispatch(
-            //   rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(temp1)
-            // );
           } else {
             let temp = scheduleStore.todayScheduleList.map(i => {
               if (i.id == props.data.id) {

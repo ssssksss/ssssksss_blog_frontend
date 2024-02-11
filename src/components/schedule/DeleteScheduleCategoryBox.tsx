@@ -30,6 +30,15 @@ const DeleteScheduleCategoryBox = props => {
           return oldData;
         }
       );
+      queryClient.setQueryData(
+        ['scheduleList', scheduleStore.calendarMonth, authStore.id],
+        oldData => {
+          oldData.json.scheduleList = oldData.json.scheduleList.filter(
+            i => deleteCategoryRequestData.value != i.scheduleCategory.id
+          );
+          return oldData;
+        }
+      );
       props.closeModal();
     },
   });
