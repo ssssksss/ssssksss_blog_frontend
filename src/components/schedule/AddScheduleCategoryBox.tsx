@@ -1,14 +1,13 @@
-import { store } from '@/redux/store';
-import { SET_SCHEDULE_CATEGORY_LIST } from '@/redux/store/schedule';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
+import { Button } from '@/components/common/button/Button';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
+import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { useRef, useState } from 'react';
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { Input } from '@/components/common/input/Input';
-import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AddScheduleBox.tsx
@@ -30,22 +29,45 @@ const AddScheduleCategoryBox = props => {
   ];
 
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
+  const authStore = useSelector(state => state.authStore);
   const [addCategoryRequestData, setAddCategoryRequestData] = useState();
+  const queryClient = useQueryClient();
   const addScheduleCategoryHandler = () => {
     if (addCategoryRequestData.title === '') return;
     if (addCategoryRequestData.id === '') return;
     ScheduleAPI.addScheduleCategory({
       name: addCategoryRequestData.title,
       backgroundColor: addCategoryRequestData.bg,
-    }).then((res: any) => {
-      store.dispatch(
-        SET_SCHEDULE_CATEGORY_LIST([
-          ...scheduleStore.scheduleCategoryList,
-          res.json.scheduleCategory,
-        ])
-      );
-      props.closeModal();
-    });
+    }).then(
+      (res: {
+        json: {
+          scheduleCategory: {
+            backgroundColor: string;
+            id: number;
+            isVisible: boolean;
+            name: string;
+            userId: number;
+          };
+        };
+      }) => {
+        const { backgroundColor, id, isVisible, name, userId } =
+          res.json.scheduleCategory;
+        queryClient.setQueryData(
+          ['scheduleCategoryList', authStore.id],
+          oldData => {
+            oldData.json.scheduleCategoryList.push({
+              backgroundColor,
+              id,
+              isVisible,
+              name,
+              userId,
+            });
+            return oldData;
+          }
+        );
+        props.closeModal();
+      }
+    );
   };
 
   return (

@@ -1,22 +1,19 @@
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import Button from '@/components/common/button/Button';
-import ModalButton from '@/components/common/button/ModalButton';
-import { Icons } from '@/components/common/icons/Icons';
 import { Input } from '@/components/common/input/Input';
 import Select from '@/components/common/select/Select';
 import Textarea from '@/components/common/textarea/Textarea';
-import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
 import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
 import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import styled from '@emotion/styled';
 import { RootState } from '@react-three/fiber';
 import { addDays } from 'date-fns';
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -49,7 +46,32 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   const scheduleTitleRef = useRef<null>();
   const scheduleContentRef = useRef<null>();
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const [scheduleCategory, setScheduleCategory] = useState('');
+  const queryClient = useQueryClient();
+  const [scheduleCategory, setScheduleCategory] = useState(
+    props.edit
+      ? {
+          id: props.data.scheduleCategory?.id,
+          name: props.data.scheduleCategory?.name,
+          userId: props.data.scheduleCategory?.userId,
+          bg: props.data.scheduleCategory?.backgroundColor,
+        }
+      : {}
+  );
+  const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
+  useEffect(() => {
+    if (scheduleCategoryListResData.isFetching) return;
+    let _temp = store
+      .getState()
+      .scheduleStore.scheduleCategoryList.filter(
+        i => i.id == scheduleCategory?.id
+      )[0];
+    if (_temp) {
+      setScheduleCategory(_temp);
+    } else {
+      if (!props.edit) return;
+    }
+  }, [scheduleCategoryListResData.dataUpdatedAt]);
+
   const [state, setState] = useState([
     {
       startDate: props.data?.startDateTime
@@ -82,25 +104,80 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       .then((res: any) => {
         const scheduleData = res.json.schedule;
         if (props.methodType === 'month') {
-          store.dispatch(
-            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([
-              ...store.getState().scheduleStore.monthScheduleList,
-              {
-                id: scheduleData.id,
-                title: scheduleData.title,
-                content: scheduleData.content,
-                startDateTime: scheduleData.startDateTime,
-                endDateTime: scheduleData.endDateTime,
-                scheduleCategory: {
-                  id: Number(scheduleData.scheduleCategory.id),
-                  name: scheduleData.scheduleCategory.name,
-                  backgroundColor:
-                    scheduleData.scheduleCategory.backgroundColor,
-                  userId: scheduleData.scheduleCategory.userId,
-                },
-              },
-            ])
+          queryClient.setQueryData(
+            [
+              'scheduleList',
+              store.getState().scheduleStore.calendarMonth,
+              authStore.id,
+            ],
+            oldData => {
+              let _index = -1;
+              oldData.json.scheduleList.map((i, index) => {
+                if (
+                  dateFormat4y2m2d(scheduleData.startDateTime) <
+                    i.startDateTime &&
+                  _index == -1
+                ) {
+                  _index = index;
+                  oldData.json.scheduleList.splice(index, 0, {
+                    id: scheduleData.id,
+                    title: scheduleData.title,
+                    content: scheduleData.content,
+                    startDateTime: scheduleData.startDateTime,
+                    endDateTime: scheduleData.endDateTime,
+                    isChecked: scheduleData.isChecked,
+                    scheduleCategory: {
+                      id: Number(scheduleData.scheduleCategory.id),
+                      name: scheduleData.scheduleCategory.name,
+                      backgroundColor:
+                        scheduleData.scheduleCategory.backgroundColor,
+                      userId: scheduleData.scheduleCategory.userId,
+                      isVisible: scheduleData.scheduleCategory.isVisible,
+                    },
+                  });
+                }
+              });
+              if (_index == -1) {
+                oldData.json.scheduleList.push({
+                  id: scheduleData.id,
+                  title: scheduleData.title,
+                  content: scheduleData.content,
+                  startDateTime: scheduleData.startDateTime,
+                  endDateTime: scheduleData.endDateTime,
+                  isChecked: scheduleData.isChecked,
+                  scheduleCategory: {
+                    id: Number(scheduleData.scheduleCategory.id),
+                    name: scheduleData.scheduleCategory.name,
+                    backgroundColor:
+                      scheduleData.scheduleCategory.backgroundColor,
+                    userId: scheduleData.scheduleCategory.userId,
+                    isVisible: scheduleData.scheduleCategory.isVisible,
+                  },
+                });
+              }
+              return oldData;
+            }
           );
+
+          // store.dispatch(
+          //   rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([
+          //     ...store.getState().scheduleStore.monthScheduleList,
+          //     {
+          //       id: scheduleData.id,
+          //       title: scheduleData.title,
+          //       content: scheduleData.content,
+          //       startDateTime: scheduleData.startDateTime,
+          //       endDateTime: scheduleData.endDateTime,
+          //       scheduleCategory: {
+          //         id: Number(scheduleData.scheduleCategory.id),
+          //         name: scheduleData.scheduleCategory.name,
+          //         backgroundColor:
+          //           scheduleData.scheduleCategory.backgroundColor,
+          //         userId: scheduleData.scheduleCategory.userId,
+          //       },
+          //     },
+          //   ])
+          // );
         } else {
           store.dispatch(
             SET_TODAY_SCHEDULE_LIST([
@@ -111,17 +188,20 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 content: scheduleData.content,
                 startDateTime: scheduleData.startDateTime,
                 endDateTime: scheduleData.endDateTime,
+                isChecked: scheduleData.isChecked,
                 scheduleCategory: {
                   id: Number(scheduleData.scheduleCategory.id),
                   name: scheduleData.scheduleCategory.name,
                   backgroundColor:
                     scheduleData.scheduleCategory.backgroundColor,
                   userId: scheduleData.scheduleCategory.userId,
+                  isVisible: scheduleData.scheduleCategory.isVisible,
                 },
               },
             ])
           );
         }
+
         props.closeModal();
       })
       .catch((err: any) => {
@@ -140,10 +220,69 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     })
       .then((res: any) => {
         const scheduleData = res.json.schedule;
-        if (props.methodType === 'month') {
-          let temp1 = store
-            .getState()
-            .scheduleStore.monthScheduleList.map(i => {
+        if (scheduleData.id == 54)
+          if (props.methodType == 'month') {
+            queryClient.setQueryData(
+              [
+                'scheduleList',
+                store.getState().scheduleStore.calendarMonth,
+                authStore.id,
+              ],
+              oldData => {
+                oldData.json.scheduleList = oldData.json.scheduleList.map(
+                  (i, index) => {
+                    if (scheduleData.id == i.id) {
+                      return {
+                        id: scheduleData.id,
+                        title: scheduleData.title,
+                        content: scheduleData.content,
+                        startDateTime: scheduleData.startDateTime,
+                        endDateTime: scheduleData.endDateTime,
+                        isChecked: scheduleData.isChecked,
+                        scheduleCategory: {
+                          id: Number(scheduleData.scheduleCategory.id),
+                          name: scheduleData.scheduleCategory.name,
+                          backgroundColor:
+                            scheduleData.scheduleCategory.backgroundColor,
+                          userId: scheduleData.scheduleCategory.userId,
+                          isVisible: scheduleData.scheduleCategory.isVisible,
+                        },
+                      };
+                    }
+                    return i;
+                  }
+                );
+                return oldData;
+              }
+            );
+
+            // let temp1 = store
+            //   .getState()
+            //   .scheduleStore.monthScheduleList.map(i => {
+            //     if (i.id == props.data.id) {
+            //       return {
+            //         id: scheduleData.id,
+            //         title: scheduleData.title,
+            //         content: scheduleData.content,
+            //         startDateTime: scheduleData.startDateTime,
+            //         endDateTime: scheduleData.endDateTime,
+            //         scheduleCategory: {
+            //           id: Number(scheduleData.scheduleCategory.id),
+            //           name: scheduleData.scheduleCategory.name,
+            //           backgroundColor:
+            //             scheduleData.scheduleCategory.backgroundColor,
+            //           userId: scheduleData.scheduleCategory.userId,
+            //         },
+            //       };
+            //     } else {
+            //       return i;
+            //     }
+            //   });
+            // store.dispatch(
+            //   rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(temp1)
+            // );
+          } else {
+            let temp = scheduleStore.todayScheduleList.map(i => {
               if (i.id == props.data.id) {
                 return {
                   id: scheduleData.id,
@@ -163,32 +302,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 return i;
               }
             });
-          store.dispatch(
-            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(temp1)
-          );
-        } else {
-          let temp = scheduleStore.todayScheduleList.map(i => {
-            if (i.id == props.data.id) {
-              return {
-                id: scheduleData.id,
-                title: scheduleData.title,
-                content: scheduleData.content,
-                startDateTime: scheduleData.startDateTime,
-                endDateTime: scheduleData.endDateTime,
-                scheduleCategory: {
-                  id: Number(scheduleData.scheduleCategory.id),
-                  name: scheduleData.scheduleCategory.name,
-                  backgroundColor:
-                    scheduleData.scheduleCategory.backgroundColor,
-                  userId: scheduleData.scheduleCategory.userId,
-                },
-              };
-            } else {
-              return i;
-            }
-          });
-          store.dispatch(SET_TODAY_SCHEDULE_LIST(temp));
-        }
+            store.dispatch(SET_TODAY_SCHEDULE_LIST(temp));
+          }
         props.closeModal();
       })
       .catch((err: any) => {
@@ -206,14 +321,18 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             scheduleStore.todayScheduleList.filter(i => i.id != props.data.id)
           )
         );
-        store.dispatch(
-          rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST(
-            store
-              .getState()
-              .scheduleStore.monthScheduleList.filter(
-                i => i.id != props.data.id
-              )
-          )
+        queryClient.setQueryData(
+          [
+            'scheduleList',
+            store.getState().scheduleStore.calendarMonth,
+            authStore.id,
+          ],
+          oldData => {
+            oldData.json.scheduleList = oldData.json.scheduleList.filter(
+              i => props.data.id != i.id
+            );
+            return oldData;
+          }
         );
         props.closeModal();
       })
@@ -221,17 +340,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         console.log('ScheduleModal.tsx 파일 : ', err);
       });
   };
-
-  useEffect(() => {
-    if (props.edit) {
-      setScheduleCategory({
-        id: props.data.scheduleCategory?.id,
-        name: props.data.scheduleCategory?.name,
-        userId: props.data.scheduleCategory?.userId,
-        bg: props.data.scheduleCategory?.backgroundColor,
-      });
-    }
-  }, []);
 
   return (
     <Container>
@@ -256,30 +364,16 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
                 }
                 defaultValue={{
-                  value:
-                    scheduleCategory.id || props.data?.scheduleCategory?.id,
-                  name:
-                    scheduleCategory.name || props.data?.scheduleCategory?.name,
-                  bg:
-                    scheduleCategory.bg ||
-                    props.data?.scheduleCategory?.backgroundColor,
+                  value: scheduleCategory?.id,
+                  name: scheduleCategory?.name,
+                  bg: scheduleCategory?.bg || scheduleCategory?.backgroundColor,
                 }}
-                data={scheduleStore.scheduleCategoryList.map(i => {
-                  return { value: i.id, name: i.name, bg: i.backgroundColor };
-                })}
+                data={scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+                  i => {
+                    return { value: i.id, name: i.name, bg: i.backgroundColor };
+                  }
+                )}
               ></Select>
-              <ModalButton
-                color={'primary80'}
-                bg={'primary20'}
-                modalW={'100%'}
-                modalH={'100%'}
-                w={'24px'}
-                h={'24px'}
-                modalMaxH={'100%'}
-                modal={<ScheduleCategoryModal />}
-              >
-                <Image src={Icons.SettingIcon} alt="" />
-              </ModalButton>
             </CC.RowDiv>
           </CC.ColumnStartDiv>
           <CC.ColumnStartDiv gap={4}>

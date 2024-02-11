@@ -1,6 +1,6 @@
 import Layout1 from '@/components/layout/Layout1';
+import ScheduleContainer from '@/components/schedule/ScheduleContainer';
 import styled from '@emotion/styled';
-import ScheduleContainer from './../../src/components/schedule/ScheduleContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx

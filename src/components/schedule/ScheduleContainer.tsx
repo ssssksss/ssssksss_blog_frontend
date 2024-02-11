@@ -2,14 +2,16 @@ import { ScheduleAPI } from '@/api/ScheduleAPI';
 import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
-import { RootState } from '@/redux/store/reducers';
-import { SET_MONTH_SCHEDULE_LIST } from '@/redux/store/schedule';
+import { Time } from '@/utils/function/Time';
+import { createCalendar } from '@/utils/function/schedule/createCalendar';
 import { scheduleSort } from '@/utils/function/schedule/scheduleSort';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import CalendarDayItem from './CalendarDayItem';
+import ScheduleSideContainer from './ScheduleSideContainer';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -19,240 +21,193 @@ import CalendarDayItem from './CalendarDayItem';
  */
 
 const ScheduleContainer = () => {
-  const todayDate = new Date();
-  const [calendarDayList, setCalendarDayList] = useState<any>({});
-  const [calendarYear, setCalendarYear] = useState(
-    Number(todayDate.getFullYear())
-  );
-  const [calendarMonth, setCalendarMonth] = useState(
-    Number(todayDate.getMonth())
-  );
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const authStore = useSelector((state: RootState) => state.authStore);
+  const queryClient = useQueryClient();
+  // 달력에 35일이 존재하면 1일마다 내부에 데이터가 담겨있는 배열, 내부에 데이터가 없는 경우도 있을 수 있음
+  const [scheduleListDataArray, setScheduleListDataArray] = useState(
+    Array.from({ length: scheduleStore.calendar.calendar.length }, i => 1)
+  );
 
-  const moveLeftDate = () => {
-    if (calendarMonth === 0) {
-      setCalendarYear(calendarYear - 1);
-      setCalendarMonth(11);
-    } else {
-      setCalendarMonth(calendarMonth - 1);
-    }
-  };
-
-  const moveRightDate = () => {
-    if (calendarMonth === 11) {
-      setCalendarYear(calendarYear + 1);
-      setCalendarMonth(0);
-    } else {
-      setCalendarMonth(calendarMonth + 1);
-    }
-  };
-
-  const dateString = (year: number, month: number, day: number) => {
-    // 13개월이 되면 1월로 만들고 1년을 더해준다.
-    // 출력 형식은 2000-12-31 과 같이 반환
-    if (month === 13) {
-      year = year + 1;
-      month = 1;
-    } else if (month === 0) {
-      year = year - 1;
-      month = 12;
-    }
-    return (
-      year.toString() +
-      '-' +
-      ('0' + month).slice(-2) +
-      '-' +
-      ('0' + day).slice(-2)
+  const movePreviousMonth = () => {
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR(
+        createCalendar(
+          scheduleStore.calendarMonth == 0
+            ? {
+                year: scheduleStore.calendarYear - 1,
+                month: 11,
+              }
+            : {
+                year: scheduleStore.calendarYear,
+                month: scheduleStore.calendarMonth - 1,
+              }
+        )
+      )
+    );
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR_YEAR(
+        scheduleStore.calendarMonth == 0
+          ? scheduleStore.calendarYear - 1
+          : scheduleStore.calendarYear
+      )
+    );
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR_MONTH(
+        scheduleStore.calendarMonth == 0 ? 11 : scheduleStore.calendarMonth - 1
+      )
     );
   };
+
+  const moveNextMonth = () => {
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR(
+        createCalendar(
+          scheduleStore.calendarMonth == 11
+            ? {
+                year: scheduleStore.calendarYear + 1,
+                month: 0,
+              }
+            : {
+                year: scheduleStore.calendarYear,
+                month: scheduleStore.calendarMonth + 1,
+              }
+        )
+      )
+    );
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR_YEAR(
+        scheduleStore.calendarMonth == 11
+          ? scheduleStore.calendarYear + 1
+          : scheduleStore.calendarYear
+      )
+    );
+    store.dispatch(
+      rootActions.scheduleStore.SET_CALENDAR_MONTH(
+        scheduleStore.calendarMonth == 11 ? 0 : scheduleStore.calendarMonth + 1
+      )
+    );
+  };
+
+  const scheduleListResponseData = ScheduleAPI.getScheduleListTEST({
+    type: 'month',
+    startDateTime: scheduleStore.calendar.startDateOfMonth,
+    endDateTime: scheduleStore.calendar.endDateOfMonth,
+    calendarData: scheduleStore.calendar,
+  });
+
+  const MemoizedLeftButton = memo(LeftButton);
+  const MemoizedRightButton = memo(RightButton);
 
   useEffect(async () => {
-    ScheduleAPI.getScheduleCategoryList()
-      .then((res: any) => {
-        store.dispatch(
-          rootActions.scheduleStore.SET_SCHEDULE_CATEGORY_LIST(
-            res.json?.scheduleCategoryList
-          )
-        );
-      })
-      .catch((err: any) => {
-        console.log('ScheduleCategoryModal.tsx 파일 err: ', err);
-      });
-
-    const baseDate = new Date(calendarYear, calendarMonth, 1);
-    const baseDateStartDayW = baseDate.getDay(); // 0-6
-    const baseDateEndDay = new Date(
-      baseDate.getFullYear(),
-      baseDate.getMonth() + 1,
-      0
-    ).getDate(); // 28-31
-    const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), 0);
-    const prevDateEndDay = prevDate.getDate(); // 28-31
-    const prevEndDayW = prevDate.getDay(); // 0-6
-    const nextDateStartDate = new Date(
-      baseDate.getFullYear(),
-      baseDate.getMonth() + 1,
-      1
+    let month = store.getState().scheduleStore.calendarMonth;
+    let year = store.getState().scheduleStore.calendarYear;
+    let calendar = createCalendar({ year, month });
+    if (!authStore.id) {
+      queryClient.setQueryData(
+        [
+          'scheduleList',
+          store.getState().scheduleStore.calendarMonth,
+          authStore.id,
+        ],
+        oldData => {
+          oldData?.json?.scheduleList.map((i, index) => []);
+          return oldData;
+        }
+      );
+      setScheduleListDataArray(
+        Array.from({ length: calendar.calendar.length }, i => ({
+          data: [],
+          maxLayer: 1,
+        }))
+      );
+      return;
+    }
+    if (scheduleListResponseData.isFetching) return;
+    const _scheduleList =
+      scheduleListResponseData.data.json?.scheduleList.filter(
+        i => i.scheduleCategory.isVisible == true
+      );
+    // grid 최대 높이를 알기 위해서 필요한 배열
+    const _gridMaxLayerList = Array.from(
+      { length: calendar.calendar.length },
+      i => 1
     );
-    const nextDateStartDayW = nextDateStartDate.getDay(); // 0-6
-
-    setCalendarDayList({}); // 월이나 연도가 변경될때 마다 초기화
-    // [1]시작일이 일요일일 경우(저번달은 보여줄 필요가 없다.)
-    const temp = {} as any;
-    if (baseDateStartDayW === 0) {
-      // 이번달
-      for (let i = 1; i <= baseDateEndDay; i++) {
-        temp[dateString(calendarYear, calendarMonth + 1, i)] = {
-          day: i,
-          dayW: (i - 1) % 7,
-          opacity: false,
-          data: [],
-          layer: 1,
-        };
-      }
-
-      // 다음달(일요일로 시작하면 제외)
-      if (nextDateStartDayW !== 0) {
-        for (let i = 1; i <= 7 - nextDateStartDayW; i++) {
-          temp[dateString(calendarYear, calendarMonth + 2, i)] = {
-            day: i,
-            dayW: nextDateStartDayW + i - 1,
-            opacity: true,
-            data: [],
-            layer: 1,
-          };
-        }
-      }
-    }
-    // [2]시작일이 일요일이 아닌 경우
-    else {
-      // 저번달
-      for (
-        let i = prevDateEndDay - prevEndDayW, j = 0;
-        i <= prevDateEndDay;
-        i++, j++
-      ) {
-        temp[dateString(calendarYear, calendarMonth, i)] = {
-          day: i,
-          dayW: j,
-          opacity: true,
-          data: [],
-          layer: 1,
-        };
-      }
-      // 이번달
-      for (let i = 1; i <= baseDateEndDay; i++) {
-        temp[dateString(calendarYear, calendarMonth + 1, i)] = {
-          day: i,
-          dayW: (i - 1 + baseDateStartDayW) % 7,
-          opacity: false,
-          data: [],
-          layer: 1,
-        };
-      }
-      // 다음달
-      if (nextDateStartDayW !== 0) {
-        for (let i = 1; i <= 7 - nextDateStartDayW; i++) {
-          temp[dateString(calendarYear, calendarMonth + 2, i)] = {
-            day: i,
-            dayW: nextDateStartDayW + i - 1,
-            opacity: true,
-            data: [],
-            layer: 1,
-          };
-        }
-      }
-    }
-
-    let startDateOfMonth;
-    let endDateOfMonth;
-    let objLength = Object.keys(temp).length - 1;
-    Object.entries(temp).map((i, index) => {
-      if (index === 0) {
-        startDateOfMonth = i[0];
-      }
-      if (index === objLength) {
-        endDateOfMonth = i[0];
-      }
+    // period랑 layer, index가 추가된 스케줄 리스트가 나온다.
+    const _processedSchedule = scheduleSort(
+      _scheduleList,
+      calendar.startDateOfMonth,
+      calendar.endDateOfMonth
+    ).map((i, index) => {
+      let index2 =
+        Time.dayIntervalCalc(
+          // (1-2) 첫날짜와 기준날짜를 빼서 몇번째 날짜인지 인덱스를 구하기 위해 사용
+          new Date(calendar.startDateOfMonth),
+          new Date(i.dayIndex)
+        ) - 1;
+      _gridMaxLayerList[index2] = Math.max(_gridMaxLayerList[index2], i.layer); // (1-3) 일정 바가 최대로 위치한 높이를 찾기 위한 코드
+      return i;
     });
-    setCalendarDayList(Object.assign({}, temp));
-    if (!authStore.id) return;
-    await ScheduleAPI.getScheduleList({
-      type: 'month',
-      startDateTime: new Date(startDateOfMonth),
-      endDateTime: new Date(endDateOfMonth),
-    })
-      .then(async res => {
-        SET_MONTH_SCHEDULE_LIST(res.json.scheduleList);
-        // const promises = scheduleSort(
-        scheduleSort(
-          res.json.scheduleList,
-          startDateOfMonth,
-          endDateOfMonth
-        ).map(i => {
-          temp[i.dayIndex].data.push(i);
-          temp[i.dayIndex].layer = Math.max(temp[i.dayIndex].layer, i.layer);
-        });
-        // await Promise.all(promises);
-        setCalendarDayList(Object.assign({}, temp));
-      })
-      .catch(err => {
-        console.log('ScheduleContainer.tsx 파일 : ', err);
-      })
-      .finally(() => {
-        setCalendarDayList(Object.assign({}, temp));
-      });
-  }, [calendarMonth, scheduleStore.monthScheduleList, authStore.id]);
+
+    const _array = Array.from(_gridMaxLayerList, i => {
+      return {
+        data: [],
+        maxLayer: i,
+      };
+    });
+
+    _processedSchedule.map((i, index) => {
+      _array[i.index].data = [..._array[i.index].data, i];
+    });
+    setScheduleListDataArray(_array);
+  }, [
+    store.getState().scheduleStore.calendarMonth,
+    scheduleListResponseData?.dataUpdatedAt,
+    authStore.id,
+  ]);
 
   return (
     <Container>
-      {/* 달력 상단 */}
       <Header>
-        <LeftButton
-          onClick={() => {
-            moveLeftDate();
-          }}
-          type="button"
-        >
+        <MemoizedLeftButton onClick={movePreviousMonth} type="button">
           <Image src={Icons.LeftArrowIcon} />
-        </LeftButton>
-        {calendarYear}년 {calendarMonth + 1}월
-        <RightButton
-          onClick={() => {
-            moveRightDate();
-          }}
-          type="button"
-        >
+        </MemoizedLeftButton>
+        {scheduleStore.calendarYear}년 {scheduleStore.calendarMonth + 1}월
+        <MemoizedRightButton onClick={moveNextMonth} type="button">
           <Image src={Icons.RightArrowIcon} />
-        </RightButton>
+        </MemoizedRightButton>
       </Header>
-      {/* ===== 달력 메인 */}
-      <Main>
-        <DayHeader color={'red'}> 일 </DayHeader>
-        <DayHeader> 월 </DayHeader>
-        <DayHeader> 화 </DayHeader>
-        <DayHeader> 수 </DayHeader>
-        <DayHeader> 목 </DayHeader>
-        <DayHeader> 금 </DayHeader>
-        <DayHeader color={'blue'}> 토 </DayHeader>
-
-        {Object.entries(calendarDayList).map((el: any) => (
-          // 키(el[0])는 날짜
-          // 값(el[1])은 일, 요일, opacity(저번달,다음달)
-          <CalendarDayItem
-            id={el[0]}
-            key={el[0]}
-            day={el[1].day}
-            dayW={el[1].dayW}
-            opacity={el[1].opacity}
-            data={el[1].data}
-            layer={el[1].layer}
-            year={calendarYear}
-            month={calendarMonth}
-          />
-        ))}
-      </Main>
+      <MainContainer>
+        <ScheduleSideContainer />
+        <CalendarContainer>
+          <Main1>
+            <DayHeader color={'red'}> 일 </DayHeader>
+            <DayHeader> 월 </DayHeader>
+            <DayHeader> 화 </DayHeader>
+            <DayHeader> 수 </DayHeader>
+            <DayHeader> 목 </DayHeader>
+            <DayHeader> 금 </DayHeader>
+            <DayHeader color={'blue'}> 토 </DayHeader>
+          </Main1>
+          <Main2>
+            {scheduleStore.calendar.calendar?.map((el: any, index: number) => (
+              // 키(el[0])는 날짜
+              // 값(el[1])은 일, 요일, opacity(저번달,다음달)
+              <CalendarDayItem
+                id={el.date}
+                key={el.date}
+                day={el.day}
+                dayW={el.dayW}
+                opacity={el.opacity}
+                data={scheduleListDataArray[index]?.data}
+                layer={scheduleListDataArray[index]?.maxLayer}
+                year={scheduleStore.calendarYear}
+                month={scheduleStore.calendarMonth}
+              />
+            ))}
+          </Main2>
+        </CalendarContainer>
+      </MainContainer>
     </Container>
   );
 };
@@ -263,12 +218,35 @@ const Container = styled.div<{ active: boolean }>`
   min-height: 240px;
   background-color: white;
   outline: solid ${props => props.theme.main.primary40} 2px;
+  position: relative;
 `;
-const Main = styled.main`
+const MainContainer = styled.div`
+  outline: solid ${props => props.theme.main.primary40} 2px;
+  display: grid;
+
+  @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
+    grid-template-columns: 160px auto;
+  }
+`;
+
+const CalendarContainer = styled.div`
+  outline: solid ${props => props.theme.main.primary40} 2px;
+`;
+
+const Main1 = styled.main`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 16px 0px;
+  padding: 4px 0px;
+`;
+const Main2 = styled.main`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 4px 0px;
+  height: calc(100vh - 172px);
+  ${props => props.theme.scroll.hidden};
+  outline: solid ${props => props.theme.main.primary40} 2px;
 `;
 const Header = styled.header`
   width: 100%;

@@ -1,11 +1,11 @@
 import { ScheduleAPI } from '@/api/ScheduleAPI';
 import { Button } from '@/components/common/button/Button';
 import Select from '@/components/common/select/Select';
-import { store } from '@/redux/store';
 import { RootState } from '@/redux/store/reducers';
-import { SET_SCHEDULE_CATEGORY_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -15,24 +15,37 @@ import { useSelector } from 'react-redux';
  */
 const DeleteScheduleCategoryBox = props => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  let deleteScheduleCategory = '';
-  const choiceDeleteScheduleCategory = i => {
-    deleteScheduleCategory = i;
-  };
-
-  const deleteScheduleCategoryHandler = (props: {
+  const authStore = useSelector(state => state.authStore);
+  const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
+  const queryClient = useQueryClient();
+  const deleteBoardMutate = ScheduleAPI.deleteScheduleCategory({
+    onSuccessHandler: data => {
+      queryClient.setQueryData(
+        ['scheduleCategoryList', authStore.id],
+        oldData => {
+          oldData.json.scheduleCategoryList =
+            oldData.json.scheduleCategoryList.filter(
+              i => i.id != deleteCategoryRequestData.value
+            );
+          return oldData;
+        }
+      );
+      props.closeModal();
+    },
+  });
+  const [deleteCategoryRequestData, setDeleteCategoryRequestData] = useState<{
     value: number;
     name: string;
     bg: string;
-  }) => {
-    ScheduleAPI.deleteScheduleCategory({
-      id: props.id,
-    }).then((res: any) => {
-      let temp = scheduleStore.scheduleCategoryList.filter(
-        i => i.id != props.id
-      );
-      store.dispatch(SET_SCHEDULE_CATEGORY_LIST(temp));
-      props.closeModal();
+  }>();
+
+  const choiceDeleteScheduleCategory = i => {
+    setDeleteCategoryRequestData(i);
+  };
+
+  const deleteScheduleCategoryHandler = () => {
+    deleteBoardMutate({
+      id: deleteCategoryRequestData.value,
     });
   };
 
@@ -45,13 +58,18 @@ const DeleteScheduleCategoryBox = props => {
           w={'100%'}
           placeholder={'변경할 카테고리를 선택해주세요'}
           outline={true}
-          data={scheduleStore.scheduleCategoryList?.map(i => {
-            return {
-              value: i.id,
-              name: i.name,
-              bg: i.backgroundColor,
-            };
-          })}
+          data={
+            scheduleCategoryListResData?.isLoading ||
+            scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+              i => {
+                return {
+                  value: i.id,
+                  name: i.name,
+                  bg: i.backgroundColor,
+                };
+              }
+            )
+          }
           onChange={i => choiceDeleteScheduleCategory(i)}
         ></Select>
       </CC.ColumnDiv>

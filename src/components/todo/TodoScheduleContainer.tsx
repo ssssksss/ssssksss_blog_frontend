@@ -1,29 +1,18 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Animations from '../common/animations/Animations';
-import { Shell } from '@/components/common/shell/Shell';
-import { Button } from '@/components/common/button/Button';
-import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
-import { DeleteIcon } from '/public/img/ui-icon/ic-delete.svg';
-import { Input } from '@/components/common/input/Input';
-import TodoItem from './TodoItem';
-import React, { useEffect, useState } from 'react';
-import ModalButton from '../common/button/ModalButton';
-import TodoModal from './modal/TodoModal';
-import { TodoAPI } from '@/api/TodoAPI';
-import { SET_TODO_LIST } from '@/redux/store/todo';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
+import { ScheduleAPI } from '@/api/ScheduleAPI';
 import ScheduleItem from '@/components/schedule/ScheduleItem';
 import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
+import { RootState } from '@/redux/store/reducers';
+import { CC } from '@/styles/commonComponentStyle';
 import {
   dateFormat4y2m2d,
   todayDayOfTheWeek,
 } from '@/utils/function/dateFormat';
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
-import { store } from '@/redux/store';
+import styled from '@emotion/styled';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import ModalButton from '../common/button/ModalButton';
+import TodoItem from './TodoItem';
+import TodoModal from './modal/TodoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file TodoScheduleContainer.tsx
@@ -41,22 +30,9 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
-
-  useEffect(() => {
-    TodoAPI.getTodoList().then(res => {
-      store.dispatch(SET_TODO_LIST(res.json.todoList));
-    });
-
-    ScheduleAPI.getScheduleList({
-      type: 'today',
-    })
-      .then(res => {
-        store.dispatch(SET_TODAY_SCHEDULE_LIST(res.json.scheduleList));
-      })
-      .catch(err => {
-        console.log('TodoScheduleContainer.tsx 파일 : ', err);
-      });
-  }, [authStore.id]);
+  const scheduleResData = ScheduleAPI.getScheduleList({
+    type: 'today',
+  });
 
   return (
     <Container>
@@ -104,7 +80,7 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {scheduleStore.todayScheduleList?.map((i, index) => (
+          {scheduleResData?.data?.json?.scheduleList?.map((i, index) => (
             <li key={index}>
               <ScheduleItem data={i} />
             </li>

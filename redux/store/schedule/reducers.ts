@@ -1,12 +1,15 @@
-import * as actions from './actions';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
+import { createCalendar } from '@/utils/function/schedule/createCalendar';
 
 const initialState = {
   currentScheduleDate: '',
   monthScheduleData: [],
-  calendarYear: new Date().getFullYear(),
+  calendarYear: Number(new Date().getFullYear()),
   // month는 +1을 하지 않고 그냥 사용
-  calendarMonth: new Date().getMonth(),
+  calendarMonth: Number(new Date().getMonth()),
+  calendar: createCalendar({
+    year: Number(new Date().getFullYear()),
+    month: Number(new Date().getMonth()),
+  }),
   calendarDay: new Date().getDate(),
   calendarDayOfWeek: new Date().getDay(),
   calendarStartDateOfWeekList: [],
@@ -25,6 +28,8 @@ export const scheduleReducer = (state = initialState, action: any) => {
       return { ...state, monthScheduleData: action.payload };
     case 'CALENDAR_START_DATE_OF_WEEK_LIST':
       return { ...state, calendarStartDateOfWeekList: action.payload };
+    case 'CALENDAR':
+      return { ...state, calendar: action.payload };
     case 'CALENDAR_YEAR':
       return { ...state, calendarYear: action.payload };
     case 'CALENDAR_MONTH':

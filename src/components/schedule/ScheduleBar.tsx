@@ -11,10 +11,28 @@ import { Input } from '../common/input/Input';
  * @version 0.0.1 "2024-01-02 06:20:40"
  * @description 설명 
  */
-const ScheduleBar = (props) => {
-    const [activeModal,setActiveModal] = useState(false);
+const ScheduleBar = (props: {
+  data: {
+    id: number;
+    title: string;
+    content: string;
+    startDateTime: string;
+    endDateTime: string;
+    isChecked: boolean;
+    scheduleCategory: {
+      id: number;
+      name: string;
+      backgroundColor: string;
+      userId: number;
+      isValid: boolean;
+    };
+    dayIndex: string;
+    layer: number;
+    period: number;
+  }
+}) => {
+    const [activeModal,setActiveModal] = useState(false); // z-index 우선순위 문제 때문에 사용
     const [isChecked, setIsChecked] = useState(props.data.isChecked);
-
     const _IsCheckedToggleHandler = () => {
       ScheduleAPI.toggleCheckSchedule({
         id: props.data?.id,
@@ -90,30 +108,29 @@ interface ICalendarBoxProps {
   }>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
   border-radius: 0px 8px 8px 0px;
-
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   width: ${props => `calc(${100 * props.period + '%'} - 5px)`};
   height: 16px;
   margin-left: 4px;
   grid-row-start: ${props => props.layer};
-  z-index: ${props => props.activeModal ? 10 : 4};
+  z-index: ${props => props.activeModal ? 20 : 4};
   justify-content: flex-start;
 
   // 배경색(background) //
   background: ${props => props.isChecked ? props.theme.colors.gray40 : props.theme.colors.[props.backgroundColor] || props.theme.main.[props.backgroundColor] || props.backgroundColor};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: 0.7em;
+  font-size: 0.6rem;
   white-space: nowrap;
   overflow: hidden;
   font-weight: 800;
 
   &:focus {
-    z-index: 10;
+    z-index: 20;
   }
 `;
 
-const Title = styled.div<{ isChecked: boolean }>`
+const Title = styled.span<{ isChecked: boolean }>`
   width: 100%;
   white-space: nowrap;
   overflow: hidden;

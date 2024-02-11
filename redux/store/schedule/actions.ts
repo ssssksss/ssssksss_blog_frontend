@@ -1,6 +1,7 @@
 export type ACTION_INSTANCE =
   | ReturnType<typeof SET_CURRENT_SCHEDULE_DATE>
   | ReturnType<typeof SET_MONTH_SCHEDULE_DATA>
+  | ReturnType<typeof SET_CALENDAR>
   | ReturnType<typeof SET_CALENDAR_YEAR>
   | ReturnType<typeof SET_CALENDAR_MONTH>
   | ReturnType<typeof SET_CALENDAR_DAY>
@@ -38,36 +39,48 @@ export const SET_MONTH_SCHEDULE_DATA = (payload: MONTH_SCHEDULE_DATA_STATE) => {
     payload: payload,
   };
 };
-type SET_CALENDAR_YEAR_STATE = {
-  calendarYear: string;
+/**
+ * @param 달력
+ */
+type SET_CALENDAR_STATE = {
+  calendar: [];
+};
+export const SET_CALENDAR = (payload: SET_CALENDAR_STATE) => {
+  return {
+    type: 'CALENDAR',
+    payload: payload,
+  };
 };
 /**
  * @param 달력에서 보이는 연도(year) 설정
  */
-export const SET_CALENDAR_YEAR = (payload: CALENDAR_YEAR_STATE) => {
+type SET_CALENDAR_YEAR_STATE = {
+  calendarYear: string;
+};
+export const SET_CALENDAR_YEAR = (payload: SET_CALENDAR_YEAR_STATE) => {
   return {
     type: 'CALENDAR_YEAR',
     payload: payload,
   };
 };
-type SET_CALENDAR_MONTH_STATE = {
-  calendarMonth: string;
-};
 /**
  * @param 달력에서 보이는 월(month, 0~11) 설정
  */
+type SET_CALENDAR_MONTH_STATE = {
+  calendarMonth: string;
+};
 export const SET_CALENDAR_MONTH = (payload: SET_CALENDAR_MONTH_STATE) => {
   return {
     type: 'CALENDAR_MONTH',
     payload: payload,
   };
 };
-type SET_CALENDAR_DAY_STATE = {
-  calendarDay: string;
-};
 /**
  * @param 달력에서 보이는 일(day) 설정
  */
+type SET_CALENDAR_DAY_STATE = {
+  calendarDay: string;
+};
 export const SET_CALENDAR_DAY = (payload: SET_CALENDAR_DAY_STATE) => {
   return {
     type: 'CALENDAR_DAY',
@@ -162,6 +175,7 @@ export const SET_TOGGLE_UP_TO_DATE_MONTH_SCHEDULE = (
 const scheduleAction = {
   SET_CURRENT_SCHEDULE_DATE,
   SET_MONTH_SCHEDULE_DATA,
+  SET_CALENDAR,
   SET_CALENDAR_YEAR,
   SET_CALENDAR_MONTH,
   SET_CALENDAR_DAY,

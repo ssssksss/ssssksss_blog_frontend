@@ -54,17 +54,11 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       modalMinW={'320px'}
     >
       <DayTitle>{props.day} </DayTitle>
-      <RelativePositionBox
-        onClick={event => {
-          event.stopPropagation();
-        }}
-      >
-        <CalendarListBox layer={props.layer}>
-          {props.data?.map(i => (
-            <ScheduleBar data={i} />
-          ))}
-        </CalendarListBox>
-      </RelativePositionBox>
+      <CalendarListBox layer={props.layer} onClick={e => e.stopPropagation()}>
+        {props.data?.map((i, index) => (
+          <ScheduleBar key={'ScheduleBar' + i.id} data={i} />
+        ))}
+      </CalendarListBox>
     </Container>
   );
 };
@@ -91,9 +85,9 @@ const Container = styled(ModalButton)`
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   padding: 2px 0px;
-  min-height: 120px;
   ${props => props.theme.flex.column.start};
   height: auto;
+  max-height: max-content;
   border-radius: 0px;
   /* height: min-content; */
 `;
@@ -109,11 +103,12 @@ const DayTitle = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
+  line-height: 100%;
 `;
 
 const CalendarListBox = styled.div<{ layer: number }>`
   width: 100%;
   display: grid;
   grid-template-rows: ${props => `repeat(${props.layer}, 1fr)`};
-  gap: 4px 0px;
+  gap: 2px;
 `;
