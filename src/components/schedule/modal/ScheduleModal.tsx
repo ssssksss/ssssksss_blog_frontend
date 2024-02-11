@@ -285,20 +285,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       });
   };
 
-  useEffect(async () => {
-    let keyDownEventFunc = (e: Event) => {
-      if (e.key === 'Escape') {
-      } else if (e.which === 32 && e.ctrlKey) {
-        props.edit ? updateScheduleHandler() : createScheduleHandler();
-      }
-    };
-    window.addEventListener('keydown', keyDownEventFunc);
-
-    return () => {
-      window.removeEventListener('keydown', keyDownEventFunc);
-    };
-  }, []);
-
   useEffect(() => {
     if (scheduleCategoryListResData.isFetching) return;
     let _temp = store
@@ -360,7 +346,9 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           <CC.ColumnStartDiv h={'100%'} gap={4}>
             <CC.RowStartDiv w={'100%'}>일정 내용</CC.RowStartDiv>
             <Textarea
-              submit={() => alert('test')}
+              submit={() =>
+                props.edit ? updateScheduleHandler() : createScheduleHandler()
+              }
               h={'100%'}
               pd={'8px'}
               ref={scheduleContentRef}
