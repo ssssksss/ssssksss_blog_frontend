@@ -2,16 +2,17 @@ import Animations from '@/components/common/animations/Animations';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
 import YoutubePlayerModal from '@/components/common/modal/YoutubePlayerModal';
-import Span from '@/components/common/span/Span';
 import { RootState } from '@/redux/store/reducers';
 import useModal from '@/src/hooks/useModal';
 import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import ReactPlayer from 'react-player/lazy';
+import ReactPlayer from 'react-player';
 import { useSelector } from 'react-redux';
+import Span from '../common/span/Span';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayer.tsx
@@ -19,13 +20,15 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 interface IReactPlayerContainerProps {
-  play: boolean;
+  isNavbarOpen: boolean;
 }
 
 const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
+  const [youtubePlay, setYoutubePlay] = useState(false);
   const themeStore = useSelector((state: RootState) => state.themeStore);
   const player = useRef(null);
   const [modalOption, showModal] = useModal();
+  
 
   const [playTime, setPlayTime] = useState({
     playedSeconds: 0,
@@ -44,20 +47,26 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   };
 
   return (
-    <Container play={props.play}>
+    <Container outline={true} isNavbarOpen={props.isNavbarOpen} play={youtubePlay} anime={Animations.rainbowColors}>
+      <Image
+        src={youtubePlay ? Icons.PauseIcon : Icons.PlayIcon}
+        alt="플레이어"
+        onClick={() => setYoutubePlay(prev => !prev)}
+      />
+      <CC.RowDiv gap={4}> 
       <CC.ColumnCenterDiv>
         <Span fontSize={'10px'}>
           {Time.secToTime(playTime.playedSeconds)} [
           {Math.floor(playTime.played * 100)}%]
         </Span>
+
         <ReactPlayer
-          width="0px"
-          height="0px"
-          // url={'https://www.youtube.com/watch?v=Bo-ACZb3xTg'}
-          url={'https://www.youtube.com/watch?v=EMPahe2yB5Q'}
-          ref={player}
-          playing={props.play}
-          onProgress={handleProgress}
+        width="0px"
+        height="0px"
+        url={window.localStorage.getItem('youtubeLink') ||'https://www.youtube.com/watch?v=eyyAUFxlnGg'}
+        ref={player}
+        playing={youtubePlay}
+        onProgress={handleProgress}
         />
         <div>
           <input
@@ -84,39 +93,80 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
       <ModalButton
         modal={<YoutubePlayerModal />}
         modalMinW={'320px'}
-        h={'100%'}
+        modalW={'96vw'}
+        h={'24px'}
+        modalBg={'white'}
+        modalOverlayVisible={'true'}
       >
         <Image src={Icons.EtcIcon} alt="etc" width={10} />
       </ModalButton>
+      </CC.RowDiv>
     </Container>
+
   );
 };
 export default ReactPlayerContainer;
 
-const Container = styled.div`
-  width: 100%;
+const Container = styled.div<{isNavbarOpen: boolean, outline: true, play: boolean, anime: any}>`
   display: grid;
-  grid-template-columns: calc(120px - 34px) 10px;
-  text-align: center;
+  grid-template-columns: 24px calc(100% - 24px);
+  align-items: center;
+  width: 120px;
+  height: 32px;
+  padding: 0px 2px;
+  cursor: pointer;
+  &:hover {
+    background: ${props => props.theme.main.primary20};
+  }
+
+
+  ${props =>
+    props.outline &&
+    `
+    outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
+    background: transparent;
+    `}
+  & > :nth-last-of-type(1) {
+    justify-content: flex-start;
+    animation-name: ${Animations.LeftToRightFadein};
+    animation-duration: 0.6s;
+  }
+  
+  ${props =>
+    props.active &&
+    `
+    background: ${props.theme.main.primary20};
+    `};
+
+@media (max-width: ${props => props.theme.deviceSizes.pc}) {
+    ${props =>
+      props.isNavbarOpen
+        ? `
+      align-items: center;
+      width: 120px;
+    `
+        : `
+        align-items: center;
+        grid-template-columns: 44px;
+        width: 44px;
+        padding: 0px;
+        &> :nth-last-of-type(1) {
+          display: none;
+        }
+        `}
+  }
+
 
   img {
     cursor: pointer;
   }
 
-  input[type='range'] {
-    -webkit-appearance: none;
-    animation: ${props =>
-      props.play && `${Animations.rainbowColors} 1s infinite`};
-    animation-play-state: ${props => props.play || 'paused'};
-    height: 10px;
-    width: calc(100% - 12px);
-  }
 
   input[type='range']:focus {
     outline: none;
   }
   input[type='range']::-webkit-slider-runnable-track {
-    width: calc(100% - 12px);
+    width: calc(100%);
     cursor: pointer;
     border-radius: 1px;
     border: 1px solid #000000;
@@ -126,8 +176,19 @@ const Container = styled.div`
     height: 10px;
     width: 12px;
     border-radius: 25px;
-    /* background: ${props => props.commonTheme.menuBackground}; */
     cursor: pointer;
     -webkit-appearance: none;
   }
+  input[type='range'] {
+    -webkit-appearance: none;
+    ${props => false ||
+      css` animation: ${Animations.rainbowColors} 1s infinite `
+    }
+    animation-play-state: ${props => props.play || 'paused'};
+    height: 10px;
+    width: calc(100%);
+  }
+
 `;
+
+
