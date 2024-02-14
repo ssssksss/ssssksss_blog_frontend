@@ -519,56 +519,54 @@ export const theme1 = {
 };
 
 // https://colorhunt.co/palette/40a2e3fff6e9bbe2ec0d9276
-export const theme2 = {
-  main: {
-    primary100: '#1BA0F9',
-    primary80: '#1BA0F9',
-    primary60: '#1BA0F9',
-    primary40: '#1BA0F9',
-    primary20: '#1BA0F9',
-    secondary100: '#FFF6E9',
-    secondary80: '#D4CDC3',
-    secondary60: '#A9A59D',
-    secondary40: '#7F7B77',
-    secondary20: '#545351',
-    third100: '#BBE2EC',
-    third80: '#9EBDC6',
-    third60: '#80999F',
-    third40: '#647378',
-    third20: '#464F51',
-    contrast: colors.white80,
-  },
-  ...commonTheme,
-};
+// export const theme2 = {
+//   main: {
+//     primary100: '#1BA0F9',
+//     primary80: '#1BA0F9',
+//     primary60: '#1BA0F9',
+//     primary40: '#1BA0F9',
+//     primary20: '#1BA0F9',
+//     secondary100: '#FFF6E9',
+//     secondary80: '#D4CDC3',
+//     secondary60: '#A9A59D',
+//     secondary40: '#7F7B77',
+//     secondary20: '#545351',
+//     third100: '#BBE2EC',
+//     third80: '#9EBDC6',
+//     third60: '#80999F',
+//     third40: '#647378',
+//     third20: '#464F51',
+//     contrast: colors.white80,
+//   },
+//   ...commonTheme,
+// };
 
 // https://colorhunt.co/palette/cdfadbf6fdc3ffcf96ff8080
-export const theme3 = {
-  main: {
-    primary100: '#CDFADBff',
-    primary80: '#CDFADBee',
-    primary60: '#CDFADBdd',
-    primary40: '#CDFADBcc',
-    primary20: '#CDFADB',
-    secondary100: '#F6FDC3ff',
-    secondary80: '#F6FDC3cc',
-    secondary60: '#F6FDC399',
-    secondary40: '#F6FDC366',
-    secondary20: '#F6FDC333',
-    third100: '#FFCF96ff',
-    third80: '#FFCF96cc',
-    third60: '#FFCF9699',
-    third40: '#FFCF9666',
-    third20: '#FFCF9633',
-    contrast: colors.white80,
-  },
-  ...commonTheme,
-};
+// export const theme3 = {
+//   main: {
+//     primary100: '#CDFADBff',
+//     primary80: '#CDFADBee',
+//     primary60: '#CDFADBdd',
+//     primary40: '#CDFADBcc',
+//     primary20: '#CDFADB',
+//     secondary100: '#F6FDC3ff',
+//     secondary80: '#F6FDC3cc',
+//     secondary60: '#F6FDC399',
+//     secondary40: '#F6FDC366',
+//     secondary20: '#F6FDC333',
+//     third100: '#FFCF96ff',
+//     third80: '#FFCF96cc',
+//     third60: '#FFCF9699',
+//     third40: '#FFCF9666',
+//     third20: '#FFCF9633',
+//     contrast: colors.white80,
+//   },
+//   ...commonTheme,
+// };
 
 const rootTheme = {
   darkTheme,
   theme1,
-  theme2,
-  theme3,
 };
 
 export default rootTheme;

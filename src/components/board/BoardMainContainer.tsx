@@ -1,17 +1,17 @@
-import styled from '@emotion/styled';
+import { BoardAPI } from '@/api/BoardAPI';
+import { Icons } from '@/components/common/icons/Icons';
+import Pagination from '@/components/common/pagination/Pagination';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
 import { CC } from '@/styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
+import { timeFromToday } from '@/utils/function/timeFromToday';
+import styled from '@emotion/styled';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { BoardAPI } from '@/api/BoardAPI';
-import { store } from '@/redux/store';
-import Pagination from '@/components/common/pagination/Pagination';
-import { useEffect, useState } from 'react';
-import { timeFromToday } from '@/utils/function/timeFromToday';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { rootActions } from '@/redux/store/actions';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BoardMainContainer.tsx
@@ -99,18 +99,17 @@ const BoardMainContainer = () => {
             )
           )}
         </CC.ColumnDiv>
-      </BoardListContainer>
-      <BoardListBottomContainer>
         {store.getState().authStore.nickname && (
           <WriteButtonContainer>
             <Link href={'/board/create'}>
               <CC.RowDiv>
                 <Image src={Icons.EditIcon} alt="" width={16} height={16} />
-                <span> 글쓰기 </span>
               </CC.RowDiv>
             </Link>
           </WriteButtonContainer>
         )}
+      </BoardListContainer>
+      <BoardListBottomContainer>
         <Pagination
           refetch={props => changePage(props)}
           endPage={Math.ceil(boardListResData?.data?.json?.boardCount / 10)}
@@ -127,10 +126,10 @@ const Container = styled.div`
   max-height: 100%;
   gap: 4px;
   background: ${props => props.theme.main.contrast};
-  padding: 4px;
+  padding: 16px 4px;
   /* ${props => props.theme.scroll.hidden}; */
   display: grid;
-  grid-template-rows: 30px auto 72px;
+  grid-template-rows: 30px auto 30px;
 `;
 
 const SearchNavContainer = styled.div`
@@ -182,6 +181,7 @@ const BoardListContainer = styled(CC.ColumnDiv)`
   ${props => props.theme.scroll.hidden};
   outline: solid ${props => props.theme.main.primary20} 4px;
   padding: 4px;
+  position: relative;
 
   & > div {
     gap: 8px;
@@ -241,18 +241,20 @@ const BoardItem = styled.div`
 const BoardListBottomContainer = styled.div`
   outline: solid ${props => props.theme.main.primary20} 4px;
   padding: 0px 4px;
+  height: min-content;
 `;
 
 const WriteButtonContainer = styled(CC.RowRightDiv)`
-  height: 32px;
-  margin: 4px 0px;
+  position: sticky;
+  right: 4px;
+  bottom: 4px;
 
   div {
     cursor: pointer;
     background: ${props => props.theme.main.primary80};
     color: ${props => props.theme.main.contrast};
-    padding: 4px;
     border-radius: 10px;
+    padding: 8px;
     gap: 4px;
   }
 `;

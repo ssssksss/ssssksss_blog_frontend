@@ -149,6 +149,7 @@ const Container = styled(CC.ColumnDiv)`
   gap: 4px;
   ${props => props.theme.scroll.hidden};
   position: relative;
+  min-height: 200px;
 `;
 const BlogSearchItem = styled(Link)`
   cursor: pointer;

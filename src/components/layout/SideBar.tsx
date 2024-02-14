@@ -29,7 +29,6 @@ import { useSelector } from 'react-redux';
 
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  const [youtubePlay, setYoutubePlay] = useState(false);
   const activeMenu = useSelector((state: RootState) => state.leftNavItemStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
@@ -71,35 +70,17 @@ const SideBar = () => {
                 }}
                 active={activeMenu.leftNavActiveItem.split('?')[0] === i[2].split('?')[0]}
               >
-                <>
                   <Image src={i[0]} alt={i[1]} />
                   <span> {i[1]} </span>
-                </>
               </NavItemContainer>
             </Link>
           ))}
         </CC.ColumnBetweenDiv>
-        <CC.ColumnBetweenDiv gap={4}>
-          <NavItemContainer
-            outline={true}
-            isNavbarOpen={isNavbarOpen}
-            h={'40px'}
-          >
-            <Image
-              src={youtubePlay ? Icons.PauseIcon : Icons.PlayIcon}
-              alt="플레이어"
-              onClick={() => setYoutubePlay(prev => !prev)}
-            />
-            <ReactPlayerContainer play={youtubePlay} />
-          </NavItemContainer>
-          <NavItemContainer
-            outline={true}
-            isNavbarOpen={isNavbarOpen}
-            h={'40px'}
-          >
-            <Image src={Icons.UserIcon} alt="nav home" width={24} height={24} />
-            <UserBox> {authStore.email || '로그인이 필요합니다.'} </UserBox>
-          </NavItemContainer>
+        <CC.ColumnBetweenDiv gap={4} bg={"blue"}>
+        {
+          typeof window != 'undefined' && 
+            <ReactPlayerContainer isNavbarOpen={isNavbarOpen}/>
+        }
         </CC.ColumnBetweenDiv>
       </FoldDiv>
     </Container>
@@ -124,17 +105,6 @@ const Container = styled.aside<IContainerProps>`
     width: 120px;
   }
 
-  /* @media (max-width: ${props => props.theme.deviceSizes.pc}) {
-    ${props =>
-    props.isNavbarOpen &&
-    `
-      width: 120px;
-      &>:nth-of-type(1)>:nth-of-type(n+1) {
-        padding: 0px 10px;
-        gap: 20px;
-      }
-      `}
-  } */
 `;
 
 const FoldDiv = styled.div`
@@ -142,14 +112,8 @@ const FoldDiv = styled.div`
   height: 100vh;
   width: 100%;
   z-index: 20;
-
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
-    & > :nth-of-type(1) > :nth-of-type(n + 1) {
-      padding: 0px 10px;
-      gap: 20px;
-    }
-  }
-
+  ${props=>props.theme.scroll.hidden};
+  
   @media (max-width: ${props => props.theme.deviceSizes.pc}) {
     ${props =>
       props.isNavbarOpen &&
@@ -157,10 +121,6 @@ const FoldDiv = styled.div`
       width: 120px;
       background: ${props.theme.main.contrast};
       outline: solid ${props.theme.main.primary40} 2px;
-      &>:nth-of-type(1)>:nth-of-type(n+1) {
-        padding: 0px 10px;
-        gap: 20px;
-      }
       `}
   }
 `;
@@ -181,8 +141,9 @@ const NavItemContainer = styled.div<{
   display: grid;
   grid-template-columns: 24px calc(100% - 24px);
   align-items: center;
-  padding: 2px 0px;
-  width: 100%;
+  padding: 0px 10px;
+  gap: 20px;
+  width: 120px;
   height: 32px;
   cursor: pointer;
   /* 호버일때 */
@@ -215,12 +176,14 @@ const NavItemContainer = styled.div<{
       props.isNavbarOpen
         ? `
       align-items: center;
-      padding: 0px;
+      padding: 0px 10px;
       width: 120px;
     `
         : `
         align-items: center;
         grid-template-columns: 44px;
+        width: 44px;
+        padding: 0px;
         &> :nth-last-of-type(1) {
           display: none;
         }

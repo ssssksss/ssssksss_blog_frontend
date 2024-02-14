@@ -81,6 +81,7 @@ const Container = styled(CC.ColumnDiv)`
   width: 100%;
   background: ${props => props.theme.main.contrast};
   border-radius: 8px;
+  ${props => props.theme.scroll.hidden};
 
   & > * {
     outline: solid ${props => props.theme.main.primary80} 2px;

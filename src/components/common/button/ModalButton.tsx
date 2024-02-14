@@ -148,7 +148,7 @@ const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, max
   z-index: 100;
   transform: translate(-50%, -50%);
   height: ${props => props.height};
-  max-height: ${props => props.maxH || `calc(100% - 80px)` };
+  max-height: ${props => props.maxH || `calc(100% - 20px)` };
   width: ${props => `calc(${props.width})`};
   max-width: ${props => props.maxW};
   min-width: ${props => props.minW};

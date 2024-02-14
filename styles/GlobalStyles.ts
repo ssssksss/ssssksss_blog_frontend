@@ -34,6 +34,7 @@ const GlobalStyles = css`
   body {
     width: 100%;
     scroll-behavior: smooth;
+    overflow: hidden;
     /* background-color: ${theme.backgroundColors.background2}; */
     &::-webkit-scrollbar {
       display: none;
