@@ -125,7 +125,7 @@ const YoutubePlayerModal = () => {
       </ArticleStyle>
       <ul>
         {getYoutubeLinkListResData.isLoading ||
-          getYoutubeLinkListResData.data.json.youtubeList.map(i => (
+          getYoutubeLinkListResData.data?.json?.youtubeList.map(i => (
             <LiStyle
               onClick={() => selectYoutubeLinkHandler(i)}
               active={

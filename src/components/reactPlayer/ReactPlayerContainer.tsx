@@ -26,6 +26,7 @@ interface IReactPlayerContainerProps {
 const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   const [youtubePlay, setYoutubePlay] = useState(false);
   const themeStore = useSelector((state: RootState) => state.themeStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const player = useRef(null);
   const [modalOption, showModal] = useModal();
   
@@ -89,17 +90,20 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
             }
           />
         </div>
-      </CC.ColumnCenterDiv>
-      <ModalButton
+      </CC.ColumnCenterDiv> 
+      {
+        authStore.id && 
+        <ModalButton
         modal={<YoutubePlayerModal />}
         modalMinW={'320px'}
         modalW={'96vw'}
         h={'24px'}
         modalBg={'white'}
         modalOverlayVisible={'true'}
-      >
+        >
         <Image src={Icons.EtcIcon} alt="etc" width={10} />
       </ModalButton>
+        }
       </CC.RowDiv>
     </Container>
 
