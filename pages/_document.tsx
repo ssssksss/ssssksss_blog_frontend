@@ -4,7 +4,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
+        <Head lang="ko">
           <link rel="manifest" href="/manifest/manifest.json" />
           <meta name="theme-color" content="#84A59D" />
           <meta

@@ -1,10 +1,14 @@
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
 import styled from '@emotion/styled';
+import Head from 'next/head';
 import Layout1 from 'src/components/layout/Layout1';
 
 const HomePage = ({ test }: any) => {
   return (
     <Container>
+      <Head>
+        <title> 홈 화면 </title>
+      </Head>
       {/* <HomeThreejs />
       <Content /> */}
       <div> 홈 화면 아직 미구성 </div>
