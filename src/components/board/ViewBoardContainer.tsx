@@ -1,22 +1,18 @@
-import styled from '@emotion/styled';
-import { CC } from '@/styles/commonComponentStyle';
-import Image from 'next/image';
-import { LikeIcon } from '/public/img/ui-icon/ic-like.svg';
-import { Icons } from '@/components/common/icons/Icons';
-import { useEffect, useRef, useState } from 'react';
 import { BoardAPI } from '@/api/BoardAPI';
-import { useRouter } from 'next/router';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import { Viewer } from '@toast-ui/react-editor';
+import { Icons } from '@/components/common/icons/Icons';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
-import { useLoading } from '@/src/hooks/useLoading';
-import Link from 'next/link';
-import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import { RootState } from '@/redux/store/reducers';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
+import styled from '@emotion/styled';
+import { Viewer } from '@toast-ui/react-editor';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import { store } from '@/redux/store';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -44,6 +40,9 @@ const ViewBoardContainer = () => {
 
   return (
     <>
+      <Head>
+        <title> {boardResData.data.json?.board.title} </title>
+      </Head>
       {isLoading ? (
         <LoadingComponent mode={'board'}> 로딩중 </LoadingComponent>
       ) : (

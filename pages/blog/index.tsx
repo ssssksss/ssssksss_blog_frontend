@@ -7,6 +7,7 @@ import { CC } from '@/styles/commonComponentStyle';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import styled from '@emotion/styled';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { batch } from 'react-redux';
@@ -67,6 +68,10 @@ const Index = props => {
 
   return (
     <Container>
+      <Head>
+        <title> 블로그 </title>
+        <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
+      </Head>
       <BlogHeaderContainer />
       <BlogCategoryContainer />
       <BlogMainContainer />

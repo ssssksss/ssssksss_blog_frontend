@@ -3,6 +3,7 @@ import BoardMainContainer from '@/components/board/BoardMainContainer';
 import Layout1 from '@/components/layout/Layout1';
 import { RootState } from '@/redux/store/reducers';
 import styled from '@emotion/styled';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,9 @@ const Index = () => {
 
   return (
     <Container>
+      <Head>
+        <title> 게시판 </title>
+      </Head>
       <BoardHeaderContainer />
       <BoardMainContainer />
     </Container>

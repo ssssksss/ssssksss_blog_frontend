@@ -30,20 +30,18 @@ import 'tui-color-picker/dist/tui-color-picker.css';
  */
 
 interface IBlogResDataProps {
-  json: {
-    id: number;
-    title: string;
-    description: string;
-    userId: number;
-    likeNumber: number;
-    commentNumber: number;
-    viewNumber: number;
-    firstCategoryId: number;
-    secondCategoryId: number;
-    thumbnailImageUrl: string;
-    createdAt: string;
-    blogContentId: string;
-  };
+  id: number;
+  title: string;
+  description: string;
+  userId: number;
+  likeNumber: number;
+  commentNumber: number;
+  viewNumber: number;
+  firstCategoryId: number;
+  secondCategoryId: number;
+  thumbnailImageUrl: string;
+  createdAt: string;
+  blogContentId: string;
 }
 
 const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {

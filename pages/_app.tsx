@@ -42,10 +42,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <QueryClientProvider client={queryClient}>
           <Global styles={GlobalStyles} />
           <Head>
+            <meta charset="utf-8" />
             <meta
               name="viewport"
               content="initial-scale=1.0, width=device-width"
             />
+            <title> 가출한토토로의 블로그 </title>
           </Head>
           <NavBar>
             <Layout>

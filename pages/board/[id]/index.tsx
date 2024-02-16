@@ -1,6 +1,5 @@
-import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import ViewBoardContainer from '@/components/board/ViewBoardContainer';
+import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 
 /**
@@ -19,7 +18,9 @@ const ViewBoardCSR = dynamic(
 
 const Index = () => {
   return (
-    <Container>{typeof window != 'undefined' && <ViewBoardCSR />}</Container>
+    <>
+      <Container>{typeof window != 'undefined' && <ViewBoardCSR />}</Container>
+    </>
   );
 };
 export default Index;

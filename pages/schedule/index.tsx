@@ -1,6 +1,7 @@
 import Layout1 from '@/components/layout/Layout1';
 import ScheduleContainer from '@/components/schedule/ScheduleContainer';
 import styled from '@emotion/styled';
+import Head from 'next/head';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -10,6 +11,9 @@ import styled from '@emotion/styled';
 const Index = () => {
   return (
     <Container>
+      <Head>
+        <title> 일정 관리 </title>
+      </Head>
       <ScheduleContainer />
     </Container>
   );

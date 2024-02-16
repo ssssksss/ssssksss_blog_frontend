@@ -4,6 +4,7 @@ import TodoScheduleContainer from '@/components/todo/TodoScheduleContainer';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -27,6 +28,9 @@ const Index = () => {
   const [menu, setMenu] = useState(0);
   return (
     <Container>
+      <Head>
+        <title> TODO & MEMO </title>
+      </Head>
       <NavContainer>
         <Button onClick={() => setMenu(0)} active={menu === 0}>
           TODAY

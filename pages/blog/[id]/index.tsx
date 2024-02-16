@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import Layout1 from '@/components/layout/Layout1';
-import ViewBlogContainer from '@/components/blog/ViewBlogContainer';
-import dynamic from 'next/dynamic';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
+import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -27,6 +27,10 @@ const ViewBlogCSR = dynamic(
 const Index = props => {
   return (
     <>
+      <Head>
+        <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
+        <title> {props.json.title} </title>
+      </Head>
       {/* <ViewBlogContainer data={props.json} /> */}
       <Container>
         {typeof window !== 'undefined' && <ViewBlogCSR data={props.json} />}
