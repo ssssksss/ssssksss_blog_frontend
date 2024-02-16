@@ -22,7 +22,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import ModalButton from '../common/button/ModalButton';
@@ -94,7 +94,6 @@ const CreateUpdateBlogContainer = (
   props: IEditCreateUpdateBlogContainerProps
 ) => {
   const [toggle, toggleHandler] = useReducer(prev => !prev, true);
-  const [isHideBrowser, hideBrowserToggle] = useReducer(v => !v, true);
   const [isHideContainer, hideContainerToggle] = useReducer(
     v => !v,
     props.edit ? true : false
@@ -345,21 +344,6 @@ const CreateUpdateBlogContainer = (
       });
   };
 
-  useEffect(async () => {
-    let keyDownEventFunc = (e: Event) => {
-      if (e.key === 'Escape') {
-        hideContainerToggle();
-      } else if (e.which === 32 && e.ctrlKey) {
-        hideBrowserToggle();
-      }
-    };
-    window.addEventListener('keydown', keyDownEventFunc);
-
-    return () => {
-      window.removeEventListener('keydown', keyDownEventFunc);
-    };
-  }, []);
-
   return (
     <>
       <FormProvider {...methods}>
@@ -578,21 +562,7 @@ const CreateUpdateBlogContainer = (
                 >
                   링크
                 </BlogItemContentFormButton>
-                <BlogItemContentFormButton onClick={() => hideBrowserToggle()}>
-                  검색
-                </BlogItemContentFormButton>
               </BlogItemContentFormContainer>
-              <Iframe
-                hide={isHideBrowser}
-                src={'https://www.bing.com/'}
-                name={''}
-                id={''}
-                frameBorder={'1'}
-                scrolLing={'yes'}
-                aligh={'middle'}
-              >
-                iframe이 있었던 자리 입니다
-              </Iframe>
             </Container>
           </>
         )}
@@ -601,18 +571,6 @@ const CreateUpdateBlogContainer = (
   );
 };
 export default CreateUpdateBlogContainer;
-
-const Iframe = styled.iframe<{ hide: boolean }>`
-  z-index: 40;
-  position: fixed;
-  height: calc(100% - 180px);
-  bottom: 80px;
-  right: 40px;
-  width: calc(50% - 70px);
-  background: ${props => props.theme.main.contrast};
-
-  visibility: ${props => (props.hide ? 'hidden' : 'visible')};
-`;
 
 const Container = styled(CC.ColumnDiv.withComponent('section'))`
   position: relative;

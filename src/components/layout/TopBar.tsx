@@ -22,6 +22,7 @@ import AxiosInstance from '@/utils/axios/AxiosInstance';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useEffect, useReducer } from 'react';
 import { useQueryClient } from 'react-query';
 import { batch, useSelector } from 'react-redux';
 
@@ -37,6 +38,7 @@ const TopBar = () => {
   const [isLoading, loadingFunction] = useLoading();
   const authUserInfo = UserAPI.getUser();
   const queryClient = useQueryClient();
+  const [isHideBrowser, hideBrowserToggle] = useReducer(v => !v, true);
 
   //* 로그아웃 함수
   const signOutHandler = () => {
@@ -79,6 +81,22 @@ const TopBar = () => {
     })();
   };
 
+  useEffect(async () => {
+    // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
+    let keyDownEventFunc = (e: Event) => {
+      if (e.key === 'Escape') {
+        hideContainerToggle();
+      } else if (e.which === 32 && e.ctrlKey) {
+        hideBrowserToggle();
+      }
+    };
+    window.addEventListener('keydown', keyDownEventFunc);
+
+    return () => {
+      window.removeEventListener('keydown', keyDownEventFunc);
+    };
+  }, []);
+
   return (
     <Container>
       <Main>
@@ -90,6 +108,17 @@ const TopBar = () => {
             height={'36px'}
           />
         </Title>
+        <Iframe
+          hide={isHideBrowser}
+          src={'https://www.bing.com/'}
+          name={''}
+          id={''}
+          frameBorder={'1'}
+          scrolLing={'yes'}
+          aligh={'middle'}
+        >
+          iframe이 있었던 자리 입니다
+        </Iframe>
         <CC.RowDiv gap={8}>
           {/* <ModalButton h={'100%'}>
               <Image
@@ -167,4 +196,17 @@ const Main = styled.div`
   padding: 4px 4px;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+`;
+
+const Iframe = styled.iframe<{ hide: boolean }>`
+  z-index: 40;
+  position: fixed;
+  height: calc(100% - 180px);
+  bottom: 80px;
+  right: 40px;
+  width: calc(70vw - 70px);
+  background: ${props => props.theme.main.contrast};
+  outline: solid ${props => props.theme.main.secondary80} 8px;
+  visibility: ${props => (props.hide ? 'hidden' : 'visible')};
 `;
