@@ -12,6 +12,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useReducer, useRef } from 'react';
 import { useQueryClient } from 'react-query';
+import { ConfirmButton } from '../button/ConfirmButton';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -110,7 +111,9 @@ const YoutubePlayerModal = () => {
   return (
     <Container>
       <ArticleStyle>
-        <h2> Add YouTube Links </h2>
+        <CC.RowDiv gap={10}>
+          <h2> Add YouTube Links </h2>
+        </CC.RowDiv>
         <label htmlFor={'youtube-link'}> YouTube Link </label>
         <Input
           id={'youtube-link'}
@@ -119,7 +122,7 @@ const YoutubePlayerModal = () => {
           ref={inputRef}
         />
         <span> Add a YouTube video link here </span>
-        <Button w={'100%'} onClick={addYoutubeLinkHandler}>
+        <Button w={'100%'} onClick={addYoutubeLinkHandler} bg={'black80'}>
           Add Link
         </Button>
       </ArticleStyle>
@@ -146,6 +149,7 @@ const YoutubePlayerModal = () => {
                 </CC.RowDiv>
               </div>
               <ImageBox
+                bg={'gray80'}
                 onClick={e => {
                   e.stopPropagation();
                   copyLinkHandler(i.youtubeUrl);
@@ -153,14 +157,14 @@ const YoutubePlayerModal = () => {
               >
                 <Image src={Icons.CopyIcon} width={'24px'} height={'24px'} />
               </ImageBox>
-              <ImageBox
+              <ConfirmButtonStyle
                 onClick={e => {
                   e.stopPropagation();
                   deleteLinkHandler(i.id);
                 }}
               >
                 <Image src={Icons.DeleteIcon} width={'24px'} height={'24px'} />
-              </ImageBox>
+              </ConfirmButtonStyle>
             </LiStyle>
           ))}
       </ul>
@@ -244,7 +248,19 @@ const LiStyle = styled.li<{ active: boolean }>`
       }
     `};
 `;
-const ImageBox = styled(CC.RowCenterDiv)`
+const ImageBox = styled.button`
+  ${props => props.theme.flex.row.center.center};
+  padding: 4px;
+  border-radius: 8px;
+  background: ${props => props.theme.colors.gray60};
+
+  &:hover {
+    background: ${props => props.theme.main.primary40};
+    outline: solid ${props => props.theme.main.contrast} 2px;
+  }
+`;
+const ConfirmButtonStyle = styled(ConfirmButton)`
+  ${props => props.theme.flex.row.center.center};
   padding: 4px;
   border-radius: 8px;
   background: ${props => props.theme.colors.gray60};
@@ -287,7 +303,6 @@ const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
     text-align: left;
   }
   button {
-    background: ${props => props.theme.colors.black80};
     color: ${props => props.theme.colors.white40};
     height: 36px;
   }
