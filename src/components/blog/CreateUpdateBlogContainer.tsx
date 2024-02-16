@@ -22,7 +22,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import { useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import ModalButton from '../common/button/ModalButton';
@@ -343,6 +343,20 @@ const CreateUpdateBlogContainer = (
           });
       });
   };
+
+  useEffect(async () => {
+    // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
+    let keyDownEventFunc = (e: Event) => {
+      if (e.key === 'Escape') {
+        hideContainerToggle();
+      }
+    };
+    window.addEventListener('keydown', keyDownEventFunc);
+
+    return () => {
+      window.removeEventListener('keydown', keyDownEventFunc);
+    };
+  }, []);
 
   return (
     <>

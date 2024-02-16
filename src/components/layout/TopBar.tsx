@@ -84,9 +84,7 @@ const TopBar = () => {
   useEffect(async () => {
     // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
     let keyDownEventFunc = (e: Event) => {
-      if (e.key === 'Escape') {
-        hideContainerToggle();
-      } else if (e.which === 32 && e.ctrlKey) {
+      if (e.which === 32 && e.ctrlKey) {
         hideBrowserToggle();
       }
     };
@@ -108,17 +106,9 @@ const TopBar = () => {
             height={'36px'}
           />
         </Title>
-        <Iframe
-          hide={isHideBrowser}
-          src={'https://www.bing.com/'}
-          name={''}
-          id={''}
-          frameBorder={'1'}
-          scrolLing={'yes'}
-          aligh={'middle'}
-        >
+        {/* <Iframe hide={isHideBrowser} data={'https://www.bing.com/'}>
           iframe이 있었던 자리 입니다
-        </Iframe>
+        </Iframe> */}
         <CC.RowDiv gap={8}>
           {/* <ModalButton h={'100%'}>
               <Image
@@ -199,7 +189,7 @@ const Main = styled.div`
   position: relative;
 `;
 
-const Iframe = styled.iframe<{ hide: boolean }>`
+const Iframe = styled.object<{ hide: boolean }>`
   z-index: 40;
   position: fixed;
   height: calc(100% - 180px);
