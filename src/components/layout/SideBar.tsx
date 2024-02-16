@@ -2,9 +2,9 @@ const HamburgerMenu = dynamic(() => import('@/components/common/button/Hamburger
   loading: () => <p>Loading...</p>
 });
 
-const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
-  loading: () => <p>Loading...</p>
-});
+// const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
+//   loading: () => <p>Loading...</p>
+// });
 
 import Animations from '@/components/common/animations/Animations';
 import { Icons } from '@/components/common/icons/Icons';
@@ -62,7 +62,7 @@ const SideBar = () => {
             onClickHideMenu={() => setIsNavbarOpen(prev => !prev)}
           />
           {LeftNavItems.map((i, index) => (
-            <Link href={`${i[2]}`} prefetch={false}>
+            <Link href={`${i[2]}`} prefetch={false} key={'sideBarItem' + index}>
               <NavItemContainer
                 isNavbarOpen={isNavbarOpen}
                 onClick={() => {
@@ -77,10 +77,10 @@ const SideBar = () => {
           ))}
         </CC.ColumnBetweenDiv>
         <CC.ColumnBetweenDiv gap={4} bg={"blue"}>
-        {
+        {/* {
           typeof window != 'undefined' && 
             <ReactPlayerContainer isNavbarOpen={isNavbarOpen}/>
-        }
+        } */}
         </CC.ColumnBetweenDiv>
       </FoldDiv>
     </Container>

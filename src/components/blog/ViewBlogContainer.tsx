@@ -265,7 +265,7 @@ export default ViewBlogContainer;
 const Container = styled(CC.ColumnDiv)`
   height: calc(100vh - 52px);
   overflow: scroll;
-  -ms-overflow-style: none;
+  msoverflowstyle: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
@@ -468,7 +468,7 @@ const BlogTopicInlineLinkListContainer = styled.nav`
   background: ${props => props.theme.colors.white80};
   outline: solid ${props => props.theme.main.primary80} 2px;
   /* IE and Edge , Firefox */
-  -ms-overflow-style: none;
+  msoverflowstyle: none;
   scrollbar-width: none;
 
   /* Chrome, Safari, Opera*/
@@ -599,7 +599,7 @@ const BlogTopicInlineLinksButton = styled.button`
   right: 0px;
   top: 20px;
   overflow: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
+  msoverflowstyle: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none;

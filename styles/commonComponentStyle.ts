@@ -45,7 +45,7 @@ const propsCommonStyle = (props: any) => css`
     props.overflow === 'hidden' &&
     css`
       overflow: scroll,
-      -ms-overflow-style: none,
+      msOverflowStyle: none,
       scrollbarWidth: none,
       &::-webkit-scrollbar: {
         display: none,

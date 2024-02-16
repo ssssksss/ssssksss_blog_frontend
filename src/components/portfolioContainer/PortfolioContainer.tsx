@@ -1,7 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
-import { css, keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 const PortfolioContainer = () => {
   const [stackItem, setStackItem] = useState('frontend');
@@ -329,7 +328,7 @@ const Stack = styled.div`
   padding: 0px 20px 20px 20px;
   height: 800px;
   overflow: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
+  msoverflowstyle: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none;

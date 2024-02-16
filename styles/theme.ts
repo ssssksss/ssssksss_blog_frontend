@@ -439,7 +439,7 @@ const grid = {
 const scroll = {
   hidden: {
     overflow: 'scroll',
-    [`-ms-overflow-style`]: 'none',
+    msOverflowStyle: 'none',
     scrollbarWidth: 'none',
     [`&::-webkit-scrollbar`]: {
       display: 'none',

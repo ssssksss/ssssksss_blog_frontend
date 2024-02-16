@@ -122,8 +122,8 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
         xmlns="http://www.w3.org/2000/svg"
         >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M9 15L0 0L17 0L9 15Z"
           />
       </IconSVG>
