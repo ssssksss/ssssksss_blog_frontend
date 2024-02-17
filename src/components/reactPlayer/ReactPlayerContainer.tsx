@@ -2,10 +2,6 @@ const YoutubePlayerModal = dynamic(() => import('@/components/common/modal/Youtu
   loading: () => <p>Loading...</p>
 });
 
-const ReactPlayer = dynamic(() => import('react-player'), {
-  loading: () => <p>Loading...</p>,
-});
-
 import Animations from '@/components/common/animations/Animations';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
@@ -18,6 +14,7 @@ import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
+import ReactPlayer from 'react-player';
 import { useSelector } from 'react-redux';
 import Span from '../common/span/Span';
 /**
@@ -89,11 +86,15 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
                 played: parseFloat(e.target.value),
               }))
             }
-            onMouseUp={e => {
-              player.current.seekTo(parseFloat(e.target.value), 'fraction');
-            }}
+            onMouseUp={e => 
+              {
+                player.current?.seekTo(parseFloat(e.target.value), 'fraction')
+              }
+            }
             onTouchEnd={e =>
-              player.current.seekTo(parseFloat(e.target.value), 'fraction')
+              {
+                player.current?.seekTo(parseFloat(e.target.value), 'fraction')
+              }
             }
           />
         </div>
