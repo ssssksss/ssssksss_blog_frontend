@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import ReactPlayerContainer from '../reactPlayer/ReactPlayerContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SideBar.tsx
@@ -77,10 +78,10 @@ const SideBar = () => {
           ))}
         </CC.ColumnBetweenDiv>
         <CC.ColumnBetweenDiv gap={4} bg={"blue"}>
-        {/* {
+        {
           typeof window != 'undefined' && 
             <ReactPlayerContainer isNavbarOpen={isNavbarOpen}/>
-        } */}
+        }
         </CC.ColumnBetweenDiv>
       </FoldDiv>
     </Container>
