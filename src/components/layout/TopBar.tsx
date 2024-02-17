@@ -110,7 +110,7 @@ const TopBar = () => {
           <Iframe
             title="Helpful Widget"
             hide={isHideBrowser}
-            src={'https://www.bing.com/'}
+            src={'https://blog.ssssksss.xyz'}
             loading="lazy"
           >
             iframe이 있었던 자리 입니다
