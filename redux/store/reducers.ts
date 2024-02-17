@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { authReducer } from './auth';
-import { blogReducer } from './blog';
+import blogSlice, { blogReducer } from './blog';
 import { blogContentTemplateReducer } from './blogContentTemplate';
 import { boardReducer } from './board';
 import { leftNavItemReducer } from './leftNav';
@@ -24,6 +24,7 @@ const rootReducer = combineReducers({
   loadingStore: loadingReducer,
   scheduleStore1: scheduleSlice.reducer,
   themeStore: themeSlice.reducer,
+  blogStore1: blogSlice.reducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

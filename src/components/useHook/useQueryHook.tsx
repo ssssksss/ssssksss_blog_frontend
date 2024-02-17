@@ -41,72 +41,80 @@ export const UseQueryHook = (
     enabled: boolean;
   } // focus시 refetch, default true
 ) => {
-  const { isLoading, data, isError, error, status, isFetching, dataUpdatedAt } =
-    useQuery(
-      [...props.queryKey],
-      () => {
-        return AxiosInstance({ ...props.requestData }).then(
-          (res: IAxiosInstanceResponseProps) => {
-            if (props.isShowMessage) {
-              // ! 백엔드에서 메시지를 보내지 않는 경우 아래 코드 사용
-              // store.dispatch(
-              //   SET_TOASTIFY_MESSAGE({
-              //     type: 'success',
-              //     message: queryKey + ' 조회 성공',
-              //   })
-              // );
-              // ! 백엔드에서 보내준 메시지로 보내는 경우 아래 코드 사용
-              store.dispatch(
-                SET_TOASTIFY_MESSAGE({
-                  type: 'success',
-                  message: res.data.msg,
-                })
-              );
-            }
-            return res.data;
+  const {
+    isLoading,
+    data,
+    isError,
+    error,
+    status,
+    isFetching,
+    dataUpdatedAt,
+    refetch,
+  } = useQuery(
+    [...props.queryKey],
+    () => {
+      return AxiosInstance({ ...props.requestData }).then(
+        (res: IAxiosInstanceResponseProps) => {
+          if (props.isShowMessage) {
+            // ! 백엔드에서 메시지를 보내지 않는 경우 아래 코드 사용
+            // store.dispatch(
+            //   SET_TOASTIFY_MESSAGE({
+            //     type: 'success',
+            //     message: queryKey + ' 조회 성공',
+            //   })
+            // );
+            // ! 백엔드에서 보내준 메시지로 보내는 경우 아래 코드 사용
+            store.dispatch(
+              SET_TOASTIFY_MESSAGE({
+                type: 'success',
+                message: res.data.msg,
+              })
+            );
           }
-        );
+          return res.data;
+        }
+      );
+    },
+    {
+      refetchOnWindowFocus: props.isRefetchWindowFocus,
+      retry: '1',
+      // notifyOnChangeProps: ['data', 'isFetching'],
+      enabled: props.enabled != false,
+      onError: err => {
+        let toasttifyResponse = ['error', false];
+        if (true) {
+          switch (err?.response?.status) {
+            case '400' | 400:
+              toasttifyResponse[1] = '잘못된 요청';
+              break;
+            // case '401' | 401:
+            //   toasttifyResponse[1] = '인증 에러';
+            // break;
+            case '403' | 403:
+              toasttifyResponse[1] = '권한 에러';
+              break;
+            case '409' | 409:
+              toasttifyResponse[1] = '저장 데이터 중복';
+              break;
+          }
+        }
       },
-      {
-        refetchOnWindowFocus: props.isRefetchWindowFocus,
-        retry: '1',
-        // notifyOnChangeProps: ['data', 'isFetching'],
-        enabled: props.enabled != false,
-        onError: err => {
-          let toasttifyResponse = ['error', false];
-          if (true) {
-            switch (err?.response?.status) {
-              case '400' | 400:
-                toasttifyResponse[1] = '잘못된 요청';
-                break;
-              // case '401' | 401:
-              //   toasttifyResponse[1] = '인증 에러';
-              // break;
-              case '403' | 403:
-                toasttifyResponse[1] = '권한 에러';
-                break;
-              case '409' | 409:
-                toasttifyResponse[1] = '저장 데이터 중복';
-                break;
-            }
-          }
-        },
-        select: data => {
-          let _data = data;
-          if (props.onSuccessHandler != undefined && isLoading) {
-            props.onSuccessHandler({
-              status: status,
-              data: data,
-              isLoading: isLoading,
-            });
-          }
-          if (props.requestData.select) {
-            _data = props.requestData.select(data);
-          }
-          return _data;
-        },
-      }
-    );
+      select: data => {
+        let _data = data;
+        if (props.onSuccessHandler != undefined && isLoading) {
+          props.onSuccessHandler({
+            status: status,
+            data: data,
+            isLoading: isLoading,
+          });
+        }
+        if (props.requestData.select) {
+          _data = props.requestData.select(data);
+        }
+        return _data;
+      },
+    }
+  );
   if (isLoading)
     return {
       status: status,
@@ -137,6 +145,7 @@ export const UseQueryHook = (
       isLoading,
       isFetching,
       dataUpdatedAt,
+      refetch,
     };
   }
 };

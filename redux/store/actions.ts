@@ -1,4 +1,5 @@
 import authAction from './auth/actions';
+import blogSlice from './blog';
 import blogAction from './blog/actions';
 import blogContentTemplateAction from './blogContentTemplate/actions';
 import boardAction from './board/actions';
@@ -20,4 +21,5 @@ export const rootActions = {
   memoStore: memoAction,
   loadingStore: loadingAction,
   themeStore: themeAction,
+  blogStore1: blogSlice.actions,
 };

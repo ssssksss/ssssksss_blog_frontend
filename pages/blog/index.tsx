@@ -1,12 +1,16 @@
+const BlogMainContainer = dynamic(
+  () => import('@/components/blog/BlogMainContainer')
+);
+
 import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryContainer';
 import BlogHeaderContainer from '@/components/blog/BlogHeaderContainer';
-import BlogMainContainer from '@/components/blog/BlogMainContainer';
 import Layout1 from '@/components/layout/Layout1';
 import { store } from '@/redux/store';
 import { CC } from '@/styles/commonComponentStyle';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
 import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

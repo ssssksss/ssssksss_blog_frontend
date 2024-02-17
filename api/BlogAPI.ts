@@ -3,9 +3,10 @@ import { useMutationHook } from '@/components/useHook/useMutationHook';
 import { UseQueryHook } from '@/components/useHook/useQueryHook';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
+import { RootState } from '@/redux/store/reducers';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
-import { batch } from 'react-redux';
+import { batch, useSelector } from 'react-redux';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 import { IAfterMutationHandlerProps } from './type/CommonAPI';
 
@@ -65,18 +66,19 @@ const getBlog = (props: any) => {
   });
 };
 
-const getBlogList = () => {
-  // const router = useRouter();
-  // if(!router.query.['second-category']) return [];
+const getBlogList = (props: { sort: string }) => {
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   return UseQueryHook({
     queryKey: [
       'blogList',
       store.getState().blogStore.activeBlogSecondCategoryId,
+      blogStore1.blogListOrderOption,
     ],
     requestData: {
       url: '/api/blog-list',
       method: 'GET',
       params: {
+        sort: blogStore1.blogListOrderOption || 'baseTimeEntity.createdAt',
         secondCategoryId: store.getState().blogStore.activeBlogSecondCategoryId,
       },
     },

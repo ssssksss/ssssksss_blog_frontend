@@ -2,14 +2,13 @@ import { BlogAPI } from '@/api/BlogAPI';
 import { Icons } from '@/components/common/icons/Icons';
 import Select from '@/components/common/select/Select';
 import { store } from '@/redux/store';
-import { SET_BLOG_POST_LIST } from '@/redux/store/blog';
-import { useLoading } from '@/src/hooks/useLoading';
+import { rootActions } from '@/redux/store/actions';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../common/button/Button';
 import { IconsSvg } from '../common/icons/IconsSvg';
@@ -23,30 +22,22 @@ import BlogItem from './BlogItem';
 const BlogMainContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const loadingSlice: loadingStore = useSelector(state => state.loadingSlice);
-  const [viewMode, setViewMode] = useState(true);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const router = useRouter();
-  const [isLoading, loadingFunction] = useLoading();
-  const [blogOrderListOption, setBlogOrderListOption] = useState();
   const mainContainerRef = useRef<null>();
-  const blogListResData = BlogAPI.getBlogList();
+  const { data: blogListResData, refetch } = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: any) => {
-    if (!blogStore.firstCategoryId || !blogStore.secondCategoryId) return;
-    loadingFunction(
-      BlogAPI.getBlogList({
-        secondCategoryId: blogStore.secondCategoryId,
-        sort: data.value,
-      })
+    if (
+      !blogStore.activeBlogFirstCategoryId ||
+      !blogStore.activeBlogSecondCategoryId
     )
-      .then(res => {
-        store.dispatch(SET_BLOG_POST_LIST(res.data.blogList));
+      return;
+    store.dispatch(
+      rootActions.blogStore1.setBlogListOrderOption({
+        blogListOrderOption: data.value,
       })
-      .catch(err => {
-        if (err.code === 400) {
-          store.dispatch(SET_BLOG_POST_LIST([]));
-        }
-      });
+    );
   };
 
   useEffect(() => {
@@ -76,26 +67,29 @@ const BlogMainContainer = () => {
           {`[${store.getState().blogStore.activeBlogFirstCategoryName}/${
             store.getState().blogStore.activeBlogSecondCategoryName
           }]`}
-          검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
+          검색결과 : {blogListResData?.json?.blogList.length || '0'}
         </span>
         <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
           <Select
             onChange={orderBlogListHandler}
             defaultValue={{
-              value: '',
-              name: '최신순',
+              value: blogStore1.blogListOrderOption,
+              name:
+                blogStore1.blogListOrderOption == 'viewNumber'
+                  ? '조회수순'
+                  : '최신순',
             }}
             w={'90px'}
             data={[
               { name: '최신순', value: '', bg: '' },
               { name: '조회수순', value: 'viewNumber', bg: '' },
-              { name: '좋아요순', value: 'likeNumber', bg: '' },
+              // { name: '좋아요순', value: 'likeNumber', bg: '' },
             ]}
           ></Select>
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef}>
-        {blogListResData?.data?.json?.blogList?.map((i, index) => (
+        {blogListResData?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
               <BlogItem element={i}></BlogItem>
