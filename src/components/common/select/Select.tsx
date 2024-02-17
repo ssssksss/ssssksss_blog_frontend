@@ -1,6 +1,6 @@
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Select.tsx
@@ -36,7 +36,7 @@ interface ISelectProps {
   })=>void;
 }
 
-const Select = ({ children, ...props }, ref): ISelectProps => {
+const Select = ({ children, ...props }): ISelectProps => {
   const [data,setData] = useState({
     value: props.defaultValue?.value,
     name: props.defaultValue?.name,
@@ -130,7 +130,7 @@ const Select = ({ children, ...props }, ref): ISelectProps => {
     </Container>
   );
 };
-export default forwardRef(Select);
+export default Select;
 {/* <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M9 0L17.6603 15H0.339746L9 0Z" fill="black"/>
 </svg> */}
