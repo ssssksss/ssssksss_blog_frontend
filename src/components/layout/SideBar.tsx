@@ -2,9 +2,9 @@ const HamburgerMenu = dynamic(() => import('@/components/common/button/Hamburger
   loading: () => <p>Loading...</p>
 });
 
-// const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
-//   loading: () => <p>Loading...</p>
-// });
+const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
+  loading: () => <p>Loading...</p>
+});
 
 import Animations from '@/components/common/animations/Animations';
 import { Icons } from '@/components/common/icons/Icons';
@@ -19,7 +19,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ReactPlayerContainer from '../reactPlayer/ReactPlayerContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SideBar.tsx

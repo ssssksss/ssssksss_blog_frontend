@@ -1,16 +1,23 @@
+const YoutubePlayerModal = dynamic(() => import('@/components/common/modal/YoutubePlayerModal'), {
+  loading: () => <p>Loading...</p>
+});
+
+const ReactPlayer = dynamic(() => import('react-player'), {
+  loading: () => <p>Loading...</p>,
+});
+
 import Animations from '@/components/common/animations/Animations';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
-import YoutubePlayerModal from '@/components/common/modal/YoutubePlayerModal';
 import { RootState } from '@/redux/store/reducers';
 import useModal from '@/src/hooks/useModal';
 import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
 import { useSelector } from 'react-redux';
 import Span from '../common/span/Span';
 /**
@@ -93,15 +100,15 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
       </CC.ColumnCenterDiv> 
       {
         authStore.id && 
-        <ModalButton
-        modal={<YoutubePlayerModal />}
-        modalMinW={'320px'}
-        modalW={'96vw'}
-        h={'24px'}
-        modalBg={'white'}
-        modalOverlayVisible={'true'}
-        >
-        <Image src={Icons.EtcIcon} alt="etc" width={10} />
+          <ModalButton
+          modal={<YoutubePlayerModal />}
+          modalMinW={'320px'}
+          modalW={'96vw'}
+          h={'24px'}
+          modalBg={'white'}
+          modalOverlayVisible={'true'}
+          >
+          <Image src={Icons.EtcIcon} alt="etc" width={10} />
       </ModalButton>
         }
       </CC.RowDiv>

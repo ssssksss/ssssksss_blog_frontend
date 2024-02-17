@@ -106,9 +106,16 @@ const TopBar = () => {
             height={'36px'}
           />
         </Title>
-        <Iframe hide={isHideBrowser} data={'https://www.bing.com/'}>
-          iframe이 있었던 자리 입니다
-        </Iframe>
+        {typeof window != 'undefined' && (
+          <Iframe
+            title="Helpful Widget"
+            hide={isHideBrowser}
+            src={'https://www.bing.com/'}
+            loading="lazy"
+          >
+            iframe이 있었던 자리 입니다
+          </Iframe>
+        )}
         <CC.RowDiv gap={8}>
           {/* <ModalButton h={'100%'}>
               <Image
@@ -189,7 +196,7 @@ const Main = styled.div`
   position: relative;
 `;
 
-const Iframe = styled.object<{ hide: boolean }>`
+const Iframe = styled.iframe<{ hide: boolean }>`
   z-index: 40;
   position: fixed;
   height: calc(100% - 180px);
