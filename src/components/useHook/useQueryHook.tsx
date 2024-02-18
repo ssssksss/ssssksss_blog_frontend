@@ -37,6 +37,7 @@ export const UseQueryHook = (
     };
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;
+    refetchOnMount?: boolean | string;
     onSuccessHandler?: () => (data: any) => void;
     enabled: boolean;
   } // focus시 refetch, default true
@@ -77,6 +78,7 @@ export const UseQueryHook = (
     },
     {
       refetchOnWindowFocus: props.isRefetchWindowFocus,
+      refetchOnMount: props.refetchOnMount === false ? false : true,
       retry: '1',
       // notifyOnChangeProps: ['data', 'isFetching'],
       enabled: props.enabled != false,

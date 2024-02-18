@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useReducer } from 'react';
+import { memo, useReducer } from 'react';
 import { useSelector } from 'react-redux';
 import ScheduleCategoryItem from './ScheduleCategoryItem';
 /**
@@ -24,7 +24,6 @@ const ScheduleSideContainer = () => {
   );
 
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
-
   return (
     <>
       <Container>
@@ -55,9 +54,9 @@ const ScheduleSideContainer = () => {
     </>
   );
 };
-export default ScheduleSideContainer;
+export default memo(ScheduleSideContainer);
 
-const Container = styled(CC.ColumnDiv)`
+const Container = styled(CC.ColumnDiv.withComponent('article'))`
   padding: 4px 4px;
   gap: 4px;
   position: relative;

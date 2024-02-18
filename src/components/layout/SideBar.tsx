@@ -26,7 +26,6 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 
-
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const activeMenu = useSelector((state: RootState) => state.leftNavItemStore);
@@ -35,7 +34,6 @@ const SideBar = () => {
   const router = useRouter();
 
   useEffect(() => {
-
     if(router.isReady) {
       store.dispatch(
         SET_LEFT_NAV_ITEM_ACTIVE('/'+window.location.pathname.split('/')[1])
@@ -54,16 +52,16 @@ const SideBar = () => {
   ];
 
   return (
-    <Container isNavbarOpen={isNavbarOpen}>
+    <Container>
       <FoldDiv isNavbarOpen={isNavbarOpen}>
-        <CC.ColumnBetweenDiv>
+        <NavStyle>
           <HamburgerMenu
             isHideMenu={isNavbarOpen}
             onClickHideMenu={() => setIsNavbarOpen(prev => !prev)}
           />
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} prefetch={false} key={'sideBarItem' + index}>
-              <NavItemContainer
+              <NavItem
                 isNavbarOpen={isNavbarOpen}
                 onClick={() => {
                   store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
@@ -72,10 +70,10 @@ const SideBar = () => {
               >
                   <Image src={i[0]} alt={i[1]} />
                   <span> {i[1]} </span>
-              </NavItemContainer>
+              </NavItem>
             </Link>
           ))}
-        </CC.ColumnBetweenDiv>
+        </NavStyle>
         <CC.ColumnBetweenDiv gap={4} bg={"blue"}>
         {
           typeof window != 'undefined' && 
@@ -92,7 +90,7 @@ interface IContainerProps {
   isNavbarOpen: boolean;
 }
 
-const Container = styled.aside<IContainerProps>`
+const Container = styled.aside`
   ${props => props.theme.flex.column.between};
   background: ${props => props.theme.main.contrast};
   font-size: ${props => props.theme.fontSize.sm};
@@ -107,7 +105,11 @@ const Container = styled.aside<IContainerProps>`
 
 `;
 
-const FoldDiv = styled.div`
+const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
+
+}`;
+
+const FoldDiv = styled.div<IContainerProps>`
   ${props => props.theme.flex.column.between};
   height: 100vh;
   width: 100%;
@@ -132,7 +134,7 @@ overflow: hidden;
 text-overflow: ellipsis;
 `;
 
-const NavItemContainer = styled.div<{
+const NavItem = styled.div<{
   outline: boolean;
   height: string;
   IContainerProps;

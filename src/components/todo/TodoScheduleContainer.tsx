@@ -93,7 +93,7 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
 // export default React.memo(TodoScheduleContainer);
 export default TodoScheduleContainer;
 
-const Container = styled(CC.GridColumn2)`
+const Container = styled(CC.GridColumn2.withComponent('article'))`
   height: 100%;
 
   & > div {

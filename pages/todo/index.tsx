@@ -81,7 +81,7 @@ const MainContainer = styled.div`
   width: 100%;
   height: calc(100vh - 104px);
   ${props => props.theme.scroll.hidden};
-  & > div {
+  & > * {
     padding: 1px;
   }
 `;

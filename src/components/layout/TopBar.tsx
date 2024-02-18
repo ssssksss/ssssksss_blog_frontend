@@ -15,6 +15,7 @@ import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
+import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
 import { RootState } from '@/redux/store/reducers';
 import { useLoading } from '@/src/hooks/useLoading';
 import { CC } from '@/styles/commonComponentStyle';
@@ -22,6 +23,7 @@ import AxiosInstance from '@/utils/axios/AxiosInstance';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useReducer } from 'react';
 import { useQueryClient } from 'react-query';
 import { batch, useSelector } from 'react-redux';
@@ -97,27 +99,30 @@ const TopBar = () => {
 
   return (
     <Container>
-      <Main>
-        <Title>
-          <Image
-            src={Icons.LogoIcon}
-            alt="logo"
-            width={'36px'}
-            height={'36px'}
-          />
-        </Title>
-        {typeof window != 'undefined' && (
-          <Iframe
-            title="Helpful Widget"
-            hide={isHideBrowser}
-            src={'https://blog.ssssksss.xyz'}
-            loading="lazy"
-          >
-            iframe이 있었던 자리 입니다
-          </Iframe>
-        )}
-        <CC.RowDiv gap={8}>
-          {/* <ModalButton h={'100%'}>
+      <Link href={`/`} prefetch={false}>
+        <Image
+          className={'logo'}
+          src={Icons.LogoIcon}
+          alt="logo"
+          width={'36px'}
+          height={'36px'}
+          onClick={() => {
+            store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
+          }}
+        />
+      </Link>
+      {typeof window != 'undefined' && (
+        <Iframe
+          title="Helpful Widget"
+          hide={isHideBrowser}
+          src={'https://blog.ssssksss.xyz'}
+          loading="lazy"
+        >
+          iframe이 있었던 자리 입니다
+        </Iframe>
+      )}
+      <CC.RowDiv gap={8}>
+        {/* <ModalButton h={'100%'}>
               <Image
                 src={Icons.MailIcon}
                 alt="mail"
@@ -131,69 +136,59 @@ const TopBar = () => {
                 onClick={() => alert('제작 계획 중')}
               />
             </ModalButton> */}
-          {useLoading ? (
-            <>
-              {authStore.email ? (
-                <Button
-                  color={'secondary80'}
-                  outline={'true'}
-                  pd={'4px'}
-                  fontWeight={600}
-                  onClick={() => signOutHandler()}
-                >
-                  Sign Out
-                </Button>
-              ) : (
-                <ModalButton
-                  modal={<AuthModal />}
-                  modalW={'360px'}
-                  modalMaxW={'400px'}
-                  w={'max-content'}
-                  h={'100%'}
-                  color={'secondary80'}
-                  outline={'true'}
-                  pd={'4px'}
-                  fontWeight={600}
-                >
-                  Sign In / Sign up
-                </ModalButton>
-              )}
-            </>
-          ) : (
-            <div> 로딩중 </div>
-          )}
-        </CC.RowDiv>
-      </Main>
+        {useLoading ? (
+          <>
+            {authStore.email ? (
+              <Button
+                color={'secondary80'}
+                outline={'true'}
+                pd={'4px'}
+                fontWeight={600}
+                onClick={() => signOutHandler()}
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <ModalButton
+                modal={<AuthModal />}
+                modalW={'360px'}
+                modalMaxW={'400px'}
+                w={'max-content'}
+                h={'100%'}
+                color={'secondary80'}
+                outline={'true'}
+                pd={'4px'}
+                fontWeight={600}
+              >
+                Sign In / Sign up
+              </ModalButton>
+            )}
+          </>
+        ) : (
+          <div> 로딩중 </div>
+        )}
+      </CC.RowDiv>
     </Container>
   );
 };
 export default TopBar;
 
-const Container = styled.nav`
-  height: 56px;
-  padding: 4px;
-`;
-
-const Title = styled.h3`
-  ${props => props.theme.fontFamily.gmarketSansBold};
-  color: ${props => props.theme.main.primary80};
-  padding-left: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const Main = styled.div`
+const Container = styled.div`
   display: flex;
   background: ${props => props.theme.main.contrast};
   height: 44px;
   border-radius: 10px;
   overflow: hidden;
   gap: 8px;
-  padding: 4px 4px;
+  padding: 4px;
   align-items: center;
   justify-content: space-between;
   position: relative;
+  margin: 4px;
+
+  .logo {
+    cursor: pointer;
+  }
 `;
 
 const Iframe = styled.iframe<{ hide: boolean }>`

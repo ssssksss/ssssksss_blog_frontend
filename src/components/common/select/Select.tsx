@@ -68,7 +68,7 @@ const Select = ({ children, ...props }): ISelectProps => {
   },[props.defaultValue])
 
   return (
-    <Container {...props} onClick={()=>setIsOpen(prev=>!prev)}>
+    <Container {...props} onClick={()=>setIsOpen(prev=>!prev)} tabIndex={"0"}>
       <CC.RowCenterDiv bg={data?.bg || 'white80'}>
         {data?.name || data?.value}
       </CC.RowCenterDiv>

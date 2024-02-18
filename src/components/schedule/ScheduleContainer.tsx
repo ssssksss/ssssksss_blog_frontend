@@ -96,9 +96,6 @@ const ScheduleContainer = () => {
     calendarData: scheduleStore.calendar,
   });
 
-  const MemoizedLeftButton = memo(LeftButton);
-  const MemoizedRightButton = memo(RightButton);
-
   useEffect(async () => {
     let month = store.getState().scheduleStore.calendarMonth;
     let year = store.getState().scheduleStore.calendarYear;
@@ -165,6 +162,9 @@ const ScheduleContainer = () => {
     scheduleListResponseData?.dataUpdatedAt,
     authStore.id,
   ]);
+
+  const MemoizedLeftButton = memo(LeftButton);
+  const MemoizedRightButton = memo(RightButton);
 
   return (
     <Container>

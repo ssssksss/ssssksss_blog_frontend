@@ -119,7 +119,7 @@ const MemoContainer = (props: IMemoContainerProps) => {
 };
 export default MemoContainer;
 
-const Container = styled(CC.ColumnStartDiv)`
+const Container = styled(CC.ColumnStartDiv.withComponent('article'))`
   height: max-content;
   margin-bottom: 12px;
 `;

@@ -28,6 +28,7 @@ const getScheduleCategoryList = props => {
       method: 'GET',
     },
     isRefetchWindowFocus: false,
+    refetchOnMount: false,
     enabled: authStore.id != undefined,
   });
 };
