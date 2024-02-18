@@ -11,6 +11,10 @@ export default class MyDocument extends Document {
             name="description"
             content="가출한토토로의 개발자 사이트, 블로그, 게시판 일정 등등 여러 개인 프로젝트가 담긴 공간"
           />
+          <meta
+            name="naver-site-verification"
+            content="c25720a40b2a2d2e2ee2b0da57e9b5de26cd550e"
+          />
         </Head>
         <body>
           <Main />
