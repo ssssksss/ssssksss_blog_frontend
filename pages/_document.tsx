@@ -15,6 +15,10 @@ export default class MyDocument extends Document {
             name="naver-site-verification"
             content="c25720a40b2a2d2e2ee2b0da57e9b5de26cd550e"
           />
+          <meta
+            name="google-site-verification"
+            content="tbLLC2GI4ElFxdiITrMo0FmL5ZAnNBAB1x_EAxeLeJM"
+          />
         </Head>
         <body>
           <Main />
