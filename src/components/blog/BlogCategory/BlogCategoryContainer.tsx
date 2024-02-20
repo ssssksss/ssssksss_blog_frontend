@@ -103,7 +103,9 @@ const BlogCategoryContainer = () => {
                   active={
                     i.id == store.getState().blogStore.activeBlogFirstCategoryId
                   }
+                  fontFamily={'yanoljaYacheBold'}
                   index={index}
+                  outline={true}
                   onClick={e => {
                     blogFirstCategoryHandler(i);
                     blogFirstCategoryVerticalScrollRef.current.scrollLeft =
@@ -123,10 +125,10 @@ const BlogCategoryContainer = () => {
             ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
-                color={'primary80'}
                 modal={<BlogFirstCategoryModal />}
                 modalOverlayVisible={true}
                 modalW={'300px'}
+                outline={true}
               >
                 <Image src={Icons.SettingIcon} alt="" />
               </ModalButton>
@@ -148,6 +150,7 @@ const BlogCategoryContainer = () => {
                       i.id ==
                       store.getState().blogStore.activeBlogSecondCategoryId
                     }
+                    fontFamily={'yanoljaYacheBold'}
                     key={i.id}
                     onClick={e => {
                       blogSecondCategoryHandler(i);
@@ -156,6 +159,7 @@ const BlogCategoryContainer = () => {
                         e.target.offsetWidth / 2 -
                         e.target.offsetParent.offsetWidth / 2;
                     }}
+                    outline={true}
                   >
                     {i.name}
                   </Button>
@@ -164,10 +168,10 @@ const BlogCategoryContainer = () => {
               ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
-                color={'primary80'}
                 modal={<BlogSecondCategoryModal />}
                 modalOverlayVisible={true}
                 modalW={'300px'}
+                outline={true}
               >
                 <Image src={Icons.SettingIcon} alt="" />
               </ModalButton>
@@ -211,6 +215,7 @@ const Badge = styled.div`
   align-items: center;
   width: 16px;
   aspect-ratio: 1;
+  color: #666;
 `;
 
 const SpinnerBox = styled.div`
@@ -224,7 +229,6 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   display: flex;
   overflow-y: hidden;
   padding: 10px 4px;
-  height: 60px;
   background: ${props => props.theme.main.contrast};
   @media screen (max-height: 600px) {
     flex-wrap: nowrap;
@@ -240,24 +244,6 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   ::-webkit-scrollbar-thumb {
     background: ${props => props.theme.main.secondary20};
     border-radius: 16px;
-  }
-
-  & > button {
-    flex: 0 0 auto;
-    min-width: 90px;
-    height: 36px;
-    border-radius: ${props => props.theme.borderRadius.br10};
-    font-size: 1.2rem;
-    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
-  }
-
-  & > div > button {
-    flex: 0 0 auto;
-    min-width: 90px;
-    height: 36px;
-    border-radius: ${props => props.theme.borderRadius.br10};
-    font-size: 1.2rem;
-    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
   }
 `;
 
@@ -281,21 +267,5 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
       background: ${props => props.theme.main.secondary20};
       border-radius: 16px;
     }
-  }
-
-  & > button {
-    padding: 0px 10px;
-    height: 28px;
-    border-radius: ${props => props.theme.borderRadius.br10};
-    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
-    flex-shrink: 0;
-  }
-
-  & > div > button {
-    padding: 0px 10px;
-    height: 28px;
-    border-radius: ${props => props.theme.borderRadius.br10};
-    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
-    flex-shrink: 0;
   }
 `;

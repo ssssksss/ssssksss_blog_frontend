@@ -45,10 +45,7 @@ const GlobalStyles = css`
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    font-size: 16px;
-    @media all and ((max-height: 600px) or (max-width: 600px)  or (pointer: coarse)) {
-      font-size: 14px;
-    }
+    font-size: 1rem;
     font-display: swap;
 
     line-height: 1;
