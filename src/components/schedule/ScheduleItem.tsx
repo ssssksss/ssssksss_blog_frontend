@@ -5,10 +5,10 @@ import { store } from '@/redux/store';
 import { RootState } from '@/redux/store/reducers';
 import { SET_TODAY_SCHEDULE_LIST } from '@/redux/store/schedule';
 import { CC } from '@/styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import styled from '@emotion/styled';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { dateFormat4y2m2d } from './../../../utils/function/dateFormat';
 import ScheduleModal from './modal/ScheduleModal';
 /**
  *

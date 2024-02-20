@@ -60,8 +60,8 @@ export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
-  /* ${props => props.theme.flex.row.center.center}; */
-  color: ${props => props.theme.colors.black80};
+  ${props => props.theme.flex?.row.center.center};
+  color: ${props => props.theme?.colors?.black80};
 
   // ? 커스텀한 버튼들 약간 테마에 맞춰서 변경을 시도하려고 노력중 (겨울, 비, 크리스마스 등등)
   ${props =>
@@ -90,7 +90,7 @@ ${props =>
       &:hover {
         cursor: pointer;
         transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-        outline: inset ${props.theme.main.secondary80} 1px;
+        outline: inset ${props.theme.main?.secondary80} 1px;
         outline-offset: 1px;
       }
     `}
@@ -98,11 +98,11 @@ ${props =>
       ${props =>
     props.active &&
     css`
-      color: ${props.theme.main.contrast};
+      color: ${props.theme.main?.contrast};
       background: ${props.theme.colors?.[props.activeBg] ||
       props.theme.main?.[props.activeBg] ||
       props.activeBg ||
-      props.theme.main.primary60};
+      props.theme.main?.primary60};
     `}
       
       
@@ -120,7 +120,7 @@ ${props =>
   border-radius: ${props =>
     props.theme.borderRadius?.[props.brR] ||
     props.theme.btnSizes?.[props.h]?.borderRadius ||
-    props.theme.btnSizes.md.borderRadius};
+    props.theme.btnSizes?.md?.borderRadius};
   background: ${props =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg] || props.bg};
   outline: ${props =>
@@ -128,16 +128,16 @@ ${props =>
     css`inset  ${
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
-      props.theme.main.primary80
+      props.theme.main?.primary80
     } 1px`};
   width: ${props => props.w || 'max-content'};
   height: ${props =>
     props.theme.btiSizes?.[props.h]?.height ||
     props.h ||
-    props.theme.btnSizes.md.height};
+    props.theme.btnSizes?.md?.height};
   font-family: ${props => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${props => props.fontWeight};
-  font-size: ${props => props.theme.fontSize.md};
+  font-size: ${props => props.theme.fontSize?.md};
   color: ${props =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 `;

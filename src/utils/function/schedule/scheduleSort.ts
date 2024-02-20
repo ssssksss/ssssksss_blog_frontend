@@ -1,18 +1,4 @@
-//   {
-import { dateFormat4y2m2d } from '../dateFormat';
-//     "id": 14,
-//     "title": "test3",
-//     "content": "test3",
-//     "startDateTime": "2023-12-05",
-//     "endDateTime": "2023-12-11",
-//     "isChecked": false,
-//     "scheduleCategory": {
-//         "id": 9,
-//         "name": "test",
-//         "backgroundColor": "red40",
-//         "userId": 13
-//     }
-// }
+import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 
 export const scheduleSort = (
   data: [
