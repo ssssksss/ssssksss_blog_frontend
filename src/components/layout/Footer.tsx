@@ -1,8 +1,7 @@
-import Profile from '@/components/common/profile/Profile';
+import { Icons } from '@/components/common/icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
-import Link from 'next/link';
-import React from 'react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 const siteList1 = [
@@ -36,142 +35,55 @@ const siteList2 = [
   ['/img/gif/토토로왼쪽으로걸어감.gif', 'temp', '#'],
 ];
 
-const BlogFooter = () => {
+const Footer = () => {
   const router = useRouter();
   return (
-    <Footer>
-      <Container>
-        <Div1>
-          <Profile
-            imageUrl={'/img/gif/토토로왼쪽으로걸어감.gif'}
-            size={'160px'}
-            imgBackgroundColor={'#1a1a1a'}
-            borderRadius={'50%'}
-            name={'가출한 토토로의 Blog'}
-            gap={'20px'}
-          />
-        </Div1>
-        <Div2>
-          <CC.RowBetweenDiv gap={20}>
-            {siteList1.map((el: any, index: number) => (
-              <Link key={index} href={el[2]}>
-                <a target="_blank" rel="noopener norefrerrer">
-                  <Profile
-                    imageUrl={el[0]}
-                    size={'50px'}
-                    imgBackgroundColor={'white'}
-                    borderRadius={'50%'}
-                    name={el[1]}
-                    gap={'10px'}
-                  />
-                </a>
-              </Link>
-            ))}
-          </CC.RowBetweenDiv>
-          <CC.RowBetweenDiv gap={20}>
-            {siteList2.map((el: any, index: number) => (
-              <Link key={index} href={el[2]}>
-                <a target="_blank" rel="noopener norefrerrer">
-                  <Profile
-                    key={index}
-                    imageUrl={el[0]}
-                    size={'50px'}
-                    imgBackgroundColor={'white'}
-                    borderRadius={'50%'}
-                    name={el[1]}
-                    gap={'10px'}
-                    onClick={() => router.push(el[2])}
-                    noCursor={el[2] ? false : true}
-                  />
-                </a>
-              </Link>
-            ))}
-          </CC.RowBetweenDiv>
-        </Div2>
-        <Div3>
-          <div> Contact Me </div>
-          <div> EMAIL : ssssksss@naver.com </div>
-          <div> NAME : SuKyung Lee </div>
-        </Div3>
-      </Container>
-      <Copyright>
-        © 2021-2022 Creative 가출한토토로 - All rights reserved.
-      </Copyright>
-    </Footer>
+    <Container>
+      <ImageList gap={8}>
+        <li>
+          <Image src={Icons.NotionIcon} width={'100%'} height={'100%'} />
+        </li>
+        <li>
+          <Image src={Icons.ErdCloudIcon} width={'100%'} height={'100%'} />
+        </li>
+        <li>
+          <Image src={Icons.FigmaIcon} width={'100%'} height={'100%'} />
+        </li>
+        <li>
+          <Image src={Icons.GithubIcon} width={'100%'} height={'100%'} />
+        </li>
+      </ImageList>
+      <CC.ColumnDiv color={'contrast'} gap={16} pd={'8px 0px'}>
+        <CC.RowCenterDiv gap={8}>
+          <div> email : ssssksss@naver.com </div>
+        </CC.RowCenterDiv>
+        <CC.RowCenterDiv>
+          © 2021-{new Date().getFullYear()} Creative 가출한토토로 - All rights
+          reserved.
+        </CC.RowCenterDiv>
+      </CC.ColumnDiv>
+    </Container>
   );
 };
 
-export default BlogFooter;
+export default Footer;
 
-const Footer = styled.footer`
-  background: black;
+const Container = styled.footer`
+  background: ${props => props.theme.main.primary80};
 `;
-
-const Container = styled(CC.RowCenterDiv)`
-  background-color: #545454;
-  width: max-content;
-  height: 300px;
-  margin: auto;
-  padding: 10px;
-  /* padding: 40px 20px 20px 20px; */
-  gap: 30px;
-  color: white;
-  @media (max-width: 680px) {
-    gap: 10px;
-    flex-flow: nowrap column;
-    width: 100%;
-  }
-`;
-const Copyright = styled.div`
-  display: flex;
-  justify-content: center;
-  background-color: #e0e0e0;
-`;
-
-const Div1 = styled(CC.RowDiv)`
-  width: auto;
-  padding: 0px 10px;
-  height: 100%;
-  align-items: center;
-  @media (max-width: 880px) {
-    display: none;
-  }
-`;
-
-const Div2 = styled(CC.ColumnDiv)`
-  gap: 20px;
-  padding: 0px 10px;
-  height: 100%;
-  justify-content: center;
-`;
-
-const Div3 = styled(CC.ColumnCenterDiv)`
-  max-width: 300px;
-  min-width: 220px;
-  height: 100%;
-  gap: 10px;
-  border: white solid 1px;
-
-  @media (max-width: 680px) {
-    flex-flow: nowrap row;
-    max-width: 100%;
-    width: 100%;
-    height: 60px;
-    align-items: center;
-  }
-
-  & > div:nth-of-type(1) {
-    font-variant: small-caps;
-    font-size: 36px;
-    padding-bottom: 20px;
-    @media (max-width: 660px) {
-      display: none;
+const ImageList = styled(CC.RowCenterDiv.withComponent('ul'))`
+  padding: 8px 0px;
+  li {
+    width: 64px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+    background: ${props => props.theme.main.contrast};
+    border-radius: 8px;
+    cursor: pointer;
+    img {
+      object-fit: contain;
     }
-  }
-
-  & > div:nth-of-type(2) {
-  }
-
-  & > div:nth-of-type(3) {
   }
 `;
