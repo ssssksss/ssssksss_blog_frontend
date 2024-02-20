@@ -10,11 +10,11 @@ import { useEffect, useRef, useState } from 'react';
 import BlogItem from './BlogItem';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file BlogHeaderContainer.tsx
+ * @file BlogHeadContainer.tsx
  * @version 0.0.1 "2023-10-15 14:09:13"
  * @description 설명
  */
-const BlogHeaderContainer = () => {
+const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [searchBlogList, setSearchBlogList] = useState([]);
   const inputRef = useRef<null>();
@@ -86,7 +86,7 @@ const BlogHeaderContainer = () => {
     </Container>
   );
 };
-export default BlogHeaderContainer;
+export default BlogHeadContainer;
 
 const Container = styled.div`
   gap: 4px;

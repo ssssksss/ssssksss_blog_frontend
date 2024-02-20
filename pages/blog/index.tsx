@@ -3,7 +3,7 @@ const BlogMainContainer = dynamic(
 );
 
 import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryContainer';
-import BlogHeaderContainer from '@/components/blog/BlogHeaderContainer';
+import BlogHeadContainer from '@/components/blog/BlogHeadContainer';
 import Layout1 from '@/components/layout/Layout1';
 import { store } from '@/redux/store';
 import { CC } from '@/styles/commonComponentStyle';
@@ -76,7 +76,7 @@ const Index = props => {
         <title> 블로그 </title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
-      <BlogHeaderContainer />
+      <BlogHeadContainer />
       <BlogCategoryContainer />
       <BlogMainContainer />
     </Container>
@@ -91,6 +91,7 @@ const Container = styled(CC.ColumnDiv)`
   background: ${props => props.theme.main.contrast};
   border-radius: 8px;
   ${props => props.theme.scroll.hidden};
+  min-height: calc(100vh - 48px);
 
   & > * {
     outline: solid ${props => props.theme.main.primary80} 2px;

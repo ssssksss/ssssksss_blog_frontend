@@ -1,9 +1,9 @@
+import { Icons } from '@/components/common/icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import { AWSS3Prefix } from '@/utils/variables/url';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogItem.tsx
@@ -20,15 +20,6 @@ interface IBlogItemProps {
 const BlogItem = (props: IBlogItemProps) => {
   return (
     <Container>
-      {/* {props.viewMode && (
-          <BlogItemImageBox>
-            <Image
-              src={`${AWSS3Prefix}${props.element.thumbnailImageUrl}`}
-              width={'80px'}
-              height={'80px'}
-            />
-          </BlogItemImageBox>
-        )} */}
       {props.viewMode || (
         <BlogItemImageBox>
           <Image

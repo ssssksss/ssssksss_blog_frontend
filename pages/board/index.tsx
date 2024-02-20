@@ -1,4 +1,4 @@
-import BoardHeaderContainer from '@/components/board/BoardHeaderContainer';
+import BoardHeaderContainer from '@/components/board/BoardHeadContainer';
 import BoardMainContainer from '@/components/board/BoardMainContainer';
 import Layout1 from '@/components/layout/Layout1';
 import { RootState } from '@/redux/store/reducers';

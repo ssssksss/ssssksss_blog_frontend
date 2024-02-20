@@ -1,4 +1,5 @@
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import Footer from '@/components/layout/Footer';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import Layout1 from 'src/components/layout/Layout1';
@@ -17,6 +18,7 @@ const HomePage = ({ test }: any) => {
         아닙니다.
       </div>
       <LoadingComponent mode={'car'} top={300} />
+      <Footer />
     </Container>
   );
 };

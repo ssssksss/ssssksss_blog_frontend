@@ -1,19 +1,15 @@
+import { BlogAPI } from '@/api/BlogAPI';
+import { Button } from '@/components/common/button/Button';
 import { Input } from '@/components/common/input/Input';
 import { BlogSecondCategoryCreateYup } from '@/components/yup/BlogCategoryYup';
+import { RootState } from '@/redux/store/reducers';
+import { useLoading } from '@/src/hooks/useLoading';
+import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { useLoading } from '@/src/hooks/useLoading';
-import { BlogAPI } from '@/api/BlogAPI';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { SET_SECOND_CATEGORY_LIST } from '@/redux/store/blog';
-import { CC } from '@/styles/commonComponentStyle';
-import { Button } from '@/components/common/button/Button';
 import { useRef } from 'react';
-import { useState } from 'react';
-import { store } from '@/redux/store';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogSecondCategoryCreateBox.tsx
@@ -101,7 +97,6 @@ export default BlogSecondCategoryCreateBox;
 
 const Container = styled(CC.ColumnDiv)`
   outline: solid ${props => props.theme.main.contrast} 4px;
-
   & > button:nth-of-type(1) {
     align-items: end;
   }

@@ -265,7 +265,7 @@ export default ViewBlogContainer;
 const Container = styled(CC.ColumnDiv)`
   height: calc(100vh - 52px);
   overflow: scroll;
-  msoverflowstyle: none;
+  -ms-over-flow-style: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {

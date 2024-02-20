@@ -1,23 +1,22 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import { Input } from '@/components/common/input/Input';
 import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
 import { Icons } from '@/components/common/icons/Icons';
-import { useRef } from 'react';
-import { useRouter } from 'next/router';
-import { BoardAPI } from '@/api/BoardAPI';
+import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
 import { RootState } from '@/redux/store/reducers';
+import { CC } from '@/styles/commonComponentStyle';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file BoardHeaderContainer.tsx
+ * @file BoardHeadContainer.tsx
  * @version 0.0.1 "2024-01-28 10:14:38"
  * @description 설명
  */
-const BoardHeaderContainer = () => {
+const BoardHeadContainer = () => {
   const router = useRouter();
   const keywordRef = useRef<null>();
   const boardStore = useSelector((state: RootState) => state.boardStore);
@@ -127,7 +126,7 @@ const BoardHeaderContainer = () => {
     </Container>
   );
 };
-export default BoardHeaderContainer;
+export default BoardHeadContainer;
 
 const Container = styled.div`
   border-radius: 8px;
