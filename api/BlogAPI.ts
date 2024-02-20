@@ -269,6 +269,12 @@ const createSecondCategory = () => {
           }),
         ])
       );
+      store.dispatch(
+        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+          type: 'success',
+          message: '추가되었습니다.',
+        })
+      );
     },
     onErrorHandler: ({ error, variables, context }) => {},
     onSettledHandler: ({ data, error, variables, context }) => {},
