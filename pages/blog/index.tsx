@@ -6,6 +6,7 @@ import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryCo
 import BlogHeadContainer from '@/components/blog/BlogHeadContainer';
 import Layout1 from '@/components/layout/Layout1';
 import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
 import { CC } from '@/styles/commonComponentStyle';
 import AxiosInstance from '@/utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
@@ -15,7 +16,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { batch } from 'react-redux';
-import { rootActions } from './../../redux/store/actions';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx

@@ -1,9 +1,6 @@
 import { store } from '@/redux/store';
-import axios from 'axios';
-import SocialButton from '../../src/components/common/button/SocialButton';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/reducers';
 import { rootActions } from '@/redux/store/actions';
+import axios from 'axios';
 
 const AxiosInstance = axios.create({
   baseURL:

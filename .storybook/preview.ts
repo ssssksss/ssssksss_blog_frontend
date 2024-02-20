@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
 
-import { Global, css, ThemeProvider } from '@emotion/react';
+import { GlobalStyles } from '@/styles/GlobalStyles';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 
 const preview: Preview = {
@@ -17,6 +17,7 @@ const preview: Preview = {
   decorators: [
     // Adds global styles and theme switching support.
     withThemeFromJSXProvider({
+      GlobalStyles,
       /* Uncomment for theme switching support */
       // themes: {
       //   light: lightTheme,

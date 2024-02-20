@@ -1,13 +1,10 @@
-import { BoardAPIType } from './type/BoardAPI';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { store } from '@/redux/store';
-import { ApiProcessHandler } from '@/api/service/ApiProcessHandler';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 import { useMutationHook } from '@/components/useHook/useMutationHook';
-import { route } from 'next/dist/server/router';
-import { rootActions } from './../redux/store/actions';
+import { UseQueryHook } from '@/components/useHook/useQueryHook';
+import { store } from '@/redux/store';
+import { rootActions } from '@/redux/store/actions';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 /**
  * @param props keyword string [df] ""

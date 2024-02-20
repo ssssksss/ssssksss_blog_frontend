@@ -18,12 +18,12 @@ interface IStyleProps {
   imgSize?: string; // 이미지 정사각형 형태일때 사용하는 용도인데 나중에 고려해보기
   fontSize?: string;
   fw?: boolean; // font weight
-  overflow?: boolean
+  overflow?: boolean;
   outline?: boolean;
   first?: string; // grid 너비 정하는데 사용
   second?: string; // grid 너비 정하는데 사용
   third?: string; // grid 너비 정하는데 사용
-  outlineColor?: string
+  outlineColor?: string;
 }
 
 const propsCommonStyle = (props: any) => css`
@@ -36,14 +36,14 @@ const propsCommonStyle = (props: any) => css`
   min-height: ${props.minH};
   width: ${props.w};
   min-width: ${props.minW};
-  background: ${props.theme.colors.[props.bg] || props.theme.main?.[props.bg]};
+  background: ${props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
   max-width: ${props.maxW};
-  color: ${props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+  color: ${props.theme.colors?.[props.color] ||
+  props.theme.main?.[props.color]};
   font-size: ${props.fontSize};
-  font-weight: ${props.fw && "800"};
-  ${
-    props.overflow === 'hidden' &&
-    css`
+  font-weight: ${props.fw && '800'};
+  ${props.overflow === 'hidden' &&
+  css`
       overflow: scroll,
       msOverflowStyle: none,
       scrollbarWidth: none,
@@ -53,12 +53,15 @@ const propsCommonStyle = (props: any) => css`
       text-overflow: ellipsis;
       white-space: nowrap;
       `}
-  ${
-    props.outline &&
-    css`
-      outline: inset ${props.theme.colors.[props.outlineColor] || props.theme.main.[props.outlineColor] || props.outlineColor} 1px;
-      background: transparent;
-    `};
+  ${props.outline &&
+  css`
+    outline: inset
+      ${props.theme.colors?.[props.outlineColor] ||
+      props.theme.main?.[props.outlineColor] ||
+      props.outlineColor}
+      1px;
+    background: transparent;
+  `};
 `;
 
 const RowDiv = styled.div<IStyleProps>`
@@ -147,7 +150,8 @@ const GridColumn2 = styled.div<IStyleProps>`
 
 const GridColumn2Adjust = styled.div<IStyleProps>`
   display: grid;
-  grid-template-columns: ${props => `${props.first || "auto"} ${props.second || "auto"}`};
+  grid-template-columns: ${props =>
+    `${props.first || 'auto'} ${props.second || 'auto'}`};
   ${(props: any) => propsCommonStyle(props)};
 `;
 

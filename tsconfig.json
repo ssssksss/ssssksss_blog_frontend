@@ -3,13 +3,12 @@
     "target": "es5",
     "baseUrl": ".",
     "paths": {
+      "@/api/*": ["src/api/*"],
       "@/components/*": ["src/components/*"],
-      "@/redux/*": ["redux/*"],
-      "@/utils/*": ["utils/*"],
-      "@/styles/*": ["styles/*"],
-      "@/public/*": ["public/*"],
-      "@/src/*": ["src/*"],
-      "@/api/*": ["api/*"]
+      "@/hooks/*": ["src/hooks/*"],
+      "@/redux/*": ["src/redux/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/utils/*": ["src/utils/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

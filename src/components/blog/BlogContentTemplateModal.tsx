@@ -1,27 +1,25 @@
+import { BlogAPI } from '@/api/BlogAPI';
+import { Icons } from '@/components/common/icons/Icons';
+import { useLoading } from '@/hooks/useLoading';
+import { store } from '@/redux/store';
+import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@/redux/store/blogContentTemplate';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import chart from '@toast-ui/editor-plugin-chart';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor, Viewer } from '@toast-ui/react-editor';
-import { useReducer, useRef, useState } from 'react';
-import { Button } from './../common/button/Button';
-import { useSelector } from 'react-redux';
-import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@/redux/store/blogContentTemplate';
-import { useLoading } from '@/src/hooks/useLoading';
-import { BlogAPI } from '@/api/BlogAPI';
-import { store } from '@/redux/store';
-import Select from '../common/select/Select';
-import { SwapIcon } from '/public/img/ui-icon/ic-swap.svg';
 import Image from 'next/image';
-import { Icons } from '@/components/common/icons/Icons';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import { useReducer, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import Select from '../common/select/Select';
+import { Button } from './../common/button/Button';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogContentTemplateModal.tsx

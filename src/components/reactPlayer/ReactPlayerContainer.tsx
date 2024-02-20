@@ -5,8 +5,8 @@ const YoutubePlayerModal = dynamic(() => import('@/components/common/modal/Youtu
 import Animations from '@/components/common/animations/Animations';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
+import useModal from '@/hooks/useModal';
 import { RootState } from '@/redux/store/reducers';
-import useModal from '@/src/hooks/useModal';
 import { CC } from '@/styles/commonComponentStyle';
 import { Time } from '@/utils/function/Time';
 import { css } from '@emotion/react';

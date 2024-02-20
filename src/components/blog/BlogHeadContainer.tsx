@@ -1,7 +1,7 @@
 import { BlogAPI } from '@/api/BlogAPI';
 import { Icons } from '@/components/common/icons/Icons';
 import { Input } from '@/components/common/input/Input';
-import { useLoading } from '@/src/hooks/useLoading';
+import { useLoading } from '@/hooks/useLoading';
 import { CC } from '@/styles/commonComponentStyle';
 import { delaySearch } from '@/utils/function/delaySearch';
 import styled from '@emotion/styled';

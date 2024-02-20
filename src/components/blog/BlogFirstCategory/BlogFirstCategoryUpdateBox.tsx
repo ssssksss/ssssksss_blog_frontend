@@ -1,18 +1,15 @@
+import { BlogAPI } from '@/api/BlogAPI';
+import { Button } from '@/components/common/button/Button';
 import { Input } from '@/components/common/input/Input';
+import Select from '@/components/common/select/Select';
 import { BlogFirstCategoryUpdateYup } from '@/components/yup/BlogCategoryYup';
+import { useLoading } from '@/hooks/useLoading';
+import { RootState } from '@/redux/store/reducers';
+import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useLoading } from '@/src/hooks/useLoading';
-import { BlogAPI } from '@/api/BlogAPI';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { SET_FIRST_CATEGORY_LIST } from '@/redux/store/blog';
-import { CC } from '@/styles/commonComponentStyle';
-import { Button } from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
-import { useRef } from 'react';
-import { store } from '@/redux/store';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogFirstCategoryUpdateBox.tsx

@@ -1,8 +1,8 @@
 import { BoardAPI } from '@/api/BoardAPI';
 import { Icons } from '@/components/common/icons/Icons';
 import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import { useLoading } from '@/hooks/useLoading';
 import { RootState } from '@/redux/store/reducers';
-import { useLoading } from '@/src/hooks/useLoading';
 import { CC } from '@/styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
 import styled from '@emotion/styled';
