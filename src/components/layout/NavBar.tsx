@@ -45,7 +45,7 @@ const Container = styled.div<{ themeStore: any }>`
   display: flex;
   flex-flow: nowrap row;
   @media (pointer: coarse) {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 56px);
   }
   background: ${props => rootTheme[props.themeStore.theme].main.primary20};
   transition: all 1.2s ease-in-out;

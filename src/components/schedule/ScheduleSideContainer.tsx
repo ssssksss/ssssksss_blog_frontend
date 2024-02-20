@@ -27,8 +27,10 @@ const ScheduleSideContainer = () => {
   return (
     <>
       <Container>
-        <CategoryBox>
-          <div onClick={() => hideScheduleCategoryBoxToggle()}>카테고리</div>
+        <CategoryBox onClick={() => hideScheduleCategoryBoxToggle()}>
+          <CategorySideTitle isOpen={scheduleCategoryBoxIsOpen}>
+            카테고리
+          </CategorySideTitle>
           {authStore.id && (
             <ModalButton
               color={'primary80'}
@@ -83,6 +85,12 @@ const CategoryBox = styled.div`
     width: 16px;
     aspect-ratio: 1;
     right: 4px;
+  }
+`;
+
+const CategorySideTitle = styled.div<{ isOpen: boolean }>`
+  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+    writing-mode: ${props => (props.isOpen ? 'horizontal-tb' : 'vertical-lr')};
   }
 `;
 

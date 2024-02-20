@@ -110,7 +110,7 @@ interface ICalendarBoxProps {
   border-radius: 0px 8px 8px 0px;
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   width: ${props => `calc(${100 * props.period + '%'} - 5px)`};
-  height: 16px;
+  height: 20px;
   margin-left: 4px;
   grid-row-start: ${props => props.layer};
   z-index: ${props => props.activeModal ? 20 : 4};
@@ -120,10 +120,10 @@ interface ICalendarBoxProps {
   background: ${props => props.isChecked ? props.theme.colors.gray40 : props.theme.colors.[props.backgroundColor] || props.theme.main.[props.backgroundColor] || props.backgroundColor};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: 0.6rem;
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
-  font-weight: 800;
+  font-weight: 600;
 
   &:focus {
     z-index: 20;

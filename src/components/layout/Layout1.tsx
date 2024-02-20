@@ -72,7 +72,7 @@ const Container1 = styled.div`
   }
 
   & > div {
-    --top-navbar-height: 64px;
+    --top-navbar-height: 48px;
     max-height: calc(100vh - var(--top-navbar-height));
     padding: 2px;
     @media (pointer: coarse) {
