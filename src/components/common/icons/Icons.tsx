@@ -9,8 +9,11 @@ import DashBoardIcon from '/public/img/ui-icon/ic-dashboard.svg';
 import DeleteIcon from '/public/img/ui-icon/ic-delete.svg';
 import DownArrowIcon from '/public/img/ui-icon/ic-down-arrow.svg';
 import EditIcon from '/public/img/ui-icon/ic-edit.svg';
+import ErdCloudIcon from '/public/img/ui-icon/ic-erd-cloud.svg';
 import EtcIcon from '/public/img/ui-icon/ic-etc.svg';
 import ExitIcon from '/public/img/ui-icon/ic-exit.svg';
+import FigmaIcon from '/public/img/ui-icon/ic-figma.svg';
+import GithubIcon from '/public/img/ui-icon/ic-github.svg';
 import GoogleIcon from '/public/img/ui-icon/ic-google.svg';
 import HomeIcon from '/public/img/ui-icon/ic-home.svg';
 import KakaoIcon from '/public/img/ui-icon/ic-kakao.svg';
@@ -20,6 +23,7 @@ import LikeIcon from '/public/img/ui-icon/ic-like.svg';
 import LogoIcon from '/public/img/ui-icon/ic-logo.svg';
 import MailIcon from '/public/img/ui-icon/ic-mail.svg';
 import MenuIcon from '/public/img/ui-icon/ic-menu.svg';
+import NotionIcon from '/public/img/ui-icon/ic-notion.svg';
 import PauseIcon from '/public/img/ui-icon/ic-pause.svg';
 import PlayIcon from '/public/img/ui-icon/ic-play.svg';
 import PlusIcon from '/public/img/ui-icon/ic-plus.svg';
@@ -42,6 +46,7 @@ export const Icons = {
   WorkListIcon,
   CalendarIcon,
   UserIcon,
+  ErdCloudIcon,
   SettingIcon,
   PlayIcon,
   DashBoardIcon,
@@ -72,4 +77,8 @@ export const Icons = {
   SwapIcon,
   LogoIcon,
   CopyIcon,
+  GithubIcon,
+  NotionIcon,
+  FigmaIcon,
+  ErdCloudIcon,
 };
