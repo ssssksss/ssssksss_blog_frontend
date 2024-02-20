@@ -159,7 +159,7 @@ const BlogCategoryContainer = () => {
                   >
                     {i.name}
                   </Button>
-                  <Badge>{i.count}</Badge>
+                  <Badge>{i.count || '0'}</Badge>
                 </ButtonBox>
               ))}
             {blogStore?.activeBlogUserId == authStore.id && (
