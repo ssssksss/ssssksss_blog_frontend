@@ -1,7 +1,7 @@
+import { Icons } from '@/components/common/icons/Icons';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { forwardRef, useCallback, useRef, useState } from 'react';
-import { Icons } from '@/components/common/icons/Icons';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Textarea.tsx
@@ -37,7 +37,7 @@ interface ITextareaProps {
   h?: string;
   minH?: string;
   brR?: string;
-  styleTypes?: number;
+  state?: number;
   bg?: string;
   outline?: boolean;
   submit?: (e: Event) => void;

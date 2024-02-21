@@ -24,7 +24,7 @@ interface ButtonProps {
   outlineColor?: string;
   fontFamily?: string;
   fontWeight?: number;
-  styleTypes?: number;
+  state?: number;
   active?: boolean;
   activeBg?: string;
   hover?: boolean;

@@ -48,7 +48,7 @@ const BlogFirstCategoryCreateBox = () => {
       <CC.ColumnDiv gap={28}>
         <Input
           placeholder="이름"
-          styleTypes={1}
+          state={1}
           register={register('createFirstCategoryName')}
           onKeyPressAction={handleSubmit(
             createFirstCategoryHandler,

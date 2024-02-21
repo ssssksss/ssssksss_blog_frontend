@@ -110,7 +110,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
           ></Select>
           <Input
             placeholder="2번째 카테고리 수정할 이름"
-            styleTypes={1}
+            state={1}
             register={methods.register('updateSecondCategoryName')}
             onKeyPressAction={methods.handleSubmit(
               updateSecondCategoryHandler,
@@ -120,7 +120,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
           />
           <Input
             type={'file'}
-            styleTypes={1}
+            state={1}
             register={methods.register('updateSecondCategoryImageFile')}
             setValue={methods.setValue}
             trigger={methods.trigger}

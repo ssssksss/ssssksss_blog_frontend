@@ -58,7 +58,7 @@ interface IInputProps {
   w?: string;
   h?: string;
   brR?: string;
-  styleTypes?: number;
+  state?: number;
   bg?: string;
   outline?: boolean;
   errorLocation?: string;
@@ -190,7 +190,7 @@ export const Input = React.forwardRef((props, ref) => {
         <ImageFileContainer
           color={props.color}
           htmlFor={'imageUpload'}
-          styleTypes={props.styleTypes}
+          state={props.state}
           w={props.w}
           h={props.h}
           isImageUrl={imageUrl}
@@ -392,7 +392,7 @@ const InputStyle = styled.input<IInputProps>`
 
 // 커스텀(custom css) //
 ${props =>
-    props.styleTypes === 1 &&
+    props.state === 1 &&
     `
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
@@ -443,7 +443,7 @@ const ImageFileContainer = styled.label`
     cursor: pointer;
   }
   ${props =>
-    props.styleTypes === 1 &&
+    props.state === 1 &&
     `
       outline: solid ${props.theme.colors.white80} 1px;
       background: rgba(0, 0, 0, 0.01);

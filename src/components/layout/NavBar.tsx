@@ -24,6 +24,12 @@ import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents
 const NavBar = ({ children }) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
 
+  const theme = {
+    colors: {
+      primary: 'hotpink',
+    },
+  };
+
   return (
     <Container id="nav" themeStore={themeStore}>
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
@@ -47,7 +53,7 @@ const Container = styled.div<{ themeStore: any }>`
   @media (pointer: coarse) {
     height: calc(100vh - 56px);
   }
-  background: ${props => rootTheme[props.themeStore.theme].main.primary20};
+  background: ${props => rootTheme[props.themeStore.theme].main?.primary20};
   transition: all 1.2s ease-in-out;
   transition-property: background-color;
   animation-fill-mode: forwards;

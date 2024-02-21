@@ -70,7 +70,7 @@ const BlogFirstCategoryUpdateBox = () => {
           ></Select>
           <Input
             placeholder="변경할 이름"
-            styleTypes={1}
+            state={1}
             register={methods.register('updateFirstCategoryName')}
             onKeyPressAction={methods.handleSubmit(
               updateFirstCategoryHandler,

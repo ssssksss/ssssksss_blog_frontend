@@ -20,7 +20,7 @@ interface IModalButtonProps {
   outlineColor?: string;
   fontFamily?: string;
   fontWeight?: number;
-  styleTypes?: number;
+  state?: number;
   active?: boolean;
   modal?: ReactNode;
   modalW?: string;

@@ -1,17 +1,13 @@
+import { Button } from '@/components/common/button/Button';
+import { Input } from '@/components/common/input/Input';
+import { UserSignupYup } from '@/components/yup/UserSignupYup';
 import { CC } from '@/styles/commonComponentStyle';
+import AxiosInstance from '@/utils/axios/AxiosInstance';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Button } from '@/components/common/button/Button';
-import { Shell } from '@/components/common/shell/Shell';
-import { Input } from '@/components/common/input/Input';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import ModalButton from '@/components/common/button/ModalButton';
-import { useEffect } from 'react';
-import { UserSignupYup } from '@/components/yup/UserSignupYup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file SignupModal.tsx
@@ -87,13 +83,13 @@ const SignupModal = props => {
       <CC.ColumnDiv gap={28}>
         <Input
           placeholder="이메일"
-          styleTypes={1}
+          state={1}
           register={register('email')}
           errorMessage={errors.email?.message}
         />
         <Input
           placeholder="닉네임"
-          styleTypes={1}
+          state={1}
           register={register('nickname')}
           errorMessage={errors.nickname?.message}
         />

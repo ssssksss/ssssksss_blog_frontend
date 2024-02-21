@@ -5,7 +5,7 @@ export * from './reducers';
 
 export const themeSlice = createSlice({
   name: 'theme',
-  initialState: { theme: 'theme1' },
+  initialState: { theme: 'purpleTheme' },
   reducers: {
     setTheme: (state, action) => {
       state.theme = action.payload;

@@ -5,6 +5,63 @@
  * Description : 공통적인 스타일을 지정하여 일관성있는 스타일을 보여주기 위해 작성
  */
 
+export type colorTypes =
+  | 'red100'
+  | 'red80'
+  | 'red60'
+  | 'red40'
+  | 'red20'
+  | 'orange100'
+  | 'orange80'
+  | 'orange60'
+  | 'orange40'
+  | 'orange20'
+  | 'yellow100'
+  | 'yellow80'
+  | 'yellow60'
+  | 'yellow40'
+  | 'yellow20'
+  | 'green100'
+  | 'green80'
+  | 'green60'
+  | 'green40'
+  | 'green20'
+  | 'skyblue100'
+  | 'skyblue80'
+  | 'skyblue60'
+  | 'skyblue40'
+  | 'skyblue20'
+  | 'blue100'
+  | 'blue80'
+  | 'blue60'
+  | 'blue40'
+  | 'blue20'
+  | 'purple100'
+  | 'purple80'
+  | 'purple60'
+  | 'purple40'
+  | 'purple20'
+  | 'pink100'
+  | 'pink80'
+  | 'pink60'
+  | 'pink40'
+  | 'pink20'
+  | 'black100'
+  | 'black80'
+  | 'black60'
+  | 'black40'
+  | 'black20'
+  | 'gray100'
+  | 'gray80'
+  | 'gray60'
+  | 'gray40'
+  | 'gray20'
+  | 'white100'
+  | 'white80'
+  | 'white60'
+  | 'white40'
+  | 'white20';
+
 const calcRem = (size: number) => `${size / 16}rem`;
 
 const fontSize = {
@@ -138,7 +195,7 @@ const colors = {
   yellow60: '#FCFF66',
   yellow40: '#FDFF99',
   yellow20: '#FEFFCC',
-  green100: '##18A934',
+  green100: '#18A934',
   green80: '#46BA5D',
   green60: '#74CB85',
   green40: '#A3DDAE',
@@ -447,17 +504,7 @@ const scroll = {
   },
 };
 
-interface IcommonThemeProps {
-  fontFamily: {
-    cookieRunRegular: string;
-    gmarketSansBold: string;
-    typoHelloPOP: string;
-    yanoljaYacheBold: string;
-    yanoljaYacheRegular: string;
-  };
-}
-
-export const commonTheme: IcommonThemeProps = {
+export const commonTheme = {
   fontSize,
   borderRadius,
   padding,
@@ -473,6 +520,8 @@ export const commonTheme: IcommonThemeProps = {
   scroll,
   positionStyle,
 };
+
+export type purpleThemeType = typeof purpleTheme;
 
 export const darkTheme = {
   main: {
@@ -496,7 +545,7 @@ export const darkTheme = {
   ...commonTheme,
 };
 
-export const theme1 = {
+export const purpleTheme = {
   main: {
     primary100: colors.purple100,
     primary80: colors.purple80,
@@ -518,55 +567,9 @@ export const theme1 = {
   ...commonTheme,
 };
 
-// https://colorhunt.co/palette/40a2e3fff6e9bbe2ec0d9276
-// export const theme2 = {
-//   main: {
-//     primary100: '#1BA0F9',
-//     primary80: '#1BA0F9',
-//     primary60: '#1BA0F9',
-//     primary40: '#1BA0F9',
-//     primary20: '#1BA0F9',
-//     secondary100: '#FFF6E9',
-//     secondary80: '#D4CDC3',
-//     secondary60: '#A9A59D',
-//     secondary40: '#7F7B77',
-//     secondary20: '#545351',
-//     third100: '#BBE2EC',
-//     third80: '#9EBDC6',
-//     third60: '#80999F',
-//     third40: '#647378',
-//     third20: '#464F51',
-//     contrast: colors.white80,
-//   },
-//   ...commonTheme,
-// };
-
-// https://colorhunt.co/palette/cdfadbf6fdc3ffcf96ff8080
-// export const theme3 = {
-//   main: {
-//     primary100: '#CDFADBff',
-//     primary80: '#CDFADBee',
-//     primary60: '#CDFADBdd',
-//     primary40: '#CDFADBcc',
-//     primary20: '#CDFADB',
-//     secondary100: '#F6FDC3ff',
-//     secondary80: '#F6FDC3cc',
-//     secondary60: '#F6FDC399',
-//     secondary40: '#F6FDC366',
-//     secondary20: '#F6FDC333',
-//     third100: '#FFCF96ff',
-//     third80: '#FFCF96cc',
-//     third60: '#FFCF9699',
-//     third40: '#FFCF9666',
-//     third20: '#FFCF9633',
-//     contrast: colors.white80,
-//   },
-//   ...commonTheme,
-// };
-
-const rootTheme = {
+const rootTheme: purpleThemeType = {
   darkTheme,
-  theme1,
+  purpleTheme,
 };
 
 export default rootTheme;

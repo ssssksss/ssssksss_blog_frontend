@@ -1,8 +1,7 @@
-import styled from '@emotion/styled';
-import { MouseEventHandler, ReactNode, useCallback } from 'react';
-import { animationKeyFrames } from '@/styles/animationKeyFrames';
-import { commonTheme } from '@/styles/theme';
 import { CC } from '@/styles/commonComponentStyle';
+import { commonTheme } from '@/styles/theme';
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 interface ShellProps {
   children: ReactNode;
@@ -24,7 +23,7 @@ interface ShellProps {
   brR?: string;
   fontFamily?: string;
   fontWeight?: number;
-  styleTypes?: number;
+  state?: number;
   gap?: number;
 }
 
@@ -47,7 +46,7 @@ export const Shell = ({
   fontFamily, 
   fontWeight,
   outline,
-  styleTypes,
+  state,
   gap,
   ...props
 }: ShellProps) => {
@@ -64,7 +63,7 @@ export const Shell = ({
     outline={outline}
     fontFamily={fontFamily}
     fontWeight={fontWeight}
-    styleTypes={styleTypes}
+    state={state}
     gap={gap}
       {...props}
     >
@@ -111,7 +110,7 @@ const ShellStyle = styled(CC.ColumnDiv)<IShellProps>`
     background: transparent;
     `}
 
-${props=>props.styleTypes === 1 && `
+${props=>props.state === 1 && `
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);

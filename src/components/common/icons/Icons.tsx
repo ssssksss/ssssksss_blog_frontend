@@ -31,6 +31,7 @@ import RightArrowIcon from '/public/img/ui-icon/ic-right-arrow.svg';
 import RightDoubleArrowIcon from '/public/img/ui-icon/ic-right-double-arrow.svg';
 import SearchIcon from '/public/img/ui-icon/ic-search.svg';
 import SettingIcon from '/public/img/ui-icon/ic-setting.svg';
+import StoryBookIcon from '/public/img/ui-icon/ic-storybook.svg';
 import SwapIcon from '/public/img/ui-icon/ic-swap.svg';
 import UpArrowIcon from '/public/img/ui-icon/ic-up-arrow.svg';
 import UserIcon from '/public/img/ui-icon/ic-user.svg';
@@ -81,4 +82,5 @@ export const Icons = {
   NotionIcon,
   FigmaIcon,
   ErdCloudIcon,
+  StoryBookIcon,
 };

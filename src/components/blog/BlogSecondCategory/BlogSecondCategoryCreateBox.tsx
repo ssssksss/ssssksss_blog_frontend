@@ -58,7 +58,7 @@ const BlogSecondCategoryCreateBox = props => {
         />
         <Input
           placeholder="2번째 카테고리 이름"
-          styleTypes={1}
+          state={1}
           register={register('createSecondCategoryName')}
           onKeyPressAction={handleSubmit(
             createSecondCategoryHandler,
@@ -68,7 +68,7 @@ const BlogSecondCategoryCreateBox = props => {
         />
         <Input
           type={'file'}
-          styleTypes={1}
+          state={1}
           register={register('createSecondCategoryImageFile')}
           h={'200px'}
           setValue={setValue}
