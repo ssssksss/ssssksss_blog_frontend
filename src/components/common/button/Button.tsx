@@ -1,21 +1,23 @@
+import { colorTypes } from '@/styles/theme/colorTypes';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { MouseEventHandler, ReactNode, useCallback } from 'react';
+import { MouseEventHandler, useCallback } from 'react';
+
 interface ButtonProps {
   onClick?: (event: any) => void;
   onClickCapture?: (event: any) => void;
   children: ReactNode;
   disabled?: boolean;
   w?: string;
-  h?: string | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
   bg?: string;
   brR?: string; // border-radius
   color?: string;
   outline?: boolean;
-  outlineColor?: string;
+  outlineColor?: colorTypes;
   fontFamily?: string;
   fontWeight?: number;
-  styleTypes?: number;
+  state?: 'danger' | 'warning';
   active?: boolean;
   activeBg?: string;
   hover?: boolean;
@@ -65,19 +67,19 @@ const ButtonStyle = styled.button<IButtonProps>`
 
   // ? 커스텀한 버튼들 약간 테마에 맞춰서 변경을 시도하려고 노력중 (겨울, 비, 크리스마스 등등)
   ${props =>
-    props.styleTypes === 'danger' &&
+    props.state === 'danger' &&
     `
       background: #FF3232;
-      color: #fafafa
+      color: #fafafa;
       `}
   ${props =>
-    props.styleTypes === 'warning' &&
+    props.state === 'warning' &&
     `
       background: #FF8E0D;
-      color: #fafafa
+      color: #fafafa;
     `}
     ${props =>
-    props.styleTypes === 1 &&
+    props.state === 1 &&
     `
       outline: solid ${props.theme.colors.white100} 1px;
       background: rgba(0, 0, 0, 0.01);
@@ -109,10 +111,21 @@ ${props =>
       ${props =>
     props.disabled &&
     css`
-      background: ${props.theme.colors.gray80};
+      background: ${props.theme.colors?.gray80};
       &:hover {
         cursor: not-allowed;
       }
+    `}
+      
+      ${props =>
+    props.disabled != undefined &&
+    props.disabled != true &&
+    css`
+      color: ${props.theme.main?.contrast};
+      background: ${props.theme.colors?.[props.activeBg] ||
+      props.theme.main?.[props.activeBg] ||
+      props.activeBg ||
+      props.theme.main?.primary60};
     `}
         
   padding: ${props => props.pd || '4px'};
@@ -125,14 +138,14 @@ ${props =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg] || props.bg};
   outline: ${props =>
     props.outline &&
-    css`inset  ${
+    css`solid  ${
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
       props.theme.main?.primary80
     } 1px`};
   width: ${props => props.w || 'max-content'};
   height: ${props =>
-    props.theme.btiSizes?.[props.h]?.height ||
+    props.theme.btnSizes?.[props.h]?.height ||
     props.h ||
     props.theme.btnSizes?.md?.height};
   font-family: ${props => props.theme.fontFamily?.[props.fontFamily]};
