@@ -1,7 +1,9 @@
 import type { Preview } from '@storybook/react';
 
 import { GlobalStyles } from '@/styles/GlobalStyles';
-import { withThemeFromJSXProvider } from '@storybook/addon-styling';
+import { darkTheme, purpleTheme } from '@/styles/theme';
+import { ThemeProvider } from '@emotion/react';
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 
 const preview: Preview = {
   parameters: {
@@ -15,16 +17,14 @@ const preview: Preview = {
   },
 
   decorators: [
-    // Adds global styles and theme switching support.
     withThemeFromJSXProvider({
+      themes: {
+        darkTheme: darkTheme,
+        purpleTheme: purpleTheme,
+      },
+      defaultTheme: 'purpleTheme',
+      Provider: ThemeProvider,
       GlobalStyles,
-      /* Uncomment for theme switching support */
-      // themes: {
-      //   light: lightTheme,
-      //   dark: darkTheme,
-      // }
-      // defaultTheme: 'light',
-      // Provider: ThemeProvider,
     }),
   ],
 };
