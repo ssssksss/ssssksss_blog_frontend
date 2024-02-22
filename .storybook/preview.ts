@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react';
 
-import { GlobalStyles } from '@/styles/GlobalStyles';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 
 const preview: Preview = {
@@ -22,7 +21,7 @@ const preview: Preview = {
       // },
       // defaultTheme: 'purpleTheme',
       // Provider: ThemeProvider,
-      GlobalStyles,
+      // GlobalStyles,
     }),
   ],
 };
