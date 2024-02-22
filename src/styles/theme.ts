@@ -157,24 +157,24 @@ const inputSizes = {
   },
   [('radio', 'checkbox')]: {
     xs: {
-      width: '16px',
-      ['aspect-ratio']: 1,
+      height: '16px',
+      aspectRatio: 1,
     },
     sm: {
-      width: '20px',
-      ['aspect-ratio']: 1,
+      height: '24px',
+      aspectRatio: 1,
     },
     md: {
-      width: '24px',
-      ['aspect-ratio']: 1,
+      height: '32px',
+      aspectRatio: 1,
     },
     lg: {
-      width: '28px',
-      ['aspect-ratio']: 1,
+      height: '40px',
+      aspectRatio: 1,
     },
     xl: {
-      width: '32px',
-      ['aspect-ratio']: 1,
+      height: '48px',
+      aspectRatio: 1,
     },
   },
 };

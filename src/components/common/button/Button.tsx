@@ -1,4 +1,4 @@
-import { colorTypes } from '@/styles/theme/colorTypes';
+import { colorTypes } from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { MouseEventHandler, useCallback } from 'react';
