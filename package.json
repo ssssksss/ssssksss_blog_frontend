@@ -94,7 +94,10 @@
       "plugin:storybook/recommended"
     ]
   },
+  "resolutions": {
+    "cli-truncate": "2.1.0",
+    "jackspeak": "2.1.1"
+  },
   "readme": "ERROR: No README data found!",
-  "_id": "ssssksss_blog@0.1.0",
-  "packageManager": "yarn@2.4.3"
+  "_id": "ssssksss_blog@0.1.0"
 }
