@@ -22,6 +22,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+
   // typescript: {
   //   check: true,
   //   skipCompiler: false,
