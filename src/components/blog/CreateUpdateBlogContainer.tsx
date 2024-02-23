@@ -2,10 +2,10 @@ import { BlogAPI } from '@/api/BlogAPI';
 import Button from '@/components/common/button/Button';
 import { Icons } from '@/components/common/icons/Icons';
 import { Input } from '@/components/common/input/Input';
+import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import Select from '@/components/common/select/Select';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
-import { setIsLoading } from '@/redux/store/loading';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import { CC } from '@/styles/commonComponentStyle';
 import { AWSS3Prefix } from '@/utils/variables/url';
@@ -94,6 +94,7 @@ const CreateUpdateBlogContainer = (
   props: IEditCreateUpdateBlogContainerProps
 ) => {
   const [toggle, toggleHandler] = useReducer(prev => !prev, true);
+  const [isLoading, setIsLoading] = useReducer(prev => !prev, false);
   const [isHideContainer, hideContainerToggle] = useReducer(
     v => !v,
     props.edit ? true : false
@@ -181,7 +182,8 @@ const CreateUpdateBlogContainer = (
     enabled: props.edit && !!blogCategoryListResData.data?.json,
   });
   const submitHandler = async () => {
-    store.dispatch(setIsLoading(true));
+    setIsLoading(true);
+    // store.dispatch(setIsLoading(true));
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
@@ -220,7 +222,8 @@ const CreateUpdateBlogContainer = (
         navigator.clipboard.writeText(getContent_md);
       })
       .finally(() => {
-        store.dispatch(setIsLoading(false));
+        // store.dispatch(setIsLoading(false));
+        setIsLoading(false);
       });
   };
 
@@ -231,7 +234,8 @@ const CreateUpdateBlogContainer = (
   };
 
   const updateHandler = () => {
-    store.dispatch(setIsLoading(true));
+    setIsLoading(true);
+    // store.dispatch(setIsLoading(true));
     const editorInstance = editorRef.current?.getInstance();
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
@@ -280,7 +284,8 @@ const CreateUpdateBlogContainer = (
         navigator.clipboard.writeText(getContent_md);
       })
       .finally(() => {
-        store.dispatch(setIsLoading(false));
+        // store.dispatch(setIsLoading(false));
+        setIsLoading(false);
       });
   };
 
@@ -365,219 +370,227 @@ const CreateUpdateBlogContainer = (
           store.getState().authStore.id ===
             store.getState().blogStore.activeBlogUserId) && (
           <>
-            <Container>
-              <HeaderContainer gap={8}>
-                <Button
-                  id={'hideBlogHeaderButton'}
-                  w={'100%'}
-                  bg={'primary40'}
-                  onClick={() => hideContainerToggle()}
-                >
-                  {isHideContainer ? (
-                    <Image src={Icons.DownArrowIcon} />
-                  ) : (
-                    <Image src={Icons.UpArrowIcon} />
-                  )}
-                </Button>
-                <HideContainer isHide={isHideContainer}>
-                  <CC.RowBetweenDiv gap={8}>
-                    <Select
-                      w={'100%'}
-                      placeholder={'1번째 카테고리'}
-                      onChange={onChangeFirstCategoryHandler}
-                      defaultValue={{
-                        value: methods.getValues('selectFirstCategoryId'),
-                        name: methods.getValues('selectFirstCategoryName'),
-                      }}
-                      data={blogCategoryListResData?.data.json?.blogFirstCategoryList.map(
-                        i => ({
-                          value: i.id,
-                          name: i.name,
-                        })
-                      )}
-                    ></Select>
-                    <Select
-                      w={'100%'}
-                      placeholder={'2번째 카테고리'}
-                      onChange={onChangeSecondCategoryHandler}
-                      defaultValue={{
-                        value: methods.getValues('selectSecondCategoryId'),
-                        name: methods.getValues('selectSecondCategoryName'),
-                      }}
-                      data={blogCategoryListResData?.data.json?.blogFirstCategoryList
-                        .filter(k => {
-                          return (
-                            k.id == methods.getValues('selectFirstCategoryId')
-                          );
-                        })[0]
-                        ?.secondCategoryList.map(i => ({
-                          value: i.id,
-                          name: i.name,
-                        }))}
-                    ></Select>
-                  </CC.RowBetweenDiv>
-                  <Title
-                    placeholder="제목을 입력해주세요"
-                    initialValue={methods.getValues('title')}
-                    register={methods.register('title')}
-                  />
-                  <Description
-                    placeholder="간단한 설명을 입력해주세요"
-                    initialValue={methods.getValues('description')}
-                    register={methods.register('description')}
-                  />
-                  <CC.ColumnCenterDiv gap={4} pd={'4px 0px'}>
-                    <CC.RowCenterDiv>
-                      <b> 썸네일 이미지 </b>
-                    </CC.RowCenterDiv>
-                    <Input
-                      type="file"
-                      id="imageUpload"
-                      h={'200px'}
-                      // ref={fileRef}
-                      bg={'contrast'}
-                      outline={'black80'}
-                      register={methods.register('thumbnailImageFile')}
-                      setValue={methods.setValue}
-                      trigger={methods.trigger}
-                      defaultImageUrl={defaultImageUrl}
-                    />
-                  </CC.ColumnCenterDiv>
-                </HideContainer>
-              </HeaderContainer>
-              <EditorContainer>
-                <Editor
-                  autofocus={props.edit}
-                  initialValue={methods.getValues('content')}
-                  previewStyle="vertical"
-                  height="calc(100vh - 182px)"
-                  initialEditType="markdown"
-                  useCommandShortcut={true}
-                  ref={editorRef}
-                  plugins={[
-                    colorSyntax,
-                    [codeSyntaxHighlight, { highlighter: Prism }],
-                  ]}
-                  onChange={() => {
-                    // ! TOAST UI에서 Preview 이미지가 사라지는 문제 떄문에 작성한 코드...
-                    let toastUIPreviewBlobImages =
-                      window.document.querySelectorAll(
-                        "img[src^='" + window.location.origin + "']"
-                      );
-                    toastUIPreviewBlobImages.forEach(i => {
-                      i.setAttribute('src', 'blob:' + i.src);
-                    });
-                  }}
-                  hooks={{
-                    addImageBlobHook: async (blob, callback) => {
-                      const imageURL: any = await uploadHandler(blob);
-                      await callback(imageURL, '');
-                      // "blog"+directory+"/"+fileName
-                    },
-                  }}
-                  viewer={true}
-                  // language="ko-KR"
-                  toolbarItems={[
-                    // 툴바 옵션 설정
-                    ['heading', 'bold', 'italic', 'strike'],
-                    ['hr', 'quote'],
-                    ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
-                    ['code', 'codeblock'],
-                  ]}
-                />
-              </EditorContainer>
-              <EditorFooter>
-                <Button
-                  w={'100%'}
-                  outline={true}
-                  onClick={() =>
-                    props.edit ? updateHandler() : submitHandler()
-                  }
-                  disabled={!methods.formState.isValid}
-                >
-                  {props.edit ? '수정' : '제출'}
-                </Button>
-                <Button w={'100%'} outline={true} onClick={() => router.back()}>
-                  취소
-                </Button>
-              </EditorFooter>
-              <BlogItemContentFormContainer>
-                <ModalButton
-                  color={'primary80'}
-                  outline={true}
-                  modal={
-                    <BlogContentTemplateModal
-                      firstCategoryId={methods.getValues(
-                        'selectFirstCategoryId'
-                      )}
-                      secondCategoryId={methods.getValues(
-                        'selectSecondCategoryId'
-                      )}
-                    />
-                  }
-                  modalOverlayVisible={true}
-                  modalW={'80%'}
-                  bg={'contrast'}
-                >
-                  <Image src={Icons.SettingIcon} alt="" />
-                </ModalButton>
-                {store
-                  .getState()
-                  .blogContentTemplateStore?.blogContentTemplateList?.map(
-                    (i, index) => (
-                      <BlogItemContentFormButton
-                        onClick={() => {
-                          navigator.clipboard.writeText(i.content);
-                          store.dispatch(
-                            SET_TOASTIFY_MESSAGE({
-                              type: 'success',
-                              message: `복사되었습니다.`,
-                            })
-                          );
+            {isLoading ? (
+              <LoadingComponent />
+            ) : (
+              <Container>
+                <HeaderContainer gap={8}>
+                  <Button
+                    id={'hideBlogHeaderButton'}
+                    w={'100%'}
+                    bg={'primary40'}
+                    onClick={() => hideContainerToggle()}
+                  >
+                    {isHideContainer ? (
+                      <Image src={Icons.DownArrowIcon} />
+                    ) : (
+                      <Image src={Icons.UpArrowIcon} />
+                    )}
+                  </Button>
+                  <HideContainer isHide={isHideContainer}>
+                    <CC.RowBetweenDiv gap={8}>
+                      <Select
+                        w={'100%'}
+                        placeholder={'1번째 카테고리'}
+                        onChange={onChangeFirstCategoryHandler}
+                        defaultValue={{
+                          value: methods.getValues('selectFirstCategoryId'),
+                          name: methods.getValues('selectFirstCategoryName'),
                         }}
-                      >
-                        {index}
-                      </BlogItemContentFormButton>
-                    )
-                  )}
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[0]);
-                  }}
-                >
-                  폼1
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[1]);
-                  }}
-                >
-                  폼2
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[2]);
-                  }}
-                >
-                  테1
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[3]);
-                  }}
-                >
-                  테2
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[4]);
-                  }}
-                >
-                  링크
-                </BlogItemContentFormButton>
-              </BlogItemContentFormContainer>
-            </Container>
+                        data={blogCategoryListResData?.data.json?.blogFirstCategoryList.map(
+                          i => ({
+                            value: i.id,
+                            name: i.name,
+                          })
+                        )}
+                      ></Select>
+                      <Select
+                        w={'100%'}
+                        placeholder={'2번째 카테고리'}
+                        onChange={onChangeSecondCategoryHandler}
+                        defaultValue={{
+                          value: methods.getValues('selectSecondCategoryId'),
+                          name: methods.getValues('selectSecondCategoryName'),
+                        }}
+                        data={blogCategoryListResData?.data.json?.blogFirstCategoryList
+                          .filter(k => {
+                            return (
+                              k.id == methods.getValues('selectFirstCategoryId')
+                            );
+                          })[0]
+                          ?.secondCategoryList.map(i => ({
+                            value: i.id,
+                            name: i.name,
+                          }))}
+                      ></Select>
+                    </CC.RowBetweenDiv>
+                    <Title
+                      placeholder="제목을 입력해주세요"
+                      initialValue={methods.getValues('title')}
+                      register={methods.register('title')}
+                    />
+                    <Description
+                      placeholder="간단한 설명을 입력해주세요"
+                      initialValue={methods.getValues('description')}
+                      register={methods.register('description')}
+                    />
+                    <CC.ColumnCenterDiv gap={4} pd={'4px 0px'}>
+                      <CC.RowCenterDiv>
+                        <b> 썸네일 이미지 </b>
+                      </CC.RowCenterDiv>
+                      <Input
+                        type="file"
+                        id="imageUpload"
+                        h={'200px'}
+                        // ref={fileRef}
+                        bg={'contrast'}
+                        outline={'black80'}
+                        register={methods.register('thumbnailImageFile')}
+                        setValue={methods.setValue}
+                        trigger={methods.trigger}
+                        defaultImageUrl={defaultImageUrl}
+                      />
+                    </CC.ColumnCenterDiv>
+                  </HideContainer>
+                </HeaderContainer>
+                <EditorContainer>
+                  <Editor
+                    autofocus={props.edit}
+                    initialValue={methods.getValues('content')}
+                    previewStyle="vertical"
+                    height="calc(100vh - 182px)"
+                    initialEditType="markdown"
+                    useCommandShortcut={true}
+                    ref={editorRef}
+                    plugins={[
+                      colorSyntax,
+                      [codeSyntaxHighlight, { highlighter: Prism }],
+                    ]}
+                    onChange={() => {
+                      // ! TOAST UI에서 Preview 이미지가 사라지는 문제 떄문에 작성한 코드...
+                      let toastUIPreviewBlobImages =
+                        window.document.querySelectorAll(
+                          "img[src^='" + window.location.origin + "']"
+                        );
+                      toastUIPreviewBlobImages.forEach(i => {
+                        i.setAttribute('src', 'blob:' + i.src);
+                      });
+                    }}
+                    hooks={{
+                      addImageBlobHook: async (blob, callback) => {
+                        const imageURL: any = await uploadHandler(blob);
+                        await callback(imageURL, '');
+                        // "blog"+directory+"/"+fileName
+                      },
+                    }}
+                    viewer={true}
+                    // language="ko-KR"
+                    toolbarItems={[
+                      // 툴바 옵션 설정
+                      ['heading', 'bold', 'italic', 'strike'],
+                      ['hr', 'quote'],
+                      ['ul', 'ol', 'task', 'indent', 'outdent'],
+                      ['table', 'image', 'link'],
+                      ['code', 'codeblock'],
+                    ]}
+                  />
+                </EditorContainer>
+                <EditorFooter>
+                  <Button
+                    w={'100%'}
+                    outline={true}
+                    onClick={() =>
+                      props.edit ? updateHandler() : submitHandler()
+                    }
+                    disabled={!methods.formState.isValid}
+                  >
+                    {props.edit ? '수정' : '제출'}
+                  </Button>
+                  <Button
+                    w={'100%'}
+                    outline={true}
+                    onClick={() => router.back()}
+                  >
+                    취소
+                  </Button>
+                </EditorFooter>
+                <BlogItemContentFormContainer>
+                  <ModalButton
+                    color={'primary80'}
+                    outline={true}
+                    modal={
+                      <BlogContentTemplateModal
+                        firstCategoryId={methods.getValues(
+                          'selectFirstCategoryId'
+                        )}
+                        secondCategoryId={methods.getValues(
+                          'selectSecondCategoryId'
+                        )}
+                      />
+                    }
+                    modalOverlayVisible={true}
+                    modalW={'80%'}
+                    bg={'contrast'}
+                  >
+                    <Image src={Icons.SettingIcon} alt="" />
+                  </ModalButton>
+                  {store
+                    .getState()
+                    .blogContentTemplateStore?.blogContentTemplateList?.map(
+                      (i, index) => (
+                        <BlogItemContentFormButton
+                          onClick={() => {
+                            navigator.clipboard.writeText(i.content);
+                            store.dispatch(
+                              SET_TOASTIFY_MESSAGE({
+                                type: 'success',
+                                message: `복사되었습니다.`,
+                              })
+                            );
+                          }}
+                        >
+                          {index}
+                        </BlogItemContentFormButton>
+                      )
+                    )}
+                  <BlogItemContentFormButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(blogContentForm[0]);
+                    }}
+                  >
+                    폼1
+                  </BlogItemContentFormButton>
+                  <BlogItemContentFormButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(blogContentForm[1]);
+                    }}
+                  >
+                    폼2
+                  </BlogItemContentFormButton>
+                  <BlogItemContentFormButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(blogContentForm[2]);
+                    }}
+                  >
+                    테1
+                  </BlogItemContentFormButton>
+                  <BlogItemContentFormButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(blogContentForm[3]);
+                    }}
+                  >
+                    테2
+                  </BlogItemContentFormButton>
+                  <BlogItemContentFormButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(blogContentForm[4]);
+                    }}
+                  >
+                    링크
+                  </BlogItemContentFormButton>
+                </BlogItemContentFormContainer>
+              </Container>
+            )}
           </>
         )}
       </FormProvider>
