@@ -1,5 +1,5 @@
 import { MemoAPI } from '@/api/MemoAPI';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
 import MemoCategoryModal from '@/components/memo/modal/MemoCategoryModal';

@@ -1,4 +1,4 @@
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
 import Swal from 'sweetalert2';

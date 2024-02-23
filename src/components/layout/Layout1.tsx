@@ -1,10 +1,10 @@
-import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import LoadingComponent from '../common/loading/LoadingComponent';
 // import PageTransitions from ".@/components/common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
@@ -72,133 +72,6 @@ const Container1 = styled.div`
     padding: 2px;
     @media (pointer: coarse) {
       max-height: calc(100vh - var(--top-navbar-height) - 44px);
-    }
-  }
-`;
-
-const Spinner32 = styled.div`
-  --box-size: min(160px, 50vh);
-  & {
-    width: var(--box-size);
-    height: var(--box-size);
-    display: inline-block;
-    position: relative;
-    transform: rotate(45deg);
-  }
-  &::before {
-    content: '';
-    box-sizing: border-box;
-    width: calc(var(--box-size) / 2);
-    height: calc(var(--box-size) / 2);
-    position: absolute;
-    left: 0;
-    top: calc(-1 * var(--box-size) / 2);
-    animation: animloader 4s ease infinite;
-  }
-  &::after {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: calc(var(--box-size) / 2);
-    height: calc(var(--box-size) / 2);
-    background: rgba(255, 255, 255, 0.85);
-    /* 이게 이동하는 블럭 색상 */
-    background: ${props => props.theme.main.primary80};
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    animation: animloader2 2s ease infinite;
-  }
-
-  @keyframes animloader {
-    0% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) rgba(255, 255, 255, 0);
-    }
-    12% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) rgba(255, 255, 255, 0);
-    }
-    25% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) rgba(255, 255, 255, 0);
-    }
-    37% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) rgba(255, 255, 255, 0);
-    }
-    50% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
-    }
-    62% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
-        calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
-    }
-    75% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
-    }
-    87% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) ${props => props.theme.main.secondary80};
-    }
-    100% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          rgba(255, 255, 255, 0),
-        calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) rgba(255, 255, 255, 0);
-    }
-  }
-
-  @keyframes animloader2 {
-    0% {
-      transform: translate(0, 0) rotateX(0) rotateY(0);
-    }
-    25% {
-      transform: translate(100%, 0) rotateX(0) rotateY(180deg);
-    }
-    50% {
-      transform: translate(100%, 100%) rotateX(-180deg) rotateY(180deg);
-    }
-    75% {
-      transform: translate(0, 100%) rotateX(-180deg) rotateY(360deg);
-    }
-    100% {
-      transform: translate(0, 0) rotateX(0) rotateY(360deg);
     }
   }
 `;

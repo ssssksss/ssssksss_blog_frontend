@@ -24,12 +24,6 @@ import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents
 const NavBar = ({ children }) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
 
-  const theme = {
-    colors: {
-      primary: 'hotpink',
-    },
-  };
-
   return (
     <Container id="nav" themeStore={themeStore}>
       <ThemeProvider theme={rootTheme[themeStore.theme]}>

@@ -1,4 +1,4 @@
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { Icons } from '@/components/common/icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
 import { css } from '@emotion/react';

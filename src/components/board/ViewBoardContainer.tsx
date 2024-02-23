@@ -1,6 +1,6 @@
 import { BoardAPI } from '@/api/BoardAPI';
 import { Icons } from '@/components/common/icons/Icons';
-import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import { useLoading } from '@/hooks/useLoading';
 import { RootState } from '@/redux/store/reducers';
 import { CC } from '@/styles/commonComponentStyle';

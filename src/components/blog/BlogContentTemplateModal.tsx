@@ -1,4 +1,5 @@
 import { BlogAPI } from '@/api/BlogAPI';
+import { Button } from '@/components/common/button/Button';
 import { Icons } from '@/components/common/icons/Icons';
 import { useLoading } from '@/hooks/useLoading';
 import { store } from '@/redux/store';
@@ -19,7 +20,6 @@ import { useReducer, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import Select from '../common/select/Select';
-import { Button } from './../common/button/Button';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogContentTemplateModal.tsx

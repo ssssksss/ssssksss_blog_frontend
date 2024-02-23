@@ -1,5 +1,5 @@
 import { MemoAPI } from '@/api/MemoAPI';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import Select from '@/components/common/select/Select';
 import { MemoDeleteYup } from '@/components/yup/MemoYup';
 import { store } from '@/redux/store';

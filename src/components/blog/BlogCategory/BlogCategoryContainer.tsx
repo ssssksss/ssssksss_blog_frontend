@@ -1,6 +1,6 @@
 import { BlogFirstCategoryModal } from '@/components/blog/BlogFirstCategory/BlogFirstCategoryModal';
 import BlogSecondCategoryModal from '@/components/blog/BlogSecondCategory/BlogSecondCategoryModal';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import ModalButton from '@/components/common/button/ModalButton';
 import { Icons } from '@/components/common/icons/Icons';
 import { Spinner1 } from '@/components/spinner/Spinners';

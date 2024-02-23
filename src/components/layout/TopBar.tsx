@@ -122,20 +122,6 @@ const TopBar = () => {
         </Iframe>
       )}
       <CC.RowDiv gap={8}>
-        {/* <ModalButton h={'100%'}>
-              <Image
-                src={Icons.MailIcon}
-                alt="mail"
-                onClick={() => alert('제작 계획 중')}
-              />
-            </ModalButton>
-            <ModalButton h={'100%'}>
-              <Image
-                src={Icons.AlarmIcon}
-                alt="alarm"
-                onClick={() => alert('제작 계획 중')}
-              />
-            </ModalButton> */}
         {useLoading ? (
           <>
             {authStore.email ? (

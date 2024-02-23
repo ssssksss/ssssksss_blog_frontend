@@ -1,5 +1,5 @@
 import { YoutubeAPI } from '@/api/YoutubeAPI';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { Icons } from '@/components/common/icons/Icons';
 import { Input } from '@/components/common/input/Input';
 import { store } from '@/redux/store';

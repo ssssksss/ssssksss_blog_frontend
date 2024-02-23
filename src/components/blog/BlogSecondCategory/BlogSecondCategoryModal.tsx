@@ -1,4 +1,4 @@
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
 import { useState } from 'react';

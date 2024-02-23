@@ -1,6 +1,6 @@
 import { BlogAPI } from '@/api/BlogAPI';
-import { Button } from '@/components/common/button/Button';
-import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import Button from '@/components/common/button/Button';
+import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import Select from '@/components/common/select/Select';
 import { BlogFirstCategoryDeleteYup } from '@/components/yup/BlogCategoryYup';
 import { useLoading } from '@/hooks/useLoading';

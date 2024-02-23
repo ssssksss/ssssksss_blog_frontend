@@ -1,5 +1,5 @@
 import { BlogAPI } from '@/api/BlogAPI';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { Input } from '@/components/common/input/Input';
 import Select from '@/components/common/select/Select';
 import { BlogFirstCategoryUpdateYup } from '@/components/yup/BlogCategoryYup';

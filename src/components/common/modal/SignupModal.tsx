@@ -1,4 +1,4 @@
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { Input } from '@/components/common/input/Input';
 import { UserSignupYup } from '@/components/yup/UserSignupYup';
 import { CC } from '@/styles/commonComponentStyle';

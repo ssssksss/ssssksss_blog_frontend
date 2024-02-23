@@ -1,4 +1,4 @@
-import { LoadingComponent } from '@/components/common/loading/LoadingComponent';
+import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import { store } from '@/redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
 import AxiosInstance from '@/utils/axios/AxiosInstance';

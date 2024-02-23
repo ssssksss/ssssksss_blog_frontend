@@ -1,5 +1,5 @@
 import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { Button } from '@/components/common/button/Button';
+import Button from '@/components/common/button/Button';
 import { Input } from '@/components/common/input/Input';
 import Select from '@/components/common/select/Select';
 import { RootState } from '@/redux/store/reducers';

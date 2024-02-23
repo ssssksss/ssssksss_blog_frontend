@@ -23,7 +23,7 @@ interface ButtonProps {
   hover?: boolean;
 }
 
-export const Button = ({
+const Button = ({
   onClick: _onClick,
   onClickCapture: _onClickCapture,
   children = 'button',

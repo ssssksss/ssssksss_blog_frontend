@@ -1,11 +1,10 @@
+import Button from '@/components/common/button/Button';
+import { Icons } from '@/components/common/icons/Icons';
 import { CC } from '@/styles/commonComponentStyle';
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
-import { Icons } from '@/components/common/icons/Icons';
 import Image from 'next/image';
-import { Button } from '@/components/common/button/Button';
-import { Primary } from './../../../stories/Button.stories';
+import React, { useEffect, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Dropdown.tsx
