@@ -1,7 +1,6 @@
 import { Spinner1, Spinner34, Spinner37 } from '@/components/spinner/Spinners';
 import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
-import { inflate } from 'zlib';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file LoadingComponent.tsx
@@ -15,7 +14,7 @@ interface ILoadingComponentProps {
   mode?: String;
 }
 
-export const LoadingComponent = (props: ILoadingComponentProps) => {
+const LoadingComponent = (props: ILoadingComponentProps) => {
   return (
     <Container top={props.top} left={props.left}>
       {props.mode === 'board' ? (
@@ -28,6 +27,8 @@ export const LoadingComponent = (props: ILoadingComponentProps) => {
     </Container>
   );
 };
+
+export default LoadingComponent;
 
 const Container = styled(CC.RowCenterDiv)<ILoadingComponentProps>`
   /* left: ${props => props.left || '50%'};

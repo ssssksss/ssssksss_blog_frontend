@@ -1,3 +1,4 @@
+import LoadingComponent from '@/components/common/loading/LoadingComponent';
 import { store } from '@/redux/store';
 import { rootActions } from '@/redux/store/actions';
 import styled from '@emotion/styled';
@@ -40,13 +41,7 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 
   return (
     <Container>
-      {isLoading ? (
-        <LoadingContainer>
-          <Spinner32 />
-        </LoadingContainer>
-      ) : (
-        <Container1>{children}</Container1>
-      )}
+      {isLoading ? <LoadingComponent /> : <Container1>{children}</Container1>}
     </Container>
   );
 };
@@ -79,13 +74,6 @@ const Container1 = styled.div`
       max-height: calc(100vh - var(--top-navbar-height) - 44px);
     }
   }
-`;
-
-const LoadingContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 const Spinner32 = styled.div`

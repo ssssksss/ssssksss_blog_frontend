@@ -101,9 +101,7 @@ const BlogMainContainer = () => {
             store.getState().blogStore.activeBlogUserId && (
             <BlogSearchItem href={`/blog/create`}>
               <CC.RowCenterDiv
-                pd={'2px'}
-                gap={2}
-                w={'32px'}
+                w={'100%'}
                 h={'32px'}
                 bg={'white80'}
                 brR={'10px'}
