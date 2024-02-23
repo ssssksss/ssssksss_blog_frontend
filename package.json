@@ -9,7 +9,8 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_49f095812d80906"
+    "chromatic": "npx chromatic --project-token=chpt_49f095812d80906",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "dependencies": {
     "@emotion/css": "^11.10.5",
@@ -75,6 +76,7 @@
     "@storybook/blocks": "7.3.2",
     "@storybook/nextjs": "7.3.2",
     "@storybook/react": "7.3.2",
+    "@storybook/storybook-deployer": "^2.8.16",
     "@storybook/testing-library": "0.2.0",
     "@types/node": "^17.0.21",
     "@types/prismjs": "^1.26.0",

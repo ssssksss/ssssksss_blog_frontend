@@ -1,44 +1,17 @@
-# Workflow name
-name: 'Chromatic Deployment'
-run-name: ${{ github.actor }}의 스토리북 배포
-# Event for the workflow
-on: pull_request
-
-# List of jobs
+name: Build & Deploy Storybook
+on:
+  push:
+    branches: [master]
+    paths: ['src/stories/**']
 jobs:
-  test:
-    # Operating System
+  build-and-deploy:
     runs-on: ubuntu-latest
-    outputs:
-      status: ${{ job.status }}
-    # Job steps
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-
-      - name: cache dependencies
-        id: cache
-        uses: actions/cache@v1
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
-
-      - name: depedency install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: publish to chromatic
-        id: chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: comment PR
-        uses: thollander/actions-comment-pull-request@v1
+      - uses: actions/checkout@v2
+      - name: Install and Build 🔧
+        # This needs an Acces Token stored as "GH_TOKEN" 👇
+        run: |
+          npm install
+          npm run deploy-storybook -- --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          message: '🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}'
