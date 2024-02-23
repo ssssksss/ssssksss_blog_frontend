@@ -73,9 +73,7 @@ const Footer = () => {
         </li>
         <li>
           <a
-            href={
-              'https://64eeece7369a220b140a6b70-gmqpbabxdz.chromatic.com/?path=/story/buttons--active'
-            }
+            href={'https://master--64eeece7369a220b140a6b70.chromatic.com/'}
             target={'_blanket'}
           >
             <Image src={Icons.StoryBookIcon} width={'100%'} height={'100%'} />

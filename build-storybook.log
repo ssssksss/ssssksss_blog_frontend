@@ -1,11 +1,11 @@
 @storybook/cli v7.3.2
 
-info => Cleaning outputDir: C:\Users\ssssk\AppData\Local\Temp\chromatic--25252-1DHFf0hd1T3P
+info => Cleaning outputDir: C:\Users\ssssk\AppData\Local\Temp\chromatic--42780-SkTA3i71nBuR
 info => Loading presets
 info => Building manager..
-info => Manager built (290 ms)
+info => Manager built (278 ms)
 info => Compiling preview..
-info => Copying static files: C:\Users\ssssk\바탕 화면\새 폴더\my_folder\IT\code\git_ssssksss\CODE\REACT_PROJECT\ssssksss_blog_frontend\node_modules\@storybook\manager\static at C:\Users\ssssk\AppData\Local\Temp\chromatic--25252-1DHFf0hd1T3P\sb-common-assets
+info => Copying static files: C:\Users\ssssk\바탕 화면\새 폴더\my_folder\IT\code\git_ssssksss\CODE\REACT_PROJECT\ssssksss_blog_frontend\node_modules\@storybook\manager\static at C:\Users\ssssk\AppData\Local\Temp\chromatic--42780-SkTA3i71nBuR\sb-common-assets
 WARN You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0
 info Addon-docs: using MDX2
 info => Using implicit CSS loaders
@@ -118,18 +118,19 @@ info => Using default Webpack5 setup
 <s> [webpack.Progress] 9% setup compilation
 <s> [webpack.Progress] 10% building
 <s> [webpack.Progress] 10% building 0/1 entries 0/0 dependencies 0/0 modules
-<s> [webpack.Progress] 16% building import loader ./node_modules/@storybook/builder-webpack5/node_modules/babel-loader/lib/index.js
-<s> [webpack.Progress] 16% building 0/1 entries 18/26 dependencies 2/18 modules
-<s> [webpack.Progress] 23% building 0/1 entries 33/72 dependencies 6/25 modules
-<s> [webpack.Progress] 24% building import loader ./node_modules/@storybook/mdx2-csf/loader.js
-<s> [webpack.Progress] 24% building 0/1 entries 35/72 dependencies 7/27 modules
-<s> [webpack.Progress] 23% building import loader ./node_modules/unplugin/dist/webpack/loaders/load.js
-<s> [webpack.Progress] 23% building 0/1 entries 41/84 dependencies 7/29 modules
-<s> [webpack.Progress] 17% building 0/1 entries 105/132 dependencies 10/69 modules
-<s> [webpack.Progress] 29% building 0/1 entries 327/400 dependencies 67/186 modules
-<s> [webpack.Progress] 42% building 0/1 entries 900/942 dependencies 229/390 modules
-<s> [webpack.Progress] 55% building 0/1 entries 1200/1248 dependencies 421/507 modules
-<s> [webpack.Progress] 65% building 1/1 entries 1451/1451 dependencies 589/589 modules
+<s> [webpack.Progress] 16% building import loader ./node_modules/babel-loader/lib/index.js
+<s> [webpack.Progress] 16% building 0/1 entries 18/25 dependencies 2/18 modules
+<s> [webpack.Progress] 21% building 0/1 entries 28/57 dependencies 5/24 modules
+<s> [webpack.Progress] 22% building import loader ./node_modules/@storybook/mdx2-csf/loader.js
+<s> [webpack.Progress] 22% building 0/1 entries 34/74 dependencies 6/26 modules
+<s> [webpack.Progress] 22% building import loader ./node_modules/unplugin/dist/webpack/loaders/load.js
+<s> [webpack.Progress] 22% building 0/1 entries 43/86 dependencies 7/30 modules
+<s> [webpack.Progress] 35% building 0/1 entries 200/254 dependencies 50/108 modules
+<s> [webpack.Progress] 29% building 0/1 entries 733/900 dependencies 137/385 modules
+<s> [webpack.Progress] 42% building import loader ./node_modules/@storybook/nextjs/dist/next-image-loader-stub.js
+<s> [webpack.Progress] 42% building 0/1 entries 1038/1087 dependencies 274/470 modules
+<s> [webpack.Progress] 62% building 0/1 entries 1490/1500 dependencies 598/624 modules
+<s> [webpack.Progress] 65% building 1/1 entries 1508/1508 dependencies 632/632 modules
 <s> [webpack.Progress] 65% building
 <s> [webpack.Progress] 69% building finish
 <s> [webpack.Progress] 69% building finish
@@ -231,45 +232,49 @@ info => Using default Webpack5 setup
 <s> [webpack.Progress] 92% sealing asset processing TerserPlugin
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin main.b3feb0c8.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin main.b3feb0c8.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin runtime~main.82a82f17.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin runtime~main.82a82f17.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Configure-mdx.8bf1e8a3.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Configure-mdx.8bf1e8a3.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Button-stories.e641cb62.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Button-stories.e641cb62.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin main.8080ce45.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin main.8080ce45.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin runtime~main.d76729cc.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin runtime~main.d76729cc.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Configure-mdx.bb64882d.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Configure-mdx.bb64882d.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Button-stories.e32325f3.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Button-stories.e32325f3.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Input-stories.da0da10b.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin stories-Input-stories.da0da10b.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 453.d50b9d3f.iframe.bundle.js generate SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 453.d50b9d3f.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 857.da846e4b.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 857.da846e4b.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 889.46c5b78e.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 889.46c5b78e.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 150.17f7b38a.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 150.17f7b38a.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 802.b78198d3.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 802.b78198d3.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 311.88b8d51b.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 311.88b8d51b.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 380.6a250bba.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 380.6a250bba.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 857.50076bf4.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 857.50076bf4.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 178.97c562e9.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 178.97c562e9.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 201.7575a931.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 201.7575a931.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 829.2ab49e0e.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 829.2ab49e0e.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 26.ab08bcca.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 26.ab08bcca.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 243.a036db48.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 243.a036db48.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 294.aead7a70.iframe.bundle.js generate SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 294.aead7a70.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 120.207b8537.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 120.207b8537.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 374.365413ce.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 374.365413ce.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 270.32dfab14.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 270.32dfab14.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 878.7b796ff6.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 878.7b796ff6.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 420.1df20944.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 420.1df20944.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 164.0cfd3d84.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 164.0cfd3d84.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 131.229194b6.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 131.229194b6.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 856.605851f5.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 856.605851f5.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 872.d82af787.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 872.d82af787.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin resolve sources
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 150.17f7b38a.iframe.bundle.js attach SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 150.17f7b38a.iframe.bundle.js attached SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 120.207b8537.iframe.bundle.js attach SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 120.207b8537.iframe.bundle.js attached SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 374.365413ce.iframe.bundle.js attach SourceMap
-<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 374.365413ce.iframe.bundle.js attached SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 201.7575a931.iframe.bundle.js attach SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 201.7575a931.iframe.bundle.js attached SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 420.1df20944.iframe.bundle.js attach SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 420.1df20944.iframe.bundle.js attached SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 856.605851f5.iframe.bundle.js attach SourceMap
+<s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin 856.605851f5.iframe.bundle.js attached SourceMap
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin
 <s> [webpack.Progress] 92% sealing asset processing SourceMapDevToolPlugin resolve sources
@@ -280,32 +285,36 @@ info => Using default Webpack5 setup
 <s> [webpack.Progress] 92% sealing asset processing HtmlWebpackPlugin
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin main.99361897.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin main.99361897.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin runtime~main.69dc83f4.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin runtime~main.69dc83f4.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Configure-mdx.0c3c4499.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Configure-mdx.0c3c4499.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Button-stories.95a580a4.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Button-stories.95a580a4.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin main.d08f8124.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin main.d08f8124.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin runtime~main.b6914e65.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin runtime~main.b6914e65.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Button-stories.6159f6f9.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Button-stories.6159f6f9.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Input-stories.81788f6f.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Input-stories.81788f6f.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 453.677323a3.iframe.bundle.js generate SourceMap
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 453.677323a3.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 857.e3190d77.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 857.e3190d77.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 889.efced5bd.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 889.efced5bd.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 802.b4bbfeb2.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 802.b4bbfeb2.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 311.aa93ba99.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 311.aa93ba99.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 380.fa5b7ecb.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 380.fa5b7ecb.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 857.7fc360ee.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 857.7fc360ee.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 178.337234f6.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 178.337234f6.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 829.39010679.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 829.39010679.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 26.77148c84.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 26.77148c84.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 243.8c04e55a.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 243.8c04e55a.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 294.e1911863.iframe.bundle.js generate SourceMap
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 294.e1911863.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 270.9e5378dd.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 270.9e5378dd.iframe.bundle.js generated SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 878.293dd89c.iframe.bundle.js generate SourceMap
-<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 878.293dd89c.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 131.419dd96f.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 131.419dd96f.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 872.c81cca5b.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 872.c81cca5b.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Configure-mdx.380904e6.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin stories-Configure-mdx.380904e6.iframe.bundle.js generated SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 164.6ccb88d3.iframe.bundle.js generate SourceMap
+<s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin 164.6ccb88d3.iframe.bundle.js generated SourceMap
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin resolve sources
 <s> [webpack.Progress] 92% sealing asset processing RealContentHashPlugin
 <s> [webpack.Progress] 92% sealing asset processing
@@ -340,25 +349,26 @@ WARN export 'Icon'.'EyeClose' (imported as 'Icon') was not found in '@storybook/
 WARN export 'Icon'.'Eye' (imported as 'Icon') was not found in '@storybook/components/experimental' (possible exports: AccessibilityAltIcon, AccessibilityIcon, AddIcon, AdminIcon, AlertAltIcon, AlertIcon, AlignLeftIcon, AlignRightIcon, AppleIcon, ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowSolidDownIcon, ArrowSolidLeftIcon, ArrowSolidRightIcon, ArrowSolidUpIcon, ArrowUpIcon, AzureDevOpsIcon, BackIcon, BasketIcon, BatchAcceptIcon, BatchDenyIcon, BeakerIcon, BellIcon, BitbucketIcon, BoldIcon, BookIcon, BookmarkHollowIcon, BookmarkIcon, BottomBarIcon, BottomBarToggleIcon, BoxIcon, BranchIcon, BrowserIcon, ButtonIcon, CPUIcon, CalendarIcon, CameraIcon, CategoryIcon, CertificateIcon, ChangedIcon, ChatIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronSmallDownIcon, ChevronSmallLeftIcon, ChevronSmallRightIcon, ChevronSmallUpIcon, ChevronUpIcon, ChromaticIcon, ChromeIcon, CircleHollowIcon, CircleIcon, ClearIcon, CloseAltIcon, CloseIcon, CloudHollowIcon, CloudIcon, CogIcon, CollapseIcon, CommandIcon, CommentAddIcon, CommentIcon, CommentsIcon, CommitIcon, CompassIcon, ComponentDrivenIcon, ComponentIcon, ContrastIcon, ControlsIcon, CopyIcon, CreditIcon, CrossIcon, DashboardIcon, DatabaseIcon, DeleteIcon, DiamondIcon, DirectionIcon, DiscordIcon, DocChartIcon, DocListIcon, DocumentIcon, DownloadIcon, DragIcon, EditIcon, EllipsisIcon, EmailIcon, ExpandAltIcon, ExpandIcon, EyeCloseIcon, EyeIcon, FaceHappyIcon, FaceNeutralIcon, FaceSadIcon, FacebookIcon, FailedIcon, FastForwardIcon, FigmaIcon, FilterIcon, FlagIcon, FolderIcon, FormIcon, GDriveIcon, GithubIcon, GitlabIcon, GlobeIcon, GoogleIcon, GraphBarIcon, GraphLineIcon, GraphqlIcon, GridAltIcon, GridIcon, GrowIcon, HeartHollowIcon, HeartIcon, HomeIcon, HourglassIcon, InfoIcon, ItalicIcon, JumpToIcon, KeyIcon, LightningIcon, LightningOffIcon, LinkBrokenIcon, LinkIcon, LinkedinIcon, LinuxIcon, ListOrderedIcon, ListUnorderedIcon, LocationIcon, LockIcon, MarkdownIcon, MarkupIcon, MediumIcon, MemoryIcon, MenuIcon, MergeIcon, MirrorIcon, MobileIcon, MoonIcon, NutIcon, OutboxIcon, OutlineIcon, PaintBrushIcon, PaperClipIcon, ParagraphIcon, PassedIcon, PhoneIcon, PhotoDragIcon, PhotoIcon, PinAltIcon, PinIcon, PlayBackIcon, PlayIcon, PlayNextIcon, PlusIcon, PointerDefaultIcon, PointerHandIcon, PowerIcon, PrintIcon, ProceedIcon, ProfileIcon, PullRequestIcon, QuestionIcon, RSSIcon, RedirectIcon, ReduxIcon, RefreshIcon, ReplyIcon, RepoIcon, RequestChangeIcon, RewindIcon, RulerIcon, SearchIcon, ShareAltIcon, ShareIcon, ShieldIcon, SideBySideIcon, SidebarAltIcon, SidebarAltToggleIcon, SidebarIcon, SidebarToggleIcon, SpeakerIcon, StackedIcon, StarHollowIcon, StarIcon, StickerIcon, StopAltIcon, StopIcon, StorybookIcon, StructureIcon, SubtractIcon, SunIcon, SupportIcon, SwitchAltIcon, SyncIcon, TabletIcon, ThumbsUpIcon, TimeIcon, TimerIcon, TransferIcon, TrashIcon, TwitterIcon, TypeIcon, UbuntuIcon, UndoIcon, UnfoldIcon, UnlockIcon, UnpinIcon, UploadIcon, UserAddIcon, UserAltIcon, UserIcon, UsersIcon, VSCodeIcon, VerifiedIcon, VideoIcon, WandIcon, WatchIcon, WindowsIcon, WrenchIcon, YoutubeIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon, iconList)
 WARN export 'Icon'.'Undo' (imported as 'Icon') was not found in '@storybook/components/experimental' (possible exports: AccessibilityAltIcon, AccessibilityIcon, AddIcon, AdminIcon, AlertAltIcon, AlertIcon, AlignLeftIcon, AlignRightIcon, AppleIcon, ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowSolidDownIcon, ArrowSolidLeftIcon, ArrowSolidRightIcon, ArrowSolidUpIcon, ArrowUpIcon, AzureDevOpsIcon, BackIcon, BasketIcon, BatchAcceptIcon, BatchDenyIcon, BeakerIcon, BellIcon, BitbucketIcon, BoldIcon, BookIcon, BookmarkHollowIcon, BookmarkIcon, BottomBarIcon, BottomBarToggleIcon, BoxIcon, BranchIcon, BrowserIcon, ButtonIcon, CPUIcon, CalendarIcon, CameraIcon, CategoryIcon, CertificateIcon, ChangedIcon, ChatIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronSmallDownIcon, ChevronSmallLeftIcon, ChevronSmallRightIcon, ChevronSmallUpIcon, ChevronUpIcon, ChromaticIcon, ChromeIcon, CircleHollowIcon, CircleIcon, ClearIcon, CloseAltIcon, CloseIcon, CloudHollowIcon, CloudIcon, CogIcon, CollapseIcon, CommandIcon, CommentAddIcon, CommentIcon, CommentsIcon, CommitIcon, CompassIcon, ComponentDrivenIcon, ComponentIcon, ContrastIcon, ControlsIcon, CopyIcon, CreditIcon, CrossIcon, DashboardIcon, DatabaseIcon, DeleteIcon, DiamondIcon, DirectionIcon, DiscordIcon, DocChartIcon, DocListIcon, DocumentIcon, DownloadIcon, DragIcon, EditIcon, EllipsisIcon, EmailIcon, ExpandAltIcon, ExpandIcon, EyeCloseIcon, EyeIcon, FaceHappyIcon, FaceNeutralIcon, FaceSadIcon, FacebookIcon, FailedIcon, FastForwardIcon, FigmaIcon, FilterIcon, FlagIcon, FolderIcon, FormIcon, GDriveIcon, GithubIcon, GitlabIcon, GlobeIcon, GoogleIcon, GraphBarIcon, GraphLineIcon, GraphqlIcon, GridAltIcon, GridIcon, GrowIcon, HeartHollowIcon, HeartIcon, HomeIcon, HourglassIcon, InfoIcon, ItalicIcon, JumpToIcon, KeyIcon, LightningIcon, LightningOffIcon, LinkBrokenIcon, LinkIcon, LinkedinIcon, LinuxIcon, ListOrderedIcon, ListUnorderedIcon, LocationIcon, LockIcon, MarkdownIcon, MarkupIcon, MediumIcon, MemoryIcon, MenuIcon, MergeIcon, MirrorIcon, MobileIcon, MoonIcon, NutIcon, OutboxIcon, OutlineIcon, PaintBrushIcon, PaperClipIcon, ParagraphIcon, PassedIcon, PhoneIcon, PhotoDragIcon, PhotoIcon, PinAltIcon, PinIcon, PlayBackIcon, PlayIcon, PlayNextIcon, PlusIcon, PointerDefaultIcon, PointerHandIcon, PowerIcon, PrintIcon, ProceedIcon, ProfileIcon, PullRequestIcon, QuestionIcon, RSSIcon, RedirectIcon, ReduxIcon, RefreshIcon, ReplyIcon, RepoIcon, RequestChangeIcon, RewindIcon, RulerIcon, SearchIcon, ShareAltIcon, ShareIcon, ShieldIcon, SideBySideIcon, SidebarAltIcon, SidebarAltToggleIcon, SidebarIcon, SidebarToggleIcon, SpeakerIcon, StackedIcon, StarHollowIcon, StarIcon, StickerIcon, StopAltIcon, StopIcon, StorybookIcon, StructureIcon, SubtractIcon, SunIcon, SupportIcon, SwitchAltIcon, SyncIcon, TabletIcon, ThumbsUpIcon, TimeIcon, TimerIcon, TransferIcon, TrashIcon, TwitterIcon, TypeIcon, UbuntuIcon, UndoIcon, UnfoldIcon, UnlockIcon, UnpinIcon, UploadIcon, UserAddIcon, UserAltIcon, UserIcon, UsersIcon, VSCodeIcon, VerifiedIcon, VideoIcon, WandIcon, WatchIcon, WindowsIcon, WrenchIcon, YoutubeIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon, iconList)
 WARN export 'Icon'.'Link' (imported as 'Icon') was not found in '@storybook/components/experimental' (possible exports: AccessibilityAltIcon, AccessibilityIcon, AddIcon, AdminIcon, AlertAltIcon, AlertIcon, AlignLeftIcon, AlignRightIcon, AppleIcon, ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowSolidDownIcon, ArrowSolidLeftIcon, ArrowSolidRightIcon, ArrowSolidUpIcon, ArrowUpIcon, AzureDevOpsIcon, BackIcon, BasketIcon, BatchAcceptIcon, BatchDenyIcon, BeakerIcon, BellIcon, BitbucketIcon, BoldIcon, BookIcon, BookmarkHollowIcon, BookmarkIcon, BottomBarIcon, BottomBarToggleIcon, BoxIcon, BranchIcon, BrowserIcon, ButtonIcon, CPUIcon, CalendarIcon, CameraIcon, CategoryIcon, CertificateIcon, ChangedIcon, ChatIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronSmallDownIcon, ChevronSmallLeftIcon, ChevronSmallRightIcon, ChevronSmallUpIcon, ChevronUpIcon, ChromaticIcon, ChromeIcon, CircleHollowIcon, CircleIcon, ClearIcon, CloseAltIcon, CloseIcon, CloudHollowIcon, CloudIcon, CogIcon, CollapseIcon, CommandIcon, CommentAddIcon, CommentIcon, CommentsIcon, CommitIcon, CompassIcon, ComponentDrivenIcon, ComponentIcon, ContrastIcon, ControlsIcon, CopyIcon, CreditIcon, CrossIcon, DashboardIcon, DatabaseIcon, DeleteIcon, DiamondIcon, DirectionIcon, DiscordIcon, DocChartIcon, DocListIcon, DocumentIcon, DownloadIcon, DragIcon, EditIcon, EllipsisIcon, EmailIcon, ExpandAltIcon, ExpandIcon, EyeCloseIcon, EyeIcon, FaceHappyIcon, FaceNeutralIcon, FaceSadIcon, FacebookIcon, FailedIcon, FastForwardIcon, FigmaIcon, FilterIcon, FlagIcon, FolderIcon, FormIcon, GDriveIcon, GithubIcon, GitlabIcon, GlobeIcon, GoogleIcon, GraphBarIcon, GraphLineIcon, GraphqlIcon, GridAltIcon, GridIcon, GrowIcon, HeartHollowIcon, HeartIcon, HomeIcon, HourglassIcon, InfoIcon, ItalicIcon, JumpToIcon, KeyIcon, LightningIcon, LightningOffIcon, LinkBrokenIcon, LinkIcon, LinkedinIcon, LinuxIcon, ListOrderedIcon, ListUnorderedIcon, LocationIcon, LockIcon, MarkdownIcon, MarkupIcon, MediumIcon, MemoryIcon, MenuIcon, MergeIcon, MirrorIcon, MobileIcon, MoonIcon, NutIcon, OutboxIcon, OutlineIcon, PaintBrushIcon, PaperClipIcon, ParagraphIcon, PassedIcon, PhoneIcon, PhotoDragIcon, PhotoIcon, PinAltIcon, PinIcon, PlayBackIcon, PlayIcon, PlayNextIcon, PlusIcon, PointerDefaultIcon, PointerHandIcon, PowerIcon, PrintIcon, ProceedIcon, ProfileIcon, PullRequestIcon, QuestionIcon, RSSIcon, RedirectIcon, ReduxIcon, RefreshIcon, ReplyIcon, RepoIcon, RequestChangeIcon, RewindIcon, RulerIcon, SearchIcon, ShareAltIcon, ShareIcon, ShieldIcon, SideBySideIcon, SidebarAltIcon, SidebarAltToggleIcon, SidebarIcon, SidebarToggleIcon, SpeakerIcon, StackedIcon, StarHollowIcon, StarIcon, StickerIcon, StopAltIcon, StopIcon, StorybookIcon, StructureIcon, SubtractIcon, SunIcon, SupportIcon, SwitchAltIcon, SyncIcon, TabletIcon, ThumbsUpIcon, TimeIcon, TimerIcon, TransferIcon, TrashIcon, TwitterIcon, TypeIcon, UbuntuIcon, UndoIcon, UnfoldIcon, UnlockIcon, UnpinIcon, UploadIcon, UserAddIcon, UserAltIcon, UserIcon, UsersIcon, VSCodeIcon, VerifiedIcon, VideoIcon, WandIcon, WatchIcon, WindowsIcon, WrenchIcon, YoutubeIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon, iconList)
-WARN export 'GlobalStyles' (imported as 'GlobalStyles') was not found in '@/styles/GlobalStyles' (possible exports: default)
 WARN export 'ChevronRight' (imported as 'Icon') was not found in '@storybook/icons' (possible exports: AccessibilityAltIcon, AccessibilityIcon, AddIcon, AdminIcon, AlertAltIcon, AlertIcon, AlignLeftIcon, AlignRightIcon, AppleIcon, ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowSolidDownIcon, ArrowSolidLeftIcon, ArrowSolidRightIcon, ArrowSolidUpIcon, ArrowUpIcon, AzureDevOpsIcon, BackIcon, BasketIcon, BatchAcceptIcon, BatchDenyIcon, BeakerIcon, BellIcon, BitbucketIcon, BoldIcon, BookIcon, BookmarkHollowIcon, BookmarkIcon, BottomBarIcon, BottomBarToggleIcon, BoxIcon, BranchIcon, BrowserIcon, ButtonIcon, CPUIcon, CalendarIcon, CameraIcon, CategoryIcon, CertificateIcon, ChangedIcon, ChatIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronSmallDownIcon, ChevronSmallLeftIcon, ChevronSmallRightIcon, ChevronSmallUpIcon, ChevronUpIcon, ChromaticIcon, ChromeIcon, CircleHollowIcon, CircleIcon, ClearIcon, CloseAltIcon, CloseIcon, CloudHollowIcon, CloudIcon, CogIcon, CollapseIcon, CommandIcon, CommentAddIcon, CommentIcon, CommentsIcon, CommitIcon, CompassIcon, ComponentDrivenIcon, ComponentIcon, ContrastIcon, ControlsIcon, CopyIcon, CreditIcon, CrossIcon, DashboardIcon, DatabaseIcon, DeleteIcon, DiamondIcon, DirectionIcon, DiscordIcon, DocChartIcon, DocListIcon, DocumentIcon, DownloadIcon, DragIcon, EditIcon, EllipsisIcon, EmailIcon, ExpandAltIcon, ExpandIcon, EyeCloseIcon, EyeIcon, FaceHappyIcon, FaceNeutralIcon, FaceSadIcon, FacebookIcon, FailedIcon, FastForwardIcon, FigmaIcon, FilterIcon, FlagIcon, FolderIcon, FormIcon, GDriveIcon, GithubIcon, GitlabIcon, GlobeIcon, GoogleIcon, GraphBarIcon, GraphLineIcon, GraphqlIcon, GridAltIcon, GridIcon, GrowIcon, HeartHollowIcon, HeartIcon, HomeIcon, HourglassIcon, InfoIcon, ItalicIcon, JumpToIcon, KeyIcon, LightningIcon, LightningOffIcon, LinkBrokenIcon, LinkIcon, LinkedinIcon, LinuxIcon, ListOrderedIcon, ListUnorderedIcon, LocationIcon, LockIcon, MarkdownIcon, MarkupIcon, MediumIcon, MemoryIcon, MenuIcon, MergeIcon, MirrorIcon, MobileIcon, MoonIcon, NutIcon, OutboxIcon, OutlineIcon, PaintBrushIcon, PaperClipIcon, ParagraphIcon, PassedIcon, PhoneIcon, PhotoDragIcon, PhotoIcon, PinAltIcon, PinIcon, PlayBackIcon, PlayIcon, PlayNextIcon, PlusIcon, PointerDefaultIcon, PointerHandIcon, PowerIcon, PrintIcon, ProceedIcon, ProfileIcon, PullRequestIcon, QuestionIcon, RSSIcon, RedirectIcon, ReduxIcon, RefreshIcon, ReplyIcon, RepoIcon, RequestChangeIcon, RewindIcon, RulerIcon, SearchIcon, ShareAltIcon, ShareIcon, ShieldIcon, SideBySideIcon, SidebarAltIcon, SidebarAltToggleIcon, SidebarIcon, SidebarToggleIcon, SpeakerIcon, StackedIcon, StarHollowIcon, StarIcon, StickerIcon, StopAltIcon, StopIcon, StorybookIcon, StructureIcon, SubtractIcon, SunIcon, SupportIcon, SwitchAltIcon, SyncIcon, TabletIcon, ThumbsUpIcon, TimeIcon, TimerIcon, TransferIcon, TrashIcon, TwitterIcon, TypeIcon, UbuntuIcon, UndoIcon, UnfoldIcon, UnlockIcon, UnpinIcon, UploadIcon, UserAddIcon, UserAltIcon, UserIcon, UsersIcon, VSCodeIcon, VerifiedIcon, VideoIcon, WandIcon, WatchIcon, WindowsIcon, WrenchIcon, YoutubeIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon, iconList)
 WARN Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
 WARN Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+WARN export 'GlobalStyles' (imported as 'GlobalStyles') was not found in '@styles/GlobalStyles' (possible exports: default)
 WARN asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
 WARN This can impact web performance.
 WARN Assets: 
-WARN   150.40fa8905.iframe.bundle.js (583 KiB)
-WARN   120.515a952b.iframe.bundle.js (996 KiB)
-WARN   374.b8cb15ea.iframe.bundle.js (798 KiB)
+WARN   static/media/ic-notion.de87ba2a.svg (307 KiB)
+WARN   201.87799ed5.iframe.bundle.js (583 KiB)
+WARN   420.aca07a71.iframe.bundle.js (997 KiB)
+WARN   856.c74d49cd.iframe.bundle.js (795 KiB)
 WARN entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
 WARN Entrypoints:
-WARN   main (819 KiB)
-WARN       runtime~main.69dc83f4.iframe.bundle.js
-WARN       374.b8cb15ea.iframe.bundle.js
-WARN       main.99361897.iframe.bundle.js
+WARN   main (816 KiB)
+WARN       runtime~main.b6914e65.iframe.bundle.js
+WARN       856.c74d49cd.iframe.bundle.js
+WARN       main.d08f8124.iframe.bundle.js
 WARN 
 <s> [webpack.Progress] 99% cache shutdown
 <s> [webpack.Progress] 99% cache shutdown
 <s> [webpack.Progress] 100% 
 
-info => Output directory: C:\Users\ssssk\AppData\Local\Temp\chromatic--25252-1DHFf0hd1T3P
+info => Output directory: C:\Users\ssssk\AppData\Local\Temp\chromatic--42780-SkTA3i71nBuR
