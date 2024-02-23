@@ -1,5 +1,5 @@
 import { BlogAPI } from '@api/BlogAPI';
-import { Button } from '@components/common/button/Button';
+import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { useLoading } from '@hooks/useLoading';
