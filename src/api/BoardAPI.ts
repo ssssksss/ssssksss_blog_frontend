@@ -1,8 +1,8 @@
-import { useMutationHook } from '@/components/useHook/useMutationHook';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useMutationHook } from '@components/useHook/useMutationHook';
+import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 

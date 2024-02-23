@@ -1,6 +1,4 @@
-import { AxiosInstance } from '@/utils/axios/AxiosInstance';
-import { useMutation, useQueryClient } from 'react-query';
-import { UserAPIType } from '@/api/type/UserAPI.d';
+import { useMutation } from 'react-query';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

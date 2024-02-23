@@ -1,4 +1,4 @@
-const HamburgerMenu = dynamic(() => import('@/components/common/button/HamburgerMenu'), {
+const HamburgerMenu = dynamic(() => import('@components/common/button/HamburgerMenu'), {
   loading: () => <p>Loading...</p>
 });
 
@@ -6,13 +6,13 @@ const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerCon
   loading: () => <p>Loading...</p>
 });
 
-import Animations from '@/components/common/animations/Animations';
-import { Icons } from '@/components/common/icons/Icons';
-import { store } from '@/redux/store';
-import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import Animations from '@components/common/animations/Animations';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,9 +1,7 @@
-import { CC } from '@/styles/commonComponentStyle';
-import { commonTheme } from '@/styles/theme';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
-import { animationKeyFrames } from '@/styles/animationKeyFrames';
-import Totoro from '../threejs/glTF/Totoro';
+import { animationKeyFrames } from '@styles/animationKeyFrames';
+import { CC } from '@styles/commonComponentStyle';
+import { commonTheme } from '@styles/theme';
 import MyRoom from '../threejs/glTF/room/MyRoom';
 /**
  * Author : Sukyung Lee

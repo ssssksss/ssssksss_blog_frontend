@@ -1,5 +1,5 @@
-import ModalButton from '@/components/common/button/ModalButton';
-import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
+import ModalButton from '@components/common/button/ModalButton';
+import ScheduleModal from '@components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import ScheduleBar from './ScheduleBar';

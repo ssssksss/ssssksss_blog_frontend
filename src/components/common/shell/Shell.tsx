@@ -1,6 +1,6 @@
-import { CC } from '@/styles/commonComponentStyle';
-import { commonTheme } from '@/styles/theme';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
+import { commonTheme } from '@styles/theme';
 import { ReactNode } from 'react';
 
 interface ShellProps {

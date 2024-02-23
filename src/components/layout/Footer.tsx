@@ -1,6 +1,6 @@
-import { Icons } from '@/components/common/icons/Icons';
-import { CC } from '@/styles/commonComponentStyle';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 

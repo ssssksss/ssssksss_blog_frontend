@@ -1,7 +1,7 @@
-import { Input } from '@/components/common/input/Input';
-import { store } from '@/redux/store';
-import rootTheme from '@/styles/theme';
+import { Input } from '@components/common/input/Input';
+import { store } from '@redux/store';
 import type { Meta, StoryObj } from '@storybook/react';
+import rootTheme from '@styles/theme';
 
 const meta: Meta<typeof Input> = {
   title: 'Inputs',

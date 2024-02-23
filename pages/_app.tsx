@@ -1,7 +1,7 @@
-import NavBar from '@/components/layout/NavBar';
-import { store } from '@/redux/store/index';
-import GlobalStyles from '@/styles/GlobalStyles';
+import NavBar from '@components/layout/NavBar';
 import { Global } from '@emotion/react';
+import { store } from '@redux/store/index';
+import GlobalStyles from '@styles/GlobalStyles';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -23,7 +23,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const ReactToastifyComponents = dynamic(
-  () => import('@/components/react-toastify/ReactToastifyComponents'),
+  () => import('@components/react-toastify/ReactToastifyComponents'),
   {
     loading: () => <p>Loading...</p>,
   }

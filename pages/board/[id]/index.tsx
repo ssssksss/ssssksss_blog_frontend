@@ -1,4 +1,4 @@
-import Layout1 from '@/components/layout/Layout1';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 
@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
  */
 
 const ViewBoardCSR = dynamic(
-  () => import('@/components/board/ViewBoardContainer'),
+  () => import('@components/board/ViewBoardContainer'),
   {
     ssr: false,
   }

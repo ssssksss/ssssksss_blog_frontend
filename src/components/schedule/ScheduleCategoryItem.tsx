@@ -1,7 +1,7 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { store } from '@/redux/store';
-import { CC } from '@/styles/commonComponentStyle';
+import { ScheduleAPI } from '@api/ScheduleAPI';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { CC } from '@styles/commonComponentStyle';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';

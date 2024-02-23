@@ -1,7 +1,5 @@
-import { CC } from '@/styles/commonComponentStyle';
-import styled from '@emotion/styled';
-import Animations from './../common/animations/Animations';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import React from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import Layout1 from "@/components/layout/Layout1";
+import Layout1 from '@components/layout/Layout1';
+import styled from '@emotion/styled';
 /**
  * Author : Sukyung Lee
  * FileName: index.tsx

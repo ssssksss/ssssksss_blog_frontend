@@ -1,16 +1,15 @@
+import { MemoAPI } from '@api/MemoAPI';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
-import { CC } from '@/styles/commonComponentStyle';
-import { Icons } from '@/components/common/icons/Icons';
+import { store } from '@redux/store';
+import { SET_MEMO_LIST } from '@redux/store/memo';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import { Input } from '@/components/common/input/Input';
-import Textarea from '../common/textarea/Textarea';
-import {  useRef } from 'react';
-import Button from '../common/button/Button';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { MemoAPI } from '@/api/MemoAPI';
-import { store } from '@/redux/store';
-import { SET_MEMO_LIST } from '@/redux/store/memo';
+import Button from '../common/button/Button';
+import Textarea from '../common/textarea/Textarea';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file MemoItem.tsx

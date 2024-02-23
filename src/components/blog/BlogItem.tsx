@@ -1,8 +1,8 @@
-import { Icons } from '@/components/common/icons/Icons';
-import { CC } from '@/styles/commonComponentStyle';
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
-import { AWSS3Prefix } from '@/utils/variables/url';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@utils/function/dateFormat';
+import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

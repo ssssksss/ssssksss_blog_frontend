@@ -1,7 +1,7 @@
-import Button from '@/components/common/button/Button';
-import { store } from '@/redux/store';
-import rootTheme from '@/styles/theme';
+import Button from '@components/common/button/Button';
+import { store } from '@redux/store';
 import type { Meta, StoryObj } from '@storybook/react';
+import rootTheme from '@styles/theme';
 
 const meta: Meta<typeof Button> = {
   title: 'Buttons',

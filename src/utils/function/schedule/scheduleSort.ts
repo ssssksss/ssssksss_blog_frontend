@@ -1,4 +1,4 @@
-import { dateFormat4y2m2d } from '@/utils/function/dateFormat';
+import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 
 export const scheduleSort = (
   data: [

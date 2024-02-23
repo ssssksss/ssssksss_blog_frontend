@@ -1,16 +1,16 @@
-const SideBar = dynamic(() => import('@/components/layout/SideBar'), {
+const SideBar = dynamic(() => import('@components/layout/SideBar'), {
   loading: () => <p>Loading...</p>,
 });
 
-const TopBar = dynamic(() => import('@/components/layout/TopBar'), {
+const TopBar = dynamic(() => import('@components/layout/TopBar'), {
   loading: () => <p>Loading...</p>,
 });
 
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
-import rootTheme from '@/styles/theme';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
+import rootTheme from '@styles/theme';
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents';

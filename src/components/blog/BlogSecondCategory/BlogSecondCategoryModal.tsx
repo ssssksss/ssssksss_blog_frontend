@@ -1,6 +1,6 @@
-import Button from '@/components/common/button/Button';
-import { CC } from '@/styles/commonComponentStyle';
+import Button from '@components/common/button/Button';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import { useState } from 'react';
 import BlogSecondCategoryCreateBox from './BlogSecondCategoryCreateBox';
 import BlogSecondCategoryDeleteBox from './BlogSecondCategoryDeleteBox';

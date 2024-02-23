@@ -1,14 +1,10 @@
-import { useMutationHook } from '@/components/useHook/useMutationHook';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import authAction, {
-  SET_ACCESS_TOKEN,
-  SET_USER_INFO,
-} from '@/redux/store/auth/actions';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import { useMutation } from 'react-query';
+import { useMutationHook } from '@components/useHook/useMutationHook';
+import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import authAction, { SET_USER_INFO } from '@redux/store/auth/actions';
+import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 
 const getUser = () => {
   return UseQueryHook({

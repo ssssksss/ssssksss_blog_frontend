@@ -1,5 +1,5 @@
-import Layout1 from '@/components/layout/Layout1';
-import ScheduleContainer from '@/components/schedule/ScheduleContainer';
+import Layout1 from '@components/layout/Layout1';
+import ScheduleContainer from '@components/schedule/ScheduleContainer';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 /**

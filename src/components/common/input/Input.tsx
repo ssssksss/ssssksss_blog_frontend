@@ -1,8 +1,8 @@
-import { CC } from '@/styles/commonComponentStyle';
-import { colorTypes } from '@/styles/theme';
-import { AWSS3Prefix } from '@/utils/variables/url';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
+import { colorTypes } from '@styles/theme';
+import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { Icons } from '../icons/Icons';
@@ -270,7 +270,7 @@ const InputStyle = styled.input<IInputProps>`
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: ${props => props.theme.fontSize.md};
+  font-size: ${props => props.theme.fontSize?.md};
   color: ${props =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 
@@ -282,7 +282,7 @@ const InputStyle = styled.input<IInputProps>`
   }
 
   &:focus {
-    outline: inset ${props => `${props.theme.main.primary80}2f`} 5px;
+    outline: solid ${props => `${props.theme.main?.primary80}2f`} 5px;
   }
 
   ${props =>
@@ -302,9 +302,8 @@ const InputStyle = styled.input<IInputProps>`
 
   &[type='checkbox'] {
     appearance: none;
-    outline: solid ${props => props.theme.main.contrast} 1px;
-    ${props => props.theme.inputSizes.checkbox?.[props.h || 'md']};
-    height: ${props => props.h};
+    outline: solid ${props => props.theme.main?.contrast} 1px;
+    height: ${props => props.h || props.theme.inputSizes?.checkbox?.md.height};
     aspect-ratio: 1;
   }
 
@@ -316,13 +315,14 @@ const InputStyle = styled.input<IInputProps>`
   &[type='checkbox']:checked::after {
     content: '✔';
     border-radius: 50%;
-    color: ${props => props.theme.main.primary100};
+    color: ${props => props.theme.main?.primary100};
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    ${props => props.theme.flex.row.center.center};
-    font-size: 1em;
+    ${props => props.theme.flex?.row.center.center};
+    font-size: ${props =>
+      props.h || props.theme.inputSizes?.checkbox?.md.height};
   }
 
   &[type='datetime-local']::-webkit-calendar-picker-indicator {
@@ -353,11 +353,11 @@ const InputStyle = styled.input<IInputProps>`
       ::placeholder {
         transition: all 0.6s ease-in-out;
         opacity: 0.7;
-        font-size: ${props.theme.fontSize.sm};
+        font-size: ${props.theme.fontSize?.sm};
         color: ${
           props.theme.colors?.[props.color] ||
           props.theme.main?.[props.color] ||
-          props.theme.colors.white80
+          props.theme.colors?.white80
         };
     }
     &[type='search'] {
@@ -412,9 +412,9 @@ const ImageFileContainer = styled.label<
   Pick<IInputProps, 'w' | 'h' | 'bg' | 'isImageUrl' | 'color'>
 >`
   width: ${props => props.w || '100%'};
-  height: ${props => props.h || props.theme.inputSizes.md.height};
+  height: ${props => props.h || props.theme.inputSizes['text'].md.height};
   display: block;
-  ${props => props.theme.flex.row.center.center};
+  ${props => props.theme.flex?.row.center.center};
   border-radius: 10px;
   position: relative;
   background: ${props =>

@@ -1,8 +1,8 @@
+import Button from '@components/common/button/Button';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
-import Layout1 from '@/components/layout/Layout1';
-import { CC } from '@/styles/commonComponentStyle';
-import Button from '@/components/common/button/Button';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { CC } from '@styles/commonComponentStyle';
+import { useEffect, useState } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

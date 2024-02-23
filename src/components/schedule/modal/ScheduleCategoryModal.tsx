@@ -1,5 +1,5 @@
-import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import AddScheduleCategoryBox from '../AddScheduleCategoryBox';
 import DeleteScheduleCategoryBox from '../DeleteScheduleCategoryBox';
 import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';

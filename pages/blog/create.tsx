@@ -1,8 +1,7 @@
+import Layout1 from '@components/layout/Layout1';
+import { Spinner37 } from '@components/spinner/Spinners';
 import styled from '@emotion/styled';
-import Layout1 from '@/components/layout/Layout1';
 import dynamic from 'next/dynamic';
-import CreateUpdateBlogContainer from '@/components/blog/CreateUpdateBlogContainer';
-import { Spinner37 } from '@/components/spinner/Spinners';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -12,7 +11,7 @@ import { Spinner37 } from '@/components/spinner/Spinners';
  */
 
 const CreateBlogCSR = dynamic(
-  () => import('@/components/blog/CreateUpdateBlogContainer'),
+  () => import('@components/blog/CreateUpdateBlogContainer'),
   {
     ssr: false,
     loading: () => (
@@ -35,6 +34,8 @@ CreateUpdate.layout = Layout1;
 
 const Container = styled.div`
   margin: auto;
+  position: relative;
+  height: calc(100vh - 64px);
 `;
 
 const Container1 = styled.div`

@@ -1,5 +1,5 @@
-import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

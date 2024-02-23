@@ -1,13 +1,13 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import ScheduleItem from '@/components/schedule/ScheduleItem';
-import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import { ScheduleAPI } from '@api/ScheduleAPI';
+import ScheduleItem from '@components/schedule/ScheduleItem';
+import ScheduleModal from '@components/schedule/modal/ScheduleModal';
+import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import {
   dateFormat4y2m2d,
   todayDayOfTheWeek,
-} from '@/utils/function/dateFormat';
-import styled from '@emotion/styled';
+} from '@utils/function/dateFormat';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ModalButton from '../common/button/ModalButton';

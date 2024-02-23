@@ -1,4 +1,4 @@
-import { IBlogCategoryListResProps } from '@/api/type/BlogAPI';
+import { IBlogCategoryListResProps } from '@api/type/BlogAPI';
 import * as actions from './actions';
 
 type initialStateType = {

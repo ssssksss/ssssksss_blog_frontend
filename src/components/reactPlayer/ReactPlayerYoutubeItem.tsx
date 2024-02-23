@@ -1,11 +1,10 @@
-import Input from '@/components/common/input/Input';
-import { CC } from '@/styles/commonComponentStyle';
+import Button from '@components/common/button/Button';
+import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
-import Button from '@/components/common/button/Button';
-import { keyframes } from '@emotion/css';
-import { commonTheme } from '@/styles/theme';
-import { animationKeyFrames } from '@/styles/animationKeyFrames';
+import { animationKeyFrames } from '@styles/animationKeyFrames';
+import { CC } from '@styles/commonComponentStyle';
+import { commonTheme } from '@styles/theme';
+import { useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerYoutubeItem.tsx

@@ -1,9 +1,9 @@
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
-import Layout1 from '@/components/layout/Layout1';
 // import axios from "axios";
 // import React, { useState, useRef, useEffect, useCallback } from "react";
 // import SocketIOClient from "socket.io-client";
-// import SolveRender from "@/components/websocket/SolveRender";
+// import SolveRender from "@components/websocket/SolveRender";
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx

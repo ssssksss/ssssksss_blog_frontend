@@ -1,14 +1,10 @@
 /* eslint-disable react/no-unknown-property */
-import { CC } from "@/styles/commonComponentStyle";
-import theme from "@/styles/theme";
-import styled from "@emotion/styled";
-import { Suspense, useRef, useState, useEffect } from "react";
-import { OrbitControls, Scroll, ScrollControls } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import gsap from "gsap";
-import { Mesh } from "three";
-import MyRoom from "@/components/threejs/MyRoom";
-import ProjectIntroduce from "@/components/threejs/ProjectIntroduce";
+import MyRoom from '@components/threejs/MyRoom';
+import ProjectIntroduce from '@components/threejs/ProjectIntroduce';
+import styled from '@emotion/styled';
+import { Canvas } from '@react-three/fiber';
+import gsap from 'gsap';
+import { Suspense, useEffect } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -35,31 +31,31 @@ const HomeThreejs = () => {
   useEffect(() => {
     const myRoom_gsap_timeline = gsap.timeline({
       scrollTrigger: {
-        trigger: ".section-one",
-        start: "top top-=300px",
-        endTrigger: ".section-two",
-        end: "bottom bottom-=20%",
+        trigger: '.section-one',
+        start: 'top top-=300px',
+        endTrigger: '.section-two',
+        end: 'bottom bottom-=20%',
         // markers: true,
         scrub: 1,
       },
     });
     myRoom_gsap_timeline.to(myRoom_gsap, {
-      ease: "power04.easeOut",
+      ease: 'power04.easeOut',
       t: 100,
     });
 
     const projectIntroduce_gsap_timeline = gsap.timeline({
       scrollTrigger: {
-        trigger: ".section-one",
-        start: "top top-=240px",
-        endTrigger: ".section-one",
-        end: "bottom bottom",
+        trigger: '.section-one',
+        start: 'top top-=240px',
+        endTrigger: '.section-one',
+        end: 'bottom bottom',
         // markers: true,
         scrub: 1,
       },
     });
     projectIntroduce_gsap_timeline.to(projectIntroduce_gsap, {
-      ease: "power4.easeOut",
+      ease: 'power4.easeOut',
       t: 10,
       opacity: 1,
     });
@@ -74,7 +70,8 @@ const HomeThreejs = () => {
           fov: 20,
           near: 5,
           far: 1000,
-        }}>
+        }}
+      >
         {/* <color attach="background" args={["#ABD0BC"]} /> */}
         {/* <OrbitControls /> */}
         <Suspense fallback={null}>

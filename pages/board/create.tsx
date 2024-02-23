@@ -1,8 +1,7 @@
+import Layout1 from '@components/layout/Layout1';
+import { Spinner37 } from '@components/spinner/Spinners';
 import styled from '@emotion/styled';
-import Layout1 from '@/components/layout/Layout1';
 import dynamic from 'next/dynamic';
-import CreateUpdateBoardContainer from '@/components/board/CreateUpdateBoardContainer';
-import { Spinner37 } from '@/components/spinner/Spinners';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -12,7 +11,7 @@ import { Spinner37 } from '@/components/spinner/Spinners';
  */
 
 const CreateBoardCSR = dynamic(
-  () => import('@/components/board/CreateUpdateBoardContainer'),
+  () => import('@components/board/CreateUpdateBoardContainer'),
   {
     ssr: false,
     loading: () => <Spinner37 />,

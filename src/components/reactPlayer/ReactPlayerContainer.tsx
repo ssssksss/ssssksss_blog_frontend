@@ -1,16 +1,16 @@
-const YoutubePlayerModal = dynamic(() => import('@/components/common/modal/YoutubePlayerModal'), {
+const YoutubePlayerModal = dynamic(() => import('@components/common/modal/YoutubePlayerModal'), {
   loading: () => <p>Loading...</p>
 });
 
-import Animations from '@/components/common/animations/Animations';
-import ModalButton from '@/components/common/button/ModalButton';
-import { Icons } from '@/components/common/icons/Icons';
-import useModal from '@/hooks/useModal';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
-import { Time } from '@/utils/function/Time';
+import Animations from '@components/common/animations/Animations';
+import ModalButton from '@components/common/button/ModalButton';
+import { Icons } from '@components/common/icons/Icons';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import useModal from '@hooks/useModal';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
+import { Time } from '@utils/function/Time';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef, useState } from 'react';

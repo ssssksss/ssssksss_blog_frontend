@@ -1,26 +1,26 @@
 const LoginModal = dynamic(
-  () => import('@/components/common/modal/LoginModal'),
+  () => import('@components/common/modal/LoginModal'),
   {
     loading: () => <p>Loading...</p>,
   }
 );
 
-const AuthModal = dynamic(() => import('@/components/common/modal/AuthModal'), {
+const AuthModal = dynamic(() => import('@components/common/modal/AuthModal'), {
   loading: () => <p>Loading...</p>,
 });
 
-import { UserAPI } from '@/api/UserAPI';
-import Button from '@/components/common/button/Button';
-import ModalButton from '@/components/common/button/ModalButton';
-import { Icons } from '@/components/common/icons/Icons';
-import { useLoading } from '@/hooks/useLoading';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { SET_LEFT_NAV_ITEM_ACTIVE } from '@/redux/store/leftNav';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { UserAPI } from '@api/UserAPI';
+import Button from '@components/common/button/Button';
+import ModalButton from '@components/common/button/ModalButton';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { useLoading } from '@hooks/useLoading';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,10 +1,10 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import ModalButton from '@/components/common/button/ModalButton';
-import { Icons } from '@/components/common/icons/Icons';
-import ScheduleCategoryModal from '@/components/schedule/modal/ScheduleCategoryModal';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import { ScheduleAPI } from '@api/ScheduleAPI';
+import ModalButton from '@components/common/button/ModalButton';
+import { Icons } from '@components/common/icons/Icons';
+import ScheduleCategoryModal from '@components/schedule/modal/ScheduleCategoryModal';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { memo, useReducer } from 'react';
 import { useSelector } from 'react-redux';

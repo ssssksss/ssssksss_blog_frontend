@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { RootState } from '@redux/store/reducers';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactToastifyComponents.tsx
  * @version 0.0.1 "2023-06-15 10:58:54"
  * @description 설명
- * import { store } from "@/redux/store";
- * import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
+ * import { store } from "@redux/store";
+ * import { SET_TOASTIFY_MESSAGE } from "@redux/store/toastify";
  * const dispatch = useDispatch();
  * store.dispatch(SET_TOASTIFY_MESSAGE({
       type: "success",

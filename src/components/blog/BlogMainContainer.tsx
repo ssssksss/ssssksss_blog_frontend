@@ -1,10 +1,10 @@
-import { BlogAPI } from '@/api/BlogAPI';
-import { Icons } from '@/components/common/icons/Icons';
-import Select from '@/components/common/select/Select';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { CC } from '@/styles/commonComponentStyle';
+import { BlogAPI } from '@api/BlogAPI';
+import { Icons } from '@components/common/icons/Icons';
+import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

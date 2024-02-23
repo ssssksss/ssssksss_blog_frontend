@@ -1,11 +1,11 @@
-import Button from '@/components/common/button/Button';
-import { Input } from '@/components/common/input/Input';
-import { UserSignupYup } from '@/components/yup/UserSignupYup';
-import { CC } from '@/styles/commonComponentStyle';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import Button from '@components/common/button/Button';
+import { Input } from '@components/common/input/Input';
+import { UserSignupYup } from '@components/yup/UserSignupYup';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 /**

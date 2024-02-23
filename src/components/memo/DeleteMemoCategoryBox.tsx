@@ -1,13 +1,13 @@
-import { MemoAPI } from '@/api/MemoAPI';
-import Button from '@/components/common/button/Button';
-import Select from '@/components/common/select/Select';
-import { MemoDeleteYup } from '@/components/yup/MemoYup';
-import { store } from '@/redux/store';
-import { SET_MEMO_CATEGORY_LIST } from '@/redux/store/memo';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import { MemoAPI } from '@api/MemoAPI';
+import Button from '@components/common/button/Button';
+import Select from '@components/common/select/Select';
+import { MemoDeleteYup } from '@components/yup/MemoYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { SET_MEMO_CATEGORY_LIST } from '@redux/store/memo';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**

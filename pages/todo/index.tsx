@@ -1,8 +1,8 @@
-import Button from '@/components/common/button/Button';
-import Layout1 from '@/components/layout/Layout1';
-import TodoScheduleContainer from '@/components/todo/TodoScheduleContainer';
-import { CC } from '@/styles/commonComponentStyle';
+import Button from '@components/common/button/Button';
+import Layout1 from '@components/layout/Layout1';
+import TodoScheduleContainer from '@components/todo/TodoScheduleContainer';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -13,12 +13,12 @@ import { useState } from 'react';
  * @description 설명
  */
 
-const MemoContainer = dynamic(() => import('@/components/todo/MemoContainer'), {
+const MemoContainer = dynamic(() => import('@components/todo/MemoContainer'), {
   loading: () => <p>Loading...</p>,
 });
 
 const ScheduleContainer = dynamic(
-  () => import('@/components/schedule/ScheduleContainer'),
+  () => import('@components/schedule/ScheduleContainer'),
   {
     loading: () => <p>Loading...</p>,
   }

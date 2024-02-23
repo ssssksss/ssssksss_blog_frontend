@@ -1,5 +1,5 @@
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import axios from 'axios';
 
 const AxiosInstance = axios.create({

@@ -1,11 +1,11 @@
-import { UserAPI } from '@/api/UserAPI';
-import Button from '@/components/common/button/Button';
-import { Input } from '@/components/common/input/Input';
-import { UserLoginYup } from '@/components/yup/UserLoginYup';
-import { CC } from '@/styles/commonComponentStyle';
+import { UserAPI } from '@api/UserAPI';
+import Button from '@components/common/button/Button';
+import { Input } from '@components/common/input/Input';
+import { UserLoginYup } from '@components/yup/UserLoginYup';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
 
 /**

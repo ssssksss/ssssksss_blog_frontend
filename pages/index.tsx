@@ -1,4 +1,4 @@
-import Footer from '@/components/layout/Footer';
+import Footer from '@components/layout/Footer';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import Layout1 from 'src/components/layout/Layout1';

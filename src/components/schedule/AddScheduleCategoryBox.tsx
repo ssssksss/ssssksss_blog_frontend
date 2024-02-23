@@ -1,10 +1,10 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import Button from '@/components/common/button/Button';
-import { Input } from '@/components/common/input/Input';
-import Select from '@/components/common/select/Select';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import { ScheduleAPI } from '@api/ScheduleAPI';
+import Button from '@components/common/button/Button';
+import { Input } from '@components/common/input/Input';
+import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';

@@ -1,8 +1,8 @@
-import Button from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
-import { CC } from '@/styles/commonComponentStyle';
+import Button from '@components/common/button/Button';
+import { Icons } from '@components/common/icons/Icons';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import React, { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
 

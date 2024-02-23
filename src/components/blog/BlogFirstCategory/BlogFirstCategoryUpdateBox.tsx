@@ -1,13 +1,13 @@
-import { BlogAPI } from '@/api/BlogAPI';
-import Button from '@/components/common/button/Button';
-import { Input } from '@/components/common/input/Input';
-import Select from '@/components/common/select/Select';
-import { BlogFirstCategoryUpdateYup } from '@/components/yup/BlogCategoryYup';
-import { useLoading } from '@/hooks/useLoading';
-import { RootState } from '@/redux/store/reducers';
-import { CC } from '@/styles/commonComponentStyle';
+import { BlogAPI } from '@api/BlogAPI';
+import Button from '@components/common/button/Button';
+import { Input } from '@components/common/input/Input';
+import Select from '@components/common/select/Select';
+import { BlogFirstCategoryUpdateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useLoading } from '@hooks/useLoading';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**

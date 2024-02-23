@@ -1,6 +1,6 @@
-import { colorTypes } from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colorTypes } from '@styles/theme';
 import { MouseEventHandler, useCallback } from 'react';
 
 interface ButtonProps {
@@ -10,9 +10,9 @@ interface ButtonProps {
   disabled?: boolean;
   w?: string;
   h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
-  bg?: string;
+  bg?: colorTypes;
   brR?: string; // border-radius
-  color?: string;
+  color?: colorTypes;
   outline?: boolean;
   outlineColor?: colorTypes;
   fontFamily?: string;

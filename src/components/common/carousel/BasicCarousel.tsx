@@ -1,10 +1,10 @@
-import { CC } from '@/styles/commonComponentStyle';
-import { commonTheme } from '@/styles/theme';
+import Button from '@components/common/button/Button';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
+import { commonTheme } from '@styles/theme';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import Button from '@/components/common/button/Button';
-import styled from '@emotion/styled';
-import { keyframes, css } from '@emotion/react';
 
 /**
  * Author : Sukyung Lee

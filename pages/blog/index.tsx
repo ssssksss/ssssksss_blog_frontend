@@ -1,16 +1,16 @@
 const BlogMainContainer = dynamic(
-  () => import('@/components/blog/BlogMainContainer')
+  () => import('@components/blog/BlogMainContainer')
 );
 
-import BlogCategoryContainer from '@/components/blog/BlogCategory/BlogCategoryContainer';
-import BlogHeadContainer from '@/components/blog/BlogHeadContainer';
-import Layout1 from '@/components/layout/Layout1';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { CC } from '@/styles/commonComponentStyle';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
-import UrlQueryStringToObject from '@/utils/function/UrlQueryStringToObject';
+import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryContainer';
+import BlogHeadContainer from '@components/blog/BlogHeadContainer';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
+import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';

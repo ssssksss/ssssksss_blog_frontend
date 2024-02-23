@@ -1,8 +1,6 @@
-import { commonTheme } from '@/styles/theme';
-import React from 'react';
 import styled from '@emotion/styled';
-import BlogFirstMenu from '../blog/BlogUI/BlogFirstMenu';
-import BlogSecondMenu from '../blog/BlogUI/BlogSecondMenu';
+import { commonTheme } from '@styles/theme';
+import React from 'react';
 
 type AppLayoutProps = {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { Icons } from '@/components/common/icons/Icons';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { forwardRef, useCallback, useRef, useState } from 'react';

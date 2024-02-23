@@ -1,5 +1,5 @@
-import { CC } from '@/styles/commonComponentStyle';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import CreateMemoCategoryBox from '../CreateMemoCategoryBox';
 import DeleteMemoCategoryBox from '../DeleteMemoCategoryBox';
 import UpdateMemoCategoryBox from '../UpdateMemoCategoryBox';

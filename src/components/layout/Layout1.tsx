@@ -1,11 +1,11 @@
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LoadingComponent from '../common/loading/LoadingComponent';
-// import PageTransitions from ".@/components/common/reactTransitionGroup/PageTransitions";
+// import PageTransitions from ".@components/common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
   children: React.ReactNode;

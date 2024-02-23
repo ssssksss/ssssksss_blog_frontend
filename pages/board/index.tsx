@@ -1,8 +1,8 @@
-import BoardHeaderContainer from '@/components/board/BoardHeadContainer';
-import BoardMainContainer from '@/components/board/BoardMainContainer';
-import Layout1 from '@/components/layout/Layout1';
-import { RootState } from '@/redux/store/reducers';
+import BoardHeaderContainer from '@components/board/BoardHeadContainer';
+import BoardMainContainer from '@components/board/BoardMainContainer';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

@@ -138,6 +138,50 @@ const btnSizes = {
 
 // 인풋도 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const inputSizes = {
+  checkbox: {
+    xs: {
+      height: '16px',
+      aspectRatio: 1,
+    },
+    sm: {
+      height: '24px',
+      aspectRatio: 1,
+    },
+    md: {
+      height: '32px',
+      aspectRatio: 1,
+    },
+    lg: {
+      height: '40px',
+      aspectRatio: 1,
+    },
+    xl: {
+      height: '48px',
+      aspectRatio: 1,
+    },
+  },
+  radio: {
+    xs: {
+      height: '16px',
+      aspectRatio: 1,
+    },
+    sm: {
+      height: '24px',
+      aspectRatio: 1,
+    },
+    md: {
+      height: '32px',
+      aspectRatio: 1,
+    },
+    lg: {
+      height: '40px',
+      aspectRatio: 1,
+    },
+    xl: {
+      height: '48px',
+      aspectRatio: 1,
+    },
+  },
   [('text', 'password', 'email', 'search')]: {
     xs: {
       height: '16px',
@@ -153,28 +197,6 @@ const inputSizes = {
     },
     xl: {
       height: '48px',
-    },
-  },
-  [('radio', 'checkbox')]: {
-    xs: {
-      height: '16px',
-      aspectRatio: 1,
-    },
-    sm: {
-      height: '24px',
-      aspectRatio: 1,
-    },
-    md: {
-      height: '32px',
-      aspectRatio: 1,
-    },
-    lg: {
-      height: '40px',
-      aspectRatio: 1,
-    },
-    xl: {
-      height: '48px',
-      aspectRatio: 1,
     },
   },
 };

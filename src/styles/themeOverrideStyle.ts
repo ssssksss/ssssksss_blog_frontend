@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { CC } from '@/styles/commonComponentStyle';
 
 export const overflowHoverVerticalScrollStyle = styled.div`
   display: flex;

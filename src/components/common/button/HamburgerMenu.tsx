@@ -1,8 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
-import { store } from '@/redux/store';
-import { RootState } from '@/redux/store/reducers';
 
 /**
  * Author : Sukyung Lee

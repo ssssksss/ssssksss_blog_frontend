@@ -1,4 +1,4 @@
-import { createCalendar } from '@/utils/function/schedule/createCalendar';
+import { createCalendar } from '@utils/function/schedule/createCalendar';
 
 const initialState = {
   currentScheduleDate: '',

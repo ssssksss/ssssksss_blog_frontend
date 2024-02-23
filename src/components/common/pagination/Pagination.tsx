@@ -1,5 +1,5 @@
-import Button from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
+import Button from '@components/common/button/Button';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { MouseEvent, useState } from 'react';

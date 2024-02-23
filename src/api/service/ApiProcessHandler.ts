@@ -1,6 +1,6 @@
-import { store } from '@/redux/store';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import AxiosInstance from '@utils/axios/AxiosInstance';
+import { store } from '@redux/store';
+import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

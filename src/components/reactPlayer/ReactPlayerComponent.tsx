@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
 // import ReactPlayer from "react-player";
+import { store } from "@redux/store";
+import { RootState } from "@redux/store/reducers";
+import { SET_TOASTIFY_MESSAGE } from "@redux/store/toastify";
+import { animationKeyFrames } from "@styles/animationKeyFrames";
+import { CC } from "@styles/commonComponentStyle";
+import { commonTheme } from "@styles/theme";
+import { useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store/reducers";
-import Time from "../../common/function/Time";
-import {commonTheme} from "@/styles/theme";
-import { css, keyframes } from "@emotion/css";
-import { animationKeyFrames } from "@/styles/animationKeyFrames";
-import Button from "../../common/button/Button";
+import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../../Modal/CustomModal";
+import Button from "../../common/button/Button";
+import Time from "../../common/function/Time";
 import Input from "../../common/input/Input";
-import { CC } from "@/styles/commonComponentStyle";
 import ReactPlayerYoutubeItem from "./ReactPlayerYoutubeItem";
-import { store } from "@/redux/store";
-import { SET_TOASTIFY_MESSAGE } from "@/redux/store/toastify";
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ReactPlayerComponent.tsx

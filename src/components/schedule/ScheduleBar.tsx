@@ -1,8 +1,8 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import Button from '@/components/common/button/Button';
-import ModalButton from '@/components/common/button/ModalButton';
-import { Input } from '@/components/common/input/Input';
-import ScheduleModal from '@/components/schedule/modal/ScheduleModal';
+import { ScheduleAPI } from '@api/ScheduleAPI';
+import Button from '@components/common/button/Button';
+import ModalButton from '@components/common/button/ModalButton';
+import { Input } from '@components/common/input/Input';
+import ScheduleModal from '@components/schedule/modal/ScheduleModal';
 import styled from "@emotion/styled";
 import { useState } from 'react';
 /**

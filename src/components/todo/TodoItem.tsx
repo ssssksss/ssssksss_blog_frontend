@@ -1,18 +1,13 @@
-import { CC } from '@/styles/commonComponentStyle';
+import { TodoAPI } from '@api/TodoAPI';
+import ModalButton from '@components/common/button/ModalButton';
+import { Input } from '@components/common/input/Input';
 import styled from '@emotion/styled';
-import { Input } from '@/components/common/input/Input';
-import Button from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
-import Image from 'next/image';
-import { useState } from 'react';
-import ModalButton from '@/components/common/button/ModalButton';
-import { inflate } from 'zlib';
-import TodoModal from './modal/TodoModal';
+import { store } from '@redux/store';
+import { RootState } from '@redux/store/reducers';
+import { SET_TODO_LIST } from '@redux/store/todo';
+import { CC } from '@styles/commonComponentStyle';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/reducers';
-import { TodoAPI } from '@/api/TodoAPI';
-import { store } from '@/redux/store';
-import { SET_TODO_LIST } from '@/redux/store/todo';
+import TodoModal from './modal/TodoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file TodoItem.tsx

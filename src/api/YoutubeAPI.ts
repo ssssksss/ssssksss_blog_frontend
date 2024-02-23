@@ -1,8 +1,8 @@
-import { useMutationHook } from '@/components/useHook/useMutationHook';
-import { UseQueryHook } from '@/components/useHook/useQueryHook';
-import { store } from '@/redux/store';
-import { SET_TOASTIFY_MESSAGE } from '@/redux/store/toastify';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import { useMutationHook } from '@components/useHook/useMutationHook';
+import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { store } from '@redux/store';
+import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
 
 const createYoutubeLink = props => {

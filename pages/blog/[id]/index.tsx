@@ -1,6 +1,6 @@
-import Layout1 from '@/components/layout/Layout1';
-import AxiosInstance from '@/utils/axios/AxiosInstance';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
 }
 
 const ViewBlogCSR = dynamic(
-  () => import('@/components/blog/ViewBlogContainer'),
+  () => import('@components/blog/ViewBlogContainer'),
   {
     ssr: false,
   }

@@ -1,9 +1,9 @@
-import Layout1 from '@/components/layout/Layout1';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { CC } from '@/styles/commonComponentStyle';
-import rootTheme from '@/styles/theme';
+import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { CC } from '@styles/commonComponentStyle';
+import rootTheme from '@styles/theme';
 import Head from 'next/head';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

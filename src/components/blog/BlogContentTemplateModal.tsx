@@ -1,11 +1,11 @@
-import { BlogAPI } from '@/api/BlogAPI';
-import { Button } from '@/components/common/button/Button';
-import { Icons } from '@/components/common/icons/Icons';
-import { useLoading } from '@/hooks/useLoading';
-import { store } from '@/redux/store';
-import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@/redux/store/blogContentTemplate';
-import { CC } from '@/styles/commonComponentStyle';
+import { BlogAPI } from '@api/BlogAPI';
+import { Button } from '@components/common/button/Button';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { useLoading } from '@hooks/useLoading';
+import { store } from '@redux/store';
+import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@redux/store/blogContentTemplate';
+import { CC } from '@styles/commonComponentStyle';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';

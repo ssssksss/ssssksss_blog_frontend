@@ -1,11 +1,11 @@
-import { ScheduleAPI } from '@/api/ScheduleAPI';
-import { Icons } from '@/components/common/icons/Icons';
-import { store } from '@/redux/store';
-import { rootActions } from '@/redux/store/actions';
-import { Time } from '@/utils/function/Time';
-import { createCalendar } from '@/utils/function/schedule/createCalendar';
-import { scheduleSort } from '@/utils/function/schedule/scheduleSort';
+import { ScheduleAPI } from '@api/ScheduleAPI';
+import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { Time } from '@utils/function/Time';
+import { createCalendar } from '@utils/function/schedule/createCalendar';
+import { scheduleSort } from '@utils/function/schedule/scheduleSort';
 import Image from 'next/image';
 import { memo, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
