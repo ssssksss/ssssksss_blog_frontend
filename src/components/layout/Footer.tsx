@@ -68,7 +68,7 @@ const Container = styled.footer`
 const ImageList = styled(CC.RowCenterDiv.withComponent('ul'))`
   padding: 8px 0px;
   li {
-    width: 64px;
+    width: 48px;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
