@@ -1,6 +1,6 @@
 import { MemoAPI } from '@api/MemoAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { MemoCreateYup } from '@components/yup/MemoYup';
 import styled from '@emotion/styled';
@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-17 16:56:30"
  * @description 설명
  */
-const CreateMemoCategoryBox = props => {
+const CreateMemoCategoryBox = (props) => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -31,7 +31,7 @@ const CreateMemoCategoryBox = props => {
   ];
 
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(MemoCreateYup),
     mode: 'onChange',
     defaultValues: {
@@ -66,7 +66,7 @@ const CreateMemoCategoryBox = props => {
         SET_MEMO_CATEGORY_LIST([
           ...memoStore.memoCategoryList,
           res.json.memoCategory,
-        ])
+        ]),
       );
       props.closeModal();
     });
@@ -85,10 +85,10 @@ const CreateMemoCategoryBox = props => {
         placeholder={'1번째 카테고리'}
         bg={'transparent'}
         outline={true}
-        data={categoryColors.map(i => {
+        data={categoryColors.map((i) => {
           return { value: i, name: ' ', bg: i };
         })}
-        onChange={i => selectChangeMemoCategoryHandler(i)}
+        onChange={(i) => selectChangeMemoCategoryHandler(i)}
       ></Select>
       <CC.RowDiv pd={'16px 0px'}>
         <Button
@@ -97,7 +97,7 @@ const CreateMemoCategoryBox = props => {
           outline={true}
           onClickCapture={handleSubmit(
             addMemoCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
           bg={'contrast'}

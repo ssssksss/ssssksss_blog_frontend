@@ -1,8 +1,7 @@
 import { BlogAPI } from '@api/BlogAPI';
 import { Icons } from '@components/common/icons/Icons';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
-import { useLoading } from '@hooks/useLoading';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
@@ -18,14 +17,11 @@ const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [searchBlogList, setSearchBlogList] = useState([]);
   const inputRef = useRef<null>();
-  const [isLoading, loadingFunction] = useLoading();
 
   const SearchHandler = () => {
-    loadingFunction(
-      BlogAPI.getSearchBlogList({
-        keyword: inputRef.current.value,
-      })
-    ).then(res => {
+    BlogAPI.getSearchBlogList({
+      keyword: inputRef.current.value,
+    }).then((res) => {
       // ! API쪽 코드 응답 형식이 달라서 나중에 수정 필요
       setSearchBlogList(res?.data?.blogList);
       res.data?.blogList?.length > 0
@@ -59,8 +55,8 @@ const BlogHeadContainer = () => {
         leftIconImage={Icons.SearchIcon.src}
         onChange={delaySearch(SearchHandler, 600)}
         onClick={() =>
-          setIsOpenBlogItemList(prev =>
-            searchBlogList?.length > 0 ? !prev : false
+          setIsOpenBlogItemList((prev) =>
+            searchBlogList?.length > 0 ? !prev : false,
           )
         }
       />
@@ -91,7 +87,7 @@ export default BlogHeadContainer;
 const Container = styled.div`
   gap: 4px;
   width: 100%;
-  background: ${props => props.theme.main.primary20};
+  background: ${(props) => props.theme.main.primary20};
   border-radius: 10px;
   padding: 4px;
   position: relative;
@@ -100,19 +96,19 @@ const Container = styled.div`
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   position: absolute;
-  background: ${props => props.theme.main.contrast};
-  outline: solid 4px ${props => props.theme.main.secondary80};
+  background: ${(props) => props.theme.main.contrast};
+  outline: solid 4px ${(props) => props.theme.main.secondary80};
   padding: 16px;
   {
     props.isEmpty && 
-    outline: inset ${props => props.theme.main.primary80} 4px;
+    outline: inset ${(props) => props.theme.main.primary80} 4px;
   }
   transform: translate(-4px, 6px);
   border-radius: 10px;
   gap: 8px;
   z-index: 40;
   @media (max-height: 624px) {
-    ${props => props.theme.scroll.hidden};
+    ${(props) => props.theme.scroll.hidden};
     height: calc(100vh - 104px);
   }
 

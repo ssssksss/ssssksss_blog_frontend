@@ -1,7 +1,7 @@
 import { YoutubeAPI } from '@api/YoutubeAPI';
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -25,10 +25,10 @@ const YoutubePlayerModal = () => {
   const inputRef = useRef<null>();
   const queryClient = useQueryClient();
   const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
-    onSuccessHandler: res => {
+    onSuccessHandler: (res) => {
       const { id, imageUrl, tags, title, userId, youtubeUrl } =
         res.data.data.json.youtube;
-      queryClient.setQueryData(['getYoutubeList'], oldData => {
+      queryClient.setQueryData(['getYoutubeList'], (oldData) => {
         oldData.json.youtubeList.unshift({
           id,
           imageUrl,
@@ -43,16 +43,16 @@ const YoutubePlayerModal = () => {
   });
   const getYoutubeLinkListResData = YoutubeAPI.getYoutubeLinkList();
   const deleteYoutubeLinkMutation = YoutubeAPI.deleteYoutubeLink({
-    onSuccessHandler: data => {
-      queryClient.setQueryData('getYoutubeList', oldData => {
+    onSuccessHandler: (data) => {
+      queryClient.setQueryData('getYoutubeList', (oldData) => {
         oldData.json.youtubeList = oldData.json.youtubeList.filter(
-          i => i.id != data.variables.id
+          (i) => i.id != data.variables.id,
         );
         return oldData;
       });
     },
   });
-  const [toggle, toggleHandler] = useReducer(prev => !prev, true);
+  const [, toggleHandler] = useReducer((prev) => !prev, true);
 
   const addYoutubeLinkHandler = async () => {
     axios
@@ -64,7 +64,7 @@ const YoutubePlayerModal = () => {
           type: 'video',
         },
       })
-      .then(i => {
+      .then((i) => {
         const title = i.data.items[0].snippet.title;
         const imageUrl = i.data.items[0].snippet.thumbnails.default.url;
         const tags = JSON.stringify(i.data.items[0].snippet.tags);
@@ -76,7 +76,7 @@ const YoutubePlayerModal = () => {
           youtubeUrl,
         });
       })
-      .catch(err => {
+      .catch((_) => {
         alert('잘못된 요청입니다.');
       });
   };
@@ -87,7 +87,7 @@ const YoutubePlayerModal = () => {
       SET_TOASTIFY_MESSAGE({
         type: 'success',
         message: `복사되었습니다.`,
-      })
+      }),
     );
   };
 
@@ -104,7 +104,7 @@ const YoutubePlayerModal = () => {
       SET_TOASTIFY_MESSAGE({
         type: 'success',
         message: `선택되었습니다.`,
-      })
+      }),
     );
   };
 
@@ -128,8 +128,9 @@ const YoutubePlayerModal = () => {
       </ArticleStyle>
       <ul>
         {getYoutubeLinkListResData.isLoading ||
-          getYoutubeLinkListResData.data?.json?.youtubeList.map(i => (
+          getYoutubeLinkListResData.data?.json?.youtubeList.map((i, index) => (
             <LiStyle
+              key={index}
               onClick={() => selectYoutubeLinkHandler(i)}
               active={
                 i.youtubeUrl == window.localStorage.getItem('youtubeLink')
@@ -143,14 +144,14 @@ const YoutubePlayerModal = () => {
               <div>
                 <p> {i.title} </p>
                 <CC.RowDiv color={'gray80'} gap={4}>
-                  {JSON.parse(i.tags).map(j => (
-                    <span> {j} </span>
+                  {JSON.parse(i.tags).map((j, index1) => (
+                    <span key={index1}> {j} </span>
                   ))}
                 </CC.RowDiv>
               </div>
               <ImageBox
                 bg={'gray80'}
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   copyLinkHandler(i.youtubeUrl);
                 }}
@@ -158,7 +159,7 @@ const YoutubePlayerModal = () => {
                 <Image src={Icons.CopyIcon} width={'24px'} height={'24px'} />
               </ImageBox>
               <ConfirmButtonStyle
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   deleteLinkHandler(i.id);
                 }}
@@ -179,15 +180,15 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
   width: 100%;
 
   ul {
-    ${props => props.theme.scroll.hidden};
-    outline: solid ${props => props.theme.main.primary80} 1px;
+    ${(props) => props.theme.scroll.hidden};
+    outline: solid ${(props) => props.theme.main.primary80} 1px;
     min-height: 120px;
     width: 100%;
   }
 
   li {
     height: 60px;
-    border-bottom: solid ${props => props.theme.colors.gray40} 1px;
+    border-bottom: solid ${(props) => props.theme.colors.gray40} 1px;
     display: grid;
     grid-template-columns: 36px calc(100% - 108px) 36px 36px;
     padding: 0px 16px;
@@ -196,11 +197,11 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
     width: 100%;
 
     &:hover {
-      background: ${props => props.theme.main.primary40};
+      background: ${(props) => props.theme.main.primary40};
       cursor: pointer;
-      color: ${props => props.theme.main.contrast};
+      color: ${(props) => props.theme.main.contrast};
       span {
-        color: ${props => props.theme.main.contrast};
+        color: ${(props) => props.theme.main.contrast};
       }
     }
 
@@ -214,8 +215,8 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0px 4px;
-      ${props => props.theme.scroll.hidden};
-      border-right: solid ${props => props.theme.colors.gray80} 1px;
+      ${(props) => props.theme.scroll.hidden};
+      border-right: solid ${(props) => props.theme.colors.gray80} 1px;
       p {
         font-weight: 800;
         padding: 0px 4px;
@@ -224,7 +225,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
         text-overflow: ellipsis;
       }
       span {
-        outline: solid ${props => props.theme.colors.black40} 1px;
+        outline: solid ${(props) => props.theme.colors.black40} 1px;
         border-radius: 8px;
         padding: 4px;
       }
@@ -238,7 +239,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
   }
 `;
 const LiStyle = styled.li<{ active: boolean }>`
-  ${props =>
+  ${(props) =>
     props.active &&
     css`
       background: ${props.theme.main.primary40};
@@ -249,25 +250,25 @@ const LiStyle = styled.li<{ active: boolean }>`
     `};
 `;
 const ImageBox = styled.button`
-  ${props => props.theme.flex.row.center.center};
+  ${(props) => props.theme.flex.row.center.center};
   padding: 4px;
   border-radius: 8px;
-  background: ${props => props.theme.colors.gray60};
+  background: ${(props) => props.theme.colors.gray60};
 
   &:hover {
-    background: ${props => props.theme.main.primary40};
-    outline: solid ${props => props.theme.main.contrast} 2px;
+    background: ${(props) => props.theme.main.primary40};
+    outline: solid ${(props) => props.theme.main.contrast} 2px;
   }
 `;
 const ConfirmButtonStyle = styled(ConfirmButton)`
-  ${props => props.theme.flex.row.center.center};
+  ${(props) => props.theme.flex.row.center.center};
   padding: 4px;
   border-radius: 8px;
-  background: ${props => props.theme.colors.gray60};
+  background: ${(props) => props.theme.colors.gray60};
 
   &:hover {
-    background: ${props => props.theme.main.primary40};
-    outline: solid ${props => props.theme.main.contrast} 2px;
+    background: ${(props) => props.theme.main.primary40};
+    outline: solid ${(props) => props.theme.main.contrast} 2px;
   }
 `;
 const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
@@ -277,11 +278,11 @@ const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
     height: 30px;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.black80};
+    color: ${(props) => props.theme.colors.black80};
     margin: 0px 0px 16px 0px;
     font-size: 1.4rem;
     font-weight: 700;
-    border-bottom: solid ${props => props.theme.colors.gray80} 1px;
+    border-bottom: solid ${(props) => props.theme.colors.gray80} 1px;
   }
   label {
     display: flex;
@@ -292,18 +293,18 @@ const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
     padding: 12px 4px;
     border-radius: 4px;
     border: none;
-    outline: solid ${props => props.theme.colors.gray80} 2px;
+    outline: solid ${(props) => props.theme.colors.gray80} 2px;
   }
   input::placeholder {
-    color: ${props => props.theme.colors.gray100};
+    color: ${(props) => props.theme.colors.gray100};
   }
   span {
     font-size: 0.8rem;
-    color: ${props => props.theme.colors.gray80};
+    color: ${(props) => props.theme.colors.gray80};
     text-align: left;
   }
   button {
-    color: ${props => props.theme.colors.white40};
+    color: ${(props) => props.theme.colors.white40};
     height: 36px;
   }
 `;

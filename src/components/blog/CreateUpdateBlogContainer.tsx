@@ -1,7 +1,7 @@
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import LoadingComponent from '@components/common/loading/LoadingComponent';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
@@ -39,72 +39,35 @@ interface IEditCreateUpdateBlogContainerProps {
   edit?: boolean;
 }
 
-interface IBlogResDataProps {
-  status: number;
-  msg: string;
-  json: {
-    id: number;
-    title: string;
-    description: string;
-    userId: number;
-    likeNumber: number;
-    commentNumber: number;
-    viewNumber: number;
-    firstCategoryId: number;
-    secondCategoryId: number;
-    thumbnailImageUrl: string;
-    createdAt: string;
-    blogContentId: string;
-  };
-}
-
-const blogContentForm = [
-  '#  [] 제목 \n' +
-    '##  1} 설명 \n' +
-    '##  {2} 예시 \n' +
-    '###  ex1) \n' +
-    '####  결과 \n' +
-    '###  ex2) \n' +
-    '####  결과 \n' +
-    '---',
-  '# [] 제목 \n' +
-    '## {2} 문법 \n' +
-    '## {3} 예시 \n' +
-    '###  ex1) \n' +
-    '#### 결과 \n' +
-    '###  ex2) \n' +
-    '####  결과 \n' +
-    '---',
-  '| 속성 | 설명 |  \n' +
-    '| --- | --- | \n' +
-    '|  |  | \n' +
-    '|  |  | \n' +
-    '|  |  | \n' +
-    '|  |  | \n',
-  '| 속성 | 사용 | 설명  | \n' +
-    '| --- | --- | --- | \n' +
-    '|  |  |  | \n' +
-    '|  |  |  | \n' +
-    '|  |  |  | \n' +
-    '|  |  |  | ',
-  '<a href="" target="_blank">  </a>',
-];
+// interface IBlogResDataProps {
+//   status: number;
+//   msg: string;
+//   json: {
+//     id: number;
+//     title: string;
+//     description: string;
+//     userId: number;
+//     likeNumber: number;
+//     commentNumber: number;
+//     viewNumber: number;
+//     firstCategoryId: number;
+//     secondCategoryId: number;
+//     thumbnailImageUrl: string;
+//     createdAt: string;
+//     blogContentId: string;
+//   };
+// }
 
 const CreateUpdateBlogContainer = (
-  props: IEditCreateUpdateBlogContainerProps
+  props: IEditCreateUpdateBlogContainerProps,
 ) => {
-  const [toggle, toggleHandler] = useReducer(prev => !prev, true);
-  const [isLoading, setIsLoading] = useReducer(prev => !prev, false);
+  const [isLoading, setIsLoading] = useReducer((prev) => !prev, false);
   const [isHideContainer, hideContainerToggle] = useReducer(
-    v => !v,
-    props.edit ? true : false
+    (v) => !v,
+    props.edit ? true : false,
   );
   const router = useRouter();
   const editorRef = useRef<Editor>(null);
-  const locationHref = window.location.pathname;
-  const postUrlHref =
-    '/blog/' + locationHref.split('/')[2] + '/' + locationHref.split('/')[3];
-  // const fileRef = useRef<HTMLInputElement>(null);
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
@@ -123,21 +86,21 @@ const CreateUpdateBlogContainer = (
     },
   });
   const blogCategoryListResData = BlogAPI.getBlogCategoryList();
-  const blogResData: IBlogResDataProps = BlogAPI.getBlog({
+  BlogAPI.getBlog({
     id: router.query.id,
-    onSuccessHandler: res => {
+    onSuccessHandler: (res) => {
       methods.setValue('title', res.data.json?.title);
       methods.setValue('description', res.data.json?.description);
       methods.setValue('selectFirstCategoryId', res.data.json?.firstCategoryId);
       methods.setValue(
         'selectSecondCategoryId',
-        res.data.json?.secondCategoryId
+        res.data.json?.secondCategoryId,
       );
 
-      blogCategoryListResData.data.json.blogFirstCategoryList.map(i => {
+      blogCategoryListResData.data.json.blogFirstCategoryList.map((i) => {
         if (i.id == res.data.json?.firstCategoryId) {
           methods.setValue('selectFirstCategoryName', i.name);
-          i.secondCategoryList.map(j => {
+          i.secondCategoryList.map((j) => {
             if (j.id == res.data.json?.secondCategoryId) {
               methods.setValue('selectSecondCategoryName', j.name, {
                 shouldValidate: true,
@@ -152,32 +115,32 @@ const CreateUpdateBlogContainer = (
 
       BlogAPI.getBlogContentTemplate({
         secondCategoryId: res.data.json?.secondCategoryId,
-      }).then(res => {
+      }).then((res) => {
         store.dispatch(
           rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-            res.data?.blogContentTemplateList
-          )
+            res.data?.blogContentTemplateList,
+          ),
         );
       });
 
       let _blogContentImageList = [];
       let index2 = 0;
-      while (1) {
+      const _TRUE = true;
+      while (_TRUE) {
         let index1 = res.data.json?.content.indexOf(AWSS3Prefix, index2);
         if (index1 === -1) break;
         index2 = res.data.json?.content.indexOf(
           '.',
-          index1 + AWSS3Prefix.length
+          index1 + AWSS3Prefix.length,
         );
         _blogContentImageList.push(
           res.data.json?.content.substring(
             index1 + AWSS3Prefix.length,
-            index2 + 4
-          )
+            index2 + 4,
+          ),
         );
       }
       setBlogContentImageList(_blogContentImageList);
-      backUrl = `/blog?first-category=${res.data?.json?.firstCategoryId}&second-category=${res.data?.json?.secondCategoryId}`;
     },
     enabled: props.edit && !!blogCategoryListResData.data?.json,
   });
@@ -193,7 +156,7 @@ const CreateUpdateBlogContainer = (
 
     // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
     // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
-    tempBlogImage.map(i => {
+    tempBlogImage.map((i) => {
       if (getContent_md.search(i.url) != -1) {
         imageUrlList.push(i.url);
         imageFileList.push(i.file);
@@ -209,16 +172,16 @@ const CreateUpdateBlogContainer = (
       // thumbnailImageFile: fileRef.current.files[0],
       thumbnailImageFile: methods.getValues('thumbnailImageFile'),
       directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId'
+        'selectFirstCategoryId',
       )}/${methods.getValues('selectSecondCategoryId')}`,
       imageUrlList: imageUrlList,
       imageFileList: imageFileList,
     })
-      .then(res => {
+      .then((res) => {
         console.log('CreateUpdateBlogContainer.tsx 파일 : ', res);
         router.replace(`/blog/${res.json.id}`);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('CreateUpdateBlogContainer.tsx 파일 : ', error);
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
         navigator.clipboard.writeText(getContent_md);
@@ -231,7 +194,7 @@ const CreateUpdateBlogContainer = (
 
   const uploadHandler = async (file: any) => {
     const url = URL.createObjectURL(file).substring(5);
-    setTempBlogImage(prev => [...prev, { url, file }]);
+    setTempBlogImage((prev) => [...prev, { url, file }]);
     return url;
   };
 
@@ -245,7 +208,7 @@ const CreateUpdateBlogContainer = (
     let removeImageBucketDirectory = [];
 
     // 글에 적혀있는 새로운 이미지들을 파일과 경로를 수집 (이미지 생성 용도)
-    tempBlogImage?.map(i => {
+    tempBlogImage?.map((i) => {
       if (getContent_md.search(i.url) !== -1) {
         imageUrlList.push(i.url);
         imageFileList.push(i.file);
@@ -253,7 +216,7 @@ const CreateUpdateBlogContainer = (
     });
 
     // 기존 블로그 내용에 있던 이미지 경로가 없다면 이미지 url을 수집 (이미지 삭제 용도)
-    blogContentImageList?.map(i => {
+    blogContentImageList?.map((i) => {
       if (getContent_md.search(i) === -1) {
         removeImageBucketDirectory.push(i);
       }
@@ -269,19 +232,19 @@ const CreateUpdateBlogContainer = (
       // thumbnailImageFile: fileRef.current.files[0],
       thumbnailImageFile: methods.getValues('thumbnailImageFile'),
       directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId'
+        'selectFirstCategoryId',
       )}/${methods.getValues('selectSecondCategoryId')}`,
       imageUrlList: imageUrlList,
       imageFileList: imageFileList,
       S3directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId'
+        'selectFirstCategoryId',
       )}/${methods.getValues('selectSecondCategoryId')}`,
       removeImageBucketDirectory: removeImageBucketDirectory,
     })
-      .then(res => {
+      .then((_) => {
         router.replace(`/blog/${router.query.id}`);
       })
-      .catch(error => {
+      .catch((_) => {
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
         navigator.clipboard.writeText(getContent_md);
       })
@@ -297,25 +260,25 @@ const CreateUpdateBlogContainer = (
     bg: string;
   }) => {
     blogCategoryListResData?.data.json?.blogFirstCategoryList
-      .filter(i => i.id == props.value)
-      .map(j => {
+      .filter((i) => i.id == props.value)
+      .map((j) => {
         methods.setValue('selectFirstCategoryId', props.value);
         methods.setValue('selectFirstCategoryName', props.name);
         methods.setValue('selectSecondCategoryId', j.secondCategoryList[0]?.id);
         methods.setValue(
           'selectSecondCategoryName',
           j.secondCategoryList[0]?.name,
-          { shouldValidate: true }
+          { shouldValidate: true },
         );
         setDefaultImageUrl(j.secondCategoryList[0]?.thumbnailImageUrl);
         if (j.secondCategoryList.length > 0) {
           BlogAPI.getBlogContentTemplate({
             secondCategoryId: j.secondCategoryList[0].id,
-          }).then(res => {
+          }).then((res) => {
             store.dispatch(
               rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-                res.data?.blogContentTemplateList
-              )
+                res.data?.blogContentTemplateList,
+              ),
             );
           });
         }
@@ -328,11 +291,11 @@ const CreateUpdateBlogContainer = (
     bg: string;
   }) => {
     blogCategoryListResData?.data.json?.blogFirstCategoryList
-      .filter(i => i.id == methods.getValues('selectFirstCategoryId'))
-      .map(j => {
+      .filter((i) => i.id == methods.getValues('selectFirstCategoryId'))
+      .map((j) => {
         j.secondCategoryList
-          .filter(k => k.id == props.value)
-          .map(l => {
+          .filter((k) => k.id == props.value)
+          .map((l) => {
             methods.setValue('selectSecondCategoryId', l.id);
             methods.setValue('selectSecondCategoryName', l.name, {
               shouldValidate: true,
@@ -340,11 +303,11 @@ const CreateUpdateBlogContainer = (
             setDefaultImageUrl(l.thumbnailImageUrl);
             BlogAPI.getBlogContentTemplate({
               secondCategoryId: l.id,
-            }).then(res => {
+            }).then((res) => {
               store.dispatch(
                 rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-                  res.data?.blogContentTemplateList
-                )
+                  res.data?.blogContentTemplateList,
+                ),
               );
             });
           });
@@ -398,10 +361,10 @@ const CreateUpdateBlogContainer = (
                         name: methods.getValues('selectFirstCategoryName'),
                       }}
                       data={blogCategoryListResData?.data.json?.blogFirstCategoryList.map(
-                        i => ({
+                        (i) => ({
                           value: i.id,
                           name: i.name,
-                        })
+                        }),
                       )}
                     ></Select>
                     <Select
@@ -413,12 +376,12 @@ const CreateUpdateBlogContainer = (
                         name: methods.getValues('selectSecondCategoryName'),
                       }}
                       data={blogCategoryListResData?.data.json?.blogFirstCategoryList
-                        .filter(k => {
+                        .filter((k) => {
                           return (
                             k.id == methods.getValues('selectFirstCategoryId')
                           );
                         })[0]
-                        ?.secondCategoryList.map(i => ({
+                        ?.secondCategoryList.map((i) => ({
                           value: i.id,
                           name: i.name,
                         }))}
@@ -470,9 +433,9 @@ const CreateUpdateBlogContainer = (
                     // ! TOAST UI에서 Preview 이미지가 사라지는 문제 떄문에 작성한 코드...
                     let toastUIPreviewBlobImages =
                       window.document.querySelectorAll(
-                        "img[src^='" + window.location.origin + "']"
+                        "img[src^='" + window.location.origin + "']",
                       );
-                    toastUIPreviewBlobImages.forEach(i => {
+                    toastUIPreviewBlobImages.forEach((i) => {
                       i.setAttribute('src', 'blob:' + i.src);
                     });
                   }}
@@ -517,10 +480,10 @@ const CreateUpdateBlogContainer = (
                   modal={
                     <BlogContentTemplateModal
                       firstCategoryId={methods.getValues(
-                        'selectFirstCategoryId'
+                        'selectFirstCategoryId',
                       )}
                       secondCategoryId={methods.getValues(
-                        'selectSecondCategoryId'
+                        'selectSecondCategoryId',
                       )}
                     />
                   }
@@ -535,51 +498,57 @@ const CreateUpdateBlogContainer = (
                   .blogContentTemplateStore?.blogContentTemplateList?.map(
                     (i, index) => (
                       <BlogItemContentFormButton
+                        key={index}
                         onClick={() => {
                           navigator.clipboard.writeText(i.content);
                           store.dispatch(
                             SET_TOASTIFY_MESSAGE({
                               type: 'success',
                               message: `복사되었습니다.`,
-                            })
+                            }),
                           );
                         }}
                       >
                         {index}
                       </BlogItemContentFormButton>
-                    )
+                    ),
                   )}
                 <BlogItemContentFormButton
                   onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[0]);
-                  }}
-                >
-                  폼1
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[1]);
-                  }}
-                >
-                  폼2
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[2]);
+                    navigator.clipboard.writeText(`'| 속성 | 설명 |  \n' +
+                    '| --- | --- | \n' +
+                    '|  |  | \n' +
+                    '|  |  | \n' +
+                    '|  |  | \n' +
+                    '|  |  | \n',`);
                   }}
                 >
                   테1
                 </BlogItemContentFormButton>
                 <BlogItemContentFormButton
                   onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[3]);
+                    navigator.clipboard
+                      .writeText(`  '| 속성 | 사용 | 설명  | \n' +
+                    '| --- | --- | --- | \n' +
+                    '|  |  |  | \n' +
+                    '|  |  |  | \n' +
+                    '|  |  |  | \n' +
+                    '|  |  |  | ',`);
                   }}
                 >
                   테2
                 </BlogItemContentFormButton>
                 <BlogItemContentFormButton
                   onClick={() => {
-                    navigator.clipboard.writeText(blogContentForm[4]);
+                    navigator.clipboard.readText().then((res) => {
+                      navigator.clipboard.writeText(
+                        '<a href="' +
+                          res +
+                          '" target="_blank"> ' +
+                          res +
+                          ' </a>',
+                      );
+                    });
                   }}
                 >
                   링크
@@ -606,7 +575,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
   padding: 4px 16px;
   gap: 4px;
 
-  visibility: ${props => props.isLoading && 'hidden'};
+  visibility: ${(props) => props.isLoading && 'hidden'};
 
   .toastui-editor-toolbar {
     position: sticky;
@@ -622,8 +591,8 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
     h1[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.red20 + '33'};
-      font-size: ${props => props.theme.calcRem(28)};
+      background: ${(props) => props.theme.colors.red20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(28)};
       padding: 4px 0px;
     }
     h1[data-nodeid]::before {
@@ -632,8 +601,8 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
     h2[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.orange20 + '33'};
-      font-size: ${props => props.theme.calcRem(24)};
+      background: ${(props) => props.theme.colors.orange20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(24)};
       padding: 2px 0px;
     }
     h2[data-nodeid]::before {
@@ -642,8 +611,8 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
     h3[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.orange20 + '33'};
-      font-size: ${props => props.theme.calcRem(20)};
+      background: ${(props) => props.theme.colors.orange20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(20)};
     }
     h3[data-nodeid]::before {
       content: '🔶 ';
@@ -652,17 +621,17 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
       content: '🔸 ';
     }
     pre {
-      outline: solid ${props => props.theme.main.primary80} 1px;
+      outline: solid ${(props) => props.theme.main.primary80} 1px;
       border-radius: 10px;
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      font-size: ${props => props.theme.calcRem(12)};
-      background: ${props => props.theme.colors.white80};
+      font-size: ${(props) => props.theme.calcRem(12)};
+      background: ${(props) => props.theme.colors.white80};
 
       & > button {
         display: none;
         content: '';
-        background-image: ${props =>
+        background-image: ${(props) =>
           props.icon && `url('/img/ui-icon/ic-board.svg')`};
         background-size: 20px;
         background-repeat: no-repeat;
@@ -685,7 +654,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
 
     th {
       outline: solid black 1px;
-      background: ${props => props.theme.main.primary60};
+      background: ${(props) => props.theme.main.primary60};
     }
     td {
       outline: solid black 1px;
@@ -693,7 +662,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
     }
     hr {
       height: 12px;
-      background: ${props => props.theme.main.secondary80};
+      background: ${(props) => props.theme.main.secondary80};
     }
 
     p > img {
@@ -731,7 +700,7 @@ const HeaderContainer = styled(CC.ColumnDiv)`
   width: calc(100% - 8px);
   height: max-content;
   z-index: 6;
-  background: ${props => props.theme.colors.gray80};
+  background: ${(props) => props.theme.colors.gray80};
   outline: solid black 1px;
   border-radius: 10px;
   padding: 4px;
@@ -742,8 +711,8 @@ const HeaderContainer = styled(CC.ColumnDiv)`
 `;
 
 const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
-  visibility: ${props => (props.isHide ? 'hidden' : 'visible')};
-  height: ${props => (props.isHide ? '0px' : '100%')};
+  visibility: ${(props) => (props.isHide ? 'hidden' : 'visible')};
+  height: ${(props) => (props.isHide ? '0px' : '100%')};
   z-index: 3;
 
   select {
@@ -759,22 +728,22 @@ const Title = styled(Input)`
   --font-size: 1.6rem;
   width: 100%;
   height: 40px;
-  font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-  color: ${props => props.theme.colors.black80};
+  font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
+  color: ${(props) => props.theme.colors.black80};
   padding: 0px 10px;
   z-index: 3;
   border: none;
   font-size: var(--font-size);
-  border-bottom: 2px solid ${props => props.theme.colors.black40};
+  border-bottom: 2px solid ${(props) => props.theme.colors.black40};
   border-radius: 10px;
   outline: solid black 1px;
 
   &::placeholder {
     font-size: var(--font-size);
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
   }
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 1.2rem;
     &::placeholder {
       font-size: 1.2rem;
@@ -797,7 +766,7 @@ const EditorFooter = styled(CC.GridColumn2)`
 const BlogItemContentFormContainer = styled.section`
   right: 0px;
   top: 300px;
-  ${props => props.theme.scroll.hidden}
+  ${(props) => props.theme.scroll.hidden}
   position: fixed;
   display: flex;
   flex-flow: nowrap column;
@@ -809,7 +778,8 @@ const BlogItemContentFormContainer = styled.section`
 
 const BlogItemContentFormButton = styled.button`
   padding: 2px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 2px,
     rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
   border-radius: 4px;
 `;
@@ -817,9 +787,9 @@ const BlogItemContentFormButton = styled.button`
 const Description = styled(Input)`
   --font-size: 1.4rem;
   width: 100%;
-  font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+  font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: var(--font-size);
-  color: ${props => props.theme.colors.black60};
+  color: ${(props) => props.theme.colors.black60};
   padding: 0px 10px;
   border: none;
   border-radius: 0px;
@@ -829,10 +799,10 @@ const Description = styled(Input)`
 
   &::placeholder {
     font-size: var(--font-size);
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
   }
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 1rem;
     &::placeholder {
       font-size: 1rem;

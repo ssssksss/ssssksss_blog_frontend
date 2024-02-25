@@ -1,4 +1,5 @@
 import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { animationKeyFrames } from '@styles/animationKeyFrames';
@@ -16,9 +17,9 @@ interface IReactPlayerYoutubeItemProps {
   url?: string;
   name?: string;
   choiceYoutubeLink?: string;
-  UpdateCacheStorageHandler: (input: any, props: any) => void;
-  DeleteCacheStorageHandler: (props: any) => void;
-  ChoiceYoutubePlayLinkHandler: (input: any, props: any) => void;
+  UpdateCacheStorageHandler: () => void;
+  DeleteCacheStorageHandler: () => void;
+  ChoiceYoutubePlayLinkHandler: () => void;
 }
 
 const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
@@ -34,7 +35,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           <CC.RowDiv width="50px"> url : </CC.RowDiv>
           <Input
             value={inputValue.url}
-            onChange={e => {
+            onChange={(e) => {
               setInputValue({
                 ...inputValue,
                 url: e.target.value,
@@ -46,7 +47,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           <CC.RowDiv width="50px"> 이름 : </CC.RowDiv>
           <Input
             value={inputValue.name}
-            onChange={e => {
+            onChange={(e) => {
               setInputValue({
                 ...inputValue,
                 name: e.target.value,
@@ -71,17 +72,14 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
         >
           수정
         </Button>
-        <Button
+        <ConfirmButton
           onClick={() => {
-            if (!confirm('확인(예) 또는 취소(아니오)를 선택해주세요.')) {
-            } else {
-              props.DeleteCacheStorageHandler(props);
-            }
+            props.DeleteCacheStorageHandler(props);
           }}
           color="red"
         >
           삭제
-        </Button>
+        </ConfirmButton>
       </CC.RowRightDiv>
     </Container>
   );
@@ -89,7 +87,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
 export default ReactPlayerYoutubeItem;
 
 const Container = styled(CC.RowDiv)<{ active: boolean }>`
-  animation: ${props =>
+  animation: ${(props) =>
     props.active && `${animationKeyFrames.rainbowColors} 1s infinite`} 
   background: ${commonTheme.linearGradientColors.skyblue};
   z-index: 10;

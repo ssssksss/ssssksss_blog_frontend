@@ -1,5 +1,4 @@
 import Button from '@components/common/button/Button';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import { useState } from 'react';
@@ -63,40 +62,8 @@ const Container = styled(CC.ColumnDiv)`
   min-height: 400px;
   padding: 10px;
   gap: 16px;
-  color: ${props => props.theme.colors.white80};
+  color: ${(props) => props.theme.colors.white80};
   font-size: 1.2rem;
   max-width: 400px;
   margin: auto;
-
-  /* @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
-    ${props => props.theme.flex.row._};
-  } */
-`;
-
-const BlogCategoryBox = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
-
-  & > button:nth-of-type(1) {
-    align-items: end;
-  }
-`;
-
-const commonStyle = css`
-  border: 1px solid #fff;
-  background: rgba(0, 0, 0, 0.01);
-  backdrop-filter: blur(1px);
-`;
-
-const Header = styled.header`
-  ${props => props.theme.flex.column};
-  padding: 16px;
-  gap: 0.25rem;
-  align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
-  ${commonStyle};
-
-  span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-    font-size: 20px;
-  }
 `;

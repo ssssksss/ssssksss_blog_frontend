@@ -1,6 +1,6 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import Textarea from '@components/common/textarea/Textarea';
 import styled from '@emotion/styled';
@@ -56,7 +56,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           userId: props.data.scheduleCategory?.userId,
           bg: props.data.scheduleCategory?.backgroundColor,
         }
-      : {}
+      : {},
   );
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
 
@@ -71,9 +71,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       key: 'selection',
     },
   ]);
-  let choiceScheduleCategory = '';
 
-  const addScheduleHandler = () => {
+  const createScheduleHandler = () => {
     if (
       !scheduleTitleRef.current.value ||
       !scheduleContentRef.current.value ||
@@ -100,7 +99,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               store.getState().scheduleStore.calendarMonth,
               authStore.id,
             ],
-            oldData => {
+            (oldData) => {
               let _index = -1;
               oldData.json.scheduleList.map((i, index) => {
                 if (
@@ -146,7 +145,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 });
               }
               return oldData;
-            }
+            },
           );
         } else {
           store.dispatch(
@@ -168,7 +167,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   isVisible: scheduleData.scheduleCategory.isVisible,
                 },
               },
-            ])
+            ]),
           );
         }
 
@@ -198,9 +197,9 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 store.getState().scheduleStore.calendarMonth,
                 authStore.id,
               ],
-              oldData => {
+              (oldData) => {
                 oldData.json.scheduleList = oldData.json.scheduleList.map(
-                  (i, index) => {
+                  (i) => {
                     if (scheduleData.id == i.id) {
                       return {
                         id: scheduleData.id,
@@ -220,13 +219,13 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                       };
                     }
                     return i;
-                  }
+                  },
                 );
                 return oldData;
-              }
+              },
             );
           } else {
-            let temp = scheduleStore.todayScheduleList.map(i => {
+            let temp = scheduleStore.todayScheduleList.map((i) => {
               if (i.id == props.data.id) {
                 return {
                   id: scheduleData.id,
@@ -259,11 +258,13 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     ScheduleAPI.deleteSchedule({
       id: props.data.id,
     })
-      .then((res: any) => {
+      .then((_) => {
         store.dispatch(
           SET_TODAY_SCHEDULE_LIST(
-            scheduleStore.todayScheduleList.filter(i => i.id != props.data.id)
-          )
+            scheduleStore.todayScheduleList.filter(
+              (i) => i.id != props.data.id,
+            ),
+          ),
         );
         queryClient.setQueryData(
           [
@@ -271,12 +272,12 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             store.getState().scheduleStore.calendarMonth,
             authStore.id,
           ],
-          oldData => {
+          (oldData) => {
             oldData.json.scheduleList = oldData.json.scheduleList.filter(
-              i => props.data.id != i.id
+              (i) => props.data.id != i.id,
             );
             return oldData;
-          }
+          },
         );
         props.closeModal();
       })
@@ -290,7 +291,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     let _temp = store
       .getState()
       .scheduleStore.scheduleCategoryList.filter(
-        i => i.id == scheduleCategory?.id
+        (i) => i.id == scheduleCategory?.id,
       )[0];
     if (_temp) {
       setScheduleCategory(_temp);
@@ -314,11 +315,11 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   props.edit
                     ? ''
                     : scheduleStore.scheduleCategoryList.length == 0
-                    ? '우측에서 카테고리를 생성해주세요'
-                    : '카테고리를 선택해주세요'
+                      ? '우측에서 카테고리를 생성해주세요'
+                      : '카테고리를 선택해주세요'
                 }
                 outline={true}
-                onChange={i =>
+                onChange={(i) =>
                   setScheduleCategory({ id: i.value, name: i.name, bg: i.bg })
                 }
                 defaultValue={{
@@ -327,9 +328,9 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   bg: scheduleCategory?.bg || scheduleCategory?.backgroundColor,
                 }}
                 data={scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-                  i => {
+                  (i) => {
                     return { value: i.id, name: i.name, bg: i.backgroundColor };
-                  }
+                  },
                 )}
               ></Select>
             </CC.RowDiv>
@@ -359,7 +360,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         </CC.ColumnDiv>
         <CC.ColumnCenterDiv h={'100%'} gap={4} pd={'0px 4px'}>
           <DateRangePicker
-            onChange={item => {
+            onChange={(item) => {
               setState([item.selection]);
             }}
             showSelectionPreview={true}
@@ -375,7 +376,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           <Button
             w={'100%'}
             bg={'white80'}
-            onClick={e => {
+            onClick={(e) => {
               updateScheduleHandler();
               e.stopPropagation();
             }}
@@ -387,7 +388,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             w={'100%'}
             bg={'red60'}
             outline={true}
-            onClick={e => {
+            onClick={(e) => {
               deleteScheduleHandler();
               e.stopPropagation();
             }}
@@ -399,8 +400,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
         <Button
           w={'100%'}
           bg={'white80'}
-          onClick={e => {
-            addScheduleHandler();
+          onClick={(e) => {
+            createScheduleHandler();
             e.stopPropagation();
           }}
           outline={true}
@@ -416,10 +417,10 @@ export default ScheduleModal;
 const Container = styled(CC.ColumnBetweenDiv)`
   gap: 4px;
   padding: 8px 8px;
-  color: ${props => props.theme.colors.black80};
+  color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
-  background: ${props => props.theme.main.primary40};
-  font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+  background: ${(props) => props.theme.main.primary40};
+  font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: 0.8rem;
   min-height: 260px;
 
@@ -442,7 +443,7 @@ const Container = styled(CC.ColumnBetweenDiv)`
   }
   .rdrMonth {
     font-size: 0.8rem;
-    @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+    @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
       font-size: 0.7rem;
     }
   }
@@ -456,7 +457,7 @@ const ReactiveDiv = styled.div`
   flex-flow: nowrap column;
   gap: 4px;
 
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     flex-flow: nowrap row;
     & > div {
       width: 50%;

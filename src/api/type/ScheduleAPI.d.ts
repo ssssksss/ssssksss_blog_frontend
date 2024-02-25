@@ -6,6 +6,6 @@ interface IGetScheduleListTESTProps {
   month: number;
 }
 
-export const ScheduleAPIType = {
-  IGetScheduleListTESTProps,
+export type ScheduleAPIType = {
+  IGetScheduleListTESTProps;
 };

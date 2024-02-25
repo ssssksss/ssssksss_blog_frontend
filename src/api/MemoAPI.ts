@@ -1,6 +1,6 @@
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
-const addMemoCategory = props => {
+const addMemoCategory = (props) => {
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'POST',
@@ -13,7 +13,7 @@ const addMemoCategory = props => {
   });
 };
 
-const getMemoCategoryList = props => {
+const getMemoCategoryList = (_) => {
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'GET',
@@ -21,18 +21,7 @@ const getMemoCategoryList = props => {
   });
 };
 
-// const getMemoCategoryList = () => {
-//   return UseQueryHook({
-//     queryKey: ['memoList'],
-//     requestData: {
-//       url: '/api/memo/category',
-//       method: 'GET',
-//     },
-//     isRefetchWindowFocus: false,
-//   });
-// };
-
-const updateMemoCategory = props => {
+const updateMemoCategory = (props) => {
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'PUT',
@@ -46,7 +35,7 @@ const updateMemoCategory = props => {
   });
 };
 
-const deleteMemoCategory = props => {
+const deleteMemoCategory = (props) => {
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'DELETE',
@@ -58,7 +47,7 @@ const deleteMemoCategory = props => {
   });
 };
 
-const addMemo = props => {
+const addMemo = (props) => {
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'POST',
@@ -71,7 +60,7 @@ const addMemo = props => {
   });
 };
 
-const getMemoList = props => {
+const getMemoList = (props) => {
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'GET',
@@ -82,7 +71,7 @@ const getMemoList = props => {
   });
 };
 
-const updateMemo = props => {
+const updateMemo = (props) => {
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'PUT',
@@ -95,7 +84,7 @@ const updateMemo = props => {
   });
 };
 
-const deleteMemo = props => {
+const deleteMemo = (props) => {
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'DELETE',

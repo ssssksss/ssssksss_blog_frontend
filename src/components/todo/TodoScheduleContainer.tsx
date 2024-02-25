@@ -20,15 +20,8 @@ import TodoModal from './modal/TodoModal';
  * @description 설명
  */
 
-interface ITodoScheduleContainerProps {
-  active: number;
-  onClick: () => void;
-}
-
-const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
+const TodoScheduleContainer = (_) => {
   const todoStore = useSelector((state: RootState) => state.todoStore);
-  const authStore = useSelector((state: RootState) => state.authStore);
-  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({
     type: 'today',
@@ -54,8 +47,8 @@ const TodoScheduleContainer = (props: ITodoScheduleContainerProps) => {
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {todoStore.todoList.map(i => (
-            <li>
+          {todoStore.todoList.map((i) => (
+            <li key={i.data?.id}>
               <TodoItem data={i} />
             </li>
           ))}
@@ -99,8 +92,8 @@ const Container = styled(CC.GridColumn2.withComponent('article'))`
   & > div {
     width: 100%;
     height: 100%;
-    ${props => props.theme.scroll.hidden};
-    background: ${props => props.theme.colors.white80};
+    ${(props) => props.theme.scroll.hidden};
+    background: ${(props) => props.theme.colors.white80};
     outline: solid black 1px;
     border-radius: 10px;
   }
@@ -110,7 +103,7 @@ const TitleContainer = styled(CC.GridColumn2)`
   /* position: relative; */
   width: 100%;
   height: 48px;
-  font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+  font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
   grid-template-columns: 1fr 32px;
   align-items: center;
   outline: solid black 1px;
@@ -120,7 +113,7 @@ const TitleContainer = styled(CC.GridColumn2)`
 const Title = styled(CC.ColumnCenterCenterDiv)`
   & > span {
     font-size: 0.8rem;
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
   }
 `;
 
@@ -131,10 +124,6 @@ const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   gap: 4px;
   border-radius: 10px;
   outline: solid black 1px;
-  ${props => props.theme.scroll.hidden};
+  ${(props) => props.theme.scroll.hidden};
   padding: 4px 4px 12px 4px;
-`;
-
-const FoldStateDiv = styled.div`
-  font-family: ${props => props.theme.fontFamily.typoHelloPOP};
 `;

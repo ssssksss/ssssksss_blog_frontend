@@ -1,13 +1,12 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import ModalButton from '@components/common/button/ModalButton';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { SET_TODAY_SCHEDULE_LIST } from '@redux/store/schedule';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
-import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import ScheduleModal from './modal/ScheduleModal';
 /**
@@ -36,14 +35,13 @@ interface IScheduleItemProps {
 }
 
 const ScheduleItem = (props: IScheduleItemProps) => {
-  const inputRef = useRef<null>();
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
 
   const _IsCheckedToggleHandler = () => {
     ScheduleAPI.toggleCheckSchedule({
       id: props.data?.id,
-    }).then((res: any) => {
-      let temp = scheduleStore.todayScheduleList.map(i => {
+    }).then((_) => {
+      let temp = scheduleStore.todayScheduleList.map((i) => {
         if (i.id == props.data?.id) {
           i.isChecked = !props.data?.isChecked;
         }
@@ -54,26 +52,28 @@ const ScheduleItem = (props: IScheduleItemProps) => {
   };
 
   return (
-    <Container isChecked={props?.data?.isChecked} bg={props?.data?.scheduleCategory?.backgroundColor}
+    <Container
+      isChecked={props?.data?.isChecked}
+      bg={props?.data?.scheduleCategory?.backgroundColor}
       modal={<ScheduleModal edit={true} data={props?.data} />}
       modalOverlayVisible={true}
       modalMinW={'320px'}
     >
-      <CategoryName color={'black40'} h={'18px'} fw={true} color={props?.data?.scheduleCategory?.backgroundColor}>
+      <CategoryName
+        h={'18px'}
+        fw={true}
+        color={props.data.scheduleCategory?.backgroundColor || 'black40'}
+      >
         {props?.data?.scheduleCategory?.name}
       </CategoryName>
       <TitleBox w={'100%'} pd={'2px 6px 2px 2px'} gap={8}>
-        <Title
-          isChecked={props?.data?.isChecked}
-        >
-          {props?.data?.content}
-        </Title>
+        <Title isChecked={props?.data?.isChecked}>{props?.data?.content}</Title>
         <Input
           type="checkbox"
           outline={true}
           color={'red100'}
-          w={"24px"}
-          h={"24px"}
+          w={'24px'}
+          h={'24px'}
           checked={props?.data?.isChecked}
           onClick={(e) => {
             _IsCheckedToggleHandler();
@@ -91,12 +91,8 @@ const ScheduleItem = (props: IScheduleItemProps) => {
 };
 export default ScheduleItem;
 
-const Container = styled(ModalButton)<{ isChecked: boolean, bg: string }>`
-  /* background: ${props =>
-    props.isChecked
-      ? props.theme.colors.gray20
-      : props.theme.colors.[props.bg]}; */
-  outline: solid ${props=>props.theme.colors.[props.bg]} 1px;
+const Container = styled(ModalButton)<{ isChecked: boolean; bg: string }>`
+  outline: solid ${(props) => props.theme.colors?.[props.bg]} 1px;
   padding: 4px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -106,25 +102,24 @@ const Container = styled(ModalButton)<{ isChecked: boolean, bg: string }>`
   align-items: flex-start;
   width: 100%;
   height: max-content;
-  background: ${props => props.isChecked && props.theme.colors.gray40};
+  background: ${(props) => props.isChecked && props.theme.colors.gray40};
   &:hover {
-    background: ${props => props.theme.colors.[props.bg]};
+    background: ${(props) => props.theme.colors?.[props.bg]};
   }
   /* &:hover {
-    outline: solid ${props => `${props.theme.main.primary80}8f`} 5px;
+    outline: solid ${(props) => `${props.theme.main.primary80}8f`} 5px;
   } */
 `;
 
-const CategoryName = styled(CC.RowDiv)<{color: string}>`
-  background: ${props=>props.theme.colors.white80};
+const CategoryName = styled(CC.RowDiv)<{ color: string }>`
+  background: ${(props) => props.theme.colors.white80};
   max-width: max-content;
-  color: ${props=>props.theme.colors.[props.color]};
+  color: ${(props) => props.theme.colors?.[props.color]};
   padding: 0px 2px;
   border-radius: 4px;
 `;
 
-const TitleBox = styled(CC.RowDiv)`
-`;
+const TitleBox = styled(CC.RowDiv)``;
 
 const Title = styled.div<{ isChecked: boolean }>`
   width: calc(100% - 28px);
@@ -137,6 +132,5 @@ const Title = styled.div<{ isChecked: boolean }>`
   /* white-space: nowrap; */
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */
-  text-decoration: ${props => props.isChecked && 'line-through'};
-
+  text-decoration: ${(props) => props.isChecked && 'line-through'};
 `;

@@ -7,6 +7,7 @@ import { Spinner1 } from '@components/spinner/Spinners';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -27,7 +28,7 @@ type blogFirstCategoryHandlerType = {
       id: string;
       name: string;
       thumbnailImageUrl: string;
-    }
+    },
   ];
 };
 
@@ -43,21 +44,21 @@ const BlogCategoryContainer = () => {
         rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
           activeBlogFirstCategoryId: props.id,
           activeBlogFirstCategoryName: props.name,
-        })
+        }),
       );
       if (props.secondCategoryList.length > 0) {
         store.dispatch(
           rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
             activeBlogSecondCategoryId: props.secondCategoryList[0]?.id,
             activeBlogSecondCategoryName: props.secondCategoryList[0]?.name,
-          })
+          }),
         );
       } else {
         store.dispatch(
           rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
             activeBlogSecondCategoryId: null,
             activeBlogSecondCategoryName: null,
-          })
+          }),
         );
       }
     });
@@ -84,7 +85,7 @@ const BlogCategoryContainer = () => {
       rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
         activeBlogSecondCategoryId: props.id,
         activeBlogSecondCategoryName: props.name,
-      })
+      }),
     );
   };
 
@@ -106,7 +107,7 @@ const BlogCategoryContainer = () => {
                   fontFamily={'yanoljaYacheBold'}
                   index={index}
                   outline={true}
-                  onClick={e => {
+                  onClick={(e) => {
                     blogFirstCategoryHandler(i);
                     blogFirstCategoryVerticalScrollRef.current.scrollLeft =
                       e.target.offsetLeft +
@@ -118,7 +119,7 @@ const BlogCategoryContainer = () => {
                 </Button>
                 <Badge>
                   {i.secondCategoryList
-                    .map(i => i.count)
+                    .map((i) => i.count)
                     .reduce((i, j) => i + j)}
                 </Badge>
               </ButtonBox>
@@ -138,12 +139,12 @@ const BlogCategoryContainer = () => {
             ref={blogSecondCategoryVerticalScrollRef}
           >
             {blogStore.blogCategoryList
-              ?.filter(k => {
+              ?.filter((k) => {
                 return (
                   k.id == store.getState().blogStore.activeBlogFirstCategoryId
                 );
               })[0]
-              ?.secondCategoryList?.map((i, index) => (
+              ?.secondCategoryList?.map((i) => (
                 <ButtonBox key={i.id}>
                   <Button
                     active={
@@ -152,7 +153,7 @@ const BlogCategoryContainer = () => {
                     }
                     fontFamily={'yanoljaYacheBold'}
                     key={i.id}
-                    onClick={e => {
+                    onClick={(e) => {
                       blogSecondCategoryHandler(i);
                       blogSecondCategoryVerticalScrollRef.current.scrollLeft =
                         e.target.offsetLeft +
@@ -187,7 +188,7 @@ export default BlogCategoryContainer;
 const Container = styled(CC.ColumnDiv)`
   gap: 4px;
   width: 100%;
-  background: ${props => props.theme.main.primary20};
+  background: ${(props) => props.theme.main.primary20};
   border-radius: 10px;
   padding: 4px;
   position: relative;
@@ -207,7 +208,7 @@ const Badge = styled.div`
   right: 4px;
   top: 4px;
   transform: translate(50%, -50%);
-  background: ${props => props.theme.main.primary40};
+  background: ${(props) => props.theme.main.primary40};
   font-weight: 800;
   font-size: 12px;
   display: flex;
@@ -221,7 +222,7 @@ const Badge = styled.div`
 const SpinnerBox = styled.div`
   width: 80px;
   aspect-ratio: 1;
-  ${props => props.theme.positionStyle.absolute};
+  ${(props) => props.theme.positionStyle.absolute};
 `;
 
 const BlogFirstCategoryContainer = styled(CC.RowDiv)`
@@ -229,7 +230,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   display: flex;
   overflow-y: hidden;
   padding: 10px 4px;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
   @media screen (max-height: 600px) {
     flex-wrap: nowrap;
     overflow-x: scroll;
@@ -242,7 +243,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
     position: fixed;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.main.secondary20};
+    background: ${(props) => props.theme.main.secondary20};
     border-radius: 16px;
   }
 `;
@@ -251,12 +252,12 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
   gap: 6px;
   padding: 10px 4px;
   flex-wrap: wrap;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
 
-  @media (max-height: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-height: ${(props) => props.theme.deviceSizes.tablet}) {
     flex-wrap: nowrap;
     overflow-x: scroll;
-    /* ${props => props.theme.scroll.hidden}; */
+    /* ${(props) => props.theme.scroll.hidden}; */
     ::-webkit-scrollbar {
       width: auto;
       height: 8px;
@@ -264,7 +265,7 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
       position: fixed;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${props => props.theme.main.secondary20};
+      background: ${(props) => props.theme.main.secondary20};
       border-radius: 16px;
     }
   }

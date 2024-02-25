@@ -17,8 +17,8 @@ interface IBlogResDataProps {
   };
 }
 
-const BlogType {
-  IBlogResDataProps,
+type BlogType = {
+  IBlogResDataProps;
 };
 
 export default BlogType;

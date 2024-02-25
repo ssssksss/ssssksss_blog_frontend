@@ -21,9 +21,10 @@ const Index = () => {
         전체 색상 설정
       </CC.RowDiv>
       <CC.ColumnDiv>
-        {Object.keys(rootTheme).map(i => (
+        {Object.keys(rootTheme).map((i, index) => (
           <ThemeColorBox
             theme={i}
+            key={i + index}
             onClick={() => {
               if (store.getState().themeStore.theme == i) return;
               store.dispatch(rootActions.themeStore.setTheme(i));
@@ -32,7 +33,7 @@ const Index = () => {
                 rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
                   type: 'success',
                   message: '색상 변경',
-                })
+                }),
               );
             }}
           >
@@ -67,21 +68,21 @@ const ThemeColorBox = styled.div<{ theme: string }>`
     height: 40px;
   }
   & > div > div:nth-of-type(1) {
-    background: ${props => rootTheme[props.theme].main.primary20};
+    background: ${(props) => rootTheme[props.theme].main.primary20};
     :hover {
-      background: ${props => rootTheme[props.theme].main.primary100};
+      background: ${(props) => rootTheme[props.theme].main.primary100};
     }
   }
   & > div > div:nth-of-type(2) {
-    background: ${props => rootTheme[props.theme].main.secondary20};
+    background: ${(props) => rootTheme[props.theme].main.secondary20};
     :hover {
-      background: ${props => rootTheme[props.theme].main.secondary100};
+      background: ${(props) => rootTheme[props.theme].main.secondary100};
     }
   }
   & > div > div:nth-of-type(3) {
-    background: ${props => rootTheme[props.theme].main.third20};
+    background: ${(props) => rootTheme[props.theme].main.third20};
     :hover {
-      background: ${props => rootTheme[props.theme].main.secondary100};
+      background: ${(props) => rootTheme[props.theme].main.secondary100};
     }
   }
 `;

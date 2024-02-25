@@ -2,10 +2,9 @@ import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LoadingComponent from '../common/loading/LoadingComponent';
-// import PageTransitions from ".@components/common/reactTransitionGroup/PageTransitions";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -13,12 +12,12 @@ type AppLayoutProps = {
 
 // 블로그 용도의 레이아웃
 const Layout1 = ({ children }: AppLayoutProps) => {
-  const isLoading = useSelector(state => state.loadingStore.value);
+  const isLoading = useSelector((state) => state.loadingStore.value);
   const router = useRouter();
   useEffect(() => {
     if (window.localStorage.getItem('theme')) {
       store.dispatch(
-        rootActions.themeStore.setTheme(window.localStorage.getItem('theme'))
+        rootActions.themeStore.setTheme(window.localStorage.getItem('theme')),
       );
     }
     const start = () => {
@@ -49,7 +48,7 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 export default Layout1;
 const Container = styled.div`
   padding: 4px;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   height: 100%;
   position: relative;
 `;
@@ -61,7 +60,7 @@ const Container1 = styled.div`
   /* LeftBar.tsx에 있는 너비와 맞추어주어야 한다. */
   /* 마진 5px * 2 + leftBar(44px) */
   width: calc(100vw - 52px);
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     width: calc(100vw - 130px);
     margin: auto;
   }

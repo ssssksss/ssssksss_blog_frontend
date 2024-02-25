@@ -21,10 +21,10 @@ const ViewBlogCSR = dynamic(
   () => import('@components/blog/ViewBlogContainer'),
   {
     ssr: false,
-  }
+  },
 );
 
-const Index = props => {
+const Index = (props: any) => {
   return (
     <>
       <Head>

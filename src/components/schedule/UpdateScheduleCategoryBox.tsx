@@ -1,10 +1,9 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -16,7 +15,7 @@ import { ScheduleCategoryUpdateYup } from '../yup/ScheduleYup';
  * @version 0.0.1 "2023-12-18 01:02:26"
  * @description 설명
  */
-const UpdateScheduleCategoryBox = props => {
+const UpdateScheduleCategoryBox = (props) => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -28,8 +27,7 @@ const UpdateScheduleCategoryBox = props => {
     'pink40',
     'gray40',
   ];
-  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const authStore = useSelector(state => state.authStore);
+  const authStore = useSelector((state) => state.authStore);
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
   const queryClient = useQueryClient();
   const methods = useForm({
@@ -46,16 +44,16 @@ const UpdateScheduleCategoryBox = props => {
     onSuccessHandler: () => {
       queryClient.setQueryData(
         ['scheduleCategoryList', authStore.id],
-        oldData => {
+        (oldData) => {
           console.log('UpdateScheduleCategoryBox.tsx 파일 : ', oldData);
           oldData.json.scheduleCategoryList =
-            oldData.json.scheduleCategoryList.map(i => {
+            oldData.json.scheduleCategoryList.map((i) => {
               if (i.id == methods.getValues('updatePickScheduleId')) {
                 return {
                   ...i,
                   name: methods.getValues('updateScheduleTitle'),
                   backgroundColor: methods.getValues(
-                    'updatePickScheduleBackgroundColor'
+                    'updatePickScheduleBackgroundColor',
                   ),
                 };
               } else {
@@ -63,7 +61,7 @@ const UpdateScheduleCategoryBox = props => {
               }
             });
           return oldData;
-        }
+        },
       );
       props.closeModal();
     },
@@ -89,16 +87,16 @@ const UpdateScheduleCategoryBox = props => {
             data={
               scheduleCategoryListResData?.isLoading ||
               scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-                i => {
+                (i) => {
                   return {
                     value: i.id,
                     name: i.name,
                     bg: i.backgroundColor,
                   };
-                }
+                },
               )
             }
-            onChange={i => {
+            onChange={(i) => {
               methods.setValue('updatePickScheduleId', i.value);
               methods.setValue('updateScheduleTitle', i.name);
               methods.setValue('updatePickScheduleBackgroundColor', i.bg);
@@ -117,7 +115,7 @@ const UpdateScheduleCategoryBox = props => {
               w={'100%'}
               placeholder={'카테고리 색상을 선택해주세요'}
               outline={true}
-              data={categoryColors.map(i => {
+              data={categoryColors.map((i) => {
                 return {
                   value: i,
                   name: ' ',
@@ -129,7 +127,7 @@ const UpdateScheduleCategoryBox = props => {
                 name: ' ',
                 bg: methods.getValues('updatePickScheduleBackgroundColor'),
               }}
-              onChange={i => {
+              onChange={(i) => {
                 methods.setValue('updateScheduleBackgroundColor', i);
                 methods.trigger('updateScheduleBackgroundColor');
               }}

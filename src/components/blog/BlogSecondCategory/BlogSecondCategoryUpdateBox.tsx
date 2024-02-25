@@ -1,14 +1,15 @@
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { BlogSecondCategoryUpdateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoading } from '@hooks/useLoading';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -18,8 +19,6 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BlogSecondCategoryUpdateBox = (props: any) => {
-  const [isLoading, loadingFunction] = useLoading();
-  const selectUpdateRef = useRef<HTMLSelectElement>(null);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const [updateImageUrl, setUpdateImageUrl] = useState();
   const methods = useForm({
@@ -38,49 +37,37 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
   };
 
   const updateSecondCategoryHandler = async (data: any) => {
-    loadingFunction(
-      BlogAPI.updateSecondCategory({
-        id: data.updateSecondCategoryId,
-        name: data.updateSecondCategoryName,
-        files: data.updateSecondCategoryImageFile,
-        directory: `/blog-category/${blogStore.secondCategoryId}/${data.updateSecondCategoryName}`,
-      })
-    )
-      .then(res => {
-        let temp = blogStore.blogCategoryList
-          .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
-          .secondCategoryList.map(i => {
+    BlogAPI.updateSecondCategory({
+      id: data.updateSecondCategoryId,
+      name: data.updateSecondCategoryName,
+      files: data.updateSecondCategoryImageFile,
+      directory: `/blog-category/${blogStore.secondCategoryId}/${data.updateSecondCategoryName}`,
+    })
+      .then((_) => {
+        let _temp = blogStore.blogCategoryList
+          .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+          .secondCategoryList.map((i) => {
             if (i.id == data.updateSecondCategory) {
               return {
-                ...id,
+                ...i,
                 name: data.updateSecondCategoryName,
               };
             }
             return i;
           });
-        // store.dispatch(
-        //   rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-        //     blogStore.blogCategoryList.map(i => {
-        //       if (i.id == blogStore.activeBlogFirstCategoryId) {
-        //         i.secondCategoryList = temp;
-        //         return i;
-        //       } else {
-        //         return i;
-        //       }
-        //     })
-        //   )
-        // );
+        store.dispatch(rootActions.blogStore.SET_SECOND_CATEGORY_LIST(_temp));
         props.closeModal();
       })
-      .catch(err => {});
+      .catch((_) => {});
   };
 
-  const changeUpdateCategoryImage = data => {
+  const changeUpdateCategoryImage = (data) => {
     methods.setValue('updateSecondCategoryId', data.value);
     setUpdateImageUrl(
       blogStore.blogCategoryList
-        .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
-        .secondCategoryList.filter(i => i.id == data.value)[0].thumbnailImageUrl
+        .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+        .secondCategoryList.filter((i) => i.id == data.value)[0]
+        .thumbnailImageUrl,
     );
   };
 
@@ -102,8 +89,8 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
             bg={'transparent'}
             outline={true}
             data={blogStore.blogCategoryList
-              .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
-              .secondCategoryList.map(i => {
+              .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+              .secondCategoryList.map((i) => {
                 return { value: i.id, name: i.name, bg: '' };
               })}
             onChange={changeUpdateCategoryImage}
@@ -114,7 +101,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
             register={methods.register('updateSecondCategoryName')}
             onKeyPressAction={methods.handleSubmit(
               updateSecondCategoryHandler,
-              onClickErrorSubmit
+              onClickErrorSubmit,
             )}
             errorMessage={errors.updateSecondCategoryName?.message}
           />
@@ -135,7 +122,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
             outline={true}
             onClickCapture={methods.handleSubmit(
               updateSecondCategoryHandler,
-              onClickErrorSubmit
+              onClickErrorSubmit,
             )}
             disabled={!methods.formState.isValid}
             bg={'contrast'}
@@ -150,7 +137,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
 export default BlogSecondCategoryUpdateBox;
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 4px;
 
   & > button:nth-of-type(1) {
     align-items: end;
@@ -158,14 +145,14 @@ const Container = styled(CC.ColumnDiv)`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     font-size: 20px;
   }
 `;

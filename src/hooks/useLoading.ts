@@ -6,10 +6,10 @@ import { useState } from 'react';
  * @version 0.0.1 "2023-10-09 23:03:04"
  * @description 넣어주는 함수는 return이 있어야 한다.
  */
-export const useLoading = action => {
+export const useLoading = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadingFunction = async action => {
+  const loadingFunction = async (action) => {
     setIsLoading(true);
     let result = await action;
     setIsLoading(false);

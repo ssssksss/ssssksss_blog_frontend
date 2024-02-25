@@ -1,15 +1,7 @@
-const LoginModal = dynamic(
-  () => import('@components/common/modal/LoginModal'),
-  {
-    loading: () => <p>Loading...</p>,
-  }
-);
-
 const AuthModal = dynamic(() => import('@components/common/modal/AuthModal'), {
   loading: () => <p>Loading...</p>,
 });
 
-import { UserAPI } from '@api/UserAPI';
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
@@ -25,7 +17,6 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useReducer } from 'react';
-import { useQueryClient } from 'react-query';
 import { batch, useSelector } from 'react-redux';
 
 /**
@@ -37,10 +28,7 @@ import { batch, useSelector } from 'react-redux';
 
 const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [isLoading, loadingFunction] = useLoading();
-  const authUserInfo = UserAPI.getUser();
-  const queryClient = useQueryClient();
-  const [isHideBrowser, hideBrowserToggle] = useReducer(v => !v, true);
+  const [isHideBrowser, hideBrowserToggle] = useReducer((v) => !v, true);
 
   //* 로그아웃 함수
   const signOutHandler = () => {
@@ -49,12 +37,12 @@ const TopBar = () => {
         url: '/api/user',
         method: 'DELETE',
       })
-        .then(response => {
+        .then((_) => {
           store.dispatch(
             rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
               type: 'success',
               message: '로그아웃 되었습니다.',
-            })
+            }),
           );
           store.dispatch(
             rootActions.authStore.SET_USER_INFO({
@@ -62,24 +50,24 @@ const TopBar = () => {
               email: '',
               role: '',
               nickname: '',
-            })
+            }),
           );
           batch(() => {
             store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
             store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
             store.dispatch(rootActions.todoStore.SET_TODO_LIST([]));
             store.dispatch(
-              rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' })
+              rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' }),
             );
             store.dispatch(
-              rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([])
+              rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]),
             );
             store.dispatch(
-              rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([])
+              rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]),
             );
           });
         })
-        .catch(error => {});
+        .catch((_) => {});
     })();
   };
 
@@ -161,7 +149,7 @@ export default TopBar;
 
 const Container = styled.div`
   display: flex;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
   min-height: 44px;
   height: 44px;
   border-radius: 10px;
@@ -185,7 +173,7 @@ const Iframe = styled.iframe<{ hide: boolean }>`
   bottom: 80px;
   right: 40px;
   width: calc(70vw - 70px);
-  background: ${props => props.theme.main.contrast};
-  outline: solid ${props => props.theme.main.secondary80} 8px;
-  visibility: ${props => (props.hide ? 'hidden' : 'visible')};
+  background: ${(props) => props.theme.main.contrast};
+  outline: solid ${(props) => props.theme.main.secondary80} 8px;
+  visibility: ${(props) => (props.hide ? 'hidden' : 'visible')};
 `;

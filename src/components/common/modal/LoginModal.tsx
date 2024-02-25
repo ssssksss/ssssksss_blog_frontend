@@ -1,6 +1,6 @@
 import { UserAPI } from '@api/UserAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import { UserLoginYup } from '@components/yup/UserLoginYup';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
  * @version 0.0.1 "2023-09-24 13:50:42"
  * @description 설명
  */
-const LoginModal = props => {
+const LoginModal = (props) => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
@@ -26,13 +26,9 @@ const LoginModal = props => {
   const { errors } = formState;
   const signInMutate = UserAPI.signInUser();
   const onClickSubmit = async (data: any) => {
-    const { passwordConfirm, ...params } = data;
-    let toastifyMessage = '';
-    let toastifyType = 'success';
-    // UserAPI.signInUser({ email: params.email, password: params.password })
     signInMutate({
-      email: params.email,
-      password: params.password,
+      email: data.email,
+      password: data.password,
     });
   };
 
@@ -66,10 +62,6 @@ const LoginModal = props => {
         />
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
-        {/* <CC.RowCenterDiv gap={20}>
-          <Image src={Icons.GoogleIcon} alt="google" />
-          <Image src={Icons.KakaoIcon} alt="kakao" />
-        </CC.RowCenterDiv> */}
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 없으시다면?</span>
           <Button
@@ -100,7 +92,7 @@ const Container = styled(CC.ColumnDiv)`
   width: 100%;
   padding: 40px 10px 10px 10px;
   gap: 28px;
-  color: ${props => props.theme.colors.white80};
+  color: ${(props) => props.theme.colors.white80};
 `;
 
 const commonStyle = css`
@@ -110,19 +102,19 @@ const commonStyle = css`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   ${commonStyle};
 
   span:nth-of-type(1) {
-    /* font-family: ${props => props.theme.fontFamily.cookieRunRegular}; */
+    /* font-family: ${(props) => props.theme.fontFamily.cookieRunRegular}; */
     font-size: 20px;
   }
 
   span:nth-of-type(2) {
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
   }
 `;

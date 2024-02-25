@@ -17,13 +17,6 @@ const MemoContainer = dynamic(() => import('@components/todo/MemoContainer'), {
   loading: () => <p>Loading...</p>,
 });
 
-const ScheduleContainer = dynamic(
-  () => import('@components/schedule/ScheduleContainer'),
-  {
-    loading: () => <p>Loading...</p>,
-  }
-);
-
 const Index = () => {
   const [menu, setMenu] = useState(0);
   return (
@@ -35,9 +28,6 @@ const Index = () => {
         <Button onClick={() => setMenu(0)} active={menu === 0}>
           TODAY
         </Button>
-        {/* <Button onClick={() => setMenu(1)} active={menu === 1}>
-          WEEK
-        </Button> */}
         <Button onClick={() => setMenu(2)} active={menu === 2}>
           MEMO
         </Button>
@@ -57,7 +47,7 @@ const Container = styled(CC.ColumnDiv)`
   height: calc(100vh - 48px);
   display: flex;
   flex-flow: wrap row;
-  background: ${props => props.theme.colors.white80};
+  background: ${(props) => props.theme.colors.white80};
   border-radius: 10px;
   padding: 4px 2px;
 `;
@@ -70,7 +60,7 @@ const NavContainer = styled(CC.RowDiv)`
   & > button {
     width: 100%;
     height: 100%;
-    font-family: ${props => props.theme.fontFamily.typoHelloPOP};
+    font-family: ${(props) => props.theme.fontFamily.typoHelloPOP};
     outline: solid black 1px;
     border-radius: 4px;
     font-size: 1.2rem;
@@ -80,7 +70,7 @@ const NavContainer = styled(CC.RowDiv)`
 const MainContainer = styled.div`
   width: 100%;
   height: calc(100vh - 104px);
-  ${props => props.theme.scroll.hidden};
+  ${(props) => props.theme.scroll.hidden};
   & > * {
     padding: 1px;
   }

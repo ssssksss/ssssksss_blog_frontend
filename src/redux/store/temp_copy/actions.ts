@@ -1,6 +1,4 @@
-export type ACTION_INSTANCE =
-  | ReturnType<typeof SET_COPY1>
-  | ReturnType<typeof SET_COPY2>;
+export type ACTION_INSTANCE = ReturnType<typeof SET_MEMO_LIST>;
 
 type MEMO_LIST_STATE = {
   memoList: [];

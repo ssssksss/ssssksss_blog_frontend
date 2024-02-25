@@ -1,6 +1,6 @@
 import { TodoAPI } from '@api/TodoAPI';
 import ModalButton from '@components/common/button/ModalButton';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
@@ -29,8 +29,8 @@ const TodoItem = (props: ITodoItemProps) => {
   const _IsCheckedToggleHandler = () => {
     TodoAPI.toggleCheckTodo({
       id: props.data.id,
-    }).then((res: any) => {
-      let temp = todoStore.todoList.map(i => {
+    }).then((_) => {
+      let temp = todoStore.todoList.map((i) => {
         if (i.id == props.data.id) {
           i.isChecked = !props.data.isChecked;
         }
@@ -65,7 +65,7 @@ const TodoItem = (props: ITodoItemProps) => {
 export default TodoItem;
 
 const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
-  background: ${props =>
+  background: ${(props) =>
     props.isChecked
       ? props.theme.colors.black20
       : props.theme.main.secondary20};
@@ -75,7 +75,7 @@ const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
 
   &:focus,
   &:hover {
-    background: ${props => props.theme.main.secondary40};
+    background: ${(props) => props.theme.main.secondary40};
   }
 `;
 
@@ -91,6 +91,6 @@ const Title = styled(ModalButton)<{ isChecked: boolean }>`
   /* white-space: nowrap; */
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */
-  text-decoration: ${props => props.isChecked && 'line-through'};
+  text-decoration: ${(props) => props.isChecked && 'line-through'};
   cursor: pointer;
 `;

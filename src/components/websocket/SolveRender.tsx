@@ -11,9 +11,8 @@ import { useEffect, useState } from 'react';
  * @description 웹과 연동하여 로봇팔 작동시키는 코드
  */
 
-const SolveRender = props => {
+const SolveRender = (props) => {
   let amount = 20;
-  const [arduinoData, setArduinoData] = useState('');
   const [motorAngs, setMotorAngs] = useState({
     motor1: '160',
     motor2: '160',
@@ -53,7 +52,7 @@ const SolveRender = props => {
               Number(motorAngs.motor2) < 180
                 ? (Number(motorAngs.motor2) + amount).toString()
                 : '180',
-          })
+          }),
         );
         break;
       case 'left':
@@ -71,7 +70,7 @@ const SolveRender = props => {
               Number(motorAngs.motor1) < 180
                 ? (Number(motorAngs.motor1) + amount).toString()
                 : '180',
-          })
+          }),
         );
         break;
       case 'catch':
@@ -83,7 +82,7 @@ const SolveRender = props => {
           JSON.stringify({
             ...motorAngs,
             motor6: Number(motorAngs.motor6) > 120 ? '80' : '160',
-          })
+          }),
         );
         break;
       case 'right':
@@ -101,7 +100,7 @@ const SolveRender = props => {
               Number(motorAngs.motor1) > 0
                 ? (Number(motorAngs.motor1) - amount).toString()
                 : '0',
-          })
+          }),
         );
         break;
       case 'front':
@@ -119,7 +118,7 @@ const SolveRender = props => {
               Number(motorAngs.motor2) > 0
                 ? (Number(motorAngs.motor2) - amount).toString()
                 : '0',
-          })
+          }),
         );
         break;
       case 'up':
@@ -137,7 +136,7 @@ const SolveRender = props => {
               Number(motorAngs.motor3) > 0
                 ? (Number(motorAngs.motor3) - amount).toString()
                 : '0',
-          })
+          }),
         );
         break;
       case 'down':
@@ -155,7 +154,7 @@ const SolveRender = props => {
               Number(motorAngs.motor3) < 180
                 ? (Number(motorAngs.motor3) + amount).toString()
                 : '180',
-          })
+          }),
         );
         break;
       case 'init':
@@ -183,7 +182,7 @@ const SolveRender = props => {
             motor4: '160',
             motor5: '160',
             motor6: '160',
-          })
+          }),
         );
         break;
     }
@@ -191,7 +190,7 @@ const SolveRender = props => {
 
   const onChangeMotorAngs = () => {
     const temp = {};
-    Object.keys(tempMotorAngs).map(i => {
+    Object.keys(tempMotorAngs).map((i) => {
       if (!isNaN(tempMotorAngs[i])) {
         if (tempMotorAngs[i] <= 180 && tempMotorAngs[i] > 0) {
           temp[i] = tempMotorAngs[i];
@@ -220,7 +219,7 @@ const SolveRender = props => {
         document.getElementById('rxConsole').value += evt.data;
       };
     }
-    window.onload = function (event) {
+    window.onload = function (_) {
       start();
     };
   }, []);
@@ -365,7 +364,7 @@ const SolveRender = props => {
         </CC.RowCenterDiv>
       </CC.ColumnDiv>
       <div>
-        {Object.keys(motorAngs).map((i, index) => (
+        {Object.keys(motorAngs).map((i, _) => (
           <div key="index">
             {i} {motorAngs[i]}
           </div>

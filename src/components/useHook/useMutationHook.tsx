@@ -15,33 +15,30 @@ interface IUseMutationHookProps {
 }
 
 export const useMutationHook = (props: IUseMutationHookProps) => {
-  const { mutate, isLoading, isSuccess, isError } = useMutation(
-    props.mutationFn,
-    {
-      onMutate: variables => {
-        // variables : {id: 1}
-      },
-      onSuccess: (data, variables, context) => {
-        // console.log('success1', data);
-        // console.log('success2', variables);
-        // console.log('success3', context);
-        if (props.onSuccessHandler)
-          props.onSuccessHandler({ data, variables, context });
-      },
-      onError: (error, variables, context) => {
-        // console.log('error1', error);
-        // console.log('error2', variables);
-        // console.log('error3', context);
-        if (props.onErrorHandler)
-          props.onErrorHandler({ error, variables, context });
-      },
-      onSettled: (data, error, variables, context) => {
-        // end
-        if (props.onSettledHandler)
-          props.onSettledHandler({ data, error, variables, context });
-      },
-    }
-  );
+  const { mutate } = useMutation(props.mutationFn, {
+    onMutate: (_) => {
+      // variables : {id: 1}
+    },
+    onSuccess: (data, variables, context) => {
+      // console.log('success1', data);
+      // console.log('success2', variables);
+      // console.log('success3', context);
+      if (props.onSuccessHandler)
+        props.onSuccessHandler({ data, variables, context });
+    },
+    onError: (error, variables, context) => {
+      // console.log('error1', error);
+      // console.log('error2', variables);
+      // console.log('error3', context);
+      if (props.onErrorHandler)
+        props.onErrorHandler({ error, variables, context });
+    },
+    onSettled: (data, error, variables, context) => {
+      // end
+      if (props.onSettledHandler)
+        props.onSettledHandler({ data, error, variables, context });
+    },
+  });
 
   return mutate; // mutation객체 반환
 };

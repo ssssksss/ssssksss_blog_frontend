@@ -1,13 +1,9 @@
 /* eslint-disable react/no-unknown-property */
-import { useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import gsap from "gsap";
-import styled from "@emotion/styled";
-import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
-import Box from "../../Box";
-import { OrbitControls } from "@react-three/drei";
-import { Environment } from "@react-three/drei";
+import styled from '@emotion/styled';
+import { OrbitControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { Suspense } from 'react';
+import Box from '../../Box';
 
 function MyRoom() {
   const camera_location = 70;
@@ -25,30 +21,30 @@ function MyRoom() {
           <Suspense fallback={null}>
             <OrbitControls />
             <Box />
-            <color attach="background" args={["#ABD0BC"]} />
+            <color attach="background" args={['#ABD0BC']} />
             <directionalLight color="light" />
             <pointLight
-              args={["#ffffff"]}
+              args={['#ffffff']}
               position={[10, 20, -10]}
               intensity={0.6}
             />
             <pointLight
-              args={["#ffffff"]}
+              args={['#ffffff']}
               position={[100, 20, -10]}
               intensity={0.6}
             />
             <pointLight
-              args={["#ffffff"]}
+              args={['#ffffff']}
               position={[10, 20, -100]}
               intensity={0.6}
             />
             <pointLight
-              args={["#ffffff"]}
+              args={['#ffffff']}
               position={[10, 100, -10]}
               intensity={0.6}
             />
             <pointLight
-              args={["#ffffff"]}
+              args={['#ffffff']}
               position={[3, 2, -1]}
               intensity={1}
             />

@@ -69,28 +69,16 @@ const InputStyle = styled.input<{
   border: string;
 }>`
   font-size: 1rem;
-  border: ${props => (props.border ? props.border : '1px solid #acebe7')};
-  width: ${props => (props.width ? props.width : '100%')};
-  height: ${props => (props.height ? props.height : '40px')};
-  padding: ${props => (props.padding ? props.padding : '0px 0px 0px 8px')};
-  background-color: ${props => props.backgroundColor || '#fff'};
-  border-radius: ${props => props.borderRadius || '0px'};
-  outline: ${props => props.outline || 'none'};
+  border: ${(props) => (props.border ? props.border : '1px solid #acebe7')};
+  width: ${(props) => (props.width ? props.width : '100%')};
+  height: ${(props) => (props.height ? props.height : '40px')};
+  padding: ${(props) => (props.padding ? props.padding : '0px 0px 0px 8px')};
+  background-color: ${(props) => props.backgroundColor || '#fff'};
+  border-radius: ${(props) => props.borderRadius || '0px'};
+  outline: ${(props) => props.outline || 'none'};
 
   &:focus {
     animation: s1 1s infinite;
     animation-direction: alternate;
-
-    /* @keyframes s1 {
-      0% {
-        background-color: ${commonTheme.backgroundColors.purple};
-      }
-      50% {
-        background-color: ${commonTheme.backgroundColors.purple} - 500;
-      }
-      100% {
-        background-color: ${commonTheme.backgroundColors.purple} - 1000;
-      }
-    } */
   }
 `;

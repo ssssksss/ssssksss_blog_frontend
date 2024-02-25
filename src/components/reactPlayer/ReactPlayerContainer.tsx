@@ -1,13 +1,14 @@
-const YoutubePlayerModal = dynamic(() => import('@components/common/modal/YoutubePlayerModal'), {
-  loading: () => <p>Loading...</p>
-});
+const YoutubePlayerModal = dynamic(
+  () => import('@components/common/modal/YoutubePlayerModal'),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 import Animations from '@components/common/animations/Animations';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import useModal from '@hooks/useModal';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { Time } from '@utils/function/Time';
@@ -29,22 +30,15 @@ interface IReactPlayerContainerProps {
 
 const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   const [youtubePlay, setYoutubePlay] = useState(false);
-  const themeStore = useSelector((state: RootState) => state.themeStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const player = useRef(null);
-  const [modalOption, showModal] = useModal();
-  
 
   const [playTime, setPlayTime] = useState({
     playedSeconds: 0,
     played: 0,
   });
-  const [inputValue, setInputValue] = useState({
-    url: '',
-    name: '',
-  });
 
-  const handleProgress = state => {
+  const handleProgress = (state) => {
     setPlayTime({
       playedSeconds: state.playedSeconds,
       played: state.played,
@@ -52,74 +46,81 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   };
 
   return (
-    <Container outline={true} isNavbarOpen={props.isNavbarOpen} play={youtubePlay} anime={Animations.rainbowColors}>
+    <Container
+      outline={true}
+      isNavbarOpen={props.isNavbarOpen}
+      play={youtubePlay}
+      anime={Animations.rainbowColors}
+    >
       <Image
         src={youtubePlay ? Icons.PauseIcon : Icons.PlayIcon}
         alt="플레이어"
-        onClick={() => setYoutubePlay(prev => !prev)}
+        onClick={() => setYoutubePlay((prev) => !prev)}
       />
-      <CC.RowDiv gap={4}> 
-      <CC.ColumnCenterDiv>
-        <Span fontSize={'10px'}>
-          {Time.secToTime(playTime.playedSeconds)} [
-          {Math.floor(playTime.played * 100)}%]
-        </Span>
+      <CC.RowDiv gap={4}>
+        <CC.ColumnCenterDiv>
+          <Span fontSize={'10px'}>
+            {Time.secToTime(playTime.playedSeconds)} [
+            {Math.floor(playTime.played * 100)}%]
+          </Span>
 
-        <ReactPlayer
-        width="0px"
-        height="0px"
-        url={window.localStorage.getItem('youtubeLink') ||'https://www.youtube.com/watch?v=eyyAUFxlnGg'}
-        ref={player}
-        playing={youtubePlay}
-        onProgress={handleProgress}
-        />
-        <div>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.001"
-            value={playTime.played}
-            onChange={e =>
-              setPlayTime(prev => ({
-                playedSeconds: prev.playedSeconds,
-                played: parseFloat(e.target.value),
-              }))
+          <ReactPlayer
+            width="0px"
+            height="0px"
+            url={
+              window.localStorage.getItem('youtubeLink') ||
+              'https://www.youtube.com/watch?v=eyyAUFxlnGg'
             }
-            onMouseUp={e => 
-              {
-                player.current?.seekTo(parseFloat(e.target.value), 'fraction')
-              }
-            }
-            onTouchEnd={e =>
-              {
-                player.current?.seekTo(parseFloat(e.target.value), 'fraction')
-              }
-            }
+            ref={player}
+            playing={youtubePlay}
+            onProgress={handleProgress}
           />
-        </div>
-      </CC.ColumnCenterDiv> 
-      {
-        authStore.id && 
+          <div>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.001"
+              value={playTime.played}
+              onChange={(e) =>
+                setPlayTime((prev) => ({
+                  playedSeconds: prev.playedSeconds,
+                  played: parseFloat(e.target.value),
+                }))
+              }
+              onMouseUp={(e) => {
+                player.current?.seekTo(parseFloat(e.target.value), 'fraction');
+              }}
+              onTouchEnd={(e) => {
+                player.current?.seekTo(parseFloat(e.target.value), 'fraction');
+              }}
+            />
+          </div>
+        </CC.ColumnCenterDiv>
+        {authStore.id && (
           <ModalButton
-          modal={<YoutubePlayerModal />}
-          modalMinW={'320px'}
-          modalW={'96vw'}
-          h={'24px'}
-          modalBg={'white'}
-          modalOverlayVisible={'true'}
+            modal={<YoutubePlayerModal />}
+            modalMinW={'320px'}
+            modalW={'96vw'}
+            h={'24px'}
+            modalBg={'white'}
+            modalOverlayVisible={'true'}
           >
-          <Image src={Icons.EtcIcon} alt="etc" width={10} />
-      </ModalButton>
-        }
+            <Image src={Icons.EtcIcon} alt="etc" width={10} />
+          </ModalButton>
+        )}
       </CC.RowDiv>
     </Container>
-
   );
 };
 export default ReactPlayerContainer;
 
-const Container = styled.div<{isNavbarOpen: boolean, outline: true, play: boolean, anime: any}>`
+const Container = styled.div<{
+  isNavbarOpen: boolean;
+  outline: true;
+  play: boolean;
+  anime: any;
+}>`
   display: grid;
   grid-template-columns: 24px calc(100% - 24px);
   align-items: center;
@@ -128,14 +129,14 @@ const Container = styled.div<{isNavbarOpen: boolean, outline: true, play: boolea
   padding: 0px 2px;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.main.primary20};
+    background: ${(props) => props.theme.main.primary20};
   }
 
 
-  ${props =>
+  ${(props) =>
     props.outline &&
     `
-    outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
+    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 1px;
     background: transparent;
     `}
   & > :nth-last-of-type(1) {
@@ -144,14 +145,14 @@ const Container = styled.div<{isNavbarOpen: boolean, outline: true, play: boolea
     animation-duration: 0.6s;
   }
   
-  ${props =>
+  ${(props) =>
     props.active &&
     `
     background: ${props.theme.main.primary20};
     `};
 
-@media (max-width: ${props => props.theme.deviceSizes.pc}) {
-    ${props =>
+@media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
+    ${(props) =>
       props.isNavbarOpen
         ? `
       align-items: center;
@@ -193,14 +194,10 @@ const Container = styled.div<{isNavbarOpen: boolean, outline: true, play: boolea
   }
   input[type='range'] {
     -webkit-appearance: none;
-    ${props => false ||
-      css` animation: ${Animations.rainbowColors} 1s infinite `
-    }
-    animation-play-state: ${props => props.play || 'paused'};
+    animation: ${Animations.rainbowColors} 1s infinite
+    animation-play-state: ${(props) => props.play || 'paused'};
     height: 10px;
     width: calc(100%);
   }
 
 `;
-
-

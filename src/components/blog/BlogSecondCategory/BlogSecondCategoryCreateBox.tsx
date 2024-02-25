@@ -1,13 +1,11 @@
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import { BlogSecondCategoryCreateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoading } from '@hooks/useLoading';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -16,10 +14,8 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:34:45"
  * @description 설명
  */
-const BlogSecondCategoryCreateBox = props => {
-  const [isLoading, loadingFunction] = useLoading();
+const BlogSecondCategoryCreateBox = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const fileRef = useRef<HTMLInputElement>(null);
   const createSecondCategoryMutation = BlogAPI.createSecondCategory();
   const { register, handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
@@ -62,7 +58,7 @@ const BlogSecondCategoryCreateBox = props => {
           register={register('createSecondCategoryName')}
           onKeyPressAction={handleSubmit(
             createSecondCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           errorMessage={errors.createSecondCategoryName?.message}
         />
@@ -82,7 +78,7 @@ const BlogSecondCategoryCreateBox = props => {
           outline={true}
           onClickCapture={handleSubmit(
             createSecondCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
           bg={'contrast'}
@@ -96,21 +92,21 @@ const BlogSecondCategoryCreateBox = props => {
 export default BlogSecondCategoryCreateBox;
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 4px;
   & > button:nth-of-type(1) {
     align-items: end;
   }
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     font-size: 20px;
   }
 `;

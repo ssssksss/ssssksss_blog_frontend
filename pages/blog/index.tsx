@@ -1,5 +1,5 @@
 const BlogMainContainer = dynamic(
-  () => import('@components/blog/BlogMainContainer')
+  () => import('@components/blog/BlogMainContainer'),
 );
 
 import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryContainer';
@@ -13,7 +13,6 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { batch } from 'react-redux';
 /**
@@ -32,17 +31,16 @@ export async function getServerSideProps() {
   return { props: data };
 }
 
-const Index = props => {
-  const router = useRouter();
+const Index = (props: any) => {
   useEffect(() => {
     store.dispatch(
       rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-        props.json?.blogFirstCategoryList
-      )
+        props.json?.blogFirstCategoryList,
+      ),
     );
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
     let _activeFirstCategoryName = props.json?.blogFirstCategoryList.filter(
-      i => i.id == urlQueryObject?.[`first-category`]
+      (i) => i.id == urlQueryObject?.[`first-category`],
     )[0]?.name;
     batch(() => {
       store.dispatch(
@@ -53,7 +51,7 @@ const Index = props => {
           activeBlogFirstCategoryName:
             _activeFirstCategoryName ||
             props.json?.blogFirstCategoryList[0].name,
-        })
+        }),
       );
       store.dispatch(
         rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
@@ -62,10 +60,10 @@ const Index = props => {
             props.json?.blogFirstCategoryList[0].secondCategoryList[0].id,
           activeBlogSecondCategoryName:
             props.json?.blogFirstCategoryList[0].secondCategoryList[0].name,
-        })
+        }),
       );
       store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json?.userId)
+        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json?.userId),
       );
     });
   }, []);
@@ -88,12 +86,12 @@ Index.layout = Layout1;
 const Container = styled(CC.ColumnDiv)`
   gap: 8px;
   width: 100%;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
   border-radius: 8px;
-  ${props => props.theme.scroll.hidden};
+  ${(props) => props.theme.scroll.hidden};
   min-height: calc(100vh - 48px);
 
   & > * {
-    outline: solid ${props => props.theme.main.primary80} 2px;
+    outline: solid ${(props) => props.theme.main.primary80} 2px;
   }
 `;

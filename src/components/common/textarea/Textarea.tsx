@@ -23,7 +23,6 @@ interface ITextareaProps {
   defaultValue?: any;
   color?: string;
   placeholderColor?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: any;
   value?: string | number | boolean;
   name?: string;
@@ -40,7 +39,6 @@ interface ITextareaProps {
   state?: number;
   bg?: string;
   outline?: boolean;
-  submit?: (e: Event) => void;
   resizeMode?: boolean;
 }
 
@@ -80,11 +78,7 @@ const Textarea = (props: ITextareaProps, ref) => {
           />
         </button>
       )}
-      {props.errorMessage ? (
-        <ErrorMessageSpan> {props.errorMessage} </ErrorMessageSpan>
-      ) : (
-        <></>
-      )}
+      {props.errorMessage ? <span> {props.errorMessage} </span> : <></>}
     </Container>
   );
 };
@@ -108,11 +102,11 @@ const TextareaStyle = styled.textarea`
   appearance: none;
   resize: none;
   border-radius: 10px;
-  padding: ${props => props.pd || '2px'};
-  height: ${props => props.h};
+  padding: ${(props) => props.pd || '2px'};
+  height: ${(props) => props.h};
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
 
   &:focus {
-    outline: solid ${props => `${props.theme.main.primary80}2f`} 5px;
+    outline: solid ${(props) => `${props.theme.main.primary80}2f`} 5px;
   }
 `;

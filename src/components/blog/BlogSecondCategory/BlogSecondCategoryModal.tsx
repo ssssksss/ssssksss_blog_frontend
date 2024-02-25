@@ -11,7 +11,7 @@ import BlogSecondCategoryUpdateBox from './BlogSecondCategoryUpdateBox';
  * @version 0.0.1 "2024-01-08 17:33:35"
  * @description 설명
  */
-const BlogSecondCategoryModal = props => {
+const BlogSecondCategoryModal = (props) => {
   const [menu, setMenu] = useState('add');
 
   return (
@@ -56,24 +56,8 @@ const Container = styled(CC.ColumnDiv)`
   min-height: 400px;
   padding: 10px;
   gap: 16px;
-  color: ${props => props.theme.colors.white80};
+  color: ${(props) => props.theme.colors.white80};
   font-size: 1.2rem;
   max-width: 400px;
   margin: auto;
-`;
-
-const Header = styled.header`
-  ${props => props.theme.flex.column};
-  padding: 16px;
-  gap: 0.25rem;
-  align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
-  border: 1px solid #fff;
-  background: rgba(0, 0, 0, 0.01);
-  backdrop-filter: blur(1px);
-
-  span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-    font-size: 20px;
-  }
 `;

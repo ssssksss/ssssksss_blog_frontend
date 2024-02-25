@@ -1,7 +1,5 @@
-import { Input } from '@components/common/input/Input';
-import { store } from '@redux/store';
+import Input from '@components/common/input/Input';
 import type { Meta, StoryObj } from '@storybook/react';
-import rootTheme from '@styles/theme';
 
 const meta: Meta<typeof Input> = {
   title: 'Inputs',
@@ -16,8 +14,6 @@ const meta: Meta<typeof Input> = {
 export default meta;
 
 type Story = StoryObj<typeof Input>;
-
-const theme = rootTheme[store.getState().themeStore.theme];
 
 export const Text: Story = {
   args: {

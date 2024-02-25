@@ -1,10 +1,16 @@
-const HamburgerMenu = dynamic(() => import('@components/common/button/HamburgerMenu'), {
-  loading: () => <p>Loading...</p>
-});
+const HamburgerMenu = dynamic(
+  () => import('@components/common/button/HamburgerMenu'),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
-const ReactPlayerContainer = dynamic(() => import('../reactPlayer/ReactPlayerContainer'), {
-  loading: () => <p>Loading...</p>
-});
+const ReactPlayerContainer = dynamic(
+  () => import('../reactPlayer/ReactPlayerContainer'),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 import Animations from '@components/common/animations/Animations';
 import { Icons } from '@components/common/icons/Icons';
@@ -29,14 +35,13 @@ import { useSelector } from 'react-redux';
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const activeMenu = useSelector((state: RootState) => state.leftNavItemStore);
-  const authStore = useSelector((state: RootState) => state.authStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
   const router = useRouter();
 
   useEffect(() => {
-    if(router.isReady) {
+    if (router.isReady) {
       store.dispatch(
-        SET_LEFT_NAV_ITEM_ACTIVE('/'+window.location.pathname.split('/')[1])
+        SET_LEFT_NAV_ITEM_ACTIVE('/' + window.location.pathname.split('/')[1]),
       );
     }
   }, [router.isReady]);
@@ -44,7 +49,11 @@ const SideBar = () => {
   const LeftNavItems = [
     [Icons.HomeIcon, '홈', '/'],
     [Icons.BlogIcon, '블로그', '/blog'],
-    [Icons.BoardIcon, '게시판', `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`],
+    [
+      Icons.BoardIcon,
+      '게시판',
+      `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`,
+    ],
     [Icons.WorkListIcon, '할일', '/todo'],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
     [Icons.CalendarIcon, '일정', '/schedule'],
@@ -57,7 +66,7 @@ const SideBar = () => {
         <NavStyle>
           <HamburgerMenu
             isHideMenu={isNavbarOpen}
-            onClickHideMenu={() => setIsNavbarOpen(prev => !prev)}
+            onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
           />
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} prefetch={false} key={'sideBarItem' + index}>
@@ -66,19 +75,21 @@ const SideBar = () => {
                 onClick={() => {
                   store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
                 }}
-                active={activeMenu.leftNavActiveItem.split('?')[0] === i[2].split('?')[0]}
+                active={
+                  activeMenu.leftNavActiveItem.split('?')[0] ===
+                  i[2].split('?')[0]
+                }
               >
-                  <Image src={i[0]} alt={i[1]} />
-                  <span> {i[1]} </span>
+                <Image src={i[0]} alt={i[1]} />
+                <span> {i[1]} </span>
               </NavItem>
             </Link>
           ))}
         </NavStyle>
-        <CC.ColumnBetweenDiv gap={4} bg={"blue"}>
-        {
-          typeof window != 'undefined' && 
-            <ReactPlayerContainer isNavbarOpen={isNavbarOpen}/>
-        }
+        <CC.ColumnBetweenDiv gap={4} bg={'blue'}>
+          {typeof window != 'undefined' && (
+            <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
+          )}
         </CC.ColumnBetweenDiv>
       </FoldDiv>
     </Container>
@@ -91,18 +102,17 @@ interface IContainerProps {
 }
 
 const Container = styled.aside`
-  ${props => props.theme.flex.column.between};
-  background: ${props => props.theme.main.contrast};
-  font-size: ${props => props.theme.fontSize.sm};
+  ${(props) => props.theme.flex.column.between};
+  background: ${(props) => props.theme.main.contrast};
+  font-size: ${(props) => props.theme.fontSize.sm};
   font-weight: 600;
   position: relative;
   width: 44px;
   z-index: 40;
 
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     width: 120px;
   }
-
 `;
 
 const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
@@ -110,14 +120,14 @@ const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
 }`;
 
 const FoldDiv = styled.div<IContainerProps>`
-  ${props => props.theme.flex.column.between};
+  ${(props) => props.theme.flex.column.between};
   height: 100vh;
   width: 100%;
   z-index: 20;
-  ${props=>props.theme.scroll.hidden};
-  
-  @media (max-width: ${props => props.theme.deviceSizes.pc}) {
-    ${props =>
+  ${(props) => props.theme.scroll.hidden};
+
+  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
+    ${(props) =>
       props.isNavbarOpen &&
       `
       width: 120px;
@@ -125,13 +135,6 @@ const FoldDiv = styled.div<IContainerProps>`
       outline: solid ${props.theme.main.primary40} 2px;
       `}
   }
-`;
-
-const UserBox = styled.div`
-width: 100%;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
 `;
 
 const NavItem = styled.div<{
@@ -150,13 +153,13 @@ const NavItem = styled.div<{
   cursor: pointer;
   /* 호버일때 */
   &:hover {
-    background: ${props => props.theme.main.primary20};
+    background: ${(props) => props.theme.main.primary20};
   }
   /* outline 속성일 떄 */
-  ${props =>
+  ${(props) =>
     props.outline &&
     `
-    outline: solid ${props.theme.colors.[props.color] || props.theme.main.[props.color] || props.theme.main.primary80} 1px;
+    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 1px;
     background: transparent;
     `}
   /* 디폴트 상태일 때 */
@@ -166,15 +169,15 @@ const NavItem = styled.div<{
     animation-duration: 0.6s;
   }
 
-  ${props =>
+  ${(props) =>
     props.active &&
     `
     background: ${props.theme.main.primary20};
   `};
 
   /* pc크기보다 작을 경우 */
-  @media (max-width: ${props => props.theme.deviceSizes.pc}) {
-    ${props =>
+  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
+    ${(props) =>
       props.isNavbarOpen
         ? `
       align-items: center;
@@ -192,7 +195,5 @@ const NavItem = styled.div<{
         `}
   }
 
-  height: ${props => props.h};
-
+  height: ${(props) => props.h};
 `;
-

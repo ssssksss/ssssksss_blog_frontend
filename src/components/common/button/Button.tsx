@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colorTypes } from '@styles/theme';
-import { MouseEventHandler, useCallback } from 'react';
+import { MouseEventHandler, ReactNode, useCallback } from 'react';
 
-interface ButtonProps {
-  onClick?: (event: any) => void;
-  onClickCapture?: (event: any) => void;
+interface IButtonProps {
+  onClick?: (_event: any) => void;
+  onClickCapture?: (_event: any) => void;
   children: ReactNode;
   disabled?: boolean;
   w?: string;
@@ -29,21 +29,21 @@ const Button = ({
   children = 'button',
   hover = true,
   ...props
-}: ButtonProps) => {
+}: IButtonProps) => {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    event => {
+    (event) => {
       if (props.disabled) return;
       _onClick?.(event);
     },
-    [_onClick, props.disabled]
+    [_onClick, props.disabled],
   );
 
   const onClickCapture: MouseEventHandler<HTMLButtonElement> = useCallback(
-    event => {
+    (event) => {
       if (props.disabled) return;
       _onClickCapture?.(event);
     },
-    [_onClickCapture, props.disabled]
+    [_onClickCapture, props.disabled],
   );
 
   return (
@@ -62,23 +62,23 @@ export default Button;
 
 const ButtonStyle = styled.button<IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
-  ${props => props.theme.flex?.row.center.center};
-  color: ${props => props.theme?.colors?.black80};
+  ${(props) => props.theme.flex?.row.center.center};
+  color: ${(props) => props.theme?.colors?.black80};
 
   // ? 커스텀한 버튼들 약간 테마에 맞춰서 변경을 시도하려고 노력중 (겨울, 비, 크리스마스 등등)
-  ${props =>
+  ${(props) =>
     props.state === 'danger' &&
     `
       background: #FF3232;
       color: #fafafa;
       `}
-  ${props =>
+  ${(props) =>
     props.state === 'warning' &&
     `
       background: #FF8E0D;
       color: #fafafa;
     `}
-    ${props =>
+    ${(props) =>
     props.state === 1 &&
     `
       outline: solid ${props.theme.colors.white100} 1px;
@@ -86,7 +86,7 @@ const ButtonStyle = styled.button<IButtonProps>`
     `}
 
       
-${props =>
+${(props) =>
     props.hover &&
     css`
       &:hover {
@@ -97,7 +97,7 @@ ${props =>
       }
     `}
       
-      ${props =>
+      ${(props) =>
     props.active &&
     css`
       color: ${props.theme.main?.contrast};
@@ -108,7 +108,7 @@ ${props =>
     `}
       
       
-      ${props =>
+      ${(props) =>
     props.disabled &&
     css`
       background: ${props.theme.colors?.gray80};
@@ -117,7 +117,7 @@ ${props =>
       }
     `}
       
-      ${props =>
+      ${(props) =>
     props.disabled != undefined &&
     props.disabled != true &&
     css`
@@ -128,29 +128,29 @@ ${props =>
       props.theme.main?.primary60};
     `}
         
-  padding: ${props => props.pd || '4px'};
+  padding: ${(props) => props.pd || '4px'};
   border: none;
-  border-radius: ${props =>
+  border-radius: ${(props) =>
     props.theme.borderRadius?.[props.brR] ||
     props.theme.btnSizes?.[props.h]?.borderRadius ||
     props.theme.btnSizes?.md?.borderRadius};
-  background: ${props =>
+  background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg] || props.bg};
-  outline: ${props =>
+  outline: ${(props) =>
     props.outline &&
     css`solid  ${
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
       props.theme.main?.primary80
     } 1px`};
-  width: ${props => props.w || 'max-content'};
-  height: ${props =>
+  width: ${(props) => props.w || 'max-content'};
+  height: ${(props) =>
     props.theme.btnSizes?.[props.h]?.height ||
     props.h ||
     props.theme.btnSizes?.md?.height};
-  font-family: ${props => props.theme.fontFamily?.[props.fontFamily]};
-  font-weight: ${props => props.fontWeight};
-  font-size: ${props => props.theme.fontSize?.md};
-  color: ${props =>
+  font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
+  font-weight: ${(props) => props.fontWeight};
+  font-size: ${(props) => props.theme.fontSize?.md};
+  color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 `;

@@ -1,9 +1,8 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
@@ -14,7 +13,7 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-17 16:56:30"
  * @description 설명
  */
-const AddScheduleCategoryBox = props => {
+const AddScheduleCategoryBox = (props) => {
   const categoryColors = [
     '',
     'red40',
@@ -28,8 +27,7 @@ const AddScheduleCategoryBox = props => {
     'gray40',
   ];
 
-  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
-  const authStore = useSelector(state => state.authStore);
+  const authStore = useSelector((state) => state.authStore);
   const [addCategoryRequestData, setAddCategoryRequestData] = useState();
   const queryClient = useQueryClient();
   const addScheduleCategoryHandler = () => {
@@ -54,7 +52,7 @@ const AddScheduleCategoryBox = props => {
           res.json.scheduleCategory;
         queryClient.setQueryData(
           ['scheduleCategoryList', authStore.id],
-          oldData => {
+          (oldData) => {
             oldData.json.scheduleCategoryList.push({
               backgroundColor,
               id,
@@ -63,10 +61,10 @@ const AddScheduleCategoryBox = props => {
               userId,
             });
             return oldData;
-          }
+          },
         );
         props.closeModal();
-      }
+      },
     );
   };
 
@@ -76,8 +74,8 @@ const AddScheduleCategoryBox = props => {
       <Input
         placeholder={'일정 카테고리를 작성해주세요'}
         outline={true}
-        onChange={e =>
-          setAddCategoryRequestData(prev => ({
+        onChange={(e) =>
+          setAddCategoryRequestData((prev) => ({
             ...prev,
             title: e.target.value,
           }))
@@ -87,11 +85,11 @@ const AddScheduleCategoryBox = props => {
         w={'100%'}
         placeholder={'카테고리 색상을 선택해주세요'}
         outline={true}
-        data={categoryColors.map(i => {
+        data={categoryColors.map((i) => {
           return { value: i, name: ' ', bg: i };
         })}
-        onChange={i =>
-          setAddCategoryRequestData(prev => ({
+        onChange={(i) =>
+          setAddCategoryRequestData((prev) => ({
             ...prev,
             id: i.value,
             name: i.name,

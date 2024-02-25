@@ -4,10 +4,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import React, { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
+import React, {
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useState,
+} from 'react';
 
 interface IModalButtonProps {
-  onClick?: (event: any) => void;
+  onClick?: (_event: any) => void;
   children: ReactNode;
   disabled?: boolean;
   w?: string;
@@ -31,7 +36,7 @@ interface IModalButtonProps {
   modalMaxH?: string;
   modalOverlayVisible?: boolean;
   modalBg?: string;
-  beforeCloseFunction?: ()=>void;
+  beforeCloseFunction?: () => void;
 }
 
 /**
@@ -50,39 +55,60 @@ const ModalButton: IModalButtonProps = ({
 
   const onClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (props.disabled) return;
-    if(props.modal && !isOpen) {
+    if (props.modal && !isOpen) {
       setIsOpen(true);
       _onClick?.(event);
-    };
+    }
   };
-  
+
   const onClickCapture: MouseEventHandler<HTMLButtonElement> = useCallback(
-    event => {
-    _onClickCapture?.(event);
-  },
-  [_onClickCapture, props.disabled]
-);
+    (event) => {
+      _onClickCapture?.(event);
+    },
+    [_onClickCapture, props.disabled],
+  );
 
-
-  const closeModal = useCallback((e) => {
-    if(props.beforeCloseFunction) { props.beforeCloseFunction(); }
+  const closeModal = useCallback((_) => {
+    if (props.beforeCloseFunction) {
+      props.beforeCloseFunction();
+    }
     setIsOpen(false);
-  },[])
+  }, []);
 
   return (
     <ModalButtonStyle
-    onClick={onClick} // {onClick}은 위에서 정의한 함수이다.
-    onClickCapture={onClickCapture}
+      onClick={onClick} // {onClick}은 위에서 정의한 함수이다.
+      onClickCapture={onClickCapture}
       {...props}
     >
-        {children}
-      {isOpen && <Overlay modalOverlayVisible={props.modalOverlayVisible} onClickCapture={closeModal} />}
+      {children}
       {isOpen && (
-        <ModalComponent width={props.modalW} height={props.modalH} background={props.modalBg} maxH={props.modalMaxH} maxW={props.modalMaxW} minW={props.modalMinW}>
+        <Overlay
+          modalOverlayVisible={props.modalOverlayVisible}
+          onClickCapture={closeModal}
+        />
+      )}
+      {isOpen && (
+        <ModalComponent
+          width={props.modalW}
+          height={props.modalH}
+          background={props.modalBg}
+          maxH={props.modalMaxH}
+          maxW={props.modalMaxW}
+          minW={props.modalMinW}
+        >
           <Exit onClickCapture={closeModal}>
-            <Image src={Icons.ExitIcon} alt="exit" width={"36px"} height={"36px"}/>
+            <Image
+              src={Icons.ExitIcon}
+              alt="exit"
+              width={'36px'}
+              height={'36px'}
+            />
           </Exit>
-          {{...props.modal, props: {...props.modal.props, "closeModal": ()=>closeModal()}}}
+          {{
+            ...props.modal,
+            props: { ...props.modal.props, closeModal: () => closeModal() },
+          }}
         </ModalComponent>
       )}
     </ModalButtonStyle>
@@ -92,33 +118,29 @@ const ModalButton: IModalButtonProps = ({
 export default React.memo(ModalButton);
 
 const ModalButtonStyle = styled(Button)<IModalButtonProps>`
-// ! Button(커스텀태그)에 있는 속성을 상속받아서 사용
-// 외곽 디자인(border-radius, outline, box-shadow) //
+  // ! Button(커스텀태그)에 있는 속성을 상속받아서 사용
+  // 외곽 디자인(border-radius, outline, box-shadow) //
 
-// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: relative;
-  max-width: ${props => props.maxW};
-  width: ${props => props.w};
-  height: ${props => props.h};
-// 배경색(background) //
+  max-width: ${(props) => props.maxW};
+  width: ${(props) => props.w};
+  height: ${(props) => props.h};
+  // 배경색(background) //
 
-// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 
-// 애니메이션(animation) //
+  // 애니메이션(animation) //
 
-// 이벤트(active, focus, hover, visited, focus-within, disabled) //
--webkit-tap-highlight-color: rgba(0,0,0,0);
+  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-// 반응형(media-query) //
-// 커스텀(custom css) //
-
-
+  // 반응형(media-query) //
+  // 커스텀(custom css) //
 `;
 
-
-const Overlay = styled.div<{modalOverlayVisible: boolean}>`
-
-    ${props =>
+const Overlay = styled.div<{ modalOverlayVisible: boolean }>`
+  ${(props) =>
     props.modalOverlayVisible &&
     css`
       position: fixed;
@@ -131,62 +153,66 @@ const Overlay = styled.div<{modalOverlayVisible: boolean}>`
       z-index: 90;
       background: ${props.theme.colors.gray60};
     `}
-
 `;
 
-const ModalComponent = styled(CC.ColumnDiv)<{ width: string, height: string, maxH: string, maxW: string, minW: string }>`
-// 외곽 디자인(border-radius, outline, box-shadow) //
-  border-radius: ${props => props.theme.borderRadius.br10};
-  outline: solid ${props=>props.theme.colors.black80} 2px;
+const ModalComponent = styled(CC.ColumnDiv)<{
+  width: string;
+  height: string;
+  maxH: string;
+  maxW: string;
+  minW: string;
+}>`
+  // 외곽 디자인(border-radius, outline, box-shadow) //
+  border-radius: ${(props) => props.theme.borderRadius.br10};
+  outline: solid ${(props) => props.theme.colors.black80} 2px;
 
-
-// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: fixed;
   padding-top: 40px;
   top: 50%;
   left: 50%;
   z-index: 100;
   transform: translate(-50%, -50%);
-  height: ${props => props.height};
-  max-height: ${props => props.maxH || `calc(100% - 20px)` };
-  width: ${props => `calc(${props.width})`};
-  max-width: ${props => props.maxW};
-  min-width: ${props => props.minW};
+  height: ${(props) => props.height};
+  max-height: ${(props) => props.maxH || `calc(100% - 20px)`};
+  width: ${(props) => `calc(${props.width})`};
+  max-width: ${(props) => props.maxW};
+  min-width: ${(props) => props.minW};
 
-// 배경색(background) //
-  background: ${props => props.theme.colors.[props.background] || props.theme.main.[props.background] || props.background || `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};
-// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  // 배경색(background) //
+  background: ${(props) =>
+    props.theme.colors?.[props.background] ||
+    props.theme.main?.[props.background] ||
+    props.background ||
+    `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
 
+  // 애니메이션(animation) //
 
-// 애니메이션(animation) //
+  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
 
-
-// 이벤트(active, focus, hover, visited, focus-within, disabled) //
-
-
-// 반응형(media-query, overflow, scroll) //
+  // 반응형(media-query, overflow, scroll) //
   cursor: default;
-  ${props=>props.theme.scroll.hidden};
+  ${(props) => props.theme.scroll.hidden};
   & > * {
-    ${props=>props.theme.scroll.hidden};
+    ${(props) => props.theme.scroll.hidden};
   }
 
-// 커스텀(custom css) //
-
+  // 커스텀(custom css) //
 `;
 const Exit = styled(CC.RowRightDiv)`
-// 외곽 디자인(border-radius, outline, box-shadow) //
+  // 외곽 디자인(border-radius, outline, box-shadow) //
   border-radius: 10px 10px 0px 0px;
-// 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: absolute;
   top: 0;
   width: 100%;
-  height: 40px; 
+  height: 40px;
   z-index: 20;
-// 배경색(background) //
-// 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-// 애니메이션(animation) //
-// 이벤트(active, focus, hover, visited, focus-within, disabled) //
-// 반응형(media-query, overflow, scroll) //
-// 커스텀(custom css) //
+  // 배경색(background) //
+  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
+  // 애니메이션(animation) //
+  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
+  // 반응형(media-query, overflow, scroll) //
+  // 커스텀(custom css) //
 `;

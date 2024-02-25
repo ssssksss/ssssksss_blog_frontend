@@ -1,4 +1,4 @@
-export type ACTION_INSTANCE = ReturnType<typeof SET_COPY1>;
+export type ACTION_INSTANCE = ReturnType<typeof SET_LEFT_NAV_ITEM_ACTIVE>;
 
 type LEFT_ACTIVE_ITEM_STATE = {
   leftNavActiveItem: string;

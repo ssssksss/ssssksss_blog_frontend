@@ -38,9 +38,9 @@ export const UseQueryHook = (
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;
     refetchOnMount?: boolean | string;
-    onSuccessHandler?: () => (data: any) => void;
+    onSuccessHandler?: () => () => void;
     enabled: boolean;
-  } // focus시 refetch, default true
+  }, // focus시 refetch, default true
 ) => {
   const {
     isLoading,
@@ -69,11 +69,11 @@ export const UseQueryHook = (
               SET_TOASTIFY_MESSAGE({
                 type: 'success',
                 message: res.data.msg,
-              })
+              }),
             );
           }
           return res.data;
-        }
+        },
       );
     },
     {
@@ -82,26 +82,24 @@ export const UseQueryHook = (
       retry: '1',
       // notifyOnChangeProps: ['data', 'isFetching'],
       enabled: props.enabled != false,
-      onError: err => {
+      onError: (err) => {
         let toasttifyResponse = ['error', false];
-        if (true) {
-          switch (err?.response?.status) {
-            case '400' | 400:
-              toasttifyResponse[1] = '잘못된 요청';
-              break;
-            // case '401' | 401:
-            //   toasttifyResponse[1] = '인증 에러';
-            // break;
-            case '403' | 403:
-              toasttifyResponse[1] = '권한 에러';
-              break;
-            case '409' | 409:
-              toasttifyResponse[1] = '저장 데이터 중복';
-              break;
-          }
+        switch (err?.response?.status) {
+          case '400' | 400:
+            toasttifyResponse[1] = '잘못된 요청';
+            break;
+          // case '401' | 401:
+          //   toasttifyResponse[1] = '인증 에러';
+          // break;
+          case '403' | 403:
+            toasttifyResponse[1] = '권한 에러';
+            break;
+          case '409' | 409:
+            toasttifyResponse[1] = '저장 데이터 중복';
+            break;
         }
       },
-      select: data => {
+      select: (data) => {
         let _data = data;
         if (props.onSuccessHandler != undefined && isLoading) {
           props.onSuccessHandler({
@@ -115,7 +113,7 @@ export const UseQueryHook = (
         }
         return _data;
       },
-    }
+    },
   );
   if (isLoading)
     return {

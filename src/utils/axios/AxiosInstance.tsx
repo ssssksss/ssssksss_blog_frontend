@@ -29,10 +29,10 @@ const setApiUserInfo = async () => {
   })
     .then((response: any) => {
       store.dispatch(
-        rootActions.authStore.SET_USER_INFO(response.data.data.user)
+        rootActions.authStore.SET_USER_INFO(response.data.data.user),
       );
     })
-    .catch(error => {});
+    .catch((_) => {});
 };
 
 // axios의 인터셉터라고 하여 axios에서 응답을 보내기전과 요청을 받은 후 처리를 해주는 로직을 작성할 수 있다.
@@ -48,9 +48,9 @@ AxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  err => {
-    return Promise.reject(error);
-  }
+  (err) => {
+    return Promise.reject(err);
+  },
 );
 
 AxiosInstance.interceptors.response.use(
@@ -69,15 +69,15 @@ AxiosInstance.interceptors.response.use(
         url: '/api/user/accessToken',
         method: 'GET',
       })
-        .then(async res => {
+        .then(async (res) => {
           store.dispatch(
-            rootActions.authStore.SET_ACCESS_TOKEN(res.data.accessToken)
+            rootActions.authStore.SET_ACCESS_TOKEN(res.data.accessToken),
           );
           originalRequest.headers['Authorization'] =
             'Bearer ' + store.getState().authStore.accessToken;
           await setApiUserInfo();
         })
-        .catch(err => {
+        .catch((_) => {
           existNewAccessToken = false;
         });
       if (existNewAccessToken) {
@@ -89,16 +89,16 @@ AxiosInstance.interceptors.response.use(
         url: '/api/user',
         method: 'DELETE',
       })
-        .then(response => {
+        .then((_) => {
           if (store.getState().authStore.accessToken !== '') {
             // alert("로그인이 필요합니다.");
           }
           store.dispatch(
-            SET_USER_INFO({
+            rootActions.authStore.SET_USER_INFO({
               email: '',
               role: '',
               nickname: '',
-            })
+            }),
           );
           store.dispatch(rootActions.authStore.SET_USER_INFO());
           store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN());
@@ -107,14 +107,14 @@ AxiosInstance.interceptors.response.use(
               rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
                 type: 'error',
                 message: '로그인이 필요합니다!!!!',
-              })
+              }),
             );
           }
         })
-        .catch(error => {});
+        .catch((_) => {});
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default AxiosInstance;

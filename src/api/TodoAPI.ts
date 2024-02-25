@@ -1,6 +1,6 @@
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
-const addTodo = props => {
+const addTodo = (props) => {
   return ApiProcessHandler({
     url: '/api/todo',
     method: 'POST',
@@ -12,7 +12,7 @@ const addTodo = props => {
   });
 };
 
-const getTodoList = props => {
+const getTodoList = (_) => {
   return ApiProcessHandler({
     url: '/api/todo',
     method: 'GET',
@@ -20,7 +20,7 @@ const getTodoList = props => {
   });
 };
 
-const updateTodo = props => {
+const updateTodo = (props) => {
   return ApiProcessHandler({
     url: '/api/todo',
     method: 'PATCH',
@@ -33,7 +33,7 @@ const updateTodo = props => {
   });
 };
 
-const deleteTodo = props => {
+const deleteTodo = (props) => {
   return ApiProcessHandler({
     url: '/api/todo',
     method: 'DELETE',
@@ -45,7 +45,7 @@ const deleteTodo = props => {
   });
 };
 
-const toggleCheckTodo = props => {
+const toggleCheckTodo = (props) => {
   return ApiProcessHandler({
     url: '/api/todo/check',
     method: 'PATCH',

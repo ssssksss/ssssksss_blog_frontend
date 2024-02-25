@@ -22,19 +22,19 @@ interface IScheduleCategoryItemProps {
 
 const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
   const [isVisible, setIsVisible] = useState(props.isVisible);
-  const authStore = useSelector(state => state.authStore);
+  const authStore = useSelector((state) => state.authStore);
   const queryClient = useQueryClient();
   const scheduleBarVisibleHandler = () => {
-    setIsVisible(prev => !prev);
-    ScheduleAPI.toggleCheckScheduleCategory({ id: props.id }).then(i => {});
+    setIsVisible((prev) => !prev);
+    ScheduleAPI.toggleCheckScheduleCategory({ id: props.id });
     queryClient.setQueryData(
       [
         'scheduleList',
         store.getState().scheduleStore.calendarMonth,
         authStore.id,
       ],
-      oldData => {
-        oldData.json.scheduleList.map(i => {
+      (oldData) => {
+        oldData.json.scheduleList.map((i) => {
           if (props.id == i.scheduleCategory.id) {
             i.scheduleCategory.isVisible = !isVisible;
           }
@@ -43,7 +43,7 @@ const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
         return {
           ...oldData,
         };
-      }
+      },
     );
   };
 
@@ -53,7 +53,7 @@ const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
       bg={props.backgroundColor}
       pd={'4px 2px'}
       isVisible={isVisible}
-      onClick={e => {
+      onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         scheduleBarVisibleHandler();
@@ -66,7 +66,7 @@ const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
 export default ScheduleCategoryItem;
 
 const Container = styled(CC.RowDiv)<{ isVisible: boolean }>`
-  opacity: ${props => !props.isVisible && 0.2};
+  opacity: ${(props) => !props.isVisible && 0.2};
   cursor: pointer;
   &:hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));

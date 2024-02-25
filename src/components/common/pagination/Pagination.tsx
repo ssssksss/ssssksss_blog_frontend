@@ -10,19 +10,6 @@ interface IPaginationProps {
   currentPage: number;
 }
 
-// 상태값 예시
-// const [paginationParameters, setPaginationParameters] = useState({
-//   searchKeyword: "",
-//   pageIndex: 1,
-//   sizePerPage: 10,
-//   sortBy: router.query.sort || 'baseTimeEntity.createdAt',
-// });
-// const [result,setResult] = useState({
-//   data: [],
-//   totalNumber: 100;
-//   searchKeyword: "",
-// })
-
 /**
  *
  * @param refetch 페이지를 갱신할 함수
@@ -34,23 +21,19 @@ interface IPaginationProps {
  * @handler
  */
 const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
-  // 페이지 1개당 보여줄 갯수
-  const [perPageCount, setPerPageCount] = useState(10); // eslint-disable-line no-unused-vars
   // 마지막 페이지
   const [startPage, setStartPage] = useState(1);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const endPage = Math.ceil(Number(pageCount) / perPageCount);
 
   // 아래 보여줄 페이지 번호들
   const movePage = (event: MouseEvent<HTMLButtonElement>) => {
     if (event.currentTarget.id === 'prev') {
-      setStartPage(prev => (prev > 10 ? prev - 10 : 1));
+      setStartPage((prev) => (prev > 10 ? prev - 10 : 1));
       refetch({ page: currentPage > 10 ? currentPage - 10 : 1 });
     } else if (event.currentTarget.id === 'morePrev') {
       setStartPage(1);
       refetch({ page: 1 });
     } else if (event.currentTarget.id === 'next') {
-      setStartPage(prev => (prev + 10 <= endPage ? prev + 10 : endPage));
+      setStartPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
       refetch({
         page: currentPage + 10 <= endPage ? currentPage + 10 : endPage,
       });
@@ -98,7 +81,7 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
             >
               {index + startPage}
             </PageNumberButton>
-          )
+          ),
       )}
 
       {startPage + 10 < endPage ? (
@@ -143,8 +126,8 @@ const Container = styled.div`
   }
 `;
 const PageNumberButton = styled(Button)<{ isActive: boolean }>`
-  color: ${props => (props.isActive ? props.theme.main.primary100 : 'black')};
-  font-size: ${props => (props.isActive ? '1.4em' : '0.8em')};
-  font-weight: ${props => props.isActive && 600};
+  color: ${(props) => (props.isActive ? props.theme.main.primary100 : 'black')};
+  font-size: ${(props) => (props.isActive ? '1.4em' : '0.8em')};
+  font-weight: ${(props) => props.isActive && 600};
 `;
 const MoveButton = styled.button``;

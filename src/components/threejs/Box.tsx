@@ -1,13 +1,11 @@
 /* eslint-disable react/no-unknown-property */
-import { useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import gsap from "gsap";
-import { useGLTF, OrbitControls, Effects } from "@react-three/drei";
-import * as THREE from "three";
-import { useEffect, useState } from "react";
+import { useLoader } from '@react-three/fiber';
+import { useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const Box = () => {
-  const gltf = useLoader(GLTFLoader, "/glTF/myhome/myhome.glb");
+  const gltf = useLoader(GLTFLoader, '/glTF/myhome/myhome.glb');
 
   // console.log("Box.tsx 파일 : ", gltf);
   // console.log("Box.tsx 파일 : ", gltf.nodes);
@@ -86,12 +84,12 @@ const Box = () => {
 
   function Video() {
     const [video] = useState(() =>
-      Object.assign(document.createElement("video"), {
-        src: "/videos/test_video.mp4",
-        crossOrigin: "Anonymous",
+      Object.assign(document.createElement('video'), {
+        src: '/videos/test_video.mp4',
+        crossOrigin: 'Anonymous',
         loop: true,
         muted: true,
-      })
+      }),
     );
     useEffect(() => void video.play(), [video]);
     return (

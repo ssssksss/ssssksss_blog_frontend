@@ -1,9 +1,11 @@
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import { UserSignupYup } from '@components/yup/UserSignupYup';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useEffect } from 'react';
@@ -15,7 +17,7 @@ import { useForm } from 'react-hook-form';
  * @description 설명
  */
 
-const SignupModal = props => {
+const SignupModal = (props) => {
   const { register, handleSubmit, formState, watch, trigger } = useForm({
     resolver: yupResolver(UserSignupYup),
     mode: 'onChange',
@@ -31,7 +33,7 @@ const SignupModal = props => {
   const { errors } = formState;
 
   const onClickSubmit = async (data: any) => {
-    const { passwordConfirm, ...params } = data;
+    const { ...params } = data;
     await AxiosInstance({
       url: '/api/user',
       method: 'POST',
@@ -43,12 +45,12 @@ const SignupModal = props => {
         birthDate: '20000101',
       },
     })
-      .then((response: any) => {
+      .then((_) => {
         store.dispatch(
-          SET_TOASTIFY_MESSAGE({
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
             type: 'success',
             message: '회원가입을 완료했습니다.',
-          })
+          }),
         );
         props.closeModal();
       })
@@ -114,7 +116,7 @@ const SignupModal = props => {
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 없으시다면?</span>
           <Button
-            onClickCapture={e => {
+            onClickCapture={(e) => {
               e.stopPropagation();
               props.changeAuthScreen();
             }}
@@ -143,7 +145,7 @@ const Container = styled(CC.ColumnDiv)`
   width: 100%;
   padding: 40px 10px 10px 10px;
   gap: 28px;
-  color: ${props => props.theme.colors.white80};
+  color: ${(props) => props.theme.colors.white80};
   overflow: scroll;
 `;
 
@@ -154,19 +156,19 @@ const commonStyle = css`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   ${commonStyle};
 
   span:nth-of-type(1) {
-    /* font-family: ${props => props.theme.fontFamily.cookieRunRegular}; */
+    /* font-family: ${(props) => props.theme.fontFamily.cookieRunRegular}; */
     font-size: 20px;
   }
 
   span:nth-of-type(2) {
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
   }
 `;

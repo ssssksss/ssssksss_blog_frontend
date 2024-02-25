@@ -72,7 +72,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
 
   // 2 3 1 2 3 1 2
   const prevIndexHandler = () => {
-    setCurrentIndex(prev => (prev === 1 ? arr.length - 3 : prev - 1));
+    setCurrentIndex((prev) => (prev === 1 ? arr.length - 3 : prev - 1));
     setTime(props.IntervalTime);
     if (currentIndex === arr.length - 3) {
       setTransition(transitionStyle);
@@ -84,7 +84,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
   };
 
   const nextIndexHandler = () => {
-    setCurrentIndex(prev => (prev === arr.length - 2 ? 2 : prev + 1));
+    setCurrentIndex((prev) => (prev === arr.length - 2 ? 2 : prev + 1));
     if (currentIndex === 2) {
       setTransition(transitionStyle);
     }
@@ -117,7 +117,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
                 <Button
                   width={'100%'}
                   height={'40px'}
-                  onClick={(e: any) => router.push(el[2])}
+                  onClick={() => router.push(el[2])}
                 >
                   보러 가기
                 </Button>
@@ -128,7 +128,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
       </SliderSizeContainer>
       <Button1 onClick={prevIndexHandler}>{'👈'}</Button1>
       <Button1 onClick={nextIndexHandler}>{'👉'}</Button1>
-      <Button1 onClick={() => setAutoPlay(prev => !prev)}>
+      <Button1 onClick={() => setAutoPlay((prev) => !prev)}>
         {autoPlay ? '⏸' : '▶'}
       </Button1>
     </Container>
@@ -155,7 +155,7 @@ const SliderSizeContainer = styled.div`
   margin: auto;
 `;
 const SliderContainer = styled.div<{ arrLength: number }>`
-  width: ${props => props.arrLength * 100}%;
+  width: ${(props) => props.arrLength * 100}%;
   height: 100%;
   display: flex;
   flex-flow: nowrap row;
@@ -170,11 +170,11 @@ const SliderItem = styled.div<{
   width: 100%;
   height: 100%;
   opacity: 0.5;
-  transform: ${props =>
+  transform: ${(props) =>
     props.isCurrent
       ? `translateX(-${props.currentIndex * 100}%)`
       : `translateX(-${props.currentIndex * 100}%) scale(0.7)`};
-  ${props =>
+  ${(props) =>
     props.isCurrent &&
     css`
       width: 100%;
@@ -212,8 +212,10 @@ const Button1 = styled.button`
   height: 40px;
   /* background: ${commonTheme.backgroundColors.transparent}; */
   color: white;
-  box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05),
-    25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),
+  box-shadow:
+    inset 20px 20px 20px rgba(0, 0, 0, 0.05),
+    25px 35px 20px rgba(0, 0, 0, 0.05),
+    25px 30px 30px rgba(0, 0, 0, 0.05),
     inset -20px -20px 25px rgba(255, 255, 255, 0.9);
   transition: 0.5s;
   transform: translate(-50%, 0);

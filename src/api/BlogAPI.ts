@@ -1,3 +1,9 @@
+import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
+import {
+  ICreateFirstCategoryHandlerProps,
+  IDeleteSecondCategoryHandlerProps,
+  IUpdateSecondCategoryHandlerProps,
+} from '@api/type/BlogAPI.d';
 import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
@@ -7,8 +13,6 @@ import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import { batch, useSelector } from 'react-redux';
-import { ApiProcessHandler } from './service/ApiProcessHandler';
-import { IAfterMutationHandlerProps } from './type/CommonAPI';
 
 const getBlogCategoryList = () => {
   return UseQueryHook({
@@ -28,7 +32,7 @@ const getBlogCategoryList = () => {
               props.data.json.blogFirstCategoryList[0].id,
             activeBlogFirstCategoryName:
               props.data.json.blogFirstCategoryList[0].name,
-          })
+          }),
         );
         store.dispatch(
           rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
@@ -38,10 +42,10 @@ const getBlogCategoryList = () => {
             activeBlogSecondCategoryName:
               props.data.json.blogFirstCategoryList[0].secondCategoryList[0]
                 .name,
-          })
+          }),
         );
         store.dispatch(
-          rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.data.json.userId)
+          rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.data.json.userId),
         );
       });
     },
@@ -59,14 +63,14 @@ const getBlog = (props: any) => {
       },
     },
     isRefetchWindowFocus: false,
-    onSuccessHandler: res => {
+    onSuccessHandler: (res) => {
       props.onSuccessHandler(res);
     },
     enabled: props.enabled,
   });
 };
 
-const getBlogList = (props: { sort: string }) => {
+const getBlogList = (_) => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   return UseQueryHook({
     queryKey: [
@@ -87,18 +91,18 @@ const getBlogList = (props: { sort: string }) => {
   });
 };
 // TODO
-const createBlogFirstCategory = (props: IAfterMutationHandlerProps) => {
+const createBlogFirstCategory = (_) => {
   const mutationFn = async (reqData: ICreateFirstCategoryHandlerProps) => {
     return await AxiosInstance.post('/api/blog-first-category', {
       name: reqData.name,
-    }).catch(error => {
+    }).catch((_) => {
       return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: ({ data }) => {
       store.dispatch(
         rootActions.blogStore.SET_BLOG_CATEGORY_LIST([
           ...store.getState().blogStore.blogCategoryList,
@@ -107,19 +111,19 @@ const createBlogFirstCategory = (props: IAfterMutationHandlerProps) => {
             id: data.data.json.createBlogFirstCategory.id,
             secondCategoryList: [],
           },
-        ])
+        ]),
       );
       store.dispatch(
         rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: data.data.msg,
-        })
+        }),
       );
     },
-    onErrorHandler: ({ error, variables, context }) => {
+    onErrorHandler: ({ error }) => {
       console.log('BlogAPI.ts error : ', error);
     },
-    onSettledHandler: ({ data, error, variables, context }) => {},
+    onSettledHandler: () => {},
   });
 };
 
@@ -128,15 +132,15 @@ const updateBlogFirstCategory = () => {
     return await AxiosInstance.put('/api/blog-first-category', {
       id: reqData.id,
       name: reqData.name,
-    }).catch(error => {
+    }).catch((_) => {
       return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
-      let temp = store.getState().blogStore.blogCategoryList.map(i => {
+    onSuccessHandler: ({ data, variables }) => {
+      let temp = store.getState().blogStore.blogCategoryList.map((i) => {
         if (i.id == variables.id) {
           return {
             ...i,
@@ -151,58 +155,43 @@ const updateBlogFirstCategory = () => {
         rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: data.data.msg,
-        })
+        }),
       );
     },
-    onErrorHandler: ({ error, variables, context }) => {},
-    onSettledHandler: ({ data, error, variables, context }) => {},
+    onErrorHandler: () => {},
+    onSettledHandler: () => {},
   });
 };
 
 const deleteBlogFirstCategory = () => {
-  const mutationFn = async reqData => {
+  const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
-      `/api/blog-first-category?id=${reqData?.id}`
-    ).catch(error => {
+      `/api/blog-first-category?id=${reqData?.id}`,
+    ).catch((_) => {
       return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: ({ data, variables }) => {
       store.dispatch(
         rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: data.data?.msg,
-        })
+        }),
       );
       let _temp = store
         .getState()
-        .blogStore.blogCategoryList.filter(i => i.id != variables.id);
+        .blogStore.blogCategoryList.filter((i) => i.id != variables.id);
       store.dispatch(rootActions.blogStore.SET_BLOG_CATEGORY_LIST([..._temp]));
     },
-    onErrorHandler: ({ error, variables, context }) => {
+    onErrorHandler: ({ error }) => {
       console.log('BlogAPI.ts 파일 : ', error);
     },
-    onSettledHandler: ({ data, error, variables, context }) => {},
+    onSettledHandler: () => {},
   });
 };
-
-const deleteFirstCategory = async (props: IDeleteFirstCategoryHandlerProps) => {
-  return await ApiProcessHandler({
-    url: '/api/blog-first-category',
-    method: 'DELETE',
-    params: {
-      id: props.id,
-    },
-    apiCategory: '블로그 카테고리1',
-    isShowMessage: true,
-  });
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// ! 아래는 일단 전부 보류인 코드
 
 const getBlogFirstCategoryList = () => {
   return UseQueryHook({
@@ -215,16 +204,18 @@ const getBlogFirstCategoryList = () => {
     isRefetchWindowFocus: false,
     onSuccessHandler: (props: IBlogCategoryListResDataProps) => {
       store.dispatch(
-        SET_ACTIVE_BLOG_FIRST_CATEGORY(
-          props.data.json.blogFirstCategoryList[0].id
-        )
+        store
+          .getState()
+          .blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY(
+            props.data.json.blogFirstCategoryList[0].id,
+          ),
       );
     },
   });
 };
 
 const createSecondCategory = () => {
-  const mutationFn = async reqData => {
+  const mutationFn = async (reqData) => {
     let formData = new FormData();
     formData.append('name', reqData.name);
     formData.append('blogFirstCategoryId', reqData.blogFirstCategoryId);
@@ -238,18 +229,18 @@ const createSecondCategory = () => {
         'Access-Control-Allow-Origin': '*',
       },
       data: formData,
-    }).catch(error => {
+    }).catch((_) => {
       return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: ({ data, variables }) => {
       let _secondCategoryList = store
         .getState()
         .blogStore.blogCategoryList.filter(
-          i => i.id == variables.blogFirstCategoryId
+          (i) => i.id == variables.blogFirstCategoryId,
         )[0].secondCategoryList;
       _secondCategoryList.push({
         id: data.data.json.createBlogSecondCategory.id + '',
@@ -259,7 +250,7 @@ const createSecondCategory = () => {
       });
       store.dispatch(
         rootActions.blogStore.SET_BLOG_CATEGORY_LIST([
-          ...store.getState().blogStore.blogCategoryList.map(i => {
+          ...store.getState().blogStore.blogCategoryList.map((i) => {
             if (i.id == variables.blogFirstCategoryId) {
               i.secondCategoryList = _secondCategoryList;
               return i;
@@ -267,17 +258,17 @@ const createSecondCategory = () => {
               return i;
             }
           }),
-        ])
+        ]),
       );
       store.dispatch(
         rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: '추가되었습니다.',
-        })
+        }),
       );
     },
-    onErrorHandler: ({ error, variables, context }) => {},
-    onSettledHandler: ({ data, error, variables, context }) => {},
+    onErrorHandler: () => {},
+    onSettledHandler: () => {},
   });
 };
 
@@ -293,7 +284,7 @@ const getSecondCategory = async (props: string) => {
 };
 
 const updateSecondCategory = async (
-  props: IUpdateSecondCategoryHandlerProps
+  props: IUpdateSecondCategoryHandlerProps,
 ) => {
   let formData = new FormData();
   formData.append('id', props.id);
@@ -315,7 +306,7 @@ const updateSecondCategory = async (
 };
 
 const deleteSecondCategory = async (
-  props: IDeleteSecondCategoryHandlerProps
+  props: IDeleteSecondCategoryHandlerProps,
 ) => {
   return await ApiProcessHandler({
     url: '/api/blog-second-category',
@@ -338,11 +329,11 @@ const createBlog = async (props: string) => {
   formData.append('thumbnailImageFile', props.thumbnailImageFile);
   formData.append('directory', props.directory);
 
-  props.imageUrlList?.map(i => {
+  props.imageUrlList?.map((i) => {
     formData.append('imageUrlList', i);
   });
 
-  props.imageFileList?.map(i => {
+  props.imageFileList?.map((i) => {
     formData.append('imageFileList', i);
   });
 
@@ -387,15 +378,15 @@ const updateBlog = async (props: string) => {
   formData.append('thumbnailImageFile', props.thumbnailImageFile);
   formData.append('directory', props.S3directory);
 
-  props.deleteImageBucketDirectory?.map(i => {
+  props.deleteImageBucketDirectory?.map((i) => {
     formData.append('deleteImageBucketDirectory', i);
   });
 
-  props.imageUrlList?.map(i => {
+  props.imageUrlList?.map((i) => {
     formData.append('imageUrlList', i);
   });
 
-  props.imageFileList?.map(i => {
+  props.imageFileList?.map((i) => {
     formData.append('imageFileList', i);
   });
 

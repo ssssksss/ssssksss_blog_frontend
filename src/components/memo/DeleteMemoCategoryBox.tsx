@@ -16,16 +16,15 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-18 03:31:50"
  * @description 설명
  */
-const DeleteMemoCategoryBox = props => {
+const DeleteMemoCategoryBox = (props) => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+  const { handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(MemoDeleteYup),
     mode: 'onChange',
     defaultValues: {
       pickDeleteMemoCategoryId: '',
     },
   });
-  const { errors } = formState;
 
   const selectChangeMemoCategoryHandler = (props: {
     value: string;
@@ -44,9 +43,9 @@ const DeleteMemoCategoryBox = props => {
   }) => {
     MemoAPI.deleteMemoCategory({
       id: data.pickDeleteMemoCategoryId,
-    }).then((res: any) => {
+    }).then((_) => {
       let temp = memoStore.memoCategoryList.filter(
-        i => i.id != data.pickDeleteMemoCategoryId
+        (i) => i.id != data.pickDeleteMemoCategoryId,
       );
       store.dispatch(SET_MEMO_CATEGORY_LIST(temp));
       props.closeModal();
@@ -62,10 +61,10 @@ const DeleteMemoCategoryBox = props => {
           placeholder={'변경할 카테고리를 선택해주세요'}
           bg={'transparent'}
           outline={true}
-          data={memoStore.memoCategoryList?.map(i => {
+          data={memoStore.memoCategoryList?.map((i) => {
             return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
-          onChange={i => selectChangeMemoCategoryHandler(i)}
+          onChange={(i) => selectChangeMemoCategoryHandler(i)}
         ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>
@@ -75,7 +74,7 @@ const DeleteMemoCategoryBox = props => {
           outline={true}
           onClickCapture={handleSubmit(
             deleteMemoCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
           bg={'contrast'}

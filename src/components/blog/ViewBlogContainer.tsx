@@ -1,7 +1,6 @@
 import { BlogAPI } from '@api/BlogAPI';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
-import { useLoading } from '@hooks/useLoading';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
@@ -47,64 +46,35 @@ interface IBlogResDataProps {
 const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
   let backUrl = `/blog`;
   const router = useRouter();
-  const [blogElements, setBlogElements] = useState();
   const editorRef = useRef<Viewer>(null);
-  const [isLoading, loadingFunction] = useLoading();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [isOpenModal, IsOpenModalToggle] = useReducer(v => !v, false);
+  const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   const [createBlogIndexFlag, setCreateBlogIndexFlag] = useState(false);
   const [blogIndexList, setBlogIndexList] = useState<{
     content: String;
     top: Number;
     tagName: String;
   }>([]);
-  const blogResData: IBlogResDataProps = BlogAPI.getBlog({
-    id: router.query.id,
-    onSuccessHandler: res => {
-      // backUrl = `/blog?first-category=${res.data?.json?.firstCategoryId}&second-category=${res.data?.json?.secondCategoryId}`;
-      // const viewerInstance = editorRef.current?.getInstance();
-      // viewerInstance?.setMarkdown(res.data?.json?.content);
-      // document.querySelectorAll('pre').forEach(i => {
-      //   let test = document.createElement('button');
-      //   test.style.position = 'absolute';
-      //   test.style.right = '4px';
-      //   test.style.top = '4px';
-      //   test.style.width = '24px';
-      //   test.style.height = '24px';
-      //   test.addEventListener('click', e => {
-      //     navigator.clipboard.writeText(i.childNodes[0].textContent);
-      //     store.dispatch(
-      //       SET_TOASTIFY_MESSAGE({
-      //         type: 'success',
-      //         message: `복사되었습니다.`,
-      //       })
-      //     );
-      //   });
-      //   i.appendChild(test);
-      // });
-      // createBlogIndex();
-    },
-  });
 
   useEffect(() => {
     backUrl = `/blog?first-category=${props.data?.firstCategoryId}&second-category=${props.data?.secondCategoryId}`;
     const viewerInstance = editorRef.current?.getInstance();
     viewerInstance?.setMarkdown(props.data?.content);
 
-    document.querySelectorAll('pre').forEach(i => {
+    document.querySelectorAll('pre').forEach((i) => {
       let test = document.createElement('button');
       test.style.position = 'absolute';
       test.style.right = '4px';
       test.style.top = '4px';
       test.style.width = '24px';
       test.style.height = '24px';
-      test.addEventListener('click', e => {
+      test.addEventListener('click', () => {
         navigator.clipboard.writeText(i.childNodes[0].textContent);
         store.dispatch(
           SET_TOASTIFY_MESSAGE({
             type: 'success',
             message: `복사되었습니다.`,
-          })
+          }),
         );
       });
       i.appendChild(test);
@@ -124,17 +94,15 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
   }, []);
 
   const deleteHandler = () => {
-    loadingFunction(
-      BlogAPI.deleteBlog({
-        id: router.query.id,
-      })
-    ).then(res => {
+    BlogAPI.deleteBlog({
+      id: router.query.id,
+    }).then(() => {
       router.replace(
         `/blog?first-category=${
           store.getState().blogStore.activeBlogFirstCategoryId
         }&second-category=${
           store.getState().blogStore.activeBlogSecondCategoryId
-        }`
+        }`,
       );
     });
   };
@@ -150,7 +118,7 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
       .getElementsByClassName('toastui-editor-contents')[0]
       .querySelectorAll('h1,h2,h3');
     let htmlTagIndexTempArray = [];
-    temp.forEach(i => {
+    temp.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
         top: i.getBoundingClientRect().top - 40,
@@ -167,7 +135,7 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
           pd={'0px 8px'}
           w={'100%'}
           h={'200px'}
-          imageUrl={`${AWSS3Prefix}${blogElements?.thumbnailImageUrl}`}
+          imageUrl={`${AWSS3Prefix}${props.data?.thumbnailImageUrl}`}
         >
           <Title pd={'16px 0px 8px 0px'}>
             <h1> {props.data?.title} </h1>
@@ -277,16 +245,16 @@ const Container = styled(CC.ColumnDiv)`
   }
 
   h3 {
-    color: ${props => props.theme.colors.black80};
+    color: ${(props) => props.theme.colors.black80};
   }
 
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
   }
 `;
 
 // padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 4px);
 const HeaderContainer = styled(CC.ColumnBetweenDiv)<{ props: any }>`
-  background-image: url(${props => props?.imageUrl});
+  background-image: url(${(props) => props?.imageUrl});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -317,13 +285,13 @@ const Title = styled(CC.ColumnCenterDiv)`
     padding-top: 2px;
     font-weight: 800;
     font-size: 1.4rem;
-    font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+    font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
     text-align: center;
   }
   h3 {
     font-size: 1.2rem;
-    color: ${props => props.theme.colors.black40};
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    color: ${(props) => props.theme.colors.black40};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     text-align: center;
   }
 `;
@@ -334,19 +302,19 @@ const ViewerContainer = styled.div<{ icon: any }>`
   margin-bottom: 10px;
 
   .toastui-editor-contents {
-    background: ${props => props.theme.colors.white80};
+    background: ${(props) => props.theme.colors.white80};
     padding: 4px 16px;
-    ${props => props.theme.flex.column};
+    ${(props) => props.theme.flex.column};
     gap: 20px;
-    font-size: ${props => props.theme.calcRem(16)};
+    font-size: ${(props) => props.theme.calcRem(16)};
     min-height: calc(100vh - 268px);
     counter-reset: section;
 
     h1[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.red20 + '33'};
-      font-size: ${props => props.theme.calcRem(28)};
+      background: ${(props) => props.theme.colors.red20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(28)};
       border-radius: 8px;
       padding: 4px 0px;
     }
@@ -357,8 +325,8 @@ const ViewerContainer = styled.div<{ icon: any }>`
     h2[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.orange20 + '33'};
-      font-size: ${props => props.theme.calcRem(24)};
+      background: ${(props) => props.theme.colors.orange20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(24)};
       border-radius: 8px;
       padding: 2px 0px;
     }
@@ -368,8 +336,8 @@ const ViewerContainer = styled.div<{ icon: any }>`
     h3[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${props => props.theme.colors.orange20 + '33'};
-      font-size: ${props => props.theme.calcRem(20)};
+      background: ${(props) => props.theme.colors.orange20 + '33'};
+      font-size: ${(props) => props.theme.calcRem(20)};
       border-radius: 8px;
     }
     h3[data-nodeid]::before {
@@ -380,17 +348,17 @@ const ViewerContainer = styled.div<{ icon: any }>`
     }
 
     pre {
-      outline: solid ${props => props.theme.main.primary80} 1px;
+      outline: solid ${(props) => props.theme.main.primary80} 1px;
       border-radius: 10px;
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      font-size: ${props => props.theme.calcRem(12)};
-      background: ${props => props.theme.colors.white80};
+      font-size: ${(props) => props.theme.calcRem(12)};
+      background: ${(props) => props.theme.colors.white80};
 
       & > button {
         display: none;
         content: '';
-        background-image: ${props =>
+        background-image: ${(props) =>
           props.icon && `url('/img/ui-icon/ic-board.svg')`};
         background-size: 20px;
         background-repeat: no-repeat;
@@ -412,7 +380,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
 
     th {
       outline: solid black 1px;
-      background: ${props => props.theme.main.primary60};
+      background: ${(props) => props.theme.main.primary60};
     }
     td {
       outline: solid black 1px;
@@ -420,14 +388,14 @@ const ViewerContainer = styled.div<{ icon: any }>`
     }
     hr {
       height: 12px;
-      background: ${props => props.theme.main.secondary80};
+      background: ${(props) => props.theme.main.secondary80};
     }
 
     p[data-nodeid]:has(img) {
       display: flex;
       justify-content: center;
       img {
-        @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
+        @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
           max-width: 600px;
           max-height: 600px;
         }
@@ -439,14 +407,14 @@ const ViewerContainer = styled.div<{ icon: any }>`
 const FixContainer = styled(CC.ColumnDiv)`
   position: fixed;
   right: 10px;
-  bottom: ${props => props.theme.calcRem(60)};
+  bottom: ${(props) => props.theme.calcRem(60)};
   gap: 8px;
-  background: ${props => props.theme.main.primary80};
-  color: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.primary80};
+  color: ${(props) => props.theme.main.contrast};
   outline: solid black 1px;
   padding: 8px;
   border-radius: 10px;
-  /* width: ${props => props.theme.calcRem(32)}; */
+  /* width: ${(props) => props.theme.calcRem(32)}; */
   width: 2rem;
 
   img {
@@ -458,15 +426,15 @@ const FixContainer = styled(CC.ColumnDiv)`
 `;
 
 const BlogTopicInlineLinkListContainer = styled.nav`
-  width: ${props => props.theme.calcRem(200)};
+  width: ${(props) => props.theme.calcRem(200)};
   overflow: scroll;
   position: fixed;
   right: 0px;
   top: 20px;
   z-index: 20;
   max-height: calc(100vh - 100px);
-  background: ${props => props.theme.colors.white80};
-  outline: solid ${props => props.theme.main.primary80} 2px;
+  background: ${(props) => props.theme.colors.white80};
+  outline: solid ${(props) => props.theme.main.primary80} 2px;
   /* IE and Edge , Firefox */
   msoverflowstyle: none;
   scrollbar-width: none;
@@ -490,7 +458,7 @@ const BlogTopicInlineLinkListHeaderContainer = styled.div`
 `;
 const Title1 = styled.div`
   padding-left: 10px;
-  font-size: ${props => props.theme.calcRem(14)};
+  font-size: ${(props) => props.theme.calcRem(14)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -498,7 +466,7 @@ const Title1 = styled.div`
   height: 100%;
   border-bottom: solid black 1px;
   color: black;
-  background: ${props => props.theme.main.third20};
+  background: ${(props) => props.theme.main.third20};
   font-weight: 800;
   &:hover {
     cursor: pointer;
@@ -556,14 +524,14 @@ const BlogTopicInlineLinkListBodyContainer = styled.div`
     align-items: start;
     text-align: start;
     :hover {
-      background: ${props => props.theme.main.primary20};
-      /* color: ${props => props.theme.main.contrast}; */
+      background: ${(props) => props.theme.main.primary20};
+      /* color: ${(props) => props.theme.main.contrast}; */
     }
   }
 
   .H1 {
     padding: 2px 0px;
-    color: ${props => props.theme.colors.black100};
+    color: ${(props) => props.theme.colors.black100};
     font-weight: 800;
   }
   .H1::before {
@@ -572,17 +540,17 @@ const BlogTopicInlineLinkListBodyContainer = styled.div`
   }
   .H2 {
     padding: 2px 0px 2px 4px;
-    color: ${props => props.theme.colors.black80};
+    color: ${(props) => props.theme.colors.black80};
     font-weight: 600;
   }
   .H3 {
     padding: 2px 0px 2px 8px;
-    color: ${props => props.theme.colors.black60};
+    color: ${(props) => props.theme.colors.black60};
     font-weight: 400;
   }
   /* .H4 {
     color: #cb00ff;
-    font-size: ${props => props.theme.calcRem(18)};
+    font-size: ${(props) => props.theme.calcRem(18)};
     padding-left: 6px;
   }
   .H5 {
@@ -604,7 +572,7 @@ const BlogTopicInlineLinksButton = styled.button`
   &::-webkit-scrollbar {
     display: none;
   } /* Chrome, Safari, Opera*/
-  background: ${props => props.theme.main.primary80};
+  background: ${(props) => props.theme.main.primary80};
   position: fixed;
   z-index: 30;
   border: solid black 1px;

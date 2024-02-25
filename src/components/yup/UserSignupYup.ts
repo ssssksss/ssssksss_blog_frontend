@@ -31,12 +31,4 @@ export const UserSignupYup = yup.object().shape({
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/g,
       'example@test.com과 같은 이메일 형식이 아닙니다.'
     ),
-  // gender: yup.string().nullable().required("남/여 중에 선택해주세요"),
-  // birthDate: yup
-  //   .string()
-  //   .required("생년월일은 필수 입력사항입니다.")
-  //   .matches(
-  //     /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/,
-  //     "8자리로 생년월일을 입력해주세요"
-  //   ),
 });

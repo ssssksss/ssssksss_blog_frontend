@@ -1,7 +1,5 @@
 import Button from '@components/common/button/Button';
-import { store } from '@redux/store';
 import type { Meta, StoryObj } from '@storybook/react';
-import rootTheme from '@styles/theme';
 
 const meta: Meta<typeof Button> = {
   title: 'Buttons',
@@ -16,8 +14,6 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 type Story = StoryObj<typeof Button>;
-
-const theme = rootTheme[store.getState().themeStore.theme];
 
 export const Active: Story = {
   args: {

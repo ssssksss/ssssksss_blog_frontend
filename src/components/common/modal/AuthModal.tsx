@@ -1,17 +1,16 @@
-import styled from '@emotion/styled';
+import React, { useCallback, useState } from 'react';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
-import React, { useCallback, useMemo, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AuthModal.tsx
  * @version 0.0.1 "2023-09-24 15:57:48"
  * @description 설명
  */
-const AuthModal = props => {
+const AuthModal = (props) => {
   const [isLogin, setIsLogin] = useState(true);
   const changeAuthScreen = useCallback(() => {
-    setIsLogin(prev => !prev);
+    setIsLogin((prev) => !prev);
   }, []);
 
   return (

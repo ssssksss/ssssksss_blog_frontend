@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 
-import gsap from "gsap";
-import { useEffect, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Material, Mesh } from "three";
+import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import { Material, Mesh } from 'three';
 /**
  * Author : Sukyung Lee
  * FileName: ProjectIntroduce.tsx

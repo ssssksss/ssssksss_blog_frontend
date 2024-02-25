@@ -33,7 +33,7 @@ type CalendarDayItemType = {
       dayIndex: string;
       layer: number;
       period: number;
-    }
+    },
   ];
 };
 
@@ -54,8 +54,8 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       modalMinW={'320px'}
     >
       <DayTitle>{props.day} </DayTitle>
-      <CalendarListBox layer={props.layer} onClick={e => e.stopPropagation()}>
-        {props.data?.map((i, index) => (
+      <CalendarListBox layer={props.layer} onClick={(e) => e.stopPropagation()}>
+        {props.data?.map((i) => (
           <ScheduleBar key={'ScheduleBar' + i.id} data={i} />
         ))}
       </CalendarListBox>
@@ -68,14 +68,14 @@ export default CalendarDayItem;
 const Container = styled(ModalButton)`
   width: 100%;
   &:not(:has(.todoBar:hover)):hover {
-    /* background: ${props => props.theme.main.primary40}; */
-    /* color: ${props => props.theme.main.contrast}; */
+    /* background: ${(props) => props.theme.main.primary40}; */
+    /* color: ${(props) => props.theme.main.contrast}; */
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
   }
 
   .todoBar:not(:has(.todoBar:hover)):hover {
-    /* background: ${props => props.theme.main.primary40}; */
-    /* color: ${props => props.theme.main.contrast}; */
+    /* background: ${(props) => props.theme.main.primary40}; */
+    /* color: ${(props) => props.theme.main.contrast}; */
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
   }
 
@@ -85,15 +85,11 @@ const Container = styled(ModalButton)`
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   padding: 2px 0px;
-  ${props => props.theme.flex.column.start};
+  ${(props) => props.theme.flex.column.start};
   height: auto;
   max-height: max-content;
   border-radius: 0px;
   /* height: min-content; */
-`;
-
-const RelativePositionBox = styled.div`
-  width: 100%;
 `;
 
 const DayTitle = styled.div`
@@ -109,6 +105,6 @@ const DayTitle = styled.div`
 const CalendarListBox = styled.div<{ layer: number }>`
   width: 100%;
   display: grid;
-  grid-template-rows: ${props => `repeat(${props.layer}, 1fr)`};
+  grid-template-rows: ${(props) => `repeat(${props.layer}, 1fr)`};
   gap: 2px;
 `;

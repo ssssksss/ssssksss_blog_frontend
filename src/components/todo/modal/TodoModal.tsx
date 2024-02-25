@@ -1,6 +1,6 @@
 import { TodoAPI } from '@api/TodoAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
@@ -45,8 +45,8 @@ const TodoModal = (props: ITodoModalProps) => {
     TodoAPI.updateTodo({
       id: props.data.id,
       content: inputRef.current.value,
-    }).then((res: any) => {
-      let temp = todoStore.todoList.map(i => {
+    }).then((_) => {
+      let temp = todoStore.todoList.map((i) => {
         if (i.id == props.data.id) {
           i.content = inputRef.current.value;
         }
@@ -60,8 +60,8 @@ const TodoModal = (props: ITodoModalProps) => {
   const deleteTodoHandler = () => {
     TodoAPI.deleteTodo({
       id: props.data.id,
-    }).then((res: any) => {
-      let temp = todoStore.todoList.filter(i => i.id != props.data.id);
+    }).then((_) => {
+      let temp = todoStore.todoList.filter((i) => i.id != props.data.id);
       store.dispatch(SET_TODO_LIST(temp));
       props.closeModal();
     });
@@ -91,7 +91,7 @@ const TodoModal = (props: ITodoModalProps) => {
           ref={inputRef}
           defaultValue={props.data?.content}
           outline={true}
-          onChange={e => setInputValue(e.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
         />
       </CC.ColumnStartDiv>
       {props.edit ? (
@@ -126,10 +126,10 @@ export default TodoModal;
 const Container = styled(CC.ColumnBetweenDiv)`
   gap: 28px;
   padding: 10px;
-  color: ${props => props.theme.colors.black80};
+  color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
-  background: ${props => props.theme.main.primary40};
-  font-family: ${props => props.theme.fontFamily.cookieRunRegular};
-  font-size: ${props => props.theme.fontSize.xl};
+  background: ${(props) => props.theme.main.primary40};
+  font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
+  font-size: ${(props) => props.theme.fontSize.xl};
   min-height: 260px;
 `;

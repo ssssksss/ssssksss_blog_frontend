@@ -60,9 +60,8 @@ const ReactToastifyComponents = () => {
         // pauseOnFocusLoss // 화면을 벗어나면 알람 정지
         draggable // 드래그 가능
         pauseOnHover={false} // 마우스를 올리면 알람 정지
-        theme="light"
         limit={3} // 알람 개수 제한\
-        theme="colored"
+        theme={'colored'}
       />
     </Container>
   );

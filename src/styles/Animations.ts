@@ -1,5 +1,4 @@
 import { keyframes } from '@emotion/react';
-import theme from './theme';
 
 const RightToLeftFadein = keyframes`
 from{

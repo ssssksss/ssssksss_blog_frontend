@@ -10,7 +10,6 @@ import { timeFromToday } from '@utils/function/timeFromToday';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -19,9 +18,8 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BoardMainContainer = () => {
-  const boardStore = useSelector(state => state.boardStore);
+  const boardStore = useSelector((state) => state.boardStore);
   const router = useRouter();
-  const [boardCount, setBoardCount] = useState([]);
   const boardListResData = BoardAPI.getBoardListData({
     keyword: String(boardStore.keyword ?? (router.query.keyword || '')),
     page: Number(boardStore.page ?? (Number(router.query.page - 1) || 0)),
@@ -35,7 +33,7 @@ const BoardMainContainer = () => {
           page: Number(boardStore.page ?? (Number(router.query.page - 1) || 0)),
           size: Number(boardStore.size ?? (router.query.size || 10)),
           sort: String(boardStore.sort ?? (router.query.sort || '')),
-        })
+        }),
       );
     },
   });
@@ -47,7 +45,7 @@ const BoardMainContainer = () => {
         size: Number(boardStore.size),
         sort: String(boardStore.sort),
         keyword: boardStore.keyword,
-      })
+      }),
     );
     let _url = `/board?page=${props.page}&size=${boardStore.size}&sort=${boardStore.sort}&keyword=${boardStore.keyword}`;
     router.replace(_url, '', { shallow: true });
@@ -90,13 +88,13 @@ const BoardMainContainer = () => {
                   <span> {el.writer} </span>
                   <span>
                     {timeFromToday(
-                      dateFormat4y2m2d(el.baseTimeEntity.createdAt)
+                      dateFormat4y2m2d(el.baseTimeEntity.createdAt),
                     )}
                   </span>
                   <span>{el.views}</span>
                 </BoardItem>
               </Link>
-            )
+            ),
           )}
         </CC.ColumnDiv>
         {store.getState().authStore.nickname && (
@@ -111,7 +109,7 @@ const BoardMainContainer = () => {
       </BoardListContainer>
       <BoardListBottomContainer>
         <Pagination
-          refetch={props => changePage(props)}
+          refetch={(props) => changePage(props)}
           endPage={Math.ceil(boardListResData?.data?.json?.boardCount / 10)}
           currentPage={Number(boardStore.page + 1)}
         />
@@ -125,9 +123,9 @@ const Container = styled.div`
   width: 100%;
   max-height: 100%;
   gap: 4px;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
   padding: 16px 4px;
-  /* ${props => props.theme.scroll.hidden}; */
+  /* ${(props) => props.theme.scroll.hidden}; */
   display: grid;
   grid-template-rows: 30px auto 30px;
 `;
@@ -136,7 +134,7 @@ const SearchNavContainer = styled.div`
   display: grid;
   grid-template-columns: calc(100% - 150px) 150px;
   align-items: center;
-  outline: solid ${props => props.theme.main.primary20} 4px;
+  outline: solid ${(props) => props.theme.main.primary20} 4px;
 `;
 
 const SearchResultContainer = styled.div`
@@ -145,7 +143,7 @@ const SearchResultContainer = styled.div`
 `;
 
 const SearchResult = styled.div`
-  color: ${props => props.theme.colors.red80};
+  color: ${(props) => props.theme.colors.red80};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -157,10 +155,10 @@ const BoardListTitle = styled.div`
   display: grid;
   align-items: center;
   font-size: 0.8rem;
-  font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+  font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
   border-radius: 4px 4px 0px 0px;
   outline: solid black 2px;
-  background: ${props => props.theme.main.primary20};
+  background: ${(props) => props.theme.main.primary20};
   gap: 4px;
   line-height: 100%;
 
@@ -169,7 +167,7 @@ const BoardListTitle = styled.div`
   }
 
   grid-template-columns: 30px auto 60px 60px 40px;
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     grid-template-columns: 30px auto 40px 60px 40px;
   }
   @media (max-width: 520px) {
@@ -178,8 +176,8 @@ const BoardListTitle = styled.div`
 `;
 const BoardListContainer = styled(CC.ColumnDiv)`
   max-height: 100%;
-  ${props => props.theme.scroll.hidden};
-  outline: solid ${props => props.theme.main.primary20} 4px;
+  ${(props) => props.theme.scroll.hidden};
+  outline: solid ${(props) => props.theme.main.primary20} 4px;
   padding: 4px;
   position: relative;
 
@@ -207,7 +205,7 @@ const BoardItem = styled.div`
 
   & > span:nth-of-type(1) {
     font-size: 0.8rem;
-    color: ${props => props.theme.main.primary80};
+    color: ${(props) => props.theme.main.primary80};
   }
 
   & > span:nth-of-type(2) {
@@ -220,7 +218,7 @@ const BoardItem = styled.div`
   }
 
   grid-template-columns: 30px auto 60px 60px 40px;
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     grid-template-columns: 30px auto 40px 60px 40px;
   }
   @media (max-width: 520px) {
@@ -234,12 +232,11 @@ const BoardItem = styled.div`
 
   &:hover {
     cursor: pointer;
-    /* background: ${commonTheme.backgroundColors.purpleLight}; */
   }
 `;
 
 const BoardListBottomContainer = styled.div`
-  outline: solid ${props => props.theme.main.primary20} 4px;
+  outline: solid ${(props) => props.theme.main.primary20} 4px;
   padding: 0px 4px;
   height: min-content;
 `;
@@ -251,8 +248,8 @@ const WriteButtonContainer = styled(CC.RowRightDiv)`
 
   div {
     cursor: pointer;
-    background: ${props => props.theme.main.primary80};
-    color: ${props => props.theme.main.contrast};
+    background: ${(props) => props.theme.main.primary80};
+    color: ${(props) => props.theme.main.contrast};
     border-radius: 10px;
     padding: 8px;
     gap: 4px;

@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
  */
 
 const Index = () => {
-  return <Container></Container>;
+  return <Container> {new Date().toString()} </Container>;
 };
 export default Index;
 Index.layout = Layout1;

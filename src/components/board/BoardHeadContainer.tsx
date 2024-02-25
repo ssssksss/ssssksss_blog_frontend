@@ -1,6 +1,6 @@
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -31,12 +31,12 @@ const BoardHeadContainer = () => {
         page: 0,
         size: Number(boardStore.size),
         sort: String(boardStore.sort),
-      })
+      }),
     );
     router.replace(_url, '', { shallow: true });
   };
 
-  const orderListHandler = props => {
+  const orderListHandler = (props) => {
     let _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
       boardStore.sort
     }&keyword=${boardStore.keyword || ''}`;
@@ -46,7 +46,7 @@ const BoardHeadContainer = () => {
         page: Number(boardStore.page),
         size: Number(boardStore.size),
         sort: String(props.value),
-      })
+      }),
     );
     router.replace(_url, '', { shallow: true });
     // return {
@@ -63,7 +63,7 @@ const BoardHeadContainer = () => {
         page: 0,
         size: 10,
         sort: '',
-      })
+      }),
     );
     keywordRef.current.value = '';
     router.replace(_url, '', { shallow: true });
@@ -133,9 +133,9 @@ const Container = styled.div`
   h1 {
     padding: 8px 0px;
     font-size: 36px;
-    color: ${props => props.theme.main.primary100};
-    ${props => props.theme.flex.row.center.center};
-    font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+    color: ${(props) => props.theme.main.primary100};
+    ${(props) => props.theme.flex.row.center.center};
+    font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
     :hover {
       cursor: pointer;
     }

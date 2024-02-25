@@ -9,7 +9,6 @@ import { useLoading } from '@hooks/useLoading';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -18,11 +17,8 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-06 04:06:36"
  * @description 설명
  */
-const BlogFirstCategoryDeleteBox = (props: {
-  blogCategoryListResData: any;
-}) => {
-  const [isLoading, loadingFunction] = useLoading();
-  const selectDeleteRef = useRef<HTMLSelectElement>(null);
+const BlogFirstCategoryDeleteBox = () => {
+  const [isLoading] = useLoading();
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const deleteBLogFirstCategoryMutation = BlogAPI.deleteBlogFirstCategory();
   const methods = useForm({
@@ -32,7 +28,6 @@ const BlogFirstCategoryDeleteBox = (props: {
       deleteFirstCategoryId: '',
     },
   });
-  const { errors } = methods.formState;
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
@@ -59,10 +54,10 @@ const BlogFirstCategoryDeleteBox = (props: {
                 placeholder={'1번째 카테고리'}
                 bg={'transparent'}
                 outline={true}
-                data={blogStore.blogCategoryList.map(i => {
+                data={blogStore.blogCategoryList.map((i) => {
                   return { value: i.id, name: i.name, bg: '' };
                 })}
-                onChange={i => {
+                onChange={(i) => {
                   methods.setValue('deleteFirstCategoryId', i.value, {
                     shouldValidate: true,
                   });
@@ -77,7 +72,7 @@ const BlogFirstCategoryDeleteBox = (props: {
                 disabled={!methods.formState.isValid}
                 onClickCapture={methods.handleSubmit(
                   deleteFirstCategoryHandler,
-                  onClickErrorSubmit
+                  onClickErrorSubmit,
                 )}
                 bg={'white80'}
               >
@@ -93,7 +88,7 @@ const BlogFirstCategoryDeleteBox = (props: {
 export default BlogFirstCategoryDeleteBox;
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 4px;
   position: relative;
 
   & > button:nth-of-type(1) {
@@ -102,14 +97,14 @@ const Container = styled(CC.ColumnDiv)`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     font-size: 20px;
   }
 `;

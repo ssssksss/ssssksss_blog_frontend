@@ -15,10 +15,10 @@ export const scheduleSort = (
         backgroundColor: string;
         userId: number;
       };
-    }
+    },
   ],
   startDateOfMonth: string,
-  endDateOfMonth: string
+  endDateOfMonth: string,
 ) => {
   let eachFloorBaseDate = [startDateOfMonth]; // 몇일까지 일정이 표시되었는지 알 수 있는 용도로 예를 들어 12월 1일에서 어떤 일정이 5일간이면 12월 6일을 잠시 기억해주는 변수
   let result = [];
@@ -27,20 +27,20 @@ export const scheduleSort = (
     if (start.getTime() - end.getTime() < 0) {
       return (
         Math.ceil(
-          Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24)
+          Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24),
         ) + 1
       );
     } else {
       return (
         -1 *
           Math.ceil(
-            Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24)
+            Math.abs(start.getTime() - end.getTime()) / (1000 * 3600 * 24),
           ) +
         1
       );
     }
   };
-  data.map((i, index) => {
+  data.map((i, _) => {
     let layer = 1; // 1일 칸에 grid로 위치를 잡기 위해서 사용, 일정 막대바가 4개이면 grid-template-rows의 값이 4이상이어야 문제 없이 UI가 표시된다.
     let whichFloor = 1; // 현재 일정이 몇번째 층에서 작업이 되고 있는지를 결정하는 변수
     for (let j = 0; ; j++) {
@@ -68,8 +68,8 @@ export const scheduleSort = (
       let remainDays = dayIntervalCalc(
         new Date(startDateOfMonth),
         new Date(
-          i.endDateTime > endDateOfMonth ? endDateOfMonth : i.endDateTime
-        )
+          i.endDateTime > endDateOfMonth ? endDateOfMonth : i.endDateTime,
+        ),
       );
       // 반복문을 돌면서 남은날짜들을 각 층의 기준날짜를 바꿔주면서 점차 줄여나간다. 예를 들어 남은 날짜가 10일이고 1번째 층의 처음부터라면
       // 1번째 주 1번째 층은 7일, 2번째 주 1번째 층은 3일이라는 공간을 차지하게 될것이다. 그러면 1번째 층의 기준날짜(eachFloorBaseDate[0])은 +10일이 되있을 것이다
@@ -86,15 +86,15 @@ export const scheduleSort = (
                 new Date(
                   i.endDateTime > endDateOfMonth
                     ? endDateOfMonth
-                    : i.endDateTime
-                )
+                    : i.endDateTime,
+                ),
               ) - 1,
           };
           result.push(obj);
           eachFloorBaseDate[whichFloor] = dateFormat4y2m2d(
             new Date(i.endDateTime).setDate(
-              new Date(i.endDateTime).getDate() + 1
-            )
+              new Date(i.endDateTime).getDate() + 1,
+            ),
           );
           remainDays = 0;
         } else {
@@ -106,14 +106,14 @@ export const scheduleSort = (
             index:
               dayIntervalCalc(
                 new Date(startDateOfMonth),
-                new Date(eachFloorBaseDate[whichFloor])
+                new Date(eachFloorBaseDate[whichFloor]),
               ) - 1,
           };
           result.push(obj);
           eachFloorBaseDate[whichFloor] = dateFormat4y2m2d(
             new Date(eachFloorBaseDate[whichFloor]).setDate(
-              new Date(eachFloorBaseDate[whichFloor]).getDate() + 7
-            )
+              new Date(eachFloorBaseDate[whichFloor]).getDate() + 7,
+            ),
           );
           remainDays -= 7;
         }
@@ -124,8 +124,8 @@ export const scheduleSort = (
       let remainDays = dayIntervalCalc(
         new Date(i.startDateTime),
         new Date(
-          i.endDateTime > endDateOfMonth ? endDateOfMonth : i.endDateTime
-        )
+          i.endDateTime > endDateOfMonth ? endDateOfMonth : i.endDateTime,
+        ),
       );
       while (remainDays > 0) {
         if (
@@ -140,14 +140,14 @@ export const scheduleSort = (
             index:
               dayIntervalCalc(
                 new Date(startDateOfMonth),
-                new Date(eachFloorBaseDate[whichFloor])
+                new Date(eachFloorBaseDate[whichFloor]),
               ) - 1,
           };
           result.push(obj);
           eachFloorBaseDate[whichFloor] = dateFormat4y2m2d(
             new Date(i.endDateTime).setDate(
-              new Date(i.endDateTime).getDate() + 1
-            )
+              new Date(i.endDateTime).getDate() + 1,
+            ),
           );
           remainDays = 0;
         } else {
@@ -159,7 +159,7 @@ export const scheduleSort = (
             index:
               dayIntervalCalc(
                 new Date(startDateOfMonth),
-                new Date(eachFloorBaseDate[whichFloor])
+                new Date(eachFloorBaseDate[whichFloor]),
               ) - 1,
           };
           result.push(obj);
@@ -168,8 +168,8 @@ export const scheduleSort = (
           eachFloorBaseDate[whichFloor] = dateFormat4y2m2d(
             new Date(eachFloorBaseDate[whichFloor]).setDate(
               new Date(eachFloorBaseDate[whichFloor]).getDate() +
-                (7 - new Date(eachFloorBaseDate[whichFloor]).getDay())
-            )
+                (7 - new Date(eachFloorBaseDate[whichFloor]).getDay()),
+            ),
           );
         }
       }

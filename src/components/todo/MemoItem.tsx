@@ -26,14 +26,14 @@ interface IMemoItemProps {
       name: string;
       backgroundColor: string;
       userId: number;
-    }
-  }
+    };
+  };
   edit?: boolean;
-  deleteMemoHandler?: ()=>void;
+  deleteMemoHandler?: () => void;
   category?: {
     type: string;
     categoryId: number;
-  }
+  };
   key?: string;
 }
 
@@ -54,17 +54,14 @@ const MemoItem = (props: IMemoItemProps) => {
           memoCategory: {
             id: Number(res.json.memoCategory.id),
             name: res.json.memoCategory.name,
-            backgroundColor:
-            res.json.memoCategory.backgroundColor,
+            backgroundColor: res.json.memoCategory.backgroundColor,
           },
         });
-        store.dispatch(
-          SET_MEMO_LIST(temp)
-        );
+        store.dispatch(SET_MEMO_LIST(temp));
         memoContentRef.current.value = '';
       })
       .catch((err: any) => {
-        console.log("MemoItem.tsx 파일 : err", err);
+        console.log('MemoItem.tsx 파일 : err', err);
       });
   };
 
@@ -74,7 +71,7 @@ const MemoItem = (props: IMemoItemProps) => {
       content: memoContentRef.current.value,
     })
       .then((res: any) => {
-        let temp = memoStore.memoList.map(i => {
+        let temp = memoStore.memoList.map((i) => {
           if (i.id == props.data.id) {
             return {
               id: res.json.id,
@@ -82,8 +79,7 @@ const MemoItem = (props: IMemoItemProps) => {
               memoCategory: {
                 id: Number(res.json.memoCategory.id),
                 name: res.json.memoCategory.name,
-                backgroundColor:
-                  res.json.memoCategory.backgroundColor,
+                backgroundColor: res.json.memoCategory.backgroundColor,
                 userId: res.json.memoCategory.userId,
               },
             };
@@ -93,36 +89,43 @@ const MemoItem = (props: IMemoItemProps) => {
         store.dispatch(SET_MEMO_LIST(temp));
       })
       .catch((err: any) => {
-        console.log("MemoItem.tsx 파일 : ", err);
+        console.log('MemoItem.tsx 파일 : ', err);
       });
   };
 
   const deleteMemoHandler = () => {
     MemoAPI.deleteMemo({
-      id: props.data.id
-    }).then((res)=>{
-      let temp = memoStore.memoList.filter(i => props.data.id != i.id);
-      store.dispatch(SET_MEMO_LIST([...temp]));
-    }).catch((err)=>{
-
+      id: props.data.id,
     })
+      .then((_) => {
+        let temp = memoStore.memoList.filter((i) => props.data.id != i.id);
+        store.dispatch(SET_MEMO_LIST([...temp]));
+      })
+      .catch((_) => {});
   };
 
   return (
     <Container bg={props.data?.memoCategory.backgroundColor} key={props.key}>
       <Header>
-          <CC.RowCenterDiv> {props.data?.memoCategory.name || "메모 작성"} </CC.RowCenterDiv>
-          {
-            props.data && 
-            <Button className={'deleteIcon'} onClick={()=> deleteMemoHandler()} bg={"transparent"} hover={false}>
+        <CC.RowCenterDiv>
+          {' '}
+          {props.data?.memoCategory.name || '메모 작성'}{' '}
+        </CC.RowCenterDiv>
+        {props.data && (
+          <Button
+            className={'deleteIcon'}
+            onClick={() => deleteMemoHandler()}
+            bg={'transparent'}
+            hover={false}
+          >
             <Image src={Icons.ExitIcon} weight={20} height={20} alt="" />
           </Button>
-          }
+        )}
       </Header>
       <Textarea
         ref={memoContentRef}
         defaultValue={props.data?.content}
-        submit={() => props.edit ? updateMemoHandler()  : addMemoHandler()}
+        submit={() => (props.edit ? updateMemoHandler() : addMemoHandler())}
         resizeMode={true}
         placeholder="메모를 작성해주세요"
       />
@@ -131,12 +134,13 @@ const MemoItem = (props: IMemoItemProps) => {
 };
 export default MemoItem;
 
-const Container = styled.div<{bg: string}>`
+const Container = styled.div<{ bg: string }>`
   min-height: 200px;
   height: max-content;
   word-wrap: break-word;
   word-break: break-all;
-  background: ${props => props.theme.colors.[props.bg] || props.theme.colors.white80};
+  background: ${(props) =>
+    props.theme.colors?.[props.bg] || props.theme.colors.white80};
   border-radius: 10px;
   padding: 4px 8px;
   outline: solid black 1px;
@@ -145,7 +149,7 @@ const Container = styled.div<{bg: string}>`
     min-height: 180px;
     margin-top: 4px;
     /* background: transparent; */
-    background: ${props=>props.theme.colors.white80};
+    background: ${(props) => props.theme.colors.white80};
     border: none;
     appearance: none;
     resize: none;

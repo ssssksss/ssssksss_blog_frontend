@@ -1,6 +1,6 @@
 import { MemoAPI } from '@api/MemoAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { MemoUpdateYup } from '@components/yup/MemoYup';
 import styled from '@emotion/styled';
@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-18 01:02:26"
  * @description 설명
  */
-const UpdateMemoCategoryBox = props => {
+const UpdateMemoCategoryBox = (props) => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -78,7 +78,7 @@ const UpdateMemoCategoryBox = props => {
       name: data.updateMemoCategoryName,
       backgroundColor: data.updateMemoCategoryColor,
     }).then((res: any) => {
-      let temp = memoStore.memoCategoryList.map(i => {
+      let temp = memoStore.memoCategoryList.map((i) => {
         if (i.id == res.json.memoCategory.id) {
           i.name = data.updateMemoCategoryName;
           i.backgroundColor = data.updateMemoCategoryColor;
@@ -99,10 +99,10 @@ const UpdateMemoCategoryBox = props => {
           placeholder={'변경할 카테고리를 선택해주세요'}
           bg={'transparent'}
           outline={true}
-          data={memoStore.memoCategoryList?.map(i => {
+          data={memoStore.memoCategoryList?.map((i) => {
             return { value: i.id, name: i.name, bg: i.backgroundColor };
           })}
-          onChange={i => selectChangeMemoCategoryHandler(i)}
+          onChange={(i) => selectChangeMemoCategoryHandler(i)}
         ></Select>
         <CC.ColumnDiv gap={8}>
           <Input
@@ -113,10 +113,10 @@ const UpdateMemoCategoryBox = props => {
           <Select
             w={'100%'}
             placeholder={'변경하려는 색상을 선택해주세요'}
-            onChange={i => selectChangeMemoCategoryBackgroundColorHandler(i)}
+            onChange={(i) => selectChangeMemoCategoryBackgroundColorHandler(i)}
             bg={'transparent'}
             outline={true}
-            data={categoryColors?.map(i => {
+            data={categoryColors?.map((i) => {
               return { value: i, name: ' ', bg: i };
             })}
           ></Select>
@@ -129,7 +129,7 @@ const UpdateMemoCategoryBox = props => {
           outline={true}
           onClickCapture={handleSubmit(
             updateMemoCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
           bg={'contrast'}

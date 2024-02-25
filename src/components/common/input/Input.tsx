@@ -49,10 +49,10 @@ interface IInputProps {
   errorLocation?: string;
   defaultImageUrl?: string;
   center?: boolean;
-  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyPressAction?: (e: KeyboardEventEvent) => void;
+  onFocus?: (_e: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (_e: FocusEvent<HTMLInputElement>) => void;
+  onChange?: (_e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyPressAction?: (_e: KeyboardEvent) => void;
   type?:
     | 'password'
     | 'text'
@@ -64,9 +64,9 @@ interface IInputProps {
     | 'color';
 }
 
-export const Input = React.forwardRef((props: IInputProps, ref) => {
+const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
   const [imageUrl, setImageUrl] = useState('/');
-  const [isDragging, setIsDragging] = useState(false);
+  const [, setIsDragging] = useState(false);
 
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -93,14 +93,6 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
       alert('파일이 없습니다!');
       return;
     }
-    // if(!props.register) {
-    //   const dataTransfer = new DataTransfer();
-    //   Array.from(e.dataTransfer.files)
-    //   .forEach(file => {
-    //       dataTransfer.items.add(file);
-    //   });
-    //   ref.current.files = dataTransfer.files;
-    // }
     const result = URL.createObjectURL(file);
     setImageUrl(result);
     setIsDragging(false);
@@ -137,7 +129,7 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
           ref={ref ?? null}
           {...props}
           {...props.register}
-          onChange={e => {
+          onChange={(e) => {
             // ! onChangeFile(e)와 아래 조건문 순서 바꾸지 말것 바꾸면 e의 값이 초기화 되면서 제대로 작동이 되지를 않는다.
             onChangeFile(e);
             if (props.register) {
@@ -151,7 +143,7 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
         <InputStyle
           type={props.type ? props.type : 'text'}
           placeholder={props.placeholder ?? '입력창'}
-          onChange={e => {
+          onChange={(e) => {
             if (props.register) {
               // ? react-hook-form 사용시 필요한 코드
               props.register.onChange(e);
@@ -189,7 +181,7 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
           onDragEnter={onDragEnter}
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}
-          onDrop={e => {
+          onDrop={(e) => {
             if (props.register) {
               // ? react-hook-form 사용시 필요한 코드
               let event = e;
@@ -202,7 +194,7 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
         >
           {imageUrl && (
             <button
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setImageUrl('/');
                 if (props.register) {
@@ -228,6 +220,9 @@ export const Input = React.forwardRef((props: IInputProps, ref) => {
   );
 });
 
+Input.displayName = 'Input';
+export default Input;
+
 // 제거할 부분
 
 const Container = styled.div`
@@ -240,52 +235,53 @@ const Container = styled.div`
 const InputStyle = styled.input<IInputProps>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
   // ! border-radius를 넣으니 focus 되었을 때 다른 요소가 흐려지는 버그 발생
-  border-radius: ${props => `calc(10px)`};
-  ${props => props.brR && `border-radius: calc( ${props.brR} + 10px)`};
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5),
+  border-radius: 10px;
+  ${(props) => props.brR && `border-radius: calc( ${props.brR} + 10px)`};
+  box-shadow:
+    2px 2px 4px 0px rgba(0, 0, 0, 0.5),
     inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
-  outline: ${props =>
+  outline: ${(props) =>
     `solid ${
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor]
     } 1px`};
-  width: ${props => props.w || '100%'};
-  height: ${props =>
+  width: ${(props) => props.w || '100%'};
+  height: ${(props) =>
     props.h ||
     (props.size && props.size === 'sm'
       ? '32px'
       : props.size === 'md'
-      ? '48px'
-      : '32px')};
+        ? '48px'
+        : '32px')};
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
-  display: ${props => (props.display ? props.display : 'block')};
+  display: ${(props) => (props.display ? props.display : 'block')};
   border: none;
-  padding: ${props => props.pd || '2px 0px 2px 4px'};
+  padding: ${(props) => props.pd || '2px 0px 2px 4px'};
   position: relative;
-  text-align: ${props => props.center && 'center'};
+  text-align: ${(props) => props.center && 'center'};
 
   // 배경색(background) //
-  background: ${props =>
+  background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: ${props => props.theme.fontSize?.md};
-  color: ${props =>
+  font-size: ${(props) => props.theme.fontSize?.md};
+  color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 
   // 애니메이션(animation) //
 
   // 이벤트(active, focus, hover, visited, focus-within, disabled) //
   &:hover {
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 
   &:focus {
-    outline: solid ${props => `${props.theme.main?.primary80}2f`} 5px;
+    outline: solid ${(props) => `${props.theme.main?.primary80}2f`} 5px;
   }
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     `
     background-color: ${props.theme.colors.disabled};
@@ -302,8 +298,9 @@ const InputStyle = styled.input<IInputProps>`
 
   &[type='checkbox'] {
     appearance: none;
-    outline: solid ${props => props.theme.main?.contrast} 1px;
-    height: ${props => props.h || props.theme.inputSizes?.checkbox?.md.height};
+    outline: solid ${(props) => props.theme.main?.contrast} 1px;
+    height: ${(props) =>
+      props.h || props.theme.inputSizes?.checkbox?.md.height};
     aspect-ratio: 1;
   }
 
@@ -315,13 +312,13 @@ const InputStyle = styled.input<IInputProps>`
   &[type='checkbox']:checked::after {
     content: '✔';
     border-radius: 50%;
-    color: ${props => props.theme.main?.primary100};
+    color: ${(props) => props.theme.main?.primary100};
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    ${props => props.theme.flex?.row.center.center};
-    font-size: ${props =>
+    ${(props) => props.theme.flex?.row.center.center};
+    font-size: ${(props) =>
       props.h || props.theme.inputSizes?.checkbox?.md.height};
   }
 
@@ -342,7 +339,7 @@ const InputStyle = styled.input<IInputProps>`
   }
 
   /* 왼쪽에 이미지를 넣은 경우 padding left에 값을 주어 이미지 크기 만큼은 밀어준다. */
-  ${props =>
+  ${(props) =>
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
@@ -369,7 +366,7 @@ const InputStyle = styled.input<IInputProps>`
 
 
 // 커스텀(custom css) //
-${props =>
+${(props) =>
     props.state === 1 &&
     `
     outline: solid ${props.theme.colors.white80} 1px;
@@ -391,14 +388,14 @@ ${props =>
 `;
 
 const ErrorMessageSpan = styled.span<IInputProps>`
-  --height: ${props =>
+  --height: ${(props) =>
     props.errorLocation ||
     props.h ||
     (props.size && props.size === 'sm'
       ? '32px'
       : props.size === 'md'
-      ? '48px'
-      : '32px')};
+        ? '48px'
+        : '32px')};
   top: calc(var(--height) + 0.6rem);
   color: red;
   position: absolute;
@@ -411,18 +408,18 @@ const ErrorMessageSpan = styled.span<IInputProps>`
 const ImageFileContainer = styled.label<
   Pick<IInputProps, 'w' | 'h' | 'bg' | 'isImageUrl' | 'color'>
 >`
-  width: ${props => props.w || '100%'};
-  height: ${props => props.h || props.theme.inputSizes['text'].md.height};
+  width: ${(props) => props.w || '100%'};
+  height: ${(props) => props.h || props.theme.inputSizes['text'].md.height};
   display: block;
-  ${props => props.theme.flex?.row.center.center};
+  ${(props) => props.theme.flex?.row.center.center};
   border-radius: 10px;
   position: relative;
-  background: ${props =>
+  background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
   &:hover {
     cursor: pointer;
   }
-  color: ${props =>
+  color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
   button {
     position: absolute;
@@ -432,7 +429,7 @@ const ImageFileContainer = styled.label<
     background: transparent;
     cursor: pointer;
   }
-  ${props =>
+  ${(props) =>
     props.isImageUrl &&
     css`
       outline: none;

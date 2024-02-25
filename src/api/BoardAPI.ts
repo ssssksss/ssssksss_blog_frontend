@@ -5,6 +5,7 @@ import { rootActions } from '@redux/store/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { IGetBoardListDataProps } from './type/BoardAPI.d';
 
 /**
  * @param props keyword string [df] ""
@@ -13,8 +14,8 @@ import { useSelector } from 'react-redux';
  * @param props sort string [df] "latest"
  */
 
-const getBoardListData = (props: BoardAPIType.IGetBoardListDataProps) => {
-  const boardStore = useSelector(state => state.boardStore);
+const getBoardListData = (props: IGetBoardListDataProps) => {
+  const boardStore = useSelector((state) => state.boardStore);
   return UseQueryHook({
     queryKey: [
       ['getBoardList'],
@@ -32,7 +33,7 @@ const getBoardListData = (props: BoardAPIType.IGetBoardListDataProps) => {
     },
     isRefetchWindowFocus: false,
     enabled: props.enabled,
-    onSuccessHandler: res => {
+    onSuccessHandler: (_) => {
       props.onSuccessHandler();
     },
   });
@@ -50,7 +51,7 @@ const getBoard = (props: { id: number }) => {
     },
     isRefetchWindowFocus: false,
     isShowMessage: false,
-    onSuccessHandler: res => {
+    onSuccessHandler: (res) => {
       props.onSuccessHandler(res);
     },
     enabled: props.enabled,
@@ -59,23 +60,21 @@ const getBoard = (props: { id: number }) => {
 
 const deleteBoard = () => {
   const router = useRouter();
-  const mutationFn = async reqData => {
+  const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(`/api/board?id=${reqData.id}`);
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: () => {
       router.back();
     },
-    onErrorHandler: ({ error, variables, context }) => {},
-    onSettledHandler: ({ data, error, variables, context }) => {},
   });
 };
 
 const createBoard = () => {
   const router = useRouter();
-  const mutationFn = async reqData => {
+  const mutationFn = async (reqData) => {
     return await AxiosInstance.post('/api/board', {
       title: reqData?.title,
       content: reqData?.content,
@@ -85,44 +84,41 @@ const createBoard = () => {
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: ({ data }) => {
       let _url = `/board/${data.data.json.id}`;
       router.replace(_url);
       // router.beforeHistoryChange()
     },
-    onErrorHandler: ({ error, variables, context }) => {},
-    onSettledHandler: ({ data, error, variables, context }) => {},
   });
 };
 
 const updateBoard = () => {
   const router = useRouter();
-  const mutationFn = async reqData => {
+  const mutationFn = async (reqData) => {
     return await AxiosInstance.put('/api/board', {
       id: reqData.id,
       title: reqData.title,
       content: reqData.content,
-    }).catch(error => {
+    }).catch((_) => {
       return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables, context }) => {
+    onSuccessHandler: ({ data, variables }) => {
       let _url = `/board/${variables.id}`;
       router.replace(_url);
       store.dispatch(
         rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: data.data.msg,
-        })
+        }),
       );
     },
-    onErrorHandler: ({ error, variables, context }) => {
+    onErrorHandler: ({ error }) => {
       console.log('BoardAPI.ts 파일 : ', error);
     },
-    onSettledHandler: ({ data, error, variables, context }) => {},
   });
 };
 

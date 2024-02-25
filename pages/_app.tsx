@@ -1,36 +1,29 @@
+import { Layout1 } from '@components/layout/Layout1';
 import NavBar from '@components/layout/NavBar';
 import { Global } from '@emotion/react';
 import { store } from '@redux/store/index';
 import GlobalStyles from '@styles/GlobalStyles';
-import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
+import { NextPage } from 'next';
+import { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'prismjs/themes/prism-tomorrow.css';
 import { ReactElement, ReactNode, StrictMode } from 'react';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
 
 type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-  layout: typeof Layout1 | typeof BlogLayout;
+  getLayout?: (_page: ReactElement) => ReactNode;
+  layout: typeof Layout1;
 };
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const ReactToastifyComponents = dynamic(
-  () => import('@components/react-toastify/ReactToastifyComponents'),
-  {
-    loading: () => <p>Loading...</p>,
-  }
-);
-
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout || (page => page);
+  const getLayout = Component.getLayout || ((page) => page);
   const Layout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
   const queryClient = new QueryClient();
@@ -56,7 +49,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </Provider>
-    </StrictMode>
+    </StrictMode>,
   );
 }
 

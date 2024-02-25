@@ -1,14 +1,11 @@
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
-import { Input } from '@components/common/input/Input';
+import Input from '@components/common/input/Input';
 import { BlogFirstCategoryCreateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoading } from '@hooks/useLoading';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -17,8 +14,6 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BlogFirstCategoryCreateBox = () => {
-  const [isLoading, loadingFunction] = useLoading();
-  const blogStore = useSelector((state: RootState) => state.blogStore);
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(BlogFirstCategoryCreateYup),
     mode: 'onChange',
@@ -52,7 +47,7 @@ const BlogFirstCategoryCreateBox = () => {
           register={register('createFirstCategoryName')}
           onKeyPressAction={handleSubmit(
             createFirstCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           errorMessage={errors.createFirstCategoryName?.message}
         />
@@ -64,7 +59,7 @@ const BlogFirstCategoryCreateBox = () => {
           outline={true}
           onClickCapture={handleSubmit(
             createFirstCategoryHandler,
-            onClickErrorSubmit
+            onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
           bg={'contrast'}
@@ -78,7 +73,7 @@ const BlogFirstCategoryCreateBox = () => {
 export default BlogFirstCategoryCreateBox;
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 4px;
 
   & > button:nth-of-type(1) {
     align-items: end;
@@ -86,14 +81,14 @@ const Container = styled(CC.ColumnDiv)`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     font-size: 20px;
   }
 `;

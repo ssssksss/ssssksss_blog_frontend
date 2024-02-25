@@ -4,6 +4,7 @@ import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,12 +21,11 @@ import BlogItem from './BlogItem';
  * @description menuList=[{name. func}]
  */
 const BlogMainContainer = () => {
-  const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const router = useRouter();
   const mainContainerRef = useRef<null>();
-  const { data: blogListResData, refetch } = BlogAPI.getBlogList();
+  const { data: blogListResData } = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: any) => {
     if (
@@ -36,7 +36,7 @@ const BlogMainContainer = () => {
     store.dispatch(
       rootActions.blogStore1.setBlogListOrderOption({
         blogListOrderOption: data.value,
-      })
+      }),
     );
   };
 
@@ -119,7 +119,7 @@ const BlogMainContainer = () => {
             onClick={() =>
               mainContainerRef.current.scrollTo(
                 0,
-                mainContainerRef.current.scrollHeight
+                mainContainerRef.current.scrollHeight,
               )
             }
           >
@@ -136,32 +136,32 @@ export default BlogMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
   border-radius: 10px;
-  background: ${props => props.theme.main.primary20};
+  background: ${(props) => props.theme.main.primary20};
   padding: 4px;
   gap: 4px;
-  ${props => props.theme.scroll.hidden};
+  ${(props) => props.theme.scroll.hidden};
   position: relative;
   min-height: 200px;
 `;
 const BlogSearchItem = styled(Link)`
   cursor: pointer;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
 `;
 
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   padding: 0px 4px;
-  border: solid 1px ${props => props.theme.main.primary40};
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border: solid 1px ${(props) => props.theme.main.primary40};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   padding: 4px;
   height: 40px;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
 
   & > span:nth-of-type(1) {
-    color: ${props => props.theme.colors.black40};
+    color: ${(props) => props.theme.colors.black40};
     font-weight: 600;
     padding: 4px;
-    @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+    @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
       //max-width보다 작을 떄
       font-size: 0.8rem;
     }
@@ -170,9 +170,9 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
 
 const MainContainer = styled(CC.ColumnDiv)`
   gap: 4px;
-  ${props => props.theme.scroll.hidden};
-  background: ${props => props.theme.main.contrast};
-  border-radius: ${props => props.theme.borderRadius.br10};
+  ${(props) => props.theme.scroll.hidden};
+  background: ${(props) => props.theme.main.contrast};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   padding: 4px;
   scroll-behavior: smooth;
   @media (pointer: coarse) {
@@ -188,17 +188,17 @@ const FixedContainer = styled(CC.ColumnDiv)`
   padding: 4px;
   opacity: 0.9;
   border-radius: 8px;
-  background: ${props => props.theme.main.secondary40};
+  background: ${(props) => props.theme.main.secondary40};
   gap: 4px;
 
   & > button {
-    background: ${props => props.theme.main.contrast};
+    background: ${(props) => props.theme.main.contrast};
   }
 
   & > :hover {
     transform: scale(1.2);
     cursor: pointer;
-    background: ${props => props.theme.main.primary80};
+    background: ${(props) => props.theme.main.primary80};
   }
 
   @media (max-width: 400px) {

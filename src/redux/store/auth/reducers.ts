@@ -1,8 +1,4 @@
 // 외부에서 정의한 액션 함수를 가져온다.
-import { Reducer } from 'react';
-import * as actions from './actions';
-import { SET_USER_INFO, SET_ACCESS_TOKEN } from './actions';
-
 type initialStateType = {
   email: string;
   role: string;

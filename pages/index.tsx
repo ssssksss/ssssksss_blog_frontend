@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Head from 'next/head';
 import Layout1 from 'src/components/layout/Layout1';
 
-const HomePage = ({ test }: any) => {
+const HomePage = () => {
   return (
     <Container>
       <Head>

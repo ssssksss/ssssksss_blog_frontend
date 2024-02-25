@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Span.tsx
@@ -19,7 +20,7 @@ const Span = ({ children, ...props }: SpanProps) => {
 export default Span;
 
 const Container = styled.span<SpanProps>`
-    font-size: ${props => props.fontSize};
-    font-family: : ${props => props.fontFamily};
-    color: ${props => props.color};
+    font-size: ${(props) => props.fontSize};
+    font-family: : ${(props) => props.fontFamily};
+    color: ${(props) => props.color};
 `;

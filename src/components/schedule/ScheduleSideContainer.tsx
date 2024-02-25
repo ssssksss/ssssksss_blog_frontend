@@ -17,10 +17,9 @@ import ScheduleCategoryItem from './ScheduleCategoryItem';
  */
 const ScheduleSideContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const [scheduleCategoryBoxIsOpen, hideScheduleCategoryBoxToggle] = useReducer(
-    v => !v,
-    true
+    (v) => !v,
+    true,
   );
 
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
@@ -49,7 +48,7 @@ const ScheduleSideContainer = () => {
         <CategoryListContainer isOpen={scheduleCategoryBoxIsOpen}>
           {scheduleCategoryListResData?.isLoading ||
             scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-              i => <ScheduleCategoryItem {...i} />
+              (i, index) => <ScheduleCategoryItem key={index} {...i} />,
             )}
         </CategoryListContainer>
       </Container>
@@ -63,12 +62,12 @@ const Container = styled(CC.ColumnDiv.withComponent('article'))`
   gap: 4px;
   position: relative;
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     top: 0px;
     left: 0px;
     position: absolute;
     z-index: 12;
-    background: ${props => props.theme.main.contrast};
+    background: ${(props) => props.theme.main.contrast};
   }
 `;
 const CategoryBox = styled.div`
@@ -77,7 +76,7 @@ const CategoryBox = styled.div`
   display: grid;
   grid-template-columns: auto 20px;
   padding: 4px;
-  background: ${props => props.theme.main.secondary40};
+  background: ${(props) => props.theme.main.secondary40};
   align-items: center;
 
   & > button {
@@ -89,8 +88,9 @@ const CategoryBox = styled.div`
 `;
 
 const CategorySideTitle = styled.div<{ isOpen: boolean }>`
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
-    writing-mode: ${props => (props.isOpen ? 'horizontal-tb' : 'vertical-lr')};
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+    writing-mode: ${(props) =>
+      props.isOpen ? 'horizontal-tb' : 'vertical-lr'};
   }
 `;
 
@@ -98,7 +98,7 @@ const CategoryListContainer = styled(CC.ColumnDiv)<{ isOpen: boolean }>`
   width: 100%;
   display: flex;
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
-    display: ${props => (props.isOpen ? 'flex' : 'none')};
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
   }
 `;

@@ -1,6 +1,6 @@
 import Button from '@components/common/button/Button';
 import styled from '@emotion/styled';
-import { useCallback } from 'react';
+import { MouseEventHandler, ReactNode, useCallback } from 'react';
 import Swal from 'sweetalert2';
 
 /**
@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
  * @description 설명
  */
 interface ButtonProps {
-  onClick?: (event: any) => void;
-  onClickCapture?: (event: any) => void;
+  onClick?: (_event: any) => void;
+  onClickCapture?: (_event: any) => void;
   children: ReactNode;
   disabled?: boolean;
   w?: string;
@@ -38,8 +38,6 @@ export const ConfirmButton = ({
   onClick: _onClick,
   onClickCapture: _onClickCapture,
   children = 'button',
-  hover = true,
-  onSuccessHandler,
   ...props
 }: ButtonProps) => {
   const showSwal = () => {
@@ -52,18 +50,18 @@ export const ConfirmButton = ({
       cancelButtonColor: '#d33',
       confirmButtonText: '승인',
       cancelButtonText: '취소',
-    }).then(res => {
+    }).then((res) => {
       if (res.isConfirmed) _onClick?.(event);
     });
   };
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    event => {
+    (event) => {
       if (props.disabled) return;
       showSwal();
       event.stopPropagation();
     },
-    [_onClick, props.disabled]
+    [_onClick, props.disabled],
   );
 
   return (

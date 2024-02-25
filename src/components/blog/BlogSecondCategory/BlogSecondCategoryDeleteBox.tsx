@@ -4,13 +4,11 @@ import Select from '@components/common/select/Select';
 import { BlogSecondCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoading } from '@hooks/useLoading';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -20,8 +18,6 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BlogSecondCategoryDeleteBox = () => {
-  const [isLoading, loadingFunction] = useLoading();
-  const selectDeleteRef = useRef<HTMLSelectElement>(null);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
   const methods = useForm({
@@ -31,43 +27,42 @@ const BlogSecondCategoryDeleteBox = () => {
       deleteSecondCategoryId: '',
     },
   });
-  const { errors } = methods.formState;
 
-  const onClickErrorSubmit = props => {
+  const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
   const deleteSecondCategoryHandler = async (data: any) => {
-    loadingFunction(
-      BlogAPI.deleteSecondCategory({
-        id: data.deleteSecondCategoryId,
-      })
-    )
-      .then(res => {
+    BlogAPI.deleteSecondCategory({
+      id: data.deleteSecondCategoryId,
+    })
+      .then((_) => {
         let temp = blogStore.blogCategoryList
-          .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
-          .secondCategoryList.filter(i => i.id != data.deleteSecondCategoryId);
+          .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+          .secondCategoryList.filter(
+            (i) => i.id != data.deleteSecondCategoryId,
+          );
         router.replace(
           `/blog?first-category=${blogStore.activeBlogFirstCategoryId}&second-category=${temp[0]?.id}`,
           undefined,
           {
             shallow: true,
-          }
+          },
         );
         store.dispatch(
           rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-            blogStore.blogCategoryList.map(i => {
+            blogStore.blogCategoryList.map((i) => {
               if (i.id == blogStore.activeBlogFirstCategoryId) {
                 i.secondCategoryList = temp;
                 return i;
               } else {
                 return i;
               }
-            })
-          )
+            }),
+          ),
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('BlogSecondCategoryDeleteBox.tsx 파일 : ', err);
       });
   };
@@ -85,11 +80,11 @@ const BlogSecondCategoryDeleteBox = () => {
             bg={'transparent'}
             outline={true}
             data={blogStore.blogCategoryList
-              .filter(i => i.id == blogStore.activeBlogFirstCategoryId)[0]
-              .secondCategoryList.map(i => {
+              .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+              .secondCategoryList.map((i) => {
                 return { value: i.id, name: i.name, bg: '' };
               })}
-            onChange={data => {
+            onChange={(data) => {
               methods.setValue('deleteSecondCategoryId', data.value);
               methods.trigger('deleteSecondCategoryId');
             }}
@@ -103,7 +98,7 @@ const BlogSecondCategoryDeleteBox = () => {
             disabled={!methods.formState.isValid}
             onClickCapture={methods.handleSubmit(
               deleteSecondCategoryHandler,
-              onClickErrorSubmit
+              onClickErrorSubmit,
             )}
             bg={'white80'}
           >
@@ -117,7 +112,7 @@ const BlogSecondCategoryDeleteBox = () => {
 export default BlogSecondCategoryDeleteBox;
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${props => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 4px;
 
   & > button:nth-of-type(1) {
     align-items: end;
@@ -125,14 +120,14 @@ const Container = styled(CC.ColumnDiv)`
 `;
 
 const Header = styled.header`
-  ${props => props.theme.flex.column};
+  ${(props) => props.theme.flex.column};
   padding: 16px;
   gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${props => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
-    font-family: ${props => props.theme.fontFamily.cookieRunRegular};
+    font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     font-size: 20px;
   }
 `;

@@ -19,12 +19,7 @@ import MemoItem from './MemoItem';
  * @description 설명
  */
 
-interface IMemoContainerProps {
-  active: number;
-  onClick: () => void;
-}
-
-const MemoContainer = (props: IMemoContainerProps) => {
+const MemoContainer = () => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const [activeMenu, setActiveMenu] = useState({
@@ -74,8 +69,9 @@ const MemoContainer = (props: IMemoContainerProps) => {
         >
           ALL
         </Button>
-        {memoStore.memoCategoryList?.map(i => (
+        {memoStore.memoCategoryList?.map((i) => (
           <Button
+            key={i.id}
             bg={i.backgroundColor}
             active={activeMenu.type === i.name}
             onClick={() =>
@@ -105,14 +101,12 @@ const MemoContainer = (props: IMemoContainerProps) => {
           <MemoItem edit={false} category={activeMenu} />
         )}
         {memoStore.memoList
-          ?.filter(i =>
+          ?.filter((i) =>
             activeMenu.type == 'all'
               ? true
-              : i.memoCategory.name == activeMenu.type
+              : i.memoCategory.name == activeMenu.type,
           )
-          .map(i => (
-            <MemoItem data={i} edit={true} key={i.id} />
-          ))}
+          .map((i) => <MemoItem data={i} edit={true} key={i.id} />)}
       </MainContainer>
     </Container>
   );
@@ -128,14 +122,14 @@ const MemoMenuNavListContainer = styled(CC.RowDiv)`
   gap: 4px;
   padding: 10px 4px;
   flex-flow: wrap row;
-  background: ${props => props.theme.main.contrast};
+  background: ${(props) => props.theme.main.contrast};
   border-radius: 4px;
   outline: solid black 1px;
   height: 48px;
   & > button {
     min-width: 70px;
-    border-radius: ${props => props.theme.borderRadius.br10};
-    font-family: ${props => props.theme.fontFamily.yanoljaYacheBold};
+    border-radius: ${(props) => props.theme.borderRadius.br10};
+    font-family: ${(props) => props.theme.fontFamily.yanoljaYacheBold};
   }
 `;
 
@@ -145,17 +139,17 @@ const MainContainer = styled.div`
   outline: solid black 1px;
   border-radius: 4px;
   padding: 8px 8px 16px 8px;
-  background: ${props => props.theme.colors.gray20};
+  background: ${(props) => props.theme.colors.gray20};
   height: max-content;
   min-height: 300px;
 
-  @media (min-width: ${props => props.theme.deviceSizes.mobile}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.mobile}) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (min-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     grid-template-columns: repeat(4, 1fr);
   }
 `;

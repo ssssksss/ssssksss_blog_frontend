@@ -5,7 +5,7 @@ interface ISignInUserSuccessDataProps {
 }
 interface ISignInUserSuccessVariablesProps {}
 
-export const UserAPIType = {
-  ISignInUserSuccessDataProps,
-  ISignInUserSuccessVariablesProps,
+export type UserAPIType = {
+  ISignInUserSuccessDataProps;
+  ISignInUserSuccessVariablesProps;
 };

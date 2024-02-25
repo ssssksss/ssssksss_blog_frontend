@@ -81,6 +81,5 @@ export const Icons = {
   GithubIcon,
   NotionIcon,
   FigmaIcon,
-  ErdCloudIcon,
   StoryBookIcon,
 };
