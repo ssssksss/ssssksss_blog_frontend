@@ -29,6 +29,7 @@ interface ISelectProps {
   setValue?: any;
   trigger?: any;
   // 클릭후 바로 최신 데이터가 필요한 경우에는 onChange에서 props를 이용하여 값을 받아 사용하면 된다.
+  onChange?: () => void;
 }
 
 const Select = ({ ...props }): ISelectProps => {
@@ -85,6 +86,7 @@ const Select = ({ ...props }): ISelectProps => {
                     name: i.name,
                     bg: i.bg,
                   });
+                  props.onChange(i);
                 }}
               >
                 {i.name || i.value}
@@ -93,6 +95,7 @@ const Select = ({ ...props }): ISelectProps => {
         </ul>
       )}
       <IconSVG
+        bg={props.bg}
         width="18"
         height="15"
         viewBox="0 0 18 15"
@@ -105,11 +108,6 @@ const Select = ({ ...props }): ISelectProps => {
   );
 };
 export default Select;
-{
-  /* <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 0L17.6603 15H0.339746L9 0Z" fill="black"/>
-</svg> */
-}
 
 const Container = styled.div<ISelectProps>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
@@ -264,12 +262,13 @@ const SelectItem = styled.li<{ props: any }>`
     props.theme.colors.white80};
 `;
 
-const IconSVG = styled.svg`
+const IconSVG = styled.svg<{ bg: string }>`
   position: absolute;
   right: 0;
   align-self: center;
   width: 16px;
   aspect-ratio: 1;
+  background: ${(props) => props.bg};
   path {
     fill: ${(props) => props.theme.main.primary80};
   }
