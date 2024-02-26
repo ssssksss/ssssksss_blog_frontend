@@ -15,9 +15,17 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-06 04:00:16"
  * @description 설명
  */
-const BlogFirstCategoryUpdateBox = () => {
+interface IBlogFirstCategoryUpdateBoxProps {
+  closeModal: () => void;
+}
+
+const BlogFirstCategoryUpdateBox = (
+  props: IBlogFirstCategoryUpdateBoxProps,
+) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const updateBlogFirstCategoryMutation = BlogAPI.updateBlogFirstCategory();
+  const updateBlogFirstCategoryMutation = BlogAPI.updateBlogFirstCategory({
+    onSuccessHandler: () => props.closeModal(),
+  });
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryUpdateYup),
     mode: 'onChange',
@@ -27,10 +35,6 @@ const BlogFirstCategoryUpdateBox = () => {
     },
   });
   const { errors } = methods.formState;
-
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
 
   const onChangeSelectHandler = (data) => {
     methods.setValue('updateFirstCategoryId', data.value);
@@ -70,10 +74,7 @@ const BlogFirstCategoryUpdateBox = () => {
             placeholder="변경할 이름"
             state={1}
             register={methods.register('updateFirstCategoryName')}
-            onKeyPressAction={methods.handleSubmit(
-              updateFirstCategoryHandler,
-              onClickErrorSubmit,
-            )}
+            onKeyPressAction={methods.handleSubmit(updateFirstCategoryHandler)}
             errorMessage={errors.updateFirstCategoryName?.message}
           />
         </CC.ColumnDiv>
@@ -82,12 +83,8 @@ const BlogFirstCategoryUpdateBox = () => {
             w={'100%'}
             h={'40px'}
             outline={true}
-            onClickCapture={methods.handleSubmit(
-              updateFirstCategoryHandler,
-              onClickErrorSubmit,
-            )}
+            onClickCapture={methods.handleSubmit(updateFirstCategoryHandler)}
             disabled={!methods.formState.isValid}
-            bg={'white80'}
           >
             수정
           </Button>

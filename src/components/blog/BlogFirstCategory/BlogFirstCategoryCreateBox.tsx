@@ -13,7 +13,14 @@ import { useForm } from 'react-hook-form';
  * @version 0.0.1 "2024-01-06 03:41:05"
  * @description 설명
  */
-const BlogFirstCategoryCreateBox = () => {
+
+interface IBlogFirstCategoryCreateBoxProps {
+  closeModal: () => void;
+}
+
+const BlogFirstCategoryCreateBox = (
+  props: IBlogFirstCategoryCreateBoxProps,
+) => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(BlogFirstCategoryCreateYup),
     mode: 'onChange',
@@ -22,11 +29,11 @@ const BlogFirstCategoryCreateBox = () => {
     },
   });
   const { errors } = formState;
-  const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory();
-
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
+  const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory({
+    onSuccessHandler: () => {
+      props.closeModal();
+    },
+  });
 
   const createFirstCategoryHandler = (data: any) => {
     const { ...params } = data;
@@ -45,10 +52,7 @@ const BlogFirstCategoryCreateBox = () => {
           placeholder="이름"
           state={1}
           register={register('createFirstCategoryName')}
-          onKeyPressAction={handleSubmit(
-            createFirstCategoryHandler,
-            onClickErrorSubmit,
-          )}
+          onKeyPressAction={handleSubmit(createFirstCategoryHandler)}
           errorMessage={errors.createFirstCategoryName?.message}
         />
       </CC.ColumnDiv>
@@ -56,13 +60,8 @@ const BlogFirstCategoryCreateBox = () => {
         <Button
           w={'100%'}
           h={'40px'}
-          outline={true}
-          onClickCapture={handleSubmit(
-            createFirstCategoryHandler,
-            onClickErrorSubmit,
-          )}
+          onClickCapture={handleSubmit(createFirstCategoryHandler)}
           disabled={!formState.isValid}
-          bg={'contrast'}
         >
           추가
         </Button>

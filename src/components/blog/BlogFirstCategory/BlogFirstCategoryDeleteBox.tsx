@@ -1,5 +1,5 @@
 import { BlogAPI } from '@api/BlogAPI';
-import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import LoadingComponent from '@components/common/loading/LoadingComponent';
 import Select from '@components/common/select/Select';
 import { BlogFirstCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
@@ -17,10 +17,19 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-06 04:06:36"
  * @description 설명
  */
-const BlogFirstCategoryDeleteBox = () => {
+
+interface IBlogFirstCategoryDeleteBoxProps {
+  closeModal: () => void;
+}
+
+const BlogFirstCategoryDeleteBox = (
+  props: IBlogFirstCategoryDeleteBoxProps,
+) => {
   const [isLoading] = useLoading();
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const deleteBLogFirstCategoryMutation = BlogAPI.deleteBlogFirstCategory();
+  const deleteBLogFirstCategoryMutation = BlogAPI.deleteBlogFirstCategory({
+    onSuccessHandler: () => props.closeModal(),
+  });
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryDeleteYup),
     mode: 'onClick',
@@ -28,9 +37,6 @@ const BlogFirstCategoryDeleteBox = () => {
       deleteFirstCategoryId: '',
     },
   });
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
 
   const deleteFirstCategoryHandler = async (data: any) => {
     if (!store.getState().authStore.id) return;
@@ -65,19 +71,15 @@ const BlogFirstCategoryDeleteBox = () => {
               ></Select>
             </CC.ColumnDiv>
             <CC.ColumnDiv gap={8}>
-              <Button
+              <ConfirmButton
                 w={'100%'}
                 h={'40px'}
                 outline={true}
                 disabled={!methods.formState.isValid}
-                onClickCapture={methods.handleSubmit(
-                  deleteFirstCategoryHandler,
-                  onClickErrorSubmit,
-                )}
-                bg={'white80'}
+                onClick={methods.handleSubmit(deleteFirstCategoryHandler)}
               >
                 삭제
-              </Button>
+              </ConfirmButton>
             </CC.ColumnDiv>
           </>
         )}
