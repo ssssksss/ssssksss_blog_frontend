@@ -42,7 +42,6 @@ export const ConfirmButton = ({
 }: ButtonProps) => {
   const showSwal = () => {
     Swal.fire({
-      // title: props.title || '삭제하시겠습니까?',
       titleText: props.text || 'Do you want to continue',
       icon: props.icon || 'question',
       showCancelButton: true,
