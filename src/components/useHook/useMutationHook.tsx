@@ -1,3 +1,5 @@
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { useMutation } from 'react-query';
 
 /**
@@ -20,16 +22,24 @@ export const useMutationHook = (props: IUseMutationHookProps) => {
       // variables : {id: 1}
     },
     onSuccess: (data, variables, context) => {
-      // console.log('success1', data);
-      // console.log('success2', variables);
-      // console.log('success3', context);
+      if (data.data.msg) {
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: data.data.msg,
+          }),
+        );
+      }
       if (props.onSuccessHandler)
         props.onSuccessHandler({ data, variables, context });
     },
     onError: (error, variables, context) => {
-      // console.log('error1', error);
-      // console.log('error2', variables);
-      // console.log('error3', context);
+      store.dispatch(
+        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+          type: 'error',
+          message: error.response.data?.msg,
+        }),
+      );
       if (props.onErrorHandler)
         props.onErrorHandler({ error, variables, context });
     },
