@@ -2,6 +2,7 @@ const AuthModal = dynamic(() => import('@components/common/modal/AuthModal'), {
   loading: () => <p>Loading...</p>,
 });
 
+import { UserAPI } from '@api/UserAPI';
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
@@ -29,6 +30,7 @@ import { batch, useSelector } from 'react-redux';
 const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isHideBrowser, hideBrowserToggle] = useReducer((v) => !v, true);
+  UserAPI.getUser();
 
   //* 로그아웃 함수
   const signOutHandler = () => {
