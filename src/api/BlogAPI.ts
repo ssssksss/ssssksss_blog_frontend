@@ -91,12 +91,10 @@ const getBlogList = (_) => {
   });
 };
 // TODO
-const createBlogFirstCategory = (_) => {
+const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData: ICreateFirstCategoryHandlerProps) => {
     return await AxiosInstance.post('/api/blog-first-category', {
       name: reqData.name,
-    }).catch((_) => {
-      return;
     });
   };
 
@@ -113,33 +111,22 @@ const createBlogFirstCategory = (_) => {
           },
         ]),
       );
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: data.data.msg,
-        }),
-      );
+      props.onSuccessHandler();
     },
-    onErrorHandler: ({ error }) => {
-      console.log('BlogAPI.ts error : ', error);
-    },
-    onSettledHandler: () => {},
   });
 };
 
-const updateBlogFirstCategory = () => {
+const updateBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData: { id: number; name: string }) => {
     return await AxiosInstance.put('/api/blog-first-category', {
       id: reqData.id,
       name: reqData.name,
-    }).catch((_) => {
-      return;
     });
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables }) => {
+    onSuccessHandler: ({ variables }) => {
       let temp = store.getState().blogStore.blogCategoryList.map((i) => {
         if (i.id == variables.id) {
           return {
@@ -151,19 +138,12 @@ const updateBlogFirstCategory = () => {
         return i;
       });
       store.dispatch(rootActions.blogStore.SET_BLOG_CATEGORY_LIST(temp));
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: data.data.msg,
-        }),
-      );
+      props.onSuccessHandler();
     },
-    onErrorHandler: () => {},
-    onSettledHandler: () => {},
   });
 };
 
-const deleteBlogFirstCategory = () => {
+const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/blog-first-category?id=${reqData?.id}`,
@@ -174,22 +154,13 @@ const deleteBlogFirstCategory = () => {
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables }) => {
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: data.data?.msg,
-        }),
-      );
+    onSuccessHandler: ({ variables }) => {
       let _temp = store
         .getState()
         .blogStore.blogCategoryList.filter((i) => i.id != variables.id);
       store.dispatch(rootActions.blogStore.SET_BLOG_CATEGORY_LIST([..._temp]));
+      props.onSuccessHandler();
     },
-    onErrorHandler: ({ error }) => {
-      console.log('BlogAPI.ts 파일 : ', error);
-    },
-    onSettledHandler: () => {},
   });
 };
 

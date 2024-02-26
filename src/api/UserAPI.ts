@@ -3,7 +3,6 @@ import { UseQueryHook } from '@components/useHook/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import authAction, { SET_USER_INFO } from '@redux/store/auth/actions';
-import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 
 const getUser = () => {
@@ -34,16 +33,12 @@ const signInUser = () => {
     return await AxiosInstance.put('/api/user', {
       email: reqData?.email,
       password: reqData?.password,
-    }).catch((_) => {
-      return;
     });
   };
 
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      let toastifyMessage = '';
-      let toastifyType = 'success';
       store.dispatch(
         rootActions.authStore.SET_ACCESS_TOKEN(data.data.accessToken),
       );
@@ -53,25 +48,9 @@ const signInUser = () => {
         headers: {
           Authorization: `Bearer ${data.data.accessToken}`,
         },
-      })
-        .then((response) => {
-          store.dispatch(SET_USER_INFO(response.data.json.user));
-          toastifyType = 'success';
-          toastifyMessage = '로그인을 완료했습니다.';
-        })
-        .catch((error) => {
-          toastifyType = 'error';
-          toastifyMessage = '에러';
-          console.log('UserLogin.tsx : ', error.response);
-        })
-        .finally(() => {
-          store.dispatch(
-            SET_TOASTIFY_MESSAGE({
-              type: toastifyType,
-              message: toastifyMessage,
-            }),
-          );
-        });
+      }).then((response) => {
+        store.dispatch(SET_USER_INFO(response.data.json.user));
+      });
     },
   });
 };
