@@ -14,6 +14,7 @@ import BlogFirstCategoryUpdateBox from './BlogFirstCategoryUpdateBox';
 
 export const BlogFirstCategoryModal = (props: {
   blogCategoryListResData: any;
+  closeModal: () => void;
 }) => {
   const [menu, setMenu] = useState('add');
 
@@ -42,15 +43,19 @@ export const BlogFirstCategoryModal = (props: {
           삭제
         </Button>
       </CC.RowDiv>
-      {menu === 'add' && <BlogFirstCategoryCreateBox />}
+      {menu === 'add' && (
+        <BlogFirstCategoryCreateBox closeModal={props.closeModal} />
+      )}
       {menu === 'update' && (
         <BlogFirstCategoryUpdateBox
           blogCategoryListResData={props.blogCategoryListResData}
+          closeModal={props.closeModal}
         />
       )}
       {menu === 'delete' && (
         <BlogFirstCategoryDeleteBox
           blogCategoryListResData={props.blogCategoryListResData}
+          closeModal={props.closeModal}
         />
       )}
     </Container>
