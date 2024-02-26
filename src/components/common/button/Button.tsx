@@ -10,6 +10,8 @@ interface IButtonProps {
   disabled?: boolean;
   w?: string;
   h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
+  minW?: string;
+  minH?: string;
   bg?: colorTypes;
   brR?: string; // border-radius
   color?: colorTypes;
@@ -144,6 +146,8 @@ ${(props) =>
       props.theme.main?.primary80
     } 1px`};
   width: ${(props) => props.w || 'max-content'};
+  min-width: ${(props) => props.minW};
+  min-height: ${(props) => props.minH};
   height: ${(props) =>
     props.theme.btnSizes?.[props.h]?.height ||
     props.h ||
