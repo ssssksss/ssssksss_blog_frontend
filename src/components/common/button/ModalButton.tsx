@@ -119,24 +119,8 @@ export default React.memo(ModalButton);
 
 const ModalButtonStyle = styled(Button)<IModalButtonProps>`
   // ! Button(커스텀태그)에 있는 속성을 상속받아서 사용
-  // 외곽 디자인(border-radius, outline, box-shadow) //
-
-  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   position: relative;
-  max-width: ${(props) => props.maxW};
-  width: ${(props) => props.w};
-  height: ${(props) => props.h};
-  // 배경색(background) //
-
-  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-
-  // 애니메이션(animation) //
-
-  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-  // 반응형(media-query) //
-  // 커스텀(custom css) //
 `;
 
 const Overlay = styled.div<{ modalOverlayVisible: boolean }>`
