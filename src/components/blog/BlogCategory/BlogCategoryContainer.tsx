@@ -120,7 +120,7 @@ const BlogCategoryContainer = () => {
                 <Badge>
                   {i.secondCategoryList
                     .map((i) => i.count)
-                    .reduce((i, j) => i + j)}
+                    .reduce((i, j) => i + j, 0)}
                 </Badge>
               </ButtonBox>
             ))}
@@ -130,8 +130,14 @@ const BlogCategoryContainer = () => {
                 modalOverlayVisible={true}
                 modalW={'300px'}
                 outline={true}
+                style={{ flexShrink: 0 }}
               >
-                <Image src={Icons.SettingIcon} alt="" />
+                <Image
+                  src={Icons.SettingIcon}
+                  alt=""
+                  width={'24px'}
+                  height={'24px'}
+                />
               </ModalButton>
             )}
           </BlogFirstCategoryContainer>
