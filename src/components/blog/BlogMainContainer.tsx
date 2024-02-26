@@ -25,7 +25,7 @@ const BlogMainContainer = () => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const router = useRouter();
   const mainContainerRef = useRef<null>();
-  const { data: blogListResData } = BlogAPI.getBlogList();
+  const blogListResData = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: any) => {
     if (
@@ -67,7 +67,7 @@ const BlogMainContainer = () => {
           {`[${store.getState().blogStore.activeBlogFirstCategoryName}/${
             store.getState().blogStore.activeBlogSecondCategoryName
           }]`}
-          검색결과 : {blogListResData?.json?.blogList.length || '0'}
+          검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
         </span>
         <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
           <Select
@@ -89,7 +89,7 @@ const BlogMainContainer = () => {
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef}>
-        {blogListResData?.json?.blogList?.map((i, index) => (
+        {blogListResData?.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
               <BlogItem element={i}></BlogItem>
