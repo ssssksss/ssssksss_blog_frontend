@@ -145,22 +145,22 @@ const BlogCategoryContainer = () => {
             ref={blogSecondCategoryVerticalScrollRef}
           >
             {blogStore.blogCategoryList
-              ?.filter((k) => {
-                return (
-                  k.id == store.getState().blogStore.activeBlogFirstCategoryId
-                );
-              })[0]
-              ?.secondCategoryList?.map((i) => (
-                <ButtonBox key={i.id}>
+              ?.filter(
+                (i) =>
+                  i.id == store.getState().blogStore.activeBlogFirstCategoryId,
+              )[0]
+              ?.secondCategoryList?.filter((j) => j.name)
+              .map((k) => (
+                <ButtonBox key={k.id}>
                   <Button
                     active={
-                      i.id ==
+                      k.id ==
                       store.getState().blogStore.activeBlogSecondCategoryId
                     }
                     fontFamily={'yanoljaYacheBold'}
-                    key={i.id}
+                    key={k.id}
                     onClick={(e) => {
-                      blogSecondCategoryHandler(i);
+                      blogSecondCategoryHandler(k);
                       blogSecondCategoryVerticalScrollRef.current.scrollLeft =
                         e.target.offsetLeft +
                         e.target.offsetWidth / 2 -
@@ -168,9 +168,9 @@ const BlogCategoryContainer = () => {
                     }}
                     outline={true}
                   >
-                    {i.name}
+                    {k.name}
                   </Button>
-                  <Badge>{i.count || '0'}</Badge>
+                  <Badge>{k.count || '0'}</Badge>
                 </ButtonBox>
               ))}
             {blogStore?.activeBlogUserId == authStore.id && (
