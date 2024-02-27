@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import { memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -14,9 +15,18 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:34:45"
  * @description 설명
  */
-const BlogSecondCategoryCreateBox = () => {
+
+interface IBlogSecondCategoryCreateBoxProps {
+  closeModal: () => void;
+}
+
+const BlogSecondCategoryCreateBox = (
+  props: IBlogSecondCategoryCreateBoxProps,
+) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const createSecondCategoryMutation = BlogAPI.createSecondCategory();
+  const createSecondCategoryMutation = BlogAPI.createSecondCategory({
+    onSuccessHandler: () => props.closeModal(),
+  });
   const { register, handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
     mode: 'onChange',
@@ -26,10 +36,6 @@ const BlogSecondCategoryCreateBox = () => {
     },
   });
   const { errors } = formState;
-
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
 
   const createSecondCategoryHandler = async (data: any) => {
     const file = data.createSecondCategoryImageFile;
@@ -56,19 +62,16 @@ const BlogSecondCategoryCreateBox = () => {
           placeholder="2번째 카테고리 이름"
           state={1}
           register={register('createSecondCategoryName')}
-          onKeyPressAction={handleSubmit(
-            createSecondCategoryHandler,
-            onClickErrorSubmit,
-          )}
+          onKeyPressAction={handleSubmit(createSecondCategoryHandler)}
           errorMessage={errors.createSecondCategoryName?.message}
         />
         <Input
           type={'file'}
           state={1}
           register={register('createSecondCategoryImageFile')}
-          h={'200px'}
           setValue={setValue}
           trigger={trigger}
+          h={'200px'}
         />
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
@@ -76,12 +79,8 @@ const BlogSecondCategoryCreateBox = () => {
           w={'100%'}
           h={'40px'}
           outline={true}
-          onClickCapture={handleSubmit(
-            createSecondCategoryHandler,
-            onClickErrorSubmit,
-          )}
+          onClickCapture={handleSubmit(createSecondCategoryHandler)}
           disabled={!formState.isValid}
-          bg={'contrast'}
         >
           추가
         </Button>
@@ -89,7 +88,7 @@ const BlogSecondCategoryCreateBox = () => {
     </Container>
   );
 };
-export default BlogSecondCategoryCreateBox;
+export default memo(BlogSecondCategoryCreateBox);
 
 const Container = styled(CC.ColumnDiv)`
   outline: solid ${(props) => props.theme.main.contrast} 4px;
