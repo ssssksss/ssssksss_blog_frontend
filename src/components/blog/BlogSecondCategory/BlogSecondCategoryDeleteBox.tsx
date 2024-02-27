@@ -1,14 +1,12 @@
 import { BlogAPI } from '@api/BlogAPI';
-import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Select from '@components/common/select/Select';
 import { BlogSecondCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useRouter } from 'next/router';
+import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -19,7 +17,7 @@ import { useSelector } from 'react-redux';
  */
 const BlogSecondCategoryDeleteBox = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const router = useRouter();
+  const deleteSecondCategoryMutation = BlogAPI.deleteSecondCategory();
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryDeleteYup),
     mode: 'onClick',
@@ -28,43 +26,10 @@ const BlogSecondCategoryDeleteBox = () => {
     },
   });
 
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
-
   const deleteSecondCategoryHandler = async (data: any) => {
-    BlogAPI.deleteSecondCategory({
+    deleteSecondCategoryMutation({
       id: data.deleteSecondCategoryId,
-    })
-      .then((_) => {
-        let temp = blogStore.blogCategoryList
-          .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
-          .secondCategoryList.filter(
-            (i) => i.id != data.deleteSecondCategoryId,
-          );
-        router.replace(
-          `/blog?first-category=${blogStore.activeBlogFirstCategoryId}&second-category=${temp[0]?.id}`,
-          undefined,
-          {
-            shallow: true,
-          },
-        );
-        store.dispatch(
-          rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-            blogStore.blogCategoryList.map((i) => {
-              if (i.id == blogStore.activeBlogFirstCategoryId) {
-                i.secondCategoryList = temp;
-                return i;
-              } else {
-                return i;
-              }
-            }),
-          ),
-        );
-      })
-      .catch((err) => {
-        console.log('BlogSecondCategoryDeleteBox.tsx 파일 : ', err);
-      });
+    });
   };
 
   return (
@@ -91,25 +56,21 @@ const BlogSecondCategoryDeleteBox = () => {
           ></Select>
         </CC.ColumnDiv>
         <CC.ColumnDiv gap={8}>
-          <Button
+          <ConfirmButton
             w={'100%'}
             h={'40px'}
             outline={true}
             disabled={!methods.formState.isValid}
-            onClickCapture={methods.handleSubmit(
-              deleteSecondCategoryHandler,
-              onClickErrorSubmit,
-            )}
-            bg={'white80'}
+            onClick={methods.handleSubmit(deleteSecondCategoryHandler)}
           >
             삭제
-          </Button>
+          </ConfirmButton>
         </CC.ColumnDiv>
       </Container>
     </FormProvider>
   );
 };
-export default BlogSecondCategoryDeleteBox;
+export default memo(BlogSecondCategoryDeleteBox);
 
 const Container = styled(CC.ColumnDiv)`
   outline: solid ${(props) => props.theme.main.contrast} 4px;
