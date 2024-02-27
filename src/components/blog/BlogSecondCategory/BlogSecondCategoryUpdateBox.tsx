@@ -5,11 +5,9 @@ import Select from '@components/common/select/Select';
 import { BlogSecondCategoryUpdateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -18,8 +16,18 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:51:28"
  * @description 설명
  */
-const BlogSecondCategoryUpdateBox = (props: any) => {
+
+interface IBlogSecondCategoryUpdateBoxProps {
+  closeModal: () => void;
+}
+
+const BlogSecondCategoryUpdateBox = (
+  props: IBlogSecondCategoryUpdateBoxProps,
+) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const updateSecondCategoryMutation = BlogAPI.updateSecondCategory({
+    onSuccessHandler: () => props.closeModal(),
+  });
   const [updateImageUrl, setUpdateImageUrl] = useState();
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryUpdateYup),
@@ -32,33 +40,13 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
   });
   const { errors } = methods.formState;
 
-  const onClickErrorSubmit = () => {
-    alert('잘못 입력된 값이 존재합니다.');
-  };
-
   const updateSecondCategoryHandler = async (data: any) => {
-    BlogAPI.updateSecondCategory({
+    updateSecondCategoryMutation({
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,
       files: data.updateSecondCategoryImageFile,
       directory: `/blog-category/${blogStore.secondCategoryId}/${data.updateSecondCategoryName}`,
-    })
-      .then((_) => {
-        let _temp = blogStore.blogCategoryList
-          .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
-          .secondCategoryList.map((i) => {
-            if (i.id == data.updateSecondCategory) {
-              return {
-                ...i,
-                name: data.updateSecondCategoryName,
-              };
-            }
-            return i;
-          });
-        store.dispatch(rootActions.blogStore.SET_SECOND_CATEGORY_LIST(_temp));
-        props.closeModal();
-      })
-      .catch((_) => {});
+    });
   };
 
   const changeUpdateCategoryImage = (data) => {
@@ -99,10 +87,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
             placeholder="2번째 카테고리 수정할 이름"
             state={1}
             register={methods.register('updateSecondCategoryName')}
-            onKeyPressAction={methods.handleSubmit(
-              updateSecondCategoryHandler,
-              onClickErrorSubmit,
-            )}
+            onKeyPressAction={methods.handleSubmit(updateSecondCategoryHandler)}
             errorMessage={errors.updateSecondCategoryName?.message}
           />
           <Input
@@ -120,12 +105,8 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
             w={'100%'}
             h={'40px'}
             outline={true}
-            onClickCapture={methods.handleSubmit(
-              updateSecondCategoryHandler,
-              onClickErrorSubmit,
-            )}
+            onClickCapture={methods.handleSubmit(updateSecondCategoryHandler)}
             disabled={!methods.formState.isValid}
-            bg={'contrast'}
           >
             수정
           </Button>
@@ -134,7 +115,7 @@ const BlogSecondCategoryUpdateBox = (props: any) => {
     </FormProvider>
   );
 };
-export default BlogSecondCategoryUpdateBox;
+export default memo(BlogSecondCategoryUpdateBox);
 
 const Container = styled(CC.ColumnDiv)`
   outline: solid ${(props) => props.theme.main.contrast} 4px;
