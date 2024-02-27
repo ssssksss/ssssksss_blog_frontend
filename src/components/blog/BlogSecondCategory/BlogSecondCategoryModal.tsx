@@ -45,7 +45,9 @@ const BlogSecondCategoryModal = (props) => {
       {menu === 'update' && (
         <BlogSecondCategoryUpdateBox closeModal={props.closeModal} />
       )}
-      {menu === 'delete' && <BlogSecondCategoryDeleteBox />}
+      {menu === 'delete' && (
+        <BlogSecondCategoryDeleteBox closeModal={props.closeModal} />
+      )}
     </Container>
   );
 };
