@@ -101,6 +101,7 @@ const BlogCategoryContainer = () => {
             {blogStore.blogCategoryList?.map((i, index) => (
               <ButtonBox key={i.id}>
                 <Button
+                  minW={'60px'}
                   active={
                     i.id == store.getState().blogStore.activeBlogFirstCategoryId
                   }
@@ -153,6 +154,7 @@ const BlogCategoryContainer = () => {
               .map((k) => (
                 <ButtonBox key={k.id}>
                   <Button
+                    minW={'60px'}
                     active={
                       k.id ==
                       store.getState().blogStore.activeBlogSecondCategoryId
@@ -179,8 +181,14 @@ const BlogCategoryContainer = () => {
                 modalOverlayVisible={true}
                 modalW={'300px'}
                 outline={true}
+                style={{ flexShrink: 0 }}
               >
-                <Image src={Icons.SettingIcon} alt="" />
+                <Image
+                  src={Icons.SettingIcon}
+                  alt=""
+                  width={'24px'}
+                  height={'24px'}
+                />
               </ModalButton>
             )}
           </BlogSecondCategoryContainer>
