@@ -1,9 +1,5 @@
 import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
-import {
-  ICreateFirstCategoryHandlerProps,
-  IDeleteSecondCategoryHandlerProps,
-  IUpdateSecondCategoryHandlerProps,
-} from '@api/type/BlogAPI.d';
+import { ICreateFirstCategoryHandlerProps } from '@api/type/BlogAPI.d';
 import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
@@ -12,6 +8,7 @@ import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
+import { useRouter } from 'next/router';
 import { batch, useSelector } from 'react-redux';
 
 const getBlogCategoryList = () => {
@@ -185,7 +182,7 @@ const getBlogFirstCategoryList = () => {
   });
 };
 
-const createSecondCategory = () => {
+const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData) => {
     let formData = new FormData();
     formData.append('name', reqData.name);
@@ -200,8 +197,6 @@ const createSecondCategory = () => {
         'Access-Control-Allow-Origin': '*',
       },
       data: formData,
-    }).catch((_) => {
-      return;
     });
   };
 
@@ -218,6 +213,7 @@ const createSecondCategory = () => {
         name: data.data.json.createBlogSecondCategory.name,
         thumbnailImageUrl:
           data.data.json.createBlogSecondCategory.thumbnailImageUrl,
+        count: 0,
       });
       store.dispatch(
         rootActions.blogStore.SET_BLOG_CATEGORY_LIST([
@@ -231,12 +227,7 @@ const createSecondCategory = () => {
           }),
         ]),
       );
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: '추가되었습니다.',
-        }),
-      );
+      props.onSuccessHandler();
     },
     onErrorHandler: () => {},
     onSettledHandler: () => {},
@@ -254,39 +245,99 @@ const getSecondCategory = async (props: string) => {
   });
 };
 
-const updateSecondCategory = async (
-  props: IUpdateSecondCategoryHandlerProps,
-) => {
-  let formData = new FormData();
-  formData.append('id', props.id);
-  formData.append('name', props.name);
-  formData.append('files', props.files);
-  formData.append('directory', props.directory);
+const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
+  const mutationFn = async (reqData) => {
+    let formData = new FormData();
+    formData.append('id', reqData.id);
+    formData.append('name', reqData.name);
+    formData.append('files', reqData.files);
+    formData.append('directory', reqData.directory);
+    return await AxiosInstance({
+      url: '/api/blog-second-category',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+      },
+      data: formData,
+    });
+  };
 
-  return await ApiProcessHandler({
-    url: '/api/blog-second-category',
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ data, variables }) => {
+      let _secondCategoryList = store
+        .getState()
+        .blogStore.blogCategoryList.filter(
+          (i) => i.id == data.data.json.data.blogFirstCategory.id,
+        )[0]
+        .secondCategoryList.map((j) => {
+          if (j.id == variables.id) {
+            return {
+              id: variables.id,
+              name: variables.name,
+              thumbnailImageUrl: data.data.json.data.thumbnailImageUrl,
+              count: j.count,
+            };
+          }
+          return j;
+        });
+      store.dispatch(
+        rootActions.blogStore.SET_BLOG_CATEGORY_LIST([
+          ...store.getState().blogStore.blogCategoryList.map((i) => {
+            if (i.id == data.data.json.data.blogFirstCategory.id) {
+              i.secondCategoryList = _secondCategoryList;
+              return i;
+            } else {
+              return i;
+            }
+          }),
+        ]),
+      );
+      props.onSuccessHandler();
     },
-    data: formData,
-    apiCategory: '블로그 카테고리2',
-    isShowMessage: true,
   });
 };
 
-const deleteSecondCategory = async (
-  props: IDeleteSecondCategoryHandlerProps,
-) => {
-  return await ApiProcessHandler({
-    url: '/api/blog-second-category',
-    method: 'DELETE',
-    params: {
-      id: props.id,
+const deleteSecondCategory = () => {
+  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const router = useRouter();
+  const mutationFn = async (reqData) => {
+    return await AxiosInstance({
+      url: '/api/blog-second-category',
+      method: 'DELETE',
+      params: {
+        id: reqData.id,
+      },
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ variables }) => {
+      let temp = blogStore.blogCategoryList
+        .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
+        .secondCategoryList.filter((i) => i.id != variables.id);
+      store.dispatch(
+        rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
+          blogStore.blogCategoryList.map((i) => {
+            if (i.id == blogStore.activeBlogFirstCategoryId) {
+              i.secondCategoryList = temp;
+              return i;
+            } else {
+              return i;
+            }
+          }),
+        ),
+      );
+      router.replace(
+        `/blog?first-category=${blogStore.activeBlogFirstCategoryId}&second-category=${temp[0]?.id}`,
+        undefined,
+        {
+          shallow: true,
+        },
+      );
     },
-    apiCategory: '블로그 카테고리2',
-    isShowMessage: true,
   });
 };
 
@@ -318,25 +369,6 @@ const createBlog = async (props: string) => {
     data: formData,
   });
 };
-
-// const getBlogFirstCategoryList = () => {
-//   return UseQueryHook({
-//     queryKey: 'blogFirstCategoryList',
-//     requestData: {
-//       url: '/api/blog-first-category',
-//       method: 'GET',
-//     },
-//     method: false,
-//     isRefetchWindowFocus: false,
-//     onSuccessHandler: (props: IBlogCategoryListResDataProps) => {
-//       store.dispatch(
-//         SET_ACTIVE_BLOG_FIRST_CATEGORY(
-//           props.data.json.blogFirstCategoryList[0].id
-//         )
-//       );
-//     },
-//   });
-// };
 
 const updateBlog = async (props: string) => {
   let formData = new FormData();
