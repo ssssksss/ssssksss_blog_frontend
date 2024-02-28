@@ -23,6 +23,7 @@ interface IButtonProps {
   active?: boolean;
   activeBg?: string;
   hover?: boolean;
+  badgeValue?: number | string;
 }
 
 const Button = ({
@@ -56,6 +57,7 @@ const Button = ({
       {...props}
     >
       {children}
+      {props.badgeValue && <Badge>{props.badgeValue}</Badge>}
     </ButtonStyle>
   );
 };
@@ -66,6 +68,7 @@ const ButtonStyle = styled.button<IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
   ${(props) => props.theme.flex?.row.center.center};
   color: ${(props) => props.theme?.colors?.black80};
+  position: relative;
 
   // ? 커스텀한 버튼들 약간 테마에 맞춰서 변경을 시도하려고 노력중 (겨울, 비, 크리스마스 등등)
   ${(props) =>
@@ -157,4 +160,24 @@ ${(props) =>
   font-size: ${(props) => props.theme.fontSize?.md};
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+`;
+
+const Badge = styled.div`
+  position: absolute;
+  border-radius: 8px;
+  right: 4px;
+  top: 4px;
+  padding: 2px;
+  transform: translate(50%, -50%);
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 16px;
+  min-height: 16px;
+  width: max-content;
+  background: ${(props) => props.theme.main.secondary80};
+  color: ${(props) => props.theme.main.contrast};
+  z-index: 3;
 `;
