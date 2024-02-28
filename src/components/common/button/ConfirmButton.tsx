@@ -49,6 +49,7 @@ export const ConfirmButton = ({
       cancelButtonColor: '#d33',
       confirmButtonText: '승인',
       cancelButtonText: '취소',
+      width: '300px',
     }).then((res) => {
       if (res.isConfirmed) _onClick?.(event);
     });
