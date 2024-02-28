@@ -11,6 +11,7 @@ import { ReactElement, ReactNode, StrictMode } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
+// import { ReactQueryDevtools } from 'react-query/devtools';
 import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
 
