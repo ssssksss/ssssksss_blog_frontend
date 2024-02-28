@@ -92,7 +92,12 @@ const BlogMainContainer = () => {
         {blogListResData?.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
             <a>
-              <BlogItem element={i}></BlogItem>
+              <BlogItem
+                element={i}
+                defaultImageUrl={
+                  blogListResData?.data.json?.blogListDefaultImageUrl
+                }
+              ></BlogItem>
             </a>
           </Link>
         ))}

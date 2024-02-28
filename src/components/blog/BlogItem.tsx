@@ -13,6 +13,7 @@ import Image from 'next/image';
 interface IBlogItemProps {
   viewMode: boolean;
   element: any;
+  defaultImageUrl: string;
 }
 
 // TODO: 나중에 카드 모양의 형태로 보여질지에 대해서는 보류(props.viewMode)
@@ -23,7 +24,7 @@ const BlogItem = (props: IBlogItemProps) => {
       {props.viewMode || (
         <BlogItemImageBox>
           <Image
-            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl}`}
+            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl}`}
             width={'80px'}
             height={'80px'}
           />
@@ -55,37 +56,37 @@ export default BlogItem;
 
 const Container = styled(CC.RowDiv)`
   width: 100%;
-  outline: solid 1px ${props => props.theme.main.primary40};
-  border-radius: ${props => props.theme.borderRadius.br10};
+  outline: solid 1px ${(props) => props.theme.main.primary40};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
   cursor: pointer;
   gap: 4px;
   padding: 0px 4px;
-  background: ${props => props.theme.colors.white80};
+  background: ${(props) => props.theme.colors.white80};
 
   outline-offset: 0px;
   text-shadow: none;
 
   &:hover {
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-    /* border: 1px solid ${props => props.theme.main.primary40}; */
-    outline-color: ${props => props.theme.main.primary40};
+    /* border: 1px solid ${(props) => props.theme.main.primary40}; */
+    outline-color: ${(props) => props.theme.main.primary40};
     outline-offset: 1px;
-    background: ${props => `${props.theme.main.primary40}6f`};
+    background: ${(props) => `${props.theme.main.primary40}6f`};
   }
 `;
 
 const BlogItemImageBox = styled(CC.RowDiv)`
   min-width: 80px;
   width: 80px;
-  background: ${props => props.theme.main.primary20};
+  background: ${(props) => props.theme.main.primary20};
   border-radius: 10px;
   margin: 5px 0px;
 `;
 
 const BlogItemTitle = styled.div`
-  color: ${props => props.theme.colors.black100};
+  color: ${(props) => props.theme.colors.black100};
   font-weight: 600;
-  font-family: ${props => props.theme.fontFamily.gmarketSansBold};
+  font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
   font-size: 1rem;
   width: 100%;
   padding-top: 4px;
@@ -93,28 +94,28 @@ const BlogItemTitle = styled.div`
   white-space: wrap;
   text-overflow: ellipsis;
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 0.8rem;
   }
 `;
 const BlogItemSubTitle = styled.div`
-  color: ${props => props.theme.colors.black40};
+  color: ${(props) => props.theme.colors.black40};
   font-weight: 600;
   font-size: 0.9rem;
 
-  @media (max-width: ${props => props.theme.deviceSizes.tablet}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 0.7rem;
   }
 `;
 const BlogItemDate = styled.span`
-  color: ${props => props.theme.colors.black40};
+  color: ${(props) => props.theme.colors.black40};
   font-weight: 800;
   font-size: 14px;
 `;
 const BlogItemViewAndLIke = styled.div`
-  ${props => props.theme.flex.row._.center};
+  ${(props) => props.theme.flex.row._.center};
   gap: 10px;
-  color: ${props => props.theme.colors.black40};
+  color: ${(props) => props.theme.colors.black40};
   font-weight: 800;
   font-size: 14px;
 `;
