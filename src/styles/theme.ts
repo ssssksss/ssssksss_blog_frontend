@@ -543,8 +543,6 @@ export const commonTheme = {
   positionStyle,
 };
 
-export type purpleThemeType = typeof purpleTheme;
-
 export const darkTheme = {
   main: {
     primary100: colors.black100,
@@ -589,7 +587,7 @@ export const purpleTheme = {
   ...commonTheme,
 };
 
-const rootTheme: purpleThemeType = {
+const rootTheme = {
   darkTheme,
   purpleTheme,
 };
