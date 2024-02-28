@@ -20,7 +20,8 @@ const Layout1 = ({ children }: AppLayoutProps) => {
         rootActions.themeStore.setTheme(window.localStorage.getItem('theme')),
       );
     }
-    const start = () => {
+    const start = (url, { shallow }) => {
+      if (shallow) return;
       store.dispatch(rootActions.loadingStore.setIsLoading(true));
     };
     const end = () => {
