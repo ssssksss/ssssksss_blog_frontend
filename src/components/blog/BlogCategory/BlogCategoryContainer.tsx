@@ -99,31 +99,28 @@ const BlogCategoryContainer = () => {
         <>
           <BlogFirstCategoryContainer ref={blogFirstCategoryVerticalScrollRef}>
             {blogStore.blogCategoryList?.map((i, index) => (
-              <ButtonBox key={i.id}>
-                <Button
-                  minW={'60px'}
-                  active={
-                    i.id == store.getState().blogStore.activeBlogFirstCategoryId
-                  }
-                  fontFamily={'yanoljaYacheBold'}
-                  index={index}
-                  outline={true}
-                  onClick={(e) => {
-                    blogFirstCategoryHandler(i);
-                    blogFirstCategoryVerticalScrollRef.current.scrollLeft =
-                      e.target.offsetLeft +
-                      e.target.offsetWidth / 2 -
-                      e.target.offsetParent.offsetWidth / 2;
-                  }}
-                >
-                  {i.name}
-                </Button>
-                <Badge>
-                  {i.secondCategoryList
-                    .map((i) => i.count)
-                    .reduce((i, j) => i + j, 0)}
-                </Badge>
-              </ButtonBox>
+              <Button
+                key={i.id}
+                minW={'max-content'}
+                active={
+                  i.id == store.getState().blogStore.activeBlogFirstCategoryId
+                }
+                fontFamily={'yanoljaYacheBold'}
+                index={index}
+                outline={true}
+                onClick={(e) => {
+                  blogFirstCategoryHandler(i);
+                  blogFirstCategoryVerticalScrollRef.current.scrollLeft =
+                    e.target.offsetLeft +
+                    e.target.offsetWidth / 2 -
+                    e.target.offsetParent.offsetWidth / 2;
+                }}
+                badgeValue={i.secondCategoryList
+                  .map((i) => i.count)
+                  .reduce((i, j) => i + j, 0)}
+              >
+                {i.name}
+              </Button>
             ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
@@ -152,28 +149,26 @@ const BlogCategoryContainer = () => {
               )[0]
               ?.secondCategoryList?.filter((j) => j.name)
               .map((k) => (
-                <ButtonBox key={k.id}>
-                  <Button
-                    minW={'60px'}
-                    active={
-                      k.id ==
-                      store.getState().blogStore.activeBlogSecondCategoryId
-                    }
-                    fontFamily={'yanoljaYacheBold'}
-                    key={k.id}
-                    onClick={(e) => {
-                      blogSecondCategoryHandler(k);
-                      blogSecondCategoryVerticalScrollRef.current.scrollLeft =
-                        e.target.offsetLeft +
-                        e.target.offsetWidth / 2 -
-                        e.target.offsetParent.offsetWidth / 2;
-                    }}
-                    outline={true}
-                  >
-                    {k.name}
-                  </Button>
-                  <Badge>{k.count || '0'}</Badge>
-                </ButtonBox>
+                <Button
+                  key={k.id}
+                  minW={'max-content'}
+                  active={
+                    k.id ==
+                    store.getState().blogStore.activeBlogSecondCategoryId
+                  }
+                  fontFamily={'yanoljaYacheBold'}
+                  onClick={(e) => {
+                    blogSecondCategoryHandler(k);
+                    blogSecondCategoryVerticalScrollRef.current.scrollLeft =
+                      e.currentTarget.offsetLeft +
+                      e.currentTarget.offsetWidth / 2 -
+                      e.currentTarget.offsetParent.offsetWidth / 2;
+                  }}
+                  outline={true}
+                  badgeValue={k.count || '0'}
+                >
+                  {k.name}
+                </Button>
               ))}
             {blogStore?.activeBlogUserId == authStore.id && (
               <ModalButton
@@ -210,27 +205,6 @@ const Container = styled(CC.ColumnDiv)`
   & > div {
     border-radius: 8px;
   }
-`;
-
-const ButtonBox = styled.div`
-  position: relative;
-`;
-
-const Badge = styled.div`
-  position: absolute;
-  border-radius: 50%;
-  right: 4px;
-  top: 4px;
-  transform: translate(50%, -50%);
-  background: ${(props) => props.theme.main.primary40};
-  font-weight: 800;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 16px;
-  aspect-ratio: 1;
-  color: #666;
 `;
 
 const SpinnerBox = styled.div`
