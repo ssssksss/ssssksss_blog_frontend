@@ -1,4 +1,5 @@
 import { BlogAPI } from '@api/BlogAPI';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -193,7 +194,6 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
             ) : (
               <BlogTopicInlineLinksButton
                 onClick={() => {
-                  // createBlogIndex();
                   IsOpenModalToggle();
                 }}
               >
@@ -211,13 +211,15 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
               </Link>
             )}
             {authStore.role === 'ROLE_ADMIN' && (
-              <Image
-                src={Icons.DeleteIcon}
-                alt=""
-                width={24}
-                height={24}
+              <ConfirmButton
                 onClick={() => deleteHandler()}
-              />
+                w={'max-content'}
+                h={'max-content'}
+                bg={'transparent'}
+                pd={'0'}
+              >
+                <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
+              </ConfirmButton>
             )}
             <Link href={backUrl}>
               <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
@@ -415,7 +417,6 @@ const FixContainer = styled(CC.ColumnDiv)`
   padding: 8px;
   border-radius: 10px;
   /* width: ${(props) => props.theme.calcRem(32)}; */
-  width: 2rem;
 
   img {
     cursor: pointer;
