@@ -188,8 +188,6 @@ const GlobalStyles = css`
   }
   a:focus-visible,
   button:focus-visible,
-  div:focus-visible,
-  ul:focus-visible,
   input:focus-visible {
     outline: solid black 4px;
   }

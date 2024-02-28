@@ -57,14 +57,6 @@ export const UseQueryHook = (
       return AxiosInstance({ ...props.requestData }).then(
         (res: IAxiosInstanceResponseProps) => {
           if (props.isShowMessage) {
-            // ! 백엔드에서 메시지를 보내지 않는 경우 아래 코드 사용
-            // store.dispatch(
-            //   SET_TOASTIFY_MESSAGE({
-            //     type: 'success',
-            //     message: queryKey + ' 조회 성공',
-            //   })
-            // );
-            // ! 백엔드에서 보내준 메시지로 보내는 경우 아래 코드 사용
             store.dispatch(
               SET_TOASTIFY_MESSAGE({
                 type: 'success',

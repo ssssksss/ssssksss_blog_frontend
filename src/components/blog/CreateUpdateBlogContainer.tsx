@@ -39,25 +39,6 @@ interface IEditCreateUpdateBlogContainerProps {
   edit?: boolean;
 }
 
-// interface IBlogResDataProps {
-//   status: number;
-//   msg: string;
-//   json: {
-//     id: number;
-//     title: string;
-//     description: string;
-//     userId: number;
-//     likeNumber: number;
-//     commentNumber: number;
-//     viewNumber: number;
-//     firstCategoryId: number;
-//     secondCategoryId: number;
-//     thumbnailImageUrl: string;
-//     createdAt: string;
-//     blogContentId: string;
-//   };
-// }
-
 const CreateUpdateBlogContainer = (
   props: IEditCreateUpdateBlogContainerProps,
 ) => {
@@ -178,7 +159,6 @@ const CreateUpdateBlogContainer = (
       imageFileList: imageFileList,
     })
       .then((res) => {
-        console.log('CreateUpdateBlogContainer.tsx 파일 : ', res);
         router.replace(`/blog/${res.json.id}`);
       })
       .catch((error) => {
@@ -515,25 +495,18 @@ const CreateUpdateBlogContainer = (
                   )}
                 <BlogItemContentFormButton
                   onClick={() => {
-                    navigator.clipboard.writeText(`'| 속성 | 설명 |  \n' +
-                    '| --- | --- | \n' +
-                    '|  |  | \n' +
-                    '|  |  | \n' +
-                    '|  |  | \n' +
-                    '|  |  | \n',`);
+                    navigator.clipboard.writeText(
+                      `| 속성 | 사용 | \n | --- | --- | \n |  |  | \n |  |  | \n |  |  | \n |  |  |`,
+                    );
                   }}
                 >
                   테1
                 </BlogItemContentFormButton>
                 <BlogItemContentFormButton
                   onClick={() => {
-                    navigator.clipboard
-                      .writeText(`  '| 속성 | 사용 | 설명  | \n' +
-                    '| --- | --- | --- | \n' +
-                    '|  |  |  | \n' +
-                    '|  |  |  | \n' +
-                    '|  |  |  | \n' +
-                    '|  |  |  | ',`);
+                    navigator.clipboard.writeText(
+                      `| 속성 | 사용 | 설명  | \n | --- | --- | --- | \n |  |  |  | \n |  |  |  | \n |  |  |  | \n |  |  |  |`,
+                    );
                   }}
                 >
                   테2
@@ -773,7 +746,7 @@ const BlogItemContentFormContainer = styled.section`
   padding: 4px;
   background: #eaeaea;
   gap: 2px;
-  z-index: 8;
+  z-index: 4;
 `;
 
 const BlogItemContentFormButton = styled.button`

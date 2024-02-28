@@ -33,16 +33,16 @@ export async function getServerSideProps() {
 
 const Index = (props: any) => {
   useEffect(() => {
-    store.dispatch(
-      rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-        props.json?.blogFirstCategoryList,
-      ),
-    );
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
     let _activeFirstCategoryName = props.json?.blogFirstCategoryList.filter(
       (i) => i.id == urlQueryObject?.[`first-category`],
     )[0]?.name;
     batch(() => {
+      store.dispatch(
+        rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
+          props.json?.blogFirstCategoryList,
+        ),
+      );
       store.dispatch(
         rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
           activeBlogFirstCategoryId:
@@ -67,7 +67,6 @@ const Index = (props: any) => {
       );
     });
   }, []);
-
   return (
     <Container>
       <Head>
