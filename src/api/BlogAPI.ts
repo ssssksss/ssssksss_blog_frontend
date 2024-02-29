@@ -299,7 +299,7 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
   });
 };
 
-const deleteSecondCategory = () => {
+const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
   const mutationFn = async (reqData) => {
@@ -330,6 +330,7 @@ const deleteSecondCategory = () => {
           }),
         ),
       );
+      props.onSuccessHandler();
       router.replace(
         `/blog?first-category=${blogStore.activeBlogFirstCategoryId}&second-category=${temp[0]?.id}`,
         undefined,
@@ -379,7 +380,7 @@ const updateBlog = async (props: string) => {
   formData.append('firstCategoryId', props.firstCategoryId);
   formData.append('secondCategoryId', props.secondCategoryId);
   formData.append('thumbnailImageFile', props.thumbnailImageFile);
-  formData.append('directory', props.S3directory);
+  formData.append('directory', props.directory);
 
   props.deleteImageBucketDirectory?.map((i) => {
     formData.append('deleteImageBucketDirectory', i);
