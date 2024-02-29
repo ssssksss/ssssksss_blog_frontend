@@ -19,6 +19,7 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 200;
 `;
 
 const Spinner32 = styled.div`
@@ -50,78 +51,83 @@ const Spinner32 = styled.div`
     height: calc(var(--box-size) / 2);
     background: rgba(255, 255, 255, 0.85);
     /* 이게 이동하는 블럭 색상 */
-    background: ${props => props.theme.main.primary80};
+    background: ${(props) => props.theme.main.primary80};
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     animation: animloader2 2s ease infinite;
   }
 
   @keyframes animloader {
     0% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
+      box-shadow:
+        0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
           rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
         0px var(--box-size) rgba(255, 255, 255, 0);
     }
     12% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+      box-shadow:
+        0 calc(var(--box-size) / 2) ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
           rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
         0px var(--box-size) rgba(255, 255, 255, 0);
     }
     25% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+      box-shadow:
+        0 calc(var(--box-size) / 2) ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+          ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
         0px var(--box-size) rgba(255, 255, 255, 0);
     }
     37% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+      box-shadow:
+        0 calc(var(--box-size) / 2) ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+          ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
+          ${(props) => props.theme.main.secondary80},
         0px var(--box-size) rgba(255, 255, 255, 0);
     }
     50% {
-      box-shadow: 0 calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+      box-shadow:
+        0 calc(var(--box-size) / 2) ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+          ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
+          ${(props) => props.theme.main.secondary80},
+        0px var(--box-size) ${(props) => props.theme.main.secondary80};
     }
     62% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
+      box-shadow:
+        0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
-          ${props => props.theme.main.secondary80},
+          ${(props) => props.theme.main.secondary80},
         calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
+          ${(props) => props.theme.main.secondary80},
+        0px var(--box-size) ${(props) => props.theme.main.secondary80};
     }
     75% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
+      box-shadow:
+        0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
           rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) var(--box-size)
-          ${props => props.theme.main.secondary80},
-        0px var(--box-size) ${props => props.theme.main.secondary80};
+          ${(props) => props.theme.main.secondary80},
+        0px var(--box-size) ${(props) => props.theme.main.secondary80};
     }
     87% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
+      box-shadow:
+        0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
           rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
-        0px var(--box-size) ${props => props.theme.main.secondary80};
+        0px var(--box-size) ${(props) => props.theme.main.secondary80};
     }
     100% {
-      box-shadow: 0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
+      box-shadow:
+        0 calc(var(--box-size) / 2) rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) calc(var(--box-size) / 2)
           rgba(255, 255, 255, 0),
         calc(var(--box-size) / 2) var(--box-size) rgba(255, 255, 255, 0),
