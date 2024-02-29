@@ -24,7 +24,7 @@ const BlogItem = (props: IBlogItemProps) => {
       {props.viewMode || (
         <BlogItemImageBox>
           <Image
-            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl}`}
+            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl ?? props.element.defaultImageUrl}`}
             width={'80px'}
             height={'80px'}
           />
