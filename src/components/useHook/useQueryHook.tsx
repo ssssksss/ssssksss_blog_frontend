@@ -13,7 +13,6 @@ import { useQuery } from 'react-query';
 
 interface IAxiosInstanceResponseProps {
   config?: {
-    baserequestData: string;
     requestData: string;
     method: string;
   };
