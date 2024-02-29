@@ -45,7 +45,7 @@ const BlogSecondCategoryUpdateBox = (
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,
       files: data.updateSecondCategoryImageFile,
-      directory: `/blog-category/${blogStore.secondCategoryId}/${data.updateSecondCategoryName}`,
+      directory: `/blog-category/${blogStore.activeBlogFirstCategoryId}`,
     });
   };
 

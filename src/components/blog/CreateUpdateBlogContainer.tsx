@@ -103,7 +103,7 @@ const CreateUpdateBlogContainer = (
           ),
         );
       });
-
+      // TODO : 코드가 지칭하는 변수가 뭔지 모르겠으니 수정 필요
       let _blogContentImageList = [];
       let index2 = 0;
       const _TRUE = true;
@@ -150,19 +150,16 @@ const CreateUpdateBlogContainer = (
       content: getContent_md,
       firstCategoryId: methods.getValues('selectFirstCategoryId'),
       secondCategoryId: methods.getValues('selectSecondCategoryId'),
-      // thumbnailImageFile: fileRef.current.files[0],
       thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-      directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId',
-      )}/${methods.getValues('selectSecondCategoryId')}`,
+      directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
       imageUrlList: imageUrlList,
       imageFileList: imageFileList,
     })
       .then((res) => {
         router.replace(`/blog/${res.json.id}`);
       })
-      .catch((error) => {
-        console.log('CreateUpdateBlogContainer.tsx 파일 : ', error);
+      .catch((_) => {
+        setIsLoading(false);
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
         navigator.clipboard.writeText(getContent_md);
       })
@@ -185,7 +182,7 @@ const CreateUpdateBlogContainer = (
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
     let imageFileList = [];
-    let removeImageBucketDirectory = [];
+    let deleteImageBucketDirectory = [];
 
     // 글에 적혀있는 새로운 이미지들을 파일과 경로를 수집 (이미지 생성 용도)
     tempBlogImage?.map((i) => {
@@ -198,7 +195,7 @@ const CreateUpdateBlogContainer = (
     // 기존 블로그 내용에 있던 이미지 경로가 없다면 이미지 url을 수집 (이미지 삭제 용도)
     blogContentImageList?.map((i) => {
       if (getContent_md.search(i) === -1) {
-        removeImageBucketDirectory.push(i);
+        deleteImageBucketDirectory.push(i);
       }
     });
 
@@ -209,17 +206,11 @@ const CreateUpdateBlogContainer = (
       content: getContent_md,
       firstCategoryId: methods.getValues('selectFirstCategoryId'),
       secondCategoryId: methods.getValues('selectSecondCategoryId'),
-      // thumbnailImageFile: fileRef.current.files[0],
       thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-      directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId',
-      )}/${methods.getValues('selectSecondCategoryId')}`,
+      directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
       imageUrlList: imageUrlList,
       imageFileList: imageFileList,
-      S3directory: `/blog/thumbnail/${methods.getValues(
-        'selectFirstCategoryId',
-      )}/${methods.getValues('selectSecondCategoryId')}`,
-      removeImageBucketDirectory: removeImageBucketDirectory,
+      deleteImageBucketDirectory: deleteImageBucketDirectory,
     })
       .then((_) => {
         router.replace(`/blog/${router.query.id}`);

@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLoading } from '@hooks/useLoading';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -28,7 +29,40 @@ const BlogFirstCategoryDeleteBox = (
   const [isLoading] = useLoading();
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const deleteBLogFirstCategoryMutation = BlogAPI.deleteBlogFirstCategory({
-    onSuccessHandler: () => props.closeModal(),
+    onSuccessHandler: () => {
+      let temp = blogStore.blogCategoryList;
+      if (temp.length > 0) {
+        store.dispatch(
+          rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
+            activeBlogFirstCategoryId: temp[0]?.id,
+            activeBlogFirstCategoryName: temp[0]?.name,
+          }),
+        );
+        if (temp[0].secondCategoryList.length > 0) {
+          store.dispatch(
+            rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
+              activeBlogSecondCategoryId: temp[0].secondCategoryList[0]?.id,
+              activeBlogSecondCategoryName: temp[0].secondCategoryList[0]?.name,
+            }),
+          );
+        } else {
+          store.dispatch(
+            rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
+              activeBlogSecondCategoryId: null,
+              activeBlogSecondCategoryName: null,
+            }),
+          );
+        }
+      } else {
+        store.dispatch(
+          rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
+            activeBlogFirstCategoryId: null,
+            activeBlogFirstCategoryName: null,
+          }),
+        );
+      }
+      props.closeModal();
+    },
   });
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryDeleteYup),

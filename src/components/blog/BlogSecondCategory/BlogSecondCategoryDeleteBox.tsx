@@ -4,6 +4,8 @@ import Select from '@components/common/select/Select';
 import { BlogSecondCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { memo } from 'react';
@@ -15,9 +17,31 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:52:51"
  * @description 설명
  */
-const BlogSecondCategoryDeleteBox = () => {
+const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const deleteSecondCategoryMutation = BlogAPI.deleteSecondCategory();
+  const deleteSecondCategoryMutation = BlogAPI.deleteSecondCategory({
+    onSuccessHandler: () => {
+      let temp = blogStore.blogCategoryList.filter(
+        (i) => i.id == blogStore.activeBlogFirstCategoryId,
+      )[0];
+      if (temp.secondCategoryList.length > 0) {
+        store.dispatch(
+          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
+            activeBlogSecondCategoryId: temp.secondCategoryList[0]?.id,
+            activeBlogSecondCategoryName: temp.secondCategoryList[0]?.name,
+          }),
+        );
+      } else {
+        store.dispatch(
+          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
+            activeBlogSecondCategoryId: null,
+            activeBlogSecondCategoryName: null,
+          }),
+        );
+      }
+      props.closeModal();
+    },
+  });
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryDeleteYup),
     mode: 'onClick',
@@ -27,6 +51,7 @@ const BlogSecondCategoryDeleteBox = () => {
   });
 
   const deleteSecondCategoryHandler = async (data: any) => {
+    if (!store.getState().authStore.id) return;
     deleteSecondCategoryMutation({
       id: data.deleteSecondCategoryId,
     });

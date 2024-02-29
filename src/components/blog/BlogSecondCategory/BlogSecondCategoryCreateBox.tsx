@@ -43,7 +43,8 @@ const BlogSecondCategoryCreateBox = (
       name: data.createSecondCategoryName,
       blogFirstCategoryId: blogStore.activeBlogFirstCategoryId,
       files: file,
-      directory: `/blog-category/${blogStore.activeBlogSecondCategoryId}/${data.createSecondCategoryName}`,
+      // 백엔드에서 이후에 2번째 카테고리 Id를 추가하여 이미지 경로를 설정
+      directory: `/blog-category/${blogStore.activeBlogFirstCategoryId}`,
     });
   };
 
