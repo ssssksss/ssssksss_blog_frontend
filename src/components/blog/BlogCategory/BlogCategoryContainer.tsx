@@ -115,9 +115,11 @@ const BlogCategoryContainer = () => {
                     e.target.offsetWidth / 2 -
                     e.target.offsetParent.offsetWidth / 2;
                 }}
-                badgeValue={i.secondCategoryList
-                  .map((i) => i.count)
-                  .reduce((i, j) => i + j, 0)}
+                badgeValue={
+                  i.secondCategoryList
+                    .map((i) => i.count)
+                    .reduce((i, j) => i + j, 0) || '0'
+                }
               >
                 {i.name}
               </Button>
