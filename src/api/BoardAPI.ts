@@ -1,7 +1,5 @@
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
-import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -67,7 +65,7 @@ const deleteBoard = () => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: () => {
-      router.back();
+      router.push('/board');
     },
   });
 };
@@ -106,15 +104,9 @@ const updateBoard = () => {
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data, variables }) => {
+    onSuccessHandler: ({ variables }) => {
       let _url = `/board/${variables.id}`;
       router.replace(_url);
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: data.data.msg,
-        }),
-      );
     },
   });
 };
