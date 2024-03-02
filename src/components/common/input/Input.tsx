@@ -165,9 +165,7 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
       )}
 
       {props.errorMessage && (
-        <ErrorMessageSpan height={props.h}>
-          {props.errorMessage}
-        </ErrorMessageSpan>
+        <ErrorMessage height={props.h}>{props.errorMessage}</ErrorMessage>
       )}
       {props.type == 'file' && (
         <ImageFileContainer
@@ -387,7 +385,7 @@ ${(props) =>
   `}
 `;
 
-const ErrorMessageSpan = styled.span<IInputProps>`
+const ErrorMessage = styled.span<IInputProps>`
   --height: ${(props) =>
     props.errorLocation ||
     props.h ||
@@ -396,10 +394,10 @@ const ErrorMessageSpan = styled.span<IInputProps>`
       : props.size === 'md'
         ? '48px'
         : '32px')};
-  top: calc(var(--height) + 0.6rem);
+  top: calc(var(--height));
   color: red;
   position: absolute;
-  font-size: 1rem;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
   word-break: keep-all;
