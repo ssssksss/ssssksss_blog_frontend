@@ -100,7 +100,6 @@ const MemoItem = (props: IMemoItemProps) => {
     <Container bg={props.data?.memoCategory.backgroundColor} key={props.key}>
       <Header>
         <CC.RowCenterDiv>
-          {' '}
           {props.data?.memoCategory.name || '메모 작성'}{' '}
         </CC.RowCenterDiv>
         {props.data && (
