@@ -415,12 +415,13 @@ const deleteBlog = async (props: { id: string }) => {
   });
 };
 
-const getSearchBlogList = async (props: string) => {
+const getSearchBlogList = async (keyword: string, page: number) => {
   return await ApiProcessHandler({
     url: '/api/blog/search',
     method: 'GET',
     params: {
-      keyword: props.keyword,
+      keyword: keyword || '',
+      page: page || 1,
     },
   });
 };
