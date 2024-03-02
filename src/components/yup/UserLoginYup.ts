@@ -6,7 +6,7 @@ export const UserLoginYup = yup.object().shape({
     .required('이메일은 필수 입력 사항입니다.')
     .matches(
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/g,
-      'example@test.com과 같은 이메일 형식이 아닙니다.'
+      '이메일 형식이 아닙니다.',
     ),
   password: yup
     .string()
@@ -18,6 +18,6 @@ export const UserLoginYup = yup.object().shape({
     .matches(
       // /^(?=.*([a-z]|[A-Z]))(?=.*\d)[A-Za-z\d]{8,16}$/,
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`~!@#$%^&*()-_=+])[A-Za-z\d`~!@#$%^&*()-_=+]{8,16}$/,
-      '최소 소문자1, 대문자1, 숫자1, 특수문자1로 구성되야합니다.'
+      '최소 소문자1, 대문자1, 숫자1, 특수문자1 필요',
     ),
 });
