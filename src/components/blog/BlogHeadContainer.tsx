@@ -8,7 +8,7 @@ import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import BlogItem from './BlogItem';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -20,14 +20,14 @@ const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [isInputChange, setIsInputChange] = useState(false);
   const inputRef = useRef<null>();
-
+  const queryClient = useQueryClient();
   const {
     data: blogListResData,
     fetchNextPage,
     hasNextPage,
     isFetching,
   } = useInfiniteQuery(
-    ['key'],
+    ['searchBlogList'],
     ({ pageParam = 1 }) =>
       BlogAPI.getSearchBlogList(inputRef.current.value, pageParam),
     {
@@ -70,6 +70,9 @@ const BlogHeadContainer = () => {
   const SearchHandler = () => {
     setIsOpenBlogItemList(true);
     setIsInputChange(true);
+    if (isInputChange) {
+      queryClient.fetchQuery(['searchBlogList']);
+    }
   };
 
   useEffect(() => {
