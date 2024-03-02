@@ -1,7 +1,6 @@
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
 import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
@@ -64,12 +63,6 @@ const deleteScheduleCategory = (props) => {
     mutationFn,
     onSuccessHandler: ({ data }) => {
       props.onSuccessHandler(data);
-      store.dispatch(
-        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: '카테고리 삭제',
-        }),
-      );
     },
   });
 };
