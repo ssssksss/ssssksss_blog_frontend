@@ -1,5 +1,5 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
-import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
@@ -83,9 +83,12 @@ const DeleteScheduleCategoryBox = (props) => {
         ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>
-        <Button w={'100%'} onClick={() => deleteScheduleCategoryHandler()}>
+        <ConfirmButton
+          w={'100%'}
+          onClick={() => deleteScheduleCategoryHandler()}
+        >
           일정 카테고리 삭제
-        </Button>
+        </ConfirmButton>
       </CC.RowDiv>
     </Container>
   );
