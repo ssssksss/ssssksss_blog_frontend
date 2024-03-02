@@ -31,7 +31,7 @@ const CreateMemoCategoryBox = (props) => {
   ];
 
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(MemoCreateYup),
     mode: 'onChange',
     defaultValues: {
@@ -49,8 +49,9 @@ const CreateMemoCategoryBox = (props) => {
     name: string;
     bg: string;
   }) => {
-    setValue('createMemoCategoryName', props.name);
-    setValue('createMemoCategoryColor', props.bg);
+    setValue('createMemoCategoryColor', props.bg, {
+      shouldValidate: true,
+    });
   };
 
   const addMemoCategoryHandler = (data: {
@@ -77,7 +78,11 @@ const CreateMemoCategoryBox = (props) => {
       <CC.RowStartDiv w={'100%'}>메모 카테고리 추가</CC.RowStartDiv>
       <Input
         placeholder={'메모 카테고리를 작성해주세요'}
-        register={register('createMemoCategoryName')}
+        onChange={(e) =>
+          setValue('createMemoCategoryName', e.target.value, {
+            shouldValidate: true,
+          })
+        }
         errorMessage={errors.createMemoCategoryName?.message}
       />
       <Select
@@ -100,7 +105,6 @@ const CreateMemoCategoryBox = (props) => {
             onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
-          bg={'contrast'}
         >
           메모 추가
         </Button>
