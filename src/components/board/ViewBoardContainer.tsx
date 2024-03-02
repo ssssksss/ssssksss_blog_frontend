@@ -49,7 +49,7 @@ const ViewBoardContainer = () => {
             <h1> {boardResData.data.json?.board.title} </h1>
           </CC.RowDiv>
           <CC.RowRightDiv gap={4}>
-            <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+            <Image src={Icons.ViewIcon} alt="" width={16} height={16} />
             {boardResData.data.json?.board.views}
           </CC.RowRightDiv>
           <CC.RowBetweenDiv>
