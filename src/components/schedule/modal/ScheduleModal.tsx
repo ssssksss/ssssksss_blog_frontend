@@ -1,5 +1,6 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import Textarea from '@components/common/textarea/Textarea';
@@ -367,7 +368,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           >
             일정 수정
           </Button>
-          <Button
+          <ConfirmButton
             w={'100%'}
             bg={'red60'}
             outline={true}
@@ -377,12 +378,11 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             }}
           >
             일정 삭제
-          </Button>
+          </ConfirmButton>
         </CC.RowDiv>
       ) : (
         <Button
           w={'100%'}
-          bg={'white80'}
           onClick={(e) => {
             createScheduleHandler();
             e.stopPropagation();
