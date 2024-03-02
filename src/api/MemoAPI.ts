@@ -1,3 +1,5 @@
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
 const addMemoCategory = (props) => {
@@ -92,6 +94,13 @@ const deleteMemo = (props) => {
     params: {
       id: props.id,
     },
+  }).then((_) => {
+    store.dispatch(
+      rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+        type: 'success',
+        message: '메모 삭제 성공',
+      }),
+    );
   });
 };
 
