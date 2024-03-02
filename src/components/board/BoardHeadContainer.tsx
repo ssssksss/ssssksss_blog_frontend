@@ -85,7 +85,6 @@ const BoardHeadContainer = () => {
           ref={keywordRef}
           defaultValue={boardStore.keyword ?? router.query.keyword}
           onKeyPressAction={() => searchHandler(keywordRef)}
-          // onKeyPress={() => console.log('test')}
         />
         <CC.RowBetweenDiv gap={8}>
           <Button

@@ -80,19 +80,15 @@ const BlogContentTemplateModal = (props: any) => {
     BlogAPI.addBlogContentTemplate({
       secondCategoryId: props.secondCategoryId,
       content: getContent_md,
-    })
-      .then((res) => {
-        store.dispatch(
-          SET_BLOG_CONTENT_TEMPLATE_LIST([
-            ...blogContentTemplateStore.blogContentTemplateList,
-            res.data.blogContentTemplate,
-          ]),
-        );
-        props.closeModal();
-      })
-      .catch((err) => {
-        console.log('BlogContentTemplateModal.tsx 파일 : ', err);
-      });
+    }).then((res) => {
+      store.dispatch(
+        SET_BLOG_CONTENT_TEMPLATE_LIST([
+          ...blogContentTemplateStore.blogContentTemplateList,
+          res.data.blogContentTemplate,
+        ]),
+      );
+      props.closeModal();
+    });
   };
 
   return (

@@ -116,9 +116,6 @@ const updateBoard = () => {
         }),
       );
     },
-    onErrorHandler: ({ error }) => {
-      console.log('BoardAPI.ts 파일 : ', error);
-    },
   });
 };
 

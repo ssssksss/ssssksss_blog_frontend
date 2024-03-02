@@ -45,7 +45,6 @@ const UpdateScheduleCategoryBox = (props) => {
       queryClient.setQueryData(
         ['scheduleCategoryList', authStore.id],
         (oldData) => {
-          console.log('UpdateScheduleCategoryBox.tsx 파일 : ', oldData);
           oldData.json.scheduleCategoryList =
             oldData.json.scheduleCategoryList.map((i) => {
               if (i.id == methods.getValues('updatePickScheduleId')) {

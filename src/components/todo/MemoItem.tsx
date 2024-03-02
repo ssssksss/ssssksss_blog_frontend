@@ -45,52 +45,44 @@ const MemoItem = (props: IMemoItemProps) => {
     MemoAPI.addMemo({
       content: memoContentRef.current.value,
       memoCategoryId: Number(props.category.categoryId),
-    })
-      .then((res: any) => {
-        let temp = [...memoStore.memoList];
-        temp.unshift({
-          id: res.json.id,
-          content: res.json.content,
-          memoCategory: {
-            id: Number(res.json.memoCategory.id),
-            name: res.json.memoCategory.name,
-            backgroundColor: res.json.memoCategory.backgroundColor,
-          },
-        });
-        store.dispatch(SET_MEMO_LIST(temp));
-        memoContentRef.current.value = '';
-      })
-      .catch((err: any) => {
-        console.log('MemoItem.tsx 파일 : err', err);
+    }).then((res: any) => {
+      let temp = [...memoStore.memoList];
+      temp.unshift({
+        id: res.json.id,
+        content: res.json.content,
+        memoCategory: {
+          id: Number(res.json.memoCategory.id),
+          name: res.json.memoCategory.name,
+          backgroundColor: res.json.memoCategory.backgroundColor,
+        },
       });
+      store.dispatch(SET_MEMO_LIST(temp));
+      memoContentRef.current.value = '';
+    });
   };
 
   const updateMemoHandler = () => {
     MemoAPI.updateMemo({
       id: props.data.id,
       content: memoContentRef.current.value,
-    })
-      .then((res: any) => {
-        let temp = memoStore.memoList.map((i) => {
-          if (i.id == props.data.id) {
-            return {
-              id: res.json.id,
-              content: res.json.content,
-              memoCategory: {
-                id: Number(res.json.memoCategory.id),
-                name: res.json.memoCategory.name,
-                backgroundColor: res.json.memoCategory.backgroundColor,
-                userId: res.json.memoCategory.userId,
-              },
-            };
-          }
-          return i;
-        });
-        store.dispatch(SET_MEMO_LIST(temp));
-      })
-      .catch((err: any) => {
-        console.log('MemoItem.tsx 파일 : ', err);
+    }).then((res: any) => {
+      let temp = memoStore.memoList.map((i) => {
+        if (i.id == props.data.id) {
+          return {
+            id: res.json.id,
+            content: res.json.content,
+            memoCategory: {
+              id: Number(res.json.memoCategory.id),
+              name: res.json.memoCategory.name,
+              backgroundColor: res.json.memoCategory.backgroundColor,
+              userId: res.json.memoCategory.userId,
+            },
+          };
+        }
+        return i;
       });
+      store.dispatch(SET_MEMO_LIST(temp));
+    });
   };
 
   const deleteMemoHandler = () => {

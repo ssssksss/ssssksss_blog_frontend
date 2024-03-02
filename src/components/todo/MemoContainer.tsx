@@ -35,23 +35,15 @@ const MemoContainer = () => {
 
   useEffect(() => {
     if (!authStore.id) return;
-    MemoAPI.getMemoCategoryList()
-      .then((res: any) => {
-        store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
-      })
-      .catch((err: any) => {
-        console.log('MemoContainer.tsx 파일 : ', err);
-      });
+    MemoAPI.getMemoCategoryList().then((res: any) => {
+      store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
+    });
 
     MemoAPI.getMemoList({
       type: 'all',
-    })
-      .then((res: any) => {
-        store.dispatch(SET_MEMO_LIST(res.json?.memoList));
-      })
-      .catch((err: any) => {
-        console.log('MemoContainer.tsx 파일 : ', err);
-      });
+    }).then((res: any) => {
+      store.dispatch(SET_MEMO_LIST(res.json?.memoList));
+    });
   }, [authStore.id]);
 
   return (
