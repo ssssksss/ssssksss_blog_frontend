@@ -4,6 +4,7 @@ import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
 import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -62,6 +63,13 @@ const UpdateScheduleCategoryBox = (props) => {
           return oldData;
         },
       );
+      queryClient.refetchQueries({
+        queryKey: [
+          'scheduleList',
+          store.getState().scheduleStore.calendarMonth,
+          authStore.id,
+        ],
+      });
       props.closeModal();
     },
   });
@@ -127,8 +135,9 @@ const UpdateScheduleCategoryBox = (props) => {
                 bg: methods.getValues('updatePickScheduleBackgroundColor'),
               }}
               onChange={(i) => {
-                methods.setValue('updateScheduleBackgroundColor', i);
-                methods.trigger('updateScheduleBackgroundColor');
+                methods.setValue('updatePickScheduleBackgroundColor', i.value, {
+                  shouldValidate: true,
+                });
               }}
             ></Select>
           </CC.ColumnDiv>
@@ -136,12 +145,11 @@ const UpdateScheduleCategoryBox = (props) => {
         <CC.RowDiv gap={8} pd={'16px 0px'}>
           <Button
             w={'100%'}
-            bg={'white80'}
             onClick={() => updateScheduleCategoryHandler()}
             outline={true}
             disabled={!methods.formState.isValid}
           >
-            일정 수정
+            일정 카테고리 수정
           </Button>
         </CC.RowDiv>
       </Container>
