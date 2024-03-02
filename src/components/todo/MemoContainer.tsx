@@ -83,6 +83,7 @@ const MemoContainer = () => {
             h={'32px'}
             modalMinW={'320px'}
             modalH={'200%'}
+            outline={true}
           >
             <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
           </ModalButton>

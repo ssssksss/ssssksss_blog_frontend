@@ -83,12 +83,8 @@ const DeleteScheduleCategoryBox = (props) => {
         ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'12px 0px'}>
-        <Button
-          w={'100%'}
-          bg={'primary80'}
-          onClick={() => deleteScheduleCategoryHandler()}
-        >
-          일정 삭제
+        <Button w={'100%'} onClick={() => deleteScheduleCategoryHandler()}>
+          일정 카테고리 삭제
         </Button>
       </CC.RowDiv>
     </Container>

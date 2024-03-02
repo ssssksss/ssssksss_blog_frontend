@@ -77,7 +77,6 @@ const DeleteMemoCategoryBox = (props) => {
             onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
-          bg={'contrast'}
         >
           메모 삭제
         </Button>

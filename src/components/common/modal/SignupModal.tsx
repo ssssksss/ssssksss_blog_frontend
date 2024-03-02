@@ -85,13 +85,11 @@ const SignupModal = (props) => {
       <CC.ColumnDiv gap={28}>
         <Input
           placeholder="이메일"
-          state={1}
           register={register('email')}
           errorMessage={errors.email?.message}
         />
         <Input
           placeholder="닉네임"
-          state={1}
           register={register('nickname')}
           errorMessage={errors.nickname?.message}
         />
@@ -130,8 +128,8 @@ const SignupModal = (props) => {
           w={'100%'}
           h={'40px'}
           outline={true}
-          bg={'white80'}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          disabled={!formState.isValid}
         >
           회원가입
         </Button>

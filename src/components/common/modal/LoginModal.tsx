@@ -77,8 +77,8 @@ const LoginModal = (props) => {
           h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          bg={'white80'}
           pd={'2px 8px'}
+          disabled={!formState.isValid}
         >
           로그인
         </Button>

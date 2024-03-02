@@ -132,7 +132,6 @@ const UpdateMemoCategoryBox = (props) => {
             onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
-          bg={'contrast'}
         >
           메모 수정
         </Button>

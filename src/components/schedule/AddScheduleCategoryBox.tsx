@@ -100,14 +100,13 @@ const AddScheduleCategoryBox = (props) => {
       <CC.RowDiv pd={'16px 0px'}>
         <Button
           w={'100%'}
-          bg={'white80'}
           onClick={() => addScheduleCategoryHandler()}
           outline={true}
           disabled={
             !addCategoryRequestData?.id || !addCategoryRequestData?.title
           }
         >
-          일정 추가
+          일정 카테고리 추가
         </Button>
       </CC.RowDiv>
     </Container>
