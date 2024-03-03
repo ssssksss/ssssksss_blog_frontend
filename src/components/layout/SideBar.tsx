@@ -13,6 +13,7 @@ const ReactPlayerContainer = dynamic(
 );
 
 import Animations from '@components/common/animations/Animations';
+import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -36,6 +37,7 @@ const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const activeMenu = useSelector((state: RootState) => state.leftNavItemStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const router = useRouter();
 
   useEffect(() => {
@@ -86,8 +88,8 @@ const SideBar = () => {
             </Link>
           ))}
         </NavStyle>
-        <CC.ColumnBetweenDiv gap={4} bg={'blue'}>
-          {typeof window != 'undefined' && (
+        <CC.ColumnBetweenDiv gap={4}>
+          {typeof window != 'undefined' && authStore.id && (
             <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
           )}
         </CC.ColumnBetweenDiv>
@@ -116,7 +118,6 @@ const Container = styled.aside`
 `;
 
 const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
-
 }`;
 
 const FoldDiv = styled.div<IContainerProps>`
@@ -124,7 +125,12 @@ const FoldDiv = styled.div<IContainerProps>`
   height: 100vh;
   width: 100%;
   z-index: 20;
-  ${(props) => props.theme.scroll.hidden};
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar: {
+    display: none;
+  }
 
   @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
     ${(props) =>
@@ -137,32 +143,18 @@ const FoldDiv = styled.div<IContainerProps>`
   }
 `;
 
-const NavItem = styled.div<{
+const NavItem = styled(Button)<{
   outline: boolean;
   height: string;
   IContainerProps;
   active?: boolean;
 }>`
-  display: grid;
-  grid-template-columns: 24px calc(100% - 24px);
-  align-items: center;
-  padding: 0px 10px;
-  gap: 20px;
-  width: 120px;
-  height: 32px;
-  cursor: pointer;
-  /* 호버일때 */
-  &:hover {
-    background: ${(props) => props.theme.main.primary20};
-  }
-  /* outline 속성일 떄 */
-  ${(props) =>
-    props.outline &&
-    `
-    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 1px;
-    background: transparent;
-    `}
-  /* 디폴트 상태일 때 */
+  padding-left: 10px;
+  gap: 10px;
+  border-radius: 0px;
+  justify-content: left;
+  width: 100%;
+  margin: 1px 0px;
   & > :nth-last-of-type(1) {
     justify-content: flex-start;
     animation-name: ${Animations.LeftToRightFadein};
@@ -180,20 +172,14 @@ const NavItem = styled.div<{
     ${(props) =>
       props.isNavbarOpen
         ? `
-      align-items: center;
-      padding: 0px 10px;
       width: 120px;
-    `
+        `
         : `
-        align-items: center;
-        grid-template-columns: 44px;
         width: 44px;
-        padding: 0px;
+        padding-left: 10px;
         &> :nth-last-of-type(1) {
           display: none;
         }
         `}
   }
-
-  height: ${(props) => props.h};
 `;
