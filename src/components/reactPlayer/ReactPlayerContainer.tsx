@@ -105,6 +105,7 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
             h={'24px'}
             modalBg={'white'}
             modalOverlayVisible={'true'}
+            outline={true}
           >
             <Image src={Icons.EtcIcon} alt="etc" width={10} />
           </ModalButton>
@@ -132,7 +133,6 @@ const Container = styled.div<{
     background: ${(props) => props.theme.main.primary20};
   }
 
-
   ${(props) =>
     props.outline &&
     `
@@ -144,14 +144,14 @@ const Container = styled.div<{
     animation-name: ${Animations.LeftToRightFadein};
     animation-duration: 0.6s;
   }
-  
+
   ${(props) =>
     props.active &&
     `
     background: ${props.theme.main.primary20};
     `};
 
-@media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
+  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
     ${(props) =>
       props.isNavbarOpen
         ? `
@@ -169,11 +169,9 @@ const Container = styled.div<{
         `}
   }
 
-
   img {
     cursor: pointer;
   }
-
 
   input[type='range']:focus {
     outline: none;
@@ -194,10 +192,10 @@ const Container = styled.div<{
   }
   input[type='range'] {
     -webkit-appearance: none;
-    animation: ${Animations.rainbowColors} 1s infinite
+    animation: ${Animations.rainbowColors} 1s infinite;
+    animation: ${(props) => props.play || 'none'};
     animation-play-state: ${(props) => props.play || 'paused'};
     height: 10px;
     width: calc(100%);
   }
-
 `;

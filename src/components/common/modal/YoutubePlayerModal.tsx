@@ -158,14 +158,17 @@ const YoutubePlayerModal = () => {
               >
                 <Image src={Icons.CopyIcon} width={'24px'} height={'24px'} />
               </ImageBox>
-              <ConfirmButtonStyle
+              <ConfirmButton
+                pd={'4px'}
+                brR={'8px'}
+                bg={'red80'}
                 onClick={(e) => {
                   e.stopPropagation();
                   deleteLinkHandler(i.id);
                 }}
               >
                 <Image src={Icons.DeleteIcon} width={'24px'} height={'24px'} />
-              </ConfirmButtonStyle>
+              </ConfirmButton>
             </LiStyle>
           ))}
       </ul>
@@ -250,17 +253,6 @@ const LiStyle = styled.li<{ active: boolean }>`
     `};
 `;
 const ImageBox = styled.button`
-  ${(props) => props.theme.flex.row.center.center};
-  padding: 4px;
-  border-radius: 8px;
-  background: ${(props) => props.theme.colors.gray60};
-
-  &:hover {
-    background: ${(props) => props.theme.main.primary40};
-    outline: solid ${(props) => props.theme.main.contrast} 2px;
-  }
-`;
-const ConfirmButtonStyle = styled(ConfirmButton)`
   ${(props) => props.theme.flex.row.center.center};
   padding: 4px;
   border-radius: 8px;
