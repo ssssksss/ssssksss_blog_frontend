@@ -1,8 +1,6 @@
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
-import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
-import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
 
@@ -13,20 +11,12 @@ const createYoutubeLink = (props) => {
       imageUrl: reqData?.imageUrl,
       tags: reqData?.tags,
       youtubeUrl: reqData?.youtubeUrl,
-    }).catch((_) => {
-      return;
     });
   };
 
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data, variables, context }) => {
-      store.dispatch(
-        SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: `추가되었습니다.`,
-        }),
-      );
       props.onSuccessHandler({ data, variables, context });
     },
   });
@@ -60,12 +50,6 @@ const deleteYoutubeLink = (props) => {
     mutationFn,
     onSuccessHandler: ({ data, variables, context }) => {
       props.onSuccessHandler({ data, variables, context });
-      store.dispatch(
-        SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: `추가되었습니다.`,
-        }),
-      );
     },
   });
 };
