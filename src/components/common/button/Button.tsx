@@ -156,6 +156,7 @@ ${(props) =>
   font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.theme.fontSize?.md};
+  font-display: optional;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 `;
@@ -163,12 +164,11 @@ ${(props) =>
 const Badge = styled.div`
   position: absolute;
   border-radius: 8px;
-  right: 4px;
+  right: 2px;
   top: 4px;
   padding: 2px;
   transform: translate(50%, -50%);
-  font-weight: 800;
-  font-size: 14px;
+  font-size: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
