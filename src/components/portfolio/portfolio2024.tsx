@@ -59,19 +59,15 @@ const Portfolio2024 = () => {
 export default Portfolio2024;
 
 const Container = styled.div`
-  width: 100%;
   height: 100%;
   padding: 16px;
   gap: 8px;
   display: flex;
-  flex-flow: wrap row;
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
-  @media (min-width: 768px) {
-    justify-content: space-evenly;
-  }
+  flex-flow: nowrap row;
+  overflow-x: scroll;
+  ${(props) => props.theme.scroll.hidden};
   & > * {
     outline: solid black 1px;
+    flex-shrink: 0;
   }
 `;
