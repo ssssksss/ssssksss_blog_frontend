@@ -150,7 +150,7 @@ const GridColumn2 = styled.div<IStyleProps>`
 
 const GridColumn2Adjust = styled.div<IStyleProps>`
   display: grid;
-  grid-template-columns: ${props =>
+  grid-template-columns: ${(props) =>
     `${props.first || 'auto'} ${props.second || 'auto'}`};
   ${(props: any) => propsCommonStyle(props)};
 `;
@@ -162,6 +162,11 @@ const GridColumn3 = styled.div<IStyleProps>`
 
 const GridColumn4 = styled.div<IStyleProps>`
   ${commonTheme.grid.column4};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridRow4 = styled.div<IStyleProps>`
+  ${commonTheme.grid.row4};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
@@ -184,19 +189,18 @@ const rotationDownUp = keyframes`
         }
 `;
 const Img = styled.img<IStyleProps>`
-  ${(props: any) =>
-    css`
-      background-color: ${props.backgroundColor};
-      width: ${props.imgSize || props.width};
-      height: ${props.imgSize || props.height};
-      padding: ${props.padding};
-      border-radius: ${props.borderRadius};
-    `}
+  ${(props: any) => css`
+    background-color: ${props.backgroundColor};
+    width: ${props.imgSize || props.width};
+    height: ${props.imgSize || props.height};
+    padding: ${props.padding};
+    border-radius: ${props.borderRadius};
+  `}
 `;
 const ImgContainer = styled.div<IStyleProps>`
-  height: ${props => props.minHeight};
-  width: ${props => props.minWidth};
-  background: ${props => props.backgroundColor};
+  height: ${(props) => props.minHeight};
+  width: ${(props) => props.minWidth};
+  background: ${(props) => props.backgroundColor};
 
   position: relative;
   display: flex;
@@ -212,7 +216,7 @@ const ImgContainer = styled.div<IStyleProps>`
 
   /* &:hover {
     mix-blend-mode: difference;
-    cursor: ${props => (props.noCursor ? 'default' : 'pointer')};
+    cursor: ${(props) => (props.noCursor ? 'default' : 'pointer')};
     & > span {
       position: absolute;
       animation: ${rotationDownUp} 0.3s ease-in-out;
@@ -228,22 +232,20 @@ const OverflowText = styled.div<IStyleProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  ${(props: any) =>
-    css`
-      width: ${props.width};
-      max-width: ${props.maxWidth};
-    `}
+  ${(props: any) => css`
+    width: ${props.width};
+    max-width: ${props.maxWidth};
+  `}
 `;
 
 const Text = styled.div<IStyleProps>`
   white-space: normal;
   word-wrap: break-word;
 
-  ${(props: any) =>
-    css`
-      width: ${props.width};
-      max-width: ${props.maxWidth};
-    `}
+  ${(props: any) => css`
+    width: ${props.width};
+    max-width: ${props.maxWidth};
+  `}
 `;
 
 const Container = styled.div<IStyleProps>`
@@ -273,6 +275,7 @@ export const CC = {
   GridColumn2Adjust,
   GridColumn3,
   GridColumn4,
+  GridRow4,
   ErrorDiv,
   Img,
   ImgContainer,
