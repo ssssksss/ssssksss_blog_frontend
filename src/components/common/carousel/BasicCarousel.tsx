@@ -126,31 +126,25 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
           ))}
         </SliderContainer>
       </SliderSizeContainer>
-      <Button1 onClick={prevIndexHandler}>{'👈'}</Button1>
-      <Button1 onClick={nextIndexHandler}>{'👉'}</Button1>
-      <Button1 onClick={() => setAutoPlay((prev) => !prev)}>
-        {autoPlay ? '⏸' : '▶'}
-      </Button1>
+      <CC.RowBetweenDiv gap={8} bg={'primary20'} pd={'4px'} w={'300px'}>
+        <Button onClick={prevIndexHandler}>{'◀️'}</Button>
+        <Button onClick={() => setAutoPlay((prev) => !prev)}>
+          {autoPlay ? '⏸' : '▶'}
+        </Button>
+        <Button onClick={nextIndexHandler}>{'▶️'}</Button>
+      </CC.RowBetweenDiv>
     </Container>
   );
 };
 export default BasicCarousel;
 
-const Container = styled.section`
-  min-width: 360px;
-  padding: 50px 10px 0px 10px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  display: flex;
+const Container = styled(CC.ColumnDiv)`
   align-items: center;
-  border-radius: 40px;
+  gap: 16px;
 `;
 
 const SliderSizeContainer = styled.div`
   width: 500px;
-  height: 600px;
   max-width: 100%;
   margin: auto;
 `;
@@ -202,32 +196,4 @@ const Content = styled(CC.RowDiv)`
   height: calc(100% - 100px);
   background-color: white;
   margin-bottom: 10px;
-`;
-const Button1 = styled.button`
-  position: absolute;
-  z-index: 5;
-  bottom: 10px;
-  left: calc(50% - 160px);
-  width: 40px;
-  height: 40px;
-  /* background: ${commonTheme.backgroundColors.transparent}; */
-  color: white;
-  box-shadow:
-    inset 20px 20px 20px rgba(0, 0, 0, 0.05),
-    25px 35px 20px rgba(0, 0, 0, 0.05),
-    25px 30px 30px rgba(0, 0, 0, 0.05),
-    inset -20px -20px 25px rgba(255, 255, 255, 0.9);
-  transition: 0.5s;
-  transform: translate(-50%, 0);
-  &:hover {
-    border-radius: 50%;
-  }
-
-  &:nth-of-type(2) {
-    left: calc(50% + 160px);
-  }
-
-  &:nth-of-type(3) {
-    left: 50%;
-  }
 `;
