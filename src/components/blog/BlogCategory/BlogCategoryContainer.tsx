@@ -101,11 +101,10 @@ const BlogCategoryContainer = () => {
             {blogStore.blogCategoryList?.map((i, index) => (
               <Button
                 key={i.id}
-                minW={'max-content'}
+                minW={'80px'}
                 active={
                   i.id == store.getState().blogStore.activeBlogFirstCategoryId
                 }
-                fontFamily={'yanoljaYacheBold'}
                 index={index}
                 outline={true}
                 onClick={(e) => {
@@ -153,12 +152,11 @@ const BlogCategoryContainer = () => {
               .map((k) => (
                 <Button
                   key={k.id}
-                  minW={'max-content'}
+                  minW={'80px'}
                   active={
                     k.id ==
                     store.getState().blogStore.activeBlogSecondCategoryId
                   }
-                  fontFamily={'yanoljaYacheBold'}
                   onClick={(e) => {
                     blogSecondCategoryHandler(k);
                     blogSecondCategoryVerticalScrollRef.current.scrollLeft =
@@ -239,7 +237,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 `;
 
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
-  gap: 6px;
+  gap: 8px;
   padding: 10px 4px;
   flex-wrap: wrap;
   background: ${(props) => props.theme.main.contrast};
