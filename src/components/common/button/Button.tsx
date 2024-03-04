@@ -159,6 +159,7 @@ ${(props) =>
   font-display: optional;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+  flex-shrink: 0;
 `;
 
 const Badge = styled.div`
