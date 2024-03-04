@@ -1,5 +1,6 @@
 import { TodoAPI } from '@api/TodoAPI';
 import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -100,20 +101,22 @@ const TodoModal = (props: ITodoModalProps) => {
             w={'100%'}
             onClick={() => updateTodoHandler()}
             disabled={props.data.content == inputValue}
-            bg={'contrast'}
           >
             일정 수정
           </Button>
-          <Button w={'100%'} onClick={() => deleteTodoHandler()} bg={'red60'}>
+          <ConfirmButton
+            w={'100%'}
+            onClick={() => deleteTodoHandler()}
+            bg={'red60'}
+          >
             일정 삭제
-          </Button>
+          </ConfirmButton>
         </CC.RowDiv>
       ) : (
         <Button
           w={'100%'}
           onClick={() => addTodoHandler()}
           disabled={!inputValue}
-          bg={'contrast'}
         >
           일정 추가
         </Button>
