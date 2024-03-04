@@ -27,6 +27,7 @@ const HomePage = () => {
           '백엔드 코드 정리',
           'FE,BE 테스트 코드 공부',
           'BE Jenkins 재시도',
+          '변수,함수 이름 변경',
         ]}
       />
       <ThreeJSBox>
