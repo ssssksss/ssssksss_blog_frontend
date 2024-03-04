@@ -68,6 +68,7 @@ const HeadContainer = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
+  padding-bottom: 1px;
 
   .submenu {
     background-color: #dcdcdc;
@@ -85,6 +86,21 @@ const HeadContainer = styled.ul`
     color: rgb(21, 20, 20);
   }
 
+  .focused::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(255, 255, 255);
+    bottom: -1px;
+    left: 0px;
+  }
+
+  li {
+    outline: solid black 1px;
+    position: relative;
+  }
+
   & div.desc {
     text-align: center;
   }
@@ -98,6 +114,7 @@ const BodyContainer = styled.div<{
   maxW: string;
   minW: string;
 }>`
+  outline: solid black 1px;
   background-color: white;
   padding: 4px;
   height: ${(props) => props.h || '100%'};
