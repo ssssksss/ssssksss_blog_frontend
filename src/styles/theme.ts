@@ -564,7 +564,7 @@ export const darkTheme = {
     third60: colors.orange60,
     third40: colors.orange40,
     third20: colors.orange20,
-    contrast: colors.white80,
+    contrast: colors.white20,
   },
   ...commonTheme,
 };
