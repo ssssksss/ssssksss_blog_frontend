@@ -2,6 +2,7 @@ import Layout1 from '@components/layout/Layout1';
 import ScheduleContainer from '@components/schedule/ScheduleContainer';
 import styled from '@emotion/styled';
 import Head from 'next/head';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -9,12 +10,13 @@ import Head from 'next/head';
  * @description 설명
  */
 const Index = () => {
+  const authStore = useSelector((state) => state.authStore);
   return (
     <Container>
       <Head>
         <title> 일정 관리 </title>
       </Head>
-      <ScheduleContainer />
+      {authStore.id ? <ScheduleContainer /> : '로그인이 필요합니다.'}
     </Container>
   );
 };

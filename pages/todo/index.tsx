@@ -6,6 +6,7 @@ import { CC } from '@styles/commonComponentStyle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -19,23 +20,30 @@ const MemoContainer = dynamic(() => import('@components/todo/MemoContainer'), {
 
 const Index = () => {
   const [menu, setMenu] = useState(0);
+  const authStore = useSelector((state) => state.authStore);
   return (
     <Container>
       <Head>
         <title> TODO & MEMO </title>
       </Head>
-      <NavContainer>
-        <Button onClick={() => setMenu(0)} active={menu === 0}>
-          TODAY
-        </Button>
-        <Button onClick={() => setMenu(2)} active={menu === 2}>
-          MEMO
-        </Button>
-      </NavContainer>
-      <MainContainer>
-        {menu === 0 && <TodoScheduleContainer />}
-        {menu === 2 && <MemoContainer />}
-      </MainContainer>
+      {authStore.id ? (
+        <>
+          <NavContainer>
+            <Button onClick={() => setMenu(0)} active={menu === 0}>
+              TODAY
+            </Button>
+            <Button onClick={() => setMenu(2)} active={menu === 2}>
+              MEMO
+            </Button>
+          </NavContainer>
+          <MainContainer>
+            {menu === 0 && <TodoScheduleContainer />}
+            {menu === 2 && <MemoContainer />}
+          </MainContainer>
+        </>
+      ) : (
+        '로그인이 필요합니다.'
+      )}
     </Container>
   );
 };
