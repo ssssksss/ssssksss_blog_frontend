@@ -18,7 +18,7 @@ import BlogItem from './BlogItem';
  */
 const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
-  const [isInputChange, setIsInputChange] = useState(false);
+  const [isInputChange, setIsInputChange] = useState(true);
   const inputRef = useRef<null>();
   const queryClient = useQueryClient();
   const {
@@ -113,15 +113,15 @@ const BlogHeadContainer = () => {
           {blogListResData?.map((j, index) => (
             <li key={index}>
               <Link href={`/blog/${j.id}`} key={`${j.id}${index}`}>
-                <a>
-                  <BlogItem element={j}></BlogItem>
-                </a>
+                <BlogItem element={j}></BlogItem>
               </Link>
             </li>
           ))}
           {hasNextPage || (
             <CC.RowCenterDiv minH={'30px'} bg={'primary40'} brR={'8px'}>
-              마지막 결과 입니다.
+              {blogListResData?.length == 0
+                ? '결과가 없습니다.'
+                : '마지막 결과 입니다.'}
             </CC.RowCenterDiv>
           )}
           <div ref={infiniteScrollRef}></div>
