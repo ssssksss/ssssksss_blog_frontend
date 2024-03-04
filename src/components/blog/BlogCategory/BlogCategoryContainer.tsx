@@ -217,7 +217,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   gap: 8px;
   display: flex;
   overflow-y: hidden;
-  padding: 10px 4px;
+  padding: 8px 4px;
   background: ${(props) => props.theme.main.contrast};
   @media screen (max-height: 600px) {
     flex-wrap: nowrap;
@@ -226,7 +226,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 
   ::-webkit-scrollbar {
     width: auto;
-    height: 8px;
+    height: 4px;
     display: contents;
     position: fixed;
   }
@@ -238,7 +238,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
   gap: 8px;
-  padding: 10px 4px;
+  padding: 8px 4px;
   flex-wrap: wrap;
   background: ${(props) => props.theme.main.contrast};
 
@@ -248,7 +248,7 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
     /* ${(props) => props.theme.scroll.hidden}; */
     ::-webkit-scrollbar {
       width: auto;
-      height: 8px;
+      height: 4px;
       display: contents;
       position: fixed;
     }
