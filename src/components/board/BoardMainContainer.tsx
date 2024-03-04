@@ -100,9 +100,11 @@ const BoardMainContainer = () => {
         {store.getState().authStore.nickname && (
           <WriteButtonContainer>
             <Link href={'/board/create'}>
-              <CC.RowDiv>
-                <Image src={Icons.EditIcon} alt="" width={16} height={16} />
-              </CC.RowDiv>
+              <a>
+                <CC.RowDiv>
+                  <Image src={Icons.EditIcon} alt="" width={16} height={16} />
+                </CC.RowDiv>
+              </a>
             </Link>
           </WriteButtonContainer>
         )}

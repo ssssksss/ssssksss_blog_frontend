@@ -207,7 +207,9 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
             )}
             {authStore.role === 'ROLE_ADMIN' && (
               <Link href={`/blog/update?id=${router.query.id}`}>
-                <Image src={Icons.EditIcon} alt="" width={24} height={24} />
+                <a>
+                  <Image src={Icons.EditIcon} alt="" width={24} height={24} />
+                </a>
               </Link>
             )}
             {authStore.role === 'ROLE_ADMIN' && (
@@ -222,7 +224,9 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
               </ConfirmButton>
             )}
             <Link href={backUrl}>
-              <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
+              <a>
+                <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
+              </a>
             </Link>
           </FixContainer>
         </ViewerContainer>
