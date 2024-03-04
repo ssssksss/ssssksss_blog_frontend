@@ -49,17 +49,18 @@ const SideBar = () => {
   }, [router.isReady]);
 
   const LeftNavItems = [
-    [Icons.HomeIcon, '홈', '/'],
-    [Icons.BlogIcon, '블로그', '/blog'],
+    [Icons.HomeIcon, '홈', '/', { isRequiredAuth: false }],
+    [Icons.BlogIcon, '블로그', '/blog', { isRequiredAuth: false }],
     [
       Icons.BoardIcon,
       '게시판',
       `/board?page=${boardStore.page > 0 ? boardStore.page : 1}&size=${boardStore.size ?? 10}&sort=${boardStore.sort ?? 'latest'}&keyword=${boardStore.keyword ?? ''}`,
+      { isRequiredAuth: false },
     ],
-    [Icons.WorkListIcon, '할일', '/todo'],
+    [Icons.WorkListIcon, '할일', '/todo', { isRequiredAuth: true }],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
-    [Icons.CalendarIcon, '일정', '/schedule'],
-    [Icons.SettingIcon, '설정', '/setting'],
+    [Icons.CalendarIcon, '일정', '/schedule', { isRequiredAuth: true }],
+    [Icons.SettingIcon, '설정', '/setting', { isRequiredAuth: false }],
   ];
 
   return (
@@ -72,19 +73,22 @@ const SideBar = () => {
           />
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} prefetch={false} key={'sideBarItem' + index}>
-              <NavItem
-                isNavbarOpen={isNavbarOpen}
-                onClick={() => {
-                  store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
-                }}
-                active={
-                  activeMenu.leftNavActiveItem.split('?')[0] ===
-                  i[2].split('?')[0]
-                }
-              >
-                <Image src={i[0]} alt={i[1]} />
-                <span> {i[1]} </span>
-              </NavItem>
+              <a>
+                <NavItem
+                  blur={i[3].isRequiredAuth === true && !authStore.id === true}
+                  isNavbarOpen={isNavbarOpen}
+                  onClick={() => {
+                    store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
+                  }}
+                  active={
+                    activeMenu.leftNavActiveItem.split('?')[0] ===
+                    i[2].split('?')[0]
+                  }
+                >
+                  <Image src={i[0]} alt={i[1]} />
+                  <span> {i[1]} </span>
+                </NavItem>
+              </a>
             </Link>
           ))}
         </NavStyle>
@@ -110,7 +114,6 @@ const Container = styled.aside`
   font-weight: 600;
   position: relative;
   width: 44px;
-  z-index: 40;
 
   @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     width: 120px;
@@ -148,18 +151,24 @@ const NavItem = styled(Button)<{
   height: string;
   IContainerProps;
   active?: boolean;
+  blur?: boolean;
 }>`
   padding-left: 10px;
   gap: 10px;
   border-radius: 0px;
   justify-content: left;
   width: 100%;
-  margin: 1px 0px;
   & > :nth-last-of-type(1) {
     justify-content: flex-start;
     animation-name: ${Animations.LeftToRightFadein};
     animation-duration: 0.6s;
   }
+
+  ${(props) =>
+    props.blur &&
+    `
+    background: ${props.theme.colors.gray40};
+  `};
 
   ${(props) =>
     props.active &&
