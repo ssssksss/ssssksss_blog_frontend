@@ -1,7 +1,8 @@
 import TabMenu from '@components/common/tab/TabMenu';
 import Footer from '@components/layout/Footer';
 import Layout1 from '@components/layout/Layout1';
-import Portfolio2024 from '@components/portfolio/portfolio2024';
+import MyStack from '@components/portfolio/MyStack';
+import Portfolio2024 from '@components/portfolio/Portfolio2024';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 /**
@@ -76,16 +77,40 @@ const Index = () => {
         <TabMenu
           menu={[
             {
-              tabName: '2024',
+              tabName: '2024(1)',
               tabComponent: <Portfolio2024 />,
             },
             {
-              tabName: '2022',
+              tabName: '2022(0)',
               tabComponent: <div> {'테스트중'} </div>,
             },
             {
-              tabName: '2021',
+              tabName: '2021(0)',
               tabComponent: <div> {'테스트중'} </div>,
+            },
+          ]}
+        ></TabMenu>
+        <TabMenu
+          menu={[
+            {
+              tabName: 'FrontEnd',
+              tabComponent: <MyStack />,
+            },
+            {
+              tabName: 'BackEnd',
+              tabComponent: <MyStack />,
+            },
+            {
+              tabName: 'Design',
+              tabComponent: <MyStack />,
+            },
+            {
+              tabName: 'Server',
+              tabComponent: <MyStack />,
+            },
+            {
+              tabName: 'Etc',
+              tabComponent: <MyStack />,
             },
           ]}
         ></TabMenu>
