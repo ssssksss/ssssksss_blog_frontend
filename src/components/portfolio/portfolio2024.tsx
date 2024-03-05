@@ -17,13 +17,18 @@ const backComponent1 = () => {
       <CC.RowCenterDiv pd={'4px'}>
         블로그, 게시판, 투두, 메모, 일정, 인증 등 계속 개발 중인 토이 프로젝트
       </CC.RowCenterDiv>
-      <CC.RowDiv>
+      <CC.RowDiv gap={4}>
         <Button bg={'secondary20'}>
           <a
             href={'https://github.com/ssssksss/ssssksss_blog_frontend'}
             target="_blanket"
           >
             깃허브(FE)
+          </a>
+        </Button>
+        <Button bg={'secondary20'}>
+          <a href={'https://blog.ssssksss.xyz/'} target="_blanket">
+            배포
           </a>
         </Button>
       </CC.RowDiv>
