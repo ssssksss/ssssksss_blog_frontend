@@ -73,7 +73,7 @@ const SideBar = () => {
             onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
           />
           {LeftNavItems.map((i, index) => (
-            <Link href={`${i[2]}`} prefetch={false} key={'sideBarItem' + index}>
+            <Link href={`${i[2]}`} key={'sideBarItem' + index} prefetch={false}>
               <a>
                 <NavItem
                   blur={i[3].isRequiredAuth === true && !authStore.id === true}
