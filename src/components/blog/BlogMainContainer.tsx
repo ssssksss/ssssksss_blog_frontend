@@ -90,7 +90,7 @@ const BlogMainContainer = () => {
       </HeaderContainer>
       <MainContainer ref={mainContainerRef}>
         {blogListResData?.data?.json?.blogList?.map((i, index) => (
-          <Link href={`/blog/${i.id}`} key={`${i.id}${index}`}>
+          <Link href={`/blog/${i.id}`} key={`${i.id}${index}`} prefetch={false}>
             <a>
               <BlogItem
                 element={i}
