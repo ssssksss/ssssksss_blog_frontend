@@ -96,7 +96,6 @@ ${(props) =>
     css`
       &:hover {
         cursor: pointer;
-        outline: solid ${props.theme.main?.secondary80} 1px;
       }
     `}
       
@@ -146,7 +145,7 @@ ${(props) =>
       props.theme.main?.[props.outlineColor] ||
       props.theme.main?.primary80
     } 1px`};
-  width: ${(props) => props.w || 'max-content'};
+  width: ${(props) => props.w};
   min-width: ${(props) => props.minW};
   min-height: ${(props) => props.minH};
   height: ${(props) =>
@@ -159,7 +158,6 @@ ${(props) =>
   font-display: optional;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
-  flex-shrink: 0;
 `;
 
 const Badge = styled.div`
