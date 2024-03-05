@@ -11,10 +11,27 @@ import Head from 'next/head';
  * @description 설명
  */
 
-export async function getServerSideProps(context) {
-  const { data } = await AxiosInstance.get(`/api/blog?id=${context.params.id}`);
-  // ! next-redux-wrapper 공부해보기
-  return { props: data };
+// export async function getServerSideProps(context) {
+//   const { data } = await AxiosInstance.get(`/api/blog?id=${context.params.id}`);
+//   // ! next-redux-wrapper 공부해보기
+//   return { props: data };
+// }
+
+export async function getStaticPaths() {
+  const blogList = await AxiosInstance.get('/api/blog-all-list').then((res) => {
+    return res.data.json.blogList;
+  });
+
+  const paths = blogList.map((i) => ({
+    params: { id: i.id.toString() },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
+  return { props: res.data, revalidate: 3600 };
 }
 
 const ViewBlogCSR = dynamic(
