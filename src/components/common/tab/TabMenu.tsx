@@ -26,9 +26,6 @@ interface TabMenuType {
 const TabMenu = (props: TabMenuType) => {
   const [currentTab, clickTab] = useState(0);
 
-  const selectMenuHandler = (index) => {
-    clickTab(index);
-  };
   return (
     <Container>
       <HeadContainer>
@@ -36,7 +33,7 @@ const TabMenu = (props: TabMenuType) => {
           <li
             key={index}
             className={index === currentTab ? 'submenu focused' : 'submenu'}
-            onClick={() => selectMenuHandler(index)}
+            onClick={() => clickTab(index)}
           >
             {el.tabName}
           </li>
@@ -72,7 +69,7 @@ const HeadContainer = styled.ul`
 
   .submenu {
     background-color: #dcdcdc;
-    color: rgb(232, 234, 237);
+    color: rgb(240 242 245);
     display: flex;
     width: max-content;
     padding: 10px;
