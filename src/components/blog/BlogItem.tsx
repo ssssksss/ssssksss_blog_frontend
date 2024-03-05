@@ -35,7 +35,7 @@ const BlogItem = (props: IBlogItemProps) => {
         <BlogItemSubTitle> {props.element.description} </BlogItemSubTitle>
         <CC.RowBetweenDiv pd={'10px 0px 0px 0px'} w={'100%'}>
           <BlogItemDate>
-            {dateFormat4y2m2d(props.element.baseTimeEntity.createdAt)}
+            {dateFormat4y2m2d(props.element.baseTimeEntity.modifiedAt)}
           </BlogItemDate>
           <BlogItemViewAndLIke>
             <CC.RowDiv gap={2} h={'20px'}>
