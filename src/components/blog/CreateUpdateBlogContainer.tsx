@@ -213,7 +213,8 @@ const CreateUpdateBlogContainer = (
       deleteImageBucketDirectory: deleteImageBucketDirectory,
     })
       .then((_) => {
-        router.replace(`/blog/${router.query.id}`);
+        // router.replace(`/blog/${router.query.id}`);
+        router.back();
       })
       .catch((_) => {
         // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
