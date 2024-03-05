@@ -33,20 +33,29 @@ const HomePage = () => {
       <ThreeJSBox>
         <MyRoom />
       </ThreeJSBox>
-      <Footer />
+      <FooterBox>
+        <Footer />
+      </FooterBox>
     </Container>
   );
 };
 HomePage.layout = Layout1;
 export default HomePage;
 
-const Container = styled.main`
+const Container = styled(CC.ColumnDiv.withComponent('main'))`
   width: 100%;
-  position: relative;
+  overflow: scroll;
+  height: calc(100vh - 48px);
+  justify-content: space-between;
 `;
 
 const ThreeJSBox = styled(CC.RowCenterDiv)`
   width: calc(100% - 60px);
   height: 300px;
   padding-left: 30px;
+`;
+
+const FooterBox = styled.div`
+  display: flex;
+  width: 100%;
 `;
