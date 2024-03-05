@@ -54,7 +54,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Container1 = styled.div`
+const Container1 = styled.main`
   container-name: main-container;
   container-type: inline-size;
   max-width: 1440px;

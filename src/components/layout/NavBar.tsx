@@ -47,12 +47,12 @@ const Container = styled.div<{ themeStore: any }>`
   @media (pointer: coarse) {
     height: calc(100vh - 56px);
   }
-  background: ${props => rootTheme[props.themeStore.theme].main?.primary20};
+  background: ${(props) => rootTheme[props.themeStore.theme].main?.primary20};
   transition: all 1.2s ease-in-out;
   transition-property: background-color;
   animation-fill-mode: forwards;
 `;
-const Main = styled.main`
+const Main = styled.div`
   height: 100%;
   -webkit-transition-property: none;
   -moz-transition-property: none;
