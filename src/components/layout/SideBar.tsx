@@ -58,6 +58,7 @@ const SideBar = () => {
       { isRequiredAuth: false },
     ],
     [Icons.WorkListIcon, '할일', '/todo', { isRequiredAuth: true }],
+    [Icons.MemoIcon, '메모', '/memo', { isRequiredAuth: true }],
     // [Icons.DashBoardIcon, '대시보드', 'dashboard'],
     [Icons.CalendarIcon, '일정', '/schedule', { isRequiredAuth: true }],
     [Icons.SettingIcon, '설정', '/setting', { isRequiredAuth: false }],
@@ -85,7 +86,7 @@ const SideBar = () => {
                     i[2].split('?')[0]
                   }
                 >
-                  <Image src={i[0]} alt={i[1]} />
+                  <Image src={i[0]} alt={i[1]} width={'24px'} height={'24px'} />
                   <span> {i[1]} </span>
                 </NavItem>
               </a>
