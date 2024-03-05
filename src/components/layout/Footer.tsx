@@ -65,6 +65,7 @@ export default Footer;
 const Container = styled.footer`
   background: ${(props) => props.theme.main.primary80};
   padding: 8px 0px;
+  width: 100%;
 `;
 const ImageList = styled(CC.RowCenterDiv.withComponent('ul'))`
   padding: 8px 0px;
