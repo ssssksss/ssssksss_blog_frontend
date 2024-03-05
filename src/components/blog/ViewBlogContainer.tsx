@@ -206,7 +206,10 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
               </BlogTopicInlineLinksButton>
             )}
             {authStore.role === 'ROLE_ADMIN' && (
-              <Link href={`/blog/update?id=${router.query.id}`}>
+              <Link
+                href={`/blog/update?id=${router.query.id}`}
+                prefetch={false}
+              >
                 <a>
                   <Image src={Icons.EditIcon} alt="" width={24} height={24} />
                 </a>
