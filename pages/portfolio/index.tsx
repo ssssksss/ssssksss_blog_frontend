@@ -1,8 +1,8 @@
 import TabMenu from '@components/common/tab/TabMenu';
 import Footer from '@components/layout/Footer';
 import Layout1 from '@components/layout/Layout1';
-import MyStack from '@components/portfolio/MyStack';
-import Portfolio2024 from '@components/portfolio/Portfolio2024';
+import MyStack from '@components/portfolio-component/MyStack';
+import Portfolio2024 from '@components/portfolio-component/Portfolio2024';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 /**
