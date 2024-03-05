@@ -12,6 +12,20 @@ import { CC } from '@styles/commonComponentStyle';
  * @description 설명
  */
 
+const StackList = [
+  'Frontend',
+  'Backend',
+  'Design',
+  'Database',
+  'Server',
+  // 'Etc',
+].map((i) => {
+  return {
+    tabName: i,
+    tabComponent: <MyStack active={i} />,
+  };
+});
+
 const Index = () => {
   return (
     <Container>
@@ -90,35 +104,7 @@ const Index = () => {
             },
           ]}
         ></TabMenu>
-        <TabMenu
-          menu={[
-            {
-              tabName: 'FrontEnd',
-              tabComponent: <MyStack />,
-            },
-            {
-              tabName: 'BackEnd',
-              tabComponent: <MyStack />,
-            },
-            {
-              tabName: 'Design',
-              tabComponent: <MyStack />,
-            },
-            {
-              tabName: 'Server',
-              tabComponent: <MyStack />,
-            },
-            {
-              tabName: 'Etc',
-              tabComponent: <MyStack />,
-            },
-          ]}
-        ></TabMenu>
-      </Section>
-      <Section>
-        <div> FrontEnd </div>
-        <div> BackEnd </div>
-        <div> Etc </div>
+        <TabMenu menu={[...StackList]} tabMenuMinH={'240px'} />
       </Section>
       <Footer />
     </Container>
