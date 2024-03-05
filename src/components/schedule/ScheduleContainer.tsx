@@ -233,13 +233,13 @@ const CalendarContainer = styled.div`
   outline: solid ${(props) => props.theme.main.primary40} 2px;
 `;
 
-const Main1 = styled.main`
+const Main1 = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   padding: 4px 0px;
 `;
-const Main2 = styled.main`
+const Main2 = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);

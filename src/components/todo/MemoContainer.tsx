@@ -107,8 +107,8 @@ const MemoContainer = () => {
 export default MemoContainer;
 
 const Container = styled(CC.ColumnStartDiv.withComponent('article'))`
-  height: max-content;
   margin-bottom: 12px;
+  height: 100%;
 `;
 
 const MemoMenuNavListContainer = styled(CC.RowDiv)`
@@ -133,8 +133,7 @@ const MainContainer = styled.div`
   border-radius: 4px;
   padding: 8px 8px 16px 8px;
   background: ${(props) => props.theme.colors.gray20};
-  height: max-content;
-  min-height: 300px;
+  ${(props) => props.theme.scroll.hidden};
 
   @media (min-width: ${(props) => props.theme.deviceSizes.mobile}) {
     grid-template-columns: repeat(2, 1fr);
