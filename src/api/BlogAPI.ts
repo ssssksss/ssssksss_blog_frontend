@@ -79,7 +79,7 @@ const getBlogList = (_) => {
       url: '/api/blog-list',
       method: 'GET',
       params: {
-        sort: blogStore1.blogListOrderOption || 'baseTimeEntity.createdAt',
+        sort: blogStore1.blogListOrderOption || 'baseTimeEntity.modifiedAt',
         secondCategoryId: store.getState().blogStore.activeBlogSecondCategoryId,
       },
     },
