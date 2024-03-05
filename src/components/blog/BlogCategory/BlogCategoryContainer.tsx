@@ -219,6 +219,12 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   overflow-y: hidden;
   padding: 8px 4px;
   background: ${(props) => props.theme.main.contrast};
+
+  & > button {
+    width: max-content;
+    flex-shrink: 0;
+  }
+
   @media screen (max-height: 600px) {
     flex-wrap: nowrap;
     overflow-x: scroll;
@@ -241,6 +247,12 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
   padding: 8px 4px;
   flex-wrap: wrap;
   background: ${(props) => props.theme.main.contrast};
+  width: 100%;
+
+  & > button {
+    width: max-content;
+    flex-shrink: 0;
+  }
 
   @media (max-height: ${(props) => props.theme.deviceSizes.tablet}) {
     flex-wrap: nowrap;
