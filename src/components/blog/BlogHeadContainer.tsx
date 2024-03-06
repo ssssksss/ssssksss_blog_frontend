@@ -54,6 +54,7 @@ const BlogHeadContainer = () => {
         });
         return temp;
       },
+      retry: 0,
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
         return lastPage?.json.blogList?.length < 10 ? undefined : nextPage;
@@ -71,7 +72,7 @@ const BlogHeadContainer = () => {
     setIsOpenBlogItemList(true);
     setIsInputChange(true);
     if (isInputChange) {
-      queryClient.fetchQuery(['searchBlogList']);
+      queryClient.fetchQuery(['searchBlogList'], { retry: 0 });
     }
   };
 
