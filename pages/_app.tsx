@@ -7,7 +7,7 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'prismjs/themes/prism-tomorrow.css';
-import { ReactElement, ReactNode, StrictMode } from 'react';
+import { ReactElement, ReactNode, StrictMode, useEffect } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -28,6 +28,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout =
     Component.layout || ((children: ReactElement) => <> {children} </>);
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      const registInit = async () => {
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        registration.waiting?.postMessage('SKIP_WAITING');
+      };
+      registInit();
+    }
+  }, []);
 
   return getLayout(
     <StrictMode>
