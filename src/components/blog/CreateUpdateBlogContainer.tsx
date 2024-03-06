@@ -402,13 +402,17 @@ const CreateUpdateBlogContainer = (
                     [codeSyntaxHighlight, { highlighter: Prism }],
                   ]}
                   onChange={() => {
-                    // ! TOAST UI에서 Preview 이미지가 사라지는 문제 떄문에 작성한 코드...
                     let toastUIPreviewBlobImages =
                       window.document.querySelectorAll(
                         "img[src^='" + window.location.origin + "']",
                       );
                     toastUIPreviewBlobImages.forEach((i) => {
                       i.setAttribute('src', 'blob:' + i.src);
+                    });
+                    const editorInstance = editorRef.current?.getInstance();
+                    const getContent_md = editorInstance?.getMarkdown();
+                    methods.setValue('content', getContent_md, {
+                      shouldValidate: true,
                     });
                   }}
                   hooks={{
@@ -505,15 +509,23 @@ const CreateUpdateBlogContainer = (
                 </BlogItemContentFormButton>
                 <BlogItemContentFormButton
                   onClick={() => {
+                    const dragText = window.getSelection();
                     navigator.clipboard.readText().then((res) => {
                       navigator.clipboard.writeText(
                         '<a href="' +
                           res +
                           '" target="_blank"> ' +
-                          res +
+                          (dragText?.isCollapsed ? res : dragText) +
                           ' </a>',
                       );
+                      dragText.getRangeAt(0).deleteContents();
                     });
+                    store.dispatch(
+                      rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+                        type: 'success',
+                        message: '링크로 복사되었습니다.',
+                      }),
+                    );
                   }}
                 >
                   링크
