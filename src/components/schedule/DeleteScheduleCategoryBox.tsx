@@ -86,6 +86,7 @@ const DeleteScheduleCategoryBox = (props) => {
         <ConfirmButton
           w={'100%'}
           onClick={() => deleteScheduleCategoryHandler()}
+          disabled={!deleteCategoryRequestData?.value}
         >
           일정 카테고리 삭제
         </ConfirmButton>
