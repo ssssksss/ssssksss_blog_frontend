@@ -35,7 +35,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <QueryClientProvider client={queryClient}>
           <Global styles={GlobalStyles} />
           <Head>
-            <meta charSet="utf-8" />
             <meta
               name="viewport"
               content="initial-scale=1.0, width=device-width"
