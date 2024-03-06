@@ -189,7 +189,10 @@ const GlobalStyles = css`
   a:focus-visible,
   button:focus-visible,
   input:focus-visible {
-    outline: solid black 4px;
+    box-shadow:
+      2px 2px 4px 0px rgba(0, 0, 0, 1),
+      -2px -2px 4px 0px rgba(0, 0, 0, 1);
+    z-index: 20;
   }
 `;
 export default GlobalStyles;
