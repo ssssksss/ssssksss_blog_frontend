@@ -5,21 +5,43 @@ import styled from '@emotion/styled';
  * @version 0.0.1 "2024-02-23 11:27:43"
  * @description position="relative"로 감싼 div가 필요
  */
-const LoadingComponent = () => {
+
+interface ILoadingComponentProps {
+  w: string;
+  h: string;
+  position: 'absolute' | 'fixed';
+}
+
+const LoadingComponent = (props: ILoadingComponentProps) => {
   return (
-    <Container>
-      <Spinner32 />
+    <Container {...props}>
+      <Container1>
+        <Spinner32 />
+      </Container1>
     </Container>
   );
 };
 export default LoadingComponent;
 
-const Container = styled.div`
+const Container = styled.div<{ ILoadingComponentProps }>`
+  width: ${(props) => props.w};
+  height: ${(props) => props.h};
+  position: ${(props) => props.position || 'absolute'};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 998;
+  backdrop-filter: blur(16px);
+`;
+
+const Container1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 200;
 `;
 
 const Spinner32 = styled.div`
