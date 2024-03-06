@@ -38,10 +38,12 @@ const Layout1 = ({ children }: AppLayoutProps) => {
       router.events.off('routeChangeError', end);
     };
   }, []);
-
   return (
     <Container>
-      {isLoading ? <LoadingComponent /> : <Container1>{children}</Container1>}
+      <Container1>{children}</Container1>
+      {isLoading && (
+        <LoadingComponent w={'100vw'} h={'100vh'} position={'fixed'} />
+      )}
     </Container>
   );
 };
@@ -51,7 +53,6 @@ const Container = styled.div`
   padding: 4px;
   border-radius: ${(props) => props.theme.borderRadius.br10};
   height: 100%;
-  position: relative;
 `;
 
 const Container1 = styled.main`
