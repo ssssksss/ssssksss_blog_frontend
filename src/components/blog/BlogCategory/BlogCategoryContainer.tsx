@@ -3,7 +3,7 @@ import BlogSecondCategoryModal from '@components/blog/BlogSecondCategory/BlogSec
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
-import { Spinner1 } from '@components/spinner/Spinners';
+import { Spinner1 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
