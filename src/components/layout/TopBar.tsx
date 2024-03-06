@@ -17,7 +17,6 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useReducer } from 'react';
 import { batch, useSelector } from 'react-redux';
 
 /**
@@ -29,7 +28,7 @@ import { batch, useSelector } from 'react-redux';
 
 const TopBar = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [isHideBrowser, hideBrowserToggle] = useReducer((v) => !v, true);
+  // const [isHideBrowser, hideBrowserToggle] = useReducer((v) => !v, true);
   UserAPI.getUser();
 
   //* 로그아웃 함수
@@ -73,19 +72,19 @@ const TopBar = () => {
     })();
   };
 
-  useEffect(async () => {
-    // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
-    let keyDownEventFunc = (e: Event) => {
-      if (e.which === 32 && e.ctrlKey) {
-        hideBrowserToggle();
-      }
-    };
-    window.addEventListener('keydown', keyDownEventFunc);
+  // useEffect(async () => {
+  //   // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
+  //   let keyDownEventFunc = (e: Event) => {
+  //     if (e.which === 32 && e.ctrlKey) {
+  //       hideBrowserToggle();
+  //     }
+  //   };
+  //   window.addEventListener('keydown', keyDownEventFunc);
 
-    return () => {
-      window.removeEventListener('keydown', keyDownEventFunc);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('keydown', keyDownEventFunc);
+  //   };
+  // }, []);
 
   return (
     <Container>
@@ -101,7 +100,7 @@ const TopBar = () => {
           }}
         />
       </Link>
-      {typeof window != 'undefined' && (
+      {/* {typeof window != 'undefined' && (
         <Iframe
           title="Helpful Widget"
           hide={isHideBrowser}
@@ -110,7 +109,7 @@ const TopBar = () => {
         >
           iframe이 있었던 자리 입니다
         </Iframe>
-      )}
+      )} */}
       <CC.RowDiv gap={8}>
         {useLoading ? (
           <>
@@ -168,14 +167,14 @@ const Container = styled.div`
   }
 `;
 
-const Iframe = styled.iframe<{ hide: boolean }>`
-  z-index: 40;
-  position: fixed;
-  height: calc(100% - 180px);
-  bottom: 80px;
-  right: 40px;
-  width: calc(70vw - 70px);
-  background: ${(props) => props.theme.main.contrast};
-  outline: solid ${(props) => props.theme.main.secondary80} 8px;
-  visibility: ${(props) => (props.hide ? 'hidden' : 'visible')};
-`;
+// const Iframe = styled.iframe<{ hide: boolean }>`
+//   z-index: 40;
+//   position: fixed;
+//   height: calc(100% - 180px);
+//   bottom: 80px;
+//   right: 40px;
+//   width: calc(70vw - 70px);
+//   background: ${(props) => props.theme.main.contrast};
+//   outline: solid ${(props) => props.theme.main.secondary80} 8px;
+//   visibility: ${(props) => (props.hide ? 'hidden' : 'visible')};
+// `;
