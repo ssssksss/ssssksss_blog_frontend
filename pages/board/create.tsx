@@ -1,5 +1,5 @@
 import Layout1 from '@components/layout/Layout1';
-import { Spinner37 } from '@components/spinner/Spinners';
+import { Spinner37 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 
@@ -15,7 +15,7 @@ const CreateBoardCSR = dynamic(
   {
     ssr: false,
     loading: () => <Spinner37 />,
-  }
+  },
 );
 
 const CreateUpdate = () => {
