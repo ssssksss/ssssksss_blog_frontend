@@ -1,4 +1,5 @@
 import { MemoAPI } from '@api/MemoAPI';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -8,7 +9,6 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import Button from '../common/button/Button';
 import Textarea from '../common/textarea/Textarea';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -103,14 +103,14 @@ const MemoItem = (props: IMemoItemProps) => {
           {props.data?.memoCategory.name || '메모 작성'}{' '}
         </CC.RowCenterDiv>
         {props.data && (
-          <Button
+          <ConfirmButton
             className={'deleteIcon'}
             onClick={() => deleteMemoHandler()}
             bg={'transparent'}
             hover={false}
           >
             <Image src={Icons.ExitIcon} weight={20} height={20} alt="" />
-          </Button>
+          </ConfirmButton>
         )}
       </Header>
       <Textarea
