@@ -4,6 +4,7 @@ const BlogMainContainer = dynamic(
 
 import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryContainer';
 import BlogHeadContainer from '@components/blog/BlogHeadContainer';
+import BlogRecentListContainer from '@components/blog/BlogRecentListContainer';
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -73,6 +74,7 @@ const Index = (props: any) => {
         <title> 블로그 </title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
+      <BlogRecentListContainer />
       <BlogHeadContainer />
       <BlogCategoryContainer />
       <BlogMainContainer />

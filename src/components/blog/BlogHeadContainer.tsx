@@ -115,7 +115,7 @@ const BlogHeadContainer = () => {
             <li key={index}>
               <Link href={`/blog/${j.id}`} key={`${j.id}${index}`}>
                 <a>
-                  <BlogItem element={j}></BlogItem>
+                  <BlogItem element={j} viewMode={true}></BlogItem>
                 </a>
               </Link>
             </li>

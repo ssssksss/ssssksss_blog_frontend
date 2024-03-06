@@ -94,6 +94,7 @@ const BlogMainContainer = () => {
             <a>
               <BlogItem
                 element={i}
+                viewMode={true}
                 defaultImageUrl={
                   blogListResData?.data.json?.blogListDefaultImageUrl
                 }

@@ -2,6 +2,7 @@ import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
+import { localStorageSetHandler } from '@utils/storage/localStorageHandler';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 /**
@@ -12,16 +13,32 @@ import Image from 'next/image';
  */
 interface IBlogItemProps {
   viewMode: boolean;
-  element: any;
-  defaultImageUrl: string;
+  element: object;
+  defaultImageUrl?: string;
 }
 
 // TODO: 나중에 카드 모양의 형태로 보여질지에 대해서는 보류(props.viewMode)
 
 const BlogItem = (props: IBlogItemProps) => {
   return (
-    <Container>
-      {props.viewMode || (
+    <Container
+      onClick={() =>
+        localStorageSetHandler(
+          'recentBlog',
+          {
+            id: props.element.id,
+            title: props.element.title,
+            description: props.element.description,
+            viewNumber: props.element.viewNumber,
+            likeNumber: props.element.likeNumber,
+            baseTimeEntity: props.element.baseTimeEntity,
+            thumbnailImageUrl: props.element.thumbnailImageUrl,
+          },
+          4,
+        )
+      }
+    >
+      {props.viewMode && (
         <BlogItemImageBox>
           <Image
             src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl ?? props.element.defaultImageUrl}`}
