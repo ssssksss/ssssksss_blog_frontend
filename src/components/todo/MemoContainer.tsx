@@ -1,4 +1,5 @@
 import { MemoAPI } from '@api/MemoAPI';
+import RowScrollListBox from '@components/common/ListBox/RowScrollListBox';
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
@@ -111,14 +112,15 @@ const Container = styled(CC.ColumnStartDiv.withComponent('article'))`
   height: 100%;
 `;
 
-const MemoMenuNavListContainer = styled(CC.RowDiv)`
+const MemoMenuNavListContainer = styled(RowScrollListBox)`
   gap: 4px;
-  padding: 10px 4px;
-  flex-flow: wrap row;
   background: ${(props) => props.theme.main.contrast};
   border-radius: 4px;
   outline: solid black 1px;
-  height: 48px;
+  padding: 4px;
+  height: 3em;
+  flex-shrink: 0;
+  ${(props) => props.theme.scroll.hidden};
   & > button {
     min-width: 70px;
     border-radius: ${(props) => props.theme.borderRadius.br10};
