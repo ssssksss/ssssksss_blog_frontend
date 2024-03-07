@@ -98,10 +98,6 @@ const Index = () => {
               tabName: '2022(0)',
               tabComponent: <div> {'테스트중'} </div>,
             },
-            {
-              tabName: '2021(0)',
-              tabComponent: <div> {'테스트중'} </div>,
-            },
           ]}
         ></TabMenu>
         <TabMenu menu={[...StackList]} tabMenuMinH={'240px'} />
