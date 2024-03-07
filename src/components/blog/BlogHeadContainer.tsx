@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import BlogItem from './BlogItem';
+import BlogRecentListContainer from './BlogRecentListContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogHeadContainer.tsx
@@ -98,6 +99,7 @@ const BlogHeadContainer = () => {
         placeholder="검색어를 입력해주세요"
         color={'black80'}
         outline={true}
+        w={'calc(100% - 40px)'}
         h={'32px'}
         ref={inputRef}
         leftIconImage={Icons.SearchIcon.src}
@@ -130,13 +132,13 @@ const BlogHeadContainer = () => {
           <div ref={infiniteScrollRef}></div>
         </BlogSearchItemContainer>
       )}
+      <BlogRecentListContainer />
     </Container>
   );
 };
 export default BlogHeadContainer;
 
 const Container = styled.div`
-  gap: 4px;
   width: 100%;
   background: ${(props) => props.theme.main.primary20};
   border-radius: 10px;
