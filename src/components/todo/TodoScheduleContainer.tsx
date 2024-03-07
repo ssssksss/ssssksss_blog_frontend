@@ -1,15 +1,14 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
+import { TodoAPI } from '@api/TodoAPI';
 import ScheduleItem from '@components/schedule/ScheduleItem';
 import ScheduleModal from '@components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import {
   dateFormat4y2m2d,
   todayDayOfTheWeek,
 } from '@utils/function/dateFormat';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import ModalButton from '../common/button/ModalButton';
 import TodoItem from './TodoItem';
 import TodoModal from './modal/TodoModal';
@@ -21,11 +20,12 @@ import TodoModal from './modal/TodoModal';
  */
 
 const TodoScheduleContainer = (_) => {
-  const todoStore = useSelector((state: RootState) => state.todoStore);
+  // const todoStore = useSelector((state: RootState) => state.todoStore);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({
     type: 'today',
-  });
+  }).data?.json;
+  const todoResData = TodoAPI.getTodoList()?.data?.json?.todoList;
 
   return (
     <Container>
@@ -47,7 +47,7 @@ const TodoScheduleContainer = (_) => {
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {todoStore.todoList.map((i) => (
+          {todoResData?.map((i) => (
             <li key={i.data?.id}>
               <TodoItem data={i} />
             </li>
@@ -73,7 +73,7 @@ const TodoScheduleContainer = (_) => {
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {scheduleResData?.data?.json?.scheduleList?.map((i, index) => (
+          {scheduleResData?.scheduleList.map((i, index) => (
             <li key={index}>
               <ScheduleItem data={i} />
             </li>

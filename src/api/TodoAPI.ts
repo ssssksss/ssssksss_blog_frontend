@@ -1,3 +1,4 @@
+import { UseQueryHook } from '@components/useHook/useQueryHook';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
 const addTodo = (props) => {
@@ -13,10 +14,13 @@ const addTodo = (props) => {
 };
 
 const getTodoList = (_) => {
-  return ApiProcessHandler({
-    url: '/api/todo',
-    method: 'GET',
-    apiCategory: '할일',
+  return UseQueryHook({
+    queryKey: ['todoList'],
+    requestData: {
+      url: '/api/todo',
+      method: 'GET',
+    },
+    isRefetchWindowFocus: false,
   });
 };
 
