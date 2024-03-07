@@ -7,9 +7,7 @@ import { useSelector } from 'react-redux';
 const createYoutubeLink = (props) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.post('/api/youtube/url', {
-      title: reqData?.title,
-      imageUrl: reqData?.imageUrl,
-      tags: reqData?.tags,
+      youtubeUrlKeyId: reqData.youtubeUrlKeyId,
       youtubeUrl: reqData?.youtubeUrl,
     });
   };

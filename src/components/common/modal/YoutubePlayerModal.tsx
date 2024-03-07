@@ -8,7 +8,6 @@ import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
-import axios from 'axios';
 import Image from 'next/image';
 import { useReducer, useRef } from 'react';
 import { useQueryClient } from 'react-query';
@@ -55,30 +54,10 @@ const YoutubePlayerModal = () => {
   const [, toggleHandler] = useReducer((prev) => !prev, true);
 
   const addYoutubeLinkHandler = async () => {
-    axios
-      .get('https://www.googleapis.com/youtube/v3/videos', {
-        params: {
-          key: process.env.NEXT_PUBLIC_YOUTUBE_LINK_KEY,
-          id: UrlQueryStringToObject(inputRef.current.value)?.v,
-          part: 'snippet',
-          type: 'video',
-        },
-      })
-      .then((i) => {
-        const title = i.data.items[0].snippet.title;
-        const imageUrl = i.data.items[0].snippet.thumbnails.default.url;
-        const tags = JSON.stringify(i.data.items[0].snippet.tags);
-        const youtubeUrl = inputRef.current.value;
-        createYoutubeLinkMutation({
-          title,
-          imageUrl,
-          tags,
-          youtubeUrl,
-        });
-      })
-      .catch((_) => {
-        alert('잘못된 요청입니다.');
-      });
+    createYoutubeLinkMutation({
+      youtubeUrlKeyId: UrlQueryStringToObject(inputRef.current.value)?.v,
+      youtubeUrl: inputRef.current.value,
+    });
   };
 
   const copyLinkHandler = (youtubeUrl: string) => {
