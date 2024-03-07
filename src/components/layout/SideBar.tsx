@@ -83,9 +83,9 @@ const SideBar = () => {
                       activeMenu.leftNavActiveItem.split('?')[0] ===
                       i[2].split('?')[0]
                     ) {
-                      store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
                       e.preventDefault();
                     }
+                    store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
                   }}
                   active={
                     activeMenu.leftNavActiveItem.split('?')[0] ===
