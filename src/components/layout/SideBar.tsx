@@ -78,8 +78,14 @@ const SideBar = () => {
                 <NavItem
                   blur={i[3].isRequiredAuth === true && !authStore.id === true}
                   isNavbarOpen={isNavbarOpen}
-                  onClick={() => {
-                    store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
+                  onClick={(e) => {
+                    if (
+                      activeMenu.leftNavActiveItem.split('?')[0] ===
+                      i[2].split('?')[0]
+                    ) {
+                      store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
+                      e.preventDefault();
+                    }
                   }}
                   active={
                     activeMenu.leftNavActiveItem.split('?')[0] ===
