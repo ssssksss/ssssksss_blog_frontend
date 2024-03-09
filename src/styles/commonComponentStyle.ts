@@ -26,6 +26,13 @@ interface IStyleProps {
   outlineColor?: string;
 }
 
+interface IPositionProps {
+  top: string;
+  left: string;
+  right: string;
+  bottom: string;
+}
+
 const propsCommonStyle = (props: any) => css`
   gap: ${props.gap}px;
   border: ${props.br};
@@ -170,6 +177,27 @@ const GridRow4 = styled.div<IStyleProps>`
   ${(props: any) => propsCommonStyle(props)};
 `;
 
+const AbsoluteRowBox = styled.div<IStyleProps & IPositionProps>`
+  ${(props: any) => propsCommonStyle(props)};
+  position: absolute;
+  top: ${(props) => props.top};
+  bottom: ${(props) => props.bottom};
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
+  display: flex;
+  flex-flow: nowrap row;
+`;
+const AbsoluteColumnBox = styled.div<IStyleProps & IPositionProps>`
+  ${(props: any) => propsCommonStyle(props)};
+  position: absolute;
+  top: ${(props) => props.top};
+  bottom: ${(props) => props.bottom};
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
+  display: flex;
+  flex-flow: nowrap column;
+`;
+
 const ErrorDiv = styled.div`
   color: red;
   font-size: 12px;
@@ -276,6 +304,8 @@ export const CC = {
   GridColumn3,
   GridColumn4,
   GridRow4,
+  AbsoluteRowBox,
+  AbsoluteColumnBox,
   ErrorDiv,
   Img,
   ImgContainer,
