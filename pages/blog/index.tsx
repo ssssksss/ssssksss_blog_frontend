@@ -1,9 +1,7 @@
-const BlogMainContainer = dynamic(
-  () => import('@components/blog/BlogMainContainer'),
-);
+// const BlogMainContainer = dynamic(
+//   () => import('@components/blog/BlogMainContainer'),
+// );
 
-import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryContainer';
-import BlogHeadContainer from '@components/blog/BlogHeadContainer';
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -11,7 +9,6 @@ import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useEffect } from 'react';
 /**
@@ -76,9 +73,9 @@ const Index = (props: propsType) => {
         <title> 블로그 </title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
-      <BlogHeadContainer />
+      {/* <BlogHeadContainer />
       <BlogCategoryContainer />
-      <BlogMainContainer />
+      <BlogMainContainer /> */}
     </Container>
   );
 };
