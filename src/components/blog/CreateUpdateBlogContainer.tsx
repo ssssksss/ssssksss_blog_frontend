@@ -231,30 +231,42 @@ const CreateUpdateBlogContainer = (
     name: string;
     bg: string;
   }) => {
-    blogCategoryListResData?.data.json?.blogFirstCategoryList
-      .filter((i) => i.id == props.value)
-      .map((j) => {
-        methods.setValue('selectFirstCategoryId', props.value);
-        methods.setValue('selectFirstCategoryName', props.name);
-        methods.setValue('selectSecondCategoryId', j.secondCategoryList[0]?.id);
-        methods.setValue(
-          'selectSecondCategoryName',
-          j.secondCategoryList[0]?.name,
-          { shouldValidate: true },
-        );
-        setDefaultImageUrl(j.secondCategoryList[0]?.thumbnailImageUrl);
-        if (j.secondCategoryList.length > 0) {
-          BlogAPI.getBlogContentTemplate({
-            secondCategoryId: j.secondCategoryList[0].id,
-          }).then((res) => {
-            store.dispatch(
-              rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-                res.data?.blogContentTemplateList,
-              ),
-            );
-          });
-        }
-      });
+    methods.setValue('selectFirstCategoryId', props.value);
+    methods.setValue('selectFirstCategoryName', props.name);
+    methods.setValue(
+      'selectSecondCategoryName',
+      Object.values(
+        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
+      )[0].name,
+      { shouldValidate: true },
+    );
+    methods.setValue(
+      'selectSecondCategoryId',
+      Object.keys(
+        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
+      )[0],
+    );
+    setDefaultImageUrl(
+      Object.values(
+        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
+      )[0]?.thumbnailImageUrl,
+    );
+
+    // blogCategoryListResData?.data.json?.firstCategoryList
+    //   .filter((i) => i.id == props.value)
+    //   .map((j) => {
+    //     if (j.secondCategoryList.length > 0) {
+    //       BlogAPI.getBlogContentTemplate({
+    //         secondCategoryId: j.secondCategoryList[0].id,
+    //       }).then((res) => {
+    //         store.dispatch(
+    //           rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
+    //             res.data?.blogContentTemplateList,
+    //           ),
+    //         );
+    //       });
+    //     }
+    //   });
   };
 
   const onChangeSecondCategoryHandler = async (props: {
@@ -332,12 +344,16 @@ const CreateUpdateBlogContainer = (
                         value: methods.getValues('selectFirstCategoryId'),
                         name: methods.getValues('selectFirstCategoryName'),
                       }}
-                      data={blogCategoryListResData?.data.json?.blogFirstCategoryList.map(
-                        (i) => ({
-                          value: i.id,
-                          name: i.name,
-                        }),
-                      )}
+                      data={
+                        blogCategoryListResData?.isLoading ||
+                        Object.entries(
+                          blogCategoryListResData?.data?.json
+                            ?.firstCategoryList || {},
+                        )?.map(([key, value]) => ({
+                          value: key,
+                          name: value,
+                        }))
+                      }
                     ></Select>
                     <Select
                       w={'100%'}
@@ -347,16 +363,19 @@ const CreateUpdateBlogContainer = (
                         value: methods.getValues('selectSecondCategoryId'),
                         name: methods.getValues('selectSecondCategoryName'),
                       }}
-                      data={blogCategoryListResData?.data.json?.blogFirstCategoryList
-                        .filter((k) => {
-                          return (
-                            k.id == methods.getValues('selectFirstCategoryId')
-                          );
-                        })[0]
-                        ?.secondCategoryList.map((i) => ({
-                          value: i.id,
-                          name: i.name,
-                        }))}
+                      data={
+                        blogCategoryListResData?.isLoading &&
+                        methods.getValues('selectFirstCategoryId') != '' &&
+                        Object.entries(
+                          blogCategoryListResData?.data?.json
+                            ?.secondCategoryList?.[
+                            methods.getValues('selectFirstCategoryId')
+                          ] || {},
+                        )?.map(([key, value]) => ({
+                          value: key,
+                          name: value.name,
+                        }))
+                      }
                     ></Select>
                   </CC.RowBetweenDiv>
                   <Title

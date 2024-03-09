@@ -23,7 +23,7 @@ interface IBlogSecondCategoryCreateBoxProps {
 const BlogSecondCategoryCreateBox = (
   props: IBlogSecondCategoryCreateBoxProps,
 ) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const createSecondCategoryMutation = BlogAPI.createSecondCategory({
     onSuccessHandler: () => props.closeModal(),
   });
@@ -41,10 +41,10 @@ const BlogSecondCategoryCreateBox = (
     const file = data.createSecondCategoryImageFile;
     createSecondCategoryMutation({
       name: data.createSecondCategoryName,
-      blogFirstCategoryId: blogStore.activeBlogFirstCategoryId,
+      blogFirstCategoryId: blogStore1.activeFirstCategory,
       files: file,
       // 백엔드에서 이후에 2번째 카테고리 Id를 추가하여 이미지 경로를 설정
-      directory: `/blog-category/${blogStore.activeBlogFirstCategoryId}`,
+      directory: `/blog-category/${blogStore1.activeFirstCategory}`,
     });
   };
 
@@ -55,7 +55,7 @@ const BlogSecondCategoryCreateBox = (
       </Header>
       <CC.ColumnDiv gap={28}>
         <Input
-          value={blogStore.activeBlogFirstCategoryName}
+          value={blogStore1.firstCategoryList[blogStore1.activeFirstCategory]}
           disabled={true}
           center={true}
         />
@@ -68,7 +68,6 @@ const BlogSecondCategoryCreateBox = (
         />
         <Input
           type={'file'}
-          state={1}
           register={register('createSecondCategoryImageFile')}
           setValue={setValue}
           trigger={trigger}
@@ -77,7 +76,6 @@ const BlogSecondCategoryCreateBox = (
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
         <Button
-          w={'100%'}
           h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(createSecondCategoryHandler)}

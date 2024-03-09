@@ -3,7 +3,6 @@ import BlogSecondCategoryModal from '@components/blog/BlogSecondCategory/BlogSec
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
-import { Spinner1 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
@@ -12,7 +11,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { batch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogCategoryContainer.tsx
@@ -20,55 +19,27 @@ import { batch, useSelector } from 'react-redux';
  * @description 설명
  */
 
-type blogFirstCategoryHandlerType = {
-  id: string;
-  name: string;
-  secondCategoryList: [
-    {
-      id: string;
-      name: string;
-      thumbnailImageUrl: string;
-    },
-  ];
-};
-
 const BlogCategoryContainer = () => {
   const router = useRouter();
   const blogFirstCategoryVerticalScrollRef = useRef();
   const blogSecondCategoryVerticalScrollRef = useRef();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const blogStore = useSelector((state: RootState) => state.blogStore);
-  const blogFirstCategoryHandler = (props: blogFirstCategoryHandlerType) => {
-    batch(() => {
-      store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
-          activeBlogFirstCategoryId: props.id,
-          activeBlogFirstCategoryName: props.name,
-        }),
-      );
-      if (props.secondCategoryList.length > 0) {
-        store.dispatch(
-          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-            activeBlogSecondCategoryId: props.secondCategoryList[0]?.id,
-            activeBlogSecondCategoryName: props.secondCategoryList[0]?.name,
-          }),
-        );
-      } else {
-        store.dispatch(
-          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-            activeBlogSecondCategoryId: null,
-            activeBlogSecondCategoryName: null,
-          }),
-        );
-      }
-    });
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogFirstCategoryHandler = (props: any) => {
+    store.dispatch(rootActions.blogStore1.setActiveFirstCategory(props.id));
+    store.dispatch(
+      rootActions.blogStore1.setActiveSecondCategory(
+        Object.keys(blogStore1.secondCategoryList[props.id])[0],
+      ),
+    );
+
     let temp =
       window.document.location.origin +
       window.document.location.pathname +
       '?first-category=' +
       props.id +
       '&second-category=' +
-      props.secondCategoryList[0]?.id;
+      store.getState().blogStore1.secondCategoryList?.[props.id]?.id;
     router.replace(temp, '', { shallow: true });
   };
 
@@ -77,118 +48,91 @@ const BlogCategoryContainer = () => {
       window.document.location.origin +
       window.document.location.pathname +
       '?first-category=' +
-      store.getState().blogStore.activeBlogFirstCategoryId +
+      store.getState().blogStore1.activeFirstCategory +
       '&second-category=' +
       props.id;
     router.replace(temp, '', { shallow: true });
-    store.dispatch(
-      rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-        activeBlogSecondCategoryId: props.id,
-        activeBlogSecondCategoryName: props.name,
-      }),
-    );
+    store.dispatch(rootActions.blogStore1.setActiveSecondCategory(props.id));
   };
 
   return (
     <Container>
-      {blogStore.blogCategoryList?.length == 0 ? (
-        <SpinnerBox>
-          <Spinner1 />
-        </SpinnerBox>
-      ) : (
-        <>
-          <BlogFirstCategoryContainer ref={blogFirstCategoryVerticalScrollRef}>
-            {blogStore.blogCategoryList?.map((i, index) => (
-              <Button
-                key={i.id}
-                minW={'80px'}
-                active={
-                  i.id == store.getState().blogStore.activeBlogFirstCategoryId
-                }
-                index={index}
-                outline={true}
-                onClick={(e) => {
-                  blogFirstCategoryHandler(i);
-                  blogFirstCategoryVerticalScrollRef.current.scrollLeft =
-                    e.target.offsetLeft +
-                    e.target.offsetWidth / 2 -
-                    e.target.offsetParent.offsetWidth / 2;
-                }}
-                badgeValue={
-                  i.secondCategoryList
-                    .map((i) => i.count)
-                    .reduce((i, j) => i + j, 0) || '0'
-                }
-              >
-                {i.name}
-              </Button>
-            ))}
-            {blogStore?.activeBlogUserId == authStore.id && (
-              <ModalButton
-                modal={<BlogFirstCategoryModal />}
-                modalOverlayVisible={true}
-                modalW={'300px'}
-                outline={true}
-                style={{ flexShrink: 0 }}
-              >
-                <Image
-                  src={Icons.SettingIcon}
-                  alt=""
-                  width={'24px'}
-                  height={'24px'}
-                />
-              </ModalButton>
-            )}
-          </BlogFirstCategoryContainer>
-          <BlogSecondCategoryContainer
-            ref={blogSecondCategoryVerticalScrollRef}
+      <BlogFirstCategoryContainer ref={blogFirstCategoryVerticalScrollRef}>
+        {Object.entries(blogStore1.firstCategoryList)?.map(([key, value]) => (
+          <Button
+            key={key}
+            minW={'80px'}
+            active={key == store.getState().blogStore1.activeFirstCategory}
+            outline={true}
+            onClick={(e) => {
+              blogFirstCategoryHandler({ id: key });
+              blogFirstCategoryVerticalScrollRef.current.scrollLeft =
+                e.target.offsetLeft +
+                e.target.offsetWidth / 2 -
+                e.target.offsetParent.offsetWidth / 2;
+            }}
+            badgeValue={Object.entries(
+              blogStore1.secondCategoryList?.[key] || {},
+            ).reduce((sum, [_, value]) => sum + Number(value.count), 0)}
           >
-            {blogStore.blogCategoryList
-              ?.filter(
-                (i) =>
-                  i.id == store.getState().blogStore.activeBlogFirstCategoryId,
-              )[0]
-              ?.secondCategoryList?.filter((j) => j.name)
-              .map((k) => (
-                <Button
-                  key={k.id}
-                  minW={'80px'}
-                  active={
-                    k.id ==
-                    store.getState().blogStore.activeBlogSecondCategoryId
-                  }
-                  onClick={(e) => {
-                    blogSecondCategoryHandler(k);
-                    blogSecondCategoryVerticalScrollRef.current.scrollLeft =
-                      e.currentTarget.offsetLeft +
-                      e.currentTarget.offsetWidth / 2 -
-                      e.currentTarget.offsetParent.offsetWidth / 2;
-                  }}
-                  outline={true}
-                  badgeValue={k.count || '0'}
-                >
-                  {k.name}
-                </Button>
-              ))}
-            {blogStore?.activeBlogUserId == authStore.id && (
-              <ModalButton
-                modal={<BlogSecondCategoryModal />}
-                modalOverlayVisible={true}
-                modalW={'300px'}
-                outline={true}
-                style={{ flexShrink: 0 }}
-              >
-                <Image
-                  src={Icons.SettingIcon}
-                  alt=""
-                  width={'24px'}
-                  height={'24px'}
-                />
-              </ModalButton>
-            )}
-          </BlogSecondCategoryContainer>
-        </>
-      )}
+            {value}
+          </Button>
+        ))}
+        {authStore.id == 13 && (
+          <ModalButton
+            modal={<BlogFirstCategoryModal />}
+            modalOverlayVisible={true}
+            modalW={'300px'}
+            outline={true}
+            style={{ flexShrink: 0 }}
+          >
+            <Image
+              src={Icons.SettingIcon}
+              alt=""
+              width={'24px'}
+              height={'24px'}
+            />
+          </ModalButton>
+        )}
+      </BlogFirstCategoryContainer>
+      <BlogSecondCategoryContainer ref={blogSecondCategoryVerticalScrollRef}>
+        {Object.entries(
+          blogStore1.secondCategoryList[blogStore1.activeFirstCategory] || {},
+        ).map(([key, value]) => (
+          <Button
+            key={key}
+            minW={'80px'}
+            active={key == blogStore1.activeSecondCategory}
+            onClick={(e) => {
+              blogSecondCategoryHandler({ id: key });
+              blogSecondCategoryVerticalScrollRef.current.scrollLeft =
+                e.currentTarget.offsetLeft +
+                e.currentTarget.offsetWidth / 2 -
+                e.currentTarget.offsetParent.offsetWidth / 2;
+            }}
+            outline={true}
+            badgeValue={value.count || '0'}
+          >
+            {value.name}
+          </Button>
+        ))}
+        {authStore.id == 13 && (
+          <ModalButton
+            modal={<BlogSecondCategoryModal />}
+            modalOverlayVisible={true}
+            modalW={'300px'}
+            outline={true}
+            style={{ flexShrink: 0 }}
+          >
+            <Image
+              src={Icons.SettingIcon}
+              alt=""
+              width={'24px'}
+              height={'24px'}
+            />
+          </ModalButton>
+        )}
+      </BlogSecondCategoryContainer>
     </Container>
   );
 };
@@ -205,12 +149,6 @@ const Container = styled(CC.ColumnDiv)`
   & > div {
     border-radius: 8px;
   }
-`;
-
-const SpinnerBox = styled.div`
-  width: 80px;
-  aspect-ratio: 1;
-  ${(props) => props.theme.positionStyle.absolute};
 `;
 
 const BlogFirstCategoryContainer = styled(CC.RowDiv)`

@@ -22,7 +22,7 @@ interface IBlogFirstCategoryUpdateBoxProps {
 const BlogFirstCategoryUpdateBox = (
   props: IBlogFirstCategoryUpdateBoxProps,
 ) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const updateBlogFirstCategoryMutation = BlogAPI.updateBlogFirstCategory({
     onSuccessHandler: () => props.closeModal(),
   });
@@ -65,9 +65,11 @@ const BlogFirstCategoryUpdateBox = (
             placeholder={'1번째 카테고리'}
             bg={'transparent'}
             outline={true}
-            data={blogStore.blogCategoryList.map((i) => {
-              return { value: i.id, name: i.name, bg: '' };
-            })}
+            data={Object.entries(blogStore1.firstCategoryList).map(
+              ([key, value]) => {
+                return { value: key, name: value, bg: '' };
+              },
+            )}
             onChange={onChangeSelectHandler}
           ></Select>
           <Input

@@ -1,4 +1,5 @@
 import { BlogAPI } from '@api/BlogAPI';
+import Button from '@components/common/button/Button';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
@@ -51,6 +52,7 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   const [createBlogIndexFlag, setCreateBlogIndexFlag] = useState(false);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const [blogIndexList, setBlogIndexList] = useState<{
     content: String;
     top: Number;
@@ -99,11 +101,7 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
       id: router.query.id,
     }).then(() => {
       router.replace(
-        `/blog?first-category=${
-          store.getState().blogStore.activeBlogFirstCategoryId
-        }&second-category=${
-          store.getState().blogStore.activeBlogSecondCategoryId
-        }`,
+        `/blog?first-category=${blogStore1.activeFirstCategory}&second-category=${blogStore1.activeSecondCategory}`,
       );
     });
   };
@@ -138,6 +136,41 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
           h={'200px'}
           imageUrl={`${AWSS3Prefix}${props.data?.thumbnailImageUrl}`}
         >
+          <CC.AbsoluteRowBox gap={4} pd={'4px'}>
+            {blogStore1.activeFirstCategory && (
+              <Button
+                bg={'primary20'}
+                w={'max-content'}
+                onClick={() =>
+                  router.push(
+                    '/blog?first-category=' + props.data.firstCategoryId,
+                  )
+                }
+              >
+                {blogStore1.firstCategoryList[blogStore1.activeFirstCategory]}
+              </Button>
+            )}
+            {blogStore1.activeSecondCategory && (
+              <Button
+                bg={'secondary20'}
+                w={'max-content'}
+                onClick={() =>
+                  router.push(
+                    '/blog?first-category=' +
+                      props.data.firstCategoryId +
+                      '&second-category=' +
+                      props.data.secondCategoryId,
+                  )
+                }
+              >
+                {
+                  blogStore1.secondCategoryList[blogStore1.activeFirstCategory][
+                    blogStore1.activeSecondCategory
+                  ]?.name
+                }
+              </Button>
+            )}
+          </CC.AbsoluteRowBox>
           <Title pd={'16px 0px 8px 0px'}>
             <h1> {props.data?.title} </h1>
             <h3> {props.data?.description} </h3>

@@ -14,7 +14,6 @@ import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { batch } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -26,46 +25,50 @@ export async function getServerSideProps() {
   let data = {};
   // ! next-redux-wrapper 공부해보기
   if (res) {
-    data = res.data;
+    data = res.data.json;
   }
   return { props: data };
 }
 
-const Index = (props: any) => {
+type propsType = {
+  firstCategoryList: {
+    String: String;
+  };
+  secondCategoryList?: {
+    firstCategoryId?: {
+      secondCategoryId?: {
+        name?: String;
+        thumbnailImageUrl: String;
+      };
+    };
+  };
+};
+
+const Index = (props: propsType) => {
   useEffect(() => {
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
-    let _activeFirstCategoryName = props.json?.blogFirstCategoryList.filter(
-      (i) => i.id == urlQueryObject?.[`first-category`],
-    )[0]?.name;
-    batch(() => {
-      store.dispatch(
-        rootActions.blogStore.SET_BLOG_CATEGORY_LIST(
-          props.json?.blogFirstCategoryList,
-        ),
-      );
-      store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY({
-          activeBlogFirstCategoryId:
-            urlQueryObject?.[`first-category`] ||
-            props.json?.blogFirstCategoryList[0].id,
-          activeBlogFirstCategoryName:
-            _activeFirstCategoryName ||
-            props.json?.blogFirstCategoryList[0].name,
-        }),
-      );
-      store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-          activeBlogSecondCategoryId:
-            urlQueryObject?.[`second-category`] ||
-            props.json?.blogFirstCategoryList[0].secondCategoryList[0].id,
-          activeBlogSecondCategoryName:
-            props.json?.blogFirstCategoryList[0].secondCategoryList[0].name,
-        }),
-      );
-      store.dispatch(
-        rootActions.blogStore.SET_ACTIVE_BLOG_USER_ID(props.json?.userId),
-      );
-    });
+    // ! COMM :  url에 첫번째 카테고리 값이 있으면 그걸로 없으면 첫번째 카테고리
+    let firstCategoryIdTemp =
+      urlQueryObject?.[`first-category`] ||
+      Object.keys(props.firstCategoryList)[0];
+    store.dispatch(
+      rootActions.blogStore1.setActiveFirstCategory(firstCategoryIdTemp),
+    );
+    store.dispatch(
+      rootActions.blogStore1.setFirstCategoryList(props.firstCategoryList),
+    );
+    store.dispatch(
+      rootActions.blogStore1.setSecondCategoryList(props.secondCategoryList),
+    );
+    // ! COMM : 두번째 카테고리도 마찬가지로 작업
+    let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
+    store.dispatch(
+      rootActions.blogStore1.setActiveSecondCategory(
+        secondCategoryIdTemp
+          ? secondCategoryIdTemp
+          : Object.keys(props.secondCategoryList?.[firstCategoryIdTemp])[0],
+      ),
+    );
   }, []);
   return (
     <Container>

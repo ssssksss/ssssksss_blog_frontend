@@ -103,8 +103,7 @@ const BlogMainContainer = () => {
           </Link>
         ))}
         <FixedContainer>
-          {store.getState().authStore.id ===
-            store.getState().blogStore.activeBlogUserId && (
+          {store.getState().authStore.id == 13 && (
             <BlogSearchItem href={`/blog/create`}>
               <CC.RowCenterDiv
                 w={'100%'}

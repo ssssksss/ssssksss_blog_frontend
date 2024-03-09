@@ -24,7 +24,7 @@ interface IBlogSecondCategoryUpdateBoxProps {
 const BlogSecondCategoryUpdateBox = (
   props: IBlogSecondCategoryUpdateBoxProps,
 ) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const updateSecondCategoryMutation = BlogAPI.updateSecondCategory({
     onSuccessHandler: () => props.closeModal(),
   });
@@ -45,16 +45,14 @@ const BlogSecondCategoryUpdateBox = (
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,
       files: data.updateSecondCategoryImageFile,
-      directory: `/blog-category/${blogStore.activeBlogFirstCategoryId}`,
+      directory: `/blog-category/${blogStore1.activeFirstCategory}`,
     });
   };
 
   const changeUpdateCategoryImage = (data) => {
     methods.setValue('updateSecondCategoryId', data.value);
     setUpdateImageUrl(
-      blogStore.blogCategoryList
-        .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
-        .secondCategoryList.filter((i) => i.id == data.value)[0]
+      blogStore1.secondCategoryList[blogStore1.activeFirstCategory][data.value]
         .thumbnailImageUrl,
     );
   };
@@ -67,7 +65,7 @@ const BlogSecondCategoryUpdateBox = (
         </Header>
         <CC.ColumnDiv gap={28}>
           <Input
-            value={blogStore.activeBlogFirstCategoryName}
+            value={blogStore1.firstCategoryList[blogStore1.activeFirstCategory]}
             disabled={true}
             center={true}
           />
@@ -76,11 +74,11 @@ const BlogSecondCategoryUpdateBox = (
             placeholder={'2번째 카테고리 목록'}
             bg={'transparent'}
             outline={true}
-            data={blogStore.blogCategoryList
-              .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
-              .secondCategoryList.map((i) => {
-                return { value: i.id, name: i.name, bg: '' };
-              })}
+            data={Object.entries(
+              blogStore1.secondCategoryList[blogStore1.activeFirstCategory],
+            ).map(([key, value]) => {
+              return { value: key, name: value.name, bg: '' };
+            })}
             onChange={changeUpdateCategoryImage}
           ></Select>
           <Input

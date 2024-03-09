@@ -5,7 +5,6 @@ import { BlogSecondCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { memo } from 'react';
@@ -18,27 +17,9 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const deleteSecondCategoryMutation = BlogAPI.deleteSecondCategory({
     onSuccessHandler: () => {
-      let temp = blogStore.blogCategoryList.filter(
-        (i) => i.id == blogStore.activeBlogFirstCategoryId,
-      )[0];
-      if (temp.secondCategoryList.length > 0) {
-        store.dispatch(
-          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-            activeBlogSecondCategoryId: temp.secondCategoryList[0]?.id,
-            activeBlogSecondCategoryName: temp.secondCategoryList[0]?.name,
-          }),
-        );
-      } else {
-        store.dispatch(
-          rootActions.blogStore.SET_ACTIVE_BLOG_SECOND_CATEGORY({
-            activeBlogSecondCategoryId: null,
-            activeBlogSecondCategoryName: null,
-          }),
-        );
-      }
       props.closeModal();
     },
   });
@@ -69,11 +50,11 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
             placeholder={'2번째 카테고리'}
             bg={'transparent'}
             outline={true}
-            data={blogStore.blogCategoryList
-              .filter((i) => i.id == blogStore.activeBlogFirstCategoryId)[0]
-              .secondCategoryList.map((i) => {
-                return { value: i.id, name: i.name, bg: '' };
-              })}
+            data={Object.entries(
+              blogStore1.secondCategoryList[blogStore1.activeFirstCategory],
+            ).map(([key, value]) => {
+              return { value: key, name: value.name, bg: '' };
+            })}
             onChange={(data) => {
               methods.setValue('deleteSecondCategoryId', data.value);
               methods.trigger('deleteSecondCategoryId');
