@@ -4,7 +4,7 @@ import { StackIcon } from '@components/common/icons/StackIcon';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -218,7 +218,7 @@ const MyStack = (props: IMyStackProps) => {
     DevelopList[props.active][0].stack,
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setActiveStack(DevelopList[props.active][0].stack);
   }, [props.active]);
 
