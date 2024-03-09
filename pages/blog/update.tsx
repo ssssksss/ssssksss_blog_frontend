@@ -1,6 +1,7 @@
 import Layout1 from '@components/layout/Layout1';
 import { Spinner37 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 
 /**
@@ -22,10 +23,23 @@ const UpdateBlogCSR = dynamic(
   },
 );
 
-const CreateUpdate = () => {
+export async function getServerSideProps(context) {
+  if (context.query.id) {
+    const { data } = await AxiosInstance.get(
+      `/api/blog?id=${context.query.id}`,
+    );
+    // ! next-redux-wrapper 공부해보기
+    return { props: data.json };
+  }
+  return {};
+}
+
+const CreateUpdate = (props: any) => {
   return (
     <Container>
-      {typeof window !== 'undefined' && <UpdateBlogCSR edit={true} />}
+      {typeof window !== 'undefined' && (
+        <UpdateBlogCSR edit={true} {...props} />
+      )}
     </Container>
   );
 };

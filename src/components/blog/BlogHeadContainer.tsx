@@ -3,12 +3,13 @@ import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
 import useIntersection from '@components/useHook/useIntersection';
 import styled from '@emotion/styled';
-import { store } from '@redux/store';
+import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import BlogItem from './BlogItem';
 import BlogRecentListContainer from './BlogRecentListContainer';
 /**
@@ -22,6 +23,7 @@ const BlogHeadContainer = () => {
   const [isInputChange, setIsInputChange] = useState(true);
   const inputRef = useRef<null>();
   const queryClient = useQueryClient();
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const {
     data: blogListResData,
     fetchNextPage,
@@ -34,20 +36,17 @@ const BlogHeadContainer = () => {
     {
       refetchOnWindowFocus: false,
       select: (data) => {
+        // ! 새로운 데이터가 오면 기존 이미지들로 디폴트 값을 채워준다.
         let temp = [];
         data?.pages.map((i) => {
           let temp1 = [
             ...i.json.blogList.map((_i) => {
               return {
                 ..._i,
-                defaultImageUrl: store
-                  .getState()
-                  .blogStore.blogCategoryList.filter(
-                    (j) => j.id == _i.firstCategoryId,
-                  )[0]
-                  ?.secondCategoryList.filter(
-                    (k) => k.id == _i.secondCategoryId,
-                  )[0].thumbnailImageUrl,
+                defaultImageUrl:
+                  blogStore1.secondCategoryList[_i.firstCategoryId][
+                    _i.secondCategoryId
+                  ].thumbnailImageUrl,
               };
             }),
           ];

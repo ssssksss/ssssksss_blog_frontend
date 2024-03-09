@@ -8,7 +8,6 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -25,9 +24,7 @@ import 'prismjs/themes/prism.css';
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import 'tui-color-picker/dist/tui-color-picker.css';
-import ModalButton from '../common/button/ModalButton';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
-import BlogContentTemplateModal from './BlogContentTemplateModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -37,6 +34,21 @@ import BlogContentTemplateModal from './BlogContentTemplateModal';
 
 interface IEditCreateUpdateBlogContainerProps {
   edit?: boolean;
+  commentNumber: number;
+  blogFirstCategoryName: string;
+  blogSecondCategoryName: string;
+  description: string;
+  viewNumber: number;
+  title: string;
+  blogContentId: number;
+  firstCategoryId: number;
+  userId: number;
+  content: string;
+  createdAt: string;
+  thumbnailImageUrl: string;
+  id: number;
+  secondCategoryId: number;
+  likeNumber: number;
 }
 
 const CreateUpdateBlogContainer = (
@@ -52,78 +64,62 @@ const CreateUpdateBlogContainer = (
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
+  const [categoryList, setCategoryList] = useState({
+    firstCategoryList: {},
+    secondCategoryList: {},
+  });
   const methods = useForm({
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
     defaultValues: {
-      selectFirstCategoryId: '',
-      selectFirstCategoryName: '',
-      selectSecondCategoryId: '',
-      selectSecondCategoryName: '',
+      selectFirstCategoryId: undefined,
+      selectFirstCategoryName: undefined,
+      selectSecondCategoryId: undefined,
+      selectSecondCategoryName: undefined,
       title: '',
       description: '',
       thumbnailImageFile: '',
       content: '# \n ##  \n',
     },
   });
-  const blogCategoryListResData = BlogAPI.getBlogCategoryList();
-  BlogAPI.getBlog({
-    id: router.query.id,
-    onSuccessHandler: (res) => {
-      methods.setValue('title', res.data.json?.title);
-      methods.setValue('description', res.data.json?.description);
-      methods.setValue('selectFirstCategoryId', res.data.json?.firstCategoryId);
+  const blogCategoryListResData = BlogAPI.getBlogCategoryList({
+    onSuccessHandler: (data) => {
+      setCategoryList({
+        firstCategoryList: data.json.firstCategoryList,
+        secondCategoryList: data.json.secondCategoryList,
+      });
+      methods.setValue('selectFirstCategoryId', props.firstCategoryId);
+      methods.setValue('selectSecondCategoryId', props.secondCategoryId);
+
+      methods.setValue('selectFirstCategoryName', props.blogFirstCategoryName);
       methods.setValue(
-        'selectSecondCategoryId',
-        res.data.json?.secondCategoryId,
+        'selectSecondCategoryName',
+        props.blogSecondCategoryName,
+        { shouldValidate: true },
       );
-
-      blogCategoryListResData.data.json.blogFirstCategoryList.map((i) => {
-        if (i.id == res.data.json?.firstCategoryId) {
-          methods.setValue('selectFirstCategoryName', i.name);
-          i.secondCategoryList.map((j) => {
-            if (j.id == res.data.json?.secondCategoryId) {
-              methods.setValue('selectSecondCategoryName', j.name, {
-                shouldValidate: true,
-              });
-            }
-          });
-        }
-      });
-      setDefaultImageUrl(res.data.json?.thumbnailImageUrl);
+      methods.setValue('title', props.title);
+      methods.setValue('description', props.description);
+      methods.setValue('content', props.content);
       const viewerInstance = editorRef.current?.getInstance();
-      viewerInstance?.setMarkdown(res.data?.json?.content);
+      viewerInstance?.setMarkdown(props.content);
+      setDefaultImageUrl(props.thumbnailImageUrl);
 
-      BlogAPI.getBlogContentTemplate({
-        secondCategoryId: res.data.json?.secondCategoryId,
-      }).then((res) => {
-        store.dispatch(
-          rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-            res.data?.blogContentTemplateList,
-          ),
-        );
-      });
-      // TODO : 코드가 지칭하는 변수가 뭔지 모르겠으니 수정 필요
-      let _blogContentImageList = [];
-      let index2 = 0;
-      const _TRUE = true;
-      while (_TRUE) {
-        let index1 = res.data.json?.content.indexOf(AWSS3Prefix, index2);
-        if (index1 === -1) break;
-        index2 = res.data.json?.content.indexOf(
-          '.',
-          index1 + AWSS3Prefix.length,
-        );
-        _blogContentImageList.push(
-          res.data.json?.content.substring(
-            index1 + AWSS3Prefix.length,
-            index2 + 4,
-          ),
-        );
-      }
-      setBlogContentImageList(_blogContentImageList);
+      const func = () => {
+        let _blogContentImageList = [];
+        let index2 = 0;
+        const _TRUE = true;
+        while (_TRUE) {
+          let index1 = props.content.indexOf(AWSS3Prefix, index2);
+          if (index1 === -1) break;
+          index2 = props.content.indexOf('.', index1 + AWSS3Prefix.length);
+          _blogContentImageList.push(
+            props.content.substring(index1 + AWSS3Prefix.length, index2 + 4),
+          );
+        }
+        setBlogContentImageList(_blogContentImageList);
+      };
+      func();
     },
-    enabled: props.edit && !!blogCategoryListResData.data?.json,
   });
   const submitHandler = async () => {
     setIsLoading(true);
@@ -251,22 +247,6 @@ const CreateUpdateBlogContainer = (
         blogCategoryListResData?.data.json?.secondCategoryList[props.value],
       )[0]?.thumbnailImageUrl,
     );
-
-    // blogCategoryListResData?.data.json?.firstCategoryList
-    //   .filter((i) => i.id == props.value)
-    //   .map((j) => {
-    //     if (j.secondCategoryList.length > 0) {
-    //       BlogAPI.getBlogContentTemplate({
-    //         secondCategoryId: j.secondCategoryList[0].id,
-    //       }).then((res) => {
-    //         store.dispatch(
-    //           rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-    //             res.data?.blogContentTemplateList,
-    //           ),
-    //         );
-    //       });
-    //     }
-    //   });
   };
 
   const onChangeSecondCategoryHandler = async (props: {
@@ -274,28 +254,17 @@ const CreateUpdateBlogContainer = (
     name: string;
     bg: string;
   }) => {
-    blogCategoryListResData?.data.json?.blogFirstCategoryList
-      .filter((i) => i.id == methods.getValues('selectFirstCategoryId'))
-      .map((j) => {
-        j.secondCategoryList
-          .filter((k) => k.id == props.value)
-          .map((l) => {
-            methods.setValue('selectSecondCategoryId', l.id);
-            methods.setValue('selectSecondCategoryName', l.name, {
-              shouldValidate: true,
-            });
-            setDefaultImageUrl(l.thumbnailImageUrl);
-            BlogAPI.getBlogContentTemplate({
-              secondCategoryId: l.id,
-            }).then((res) => {
-              store.dispatch(
-                rootActions.blogContentTemplateStore.SET_BLOG_CONTENT_TEMPLATE_LIST(
-                  res.data?.blogContentTemplateList,
-                ),
-              );
-            });
-          });
-      });
+    categoryList.secondCategoryList[props.value];
+
+    methods.setValue('selectSecondCategoryId', props.value);
+    methods.setValue('selectSecondCategoryName', props.name, {
+      shouldValidate: true,
+    });
+    setDefaultImageUrl(
+      categoryList.secondCategoryList[
+        methods.getValues('selectFirstCategoryId')
+      ][props.value].thumbnailImageUrl,
+    );
   };
 
   useEffect(async () => {
@@ -344,16 +313,12 @@ const CreateUpdateBlogContainer = (
                         value: methods.getValues('selectFirstCategoryId'),
                         name: methods.getValues('selectFirstCategoryName'),
                       }}
-                      data={
-                        blogCategoryListResData?.isLoading ||
-                        Object.entries(
-                          blogCategoryListResData?.data?.json
-                            ?.firstCategoryList || {},
-                        )?.map(([key, value]) => ({
+                      data={Object.entries(categoryList.firstCategoryList)?.map(
+                        ([key, value]) => ({
                           value: key,
                           name: value,
-                        }))
-                      }
+                        }),
+                      )}
                     ></Select>
                     <Select
                       w={'100%'}
@@ -364,17 +329,19 @@ const CreateUpdateBlogContainer = (
                         name: methods.getValues('selectSecondCategoryName'),
                       }}
                       data={
-                        blogCategoryListResData?.isLoading &&
-                        methods.getValues('selectFirstCategoryId') != '' &&
-                        Object.entries(
-                          blogCategoryListResData?.data?.json
-                            ?.secondCategoryList?.[
-                            methods.getValues('selectFirstCategoryId')
-                          ] || {},
-                        )?.map(([key, value]) => ({
-                          value: key,
-                          name: value.name,
-                        }))
+                        (categoryList.secondCategoryList[
+                          methods.getValues('selectFirstCategoryId') ||
+                            props.secondCategoryId
+                        ] &&
+                          Object.entries(
+                            categoryList.secondCategoryList[
+                              methods.getValues('selectFirstCategoryId') ||
+                                props.secondCategoryId
+                            ],
+                          )?.map(([key, value]) => ({
+                            value: key,
+                            name: value.name,
+                          }))) || { value: '', name: '' }
                       }
                     ></Select>
                   </CC.RowBetweenDiv>
@@ -469,7 +436,7 @@ const CreateUpdateBlogContainer = (
                 </Button>
               </EditorFooter>
               <BlogItemContentFormContainer>
-                <ModalButton
+                {/* <ModalButton
                   color={'primary80'}
                   outline={true}
                   modal={
@@ -507,7 +474,7 @@ const CreateUpdateBlogContainer = (
                         {index}
                       </BlogItemContentFormButton>
                     ),
-                  )}
+                  )} */}
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(

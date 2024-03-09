@@ -10,7 +10,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
-const getBlogCategoryList = () => {
+const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
   return UseQueryHook({
     queryKey: ['blogCategoryList'],
     requestData: {
@@ -18,7 +18,8 @@ const getBlogCategoryList = () => {
       method: 'GET',
     },
     isRefetchWindowFocus: false,
-    onSuccessHandler: () => {
+    onSuccessHandler: ({ data }) => {
+      props.onSuccessHandler(data);
       // let urlQueryObject = UrlQueryStringToObject(window.location.href);
     },
   });
