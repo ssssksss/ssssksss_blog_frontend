@@ -39,6 +39,7 @@ export const UseQueryHook = (
     refetchOnMount?: boolean | string;
     onSuccessHandler?: () => () => void;
     enabled: boolean;
+    staleTime?: number;
   }, // focus시 refetch, default true
 ) => {
   const {
@@ -73,6 +74,8 @@ export const UseQueryHook = (
       retry: '1',
       // notifyOnChangeProps: ['data', 'isFetching'],
       enabled: props.enabled != false,
+      staleTime: props.staleTime,
+      cacheTime: props.cacheTime,
       onError: (err) => {
         let toasttifyResponse = ['error', false];
         switch (err?.response?.status) {
