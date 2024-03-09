@@ -2,11 +2,8 @@ import { TodoAPI } from '@api/TodoAPI';
 import ModalButton from '@components/common/button/ModalButton';
 import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
-import { store } from '@redux/store';
-import { RootState } from '@redux/store/reducers';
-import { SET_TODO_LIST } from '@redux/store/todo';
 import { CC } from '@styles/commonComponentStyle';
-import { useSelector } from 'react-redux';
+import { useReducer } from 'react';
 import TodoModal from './modal/TodoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -16,48 +13,45 @@ import TodoModal from './modal/TodoModal';
  */
 
 interface ITodoItemProps {
-  data: {
-    id: number;
-    content: string;
-    isChecked: boolean;
-  };
+  content: string;
+  id: number;
+  isChecked: boolean;
+  userId: number;
 }
 
 const TodoItem = (props: ITodoItemProps) => {
-  const todoStore = useSelector((state: RootState) => state.todoStore);
+  const [isChecked, isCheckedToggle] = useReducer(
+    (prev) => !prev,
+    props.isChecked,
+  );
 
   const _IsCheckedToggleHandler = () => {
+    isCheckedToggle();
     TodoAPI.toggleCheckTodo({
-      id: props.data.id,
-    }).then((_) => {
-      let temp = todoStore.todoList.map((i) => {
-        if (i.id == props.data.id) {
-          i.isChecked = !props.data.isChecked;
-        }
-        return i;
-      });
-      store.dispatch(SET_TODO_LIST(temp));
+      id: props.id,
+    }).error((_) => {
+      isCheckedToggle();
     });
   };
 
   return (
-    <Container isChecked={props?.data.isChecked}>
+    <Container isChecked={isChecked}>
       <Input
         type="checkbox"
         outline={true}
         w={'24px'}
         h={'24px'}
-        checked={props?.data.isChecked}
+        checked={isChecked}
         onClick={() => _IsCheckedToggleHandler()}
       />
       <Title
-        isChecked={props?.data?.isChecked}
-        modal={<TodoModal edit={true} data={props?.data} />}
+        isChecked={isChecked}
+        modal={<TodoModal edit={true} data={props} />}
         modalOverlayVisible={true}
         modalW={'50%'}
         hover={false}
       >
-        {props?.data.content}
+        {props.content}
       </Title>
     </Container>
   );

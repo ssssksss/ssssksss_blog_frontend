@@ -19,14 +19,21 @@ import TodoModal from './modal/TodoModal';
  * @description 설명
  */
 
+interface IScheduleResDataProps {
+  content: string;
+  id: number;
+  isChecked: boolean;
+  userId: number;
+}
+
 const TodoScheduleContainer = (_) => {
   // const todoStore = useSelector((state: RootState) => state.todoStore);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({
     type: 'today',
   }).data?.json;
-  const todoResData = TodoAPI.getTodoList()?.data?.json?.todoList;
-
+  const todoResData: IScheduleResDataProps =
+    TodoAPI.getTodoList()?.data?.json?.todoList;
   return (
     <Container>
       <CC.ColumnDiv>
@@ -49,7 +56,7 @@ const TodoScheduleContainer = (_) => {
         <ListContainer>
           {todoResData?.map((i) => (
             <li key={i.data?.id}>
-              <TodoItem data={i} />
+              <TodoItem {...i} />
             </li>
           ))}
         </ListContainer>
