@@ -57,7 +57,9 @@ const Button = ({
       {...props}
     >
       {children}
-      {props.badgeValue && <Badge>{props.badgeValue}</Badge>}
+      {String(props.badgeValue) != 'undefined' && (
+        <Badge>{props.badgeValue}</Badge>
+      )}
     </ButtonStyle>
   );
 };
