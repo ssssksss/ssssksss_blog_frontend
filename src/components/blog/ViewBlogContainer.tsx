@@ -30,7 +30,7 @@ import 'tui-color-picker/dist/tui-color-picker.css';
  * @description 설명
  */
 
-interface IBlogResDataProps {
+interface IProps {
   id: number;
   title: string;
   description: string;
@@ -43,9 +43,12 @@ interface IBlogResDataProps {
   thumbnailImageUrl: string;
   createdAt: string;
   blogContentId: string;
+  blogFirstCategoryName: string;
+  blogSecondCategoryName: string;
+  content: string;
 }
 
-const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
+const ViewBlogContainer = (props: IProps) => {
   let backUrl = `/blog`;
   const router = useRouter();
   const editorRef = useRef<Viewer>(null);
@@ -53,6 +56,10 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   const [createBlogIndexFlag, setCreateBlogIndexFlag] = useState(false);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const [blogCategory] = useState({
+    firstCategoryName: props.blogFirstCategoryName,
+    secondCategoryName: props.blogSecondCategoryName,
+  });
   const [blogIndexList, setBlogIndexList] = useState<{
     content: String;
     top: Number;
@@ -60,9 +67,9 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
   }>([]);
 
   useEffect(() => {
-    backUrl = `/blog?first-category=${props.data?.firstCategoryId}&second-category=${props.data?.secondCategoryId}`;
+    backUrl = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
     const viewerInstance = editorRef.current?.getInstance();
-    viewerInstance?.setMarkdown(props.data?.content);
+    viewerInstance?.setMarkdown(props.content);
 
     document.querySelectorAll('pre').forEach((i) => {
       let test = document.createElement('button');
@@ -82,8 +89,8 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
       });
       i.appendChild(test);
     });
-    createBlogIndex();
 
+    createBlogIndex();
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
         router.back();
@@ -114,8 +121,8 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
     if (createBlogIndexFlag) return;
     setCreateBlogIndexFlag(true);
     let temp = document
-      .getElementsByClassName('toastui-editor-contents')[0]
-      .querySelectorAll('h1,h2,h3');
+      ?.getElementsByClassName('toastui-editor-contents')[0]
+      ?.querySelectorAll('h1,h2,h3');
     let htmlTagIndexTempArray = [];
     temp.forEach((i) => {
       htmlTagIndexTempArray.push({
@@ -134,61 +141,51 @@ const ViewBlogContainer = (props: { data: IBlogResDataProps }) => {
           pd={'0px 8px'}
           w={'100%'}
           h={'200px'}
-          imageUrl={`${AWSS3Prefix}${props.data?.thumbnailImageUrl}`}
+          imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
         >
           <CC.AbsoluteRowBox gap={4} pd={'4px'}>
-            {blogStore1.activeFirstCategory && (
-              <Button
-                bg={'primary20'}
-                w={'max-content'}
-                onClick={() =>
-                  router.push(
-                    '/blog?first-category=' + props.data.firstCategoryId,
-                  )
-                }
-              >
-                {blogStore1.firstCategoryList[blogStore1.activeFirstCategory]}
-              </Button>
-            )}
-            {blogStore1.activeSecondCategory && (
-              <Button
-                bg={'secondary20'}
-                w={'max-content'}
-                onClick={() =>
-                  router.push(
-                    '/blog?first-category=' +
-                      props.data.firstCategoryId +
-                      '&second-category=' +
-                      props.data.secondCategoryId,
-                  )
-                }
-              >
-                {
-                  blogStore1.secondCategoryList[blogStore1.activeFirstCategory][
-                    blogStore1.activeSecondCategory
-                  ]?.name
-                }
-              </Button>
-            )}
+            <Button
+              bg={'primary20'}
+              w={'max-content'}
+              onClick={() =>
+                router.push('/blog?first-category=' + props.firstCategoryId)
+              }
+            >
+              {blogCategory.firstCategoryName}
+            </Button>
+            <Button
+              bg={'secondary20'}
+              w={'max-content'}
+              onClick={() =>
+                router.push(
+                  '/blog?first-category=' +
+                    props.firstCategoryId +
+                    '&second-category=' +
+                    props.secondCategoryId,
+                )
+              }
+            >
+              {props.blogSecondCategoryName}
+            </Button>
           </CC.AbsoluteRowBox>
           <Title pd={'16px 0px 8px 0px'}>
-            <h1> {props.data?.title} </h1>
-            <h3> {props.data?.description} </h3>
+            <h1> {props.title} </h1>
+            <h3> {props.description} </h3>
           </Title>
           <CC.RowRightDiv>
             <CC.ColumnDiv>
               <CC.RowRightDiv gap={4}>
                 <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-                {props.data?.likeNumber}
+                {props.likeNumber}
               </CC.RowRightDiv>
-              <CC.RowDiv>{dateFormat4y2m2d(props.data?.createdAt)}</CC.RowDiv>
+              <CC.RowDiv>{dateFormat4y2m2d(props.createdAt)}</CC.RowDiv>
             </CC.ColumnDiv>
           </CC.RowRightDiv>
         </HeaderContainer>
         <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
-          {props.data?.content && (
+          {props.content && (
             <Viewer
-              initialValue={props.data?.content}
+              initialValue={props.content}
               theme="black"
               ref={editorRef}
               plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
