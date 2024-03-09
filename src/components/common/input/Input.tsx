@@ -394,6 +394,7 @@ const ErrorMessage = styled.span<IInputProps>`
       : props.size === 'md'
         ? '48px'
         : '32px')};
+  transform: translate(0%, 50%);
   top: calc(var(--height));
   color: red;
   position: absolute;
