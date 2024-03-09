@@ -4,13 +4,11 @@ import Input from '@components/common/input/Input';
 import useIntersection from '@components/useHook/useIntersection';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
 import BlogItem from './BlogItem';
 import BlogRecentListContainer from './BlogRecentListContainer';
 /**
@@ -24,7 +22,6 @@ const BlogHeadContainer = () => {
   const [isInputChange, setIsInputChange] = useState(true);
   const inputRef = useRef<null>();
   const queryClient = useQueryClient();
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const {
     data: blogListResData,
     fetchNextPage,
