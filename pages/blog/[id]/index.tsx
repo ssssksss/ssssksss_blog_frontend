@@ -14,7 +14,7 @@ import Head from 'next/head';
 // export async function getServerSideProps(context) {
 //   const { data } = await AxiosInstance.get(`/api/blog?id=${context.params.id}`);
 //   // ! next-redux-wrapper 공부해보기
-//   return { props: data };
+//   return { props: data.json };
 // }
 
 export async function getStaticPaths() {
@@ -31,7 +31,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
-  return { props: res.data, revalidate: 3600 };
+  return { props: res.data.json, revalidate: 3600 };
 }
 
 const ViewBlogCSR = dynamic(
@@ -46,11 +46,10 @@ const Index = (props: any) => {
     <>
       <Head>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
-        <title> {props.json.title} </title>
+        <title> {props.title} </title>
       </Head>
-      {/* <ViewBlogContainer data={props.json} /> */}
       <Container>
-        {typeof window !== 'undefined' && <ViewBlogCSR data={props.json} />}
+        {typeof window !== 'undefined' && <ViewBlogCSR {...props} />}
       </Container>
     </>
   );

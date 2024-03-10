@@ -49,13 +49,13 @@ interface IProps {
 }
 
 const ViewBlogContainer = (props: IProps) => {
-  let backUrl = `/blog`;
+  const backUrl = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
   const router = useRouter();
   const editorRef = useRef<Viewer>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
-  const [createBlogIndexFlag, setCreateBlogIndexFlag] = useState(false);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const viewerInstance = editorRef.current?.getInstance();
   const [blogCategory] = useState({
     firstCategoryName: props.blogFirstCategoryName,
     secondCategoryName: props.blogSecondCategoryName,
@@ -67,30 +67,29 @@ const ViewBlogContainer = (props: IProps) => {
   }>([]);
 
   useEffect(() => {
-    backUrl = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
-    const viewerInstance = editorRef.current?.getInstance();
     viewerInstance?.setMarkdown(props.content);
-
-    document.querySelectorAll('pre').forEach((i) => {
-      let test = document.createElement('button');
-      test.style.position = 'absolute';
-      test.style.right = '4px';
-      test.style.top = '4px';
-      test.style.width = '24px';
-      test.style.height = '24px';
-      test.addEventListener('click', () => {
-        navigator.clipboard.writeText(i.childNodes[0].textContent);
-        store.dispatch(
-          SET_TOASTIFY_MESSAGE({
-            type: 'success',
-            message: `복사되었습니다.`,
-          }),
-        );
+    setTimeout(() => {
+      document.querySelectorAll('pre')?.forEach((i) => {
+        let test = document.createElement('button');
+        test.style.position = 'absolute';
+        test.style.right = '4px';
+        test.style.top = '4px';
+        test.style.width = '24px';
+        test.style.height = '24px';
+        test.addEventListener('click', () => {
+          navigator.clipboard.writeText(i.childNodes[0].textContent);
+          store.dispatch(
+            SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: `복사되었습니다.`,
+            }),
+          );
+        });
+        i.appendChild(test);
+        createBlogIndex();
       });
-      i.appendChild(test);
-    });
+    }, 1000);
 
-    createBlogIndex();
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
         router.back();
@@ -118,13 +117,11 @@ const ViewBlogContainer = (props: IProps) => {
    * @description 블로그 글 인덱스 목록을 만들어주는 함수
    */
   const createBlogIndex = () => {
-    if (createBlogIndexFlag) return;
-    setCreateBlogIndexFlag(true);
     let temp = document
       ?.getElementsByClassName('toastui-editor-contents')[0]
-      ?.querySelectorAll('h1,h2,h3');
+      ?.querySelectorAll('h1[data-nodeid],h2[data-nodeid]');
     let htmlTagIndexTempArray = [];
-    temp.forEach((i) => {
+    temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
         top: i.getBoundingClientRect().top - 40,

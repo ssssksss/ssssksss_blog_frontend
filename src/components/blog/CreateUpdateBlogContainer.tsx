@@ -8,6 +8,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -90,7 +91,6 @@ const CreateUpdateBlogContainer = (
       });
       methods.setValue('selectFirstCategoryId', props.firstCategoryId);
       methods.setValue('selectSecondCategoryId', props.secondCategoryId);
-
       methods.setValue('selectFirstCategoryName', props.blogFirstCategoryName);
       methods.setValue(
         'selectSecondCategoryName',
@@ -104,7 +104,8 @@ const CreateUpdateBlogContainer = (
       viewerInstance?.setMarkdown(props.content);
       setDefaultImageUrl(props.thumbnailImageUrl);
 
-      const func = () => {
+      setTimeout(() => {
+        // ! 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
         let _blogContentImageList = [];
         let index2 = 0;
         const _TRUE = true;
@@ -117,8 +118,7 @@ const CreateUpdateBlogContainer = (
           );
         }
         setBlogContentImageList(_blogContentImageList);
-      };
-      func();
+      }, 1000);
     },
   });
   const submitHandler = async () => {
@@ -274,6 +274,28 @@ const CreateUpdateBlogContainer = (
         hideContainerToggle();
       }
     };
+
+    setTimeout(() => {
+      document.querySelectorAll('pre')?.forEach((i) => {
+        let test = document.createElement('button');
+        test.style.position = 'absolute';
+        test.style.right = '4px';
+        test.style.top = '4px';
+        test.style.width = '24px';
+        test.style.height = '24px';
+        test.addEventListener('click', () => {
+          navigator.clipboard.writeText(i.childNodes[0].textContent);
+          store.dispatch(
+            SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: `복사되었습니다.`,
+            }),
+          );
+        });
+        i.appendChild(test);
+      });
+    }, 1000);
+
     window.addEventListener('keydown', keyDownEventFunc);
 
     return () => {
@@ -289,7 +311,7 @@ const CreateUpdateBlogContainer = (
             store.getState().blogStore.activeBlogUserId) && (
           <>
             {isLoading && <LoadingComponent />}
-            <Container isLoading={isLoading}>
+            <Container isLoading={isLoading} icon={Icons.PlayIcon}>
               <HeaderContainer gap={8}>
                 <Button
                   id={'hideBlogHeaderButton'}
@@ -528,6 +550,7 @@ export default CreateUpdateBlogContainer;
 
 const Container = styled(CC.ColumnDiv.withComponent('section'))<{
   isLoading: boolean;
+  icon: string;
 }>`
   position: relative;
   display: flex;
@@ -556,16 +579,19 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
       width: 100%;
       background: ${(props) => props.theme.colors.red20 + '33'};
       font-size: ${(props) => props.theme.calcRem(28)};
+      border-radius: 8px;
       padding: 4px 0px;
     }
     h1[data-nodeid]::before {
-      content: '📌 ';
+      counter-increment: section;
+      content: '📌 [' counter(section) '] ';
     }
     h2[data-nodeid] {
       border: none;
       width: 100%;
       background: ${(props) => props.theme.colors.orange20 + '33'};
       font-size: ${(props) => props.theme.calcRem(24)};
+      border-radius: 8px;
       padding: 2px 0px;
     }
     h2[data-nodeid]::before {
@@ -576,6 +602,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
       width: 100%;
       background: ${(props) => props.theme.colors.orange20 + '33'};
       font-size: ${(props) => props.theme.calcRem(20)};
+      border-radius: 8px;
     }
     h3[data-nodeid]::before {
       content: '🔶 ';
@@ -589,7 +616,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
       position: relative;
       box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
       font-size: ${(props) => props.theme.calcRem(12)};
-      background: ${(props) => props.theme.colors.white80};
+      background: ${(props) => props.theme.colors.gray20};
 
       & > button {
         display: none;
