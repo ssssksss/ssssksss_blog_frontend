@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { animationKeyFrames } from '@styles/Animations';
 import { colorTypes } from '@styles/theme';
 import { MouseEventHandler, ReactNode, useCallback } from 'react';
 
@@ -160,6 +161,10 @@ ${(props) =>
   font-display: optional;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+
+  animation: ${(props) =>
+      props.animation == 1 && animationKeyFrames.UpToDownRepeat}
+    infinite 1s;
 `;
 
 const Badge = styled.div`
