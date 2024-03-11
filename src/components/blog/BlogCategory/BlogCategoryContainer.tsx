@@ -154,7 +154,7 @@ const Container = styled(CC.ColumnDiv)`
 const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   gap: 8px;
   display: flex;
-  overflow-y: hidden;
+  ${(props) => props.theme.scroll.hiddenY};
   padding: 8px 4px;
   background: ${(props) => props.theme.main.contrast};
 
@@ -165,7 +165,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 
   @media screen (max-height: 600px) {
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    ${(props) => props.theme.scroll.hiddenX};
   }
 
   ::-webkit-scrollbar {
@@ -194,7 +194,7 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
 
   @media (max-height: ${(props) => props.theme.deviceSizes.tablet}) {
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    ${(props) => props.theme.scroll.hiddenX};
     /* ${(props) => props.theme.scroll.hidden}; */
     ::-webkit-scrollbar {
       width: auto;

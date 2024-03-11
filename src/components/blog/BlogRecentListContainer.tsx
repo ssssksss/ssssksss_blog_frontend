@@ -28,8 +28,8 @@ export default memo(BlogRecentListContainer);
 
 const Container = styled.div<{ isOpen: boolean }>`
   position: absolute;
-  right: 4px;
-  top: 4px;
+  right: 0px;
+  top: 0px;
   /* transform: translate(0%, -100%); */
   background: ${(props) => props.theme.main.secondary40};
   border-radius: 8px;

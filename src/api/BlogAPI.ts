@@ -7,6 +7,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -397,11 +398,14 @@ const updateBlog = (props: string) => {
       formData.append('imageFileList', i);
     });
 
-    // const handler = (res: NextApiResponse) => {
-    //   res.revalidate(`/blog/${props.id}`);
-    // };
+    const handler = (req: NextApiRequest, res: NextApiResponse) => {
+      res.revalidate(`/blog/${props.id}`);
+    };
 
-    return await AxiosInstance.put('/api/blog', formData);
+    return await AxiosInstance.put('/api/blog', formData).then(async (res) => {
+      await handler(res);
+      return res;
+    });
   };
 
   return useMutationHook({

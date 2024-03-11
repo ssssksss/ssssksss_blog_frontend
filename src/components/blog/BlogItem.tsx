@@ -88,14 +88,14 @@ const Container = styled(CC.RowDiv)`
     /* border: 1px solid ${(props) => props.theme.main.primary40}; */
     outline-color: ${(props) => props.theme.main.primary40};
     outline-offset: 1px;
-    background: ${(props) => `${props.theme.main.primary40}6f`};
+    background: ${(props) => `${props.theme.main.secondary20}`};
   }
 `;
 
 const BlogItemImageBox = styled(CC.RowDiv)`
   min-width: 80px;
   width: 80px;
-  background: ${(props) => props.theme.main.primary20};
+  background: ${(props) => props.theme.colors.gray20};
   border-radius: 10px;
   margin: 5px 0px;
 `;

@@ -33,6 +33,12 @@ interface IPositionProps {
   right: string;
   bottom: string;
 }
+interface IGridProps {
+  e1?: string;
+  e2?: string;
+  e3?: string;
+  e4?: string;
+}
 
 const propsCommonStyle = (props: any) => css`
   gap: ${props.gap}px;
@@ -51,6 +57,7 @@ const propsCommonStyle = (props: any) => css`
   font-size: ${props.fontSize};
   font-weight: ${props.fw && '800'};
   font-family: ${props.fontFamily};
+  position: ${props.position};
   ${props.overflow === 'hidden' &&
   css`
       overflow: scroll,
@@ -162,15 +169,22 @@ const GridColumn2 = styled.div<IStyleProps>`
   ${(props: any) => propsCommonStyle(props)};
 `;
 
-const GridColumn2Adjust = styled.div<IStyleProps>`
+const GridColumn2Adjust = styled.div<IStyleProps & IGridProps>`
   display: grid;
   grid-template-columns: ${(props) =>
-    `${props.first || 'auto'} ${props.second || 'auto'}`};
+    `${props.e1 || 'auto'} ${props.e2 || 'auto'}`};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
 const GridColumn3 = styled.div<IStyleProps>`
   ${commonTheme.grid.column3};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
+const GridColumn3Adjust = styled.div<IStyleProps & IGridProps>`
+  display: grid;
+  grid-template-columns: ${(props) =>
+    `${props.e1 || 'auto'} ${props.e2 || 'auto'} ${props.e3 || 'auto'}`};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
@@ -201,6 +215,23 @@ const AbsoluteColumnBox = styled.div<IStyleProps & IPositionProps>`
   bottom: ${(props) => props.bottom};
   left: ${(props) => props.left};
   right: ${(props) => props.right};
+  display: flex;
+  flex-flow: nowrap column;
+`;
+
+const RelativeBox = styled.div<IStyleProps>`
+  ${(props: any) => propsCommonStyle(props)};
+  position: relative;
+`;
+const RelativeRowBox = styled.div<IStyleProps>`
+  ${(props: any) => propsCommonStyle(props)};
+  position: relative;
+  display: flex;
+  flex-flow: nowrap row;
+`;
+const RelativeColumnBox = styled.div<IStyleProps>`
+  ${(props: any) => propsCommonStyle(props)};
+  position: relative;
   display: flex;
   flex-flow: nowrap column;
 `;
@@ -310,10 +341,14 @@ export const CC = {
   GridColumn2,
   GridColumn2Adjust,
   GridColumn3,
+  GridColumn3Adjust,
   GridColumn4,
   GridRow4,
   AbsoluteRowBox,
   AbsoluteColumnBox,
+  RelativeBox,
+  RelativeRowBox,
+  RelativeColumnBox,
   ErrorDiv,
   Img,
   ImgContainer,

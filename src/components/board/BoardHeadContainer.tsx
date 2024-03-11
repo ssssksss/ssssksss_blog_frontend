@@ -74,7 +74,7 @@ const BoardHeadContainer = () => {
       <CC.RowCenterDiv bg={'transparent'}>
         <h1 onClick={() => reset()}> 게시판 </h1>
       </CC.RowCenterDiv>
-      <CC.GridColumn2Adjust second={'160px'} gap={10}>
+      <CC.GridColumn2Adjust e2={'160px'} gap={10}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"

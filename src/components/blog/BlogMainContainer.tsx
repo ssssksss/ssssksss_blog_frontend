@@ -62,7 +62,7 @@ const BlogMainContainer = () => {
 
   return (
     <Container>
-      <HeaderContainer color={'primary80'}>
+      <HeaderContainer>
         <span>
           검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
         </span>
@@ -77,6 +77,7 @@ const BlogMainContainer = () => {
                   : '최신순',
             }}
             w={'90px'}
+            h={'22px'}
             data={[
               { name: '최신순', value: '', bg: '' },
               { name: '조회수순', value: 'viewNumber', bg: '' },
@@ -144,7 +145,7 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   border-radius: ${(props) => props.theme.borderRadius.br10};
   padding: 4px;
-  height: 40px;
+  height: 30px;
   background: ${(props) => props.theme.main.contrast};
 
   & > span:nth-of-type(1) {
