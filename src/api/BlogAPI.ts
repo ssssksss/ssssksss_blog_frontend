@@ -263,15 +263,7 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
     formData.append('name', reqData.name);
     formData.append('files', reqData.files);
     formData.append('directory', reqData.directory);
-    return await AxiosInstance({
-      url: '/api/blog-second-category',
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*',
-      },
-      data: formData,
-    });
+    return await AxiosInstance.put('/api/blog-second-category', formData);
   };
 
   return useMutationHook({
@@ -345,66 +337,82 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
   });
 };
 
-const createBlog = async (props: string) => {
-  let formData = new FormData();
-  formData.append('title', props.title);
-  formData.append('description', props.description);
-  formData.append('content', props.content);
-  formData.append('firstCategoryId', props.firstCategoryId);
-  formData.append('secondCategoryId', props.secondCategoryId);
-  formData.append('thumbnailImageFile', props.thumbnailImageFile);
-  formData.append('directory', props.directory);
+const createBlog = (props: string) => {
+  const router = useRouter();
+  const mutationFn = async (reqData) => {
+    let formData = new FormData();
+    formData.append('title', reqData.title);
+    formData.append('description', reqData.description);
+    formData.append('content', reqData.content);
+    formData.append('firstCategoryId', reqData.firstCategoryId);
+    formData.append('secondCategoryId', reqData.secondCategoryId);
+    formData.append('thumbnailImageFile', reqData.thumbnailImageFile);
+    formData.append('directory', reqData.directory);
 
-  props.imageUrlList?.map((i) => {
-    formData.append('imageUrlList', i);
-  });
+    reqData.imageUrlList?.map((i) => {
+      formData.append('imageUrlList', i);
+    });
 
-  props.imageFileList?.map((i) => {
-    formData.append('imageFileList', i);
-  });
+    reqData.imageFileList?.map((i) => {
+      formData.append('imageFileList', i);
+    });
 
-  return await ApiProcessHandler({
-    url: '/api/blog',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
+    return await AxiosInstance.post('/api/blog', formData);
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ data }) => {
+      props.onSuccessHandler();
+      router.replace(`/blog/${data.data.json.id}`);
     },
-    data: formData,
+    onErrorHandler: ({ variables }) => {
+      navigator.clipboard.writeText(variables.content);
+    },
   });
 };
 
-const updateBlog = async (props: string) => {
-  let formData = new FormData();
-  formData.append('id', props.id);
-  formData.append('title', props.title);
-  formData.append('description', props.description);
-  formData.append('content', props.content);
-  formData.append('firstCategoryId', props.firstCategoryId);
-  formData.append('secondCategoryId', props.secondCategoryId);
-  formData.append('thumbnailImageFile', props.thumbnailImageFile);
-  formData.append('directory', props.directory);
+const updateBlog = (props: string) => {
+  const router = useRouter();
+  const mutationFn = async (reqData: any) => {
+    let formData = new FormData();
+    formData.append('id', reqData.id);
+    formData.append('title', reqData.title);
+    formData.append('description', reqData.description);
+    formData.append('content', reqData.content);
+    formData.append('firstCategoryId', reqData.firstCategoryId);
+    formData.append('secondCategoryId', reqData.secondCategoryId);
+    formData.append('thumbnailImageFile', reqData.thumbnailImageFile);
+    formData.append('directory', reqData.directory);
 
-  props.deleteImageBucketDirectory?.map((i) => {
-    formData.append('deleteImageBucketDirectory', i);
-  });
+    reqData.deleteImageBucketDirectory?.map((i) => {
+      formData.append('deleteImageBucketDirectory', i);
+    });
 
-  props.imageUrlList?.map((i) => {
-    formData.append('imageUrlList', i);
-  });
+    reqData.imageUrlList?.map((i) => {
+      formData.append('imageUrlList', i);
+    });
 
-  props.imageFileList?.map((i) => {
-    formData.append('imageFileList', i);
-  });
+    reqData.imageFileList?.map((i) => {
+      formData.append('imageFileList', i);
+    });
 
-  return await ApiProcessHandler({
-    url: '/api/blog',
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
+    // const handler = (res: NextApiResponse) => {
+    //   res.revalidate(`/blog/${props.id}`);
+    // };
+
+    return await AxiosInstance.put('/api/blog', formData);
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: () => {
+      props.onSuccessHandler();
+      router.back();
     },
-    data: formData,
+    onErrorHandler: ({ variables }) => {
+      navigator.clipboard.writeText(variables.content);
+    },
   });
 };
 
