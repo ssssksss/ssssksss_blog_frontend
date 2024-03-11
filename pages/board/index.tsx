@@ -13,7 +13,7 @@ const Index = () => {
   return (
     <Container>
       <Head>
-        <title> 게시판 </title>
+        <title>게시판</title>
       </Head>
       <BoardHeaderContainer />
       <BoardMainContainer />

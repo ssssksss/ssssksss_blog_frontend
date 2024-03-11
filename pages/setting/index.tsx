@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <Container>
       <Head>
-        <title> 시스템 설정 </title>
+        <title>시스템 설정</title>
       </Head>
       <CC.RowDiv h={'40px'} bg={'white80'} fontSize={'1.2rem'}>
         전체 색상 설정

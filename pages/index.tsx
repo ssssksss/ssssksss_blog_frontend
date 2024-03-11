@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <Container>
       <Head>
-        <title> 홈 화면 </title>
+        <title>홈 화면</title>
       </Head>
       <CC.RowCenterDiv>
         <h2> 홈 화면 아직 미구성, 다른 개발 공부 중 </h2>

@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               name="viewport"
               content="initial-scale=1.0, width=device-width"
             />
-            <title> 가출한토토로의 블로그 </title>
+            <title>가출한토토로의 블로그</title>
           </Head>
           <NavBar>
             <Layout>

@@ -14,7 +14,7 @@ const Index = () => {
   return (
     <Container>
       <Head>
-        <title> 일정 관리 </title>
+        <title>일정 관리</title>
       </Head>
       {authStore.id ? <ScheduleContainer /> : '로그인이 필요합니다.'}
     </Container>

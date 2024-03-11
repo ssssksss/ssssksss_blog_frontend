@@ -45,8 +45,8 @@ const Index = (props: any) => {
   return (
     <>
       <Head>
+        <title>{props.title}</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
-        <title> {props.title} </title>
       </Head>
       <Container>
         {typeof window !== 'undefined' && <ViewBlogCSR {...props} />}

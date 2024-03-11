@@ -72,7 +72,7 @@ const Index = (props: propsType) => {
   return (
     <Container>
       <Head>
-        <title> 블로그 </title>
+        <title>블로그</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
       <BlogHeadContainer />
