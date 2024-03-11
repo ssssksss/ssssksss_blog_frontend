@@ -11,7 +11,7 @@ export default async function handler(
     return res.status(401).json({ message: 'Invalid token' });
   }
 
-  if (body.target === '') {
+  if (body.path === '') {
     return res.status(401).json({ message: 'Invalid target' });
   }
 
