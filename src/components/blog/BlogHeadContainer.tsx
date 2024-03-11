@@ -140,7 +140,7 @@ export default BlogHeadContainer;
 const Container = styled.div`
   width: 100%;
   background: ${(props) => props.theme.main.primary20};
-  border-radius: 10px;
+  border-radius: 0px 0px 8px 8px;
   padding: 4px;
   position: relative;
 `;
@@ -152,7 +152,6 @@ const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   outline: solid 4px ${(props) => props.theme.main.secondary80};
   padding: 16px;
   transform: translate(-4px, 6px);
-  border-radius: 10px;
   gap: 8px;
   z-index: 40;
   overflow: scroll;
