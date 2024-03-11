@@ -121,7 +121,7 @@ const YoutubePlayerModal = () => {
                 </CC.RowCenterDiv>
               </div>
               <div>
-                <p> {i.title} </p>
+                <p> {`${i.title}`} </p>
                 <CC.RowDiv color={'gray80'} gap={4}>
                   {JSON.parse(i.tags).map((j, index1) => (
                     <span key={index1}> {j} </span>
@@ -155,8 +155,6 @@ const YoutubePlayerModal = () => {
   );
 };
 export default YoutubePlayerModal;
-// "lengthSeconds": "1746"
-// <title> 제목 </title>
 const Container = styled(CC.ColumnDiv.withComponent('section'))`
   gap: 8px;
   width: 100%;

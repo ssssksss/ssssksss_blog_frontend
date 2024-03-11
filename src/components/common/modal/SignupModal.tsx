@@ -73,10 +73,7 @@ const SignupModal = (props) => {
   return (
     <Container>
       <Header>
-        <span>
-          {/* 가출한토토로의 블로그에 <br /> 오신것을 환영합니다. */}
-          회원가입
-        </span>
+        <span>회원가입</span>
         <span>
           비밀번호는 암호화처리되며 <br /> 개인정보는 다른 곳에 사용되지
           않습니다.

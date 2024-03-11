@@ -39,10 +39,7 @@ const LoginModal = (props) => {
   return (
     <Container>
       <Header>
-        <span>
-          {/* 가출한토토로의 블로그에 <br /> 오신것을 환영합니다.{' '} */}
-          로그인
-        </span>
+        <span>로그인</span>
         <span> 로그인을 하시면 일정과 할일 메뉴를 사용할 수 있습니다. </span>
       </Header>
       <CC.ColumnDiv gap={28}>
