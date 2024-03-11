@@ -1,17 +1,7 @@
-const SideBar = dynamic(() => import('@components/layout/SideBar'), {
-  loading: () => <p>Loading...</p>,
-});
-
-const TopBar = dynamic(() => import('@components/layout/TopBar'), {
-  loading: () => <p>Loading...</p>,
-});
-
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
-import { CC } from '@styles/commonComponentStyle';
 import rootTheme from '@styles/theme';
-import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents';
 /**
@@ -28,11 +18,12 @@ const NavBar = ({ children }) => {
     <Container id="nav" themeStore={themeStore}>
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
         <ReactToastifyComponents />
-        <SideBar />
+        {/* <SideBar />
         <CC.ColumnDiv w={'100%'} h={'100%'}>
           <TopBar />
           <Main>{children}</Main>
-        </CC.ColumnDiv>
+        </CC.ColumnDiv> */}
+        <Main>{children}</Main>
       </ThemeProvider>
     </Container>
   );
@@ -53,7 +44,6 @@ const Container = styled.div<{ themeStore: any }>`
   animation-fill-mode: forwards;
 `;
 const Main = styled.div`
-  height: 100%;
   -webkit-transition-property: none;
   -moz-transition-property: none;
   -o-transition-property: none;

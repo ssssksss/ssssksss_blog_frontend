@@ -9,10 +9,10 @@ const AxiosInstance = axios.create({
       : 'https://blog-server.ssssksss.xyz',
   //timeout: 1000,
   headers: {
-    'Content-Type': 'application/json',
     // 프론트엔드에서 Cors 문제를 해결하기 위한 방법
     // 아래 withCredentials하고 allow-Origin 정도만 해주면 프론트엔드에서 Cors문제는 해결되었다고 보면된다.
     'Access-Control-Allow-Origin': '*',
+    Accept: 'application/json',
   },
   // 프론트 엔드에서 withCredentials을 해주지 않는다면
   // 쿠키가 저장이 되지 않는다. 그리고 백엔드에서도 withCredentials을 true로 설정을 해주어야한다.
@@ -41,10 +41,14 @@ AxiosInstance.interceptors.request.use(
     // 리덕스에 저장된 accessToken을 가져와서 헤더에 넣어서 api를
     const accessToken = store.getState().authStore.accessToken;
     if (accessToken) {
-      config.headers = {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json',
-      };
+      config.headers = config.headers ?? {};
+      if (config.data instanceof FormData) {
+        config.headers['Content-Type'] = 'multipart/form-data';
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      } else {
+        config.headers['Content-Type'] = 'application/json';
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
     }
     return config;
   },

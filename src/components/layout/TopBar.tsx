@@ -151,16 +151,13 @@ export default TopBar;
 const Container = styled.div`
   display: flex;
   background: ${(props) => props.theme.main.contrast};
-  min-height: 44px;
   height: 44px;
-  border-radius: 10px;
-  overflow: hidden;
   gap: 8px;
-  padding: 4px;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  margin: 4px;
+  width: 100%;
+  padding: 4px;
 
   .logo {
     cursor: pointer;

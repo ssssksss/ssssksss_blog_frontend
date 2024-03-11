@@ -24,6 +24,7 @@ interface IStyleProps {
   second?: string; // grid 너비 정하는데 사용
   third?: string; // grid 너비 정하는데 사용
   outlineColor?: string;
+  fontFamily?: string;
 }
 
 interface IPositionProps {
@@ -49,6 +50,7 @@ const propsCommonStyle = (props: any) => css`
   props.theme.main?.[props.color]};
   font-size: ${props.fontSize};
   font-weight: ${props.fw && '800'};
+  font-family: ${props.fontFamily};
   ${props.overflow === 'hidden' &&
   css`
       overflow: scroll,
@@ -141,6 +143,11 @@ const ColumnBetweenDiv = styled.div<IStyleProps>`
 const ColumnCenterDiv = styled.div<IStyleProps>`
   width: 100%;
   ${commonTheme.flex.column.center}
+  ${(props: any) => propsCommonStyle(props)};
+`;
+const Column_CenterDiv = styled.div<IStyleProps>`
+  width: 100%;
+  ${commonTheme.flex.column._.center};
   ${(props: any) => propsCommonStyle(props)};
 `;
 
@@ -297,6 +304,7 @@ export const CC = {
   ColumnStartDiv,
   ColumnStartCenterDiv,
   ColumnCenterDiv,
+  Column_CenterDiv,
   ColumnCenterCenterDiv,
   ColumnEndDiv,
   GridColumn2,

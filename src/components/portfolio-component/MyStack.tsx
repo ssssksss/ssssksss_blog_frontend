@@ -227,6 +227,7 @@ const MyStack = (props: IMyStackProps) => {
       <RowScrollListBox gap={16} bg={'gray40'} pd={'8px'} scrollHidden={true}>
         {DevelopList[props.active].map((i) => (
           <Button
+            animation={i.stack == activeStack && 1}
             key={i.stack}
             active={i.stack == activeStack}
             w={'80px'}

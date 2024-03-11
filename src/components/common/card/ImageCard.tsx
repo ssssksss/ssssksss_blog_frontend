@@ -48,6 +48,10 @@ const Container = styled.div<{
   width: ${(props) => props.w || '100%'};
   min-width: ${(props) => props.minW};
   max-width: ${(props) => props.maxW};
+  border-radius: 16px;
+  img {
+    border-radius: 16px;
+  }
 
   &:hover {
     .frontCard {
@@ -56,8 +60,9 @@ const Container = styled.div<{
       opacity: 0;
     }
     .backCard {
-      transition: all 0.6s ease;
+      transition: all 1.2s ease;
       visibility: visible;
+      background: ${(props) => props.theme.colors.white60};
     }
   }
 `;
@@ -70,4 +75,5 @@ const BehindCard = styled.div`
   justify-content: center;
   align-items: center;
   visibility: hidden;
+  border-radius: 16px;
 `;

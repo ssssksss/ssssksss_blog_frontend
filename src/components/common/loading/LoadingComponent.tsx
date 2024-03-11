@@ -1,4 +1,9 @@
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file loadingComponent.tsx
@@ -13,12 +18,43 @@ interface ILoadingComponentProps {
 }
 
 const LoadingComponent = (props: ILoadingComponentProps) => {
+  const isLoading = useSelector((state) => state.loadingStore.value);
+  const router = useRouter();
+  useEffect(() => {
+    if (window.localStorage.getItem('theme')) {
+      store.dispatch(
+        rootActions.themeStore.setTheme(window.localStorage.getItem('theme')),
+      );
+    }
+    const start = (url, { shallow }) => {
+      if (shallow) return;
+      store.dispatch(rootActions.loadingStore.setIsLoading(true));
+    };
+    const end = () => {
+      store.dispatch(rootActions.loadingStore.setIsLoading(false));
+    };
+
+    router.events.on('routeChangeStart', start);
+    router.events.on('routeChangeComplete', end);
+    router.events.on('routeChangeError', end);
+
+    return () => {
+      router.events.off('routeChangeStart', start);
+      router.events.off('routeChangeComplete', end);
+      router.events.off('routeChangeError', end);
+    };
+  }, []);
+
   return (
-    <Container {...props}>
-      <Container1>
-        <Spinner32 />
-      </Container1>
-    </Container>
+    <>
+      {isLoading && (
+        <Container {...props}>
+          <Container1>
+            <Spinner32 />
+          </Container1>
+        </Container>
+      )}
+    </>
   );
 };
 export default LoadingComponent;

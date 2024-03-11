@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import { Component, useState } from 'react';
 
 /**
@@ -21,13 +22,14 @@ interface TabMenuType {
   tabMenuW: string;
   tabMenuMinW: string;
   tabMenuMaxW: string;
+  bg: string;
 }
 
 const TabMenu = (props: TabMenuType) => {
   const [currentTab, clickTab] = useState(0);
 
   return (
-    <Container>
+    <Container {...props}>
       <HeadContainer>
         {props.menu.map((el, index) => (
           <li
@@ -40,6 +42,7 @@ const TabMenu = (props: TabMenuType) => {
         ))}
       </HeadContainer>
       <BodyContainer
+        {...props}
         h={props.tabMenuH}
         maxH={props.tabMenuMaxH}
         minH={props.tabMenuMinH}
@@ -54,7 +57,7 @@ const TabMenu = (props: TabMenuType) => {
 };
 export default TabMenu;
 
-const Container = styled.div`
+const Container = styled(CC.ColumnDiv)<{ props: any }>`
   width: 100%;
   height: 100%;
 `;
@@ -112,7 +115,6 @@ const BodyContainer = styled.div<{
   minW: string;
 }>`
   outline: solid black 1px;
-  background-color: white;
   padding: 4px;
   height: ${(props) => props.h || '100%'};
   min-height: ${(props) => props.minH};
