@@ -135,12 +135,12 @@ const ViewBlogContainer = (props: IProps) => {
     <>
       <Container gap={4} id="viewBlogContainer">
         <HeaderContainer
-          pd={'0px 8px'}
+          pd={'32px 8px 8px 8px'}
           w={'100%'}
           h={'200px'}
           imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
         >
-          <CC.AbsoluteRowBox gap={4} pd={'4px'}>
+          <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
             <Button
               bg={'primary20'}
               w={'max-content'}
@@ -164,20 +164,32 @@ const ViewBlogContainer = (props: IProps) => {
             >
               {props.blogSecondCategoryName}
             </Button>
+            <CC.RowDiv gap={8}>
+              <CC.RowDiv
+                w={'max-content'}
+                bg={'primary20'}
+                h={'100%'}
+                brR={'8px'}
+                pd={'2px'}
+              >
+                {dateFormat4y2m2d(props.createdAt)}
+              </CC.RowDiv>
+              <CC.RowDiv
+                gap={4}
+                bg={'secondary20'}
+                h={'100%'}
+                brR={'8px'}
+                pd={'2px'}
+              >
+                <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+                {props.likeNumber}
+              </CC.RowDiv>
+            </CC.RowDiv>
           </CC.AbsoluteRowBox>
           <Title pd={'16px 0px 8px 0px'}>
             <h1> {props.title} </h1>
             <h3> {props.description} </h3>
           </Title>
-          <CC.RowRightDiv>
-            <CC.ColumnDiv>
-              <CC.RowRightDiv gap={4}>
-                <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-                {props.likeNumber}
-              </CC.RowRightDiv>
-              <CC.RowDiv>{dateFormat4y2m2d(props.createdAt)}</CC.RowDiv>
-            </CC.ColumnDiv>
-          </CC.RowRightDiv>
         </HeaderContainer>
         <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
           {props.content && (
