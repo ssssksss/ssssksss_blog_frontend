@@ -408,7 +408,7 @@ const updateBlog = (props: string) => {
     onSuccessHandler: async ({ variables }) => {
       props.onSuccessHandler();
       await axios.request({
-        method: 'PUT',
+        method: 'POST',
         url:
           process.env.NEXT_PUBLIC_ABSOLUTE_URL +
           '/api/revalidate?secret=' +
