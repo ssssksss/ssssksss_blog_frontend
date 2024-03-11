@@ -43,7 +43,6 @@ type propsType = {
     };
   };
 };
-
 const Index = (props: propsType) => {
   useEffect(() => {
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
@@ -66,7 +65,7 @@ const Index = (props: propsType) => {
       rootActions.blogStore1.setActiveSecondCategory(
         secondCategoryIdTemp
           ? secondCategoryIdTemp
-          : Object.keys(props.secondCategoryList?.[firstCategoryIdTemp])[0],
+          : Object.keys(props.secondCategoryList[firstCategoryIdTemp])[0],
       ),
     );
   }, []);
@@ -88,12 +87,13 @@ Index.layout = Layout1;
 const Container = styled(CC.ColumnDiv)`
   gap: 8px;
   width: 100%;
-  background: ${(props) => props.theme.main.contrast};
   border-radius: 8px;
   ${(props) => props.theme.scroll.hidden};
-  min-height: calc(100vh - 48px);
+  height: 100%;
+  padding: 2px;
 
   & > * {
     outline: solid ${(props) => props.theme.main.primary80} 2px;
+    border-radius: inherit;
   }
 `;
