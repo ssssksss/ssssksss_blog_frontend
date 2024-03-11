@@ -64,9 +64,6 @@ const BlogMainContainer = () => {
     <Container>
       <HeaderContainer color={'primary80'}>
         <span>
-          {`[${store.getState().blogStore.activeBlogFirstCategoryName}/${
-            store.getState().blogStore.activeBlogSecondCategoryName
-          }]`}
           검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
         </span>
         <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
@@ -104,23 +101,20 @@ const BlogMainContainer = () => {
         ))}
         <FixedContainer>
           {store.getState().authStore.id == 13 && (
-            <BlogSearchItem href={`/blog/create`}>
-              <CC.RowCenterDiv
-                w={'100%'}
-                h={'32px'}
-                bg={'white80'}
-                brR={'10px'}
-              >
-                <IconsSvg.EditIcon fill={'black80'} w={'32px'} />
-              </CC.RowCenterDiv>
-            </BlogSearchItem>
+            <Link href={`/blog/create`}>
+              <Button w={'32px'}>
+                <IconsSvg.EditIcon fill={'black80'} />
+              </Button>
+            </Link>
           )}
-          <Button onClick={() => mainContainerRef.current.scrollTo(0, 0)}>
-            <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
-              <Image src={Icons.UpArrowIcon} alt="up-arrow" />
-            </CC.RowCenterDiv>
+          <Button
+            onClick={() => mainContainerRef.current.scrollTo(0, 0)}
+            w={'32px'}
+          >
+            <Image src={Icons.UpArrowIcon} alt="up-arrow" />
           </Button>
           <Button
+            w={'32px'}
             onClick={() =>
               mainContainerRef.current.scrollTo(
                 0,
@@ -128,9 +122,7 @@ const BlogMainContainer = () => {
               )
             }
           >
-            <CC.RowCenterDiv pd={'2px'} gap={2} w={'32px'} h={'32px'}>
-              <Image src={Icons.DownArrowIcon} alt="down-arrow" />
-            </CC.RowCenterDiv>
+            <Image src={Icons.DownArrowIcon} alt="down-arrow" />
           </Button>
         </FixedContainer>
       </MainContainer>
@@ -142,21 +134,14 @@ export default BlogMainContainer;
 const Container = styled(CC.ColumnDiv)`
   border-radius: 10px;
   background: ${(props) => props.theme.main.primary20};
-  padding: 4px;
+  padding: 2px;
   gap: 4px;
   ${(props) => props.theme.scroll.hidden};
   position: relative;
   min-height: 200px;
 `;
-const BlogSearchItem = styled(Link)`
-  cursor: pointer;
-  background: ${(props) => props.theme.main.contrast};
-`;
-
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
-  padding: 0px 4px;
-  border: solid 1px ${(props) => props.theme.main.primary40};
   border-radius: ${(props) => props.theme.borderRadius.br10};
   padding: 4px;
   height: 40px;
@@ -190,7 +175,7 @@ const FixedContainer = styled(CC.ColumnDiv)`
   width: max-content;
   left: calc(100% - 20px);
   bottom: 20px;
-  padding: 4px;
+  padding: 2px;
   opacity: 0.9;
   border-radius: 8px;
   background: ${(props) => props.theme.main.secondary40};
