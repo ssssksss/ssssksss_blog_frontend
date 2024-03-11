@@ -93,18 +93,21 @@ const BlogHeadContainer = () => {
 
   return (
     <Container>
-      <Input
-        type="search"
-        placeholder="검색어를 입력해주세요"
-        color={'black80'}
-        outline={true}
-        w={'calc(100% - 40px)'}
-        h={'32px'}
-        ref={inputRef}
-        leftIconImage={Icons.SearchIcon.src}
-        onChange={delaySearch(SearchHandler, 600)}
-        onClick={() => setIsOpenBlogItemList((prev) => !prev)}
-      />
+      <CC.RelativeBox>
+        <Input
+          type="search"
+          placeholder="검색어를 입력해주세요"
+          color={'black80'}
+          outline={true}
+          w={'calc(100% - 40px)'}
+          h={'32px'}
+          ref={inputRef}
+          leftIconImage={Icons.SearchIcon.src}
+          onChange={delaySearch(SearchHandler, 600)}
+          onClick={() => setIsOpenBlogItemList((prev) => !prev)}
+        />
+        <BlogRecentListContainer />
+      </CC.RelativeBox>
       {isOpenBlogItemList && (
         <BlogSearchItemContainer
           onBlur={() => {
@@ -131,7 +134,7 @@ const BlogHeadContainer = () => {
           <div ref={infiniteScrollRef}></div>
         </BlogSearchItemContainer>
       )}
-      <BlogRecentListContainer />
+      {isOpenBlogItemList && <Overlay />}
     </Container>
   );
 };
@@ -148,19 +151,25 @@ const Container = styled.div`
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   position: absolute;
-  background: ${(props) => props.theme.main.contrast};
-  outline: solid 4px ${(props) => props.theme.main.secondary80};
-  padding: 16px;
+  padding: 2px;
   transform: translate(-4px, 6px);
-  gap: 8px;
   z-index: 40;
-  overflow: scroll;
-  height: calc(100vh - 104px);
+  ${(props) => props.theme.scroll.hiddenY};
+  height: calc(100vh - 96px);
   @media (max-height: 624px) {
     ${(props) => props.theme.scroll.hidden};
   }
+`;
 
-  a {
-    z-index: 50;
-  }
+const Overlay = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 42px;
+  border-radius: 8px;
+  opacity: 0.8;
+  border: 0px;
+  z-index: 30;
+  background: ${(props) => props.theme.colors.black80};
 `;
