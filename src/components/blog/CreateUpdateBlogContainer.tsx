@@ -26,6 +26,7 @@ import { useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
+
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -61,6 +62,16 @@ const CreateUpdateBlogContainer = (
     props.edit ? true : false,
   );
   const router = useRouter();
+  const createBlogMutation = BlogAPI.createBlog({
+    onSuccessHandler: () => {
+      setIsLoading(false);
+    },
+  });
+  const updateBlogMutation = BlogAPI.updateBlog({
+    onSuccessHandler: () => {
+      setIsLoading(false);
+    },
+  });
   const editorRef = useRef<Editor>(null);
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
@@ -83,6 +94,7 @@ const CreateUpdateBlogContainer = (
       content: '# \n ##  \n',
     },
   });
+
   const blogCategoryListResData = BlogAPI.getBlogCategoryList({
     onSuccessHandler: (data) => {
       setCategoryList({
@@ -109,6 +121,7 @@ const CreateUpdateBlogContainer = (
         let _blogContentImageList = [];
         let index2 = 0;
         const _TRUE = true;
+        if (!props.edit) return;
         while (_TRUE) {
           let index1 = props.content.indexOf(AWSS3Prefix, index2);
           if (index1 === -1) break;
@@ -128,8 +141,7 @@ const CreateUpdateBlogContainer = (
     const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
     let imageFileList = [];
-
-    if (!methods.formState.isValid) return;
+    let deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
     // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
     // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
@@ -140,86 +152,49 @@ const CreateUpdateBlogContainer = (
       }
     });
 
-    BlogAPI.createBlog({
-      title: methods.getValues('title'),
-      description: methods.getValues('description'),
-      content: getContent_md,
-      firstCategoryId: methods.getValues('selectFirstCategoryId'),
-      secondCategoryId: methods.getValues('selectSecondCategoryId'),
-      thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-      directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
-      imageUrlList: imageUrlList,
-      imageFileList: imageFileList,
-    })
-      .then((res) => {
-        router.replace(`/blog/${res.json.id}`);
-      })
-      .catch((_) => {
-        setIsLoading(false);
-        // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
-        navigator.clipboard.writeText(getContent_md);
-      })
-      .finally(() => {
-        // store.dispatch(setIsLoading(false));
-        setIsLoading(false);
+    if (props.edit) {
+      blogContentImageList?.map((i) => {
+        if (getContent_md.search(i) === -1) {
+          deleteImageBucketDirectory.push(i);
+        }
       });
+    }
+
+    if (props.edit) {
+      updateBlogMutation({
+        id: router.query.id,
+        title: methods.getValues('title'),
+        description: methods.getValues('description'),
+        content: getContent_md,
+        firstCategoryId: methods.getValues('selectFirstCategoryId'),
+        secondCategoryId: methods.getValues('selectSecondCategoryId'),
+        thumbnailImageFile: methods.getValues('thumbnailImageFile'),
+        directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
+        imageUrlList: imageUrlList,
+        imageFileList: imageFileList,
+        deleteImageBucketDirectory: deleteImageBucketDirectory,
+      });
+    }
+
+    if (!props.edit) {
+      createBlogMutation({
+        title: methods.getValues('title'),
+        description: methods.getValues('description'),
+        content: getContent_md,
+        firstCategoryId: methods.getValues('selectFirstCategoryId'),
+        secondCategoryId: methods.getValues('selectSecondCategoryId'),
+        thumbnailImageFile: methods.getValues('thumbnailImageFile'),
+        directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
+        imageUrlList: imageUrlList,
+        imageFileList: imageFileList,
+      });
+    }
   };
 
   const uploadHandler = async (file: any) => {
     const url = URL.createObjectURL(file).substring(5);
     setTempBlogImage((prev) => [...prev, { url, file }]);
     return url;
-  };
-
-  const updateHandler = () => {
-    setIsLoading(true);
-    // store.dispatch(setIsLoading(true));
-    const editorInstance = editorRef.current?.getInstance();
-    const getContent_md = editorInstance?.getMarkdown();
-    let imageUrlList = [];
-    let imageFileList = [];
-    let deleteImageBucketDirectory = [];
-
-    // 글에 적혀있는 새로운 이미지들을 파일과 경로를 수집 (이미지 생성 용도)
-    tempBlogImage?.map((i) => {
-      if (getContent_md.search(i.url) !== -1) {
-        imageUrlList.push(i.url);
-        imageFileList.push(i.file);
-      }
-    });
-
-    // 기존 블로그 내용에 있던 이미지 경로가 없다면 이미지 url을 수집 (이미지 삭제 용도)
-    blogContentImageList?.map((i) => {
-      if (getContent_md.search(i) === -1) {
-        deleteImageBucketDirectory.push(i);
-      }
-    });
-
-    BlogAPI.updateBlog({
-      id: router.query.id,
-      title: methods.getValues('title'),
-      description: methods.getValues('description'),
-      content: getContent_md,
-      firstCategoryId: methods.getValues('selectFirstCategoryId'),
-      secondCategoryId: methods.getValues('selectSecondCategoryId'),
-      thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-      directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
-      imageUrlList: imageUrlList,
-      imageFileList: imageFileList,
-      deleteImageBucketDirectory: deleteImageBucketDirectory,
-    })
-      .then((_) => {
-        // router.replace(`/blog/${router.query.id}`);
-        router.back();
-      })
-      .catch((_) => {
-        // 글을 작성 후에 에러가 나서 기존에 작성한 내용이 날라가는 경우가 있는데 일단 임시 방편으로 작성
-        navigator.clipboard.writeText(getContent_md);
-      })
-      .finally(() => {
-        // store.dispatch(setIsLoading(false));
-        setIsLoading(false);
-      });
   };
 
   const onChangeFirstCategoryHandler = async (props: {
@@ -446,9 +421,7 @@ const CreateUpdateBlogContainer = (
                 <Button
                   w={'100%'}
                   outline={true}
-                  onClick={() =>
-                    props.edit ? updateHandler() : submitHandler()
-                  }
+                  onClick={() => submitHandler()}
                   disabled={!methods.formState.isValid}
                 >
                   {props.edit ? '수정' : '제출'}
