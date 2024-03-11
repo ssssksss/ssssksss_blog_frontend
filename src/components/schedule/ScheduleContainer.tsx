@@ -97,7 +97,7 @@ const ScheduleContainer = () => {
     calendarData: scheduleStore.calendar,
   });
 
-  useEffect(async () => {
+  useEffect(() => {
     let month = store.getState().scheduleStore.calendarMonth;
     let year = store.getState().scheduleStore.calendarYear;
     let calendar = createCalendar({ year, month });
