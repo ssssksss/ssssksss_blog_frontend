@@ -104,7 +104,10 @@ const BlogHeadContainer = () => {
           ref={inputRef}
           leftIconImage={Icons.SearchIcon.src}
           onChange={delaySearch(SearchHandler, 600)}
-          onClick={() => setIsOpenBlogItemList((prev) => !prev)}
+          onClick={(e) => {
+            setIsOpenBlogItemList((prev) => !prev);
+            e.stopPropagation();
+          }}
         />
         <BlogRecentListContainer />
       </CC.RelativeBox>

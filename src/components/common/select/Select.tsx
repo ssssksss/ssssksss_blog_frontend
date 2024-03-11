@@ -33,12 +33,12 @@ interface ISelectProps {
 }
 
 const Select = ({ ...props }): ISelectProps => {
+  const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState({
     value: props.defaultValue?.value,
     name: props.defaultValue?.name,
     bg: props.defaultValue?.bg,
   });
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const _windowClickHandler = () => {
@@ -65,7 +65,10 @@ const Select = ({ ...props }): ISelectProps => {
   return (
     <Container
       {...props}
-      onClick={() => setIsOpen((prev) => !prev)}
+      onClick={(e) => {
+        setIsOpen((prev) => !prev);
+        e.stopPropagation();
+      }}
       tabIndex={'0'}
     >
       <CC.RowCenterDiv bg={data?.bg || 'white80'}>
