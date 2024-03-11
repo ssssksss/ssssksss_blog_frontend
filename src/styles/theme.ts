@@ -528,6 +528,22 @@ const scroll = {
       display: 'none',
     },
   },
+  hiddenX: {
+    overflowX: 'scroll',
+    msOverflowStyle: 'none',
+    scrollbarWidth: 'none',
+    [`&::-webkit-scrollbar`]: {
+      display: 'none',
+    },
+  },
+  hiddenY: {
+    overflowY: 'scroll',
+    msOverflowStyle: 'none',
+    scrollbarWidth: 'none',
+    [`&::-webkit-scrollbar`]: {
+      display: 'none',
+    },
+  },
 };
 
 export const commonTheme = {
