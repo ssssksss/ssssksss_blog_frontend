@@ -37,7 +37,7 @@ const ViewBoardContainer = () => {
   return (
     <>
       <Head>
-        <title> {boardResData.data.json?.board.title} </title>
+        <title>{boardResData.data.json?.board.title}</title>
       </Head>
       <Container gap={4}>
         <CC.ColumnDiv pd={'0px 8px'} w={'100%'}>
