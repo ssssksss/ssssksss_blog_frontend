@@ -85,15 +85,10 @@ export default Index;
 Index.layout = Layout1;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 8px;
+  gap: 2px;
   width: 100%;
   border-radius: 8px;
   ${(props) => props.theme.scroll.hidden};
   height: 100%;
   padding: 2px;
-
-  & > * {
-    outline: solid ${(props) => props.theme.main.primary80} 2px;
-    border-radius: inherit;
-  }
 `;
