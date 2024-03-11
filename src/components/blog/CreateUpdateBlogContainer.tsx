@@ -22,7 +22,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
@@ -95,7 +95,7 @@ const CreateUpdateBlogContainer = (
     },
   });
 
-  const blogCategoryListResData = BlogAPI.getBlogCategoryList({
+  BlogAPI.getBlogCategoryList({
     onSuccessHandler: (data) => {
       setCategoryList({
         firstCategoryList: data.json.firstCategoryList,
@@ -169,7 +169,9 @@ const CreateUpdateBlogContainer = (
         firstCategoryId: methods.getValues('selectFirstCategoryId'),
         secondCategoryId: methods.getValues('selectSecondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-        directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
+        directory: `/blog-category/${methods.getValues(
+          'selectFirstCategoryId',
+        )}/${methods.getValues('selectSecondCategoryId')}`,
         imageUrlList: imageUrlList,
         imageFileList: imageFileList,
         deleteImageBucketDirectory: deleteImageBucketDirectory,
@@ -184,7 +186,9 @@ const CreateUpdateBlogContainer = (
         firstCategoryId: methods.getValues('selectFirstCategoryId'),
         secondCategoryId: methods.getValues('selectSecondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-        directory: `/blog-category/${methods.getValues('selectFirstCategoryId')}/${methods.getValues('selectSecondCategoryId')}`,
+        directory: `/blog-category/${methods.getValues(
+          'selectFirstCategoryId',
+        )}/${methods.getValues('selectSecondCategoryId')}`,
         imageUrlList: imageUrlList,
         imageFileList: imageFileList,
       });
@@ -206,21 +210,16 @@ const CreateUpdateBlogContainer = (
     methods.setValue('selectFirstCategoryName', props.name);
     methods.setValue(
       'selectSecondCategoryName',
-      Object.values(
-        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
-      )[0].name,
+      Object.values(categoryList.secondCategoryList[props.value])[0].name,
       { shouldValidate: true },
     );
     methods.setValue(
       'selectSecondCategoryId',
-      Object.keys(
-        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
-      )[0],
+      Object.keys(categoryList.secondCategoryList[props.value])[0],
     );
     setDefaultImageUrl(
-      Object.values(
-        blogCategoryListResData?.data.json?.secondCategoryList[props.value],
-      )[0]?.thumbnailImageUrl,
+      Object.values(categoryList.secondCategoryList[props.value])[0]
+        ?.thumbnailImageUrl,
     );
   };
 
@@ -242,7 +241,7 @@ const CreateUpdateBlogContainer = (
     );
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
@@ -284,7 +283,7 @@ const CreateUpdateBlogContainer = (
         {(store.getState().authStore.role === 'ROLE_ADMIN' ||
           store.getState().authStore.id ===
             store.getState().blogStore.activeBlogUserId) && (
-          <>
+          <React.Fragment>
             {isLoading && <LoadingComponent />}
             <Container isLoading={isLoading} icon={Icons.PlayIcon}>
               <HeaderContainer gap={8}>
@@ -513,7 +512,7 @@ const CreateUpdateBlogContainer = (
                 </BlogItemContentFormButton>
               </BlogItemContentFormContainer>
             </Container>
-          </>
+          </React.Fragment>
         )}
       </FormProvider>
     </>
@@ -741,8 +740,7 @@ const BlogItemContentFormContainer = styled.section`
 
 const BlogItemContentFormButton = styled.button`
   padding: 2px;
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 2px,
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
     rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
   border-radius: 4px;
 `;
