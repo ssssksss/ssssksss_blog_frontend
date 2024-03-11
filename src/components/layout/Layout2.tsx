@@ -74,12 +74,6 @@ const Container1 = styled.main`
   max-width: 1440px;
   /* LeftBar.tsx에 있는 너비와 맞추어주어야 한다. */
   /* 마진 5px * 2 + leftBar(44px) */
-  width: calc(100vw - 52px);
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
-    width: calc(100vw - 130px);
-    margin: auto;
-  }
-
   & > div {
     --top-navbar-height: 48px;
     max-height: calc(100vh - var(--top-navbar-height));
