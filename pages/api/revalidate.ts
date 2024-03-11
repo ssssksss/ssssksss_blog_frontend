@@ -16,7 +16,7 @@ export default async function handler(
   }
 
   try {
-    await res.unstable_revalidate(`/${body.path}/${body.id}`);
+    await res.revalidate(`/${body.path}/${body.id}`);
     return res.json({ revalidated: true });
   } catch (err) {
     return res.status(500).send('Error revalidating');
