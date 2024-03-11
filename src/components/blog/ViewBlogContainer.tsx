@@ -49,7 +49,7 @@ interface IProps {
 }
 
 const ViewBlogContainer = (props: IProps) => {
-  const backUrl = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
+  const BACK_URL = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
   const router = useRouter();
   const editorRef = useRef<Viewer>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
@@ -253,7 +253,7 @@ const ViewBlogContainer = (props: IProps) => {
                 <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
               </ConfirmButton>
             )}
-            <Link href={backUrl}>
+            <Link href={BACK_URL}>
               <a>
                 <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
               </a>
@@ -349,19 +349,18 @@ const ViewerContainer = styled.div<{ icon: any }>`
     h1[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${(props) => props.theme.colors.red20 + '33'};
+      background: ${(props) => props.theme.main.primary20};
       font-size: ${(props) => props.theme.calcRem(28)};
       border-radius: 8px;
-      padding: 4px 0px;
+      padding: 2px 0px;
     }
     h1[data-nodeid]::before {
-      counter-increment: section;
-      content: '📌 [' counter(section) '] ';
+      content: '📌 ';
     }
     h2[data-nodeid] {
       border: none;
       width: 100%;
-      background: ${(props) => props.theme.colors.orange20 + '33'};
+      background: ${(props) => props.theme.main.secondary20};
       font-size: ${(props) => props.theme.calcRem(24)};
       border-radius: 8px;
       padding: 2px 0px;
