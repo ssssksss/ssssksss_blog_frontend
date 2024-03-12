@@ -27,6 +27,16 @@ export async function getServerSideProps() {
   if (res) {
     data = res.data.json;
   }
+
+  if (Object.keys(data).length === 0) {
+    return {
+      redirect: {
+        source: '/blog',
+        destination: '/500',
+        permanent: false,
+      },
+    };
+  }
   return { props: data };
 }
 
