@@ -3,13 +3,11 @@ import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { Viewer } from '@toast-ui/react-editor';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 /**
@@ -20,7 +18,6 @@ import { useSelector } from 'react-redux';
  */
 const ViewBoardContainer = () => {
   const router = useRouter();
-  const editorRef = useRef<Viewer>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
   const boardResData = BoardAPI.getBoard({
@@ -61,15 +58,7 @@ const ViewBoardContainer = () => {
             </CC.RowDiv>
           </CC.RowBetweenDiv>
         </CC.ColumnDiv>
-        <ViewerContainer>
-          {boardResData.status == 'success' && (
-            <Viewer
-              initialValue={boardResData.data.json?.board.content}
-              theme="black"
-              ref={editorRef}
-            />
-          )}
-        </ViewerContainer>
+        <ViewerContainer></ViewerContainer>
         <FixContainer>
           {authStore.id == boardResData.data.json?.board.userId && (
             <Link href={`/board/update?id=${router.query.id}`}>

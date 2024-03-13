@@ -6,19 +6,9 @@ import { store } from '@redux/store';
 import { SET_BLOG_CONTENT_TEMPLATE_LIST } from '@redux/store/blogContentTemplate';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor, Viewer } from '@toast-ui/react-editor';
 import Image from 'next/image';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
 import { useReducer, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import Select from '../common/select/Select';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -30,10 +20,8 @@ import Select from '../common/select/Select';
 const BlogContentTemplateModal = (props: any) => {
   const selectRemoveRef = useRef<HTMLSelectElement>(null);
   const [mode, setMode] = useState(true);
-  const [toggle, toggleHandler] = useReducer((prev) => !prev, true);
-  const [selectRemoveBlogContentTemplate, setSelectRemoveBlogContentTemplate] =
-    useState('');
-  const editorRef = useRef<Editor>(null);
+  const [, toggleHandler] = useReducer((prev) => !prev, true);
+  const [, setSelectRemoveBlogContentTemplate] = useState('');
   const blogContentTemplateStore = useSelector(
     (state: RootState) => state.blogContentTemplateStore,
   );
@@ -69,9 +57,6 @@ const BlogContentTemplateModal = (props: any) => {
   };
 
   const addTemplateHandler = () => {
-    const editorInstance = editorRef.current?.getInstance();
-    const getContent_md = editorInstance?.getMarkdown();
-
     if (!props.firstCategoryId || !props.secondCategoryId) {
       alert('카테고리를 선택하고 오세요');
       return;
@@ -79,7 +64,7 @@ const BlogContentTemplateModal = (props: any) => {
 
     BlogAPI.addBlogContentTemplate({
       secondCategoryId: props.secondCategoryId,
-      content: getContent_md,
+      content: '',
     }).then((res) => {
       store.dispatch(
         SET_BLOG_CONTENT_TEMPLATE_LIST([
@@ -132,22 +117,7 @@ const BlogContentTemplateModal = (props: any) => {
                 삭제
               </Button>
             </CC.ColumnDiv>
-            <ViewerContainer>
-              {toggle && (
-                <Viewer
-                  initialValue={selectRemoveBlogContentTemplate?.content}
-                  theme="black"
-                  ref={editorRef}
-                />
-              )}
-              {!toggle && (
-                <Viewer
-                  initialValue={selectRemoveBlogContentTemplate?.content}
-                  theme="black"
-                  ref={editorRef}
-                />
-              )}
-            </ViewerContainer>
+            <ViewerContainer></ViewerContainer>
           </BlogContentTemplateBox>
         </RemoveBlogContentTemplateContainer>
       )}
@@ -155,46 +125,6 @@ const BlogContentTemplateModal = (props: any) => {
         <>
           <EditorContainer>
             <Title> 템플릿 생성 화면 </Title>
-            <Editor
-              initialValue={`#\n ## \n`}
-              previewStyle="vertical"
-              height="calc(100vh - 120px)"
-              initialEditType="markdown"
-              useCommandShortcut={true}
-              ref={editorRef}
-              plugins={[
-                colorSyntax,
-                [codeSyntaxHighlight, { highlighter: Prism }],
-              ]}
-              // onChange={() => {
-              //   // ! TOAST UI에서 Preview 이미지가 사라지는 문제 떄문에 작성한 코드...
-              //   let toastUIPreviewBlobImages = window.document.querySelectorAll(
-              //     "img[src^='" + window.location.origin + "']"
-              //   );
-              //   toastUIPreviewBlobImages.forEach(i => {
-              //     i.setAttribute('src', 'blob:' + i.src);
-              //   });
-              // }}
-              hooks={
-                {
-                  // addImageBlobHook: async (blob, callback) => {
-                  //   const imageURL: any = await uploadHandler(blob);
-                  //   await callback(imageURL, '');
-                  //   // "blog"+directory+"/"+fileName
-                  // },
-                }
-              }
-              viewer={true}
-              // language="ko-KR"
-              toolbarItems={[
-                // 툴바 옵션 설정
-                ['heading', 'bold', 'italic', 'strike'],
-                ['hr', 'quote'],
-                ['ul', 'ol', 'task', 'indent', 'outdent'],
-                ['table', 'image', 'link'],
-                ['code', 'codeblock'],
-              ]}
-            />
           </EditorContainer>
           <EditorFooter>
             <Button
@@ -245,23 +175,6 @@ const EditorContainer = styled.div`
   height: 100%;
   background: ${(props) => props.theme.main.contrast};
   /* transform: scaleX(0.5); */
-
-  .toastui-editor-main {
-    border-top: solid transparent 4px;
-    padding-top: 4px;
-    padding-bottom: 8px;
-    height: 100%;
-  }
-
-  .ProseMirror {
-    width: 100%;
-    text-align: start;
-  }
-
-  .toastui-editor-contents {
-    width: 100%;
-    text-align: start;
-  }
 `;
 
 const EditorFooter = styled(CC.GridColumn2)`
@@ -290,11 +203,4 @@ const BlogContentTemplateBox = styled(CC.ColumnDiv)`
   }
 `;
 
-const ViewerContainer = styled.div`
-  .toastui-editor-black {
-  }
-  .toastui-editor-contents {
-    transform: translate(0%, -25%) scale(0.5);
-    text-align: left;
-  }
-`;
+const ViewerContainer = styled.div``;

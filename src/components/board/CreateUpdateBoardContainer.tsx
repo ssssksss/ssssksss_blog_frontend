@@ -6,20 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { commonTheme } from '@styles/theme';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import { BoardCreateYup, BoardUpdateYup } from '../yup/BoardYup';
 
 /**
@@ -37,7 +26,6 @@ const CreateUpdateBoardContainer = (
   props: IEditCreateUpdateBoardContainerProps,
 ) => {
   const router = useRouter();
-  const editorRef = useRef<Editor>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const createBoardMutation = BoardAPI.createBoard();
   const updateBoardMutation = BoardAPI.updateBoard();
@@ -62,23 +50,18 @@ const CreateUpdateBoardContainer = (
   });
 
   const submitHandler = () => {
-    const editorInstance = editorRef.current?.getInstance();
-    const getContent_md = editorInstance?.getMarkdown();
-
     createBoardMutation({
       title: methods.getValues('title'),
-      content: getContent_md,
+      content: '',
       writer: authStore.nickname,
     });
   };
 
   const updateHandler = () => {
-    const editorInstance = editorRef.current?.getInstance();
-    const getContent_md = editorInstance?.getMarkdown();
     updateBoardMutation({
       id: router.query.id,
       title: methods.getValues('title'),
-      content: getContent_md,
+      content: '',
     });
   };
 
@@ -94,32 +77,7 @@ const CreateUpdateBoardContainer = (
                 register={methods.register('title')}
               />
             )}
-            <EditorContainer>
-              {(!props.edit || boardResData?.status == 'success') && (
-                <Editor
-                  initialValue={boardResData?.data?.json?.board.content}
-                  previewStyle={'tab'}
-                  height={'calc(100vh - 182px)'}
-                  initialEditType="markdown"
-                  useCommandShortcut={true}
-                  ref={editorRef}
-                  plugins={[
-                    colorSyntax,
-                    [codeSyntaxHighlight, { highlighter: Prism }],
-                  ]}
-                  viewer={true}
-                  // language="ko-KR"
-                  toolbarItems={[
-                    // 툴바 옵션 설정
-                    ['heading', 'bold', 'italic', 'strike'],
-                    ['hr', 'quote'],
-                    ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
-                    ['code', 'codeblock'],
-                  ]}
-                />
-              )}
-            </EditorContainer>
+            <EditorContainer></EditorContainer>
             <EditorFooter>
               <Button
                 w={'100%'}
@@ -148,15 +106,6 @@ const Container = styled.section`
   background-color: white;
   border-radius: 0px 0px 10px 10px;
   /* background: ${commonTheme.backgroundColors.background2}; */
-  .toastui-editor-toolbar {
-    position: sticky;
-    top: 80px;
-    z-index: 1;
-  }
-  .toastui-editor-main {
-    border-top: solid transparent 4px;
-    padding-top: 4px;
-  }
 `;
 
 const Title = styled(Input)`

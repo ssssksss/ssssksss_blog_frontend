@@ -221,7 +221,6 @@ const ViewBlogContainer = (props: IProps) => {
                           document
                             .getElementById('viewBlogContainer')
                             .scrollTo(0, i.top - 60);
-                          // toastui-editor-contents
                           // window.scrollTo(0, i.top - 40);
                         }}
                         className={i.tagName}
