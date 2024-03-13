@@ -5,7 +5,6 @@ import MyStack from '@components/portfolio-component/MyStack';
 import Portfolio2024 from '@components/portfolio-component/Portfolio2024';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
-import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -36,7 +35,7 @@ const Index = () => {
           <CC.ColumnCenterCenterDiv minH={'240px'} gap={8} pd={'2px'}>
             <ImageBox w={'180px'} h={'240px'} bg={'transparent'} pd={'4px'}>
               <Image
-                src={`${AWSS3Prefix}private/%EA%B0%9C%EC%9D%B8_%ED%94%84%EB%A1%9C%ED%95%84_%EC%82%AC%EC%A7%84_%EB%B0%B0%EA%B2%BD%EC%A0%9C%EA%B1%B0.png`}
+                src={`https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/private_profile.png`}
                 layout="fill"
               />
               {/* <ReactPlayer

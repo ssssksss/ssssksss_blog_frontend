@@ -11,21 +11,26 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/private/**',
+      },
+    ],
+  },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   compiler: {
     emotion: true,
   },
-  images: {
-    domains: ['ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com'], // 이곳에 에러에서 hostname 다음 따옴표에 오는 링크를 적으면 된다.
-  },
+
   transpilePackages: ['@mdxeditor/editor'],
   webpack: (config) => {
-    // this will override the experiments
     config.experiments = { ...config.experiments, topLevelAwait: true };
-    // this will just update topLevelAwait property of config.experiments
-    // config.experiments.topLevelAwait = true
     return config;
   },
 });
@@ -33,3 +38,5 @@ const nextConfig = withPWA({
 module.exports = removeImports({
   nextConfig,
 });
+
+module.exports = nextConfig;
