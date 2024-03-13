@@ -121,9 +121,7 @@ const BlogHeadContainer = () => {
           {blogListResData?.map((j, index) => (
             <li key={index}>
               <Link href={`/blog/${j.id}`} key={`${j.id}${index}`}>
-                <a>
-                  <BlogItem element={j} viewMode={true}></BlogItem>
-                </a>
+                <BlogItem element={j} viewMode={true}></BlogItem>
               </Link>
             </li>
           ))}

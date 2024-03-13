@@ -93,8 +93,8 @@ const TopBar = () => {
           className={'logo'}
           src={Icons.LogoIcon}
           alt="logo"
-          width={'36px'}
-          height={'36px'}
+          width={'36'}
+          height={'36'}
           onClick={() => {
             store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
           }}

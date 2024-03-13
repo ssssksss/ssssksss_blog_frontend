@@ -89,15 +89,13 @@ const BlogMainContainer = () => {
       <MainContainer ref={mainContainerRef}>
         {blogListResData?.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`} prefetch={false}>
-            <a>
-              <BlogItem
-                element={i}
-                viewMode={true}
-                defaultImageUrl={
-                  blogListResData?.data.json?.blogListDefaultImageUrl
-                }
-              ></BlogItem>
-            </a>
+            <BlogItem
+              element={i}
+              viewMode={true}
+              defaultImageUrl={
+                blogListResData?.data.json?.blogListDefaultImageUrl
+              }
+            ></BlogItem>
           </Link>
         ))}
         <FixedContainer>

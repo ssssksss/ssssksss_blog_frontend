@@ -74,28 +74,26 @@ const SideBar = () => {
           />
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} key={'sideBarItem' + index} prefetch={false}>
-              <a>
-                <NavItem
-                  blur={i[3].isRequiredAuth === true && !authStore.id === true}
-                  isNavbarOpen={isNavbarOpen}
-                  onClick={(e) => {
-                    if (
-                      activeMenu.leftNavActiveItem.split('?')[0] ===
-                      i[2].split('?')[0]
-                    ) {
-                      e.preventDefault();
-                    }
-                    store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
-                  }}
-                  active={
+              <NavItem
+                blur={i[3].isRequiredAuth === true && !authStore.id === true}
+                isNavbarOpen={isNavbarOpen}
+                onClick={(e) => {
+                  if (
                     activeMenu.leftNavActiveItem.split('?')[0] ===
                     i[2].split('?')[0]
+                  ) {
+                    e.preventDefault();
                   }
-                >
-                  <Image src={i[0]} alt={i[1]} width={'24px'} height={'24px'} />
-                  <span> {i[1]} </span>
-                </NavItem>
-              </a>
+                  store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
+                }}
+                active={
+                  activeMenu.leftNavActiveItem.split('?')[0] ===
+                  i[2].split('?')[0]
+                }
+              >
+                <Image src={i[0]} alt={i[1]} width={'24'} height={'24'} />
+                <div className={'navItemText'}> {i[1]} </div>
+              </NavItem>
             </Link>
           ))}
         </NavStyle>
@@ -121,6 +119,7 @@ const Container = styled.aside`
   font-weight: 600;
   position: relative;
   width: 44px;
+  z-index: 100001;
 
   @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     width: 120px;
@@ -138,6 +137,7 @@ const FoldDiv = styled.div<IContainerProps>`
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
   &::-webkit-scrollbar: {
     display: none;
   }
@@ -148,7 +148,6 @@ const FoldDiv = styled.div<IContainerProps>`
       `
       width: 120px;
       background: ${props.theme.main.contrast};
-      outline: solid ${props.theme.main.primary40} 2px;
       `}
   }
 `;
@@ -160,11 +159,11 @@ const NavItem = styled(Button)<{
   active?: boolean;
   blur?: boolean;
 }>`
+  width: 100%;
   padding-left: 10px;
   gap: 10px;
   border-radius: 0px;
   justify-content: left;
-  width: 100%;
   & > :nth-last-of-type(1) {
     justify-content: flex-start;
     animation-name: ${Animations.LeftToRightFadein};
@@ -189,13 +188,13 @@ const NavItem = styled(Button)<{
       props.isNavbarOpen
         ? `
       width: 120px;
-        `
+      `
         : `
-        width: 44px;
-        padding-left: 10px;
-        &> :nth-last-of-type(1) {
-          display: none;
-        }
-        `}
+      width: 44px;
+      padding-left: 10px;
+      &:nth-last-of-type(2) {
+        display: none;
+      }
+    `}
   }
 `;

@@ -56,8 +56,10 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
         src={youtubePlay ? Icons.PauseIcon : Icons.PlayIcon}
         alt="플레이어"
         onClick={() => setYoutubePlay((prev) => !prev)}
+        width={'24'}
+        height={'24'}
       />
-      <CC.RowDiv gap={4}>
+      <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
         <CC.ColumnCenterDiv>
           <Span fontSize={'10px'}>
             {Time.secToTime(playTime.playedSeconds)} [
@@ -127,7 +129,6 @@ const Container = styled.div<{
   align-items: center;
   width: 120px;
   height: 32px;
-  padding: 0px 2px;
   cursor: pointer;
   &:hover {
     background: ${(props) => props.theme.main.primary20};
@@ -163,7 +164,7 @@ const Container = styled.div<{
         grid-template-columns: 44px;
         width: 44px;
         padding: 0px;
-        &> :nth-last-of-type(1) {
+        .youtube-sub-menu {
           display: none;
         }
         `}

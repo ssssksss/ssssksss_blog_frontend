@@ -42,8 +42,8 @@ const BlogItem = (props: IBlogItemProps) => {
         <BlogItemImageBox>
           <Image
             src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl ?? props.element.defaultImageUrl}`}
-            width={'80px'}
-            height={'80px'}
+            width={'80'}
+            height={'80'}
           />
         </BlogItemImageBox>
       )}

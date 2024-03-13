@@ -74,12 +74,16 @@ const ImageList = styled(CC.RowCenterDiv.withComponent('ul'))`
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 4px;
     background: ${(props) => props.theme.main.contrast};
     border-radius: 8px;
-    cursor: pointer;
     img {
+      width: 48px;
+      height: 48px;
       object-fit: contain;
+    }
+    cursor: pointer;
     }
   }
 `;
