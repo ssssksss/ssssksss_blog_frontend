@@ -1,4 +1,3 @@
-import { Layout1 } from '@components/layout/Layout1';
 import NavBar from '@components/layout/NavBar';
 import { Global } from '@emotion/react';
 import { store } from '@redux/store/index';
@@ -6,14 +5,15 @@ import GlobalStyles from '@styles/GlobalStyles';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+// import 'prismjs/themes/prism-tomorrow.css';
 import { ReactElement, ReactNode, StrictMode, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import { ReactQueryDevtools } from 'react-query/devtools';
+// import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (_page: ReactElement) => ReactNode;
-  layout: typeof Layout1;
 };
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
