@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
   return {};
 }
 
-const CreateUpdate = (props: any) => {
+const Update = (props: any) => {
   return (
     <Container>
       {typeof window !== 'undefined' && (
@@ -43,13 +43,13 @@ const CreateUpdate = (props: any) => {
     </Container>
   );
 };
-export default CreateUpdate;
-CreateUpdate.layout = Layout1;
+export default Update;
+Update.layout = Layout1;
 
 const Container = styled.div`
   margin: auto;
   position: relative;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 44px);
 `;
 const Container1 = styled.div`
   display: flex;

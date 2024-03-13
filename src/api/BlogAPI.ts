@@ -7,7 +7,6 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -406,19 +405,20 @@ const updateBlog = (props: string) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: async ({ variables }) => {
-      props.onSuccessHandler();
-      await axios.request({
-        method: 'POST',
+      await AxiosInstance.post({
         url:
           process.env.NEXT_PUBLIC_ABSOLUTE_URL +
           '/api/revalidate?secret=' +
           process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
-        headers: {
-          'Content-Type': 'application/json',
-        },
         data: { path: 'blog', id: variables.id },
-      });
-      router.back();
+      })
+        .then((_) => {
+          props.onSuccessHandler();
+          router.back();
+        })
+        .catch((_) => {
+          props.onSuccessHandler();
+        });
     },
     onErrorHandler: ({ variables }) => {
       navigator.clipboard.writeText(variables.content);

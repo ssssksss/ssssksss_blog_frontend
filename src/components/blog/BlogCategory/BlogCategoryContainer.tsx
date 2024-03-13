@@ -192,19 +192,17 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
     flex-shrink: 0;
   }
 
-  @media (max-height: ${(props) => props.theme.deviceSizes.tablet}) {
-    flex-wrap: nowrap;
-    ${(props) => props.theme.scroll.hiddenX};
-    /* ${(props) => props.theme.scroll.hidden}; */
-    ::-webkit-scrollbar {
-      width: auto;
-      height: 4px;
-      display: contents;
-      position: fixed;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: ${(props) => props.theme.main.secondary20};
-      border-radius: 16px;
-    }
+  flex-wrap: nowrap;
+  ${(props) => props.theme.scroll.hiddenX};
+  /* ${(props) => props.theme.scroll.hidden}; */
+  ::-webkit-scrollbar {
+    width: auto;
+    height: 4px;
+    display: contents;
+    position: fixed;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.main.secondary20};
+    border-radius: 16px;
   }
 `;

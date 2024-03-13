@@ -65,7 +65,7 @@ const Index = () => {
               이름 : 이수경
             </CC.RowDiv>
             <CC.RowDiv pd={'0px 0px 0px 4px'} color={'white'}>
-              번호 : 010-7430-9809
+              번호 :
             </CC.RowDiv>
             <CC.RowDiv pd={'0px 0px 0px 4px'} color={'white'}>
               메일 : ssssksss@naver.com

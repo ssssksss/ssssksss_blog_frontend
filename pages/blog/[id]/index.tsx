@@ -58,6 +58,5 @@ export default Index;
 Index.layout = Layout1;
 
 const Container = styled.div`
-  margin: auto;
-  height: calc(100vh);
+  background: ${(props) => props.theme.colors.gray20};
 `;

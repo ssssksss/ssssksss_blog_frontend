@@ -35,7 +35,7 @@ CreateUpdate.layout = Layout1;
 const Container = styled.div`
   margin: auto;
   position: relative;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 44px);
 `;
 
 const Container1 = styled.div`

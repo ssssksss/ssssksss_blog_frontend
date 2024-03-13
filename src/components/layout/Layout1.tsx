@@ -13,17 +13,9 @@ const Layout1 = ({ children }: AppLayoutProps) => {
   return (
     <Container>
       <SideBar />
-      {/* <CC.Column_CenterDiv w={'100%'} h={'100%'}>
-        <TopBar />
-        <MainContainer>
-          <div> {children} </div>
-        </MainContainer>
-      </CC.Column_CenterDiv> */}
       <Container1>
-        <div>
-          <TopBar />
-          <MainContainer>{children}</MainContainer>
-        </div>
+        <TopBar />
+        <MainContainer>{children}</MainContainer>
       </Container1>
       <LoadingComponent w={'100vw'} h={'100vh'} position={'fixed'} />
     </Container>
@@ -52,17 +44,18 @@ const Container1 = styled.div`
   display: flex;
   flex-flow: nowrap column;
   align-items: center;
-
-  & > div {
-    width: 100%;
-    max-width: 1440px;
-  }
 `;
 
 const MainContainer = styled.main`
   container-name: main-container;
   container-type: inline-size;
   width: 100%;
-  padding: 2px 2px 0px 2px;
+  padding: 1px 1px 0px 1px;
   height: calc(100vh - 44px);
+  & > div {
+    height: 100%;
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+  }
 `;

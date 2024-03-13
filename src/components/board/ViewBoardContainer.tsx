@@ -73,9 +73,7 @@ const ViewBoardContainer = () => {
         <FixContainer>
           {authStore.id == boardResData.data.json?.board.userId && (
             <Link href={`/board/update?id=${router.query.id}`}>
-              <a>
-                <Image src={Icons.EditIcon} alt="" width={20} height={20} />
-              </a>
+              <Image src={Icons.EditIcon} alt="" width={20} height={20} />
             </Link>
           )}
           {authStore.id == boardResData.data.json?.board.userId && (

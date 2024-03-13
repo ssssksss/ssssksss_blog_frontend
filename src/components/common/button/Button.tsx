@@ -4,7 +4,7 @@ import { animationKeyFrames } from '@styles/Animations';
 import { colorTypes } from '@styles/theme';
 import { MouseEventHandler, ReactNode, useCallback } from 'react';
 
-interface IButtonProps {
+export interface IButtonProps {
   onClick?: (_event: any) => void;
   onClickCapture?: (_event: any) => void;
   children: ReactNode;
@@ -137,6 +137,7 @@ ${(props) =>
   border: none;
   border-radius: ${(props) =>
     props.theme.borderRadius?.[props.brR] ||
+    props.brR ||
     props.theme.btnSizes?.[props.h]?.borderRadius ||
     props.theme.btnSizes?.md?.borderRadius};
   background: ${(props) =>

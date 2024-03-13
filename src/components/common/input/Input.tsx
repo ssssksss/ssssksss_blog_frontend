@@ -207,10 +207,10 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
           {imageUrl != '/' ? (
             <Image src={imageUrl} layout="fill" />
           ) : (
-            <CC.ColumnCenterDiv h={'100%'}>
+            <CC.ColumnCenterCenterDiv h={'100%'}>
               <Image src={Icons.CloudIcon} width={48} height={48} />
               <CC.RowCenterDiv> drag file to upload </CC.RowCenterDiv>
-            </CC.ColumnCenterDiv>
+            </CC.ColumnCenterCenterDiv>
           )}
         </ImageFileContainer>
       )}
