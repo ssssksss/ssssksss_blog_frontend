@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 /**
@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
  */
 const ReactToastifyComponents = () => {
   const toastifyStore = useSelector((state: RootState) => state.toastifyStore);
-
+  const isMounted = useRef(false);
   const notify = () => {
     switch (toastifyStore.type || 'default') {
       case 'success':
@@ -45,7 +45,8 @@ const ReactToastifyComponents = () => {
   };
 
   useEffect(() => {
-    notify();
+    if (isMounted.current) notify();
+    else isMounted.current = true;
   }, [toastifyStore]);
 
   return (
