@@ -1,27 +1,23 @@
 import { BlogAPI } from '@api/BlogAPI';
-import Button from '@components/common/button/Button';
-import { ConfirmButton } from '@components/common/button/ConfirmButton';
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Viewer } from '@toast-ui/react-editor';
+import { useRouter } from 'next/router';
+import { useEffect, useReducer, useState } from 'react';
+import { useSelector } from 'react-redux';
+// import 'tui-color-picker/dist/tui-color-picker.css';
+import Button from '@components/common/button/Button';
+import { Icons } from '@components/common/icons/Icons';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 import { AWSS3Prefix } from '@utils/variables/url';
+
+// import { ConfirmButton } from '@components/common/button/ConfirmButton';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
+import { Editor } from '@components/editor/MDEditor';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import { useEffect, useReducer, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import 'tui-color-picker/dist/tui-color-picker.css';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -51,11 +47,9 @@ interface IProps {
 const ViewBlogContainer = (props: IProps) => {
   const BACK_URL = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
   const router = useRouter();
-  const editorRef = useRef<Viewer>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
-  const viewerInstance = editorRef.current?.getInstance();
   const [blogCategory] = useState({
     firstCategoryName: props.blogFirstCategoryName,
     secondCategoryName: props.blogSecondCategoryName,
@@ -67,7 +61,6 @@ const ViewBlogContainer = (props: IProps) => {
   }>([]);
 
   useEffect(() => {
-    viewerInstance?.setMarkdown(props.content);
     setTimeout(() => {
       document.querySelectorAll('pre')?.forEach((i) => {
         let test = document.createElement('button');
@@ -133,183 +126,206 @@ const ViewBlogContainer = (props: IProps) => {
 
   return (
     <>
-      <Container gap={4} id="viewBlogContainer">
-        <HeaderContainer
-          pd={'32px 8px 8px 8px'}
-          w={'100%'}
-          h={'200px'}
-          imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
-        >
-          <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
-            <Button
-              bg={'primary20'}
-              w={'max-content'}
-              onClick={() =>
-                router.push('/blog?first-category=' + props.firstCategoryId)
-              }
-            >
-              {blogCategory.firstCategoryName}
-            </Button>
-            <Button
-              bg={'secondary20'}
-              w={'max-content'}
-              onClick={() =>
-                router.push(
-                  '/blog?first-category=' +
-                    props.firstCategoryId +
-                    '&second-category=' +
-                    props.secondCategoryId,
-                )
-              }
-            >
-              {props.blogSecondCategoryName}
-            </Button>
-            <CC.RowDiv gap={8}>
-              <CC.RowDiv
-                w={'max-content'}
+      <Container gap={4} id="viewBlogContainer" className={'viewBlogContainer'}>
+        <CC.AbsoluteColumnBox top={'0px'} h={'auto'} w={'100%'}>
+          <HeaderContainer
+            className={'header-container'}
+            pd={'32px 8px 8px 8px'}
+            imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
+          >
+            <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
+              <Button
                 bg={'primary20'}
-                h={'100%'}
-                brR={'8px'}
-                pd={'2px'}
-              >
-                {dateFormat4y2m2d(props.createdAt)}
-              </CC.RowDiv>
-              <CC.RowDiv
-                gap={4}
-                bg={'secondary20'}
-                h={'100%'}
-                brR={'8px'}
-                pd={'2px'}
-              >
-                <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-                {props.likeNumber}
-              </CC.RowDiv>
-            </CC.RowDiv>
-          </CC.AbsoluteRowBox>
-          <Title pd={'16px 0px 8px 0px'}>
-            <h1> {props.title} </h1>
-            <h3> {props.description} </h3>
-          </Title>
-        </HeaderContainer>
-        <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
-          {props.content && (
-            <Viewer
-              initialValue={props.content}
-              theme="black"
-              ref={editorRef}
-              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-            />
-          )}
-          <FixContainer>
-            {isOpenModal ? (
-              <BlogTopicInlineLinkListContainer>
-                <BlogTopicInlineLinkListHeaderContainer>
-                  <Title1 onClick={() => IsOpenModalToggle()}>목차</Title1>
-                  <Exit onClick={() => IsOpenModalToggle()}>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                  </Exit>
-                </BlogTopicInlineLinkListHeaderContainer>
-                <BlogTopicInlineLinkListBodyContainer>
-                  {blogIndexList.map((i, index) => (
-                    <button
-                      key={index}
-                      onClickCapture={() => {
-                        // window.scrollTo(0, 2000);
-                        document
-                          .getElementById('viewBlogContainer')
-                          .scrollTo(0, i.top - 60);
-                        // toastui-editor-contents
-                        // window.scrollTo(0, i.top - 40);
-                      }}
-                      className={i.tagName}
-                    >
-                      {i.content}
-                    </button>
-                  ))}
-                </BlogTopicInlineLinkListBodyContainer>
-              </BlogTopicInlineLinkListContainer>
-            ) : (
-              <BlogTopicInlineLinksButton
-                onClick={() => {
-                  IsOpenModalToggle();
-                }}
-              >
-                <Image
-                  width={24}
-                  height={24}
-                  alt="blog_index"
-                  src={Icons.MenuIcon}
-                />
-              </BlogTopicInlineLinksButton>
-            )}
-            {authStore.role === 'ROLE_ADMIN' && (
-              <Link
-                href={`/blog/update?id=${router.query.id}`}
-                prefetch={false}
-              >
-                <a>
-                  <Image src={Icons.EditIcon} alt="" width={24} height={24} />
-                </a>
-              </Link>
-            )}
-            {authStore.role === 'ROLE_ADMIN' && (
-              <ConfirmButton
-                onClick={() => deleteHandler()}
                 w={'max-content'}
-                h={'max-content'}
-                bg={'transparent'}
-                pd={'0'}
+                onClick={() =>
+                  router.push('/blog?first-category=' + props.firstCategoryId)
+                }
               >
-                <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
-              </ConfirmButton>
-            )}
-            <Link href={BACK_URL}>
-              <a>
+                {blogCategory.firstCategoryName}
+              </Button>
+              <Button
+                bg={'secondary20'}
+                w={'max-content'}
+                onClick={() =>
+                  router.push(
+                    '/blog?first-category=' +
+                      props.firstCategoryId +
+                      '&second-category=' +
+                      props.secondCategoryId,
+                  )
+                }
+              >
+                {props.blogSecondCategoryName}
+              </Button>
+              <CC.RowDiv gap={8}>
+                <CC.RowDiv
+                  w={'max-content'}
+                  bg={'primary20'}
+                  h={'100%'}
+                  brR={'8px'}
+                  pd={'2px'}
+                >
+                  {dateFormat4y2m2d(props.createdAt)}
+                </CC.RowDiv>
+                <CC.RowDiv
+                  gap={4}
+                  bg={'secondary20'}
+                  h={'100%'}
+                  brR={'8px'}
+                  pd={'2px'}
+                >
+                  <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+                  {props.likeNumber}
+                </CC.RowDiv>
+              </CC.RowDiv>
+            </CC.AbsoluteRowBox>
+            <Title pd={'16px 0px 8px 0px'}>
+              <h1> {props.title} </h1>
+              <h3> {props.description} </h3>
+            </Title>
+          </HeaderContainer>
+          <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+            <Editor
+              className={'preview-editor'}
+              height={'100%'}
+              highlightEnable={false}
+              value={props.content}
+              preview={'preview'}
+              hideToolbar={true}
+              visibleDragbar={false}
+              enableScroll={false}
+              overflow={false}
+            />
+            <FixContainer className={'fix-container'}>
+              {isOpenModal ? (
+                <BlogTopicInlineLinkListContainer>
+                  <BlogTopicInlineLinkListHeaderContainer>
+                    <Title1
+                      onClick={() => IsOpenModalToggle()}
+                      className={'title-trigger'}
+                    >
+                      목차
+                    </Title1>
+                    <Exit onClick={() => IsOpenModalToggle()}>
+                      <div> </div>
+                      <div> </div>
+                      <div> </div>
+                    </Exit>
+                  </BlogTopicInlineLinkListHeaderContainer>
+                  <BlogTopicInlineLinkListBodyContainer>
+                    {blogIndexList.map((i, index) => (
+                      <button
+                        key={index}
+                        onClickCapture={() => {
+                          // window.scrollTo(0, 2000);
+                          document
+                            .getElementById('viewBlogContainer')
+                            .scrollTo(0, i.top - 60);
+                          // toastui-editor-contents
+                          // window.scrollTo(0, i.top - 40);
+                        }}
+                        className={i.tagName}
+                      >
+                        {i.content}
+                      </button>
+                    ))}
+                  </BlogTopicInlineLinkListBodyContainer>
+                </BlogTopicInlineLinkListContainer>
+              ) : (
+                <BlogTopicInlineLinksButton
+                  onClick={() => {
+                    IsOpenModalToggle();
+                  }}
+                >
+                  <Image
+                    width={24}
+                    height={24}
+                    alt="blog_index"
+                    src={Icons.MenuIcon}
+                  />
+                </BlogTopicInlineLinksButton>
+              )}
+              {authStore.role === 'ROLE_ADMIN' && (
+                <Link
+                  href={`/blog/update?id=${router.query.id}`}
+                  prefetch={false}
+                >
+                  <Image src={Icons.EditIcon} alt="" width={24} height={24} />
+                </Link>
+              )}
+              {authStore.role === 'ROLE_ADMIN' && (
+                <ConfirmButton
+                  onClick={() => deleteHandler()}
+                  w={'max-content'}
+                  h={'max-content'}
+                  bg={'transparent'}
+                  pd={'0'}
+                >
+                  <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
+                </ConfirmButton>
+              )}
+              <Link href={BACK_URL}>
                 <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
-              </a>
-            </Link>
-          </FixContainer>
-        </ViewerContainer>
+              </Link>
+            </FixContainer>
+          </ViewerContainer>
+        </CC.AbsoluteColumnBox>
       </Container>
     </>
   );
 };
 export default ViewBlogContainer;
 
-const Container = styled(CC.ColumnDiv)`
-  height: calc(100vh - 52px);
-  overflow: scroll;
+const Container = styled.div`
   -ms-over-flow-style: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
     display: none;
   }
+  height: 100%;
+  ${(props) => props.theme.scroll.hiddenY};
   position: relative;
-  & > div {
-    border-radius: 10px;
+  /* display: grid; */
+  /* grid-template-rows: 200px max-content; */
+  .preview-editor {
+    max-height: auto;
   }
-
-  h3 {
-    color: ${(props) => props.theme.colors.black80};
+  .w-md-editor {
   }
-
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
+  .w-md-editor-content {
+    height: calc(100vh);
+  }
+  .w-md-editor-preview {
+  }
+  .wmde-markdown .wmde-markdown-color {
+  }
+  .wmde-markdown-var {
+  }
+  .w-md-editor {
+  }
+  .w-md-editor-show-preview {
+  }
+  .preview-editor {
+  }
+  .w-md-editor-fullscreen {
   }
 `;
 
 // padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 4px);
-const HeaderContainer = styled(CC.ColumnBetweenDiv)<{ props: any }>`
+const HeaderContainer = styled(CC.ColumnDiv)<{ props: any }>`
   background-image: url(${(props) => props?.imageUrl});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
   /* background-size: cover; */
   /* 추가 */
-  position: relative;
   isolation: isolate;
+  border-bottom: solid ${(props) => props.theme.main.primary80} 1px;
+  height: 200px;
+  position: sticky;
+  z-index: 100000;
+  bottom: 0;
 
   &::after {
     content: '';
@@ -346,121 +362,78 @@ const Title = styled(CC.ColumnCenterDiv)`
 
 const ViewerContainer = styled.div<{ icon: any }>`
   border-radius: 0px 0px 10px 10px;
+  width: 100%;
+  height: 100%;
+  display: block;
   position: relative;
-  margin-bottom: 10px;
+  background: ${(props) => props.theme.colors.white80};
+  min-height: max-content;
+  .w-md-editor-content {
+    height: 4600px;
+  }
+  .w-md-editor-preview {
+  }
+  .wmde-markdown {
+  }
+  .wmde-markdown-color {
+  }
+  .wmde-markdown-var {
+  }
+  .w-md-editor {
+  }
+  .w-md-editor-show-preview {
+  }
+  .preview-editor {
+  }
+  .w-md-editor-fullscreen {
+  }
 
-  .toastui-editor-contents {
-    background: ${(props) => props.theme.colors.white80};
-    padding: 4px 16px;
-    ${(props) => props.theme.flex.column};
-    gap: 20px;
-    font-size: ${(props) => props.theme.calcRem(16)};
-    min-height: calc(100vh - 268px);
-    counter-reset: section;
+  pre {
+    outline: solid ${(props) => props.theme.main.primary80} 1px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+    font-size: ${(props) => props.theme.calcRem(12)};
 
-    h1[data-nodeid] {
+    & > button {
+      display: none;
+      content: '';
+      background-image: ${(props) =>
+        props.icon && `url('/img/ui-icon/ic-board.svg')`};
+      background-size: 20px;
+      background-repeat: no-repeat;
+      background-position-x: 50%;
+      background-position-y: 50%;
+      aspect-ratio: 1;
+      position: absolute;
+      width: max-content;
+      top: 0px;
+
+      aspect-ratio: 1;
+      padding: 0px;
       border: none;
-      width: 100%;
-      background: ${(props) => props.theme.main.primary20};
-      font-size: ${(props) => props.theme.calcRem(28)};
-      border-radius: 8px;
-      padding: 2px 0px;
     }
-    h1[data-nodeid]::before {
-      content: '📌 ';
-    }
-    h2[data-nodeid] {
-      border: none;
-      width: 100%;
-      background: ${(props) => props.theme.main.secondary20};
-      font-size: ${(props) => props.theme.calcRem(24)};
-      border-radius: 8px;
-      padding: 2px 0px;
-    }
-    h2[data-nodeid]::before {
-      content: '🚩 ';
-    }
-    h3[data-nodeid] {
-      border: none;
-      width: 100%;
-      background: ${(props) => props.theme.colors.orange20 + '33'};
-      font-size: ${(props) => props.theme.calcRem(20)};
-      border-radius: 8px;
-    }
-    h3[data-nodeid]::before {
-      content: '🔶 ';
-    }
-    h4[data-nodeid]::before {
-      content: '🔸 ';
-    }
-
-    pre {
-      outline: solid ${(props) => props.theme.main.primary80} 1px;
-      border-radius: 10px;
-      position: relative;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      font-size: ${(props) => props.theme.calcRem(12)};
-      background: ${(props) => props.theme.colors.white80};
-
-      & > button {
-        display: none;
-        content: '';
-        background-image: ${(props) =>
-          props.icon && `url('/img/ui-icon/ic-board.svg')`};
-        background-size: 20px;
-        background-repeat: no-repeat;
-        background-position-x: 50%;
-        background-position-y: 50%;
-        aspect-ratio: 1;
-        position: absolute;
-        width: max-content;
-        top: 0px;
-
-        aspect-ratio: 1;
-        padding: 0px;
-        border: none;
-      }
-      &:hover > button {
-        display: flex;
-      }
-    }
-
-    th {
-      outline: solid black 1px;
-      background: ${(props) => props.theme.main.primary60};
-    }
-    td {
-      outline: solid black 1px;
-      padding: 2px 4px;
-    }
-    hr {
-      height: 12px;
-      background: ${(props) => props.theme.main.secondary80};
-    }
-
-    p[data-nodeid]:has(img) {
+    &:hover > button {
       display: flex;
-      justify-content: center;
-      img {
-        @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
-          max-width: 600px;
-          max-height: 600px;
-        }
-      }
     }
+  }
+  img {
+    max-width: 800px;
+    max-height: 600px;
   }
 `;
 
 const FixContainer = styled(CC.ColumnDiv)`
   position: fixed;
   right: 10px;
-  bottom: ${(props) => props.theme.calcRem(60)};
+  bottom: ${(props) => props.theme.calcRem(20)};
   gap: 8px;
   background: ${(props) => props.theme.main.primary80};
   color: ${(props) => props.theme.main.contrast};
   outline: solid black 1px;
   padding: 8px;
   border-radius: 10px;
+  z-index: 100000;
   /* width: ${(props) => props.theme.calcRem(32)}; */
 
   img {

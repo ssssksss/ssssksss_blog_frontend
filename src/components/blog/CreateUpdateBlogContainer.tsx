@@ -1,30 +1,24 @@
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
 import LoadingComponent from '@components/common/loading/LoadingComponent';
 import Select from '@components/common/select/Select';
+import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
+import '@uiw/react-markdown-preview/markdown.css';
+import '@uiw/react-md-editor/markdown-editor.css';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
 
 /**
@@ -63,23 +57,27 @@ const CreateUpdateBlogContainer = (
   );
   const router = useRouter();
   const createBlogMutation = BlogAPI.createBlog({
-    onSuccessHandler: () => {
-      setIsLoading(false);
+    onSuccessHandler: async () => {
+      await setIsLoading(false);
     },
   });
   const updateBlogMutation = BlogAPI.updateBlog({
-    onSuccessHandler: () => {
-      setIsLoading(false);
+    onSuccessHandler: async () => {
+      await setIsLoading(false);
     },
   });
-  const editorRef = useRef<Editor>(null);
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
-  const [tempBlogImage, setTempBlogImage] = useState([]);
+  // const [tempBlogImage, setTempBlogImage] = useState([]);
+  const [value, setValue] = useState(props.content);
   const [categoryList, setCategoryList] = useState({
     firstCategoryList: {},
     secondCategoryList: {},
   });
+  const editorChangeHandler = useCallback((value) => {
+    setValue(value);
+    methods.setValue('content', value, { shouldValidate: true });
+  }, []);
   const methods = useForm({
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
@@ -91,7 +89,7 @@ const CreateUpdateBlogContainer = (
       title: '',
       description: '',
       thumbnailImageFile: '',
-      content: '# \n ##  \n',
+      content: props.content,
     },
   });
 
@@ -112,12 +110,10 @@ const CreateUpdateBlogContainer = (
       methods.setValue('title', props.title);
       methods.setValue('description', props.description);
       methods.setValue('content', props.content);
-      const viewerInstance = editorRef.current?.getInstance();
-      viewerInstance?.setMarkdown(props.content);
       setDefaultImageUrl(props.thumbnailImageUrl);
 
       setTimeout(() => {
-        // ! 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
+        // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
         let _blogContentImageList = [];
         let index2 = 0;
         const _TRUE = true;
@@ -137,24 +133,22 @@ const CreateUpdateBlogContainer = (
   const submitHandler = async () => {
     setIsLoading(true);
     // store.dispatch(setIsLoading(true));
-    const editorInstance = editorRef.current?.getInstance();
-    const getContent_md = editorInstance?.getMarkdown();
     let imageUrlList = [];
     let imageFileList = [];
     let deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
     // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
     // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
-    tempBlogImage.map((i) => {
-      if (getContent_md.search(i.url) != -1) {
-        imageUrlList.push(i.url);
-        imageFileList.push(i.file);
-      }
-    });
+    // tempBlogImage.map((i) => {
+    //   if (methods.getValues('content').search(i.url) != -1) {
+    //     imageUrlList.push(i.url);
+    //     imageFileList.push(i.file);
+    //   }
+    // });
 
     if (props.edit) {
       blogContentImageList?.map((i) => {
-        if (getContent_md.search(i) === -1) {
+        if (methods.getValues('content').search(i) === -1) {
           deleteImageBucketDirectory.push(i);
         }
       });
@@ -165,7 +159,7 @@ const CreateUpdateBlogContainer = (
         id: router.query.id,
         title: methods.getValues('title'),
         description: methods.getValues('description'),
-        content: getContent_md,
+        content: methods.getValues('content'),
         firstCategoryId: methods.getValues('selectFirstCategoryId'),
         secondCategoryId: methods.getValues('selectSecondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
@@ -182,7 +176,7 @@ const CreateUpdateBlogContainer = (
       createBlogMutation({
         title: methods.getValues('title'),
         description: methods.getValues('description'),
-        content: getContent_md,
+        content: methods.getValues('content'),
         firstCategoryId: methods.getValues('selectFirstCategoryId'),
         secondCategoryId: methods.getValues('selectSecondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
@@ -195,11 +189,11 @@ const CreateUpdateBlogContainer = (
     }
   };
 
-  const uploadHandler = async (file: any) => {
-    const url = URL.createObjectURL(file).substring(5);
-    setTempBlogImage((prev) => [...prev, { url, file }]);
-    return url;
-  };
+  // const uploadHandler = async (file: any) => {
+  //   const url = URL.createObjectURL(file).substring(5);
+  //   setTempBlogImage((prev) => [...prev, { url, file }]);
+  //   return url;
+  // };
 
   const onChangeFirstCategoryHandler = async (props: {
     value: string;
@@ -284,14 +278,16 @@ const CreateUpdateBlogContainer = (
           store.getState().authStore.id ===
             store.getState().blogStore.activeBlogUserId) && (
           <React.Fragment>
-            {isLoading && <LoadingComponent />}
-            <Container isLoading={isLoading} icon={Icons.PlayIcon}>
-              <HeaderContainer gap={8}>
+            <Container isLoading={isLoading} icon={Icons.PlayIcon} h={'100%'}>
+              {isLoading && <LoadingComponent />}
+              <HeaderContainer>
                 <Button
                   id={'hideBlogHeaderButton'}
                   w={'100%'}
+                  h={'100%'}
                   bg={'primary40'}
-                  onClick={() => hideContainerToggle()}
+                  brR={'0px'}
+                  onClick={hideContainerToggle}
                 >
                   {isHideContainer ? (
                     <Image src={Icons.DownArrowIcon} />
@@ -372,103 +368,36 @@ const CreateUpdateBlogContainer = (
               </HeaderContainer>
               <EditorContainer>
                 <Editor
-                  autofocus={props.edit}
-                  initialValue={methods.getValues('content')}
-                  previewStyle="vertical"
-                  height="calc(100vh - 182px)"
-                  initialEditType="markdown"
-                  useCommandShortcut={true}
-                  ref={editorRef}
-                  plugins={[
-                    colorSyntax,
-                    [codeSyntaxHighlight, { highlighter: Prism }],
-                  ]}
-                  onChange={() => {
-                    let toastUIPreviewBlobImages =
-                      window.document.querySelectorAll(
-                        "img[src^='" + window.location.origin + "']",
-                      );
-                    toastUIPreviewBlobImages.forEach((i) => {
-                      i.setAttribute('src', 'blob:' + i.src);
-                    });
-                    const editorInstance = editorRef.current?.getInstance();
-                    const getContent_md = editorInstance?.getMarkdown();
-                    methods.setValue('content', getContent_md, {
-                      shouldValidate: true,
-                    });
-                  }}
-                  hooks={{
-                    addImageBlobHook: async (blob, callback) => {
-                      const imageURL: any = await uploadHandler(blob);
-                      await callback(imageURL, '');
-                      // "blog"+directory+"/"+fileName
-                    },
-                  }}
-                  viewer={true}
-                  // language="ko-KR"
-                  toolbarItems={[
-                    // 툴바 옵션 설정
-                    ['heading', 'bold', 'italic', 'strike'],
-                    ['hr', 'quote'],
-                    ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
-                    ['code', 'codeblock'],
-                  ]}
+                  height={'100%'}
+                  // value={methods.getValues('content')}
+                  value={value}
+                  onChange={editorChangeHandler}
+                  highlightEnable={false}
+                  visibleDragbar={false}
+                  onSubmit={() => false}
                 />
               </EditorContainer>
               <EditorFooter>
                 <Button
                   w={'100%'}
-                  outline={true}
                   onClick={() => submitHandler()}
                   disabled={!methods.formState.isValid}
+                  brR={'0px'}
                 >
                   {props.edit ? '수정' : '제출'}
                 </Button>
-                <Button w={'100%'} outline={true} onClick={() => router.back()}>
+                <ConfirmButton
+                  w={'100%'}
+                  onClick={() => router.back()}
+                  brR={'0px'}
+                  bg={'red20'}
+                  icon={'warning'}
+                  text={'페이지를 나가시면 작성중인 글을 사라집니다.'}
+                >
                   취소
-                </Button>
+                </ConfirmButton>
               </EditorFooter>
               <BlogItemContentFormContainer>
-                {/* <ModalButton
-                  color={'primary80'}
-                  outline={true}
-                  modal={
-                    <BlogContentTemplateModal
-                      firstCategoryId={methods.getValues(
-                        'selectFirstCategoryId',
-                      )}
-                      secondCategoryId={methods.getValues(
-                        'selectSecondCategoryId',
-                      )}
-                    />
-                  }
-                  modalOverlayVisible={true}
-                  modalW={'80%'}
-                  bg={'contrast'}
-                >
-                  <Image src={Icons.SettingIcon} alt="" />
-                </ModalButton>
-                {store
-                  .getState()
-                  .blogContentTemplateStore?.blogContentTemplateList?.map(
-                    (i, index) => (
-                      <BlogItemContentFormButton
-                        key={index}
-                        onClick={() => {
-                          navigator.clipboard.writeText(i.content);
-                          store.dispatch(
-                            SET_TOASTIFY_MESSAGE({
-                              type: 'success',
-                              message: `복사되었습니다.`,
-                            }),
-                          );
-                        }}
-                      >
-                        {index}
-                      </BlogItemContentFormButton>
-                    ),
-                  )} */}
                 <BlogItemContentFormButton
                   onClick={() => {
                     navigator.clipboard.writeText(
@@ -529,129 +458,12 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
   flex-flow: nowrap column;
   justify-content: flex-end;
   background-color: white;
-  border-radius: 0px 0px 10px 10px;
-  padding: 4px 16px;
-  gap: 4px;
+  padding: 2px;
+  height: calc(100% - 32px);
 
   visibility: ${(props) => props.isLoading && 'hidden'};
-
-  .toastui-editor-toolbar {
-    position: sticky;
-    top: 30px;
-    z-index: 1;
-  }
-  .toastui-editor-main {
-    border-top: solid transparent 4px;
-    padding-top: 4px;
-    height: 100%;
-    font-size: 16px;
-
-    h1[data-nodeid] {
-      border: none;
-      width: 100%;
-      background: ${(props) => props.theme.colors.red20 + '33'};
-      font-size: ${(props) => props.theme.calcRem(28)};
-      border-radius: 8px;
-      padding: 4px 0px;
-    }
-    h1[data-nodeid]::before {
-      counter-increment: section;
-      content: '📌 [' counter(section) '] ';
-    }
-    h2[data-nodeid] {
-      border: none;
-      width: 100%;
-      background: ${(props) => props.theme.colors.orange20 + '33'};
-      font-size: ${(props) => props.theme.calcRem(24)};
-      border-radius: 8px;
-      padding: 2px 0px;
-    }
-    h2[data-nodeid]::before {
-      content: '🚩 ';
-    }
-    h3[data-nodeid] {
-      border: none;
-      width: 100%;
-      background: ${(props) => props.theme.colors.orange20 + '33'};
-      font-size: ${(props) => props.theme.calcRem(20)};
-      border-radius: 8px;
-    }
-    h3[data-nodeid]::before {
-      content: '🔶 ';
-    }
-    h4[data-nodeid]::before {
-      content: '🔸 ';
-    }
-    pre {
-      outline: solid ${(props) => props.theme.main.primary80} 1px;
-      border-radius: 10px;
-      position: relative;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
-      font-size: ${(props) => props.theme.calcRem(12)};
-      background: ${(props) => props.theme.colors.gray20};
-
-      & > button {
-        display: none;
-        content: '';
-        background-image: ${(props) =>
-          props.icon && `url('/img/ui-icon/ic-board.svg')`};
-        background-size: 20px;
-        background-repeat: no-repeat;
-        background-position-x: 50%;
-        background-position-y: 50%;
-        aspect-ratio: 1;
-        position: absolute;
-        width: max-content;
-        top: 0px;
-
-        aspect-ratio: 1;
-        padding: 0px;
-        border: none;
-      }
-      &:hover > button {
-        display: flex;
-      }
-    }
-    }
-
-    th {
-      outline: solid black 1px;
-      background: ${(props) => props.theme.main.primary60};
-    }
-    td {
-      outline: solid black 1px;
-      padding: 2px 4px;
-    }
-    hr {
-      height: 12px;
-      background: ${(props) => props.theme.main.secondary80};
-    }
-
-    p > img {
-      margin: auto;
-      display: block;
-    }
-  }
-  .toastui-editor-defaultUI {
-    margin-top: 42px;
-    height: calc(100%);
-  }
   select {
     z-index: 5;
-  }
-
-  &::before {
-    content: '';
-    background-size: 50%;
-    background-image: url('/img/backgroundImage/원피스.jpg');
-    background-repeat: repeat-x;
-    background-position: right bottom;
-    opacity: 0.2;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: calc(80px + 44px);
   }
 `;
 
@@ -659,23 +471,24 @@ const HeaderContainer = styled(CC.ColumnDiv)`
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100% - 8px);
-  height: max-content;
+  width: calc(100%);
+  height: 40px;
   z-index: 6;
-  background: ${(props) => props.theme.colors.gray80};
-  outline: solid black 1px;
-  border-radius: 10px;
-  padding: 4px;
-  margin: 4px 0px 0px 4px;
-  & > div {
-    gap: 8px;
-  }
 `;
 
 const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  border-radius: 8px;
+  padding: 8px;
   visibility: ${(props) => (props.isHide ? 'hidden' : 'visible')};
-  height: ${(props) => (props.isHide ? '0px' : '100%')};
-  z-index: 3;
+  height: ${(props) => (props.isHide ? '0px' : 'max-content')};
+  gap: 8px;
+  background: ${(props) => props.theme.colors.gray60};
+
+  & > div {
+  }
 
   select {
     outline: solid black 1px;
@@ -713,16 +526,55 @@ const Title = styled(Input)`
   }
 `;
 
-const EditorContainer = styled.div`
-  padding-top: 48px;
+const EditorContainer = styled(CC.ColumnDiv)`
+  gap: 4px;
+  overflow: scroll;
+  -ms-over-flow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  height: 100%;
+  padding-top: 40px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  p:has(img) {
+    width: 100%;
+    display: flex;
+    img {
+      outline: solid black 4px;
+      margin: auto;
+      max-width: 800px;
+      max-height: 600px;
+    }
+  }
+  .w-md-editor-area .w-md-editor-input {
+    height: 100%;
+  }
+  .w-md-editor-text {
+    height: 100%;
+  }
+  .w-md-editor-content {
+    &::before {
+      content: '';
+      background-size: 50%;
+      background-image: url('/img/backgroundImage/원피스.jpg');
+      background-repeat: repeat-x;
+      background-position: right bottom;
+      opacity: 0.2;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+    }
+  }
 `;
 const EditorFooter = styled(CC.GridColumn2)`
-  gap: 10px;
-  position: sticky;
-  padding: 4px 4px;
-  bottom: 8px;
-  margin-bottom: 8px;
+  position: absolute;
+  bottom: -32px;
   background: rgba(255, 255, 255, 0.5);
+  width: 100%;
 `;
 
 const BlogItemContentFormContainer = styled.section`
@@ -740,9 +592,9 @@ const BlogItemContentFormContainer = styled.section`
 
 const BlogItemContentFormButton = styled.button`
   padding: 2px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px,
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 2px,
     rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
-  border-radius: 4px;
 `;
 
 const Description = styled(Input)`
@@ -753,9 +605,8 @@ const Description = styled(Input)`
   color: ${(props) => props.theme.colors.black60};
   padding: 0px 10px;
   border: none;
-  border-radius: 0px;
   z-index: 2;
-  border-radius: 10px;
+  border-radius: 8px;
   outline: solid black 1px;
 
   &::placeholder {
@@ -767,5 +618,8 @@ const Description = styled(Input)`
     font-size: 1rem;
     &::placeholder {
       font-size: 1rem;
-    
+    }
+  }
 `;
+
+<a href="www.naver.com"> test </a>;
