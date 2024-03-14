@@ -111,9 +111,10 @@ const ViewBlogContainer = (props: IProps) => {
    */
   const createBlogIndex = () => {
     let temp = document
-      ?.getElementsByClassName('toastui-editor-contents')[0]
-      ?.querySelectorAll('h1[data-nodeid],h2[data-nodeid]');
+      ?.getElementsByClassName('wmde-markdown')[0]
+      ?.querySelectorAll('h1,h2');
     let htmlTagIndexTempArray = [];
+    console.log('ViewBlogContainer.tsx 파일 : ', temp);
     temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
@@ -125,152 +126,143 @@ const ViewBlogContainer = (props: IProps) => {
   };
 
   return (
-    <>
-      <Container gap={4} id="viewBlogContainer" className={'viewBlogContainer'}>
-        <CC.AbsoluteColumnBox top={'0px'} h={'auto'} w={'100%'}>
-          <HeaderContainer
-            className={'header-container'}
-            pd={'32px 8px 8px 8px'}
-            imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
+    <Container gap={4} id="viewBlogContainer" className={'viewBlogContainer'}>
+      <HeaderContainer
+        className={'header-container'}
+        pd={'32px 8px 8px 8px'}
+        imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
+      >
+        <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
+          <Button
+            bg={'primary20'}
+            w={'max-content'}
+            onClick={() =>
+              router.push('/blog?first-category=' + props.firstCategoryId)
+            }
           >
-            <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
-              <Button
-                bg={'primary20'}
-                w={'max-content'}
-                onClick={() =>
-                  router.push('/blog?first-category=' + props.firstCategoryId)
-                }
-              >
-                {blogCategory.firstCategoryName}
-              </Button>
-              <Button
-                bg={'secondary20'}
-                w={'max-content'}
-                onClick={() =>
-                  router.push(
-                    '/blog?first-category=' +
-                      props.firstCategoryId +
-                      '&second-category=' +
-                      props.secondCategoryId,
-                  )
-                }
-              >
-                {props.blogSecondCategoryName}
-              </Button>
-              <CC.RowDiv gap={8}>
-                <CC.RowDiv
-                  w={'max-content'}
-                  bg={'primary20'}
-                  h={'100%'}
-                  brR={'8px'}
-                  pd={'2px'}
+            {blogCategory.firstCategoryName}
+          </Button>
+          <Button
+            bg={'secondary20'}
+            w={'max-content'}
+            onClick={() =>
+              router.push(
+                '/blog?first-category=' +
+                  props.firstCategoryId +
+                  '&second-category=' +
+                  props.secondCategoryId,
+              )
+            }
+          >
+            {props.blogSecondCategoryName}
+          </Button>
+          <CC.RowDiv gap={8}>
+            <CC.RowDiv
+              w={'max-content'}
+              bg={'primary20'}
+              h={'100%'}
+              brR={'8px'}
+              pd={'2px'}
+            >
+              {dateFormat4y2m2d(props.createdAt)}
+            </CC.RowDiv>
+            <CC.RowDiv
+              gap={4}
+              bg={'secondary20'}
+              h={'100%'}
+              brR={'8px'}
+              pd={'2px'}
+            >
+              <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+              {props.likeNumber}
+            </CC.RowDiv>
+          </CC.RowDiv>
+        </CC.AbsoluteRowBox>
+        <Title pd={'16px 0px 8px 0px'}>
+          <h1> {props.title} </h1>
+          <h3> {props.description} </h3>
+        </Title>
+      </HeaderContainer>
+      <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+        <Editor
+          className={'preview-editor'}
+          height={'100%'}
+          highlightEnable={false}
+          value={props.content}
+          preview={'preview'}
+          hideToolbar={true}
+          visibleDragbar={false}
+          enableScroll={false}
+          overflow={false}
+        />
+        <FixContainer className={'fix-container'}>
+          {isOpenModal ? (
+            <BlogTopicInlineLinkListContainer>
+              <BlogTopicInlineLinkListHeaderContainer>
+                <Title1
+                  onClick={() => IsOpenModalToggle()}
+                  className={'title-trigger'}
                 >
-                  {dateFormat4y2m2d(props.createdAt)}
-                </CC.RowDiv>
-                <CC.RowDiv
-                  gap={4}
-                  bg={'secondary20'}
-                  h={'100%'}
-                  brR={'8px'}
-                  pd={'2px'}
-                >
-                  <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
-                  {props.likeNumber}
-                </CC.RowDiv>
-              </CC.RowDiv>
-            </CC.AbsoluteRowBox>
-            <Title pd={'16px 0px 8px 0px'}>
-              <h1> {props.title} </h1>
-              <h3> {props.description} </h3>
-            </Title>
-          </HeaderContainer>
-          <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
-            <Editor
-              className={'preview-editor'}
-              height={'100%'}
-              highlightEnable={false}
-              value={props.content}
-              preview={'preview'}
-              hideToolbar={true}
-              visibleDragbar={false}
-              enableScroll={false}
-              overflow={false}
-            />
-            <FixContainer className={'fix-container'}>
-              {isOpenModal ? (
-                <BlogTopicInlineLinkListContainer>
-                  <BlogTopicInlineLinkListHeaderContainer>
-                    <Title1
-                      onClick={() => IsOpenModalToggle()}
-                      className={'title-trigger'}
-                    >
-                      목차
-                    </Title1>
-                    <Exit onClick={() => IsOpenModalToggle()}>
-                      <div> </div>
-                      <div> </div>
-                      <div> </div>
-                    </Exit>
-                  </BlogTopicInlineLinkListHeaderContainer>
-                  <BlogTopicInlineLinkListBodyContainer>
-                    {blogIndexList.map((i, index) => (
-                      <button
-                        key={index}
-                        onClickCapture={() => {
-                          // window.scrollTo(0, 2000);
-                          document
-                            .getElementById('viewBlogContainer')
-                            .scrollTo(0, i.top - 60);
-                          // window.scrollTo(0, i.top - 40);
-                        }}
-                        className={i.tagName}
-                      >
-                        {i.content}
-                      </button>
-                    ))}
-                  </BlogTopicInlineLinkListBodyContainer>
-                </BlogTopicInlineLinkListContainer>
-              ) : (
-                <BlogTopicInlineLinksButton
-                  onClick={() => {
-                    IsOpenModalToggle();
-                  }}
-                >
-                  <Image
-                    width={24}
-                    height={24}
-                    alt="blog_index"
-                    src={Icons.MenuIcon}
-                  />
-                </BlogTopicInlineLinksButton>
-              )}
-              {authStore.role === 'ROLE_ADMIN' && (
-                <Link
-                  href={`/blog/update?id=${router.query.id}`}
-                  prefetch={false}
-                >
-                  <Image src={Icons.EditIcon} alt="" width={24} height={24} />
-                </Link>
-              )}
-              {authStore.role === 'ROLE_ADMIN' && (
-                <ConfirmButton
-                  onClick={() => deleteHandler()}
-                  w={'max-content'}
-                  h={'max-content'}
-                  bg={'transparent'}
-                  pd={'0'}
-                >
-                  <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
-                </ConfirmButton>
-              )}
-              <Link href={BACK_URL}>
-                <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
-              </Link>
-            </FixContainer>
-          </ViewerContainer>
-        </CC.AbsoluteColumnBox>
-      </Container>
-    </>
+                  목차
+                </Title1>
+                <Exit onClick={() => IsOpenModalToggle()}>
+                  <div> </div>
+                  <div> </div>
+                  <div> </div>
+                </Exit>
+              </BlogTopicInlineLinkListHeaderContainer>
+              <BlogTopicInlineLinkListBodyContainer>
+                {blogIndexList.map((i, index) => (
+                  <button
+                    key={index}
+                    onClickCapture={() => {
+                      document
+                        .getElementsByClassName('w-md-editor-preview')[0]
+                        .scrollTo(0, i.top - 200);
+                    }}
+                    className={i.tagName}
+                  >
+                    {i.content}
+                  </button>
+                ))}
+              </BlogTopicInlineLinkListBodyContainer>
+            </BlogTopicInlineLinkListContainer>
+          ) : (
+            <BlogTopicInlineLinksButton
+              onClick={() => {
+                IsOpenModalToggle();
+              }}
+            >
+              <Image
+                width={24}
+                height={24}
+                alt="blog_index"
+                src={Icons.MenuIcon}
+              />
+            </BlogTopicInlineLinksButton>
+          )}
+          {authStore.role === 'ROLE_ADMIN' && (
+            <Link href={`/blog/update?id=${router.query.id}`} prefetch={false}>
+              <Image src={Icons.EditIcon} alt="" width={24} height={24} />
+            </Link>
+          )}
+          {authStore.role === 'ROLE_ADMIN' && (
+            <ConfirmButton
+              onClick={() => deleteHandler()}
+              w={'max-content'}
+              h={'max-content'}
+              bg={'transparent'}
+              pd={'0'}
+            >
+              <Image src={Icons.DeleteIcon} alt="" width={24} height={24} />
+            </ConfirmButton>
+          )}
+          <Link href={BACK_URL}>
+            <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
+          </Link>
+        </FixContainer>
+      </ViewerContainer>
+    </Container>
   );
 };
 export default ViewBlogContainer;
@@ -285,8 +277,6 @@ const Container = styled.div`
   height: 100%;
   ${(props) => props.theme.scroll.hiddenY};
   position: relative;
-  /* display: grid; */
-  /* grid-template-rows: 200px max-content; */
   .preview-editor {
     max-height: auto;
   }
@@ -321,10 +311,7 @@ const HeaderContainer = styled(CC.ColumnDiv)<{ props: any }>`
   /* 추가 */
   isolation: isolate;
   border-bottom: solid ${(props) => props.theme.main.primary80} 1px;
-  height: 200px;
-  position: sticky;
-  z-index: 100000;
-  bottom: 0;
+  position: relative;
 
   &::after {
     content: '';
