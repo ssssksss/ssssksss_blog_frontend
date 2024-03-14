@@ -16,13 +16,8 @@ const NavBar = ({ children }) => {
 
   return (
     <Container id="nav" themeStore={themeStore}>
+      <ReactToastifyComponents />
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
-        <ReactToastifyComponents />
-        {/* <SideBar />
-        <CC.ColumnDiv w={'100%'} h={'100%'}>
-          <TopBar />
-          <Main>{children}</Main>
-        </CC.ColumnDiv> */}
         <Main>{children}</Main>
       </ThemeProvider>
     </Container>
@@ -31,17 +26,8 @@ const NavBar = ({ children }) => {
 export default NavBar;
 
 const Container = styled.div<{ themeStore: any }>`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-flow: nowrap row;
-  @media (pointer: coarse) {
-    height: calc(100vh - 56px);
-  }
-  background: ${(props) => rootTheme[props.themeStore.theme].main?.primary20};
-  transition: all 1.2s ease-in-out;
-  transition-property: background-color;
-  animation-fill-mode: forwards;
+  /* background: ${(props) =>
+    rootTheme[props.themeStore.theme].main?.primary20}; */
 `;
 const Main = styled.div`
   -webkit-transition-property: none;

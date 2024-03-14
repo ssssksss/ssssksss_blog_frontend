@@ -41,6 +41,18 @@ const SideBar = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const sideBarActiveCheck = () => {
+      if (window.document.location.pathname == '/') {
+        store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
+      }
+    };
+    window.addEventListener('popstate', sideBarActiveCheck);
+    return () => {
+      window.removeEventListener('popstate', sideBarActiveCheck);
+    };
+  }, []);
+
+  useEffect(() => {
     if (router.isReady) {
       store.dispatch(
         SET_LEFT_NAV_ITEM_ACTIVE('/' + window.location.pathname.split('/')[1]),
@@ -119,10 +131,17 @@ const Container = styled.aside`
   font-weight: 600;
   position: relative;
   width: 44px;
-  z-index: 100001;
+  z-index: 20;
 
   @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     width: 120px;
+  }
+
+  display: grid;
+  height: 100vh;
+
+  @media (pointer: coarse) {
+    height: calc(100vh - 52px);
   }
 `;
 
@@ -131,7 +150,7 @@ const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
 
 const FoldDiv = styled.div<IContainerProps>`
   ${(props) => props.theme.flex.column.between};
-  height: 100vh;
+  height: 100%;
   width: 100%;
   z-index: 20;
   overflow-y: scroll;

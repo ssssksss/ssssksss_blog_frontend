@@ -14,8 +14,8 @@ const Layout1 = ({ children }: AppLayoutProps) => {
     <Container>
       <SideBar />
       <Container1>
-        <TopBar />
-        <MainContainer>{children}</MainContainer>
+        <TopBar id={'top-bar'} />
+        <MainContainer id={'main-container'}>{children}</MainContainer>
       </Container1>
       <LoadingComponent w={'100vw'} h={'100vh'} position={'fixed'} />
     </Container>
@@ -27,35 +27,32 @@ const Container = styled.div`
   border-radius: ${(props) => props.theme.borderRadius.br10};
   width: 100vw;
   height: 100vh;
-  display: grid;
-  grid-template-columns: 44px auto;
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
-    grid-template-columns: max-content auto;
-    margin: auto;
-  }
-  @media (pointer: coarse) {
-    height: calc(100vh - 120px);
-  }
   transition: all 1.2s ease-in-out;
   transition-property: background-color;
   animation-fill-mode: forwards;
+  display: grid;
+  grid-template-columns: 44px auto;
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
+    grid-template-columns: 120px calc(100vw - 120px);
+  }
 `;
 const Container1 = styled.div`
-  display: flex;
-  flex-flow: nowrap column;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 44px calc(100vh - 44px);
+
+  @media (pointer: coarse) {
+    grid-template-rows: 44px calc(100vh - 44px - 52px);
+  }
 `;
 
 const MainContainer = styled.main`
   container-name: main-container;
   container-type: inline-size;
+  padding: 1px;
+  max-width: 1440px;
+  margin: 0px auto;
   width: 100%;
-  padding: 1px 1px 0px 1px;
-  height: calc(100vh - 44px);
   & > div {
-    height: 100%;
     width: 100%;
-    max-width: 1440px;
-    margin: auto;
   }
 `;
