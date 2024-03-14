@@ -3,7 +3,7 @@ import ModalButton from '@components/common/button/ModalButton';
 import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
-import { useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import TodoModal from './modal/TodoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -24,15 +24,17 @@ const TodoItem = (props: ITodoItemProps) => {
     (prev) => !prev,
     props.isChecked,
   );
-
-  const _IsCheckedToggleHandler = () => {
-    isCheckedToggle();
-    TodoAPI.toggleCheckTodo({
-      id: props.id,
-    }).error((_) => {
+  const toggleCheckTodoMutation = TodoAPI.toggleCheckTodo({
+    onErrorHandler: () => {
       isCheckedToggle();
+    },
+  });
+  const _IsCheckedToggleHandler = useCallback(() => {
+    isCheckedToggle();
+    toggleCheckTodoMutation({
+      id: props.id,
     });
-  };
+  }, []);
 
   return (
     <Container isChecked={isChecked}>
@@ -56,7 +58,7 @@ const TodoItem = (props: ITodoItemProps) => {
     </Container>
   );
 };
-export default TodoItem;
+export default React.memo(TodoItem);
 
 const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
   background: ${(props) =>

@@ -1,5 +1,6 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import { TodoAPI } from '@api/TodoAPI';
+import ModalButton from '@components/common/button/ModalButton';
 import ScheduleItem from '@components/schedule/ScheduleItem';
 import ScheduleModal from '@components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
@@ -9,7 +10,6 @@ import {
   todayDayOfTheWeek,
 } from '@utils/function/dateFormat';
 import { useState } from 'react';
-import ModalButton from '../common/button/ModalButton';
 import TodoItem from './TodoItem';
 import TodoModal from './modal/TodoModal';
 /**
@@ -93,7 +93,7 @@ const TodoScheduleContainer = (_) => {
 // export default React.memo(TodoScheduleContainer);
 export default TodoScheduleContainer;
 
-const Container = styled(CC.GridColumn2.withComponent('article'))`
+const Container = styled(CC.GridRow2.withComponent('article'))`
   height: 100%;
 
   & > div {
