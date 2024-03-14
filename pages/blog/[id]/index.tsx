@@ -22,14 +22,14 @@ export async function getStaticPaths() {
     return res.data.json.blogList;
   });
 
-  const paths = blogList.map((i) => ({
+  const paths = blogList.map((i: any) => ({
     params: { id: i.id.toString() },
   }));
 
   return { paths, fallback: 'blocking' };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: any) {
   const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
   return { props: res.data.json, revalidate: 3600 };
 }
@@ -59,4 +59,5 @@ Index.layout = Layout1;
 
 const Container = styled.div`
   background: ${(props) => props.theme.colors.gray20};
+  height: calc(100vh - 44px);
 `;
