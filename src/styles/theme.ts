@@ -513,6 +513,10 @@ const grid = {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
   },
+  row2: {
+    display: 'grid',
+    gridTemplateRows: 'repeat(2, 1fr)',
+  },
   row4: {
     display: 'grid',
     gridTemplateRows: 'repeat(4, 1fr)',

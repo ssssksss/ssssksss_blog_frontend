@@ -193,6 +193,11 @@ const GridColumn4 = styled.div<IStyleProps>`
   ${(props: any) => propsCommonStyle(props)};
 `;
 
+const GridRow2 = styled.div<IStyleProps>`
+  ${commonTheme.grid.row2};
+  ${(props: any) => propsCommonStyle(props)};
+`;
+
 const GridRow4 = styled.div<IStyleProps>`
   ${commonTheme.grid.row4};
   ${(props: any) => propsCommonStyle(props)};
@@ -343,6 +348,7 @@ export const CC = {
   GridColumn3,
   GridColumn3Adjust,
   GridColumn4,
+  GridRow2,
   GridRow4,
   AbsoluteRowBox,
   AbsoluteColumnBox,
