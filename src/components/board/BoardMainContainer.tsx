@@ -1,5 +1,4 @@
 import { BoardAPI } from '@api/BoardAPI';
-import { Icons } from '@components/common/icons/Icons';
 import Pagination from '@components/common/pagination/Pagination';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -7,7 +6,6 @@ import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 import { timeFromToday } from '@utils/function/timeFromToday';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -63,48 +61,35 @@ const BoardMainContainer = () => {
         </CC.RowRightDiv>
       </SearchNavContainer>
       <BoardListContainer>
-        <CC.ColumnDiv>
-          <BoardListTitle>
-            <span> 번호 </span>
-            <span> 제목 </span>
-            <span> 작성자 </span>
-            <span> 날짜 </span>
-            <span> 조회수 </span>
-          </BoardListTitle>
-          {boardListResData?.data?.json?.boardList?.map(
-            (el: any, index: number) => (
-              <Link
-                href={`/board/${el.id}`}
-                as={`/board/${el.id}?
+        <BoardListTitle>
+          <span> 번호 </span>
+          <span> 제목 </span>
+          <span> 작성자 </span>
+          <span> 날짜 </span>
+          <span> 조회수 </span>
+        </BoardListTitle>
+        {boardListResData?.data?.json?.boardList?.map(
+          (el: any, index: number) => (
+            <Link
+              href={`/board/${el.id}`}
+              as={`/board/${el.id}?
                     page=${store.getState().boardStore.page}
                     &size=${store.getState().boardStore.size}
                     &keyword=${store.getState().boardStore.keyword}
                     &sort=${store.getState().boardStore.sort}`}
-                key={index}
-              >
-                <BoardItem>
-                  <span> {el.id} </span>
-                  <span> {el.title} </span>
-                  <span> {el.writer} </span>
-                  <span>
-                    {timeFromToday(
-                      dateFormat4y2m2d(el.baseTimeEntity.createdAt),
-                    )}
-                  </span>
-                  <span>{el.views}</span>
-                </BoardItem>
-              </Link>
-            ),
-          )}
-        </CC.ColumnDiv>
-        {store.getState().authStore.nickname && (
-          <WriteButtonContainer>
-            <Link href={'/board/create'}>
-              <CC.RowDiv>
-                <Image src={Icons.EditIcon} alt="" width={16} height={16} />
-              </CC.RowDiv>
+              key={index}
+            >
+              <BoardItem>
+                <span> {el.id} </span>
+                <span> {el.title} </span>
+                <span> {el.writer} </span>
+                <span>
+                  {timeFromToday(dateFormat4y2m2d(el.baseTimeEntity.createdAt))}
+                </span>
+                <span>{el.views}</span>
+              </BoardItem>
             </Link>
-          </WriteButtonContainer>
+          ),
         )}
       </BoardListContainer>
       <BoardListBottomContainer>
@@ -119,22 +104,19 @@ const BoardMainContainer = () => {
 };
 export default BoardMainContainer;
 
-const Container = styled.div`
-  width: 100%;
-  max-height: 100%;
+const Container = styled(CC.ColumnDiv)`
   gap: 4px;
-  background: ${(props) => props.theme.main.contrast};
-  padding: 16px 4px;
-  /* ${(props) => props.theme.scroll.hidden}; */
-  display: grid;
-  grid-template-rows: 30px auto 30px;
+  height: 100%;
+
+  & > div:nth-last-child(1) {
+    margin-top: auto;
+  }
 `;
 
 const SearchNavContainer = styled.div`
   display: grid;
   grid-template-columns: calc(100% - 150px) 150px;
   align-items: center;
-  outline: solid ${(props) => props.theme.main.primary20} 4px;
 `;
 
 const SearchResultContainer = styled.div`
@@ -151,16 +133,11 @@ const SearchResult = styled.div`
 
 const BoardListTitle = styled.div`
   width: 100%;
-  padding: 8px 0px;
   display: grid;
   align-items: center;
   font-size: 0.8rem;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-  border-radius: 4px 4px 0px 0px;
-  outline: solid black 2px;
   background: ${(props) => props.theme.main.primary20};
-  gap: 4px;
-  line-height: 100%;
 
   & > span {
     text-align: center;
@@ -175,11 +152,8 @@ const BoardListTitle = styled.div`
   }
 `;
 const BoardListContainer = styled(CC.ColumnDiv)`
-  max-height: 100%;
-  ${(props) => props.theme.scroll.hidden};
-  outline: solid ${(props) => props.theme.main.primary20} 4px;
   padding: 4px;
-  position: relative;
+  gap: 4px;
 
   & > div {
     gap: 8px;
@@ -236,22 +210,5 @@ const BoardItem = styled.div`
 `;
 
 const BoardListBottomContainer = styled.div`
-  outline: solid ${(props) => props.theme.main.primary20} 4px;
   padding: 0px 4px;
-  height: min-content;
-`;
-
-const WriteButtonContainer = styled(CC.RowRightDiv)`
-  position: sticky;
-  right: 4px;
-  bottom: 4px;
-
-  div {
-    cursor: pointer;
-    background: ${(props) => props.theme.main.primary80};
-    color: ${(props) => props.theme.main.contrast};
-    border-radius: 10px;
-    padding: 8px;
-    gap: 4px;
-  }
 `;

@@ -7,6 +7,8 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
@@ -71,9 +73,18 @@ const BoardHeadContainer = () => {
 
   return (
     <Container>
-      <CC.RowCenterDiv bg={'transparent'}>
+      <TitleContainer>
         <h1 onClick={() => reset()}> 게시판 </h1>
-      </CC.RowCenterDiv>
+        {store.getState().authStore.nickname && (
+          <WriteButtonContainer>
+            <Link href={'/board/create'}>
+              <CC.RowDiv>
+                <Image src={Icons.EditIcon} alt="" width={16} height={16} />
+              </CC.RowDiv>
+            </Link>
+          </WriteButtonContainer>
+        )}
+      </TitleContainer>
       <CC.GridColumn2Adjust e2={'160px'} gap={10}>
         <Input
           type="search"
@@ -138,5 +149,23 @@ const Container = styled.div`
     :hover {
       cursor: pointer;
     }
+  }
+`;
+const TitleContainer = styled(CC.RowCenterDiv)`
+  background: transparent;
+  position: relative;
+`;
+
+const WriteButtonContainer = styled(CC.RowRightDiv)`
+  position: absolute;
+  right: 4px;
+
+  div {
+    cursor: pointer;
+    background: ${(props) => props.theme.main.primary80};
+    color: ${(props) => props.theme.main.contrast};
+    border-radius: 10px;
+    padding: 8px;
+    gap: 4px;
   }
 `;
