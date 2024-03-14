@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { memo, useReducer } from 'react';
 import BlogItem from './BlogItem';
 /**
@@ -18,7 +19,11 @@ const BlogRecentListContainer = () => {
       <ScrollContainer isOpen={isOpenModal}>
         {isOpenModal &&
           JSON.parse(window.localStorage.getItem('recentBlog') || '[]').map(
-            (i) => <BlogItem key={i.id} element={i} viewMode={false} />,
+            (i) => (
+              <Link key={i.id} href={`/blog/${i.id}`}>
+                <BlogItem element={i} viewMode={false} />
+              </Link>
+            ),
           )}
       </ScrollContainer>
     </Container>
