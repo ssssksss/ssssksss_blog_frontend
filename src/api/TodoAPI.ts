@@ -1,4 +1,6 @@
+import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
 const addTodo = (props) => {
@@ -50,12 +52,18 @@ const deleteTodo = (props) => {
 };
 
 const toggleCheckTodo = (props) => {
-  return ApiProcessHandler({
-    url: '/api/todo/check',
-    method: 'PATCH',
-    apiCategory: '할일 체크',
-    data: {
-      id: props.id,
+  const mutationFn = async (reqData) => {
+    return await AxiosInstance.patch('/api/todo/check', {
+      id: reqData?.id,
+    }).catch((_) => {
+      return;
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onErrorHandler: () => {
+      props.onErrorHandler();
     },
   });
 };
