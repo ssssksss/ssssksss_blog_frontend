@@ -6,13 +6,14 @@
  */
 const UrlQueryStringToObject = (url: string) => {
   const obj = {};
-  const queryString = url.substring(url.indexOf('?') + 1, url.length);
-  queryString.split('&').map(i => {
+  const _url = url || window.document.location.href;
+  const queryString = _url.substring(_url.indexOf('?') + 1, _url.length);
+  queryString.split('&').map((i) => {
     let t1 = i.split('=')[0];
     let t2 = i.split('=')[1];
     obj[t1] = t2;
   });
-  if (url.indexOf('?') == -1) {
+  if (_url.indexOf('?') == -1) {
     return undefined;
   }
   return obj;
