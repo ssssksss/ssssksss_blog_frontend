@@ -41,7 +41,7 @@ const BlogCategoryContainer = () => {
       props.id +
       '&second-category=' +
       Object.keys(store.getState().blogStore1.secondCategoryList[props.id])[0];
-    router.push(temp, '');
+    router.push(temp, '', { shallow: true });
   };
 
   const blogSecondCategoryHandler = (props: { id: string }) => {
@@ -52,7 +52,7 @@ const BlogCategoryContainer = () => {
       store.getState().blogStore1.activeFirstCategory +
       '&second-category=' +
       props.id;
-    router.push(temp, '');
+    router.push(temp, '', { shallow: true });
     store.dispatch(rootActions.blogStore1.setActiveSecondCategory(props.id));
   };
 
