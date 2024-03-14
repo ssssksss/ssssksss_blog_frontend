@@ -197,6 +197,12 @@ const GridRow2 = styled.div<IStyleProps>`
   ${commonTheme.grid.row2};
   ${(props: any) => propsCommonStyle(props)};
 `;
+const GridRow2Adjust = styled.div<IStyleProps>`
+  display: grid;
+  grid-template-rows: ${(props) =>
+    `${props.e1 || 'auto'} ${props.e2 || 'auto'}`};
+  ${(props: any) => propsCommonStyle(props)};
+`;
 
 const GridRow4 = styled.div<IStyleProps>`
   ${commonTheme.grid.row4};
@@ -349,6 +355,7 @@ export const CC = {
   GridColumn3Adjust,
   GridColumn4,
   GridRow2,
+  GridRow2Adjust,
   GridRow4,
   AbsoluteRowBox,
   AbsoluteColumnBox,
