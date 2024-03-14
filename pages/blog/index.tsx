@@ -13,6 +13,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -54,6 +55,7 @@ type propsType = {
   };
 };
 const Index = (props: propsType) => {
+  const router = useRouter();
   useEffect(() => {
     let urlQueryObject = UrlQueryStringToObject(window.location.href);
     // ! COMM :  url에 첫번째 카테고리 값이 있으면 그걸로 없으면 첫번째 카테고리
@@ -70,14 +72,20 @@ const Index = (props: propsType) => {
       rootActions.blogStore1.setSecondCategoryList(props.secondCategoryList),
     );
     // ! COMM : 두번째 카테고리도 마찬가지로 작업
-    let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
+    let secondCategoryIdTemp = urlQueryObject?.[`second-category`]
+      ? urlQueryObject?.[`second-category`]
+      : Object.keys(props.secondCategoryList[firstCategoryIdTemp])[0];
     store.dispatch(
-      rootActions.blogStore1.setActiveSecondCategory(
-        secondCategoryIdTemp
-          ? secondCategoryIdTemp
-          : Object.keys(props.secondCategoryList[firstCategoryIdTemp])[0],
-      ),
+      rootActions.blogStore1.setActiveSecondCategory(secondCategoryIdTemp),
     );
+    let temp =
+      window.document.location.origin +
+      window.document.location.pathname +
+      '?first-category=' +
+      firstCategoryIdTemp +
+      '&second-category=' +
+      secondCategoryIdTemp;
+    router.replace(temp, '', { shallow: true });
   }, []);
   return (
     <Container>
