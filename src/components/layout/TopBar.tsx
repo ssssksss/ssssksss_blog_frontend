@@ -133,7 +133,6 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   padding: 4px;
-  z-index: 20;
   border-bottom: solid ${(props) => props.theme.main.primary20} 2px;
 
   .logo {

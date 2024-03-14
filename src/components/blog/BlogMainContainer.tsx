@@ -164,9 +164,6 @@ const MainContainer = styled(CC.ColumnDiv)`
   border-radius: ${(props) => props.theme.borderRadius.br10};
   padding: 4px;
   scroll-behavior: smooth;
-  @media (pointer: coarse) {
-    max-height: calc(100% - 128px - 72px - 60px - 40px);
-  }
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
