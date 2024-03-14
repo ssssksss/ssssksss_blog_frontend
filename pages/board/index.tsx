@@ -2,6 +2,7 @@ import BoardHeaderContainer from '@components/board/BoardHeadContainer';
 import BoardMainContainer from '@components/board/BoardMainContainer';
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import Head from 'next/head';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -12,23 +13,21 @@ import Head from 'next/head';
 const Index = () => {
   return (
     <Container>
+      <BoardHeaderContainer />
+      <BoardMainContainer />
       <Head>
         <title>게시판</title>
       </Head>
-      <BoardHeaderContainer />
-      <BoardMainContainer />
     </Container>
   );
 };
 export default Index;
 Index.layout = Layout1;
 
-const Container = styled.div`
-  width: 100%;
-  gap: 10px;
+const Container = styled(CC.ColumnDiv)`
+  gap: 4px;
   background: ${(props) => props.theme.main.contrast};
-  border-radius: 10px 10px 0px 0px;
-  padding: 4px;
-  display: grid;
-  grid-template-rows: auto calc(100% - 92px);
+  padding: 2px;
+  height: 100%;
+  ${(props) => props.theme.scroll.hiddenY};
 `;
