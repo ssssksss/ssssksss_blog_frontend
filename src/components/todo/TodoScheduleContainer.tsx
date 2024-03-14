@@ -27,6 +27,7 @@ interface IScheduleResDataProps {
 }
 
 const TodoScheduleContainer = (_) => {
+  const [containerSpace, setContainerSpace] = useState(0);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({
     type: 'today',
@@ -35,12 +36,18 @@ const TodoScheduleContainer = (_) => {
     TodoAPI.getTodoList()?.data?.json?.todoList;
   return (
     <Container>
-      <CC.ColumnDiv>
-        <TitleContainer>
+      <CC.AbsoluteColumnBox>
+        <TitleContainer
+          onClick={(e) => {
+            setContainerSpace((prev) => (prev > -1 ? prev - 1 : prev));
+            e.preventDefault();
+          }}
+        >
           <Title>
             <h3> 할일 </h3>
           </Title>
           <ModalButton
+            onClick={(e) => e.stopPropagation()}
             modal={<TodoModal />}
             color={'primary80'}
             bg={'primary20'}
@@ -52,21 +59,37 @@ const TodoScheduleContainer = (_) => {
             +
           </ModalButton>
         </TitleContainer>
-        <ListContainer>
+        <ListContainer
+          h={containerSpace < 0 ? 'calc(100% - 96px)' : 'calc(50% - 48px)'}
+        >
           {todoResData?.map((i) => (
             <li key={i.data?.id}>
               <TodoItem {...i} />
             </li>
           ))}
         </ListContainer>
-      </CC.ColumnDiv>
-      <CC.ColumnDiv>
-        <TitleContainer>
+      </CC.AbsoluteColumnBox>
+      <CC.AbsoluteColumnBox
+        top={
+          containerSpace
+            ? containerSpace < 0
+              ? 'calc(100% - 48px)'
+              : '48px'
+            : '50%'
+        }
+      >
+        <TitleContainer
+          onClick={(e) => {
+            setContainerSpace((prev) => (prev < 1 ? prev + 1 : prev));
+            e.preventDefault();
+          }}
+        >
           <Title>
             <h3> 오늘의 일정 ({dayOfTheWeek}) </h3>
             <span> {dateFormat4y2m2d(new Date())} </span>
           </Title>
           <ModalButton
+            onClick={(e) => e.stopPropagation()}
             modal={<ScheduleModal />}
             color={'primary80'}
             bg={'primary20'}
@@ -78,14 +101,16 @@ const TodoScheduleContainer = (_) => {
             +
           </ModalButton>
         </TitleContainer>
-        <ListContainer>
+        <ListContainer
+          h={containerSpace > 0 ? 'calc(100% - 96px)' : 'calc(50% - 48px)'}
+        >
           {scheduleResData?.scheduleList.map((i, index) => (
             <li key={index}>
               <ScheduleItem data={i} />
             </li>
           ))}
         </ListContainer>
-      </CC.ColumnDiv>
+      </CC.AbsoluteColumnBox>
     </Container>
   );
 };
@@ -94,6 +119,7 @@ export default TodoScheduleContainer;
 
 const Container = styled(CC.GridRow2.withComponent('article'))`
   height: 100%;
+  position: relative;
 
   & > div {
     width: 100%;
@@ -117,6 +143,7 @@ const TitleContainer = styled(CC.GridColumn2)`
   padding: 0px 4px;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
+  height: 48px;
   & > span {
     font-size: 0.8rem;
     color: ${(props) => props.theme.colors.black40};
@@ -125,7 +152,7 @@ const Title = styled(CC.ColumnCenterCenterDiv)`
 
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
-  height: 100%;
+  min-height: calc(50% - 48px);
   overflow: scroll;
   gap: 4px;
   border-radius: 10px;
