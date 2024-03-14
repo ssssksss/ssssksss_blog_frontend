@@ -3,12 +3,8 @@ import Button from '@components/common/button/Button';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
-import { store } from '@redux/store';
-import { RootState } from '@redux/store/reducers';
-import { SET_TODO_LIST } from '@redux/store/todo';
 import { CC } from '@styles/commonComponentStyle';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file todoModal.tsx
@@ -27,52 +23,42 @@ interface ITodoModalProps {
 
 const TodoModal = (props: ITodoModalProps) => {
   const inputRef = useRef<null>();
-  const todoStore = useSelector((state: RootState) => state.todoStore);
-  const [inputValue, setInputValue] = useState('');
-
-  const addTodoHandler = () => {
-    if (inputRef.current.value === '') return;
-    TodoAPI.addTodo({
-      content: inputRef.current.value,
-    }).then((res: any) => {
-      store.dispatch(SET_TODO_LIST([...todoStore.todoList, res.json.todo]));
+  const [inputTodoContent, setInputTodoContent] = useState('');
+  const addTodoMutation = TodoAPI.addTodo({
+    onSuccessHandler: () => {
       props.closeModal();
-    });
-  };
-
-  const updateTodoHandler = () => {
-    if (inputRef.current.value === '') return;
-    if (inputRef.current.value === props.data.content) return;
-    TodoAPI.updateTodo({
-      id: props.data.id,
-      content: inputRef.current.value,
-    }).then((_) => {
-      let temp = todoStore.todoList.map((i) => {
-        if (i.id == props.data.id) {
-          i.content = inputRef.current.value;
-        }
-        return i;
-      });
-      store.dispatch(SET_TODO_LIST(temp));
+    },
+  });
+  const updateTodoMutation = TodoAPI.updateTodo({
+    onSuccessHandler: () => {
       props.closeModal();
-    });
+    },
+  });
+  const deleteTodoMutation = TodoAPI.deleteTodo({
+    onSuccessHandler: () => {
+      props.closeModal();
+    },
+  });
+
+  const todoHandler = () => {
+    if (props.edit) {
+      updateTodoMutation({ id: props.data.id, content: inputTodoContent });
+    }
+    if (!props.edit) {
+      addTodoMutation({ content: inputTodoContent });
+    }
   };
 
   const deleteTodoHandler = () => {
-    TodoAPI.deleteTodo({
-      id: props.data.id,
-    }).then((_) => {
-      let temp = todoStore.todoList.filter((i) => i.id != props.data.id);
-      store.dispatch(SET_TODO_LIST(temp));
-      props.closeModal();
-    });
+    console.log('TodoModal.tsx 파일 : ', props.data.id);
+    deleteTodoMutation({ id: props.data.id });
   };
 
   useEffect(() => {
-    setInputValue(props.data?.content);
+    setInputTodoContent(props.data?.content);
     let keyDownEventFunc = (e: Event) => {
       if (e.key == 'Enter') {
-        props.edit ? updateTodoHandler() : addTodoHandler();
+        todoHandler();
       }
     };
     window.addEventListener('keydown', keyDownEventFunc);
@@ -92,15 +78,15 @@ const TodoModal = (props: ITodoModalProps) => {
           ref={inputRef}
           defaultValue={props.data?.content}
           outline={true}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => setInputTodoContent(e.target.value)}
         />
       </CC.ColumnStartDiv>
       {props.edit ? (
         <CC.RowDiv gap={8}>
           <Button
             w={'100%'}
-            onClick={() => updateTodoHandler()}
-            disabled={props.data.content == inputValue}
+            onClick={() => todoHandler()}
+            disabled={props.data.content == inputTodoContent}
           >
             일정 수정
           </Button>
@@ -115,8 +101,8 @@ const TodoModal = (props: ITodoModalProps) => {
       ) : (
         <Button
           w={'100%'}
-          onClick={() => addTodoHandler()}
-          disabled={!inputValue}
+          onClick={() => todoHandler()}
+          disabled={!inputTodoContent}
         >
           일정 추가
         </Button>

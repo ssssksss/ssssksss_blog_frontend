@@ -1,17 +1,25 @@
 import { useMutationHook } from '@components/useHook/useMutationHook';
 import { UseQueryHook } from '@components/useHook/useQueryHook';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import { ApiProcessHandler } from './service/ApiProcessHandler';
+import { useQueryClient } from 'react-query';
 
 const addTodo = (props) => {
-  return ApiProcessHandler({
-    url: '/api/todo',
-    method: 'POST',
-    data: {
-      content: props.content,
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData) => {
+    return await AxiosInstance.post('/api/todo', {
+      content: reqData.content,
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ data }) => {
+      props.onSuccessHandler();
+      queryClient.setQueryData(['todoList'], (oldData) => {
+        oldData.json.todoList.unshift(data.data.json.todo);
+        return oldData;
+      });
     },
-    apiCategory: '할일',
-    isShowMessage: true,
   });
 };
 
@@ -27,27 +35,51 @@ const getTodoList = (_) => {
 };
 
 const updateTodo = (props) => {
-  return ApiProcessHandler({
-    url: '/api/todo',
-    method: 'PATCH',
-    apiCategory: '할일',
-    data: {
-      id: props.id,
-      content: props.content,
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData) => {
+    return await AxiosInstance.patch('/api/todo', {
+      id: reqData?.id,
+      content: reqData?.content,
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ variables }) => {
+      queryClient.setQueryData(['todoList'], (oldData) => {
+        oldData.json.todoList = oldData.json.todoList.map((i) => {
+          if (i.id == variables.id) {
+            return {
+              ...i,
+              content: variables.content,
+            };
+          }
+          return i;
+        });
+        return oldData;
+      });
+      props.onSuccessHandler();
     },
-    isShowMessage: true,
   });
 };
 
 const deleteTodo = (props) => {
-  return ApiProcessHandler({
-    url: '/api/todo',
-    method: 'DELETE',
-    apiCategory: '할일',
-    params: {
-      id: props.id,
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData) => {
+    return await AxiosInstance.delete(`/api/todo?id=${reqData?.id}`);
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ variables }) => {
+      queryClient.setQueryData(['todoList'], (oldData) => {
+        oldData.json.todoList = oldData.json.todoList.filter(
+          (i) => i.id != variables.id,
+        );
+        return oldData;
+      });
+      props.onSuccessHandler();
     },
-    isShowMessage: true,
   });
 };
 
