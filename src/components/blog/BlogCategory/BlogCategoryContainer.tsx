@@ -8,9 +8,10 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -39,8 +40,8 @@ const BlogCategoryContainer = () => {
       '?first-category=' +
       props.id +
       '&second-category=' +
-      store.getState().blogStore1.secondCategoryList?.[props.id]?.id;
-    router.replace(temp, '', { shallow: true });
+      Object.keys(store.getState().blogStore1.secondCategoryList[props.id])[0];
+    router.push(temp, '');
   };
 
   const blogSecondCategoryHandler = (props: { id: string }) => {
@@ -51,9 +52,32 @@ const BlogCategoryContainer = () => {
       store.getState().blogStore1.activeFirstCategory +
       '&second-category=' +
       props.id;
-    router.replace(temp, '', { shallow: true });
+    router.push(temp, '');
     store.dispatch(rootActions.blogStore1.setActiveSecondCategory(props.id));
   };
+
+  useEffect(() => {
+    const routerBackAfterActiveCategoryChangeHandler = () => {
+      const _firstCategoryId = UrlQueryStringToObject()?.['first-category'];
+      const _secondCategoryId = UrlQueryStringToObject()?.['second-category'];
+      store.dispatch(
+        rootActions.blogStore1.setActiveFirstCategory(_firstCategoryId),
+      );
+      store.dispatch(
+        rootActions.blogStore1.setActiveSecondCategory(_secondCategoryId),
+      );
+    };
+    window.addEventListener(
+      'popstate',
+      routerBackAfterActiveCategoryChangeHandler,
+    );
+    return () => {
+      window.removeEventListener(
+        'popstate',
+        routerBackAfterActiveCategoryChangeHandler,
+      );
+    };
+  }, []);
 
   return (
     <Container>
