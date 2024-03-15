@@ -2,6 +2,7 @@ import TabMenu from '@components/common/tab/TabMenu';
 import Footer from '@components/layout/Footer';
 import Layout2 from '@components/layout/Layout2';
 import MyStack from '@components/portfolio-component/MyStack';
+import Portfolio2022 from '@components/portfolio-component/Portfolio2022';
 import Portfolio2024 from '@components/portfolio-component/Portfolio2024';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
@@ -38,18 +39,6 @@ const Index = () => {
                 src={`https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/private_profile.png`}
                 layout="fill"
               />
-              {/* <ReactPlayer
-                className="react-player"
-                url={`${AWSS3Prefix}private/%EC%9B%90%EB%B3%B8+_+202403100358+_+%EA%B0%9C%EC%9D%B8_%ED%94%84%EB%A1%9C%ED%95%84_%EC%82%AC%EC%A7%84_%EB%B0%B0%EA%B2%BD%EC%A0%9C%EA%B1%B0_animation.mp4`} // 영상 url
-                width="100%"
-                height="100%"
-                playing={true} // 자동 재생 on
-                muted={true} // 음소거 on
-                controls={false} // 플레이어 컨트롤 노출 여부
-                light={false} // 플레이어 모드
-                pip={false} // pip 모드 설정 여부
-                loop={false} // 반복재생
-              /> */}
             </ImageBox>
           </CC.ColumnCenterCenterDiv>
           <CC.GridRow4
@@ -101,6 +90,7 @@ const Index = () => {
       </Section>
       <Section>
         <TabMenu
+          minH={'400px'}
           bg={'transparent'}
           menu={[
             {
@@ -109,7 +99,7 @@ const Index = () => {
             },
             {
               tabName: '2022(0)',
-              tabComponent: <div> {'테스트중'} </div>,
+              tabComponent: <Portfolio2022 />,
             },
           ]}
         ></TabMenu>
@@ -124,6 +114,7 @@ export default Index;
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
+  height: 100vh;
   gap: 4px;
   ${(props) => props.theme.scroll.hidden};
 `;
