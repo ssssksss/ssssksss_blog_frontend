@@ -114,7 +114,6 @@ const ViewBlogContainer = (props: IProps) => {
       ?.getElementsByClassName('wmde-markdown')[0]
       ?.querySelectorAll('h1,h2');
     let htmlTagIndexTempArray = [];
-    console.log('ViewBlogContainer.tsx 파일 : ', temp);
     temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
@@ -312,6 +311,7 @@ const HeaderContainer = styled(CC.ColumnDiv)<{ props: any }>`
   isolation: isolate;
   border-bottom: solid ${(props) => props.theme.main.primary80} 1px;
   position: relative;
+  z-index: 100000;
 
   &::after {
     content: '';
@@ -355,11 +355,12 @@ const ViewerContainer = styled.div<{ icon: any }>`
   background: ${(props) => props.theme.colors.white80};
   min-height: max-content;
   .w-md-editor-content {
-    height: 4600px;
   }
   .w-md-editor-preview {
   }
   .wmde-markdown {
+    padding: 200px 2px 0px 2px;
+    ${(props) => props.theme.scroll.hiddenX};
   }
   .wmde-markdown-color {
   }
