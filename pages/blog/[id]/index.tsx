@@ -49,7 +49,7 @@ const Index = (props: any) => {
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
       <Container>
-        {typeof window !== 'undefined' && <ViewBlogCSR {...props} />}
+        <ViewBlogCSR {...props} />
       </Container>
     </>
   );
