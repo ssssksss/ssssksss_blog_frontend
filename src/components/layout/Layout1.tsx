@@ -48,7 +48,7 @@ const Container1 = styled.div`
 const MainContainer = styled.main`
   container-name: main-container;
   container-type: inline-size;
-  padding: 1px;
+  padding: 2px;
   max-width: 1440px;
   margin: 0px auto;
   width: 100%;
