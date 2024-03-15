@@ -28,6 +28,7 @@ import NotionIcon from '/public/img/ui-icon/ic-notion.svg';
 import PauseIcon from '/public/img/ui-icon/ic-pause.svg';
 import PlayIcon from '/public/img/ui-icon/ic-play.svg';
 import PlusIcon from '/public/img/ui-icon/ic-plus.svg';
+import PortfolioIcon from '/public/img/ui-icon/ic-portfolio.svg'; // 개인적 용도
 import RightArrowIcon from '/public/img/ui-icon/ic-right-arrow.svg';
 import RightDoubleArrowIcon from '/public/img/ui-icon/ic-right-double-arrow.svg';
 import SearchIcon from '/public/img/ui-icon/ic-search.svg';
@@ -84,4 +85,5 @@ export const Icons = {
   FigmaIcon,
   StoryBookIcon,
   MemoIcon,
+  PortfolioIcon,
 };
