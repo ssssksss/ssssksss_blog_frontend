@@ -50,7 +50,6 @@ const TodoModal = (props: ITodoModalProps) => {
   };
 
   const deleteTodoHandler = () => {
-    console.log('TodoModal.tsx 파일 : ', props.data.id);
     deleteTodoMutation({ id: props.data.id });
   };
 
