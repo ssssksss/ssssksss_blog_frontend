@@ -37,9 +37,7 @@ export async function getServerSideProps(context) {
 const Update = (props: any) => {
   return (
     <Container>
-      {typeof window !== 'undefined' && (
-        <UpdateBlogCSR edit={true} {...props} />
-      )}
+      <UpdateBlogCSR edit={true} {...props} />
     </Container>
   );
 };

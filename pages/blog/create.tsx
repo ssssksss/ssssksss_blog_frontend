@@ -25,7 +25,7 @@ const CreateBlogCSR = dynamic(
 const CreateUpdate = () => {
   return (
     <Container>
-      {typeof window !== 'undefined' && <CreateBlogCSR edit={false} />}
+      <CreateBlogCSR edit={false} />
     </Container>
   );
 };
