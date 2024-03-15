@@ -23,6 +23,7 @@ interface TabMenuType {
   tabMenuMinW: string;
   tabMenuMaxW: string;
   bg: string;
+  outline: boolean;
 }
 
 const TabMenu = (props: TabMenuType) => {
@@ -97,7 +98,7 @@ const HeadContainer = styled.ul`
   }
 
   li {
-    outline: solid black 1px;
+    outline: ${(props) => props.outline && 'solid black 1px'};
     position: relative;
   }
 
@@ -114,7 +115,7 @@ const BodyContainer = styled.div<{
   maxW: string;
   minW: string;
 }>`
-  outline: solid black 1px;
+  outline: ${(props) => props.outline && 'solid black 1px'};
   padding: 4px;
   height: ${(props) => props.h || '100%'};
   min-height: ${(props) => props.minH};
