@@ -36,7 +36,15 @@ const TodoScheduleContainer = (_) => {
     TodoAPI.getTodoList()?.data?.json?.todoList;
   return (
     <Container>
-      <CC.AbsoluteColumnBox>
+      <CC.AbsoluteColumnBox
+        h={
+          containerSpace
+            ? containerSpace < 0
+              ? 'calc(100% - 48px)'
+              : '48px'
+            : '50%'
+        }
+      >
         <TitleContainer
           onClick={(e) => {
             setContainerSpace((prev) => (prev > -1 ? prev - 1 : prev));
@@ -59,9 +67,7 @@ const TodoScheduleContainer = (_) => {
             +
           </ModalButton>
         </TitleContainer>
-        <ListContainer
-          h={containerSpace < 0 ? 'calc(100% - 96px)' : 'calc(50% - 48px)'}
-        >
+        <ListContainer>
           {todoResData?.map((i) => (
             <li key={i.data?.id}>
               <TodoItem {...i} />
@@ -75,6 +81,13 @@ const TodoScheduleContainer = (_) => {
             ? containerSpace < 0
               ? 'calc(100% - 48px)'
               : '48px'
+            : '50%'
+        }
+        h={
+          containerSpace
+            ? containerSpace < 0
+              ? '48px'
+              : 'calc(100% - 48px)'
             : '50%'
         }
       >
@@ -101,9 +114,7 @@ const TodoScheduleContainer = (_) => {
             +
           </ModalButton>
         </TitleContainer>
-        <ListContainer
-          h={containerSpace > 0 ? 'calc(100% - 96px)' : 'calc(50% - 48px)'}
-        >
+        <ListContainer>
           {scheduleResData?.scheduleList.map((i, index) => (
             <li key={index}>
               <ScheduleItem data={i} />
@@ -123,27 +134,23 @@ const Container = styled(CC.GridRow2.withComponent('article'))`
 
   & > div {
     width: 100%;
-    height: 100%;
-    ${(props) => props.theme.scroll.hidden};
     background: ${(props) => props.theme.colors.white80};
     outline: solid black 1px;
-    border-radius: 10px;
   }
 `;
 
 const TitleContainer = styled(CC.GridColumn2)`
-  /* position: relative; */
   width: 100%;
-  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
   grid-template-columns: 1fr 32px;
   align-items: center;
   outline: solid black 1px;
-  border-radius: 10px;
   padding: 0px 4px;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
-  height: 48px;
+  height: 100%;
   & > span {
     font-size: 0.8rem;
     color: ${(props) => props.theme.colors.black40};
@@ -151,12 +158,9 @@ const Title = styled(CC.ColumnCenterCenterDiv)`
 `;
 
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
+  ${(props) => props.theme.scroll.hiddenY};
   width: 100%;
-  min-height: calc(50% - 48px);
-  overflow: scroll;
+  height: calc(100% - 48px);
   gap: 4px;
-  border-radius: 10px;
   outline: solid black 1px;
-  ${(props) => props.theme.scroll.hidden};
-  padding: 4px 4px 12px 4px;
 `;
