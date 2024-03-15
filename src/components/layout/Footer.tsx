@@ -2,11 +2,17 @@ import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
     <Container>
       <ImageList gap={8}>
+        <li>
+          <Link href={'/'} prefetch={false}>
+            <Image src={Icons.HomeIcon} width={'100%'} height={'100%'} />
+          </Link>
+        </li>
         <li>
           <a
             href={'https://www.notion.so/1e30249dcdf741398637235d6d251552'}
@@ -46,6 +52,11 @@ const Footer = () => {
             <Image src={Icons.StoryBookIcon} width={'100%'} height={'100%'} />
           </a>
         </li>
+        <li>
+          <Link href={'/portfolio'} prefetch={false}>
+            <Image src={Icons.PortfolioIcon} width={'100%'} height={'100%'} />
+          </Link>
+        </li>
       </ImageList>
       <CC.ColumnDiv color={'contrast'} gap={16} pd={'8px 0px'}>
         <CC.RowCenterDiv gap={8}>
@@ -66,9 +77,15 @@ const Container = styled.footer`
   background: ${(props) => props.theme.main.primary80};
   padding: 8px 0px;
   width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
 `;
-const ImageList = styled(CC.RowCenterDiv.withComponent('ul'))`
+const ImageList = styled(CC.RowBetweenDiv.withComponent('ul'))`
   padding: 8px 0px;
+  max-width: 500px;
+  margin: auto;
   li {
     width: 48px;
     aspect-ratio: 1;
