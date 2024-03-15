@@ -12,15 +12,19 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
-import '@uiw/react-markdown-preview/markdown.css';
-import '@uiw/react-md-editor/markdown-editor.css';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
-
+import StringFunction from './../../utils/function/stringFunction';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -51,6 +55,9 @@ const CreateUpdateBlogContainer = (
   props: IEditCreateUpdateBlogContainerProps,
 ) => {
   const [isLoading, setIsLoading] = useReducer((prev) => !prev, false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [cursor, setCursor] = useState(0);
+  const textareaRef = useRef(null);
   const [isHideContainer, hideContainerToggle] = useReducer(
     (v) => !v,
     props.edit ? true : false,
@@ -68,7 +75,7 @@ const CreateUpdateBlogContainer = (
   });
   const [defaultImageUrl, setDefaultImageUrl] = useState();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
-  // const [tempBlogImage, setTempBlogImage] = useState([]);
+  const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content);
   const [categoryList, setCategoryList] = useState({
     firstCategoryList: {},
@@ -139,12 +146,12 @@ const CreateUpdateBlogContainer = (
 
     // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
     // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
-    // tempBlogImage.map((i) => {
-    //   if (methods.getValues('content').search(i.url) != -1) {
-    //     imageUrlList.push(i.url);
-    //     imageFileList.push(i.file);
-    //   }
-    // });
+    tempBlogImage.map((i) => {
+      if (methods.getValues('content').search(i.url) != -1) {
+        imageUrlList.push(i.url);
+        imageFileList.push(i.file);
+      }
+    });
 
     if (props.edit) {
       blogContentImageList?.map((i) => {
@@ -153,6 +160,15 @@ const CreateUpdateBlogContainer = (
         }
       });
     }
+
+    methods.setValue(
+      'content',
+      StringFunction.replaceAll(
+        methods.getValues('content'),
+        '](blob:http',
+        '](http',
+      ),
+    );
 
     if (props.edit) {
       updateBlogMutation({
@@ -189,11 +205,11 @@ const CreateUpdateBlogContainer = (
     }
   };
 
-  // const uploadHandler = async (file: any) => {
-  //   const url = URL.createObjectURL(file).substring(5);
-  //   setTempBlogImage((prev) => [...prev, { url, file }]);
-  //   return url;
-  // };
+  const uploadHandler = async (file: any) => {
+    const url = URL.createObjectURL(file).substring(5);
+    setTempBlogImage((prev) => [...prev, { url, file }]);
+    return url;
+  };
 
   const onChangeFirstCategoryHandler = async (props: {
     value: string;
@@ -235,6 +251,43 @@ const CreateUpdateBlogContainer = (
     );
   };
 
+  const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files) {
+      setIsDragging(true);
+    }
+  };
+  const onDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files[0]) {
+      let _url = await uploadHandler(e.dataTransfer.files[0]);
+      let _text = '![image](blob:' + _url + ')';
+      editorChangeHandler(
+        value.substring(0, textareaRef.current.selectionStart) +
+          _text +
+          value.substring(textareaRef.current.selectionStart, value.length),
+      );
+      setCursor(textareaRef.current.selectionStart + _text.length);
+    }
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    textareaRef.current?.setSelectionRange(cursor, cursor);
+  }, [cursor]);
+
   useEffect(() => {
     // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
     let keyDownEventFunc = (e: Event) => {
@@ -242,6 +295,10 @@ const CreateUpdateBlogContainer = (
         hideContainerToggle();
       }
     };
+
+    textareaRef.current = window.document.querySelector(
+      '.w-md-editor-text-input',
+    );
 
     setTimeout(() => {
       document.querySelectorAll('pre')?.forEach((i) => {
@@ -272,13 +329,18 @@ const CreateUpdateBlogContainer = (
   }, []);
 
   return (
-    <>
+    <div>
       <FormProvider {...methods}>
         {(store.getState().authStore.role === 'ROLE_ADMIN' ||
           store.getState().authStore.id ===
             store.getState().blogStore.activeBlogUserId) && (
           <React.Fragment>
-            <Container isLoading={isLoading} icon={Icons.PlayIcon} h={'100%'}>
+            <Container
+              isLoading={isLoading}
+              icon={Icons.PlayIcon}
+              h={'100%'}
+              isDragging={isDragging}
+            >
               {isLoading && <LoadingComponent />}
               <HeaderContainer>
                 <Button
@@ -366,15 +428,18 @@ const CreateUpdateBlogContainer = (
                   </CC.ColumnCenterDiv>
                 </HideContainer>
               </HeaderContainer>
-              <EditorContainer>
+              <EditorContainer id={'editor-container'} isDragging={isDragging}>
                 <Editor
+                  ref={textareaRef}
+                  onDragEnter={onDragEnter}
+                  onDragLeave={onDragLeave}
+                  onDragOver={onDragOver}
+                  onDrop={onDrop}
                   height={'100%'}
-                  // value={methods.getValues('content')}
                   value={value}
                   onChange={editorChangeHandler}
                   highlightEnable={false}
                   visibleDragbar={false}
-                  onSubmit={() => false}
                 />
               </EditorContainer>
               <EditorFooter>
@@ -444,22 +509,20 @@ const CreateUpdateBlogContainer = (
           </React.Fragment>
         )}
       </FormProvider>
-    </>
+    </div>
   );
 };
 export default CreateUpdateBlogContainer;
 
-const Container = styled(CC.ColumnDiv.withComponent('section'))<{
+const Container = styled.section<{
   isLoading: boolean;
   icon: string;
 }>`
-  position: relative;
-  display: flex;
-  flex-flow: nowrap column;
-  justify-content: flex-end;
   background-color: white;
   padding: 2px;
-  height: calc(100% - 32px);
+  height: calc(100%);
+  display: grid;
+  grid-template-rows: 200px calc(100% - 208px) 32px;
 
   visibility: ${(props) => props.isLoading && 'hidden'};
   select {
@@ -468,16 +531,14 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))<{
 `;
 
 const HeaderContainer = styled(CC.ColumnDiv)`
-  position: absolute;
   top: 0;
   left: 0;
   width: calc(100%);
   height: 40px;
-  z-index: 6;
+  z-index: 100000;
 `;
 
 const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
-  position: absolute;
   width: 100%;
   top: 40px;
   border-radius: 8px;
@@ -526,35 +587,22 @@ const Title = styled(Input)`
   }
 `;
 
-const EditorContainer = styled(CC.ColumnDiv)`
+const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
   gap: 4px;
   overflow: scroll;
   -ms-over-flow-style: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
-  height: 100%;
   padding-top: 40px;
   &::-webkit-scrollbar {
     display: none;
   }
 
-  p:has(img) {
-    width: 100%;
-    display: flex;
-    img {
-      outline: solid black 4px;
-      margin: auto;
-      max-width: 800px;
-      max-height: 600px;
-    }
-  }
-  .w-md-editor-area .w-md-editor-input {
-    height: 100%;
-  }
-  .w-md-editor-text {
-    height: 100%;
-  }
   .w-md-editor-content {
+    height: calc(100vh - 104px);
+    @media (pointer: coarse) {
+      height: calc(100vh - 156px);
+    }
     &::before {
       content: '';
       background-size: 50%;
@@ -569,19 +617,31 @@ const EditorContainer = styled(CC.ColumnDiv)`
       bottom: 0px;
     }
   }
+  .w-md-editor-area {
+    height: 100%;
+    opacity: ${(props) => props.isDragging && 0.5};
+  }
+  .w-md-editor-input {
+  }
+  .w-md-editor-text {
+    height: 100%;
+  }
+  .w-md-editor-show-live {
+  }
 `;
 const EditorFooter = styled(CC.GridColumn2)`
-  position: absolute;
-  bottom: -32px;
   background: rgba(255, 255, 255, 0.5);
   width: 100%;
+  z-index: 100001;
+  position: absolute;
+  bottom: 0px;
+  @media (pointer: coarse) {
+    bottom: 52px;
+  }
 `;
 
 const BlogItemContentFormContainer = styled.section`
-  right: 0px;
-  top: 300px;
   ${(props) => props.theme.scroll.hidden}
-  position: fixed;
   display: flex;
   flex-flow: nowrap column;
   padding: 4px;
@@ -621,5 +681,3 @@ const Description = styled(Input)`
     }
   }
 `;
-
-<a href="www.naver.com"> test </a>;
