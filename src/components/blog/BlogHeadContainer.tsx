@@ -8,7 +8,7 @@ import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import BlogItem from './BlogItem';
 import BlogRecentListContainer from './BlogRecentListContainer';
@@ -20,9 +20,8 @@ import BlogRecentListContainer from './BlogRecentListContainer';
  */
 const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
-  const [isInputChange, setIsInputChange] = useState(true);
+  const [_, setIsInputChange] = useState(true);
   const inputRef = useRef<null>();
-  const queryClient = useQueryClient();
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const {
     data: blogListResData,
@@ -30,11 +29,12 @@ const BlogHeadContainer = () => {
     hasNextPage,
     isFetching,
   } = useInfiniteQuery(
-    ['searchBlogList'],
+    ['searchBlogList', inputRef.current?.value],
     ({ pageParam = 1 }) =>
       BlogAPI.getSearchBlogList(inputRef.current.value, pageParam),
     {
       refetchOnWindowFocus: false,
+      retry: 0,
       select: (data) => {
         // ! 새로운 데이터가 오면 기존 이미지들로 디폴트 값을 채워준다.
         let temp = [];
@@ -54,12 +54,15 @@ const BlogHeadContainer = () => {
         });
         return temp;
       },
-      retry: 0,
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
         return lastPage?.json.blogList?.length < 10 ? undefined : nextPage;
       },
-      enabled: isOpenBlogItemList && isInputChange,
+      onSuccess: () => {
+        setIsInputChange(false);
+      },
+      // enabled: isOpenBlogItemList && isInputChange,
+      enabled: isOpenBlogItemList,
     },
   );
 
@@ -71,25 +74,18 @@ const BlogHeadContainer = () => {
   const SearchHandler = () => {
     setIsOpenBlogItemList(true);
     setIsInputChange(true);
-    if (isInputChange) {
-      queryClient.fetchQuery(['searchBlogList'], { retry: 0 });
-    }
   };
 
   useEffect(() => {
     const temp = () => {
-      // 검색시 리스트를 보여주는 화면과 입력할 경우에만 데이터
       setIsOpenBlogItemList(false);
-      setIsInputChange(false);
     };
-    if (isOpenBlogItemList) {
-      window.addEventListener('click', temp);
-    }
+    window.addEventListener('click', temp);
 
     return () => {
       window.removeEventListener('click', temp);
     };
-  }, [isOpenBlogItemList]);
+  }, []);
 
   return (
     <Container>
@@ -103,7 +99,7 @@ const BlogHeadContainer = () => {
           h={'32px'}
           ref={inputRef}
           leftIconImage={Icons.SearchIcon.src}
-          onChange={delaySearch(SearchHandler, 600)}
+          onChange={delaySearch(SearchHandler, 300)}
           onClick={(e) => {
             setIsOpenBlogItemList((prev) => !prev);
             e.stopPropagation();
@@ -143,8 +139,6 @@ export default BlogHeadContainer;
 
 const Container = styled.div`
   width: 100%;
-  background: ${(props) => props.theme.main.primary20};
-  border-radius: 0px 0px 8px 8px;
   padding: 4px;
   position: relative;
 `;
