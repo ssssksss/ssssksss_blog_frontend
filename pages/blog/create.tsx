@@ -34,8 +34,7 @@ CreateUpdate.layout = Layout1;
 
 const Container = styled.div`
   margin: auto;
-  position: relative;
-  height: calc(100vh - 44px);
+  height: ${(props) => `calc(100vh - ${props.theme.calcRem(44)})`};
 `;
 
 const Container1 = styled.div`

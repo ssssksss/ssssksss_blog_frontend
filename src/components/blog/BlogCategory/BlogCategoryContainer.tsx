@@ -85,7 +85,7 @@ const BlogCategoryContainer = () => {
         {Object.entries(blogStore1.firstCategoryList)?.map(([key, value]) => (
           <Button
             key={key}
-            minW={'80px'}
+            minW={'5rem'}
             active={key == store.getState().blogStore1.activeFirstCategory}
             outline={true}
             onClick={(e) => {
@@ -113,8 +113,8 @@ const BlogCategoryContainer = () => {
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'24px'}
-              height={'24px'}
+              width={'1.5rem'}
+              height={'1.5rem'}
             />
           </ModalButton>
         )}
@@ -125,7 +125,7 @@ const BlogCategoryContainer = () => {
         ).map(([key, value]) => (
           <Button
             key={key}
-            minW={'80px'}
+            minW={'5rem'}
             active={key == blogStore1.activeSecondCategory}
             onClick={(e) => {
               blogSecondCategoryHandler({ id: key });
@@ -151,8 +151,8 @@ const BlogCategoryContainer = () => {
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'24px'}
-              height={'24px'}
+              width={'1.5rem'}
+              height={'1.5rem'}
             />
           </ModalButton>
         )}
@@ -165,8 +165,6 @@ export default BlogCategoryContainer;
 const Container = styled(CC.ColumnDiv)`
   gap: 4px;
   width: 100%;
-  background: ${(props) => props.theme.main.primary20};
-  border-radius: 10px;
   padding: 4px;
   position: relative;
 
@@ -179,7 +177,7 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
   gap: 8px;
   display: flex;
   ${(props) => props.theme.scroll.hiddenY};
-  padding: 8px 4px;
+  padding: 4px;
   background: ${(props) => props.theme.main.contrast};
 
   & > button {
@@ -191,24 +189,12 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
     flex-wrap: nowrap;
     ${(props) => props.theme.scroll.hiddenX};
   }
-
-  ::-webkit-scrollbar {
-    width: auto;
-    height: 4px;
-    display: contents;
-    position: fixed;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${(props) => props.theme.main.secondary20};
-    border-radius: 16px;
-  }
 `;
 
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
   gap: 8px;
-  padding: 8px 4px;
+  padding: 4px;
   flex-wrap: wrap;
-  background: ${(props) => props.theme.main.contrast};
   width: 100%;
 
   & > button {
@@ -218,15 +204,4 @@ const BlogSecondCategoryContainer = styled(CC.RowDiv)`
 
   flex-wrap: nowrap;
   ${(props) => props.theme.scroll.hiddenX};
-  /* ${(props) => props.theme.scroll.hidden}; */
-  ::-webkit-scrollbar {
-    width: auto;
-    height: 4px;
-    display: contents;
-    position: fixed;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${(props) => props.theme.main.secondary20};
-    border-radius: 16px;
-  }
 `;

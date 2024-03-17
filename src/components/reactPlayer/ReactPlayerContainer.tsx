@@ -152,14 +152,13 @@ const Container = styled.div<{
     background: ${props.theme.main.primary20};
     `};
 
-  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
-    ${(props) =>
-      props.isNavbarOpen
-        ? `
+  ${(props) =>
+    props.isNavbarOpen
+      ? `
       align-items: center;
       width: 120px;
     `
-        : `
+      : `
         align-items: center;
         grid-template-columns: 44px;
         width: 44px;
@@ -168,7 +167,6 @@ const Container = styled.div<{
           display: none;
         }
         `}
-  }
 
   img {
     cursor: pointer;

@@ -247,10 +247,10 @@ const InputStyle = styled.input<IInputProps>`
   height: ${(props) =>
     props.h ||
     (props.size && props.size === 'sm'
-      ? '32px'
+      ? '2rem'
       : props.size === 'md'
-        ? '48px'
-        : '32px')};
+        ? '3rem'
+        : '2rem')};
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: ${(props) => (props.display ? props.display : 'block')};
@@ -341,7 +341,7 @@ const InputStyle = styled.input<IInputProps>`
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
-      padding: 0px 0px 0px calc(${props.h ? props.h : '32px'} + 8px);
+      padding: 0px 0px 0px calc(${props.h ? props.h : '2rem'} + 8px);
       background-position: 4px center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -356,7 +356,7 @@ const InputStyle = styled.input<IInputProps>`
         };
     }
     &[type='search'] {
-      padding-left: calc(${props.h ? props.h : '32px'} + 8px);
+      padding-left: calc(${props.h ? props.h : '2rem'} + 8px);
     }
   `}
 
@@ -370,7 +370,7 @@ ${(props) =>
     outline: solid ${props.theme.colors.white80} 1px;
     background: rgba(0, 0, 0, 0.01);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-    height: ${props.h || '40px'};
+    height: ${props.h || '2.5rem'};
     color: ${
       props.theme.colors?.[props.color] ||
       props.theme.main?.[props.color] ||
@@ -390,17 +390,18 @@ const ErrorMessage = styled.span<IInputProps>`
     props.errorLocation ||
     props.h ||
     (props.size && props.size === 'sm'
-      ? '32px'
+      ? props.theme.calcRem(32)
       : props.size === 'md'
-        ? '48px'
-        : '32px')};
-  transform: translate(0%, 50%);
-  top: calc(var(--height));
+        ? props.theme.calcRem(48)
+        : props.theme.calcRem(32))};
   color: red;
   position: absolute;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
+  left: 0;
+  text-align: start;
+  font-size: ${(props) => props.theme.calcRem(12)};
+  @media (max-width: 320px) {
+    font-size: ${(props) => props.theme.calcRem(8)};
+  }
   word-break: keep-all;
 `;
 

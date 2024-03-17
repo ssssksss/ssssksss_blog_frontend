@@ -74,16 +74,18 @@ const TopBar = () => {
   return (
     <Container>
       <Link href={`/`} prefetch={false}>
-        <Image
-          className={'logo'}
-          src={Icons.LogoIcon}
-          alt="logo"
-          width={'36'}
-          height={'36'}
-          onClick={() => {
-            store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
-          }}
-        />
+        <CC.ImgContainer w={'2rem'} h={'2rem'} pd={'4px'}>
+          <Image
+            className={'logo'}
+            src={Icons.LogoIcon}
+            alt="logo"
+            width={'1'}
+            height={'1'}
+            onClick={() => {
+              store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
+            }}
+          />
+        </CC.ImgContainer>
       </Link>
       <CC.RowDiv gap={8}>
         {useLoading ? (
@@ -92,7 +94,7 @@ const TopBar = () => {
               <Button
                 color={'secondary80'}
                 outline={'true'}
-                pd={'4px'}
+                h={'100%'}
                 fontWeight={600}
                 onClick={() => signOutHandler()}
               >
@@ -101,13 +103,13 @@ const TopBar = () => {
             ) : (
               <ModalButton
                 modal={<AuthModal />}
-                modalW={'360px'}
-                modalMaxW={'400px'}
+                modalW={'90vw'}
+                modalMaxW={'600px'}
                 w={'max-content'}
                 h={'100%'}
                 color={'secondary80'}
                 outline={'true'}
-                pd={'4px'}
+                modalOverlayVisible={true}
                 fontWeight={600}
               >
                 Sign In / Sign up
@@ -125,29 +127,21 @@ export default React.memo(TopBar);
 
 const Container = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: ${(props) => props.theme.main.contrast};
-  height: 44px;
+  height: ${(props) => props.theme.calcRem(44)};
   gap: 8px;
   align-items: center;
   justify-content: space-between;
-  position: relative;
   width: 100%;
-  padding: 4px;
-  border-bottom: solid ${(props) => props.theme.main.primary20} 2px;
+  z-index: 99;
+  padding-left: ${(props) => props.theme.calcRem(44)};
+  outline: solid ${(props) => props.theme.main.primary20} 1px;
+  outline-offset: -1px;
 
   .logo {
     cursor: pointer;
   }
 `;
-
-// const Iframe = styled.iframe<{ hide: boolean }>`
-//   z-index: 40;
-//   position: fixed;
-//   height: calc(100% - 180px);
-//   bottom: 80px;
-//   right: 40px;
-//   width: calc(70vw - 70px);
-//   background: ${(props) => props.theme.main.contrast};
-//   outline: solid ${(props) => props.theme.main.secondary80} 8px;
-//   visibility: ${(props) => (props.hide ? 'hidden' : 'visible')};
-// `;

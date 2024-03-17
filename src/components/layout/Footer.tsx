@@ -54,7 +54,7 @@ const Footer = () => {
         </li>
         <li>
           <Link href={'/portfolio'} prefetch={false}>
-            <Image src={Icons.PortfolioIcon} width={'100%'} height={'100%'} />
+            <Image src={Icons.PortfolioIcon} />
           </Link>
         </li>
       </ImageList>
@@ -75,7 +75,7 @@ export default Footer;
 
 const Container = styled.footer`
   background: ${(props) => props.theme.main.primary80};
-  padding: 8px 0px;
+  padding: 8px 2px;
   width: 100%;
   margin-top: auto;
   display: flex;
@@ -83,24 +83,19 @@ const Container = styled.footer`
   justify-content: center;
 `;
 const ImageList = styled(CC.RowBetweenDiv.withComponent('ul'))`
-  padding: 8px 0px;
   max-width: 500px;
   margin: auto;
   li {
-    width: 48px;
+    width: 3rem;
     aspect-ratio: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 4px;
     background: ${(props) => props.theme.main.contrast};
     border-radius: 8px;
-    img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-    }
     cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 `;

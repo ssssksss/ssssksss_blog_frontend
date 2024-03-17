@@ -21,12 +21,10 @@ const ScheduleCategoryModal = (props) => {
 export default ScheduleCategoryModal;
 
 const Container = styled(CC.ColumnDiv)`
+  height: 100%;
   gap: 32px;
-  padding: 0px 4px;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
-  background: ${(props) => props.theme.main.primary40};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: ${(props) => props.theme.fontSize.xl};
-  min-height: 260px;
 `;

@@ -35,10 +35,10 @@ const Container = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0px;
   top: 0px;
-  /* transform: translate(0%, -100%); */
   background: ${(props) => props.theme.main.secondary40};
   border-radius: 8px;
-  width: ${(props) => (props.isOpen ? '300px' : 'max-content')};
+  width: ${(props) => (props.isOpen ? '60vw' : 'max-content')};
+  height: max-content;
   padding: ${(props) => (props.isOpen ? '10px 4px' : '4px')};
   z-index: 10;
 `;
@@ -50,13 +50,18 @@ const Title = styled.div<{ isOpen: boolean }>`
   font-size: ${(props) => (props.isOpen ? '1.2rem' : '0.8rem')};
   font-weight: ${(props) => (props.isOpen ? '600' : '400')};
   flex-direction: ${(props) => (props.isOpen ? 'row' : 'column')};
-  height: ${(props) => props.isOpen && '32px'};
+  height: ${(props) => props.isOpen && props.theme.calcRem(32)};
   align-items: center;
   &:hover {
     cursor: pointer;
   }
 `;
 const ScrollContainer = styled.div<{ isOpen: boolean }>`
-  height: ${(props) => props.isOpen && '50vh'};
+  width: 100%;
+  height: ${(props) => props.isOpen && '100%'};
   ${(props) => props.theme.scroll.hidden};
+
+  a > div {
+    display: block;
+  }
 `;

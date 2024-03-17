@@ -1,26 +1,14 @@
-const HamburgerMenu = dynamic(
-  () => import('@components/common/button/HamburgerMenu'),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
-
-const ReactPlayerContainer = dynamic(
-  () => import('../reactPlayer/ReactPlayerContainer'),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
-
 import Animations from '@components/common/animations/Animations';
 import Button from '@components/common/button/Button';
+import HamburgerMenu from '@components/common/button/HamburgerMenu';
 import { Icons } from '@components/common/icons/Icons';
+import ReactPlayerContainer from '@components/reactPlayer/ReactPlayerContainer';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -77,13 +65,14 @@ const SideBar = () => {
   ];
 
   return (
-    <Container>
-      <FoldDiv isNavbarOpen={isNavbarOpen}>
-        <NavStyle>
-          <HamburgerMenu
-            isHideMenu={isNavbarOpen}
-            onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
-          />
+    <Container isNavbarOpen={isNavbarOpen}>
+      <HamburgerMenu
+        className={'hamburger-menu'}
+        isHideMenu={isNavbarOpen}
+        onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
+      />
+      <FoldContainer isNavbarOpen={isNavbarOpen} className="fold-container">
+        <NavContainer>
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} key={'sideBarItem' + index} prefetch={false}>
               <NavItem
@@ -100,18 +89,20 @@ const SideBar = () => {
                   i[2].split('?')[0]
                 }
               >
-                <Image src={i[0]} alt={i[1]} width={'24'} height={'24'} />
+                <CC.ImgContainer h={'1.5rem'} w={'100%'}>
+                  <Image src={i[0]} alt={i[1]} width={'1'} height={'1'} />
+                </CC.ImgContainer>
                 <div className={'navItemText'}> {i[1]} </div>
               </NavItem>
             </Link>
           ))}
-        </NavStyle>
-        <CC.ColumnBetweenDiv gap={4}>
-          {typeof window != 'undefined' && authStore.id && (
-            <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
-          )}
-        </CC.ColumnBetweenDiv>
-      </FoldDiv>
+          <CC.ColumnBetweenDiv gap={4} padding={'0px 1px'}>
+            {typeof window != 'undefined' && authStore.id && (
+              <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
+            )}
+          </CC.ColumnBetweenDiv>
+        </NavContainer>
+      </FoldContainer>
     </Container>
   );
 };
@@ -121,50 +112,88 @@ interface IContainerProps {
   isNavbarOpen: boolean;
 }
 
-const Container = styled.aside`
-  ${(props) => props.theme.flex.column.between};
-  background: ${(props) => props.theme.main.contrast};
-  font-size: ${(props) => props.theme.fontSize.sm};
-  font-weight: 600;
-  position: relative;
-  width: 44px;
-  z-index: 20;
-
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
-    width: 120px;
+const hideAnimation = keyframes`
+  0%,90% {
+    height: 100vh;
+    opacity: 1;
   }
-
-  display: grid;
-  height: 100vh;
-
-  @media (pointer: coarse) {
-    height: calc(100vh - 52px);
+  100% {
+    height: 0vh;
+    opacity: 0.2;
   }
 `;
 
-const NavStyle = styled(CC.ColumnDiv.withComponent('nav'))` {
-}`;
+const Container = styled.aside<IContainerProps>`
+  background: ${(props) => props.theme.main.contrast};
+  font-weight: 600;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: ${(props) => props.theme.calcRem(44)};
+  display: flex;
+  flex-flow: nowrap column;
+  /* 일반 */
 
-const FoldDiv = styled.div<IContainerProps>`
-  ${(props) => props.theme.flex.column.between};
+  height: ${(props) => props.isNavbarOpen && '100vh'};
+  .fold-container {
+    animation: ${hideAnimation} 1s linear;
+    animation-fill-mode: forwards;
+    animation: ${(props) => props.isNavbarOpen && 'none'};
+  }
+
+  &:hover {
+    height: 100vh;
+    .fold-container {
+      animation: none;
+      display: flex;
+    }
+  }
+  /* 모바일일떄 */
+  @media (pointer: coarse) {
+    &:hover {
+      height: ${(props) => `calc(100vh - ${props.theme.calcRem(52)})`};
+      .fold-container {
+        animation: none;
+        display: flex;
+      }
+    }
+  }
+`;
+
+const FoldContainer = styled.div<IContainerProps>`
+  animation-name: ${Animations.LeftToRightFadein};
+  animation-duration: 0.6s;
   height: 100%;
   width: 100%;
-  z-index: 20;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: flex-start;
   outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
   &::-webkit-scrollbar: {
     display: none;
   }
 
-  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
-    ${(props) =>
-      props.isNavbarOpen &&
-      `
-      width: 120px;
+  ${(props) =>
+    props.isNavbarOpen &&
+    `
+      z-index: 20;
+      width: ${props.theme.calcRem(120)};
       background: ${props.theme.main.contrast};
       `}
+`;
+const NavContainer = styled.nav`
+  height: 100%;
+  padding: 0px 1px;
+  gap: 8px;
+  display: flex;
+  flex-flow: nowrap column;
+  & > :nth-last-child(1) {
+    margin-top: auto;
   }
 `;
 
@@ -176,12 +205,12 @@ const NavItem = styled(Button)<{
   blur?: boolean;
 }>`
   width: 100%;
-  padding-left: 10px;
-  gap: 10px;
   border-radius: 0px;
-  justify-content: left;
+  display: grid;
+  padding: 0px;
+  grid-template-columns: ${(props) => `${props.theme.calcRem(44)} auto`};
+  justify-content: flex-start;
   & > :nth-last-of-type(1) {
-    justify-content: flex-start;
     animation-name: ${Animations.LeftToRightFadein};
     animation-duration: 0.6s;
   }
@@ -198,19 +227,15 @@ const NavItem = styled(Button)<{
     background: ${props.theme.main.primary20};
   `};
 
-  /* pc크기보다 작을 경우 */
-  @media (max-width: ${(props) => props.theme.deviceSizes.pc}) {
-    ${(props) =>
-      props.isNavbarOpen
-        ? `
-      width: 120px;
+  ${(props) =>
+    props.isNavbarOpen
+      ? `
+      width: ${(props) => props.theme.calcRem(120)};
       `
-        : `
-      width: 44px;
-      padding-left: 10px;
-      &:nth-last-of-type(2) {
+      : `
+      width: ${(props) => props.theme.calcRem(44)};
+      div:last-child {
         display: none;
       }
     `}
-  }
 `;

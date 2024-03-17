@@ -155,7 +155,7 @@ ${(props) =>
   height: ${(props) =>
     props.theme.btnSizes?.[props.h]?.height ||
     props.h ||
-    props.theme.btnSizes?.md?.height};
+    props.theme.btnSizes?.sm?.height};
   font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.theme.fontSize?.md};
@@ -173,14 +173,14 @@ const Badge = styled.div`
   border-radius: 8px;
   right: 2px;
   top: 4px;
-  padding: 2px;
+  padding: ${(props) => props.theme.calcRem(1)};
   transform: translate(50%, -50%);
-  font-size: 0.8rem;
+  font-size: ${(props) => props.theme.calcRem(10)};
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 16px;
-  min-height: 16px;
+  min-width: ${(props) => props.theme.calcRem(12)};
+  min-height: ${(props) => props.theme.calcRem(12)};
   width: max-content;
   background: ${(props) => props.theme.main.secondary80};
   color: ${(props) => props.theme.main.contrast};

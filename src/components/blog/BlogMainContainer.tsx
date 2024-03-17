@@ -131,39 +131,26 @@ const BlogMainContainer = () => {
 export default BlogMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  border-radius: 10px;
-  background: ${(props) => props.theme.main.primary20};
-  padding: 2px;
   gap: 4px;
   ${(props) => props.theme.scroll.hidden};
   position: relative;
-  min-height: 200px;
+  padding: 2px;
 `;
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 4px;
-  height: 30px;
+  padding: 2px;
+  height: ${(props) => props.theme.calcRem(30)};
   background: ${(props) => props.theme.main.contrast};
-
-  & > span:nth-of-type(1) {
-    color: ${(props) => props.theme.colors.black40};
-    font-weight: 600;
-    padding: 4px;
-    @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-      //max-width보다 작을 떄
-      font-size: 0.8rem;
-    }
-  }
+  outline: solid ${(props) => props.theme.main.primary20} 1px;
 `;
 
 const MainContainer = styled(CC.ColumnDiv)`
   gap: 4px;
   ${(props) => props.theme.scroll.hidden};
   background: ${(props) => props.theme.main.contrast};
-  border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 4px;
   scroll-behavior: smooth;
+  padding: 2px;
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`

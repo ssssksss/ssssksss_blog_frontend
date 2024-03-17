@@ -24,74 +24,68 @@ const ScheduleSideContainer = () => {
 
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
   return (
-    <>
-      <Container>
-        <CategoryBox onClick={() => hideScheduleCategoryBoxToggle()}>
-          <CategorySideTitle isOpen={scheduleCategoryBoxIsOpen}>
-            카테고리
-          </CategorySideTitle>
-          {authStore.id && (
-            <ModalButton
-              color={'primary80'}
-              bg={'primary20'}
-              modalMinW={'360px'}
-              modalH={'100%'}
-              w={'16px'}
-              h={'16px'}
-              modalMaxH={'100%'}
-              modal={<ScheduleCategoryModal />}
-            >
+    <Container>
+      <CategoryBox onClick={() => hideScheduleCategoryBoxToggle()}>
+        <CategorySideTitle isOpen={scheduleCategoryBoxIsOpen}>
+          카테고리
+        </CategorySideTitle>
+        {authStore.id && (
+          <ModalButton
+            color={'primary80'}
+            modalW={'100vw'}
+            modalMaxW={'600px'}
+            modalOverlayVisible={true}
+            w={'16px'}
+            h={'16px'}
+            modal={<ScheduleCategoryModal />}
+          >
+            <CC.ImgContainer w={'100%'} h={'100%'}>
               <Image src={Icons.SettingIcon} alt="" />
-            </ModalButton>
+            </CC.ImgContainer>
+          </ModalButton>
+        )}
+      </CategoryBox>
+      <CategoryListContainer isOpen={scheduleCategoryBoxIsOpen}>
+        {scheduleCategoryListResData?.isLoading ||
+          scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+            (i, index) => <ScheduleCategoryItem key={index} {...i} />,
           )}
-        </CategoryBox>
-        <CategoryListContainer isOpen={scheduleCategoryBoxIsOpen}>
-          {scheduleCategoryListResData?.isLoading ||
-            scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-              (i, index) => <ScheduleCategoryItem key={index} {...i} />,
-            )}
-        </CategoryListContainer>
-      </Container>
-    </>
+      </CategoryListContainer>
+    </Container>
   );
 };
 export default memo(ScheduleSideContainer);
 
 const Container = styled(CC.ColumnDiv.withComponent('article'))`
-  padding: 4px 4px;
-  gap: 4px;
   position: relative;
-
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    top: 0px;
-    left: 0px;
+    top: ${(props) => props.theme.calcRem(1)};
+    left: ${(props) => props.theme.calcRem(1)};
     position: absolute;
-    z-index: 12;
     background: ${(props) => props.theme.main.contrast};
   }
 `;
 const CategoryBox = styled.div`
-  position: relative;
   cursor: pointer;
   display: grid;
-  grid-template-columns: auto 20px;
-  padding: 4px;
+  grid-template-columns: auto ${(props) => props.theme.calcRem(20)};
   background: ${(props) => props.theme.main.secondary40};
   align-items: center;
 
   & > button {
     position: absolute;
-    width: 16px;
-    aspect-ratio: 1;
+    width: ${(props) => props.theme.calcRem(16)};
+    height: ${(props) => props.theme.calcRem(20)};
     right: 4px;
   }
 `;
 
 const CategorySideTitle = styled.div<{ isOpen: boolean }>`
-  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+  padding: 4px 2px;
+  /* @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     writing-mode: ${(props) =>
-      props.isOpen ? 'horizontal-tb' : 'vertical-lr'};
-  }
+    props.isOpen ? 'horizontal-tb' : 'vertical-lr'};
+  } */
 `;
 
 const CategoryListContainer = styled(CC.ColumnDiv)<{ isOpen: boolean }>`

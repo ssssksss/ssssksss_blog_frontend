@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import { Time } from '@utils/function/Time';
 import { createCalendar } from '@utils/function/schedule/createCalendar';
 import { scheduleSort } from '@utils/function/schedule/scheduleSort';
@@ -168,91 +169,83 @@ const ScheduleContainer = () => {
 
   return (
     <Container>
-      <Header>
-        <MemoizedLeftButton onClick={movePreviousMonth} type="button">
-          <Image src={Icons.LeftArrowIcon} />
-        </MemoizedLeftButton>
-        {scheduleStore.calendarYear}년 {scheduleStore.calendarMonth + 1}월
-        <MemoizedRightButton onClick={moveNextMonth} type="button">
-          <Image src={Icons.RightArrowIcon} />
-        </MemoizedRightButton>
-      </Header>
-      <MainContainer>
-        <ScheduleSideContainer />
-        <CalendarContainer>
-          <Main1>
-            <DayHeader color={'red'}> 일 </DayHeader>
-            <DayHeader> 월 </DayHeader>
-            <DayHeader> 화 </DayHeader>
-            <DayHeader> 수 </DayHeader>
-            <DayHeader> 목 </DayHeader>
-            <DayHeader> 금 </DayHeader>
-            <DayHeader color={'blue'}> 토 </DayHeader>
-          </Main1>
-          <Main2>
-            {scheduleStore.calendar.calendar?.map((el: any, index: number) => (
-              // 키(el[0])는 날짜
-              // 값(el[1])은 일, 요일, opacity(저번달,다음달)
-              <CalendarDayItem
-                id={el.date}
-                key={el.date}
-                day={el.day}
-                dayW={el.dayW}
-                opacity={el.opacity}
-                data={scheduleListDataArray[index]?.data}
-                layer={scheduleListDataArray[index]?.maxLayer}
-                year={scheduleStore.calendarYear}
-                month={scheduleStore.calendarMonth}
-              />
-            ))}
-          </Main2>
-        </CalendarContainer>
-      </MainContainer>
+      <ScheduleSideContainer />
+      <CC.ColumnDiv>
+        <HeaderContainer>
+          <MemoizedLeftButton onClick={movePreviousMonth} type="button">
+            <Image src={Icons.LeftArrowIcon} />
+          </MemoizedLeftButton>
+          {scheduleStore.calendarYear}년 {scheduleStore.calendarMonth + 1}월
+          <MemoizedRightButton onClick={moveNextMonth} type="button">
+            <Image src={Icons.RightArrowIcon} />
+          </MemoizedRightButton>
+        </HeaderContainer>
+        <MainContainer>
+          <CalendarContainer>
+            <DayOfTheWeekHeader>
+              <DayOfTheWeekItem color={'red'}> 일 </DayOfTheWeekItem>
+              <DayOfTheWeekItem> 월 </DayOfTheWeekItem>
+              <DayOfTheWeekItem> 화 </DayOfTheWeekItem>
+              <DayOfTheWeekItem> 수 </DayOfTheWeekItem>
+              <DayOfTheWeekItem> 목 </DayOfTheWeekItem>
+              <DayOfTheWeekItem> 금 </DayOfTheWeekItem>
+              <DayOfTheWeekItem color={'blue'}> 토 </DayOfTheWeekItem>
+            </DayOfTheWeekHeader>
+            <DayItemContainer>
+              {scheduleStore.calendar.calendar?.map(
+                (el: any, index: number) => (
+                  // 키(el[0])는 날짜
+                  // 값(el[1])은 일, 요일, opacity(저번달,다음달)
+                  <CalendarDayItem
+                    id={el.date}
+                    key={el.date}
+                    day={el.day}
+                    dayW={el.dayW}
+                    opacity={el.opacity}
+                    data={scheduleListDataArray[index]?.data}
+                    layer={scheduleListDataArray[index]?.maxLayer}
+                    year={scheduleStore.calendarYear}
+                    month={scheduleStore.calendarMonth}
+                  />
+                ),
+              )}
+            </DayItemContainer>
+          </CalendarContainer>
+        </MainContainer>
+      </CC.ColumnDiv>
     </Container>
   );
 };
 export default ScheduleContainer;
 
 const Container = styled.div<{ active: boolean }>`
-  font-size: 1rem;
-  min-height: 240px;
-  background-color: white;
-  outline: solid ${(props) => props.theme.main.primary40} 2px;
   position: relative;
-`;
-const MainContainer = styled.div`
-  outline: solid ${(props) => props.theme.main.primary40} 2px;
-  display: grid;
-
+  height: 100%;
+  @media (pointer: coarse) {
+    font-size: ${(props) => props.theme.calcRem(12)};
+  }
   @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    grid-template-columns: 160px auto;
+    display: grid;
+    grid-template-columns: ${(props) => props.theme.calcRem(160)} auto;
   }
 `;
-
-const CalendarContainer = styled.div`
-  outline: solid ${(props) => props.theme.main.primary40} 2px;
+const MainContainer = styled.div`
+  width: 100%;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  display: grid;
 `;
 
-const Main1 = styled.div`
+const CalendarContainer = styled.div``;
+
+const DayOfTheWeekHeader = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   padding: 4px 0px;
 `;
-const Main2 = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  padding: 4px 0px;
-  height: calc(100vh - 172px);
-  ${(props) => props.theme.scroll.hidden};
-  outline: solid ${(props) => props.theme.main.primary40} 2px;
-`;
-const Header = styled.header`
-  width: 100%;
+const HeaderContainer = styled.header`
   height: 60px;
   line-height: 40px;
-  margin-bottom: 10px;
   text-align: center;
   display: flex;
   flex-flow: nowrap row;
@@ -265,14 +258,7 @@ const Header = styled.header`
     }
   }
 `;
-const LeftButton = styled.button`
-  margin-right: 20px;
-`;
-const RightButton = styled.button`
-  margin-left: 20px;
-`;
-// 월화수목금토일 스타일
-const DayHeader = styled.div`
+const DayOfTheWeekItem = styled.div`
   text-align: center;
   height: 32px;
   display: flex;
@@ -282,3 +268,19 @@ const DayHeader = styled.div`
   color: ${(props) => props.color || '#333333'};
   background-color: #f0f0f0;
 `;
+
+const DayItemContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 4px 0px;
+  height: calc(100vh - 172px);
+  ${(props) => props.theme.scroll.hidden};
+`;
+const LeftButton = styled.button`
+  margin-right: 20px;
+`;
+const RightButton = styled.button`
+  margin-left: 20px;
+`;
+// 월화수목금토일 스타일

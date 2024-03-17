@@ -1,23 +1,23 @@
 import { BlogAPI } from '@api/BlogAPI';
+import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
+import { Icons } from '@components/common/icons/Icons';
+import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
+import { dateFormat4y2m2d } from '@utils/function/dateFormat';
+import { AWSS3Prefix } from '@utils/variables/url';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
-// import 'tui-color-picker/dist/tui-color-picker.css';
-import Button from '@components/common/button/Button';
-import { Icons } from '@components/common/icons/Icons';
-import { dateFormat4y2m2d } from '@utils/function/dateFormat';
-import { AWSS3Prefix } from '@utils/variables/url';
-
-// import { ConfirmButton } from '@components/common/button/ConfirmButton';
-import { ConfirmButton } from '@components/common/button/ConfirmButton';
-import { Editor } from '@components/editor/MDEditor';
-import Image from 'next/image';
-import Link from 'next/link';
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -124,14 +124,27 @@ const ViewBlogContainer = (props: IProps) => {
     setBlogIndexList(htmlTagIndexTempArray);
   };
 
+  useEffect(() => {
+    gsap.to('.header-container', {
+      scrollTrigger: {
+        trigger: '.wmde-markdown',
+        start: '100% 160px',
+        end: '100% 100%',
+        scrub: true, // 하위요소를 하나씩 순차적으로 하고 싶어서 등록
+        markers: true, // 마커 표시
+      },
+      y: 500,
+    });
+  }, []);
+
   return (
     <Container gap={4} id="viewBlogContainer" className={'viewBlogContainer'}>
       <HeaderContainer
         className={'header-container'}
-        pd={'32px 8px 8px 8px'}
+        pd={'0px 0.5rem 0.5rem 0.5rem'}
         imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
       >
-        <CC.AbsoluteRowBox gap={4} pd={'4px'} left={0} top={0}>
+        <CC.AbsoluteRowBox gap={4} pd={'0.25rem'} left={0} top={0}>
           <Button
             bg={'primary20'}
             w={'max-content'}
@@ -172,12 +185,14 @@ const ViewBlogContainer = (props: IProps) => {
               brR={'8px'}
               pd={'2px'}
             >
-              <Image src={Icons.LikeIcon} alt="" width={16} height={16} />
+              <CC.ImgContainer w={'1rem'} h={'1rem'}>
+                <Image src={Icons.LikeIcon} alt="" />
+              </CC.ImgContainer>
               {props.likeNumber}
             </CC.RowDiv>
           </CC.RowDiv>
         </CC.AbsoluteRowBox>
-        <Title pd={'16px 0px 8px 0px'}>
+        <Title>
           <h1> {props.title} </h1>
           <h3> {props.description} </h3>
         </Title>
@@ -196,8 +211,8 @@ const ViewBlogContainer = (props: IProps) => {
         />
         <FixContainer className={'fix-container'}>
           {isOpenModal ? (
-            <BlogTopicInlineLinkListContainer>
-              <BlogTopicInlineLinkListHeaderContainer>
+            <ContentIndexContainer>
+              <ContentIndexHeaderContainer>
                 <Title1
                   onClick={() => IsOpenModalToggle()}
                   className={'title-trigger'}
@@ -209,23 +224,23 @@ const ViewBlogContainer = (props: IProps) => {
                   <div> </div>
                   <div> </div>
                 </Exit>
-              </BlogTopicInlineLinkListHeaderContainer>
-              <BlogTopicInlineLinkListBodyContainer>
+              </ContentIndexHeaderContainer>
+              <ContentIndexMainContainer>
                 {blogIndexList.map((i, index) => (
                   <button
                     key={index}
                     onClickCapture={() => {
                       document
-                        .getElementsByClassName('w-md-editor-preview')[0]
-                        .scrollTo(0, i.top - 200);
+                        .getElementsByClassName('wmde-markdown')[0]
+                        .scrollTo(0, i.top);
                     }}
                     className={i.tagName}
                   >
                     {i.content}
                   </button>
                 ))}
-              </BlogTopicInlineLinkListBodyContainer>
-            </BlogTopicInlineLinkListContainer>
+              </ContentIndexMainContainer>
+            </ContentIndexContainer>
           ) : (
             <BlogTopicInlineLinksButton
               onClick={() => {
@@ -279,25 +294,6 @@ const Container = styled.div`
   .preview-editor {
     max-height: auto;
   }
-  .w-md-editor {
-  }
-  .w-md-editor-content {
-    height: calc(100vh);
-  }
-  .w-md-editor-preview {
-  }
-  .wmde-markdown .wmde-markdown-color {
-  }
-  .wmde-markdown-var {
-  }
-  .w-md-editor {
-  }
-  .w-md-editor-show-preview {
-  }
-  .preview-editor {
-  }
-  .w-md-editor-fullscreen {
-  }
 `;
 
 // padding: 0px 0px 0px calc(${props.height ? props.height : '24px'} + 4px);
@@ -310,7 +306,8 @@ const HeaderContainer = styled(CC.ColumnDiv)<{ props: any }>`
   /* 추가 */
   isolation: isolate;
   border-bottom: solid ${(props) => props.theme.main.primary80} 1px;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 100000;
 
   &::after {
@@ -328,26 +325,23 @@ const HeaderContainer = styled(CC.ColumnDiv)<{ props: any }>`
 `;
 
 const Title = styled(CC.ColumnCenterDiv)`
-  height: 160px;
+  height: ${(props) => props.theme.calcRem(200)};
   width: 100%;
   gap: 8px;
+  text-align: center;
   h1 {
-    padding-top: 2px;
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: ${(props) => props.theme.calcRem(20)};
     font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-    text-align: center;
   }
   h3 {
-    font-size: 1.2rem;
+    font-size: ${(props) => props.theme.calcRem(18)};
     color: ${(props) => props.theme.colors.black40};
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
-    text-align: center;
   }
 `;
 
 const ViewerContainer = styled.div<{ icon: any }>`
-  border-radius: 0px 0px 10px 10px;
   width: 100%;
   height: 100%;
   display: block;
@@ -359,7 +353,8 @@ const ViewerContainer = styled.div<{ icon: any }>`
   .w-md-editor-preview {
   }
   .wmde-markdown {
-    padding: 200px 2px 0px 2px;
+    padding: ${(props) =>
+      `${props.theme.calcRem(200)} 2px ${props.theme.calcRem(40)} 2px`};
     ${(props) => props.theme.scroll.hiddenX};
   }
   .wmde-markdown-color {
@@ -421,7 +416,6 @@ const FixContainer = styled(CC.ColumnDiv)`
   padding: 8px;
   border-radius: 10px;
   z-index: 100000;
-  /* width: ${(props) => props.theme.calcRem(32)}; */
 
   img {
     cursor: pointer;
@@ -431,7 +425,7 @@ const FixContainer = styled(CC.ColumnDiv)`
   }
 `;
 
-const BlogTopicInlineLinkListContainer = styled.nav`
+const ContentIndexContainer = styled.nav`
   width: ${(props) => props.theme.calcRem(200)};
   overflow: scroll;
   position: fixed;
@@ -451,7 +445,7 @@ const BlogTopicInlineLinkListContainer = styled.nav`
   }
 `;
 
-const BlogTopicInlineLinkListHeaderContainer = styled.div`
+const ContentIndexHeaderContainer = styled.div`
   width: 100%;
   height: 24px;
   display: flex;
@@ -514,7 +508,7 @@ const Exit = styled.button`
     transform: translate(0px, -50%) rotate(-405deg);
   }
 `;
-const BlogTopicInlineLinkListBodyContainer = styled.div`
+const ContentIndexMainContainer = styled.div`
   width: 100%;
   display: flex;
   flex-flow: nowrap column;

@@ -30,8 +30,8 @@ const Container = styled.div<{ themeStore: any }>`
     rootTheme[props.themeStore.theme].main?.primary20}; */
 `;
 const Main = styled.div`
-  -webkit-transition-property: none;
+  /* -webkit-transition-property: none;
   -moz-transition-property: none;
   -o-transition-property: none;
-  transition-property: none;
+  transition-property: none; */
 `;

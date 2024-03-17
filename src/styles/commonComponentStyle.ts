@@ -275,20 +275,19 @@ const Img = styled.img<IStyleProps>`
   `}
 `;
 const ImgContainer = styled.div<IStyleProps>`
-  height: ${(props) => props.minHeight};
-  width: ${(props) => props.minWidth};
-  background: ${(props) => props.backgroundColor};
+  aspect-ratio: 1;
+  ${(props: any) => propsCommonStyle(props)};
 
   position: relative;
   display: flex;
   flex-flow: nowrap column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
 
-  & > span {
-    font-size: 12px;
-    white-space: nowrap;
+  img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
   }
 
   /* &:hover {

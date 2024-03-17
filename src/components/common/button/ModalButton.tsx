@@ -90,6 +90,7 @@ const ModalButton: IModalButtonProps = ({
       )}
       {isOpen && (
         <ModalComponent
+          className={'modal-component'}
           width={props.modalW}
           height={props.modalH}
           background={props.modalBg}
@@ -98,12 +99,9 @@ const ModalButton: IModalButtonProps = ({
           minW={props.modalMinW}
         >
           <Exit onClickCapture={closeModal}>
-            <Image
-              src={Icons.ExitIcon}
-              alt="exit"
-              width={'36px'}
-              height={'36px'}
-            />
+            <CC.ImgContainer>
+              <Image src={Icons.ExitIcon} alt="exit" width={'1'} height={'1'} />
+            </CC.ImgContainer>
           </Exit>
           {{
             ...props.modal,
@@ -134,7 +132,7 @@ const Overlay = styled.div<{ modalOverlayVisible: boolean }>`
       top: 0;
       opacity: 0.8;
       border: 0px;
-      z-index: 90;
+      z-index: 120;
       background: ${props.theme.colors.gray60};
     `}
 `;
@@ -155,10 +153,10 @@ const ModalComponent = styled(CC.ColumnDiv)<{
   padding-top: 40px;
   top: 50%;
   left: 50%;
-  z-index: 100;
+  z-index: 99999;
   transform: translate(-50%, -50%);
   height: ${(props) => props.height};
-  max-height: ${(props) => props.maxH || `calc(100% - 20px)`};
+  max-height: ${(props) => props.maxH || `calc(100% - 1rem)`};
   width: ${(props) => `calc(${props.width})`};
   max-width: ${(props) => props.maxW};
   min-width: ${(props) => props.minW};
@@ -191,7 +189,6 @@ const Exit = styled(CC.RowRightDiv)`
   position: absolute;
   top: 0;
   width: 100%;
-  height: 40px;
   z-index: 20;
   // 배경색(background) //
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //

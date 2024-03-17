@@ -1,4 +1,3 @@
-import TagList from '@components/common/tag/TagList';
 import Footer from '@components/layout/Footer';
 import MyRoom from '@components/threejs/glTF/room/MyRoom';
 import styled from '@emotion/styled';
@@ -13,23 +12,8 @@ const HomePage = () => {
         <title>홈 화면</title>
       </Head>
       <CC.RowCenterDiv>
-        <h2> 홈 화면 아직 미구성, 다른 개발 공부 중 </h2>
+        <h2> 현재 반응형 작업 중 </h2>
       </CC.RowCenterDiv>
-      <TagList
-        bg={'secondary40'}
-        data={[
-          'SEO && 코드 스플리팅 & Lazy Loading & 최적화',
-          '타입스크립트',
-          '서비스 api 로직 분리',
-          '커스텀 컴포넌트들 제작',
-          '블로그 정리',
-          '백엔드 response 수정',
-          '백엔드 코드 정리',
-          'FE,BE 테스트 코드 공부',
-          'BE Jenkins 재시도',
-          '변수,함수 이름 변경',
-        ]}
-      />
       <ThreeJSBox>
         <MyRoom />
       </ThreeJSBox>
@@ -44,18 +28,18 @@ export default HomePage;
 
 const Container = styled(CC.ColumnDiv.withComponent('main'))`
   width: 100%;
-  overflow: scroll;
-  height: calc(100vh - 48px);
+  height: 100%;
   justify-content: space-between;
+  ${(props) => props.theme.scroll.hiddenY};
 `;
 
 const ThreeJSBox = styled(CC.RowCenterDiv)`
-  width: calc(100% - 60px);
   height: 300px;
-  padding-left: 30px;
+  padding: 0px 30px;
 `;
 
 const FooterBox = styled.div`
   display: flex;
   width: 100%;
+  margin-top: auto;
 `;

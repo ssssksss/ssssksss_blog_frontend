@@ -1,9 +1,6 @@
-const BlogMainContainer = dynamic(
-  () => import('@components/blog/BlogMainContainer'),
-);
-
 import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryContainer';
 import BlogHeadContainer from '@components/blog/BlogHeadContainer';
+import BlogMainContainer from '@components/blog/BlogMainContainer';
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -11,7 +8,6 @@ import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -105,8 +101,6 @@ Index.layout = Layout1;
 const Container = styled(CC.ColumnDiv)`
   gap: 2px;
   width: 100%;
-  border-radius: 8px;
   ${(props) => props.theme.scroll.hidden};
   height: 100%;
-  padding: 2px;
 `;

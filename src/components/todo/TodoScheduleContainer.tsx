@@ -130,12 +130,13 @@ export default TodoScheduleContainer;
 
 const Container = styled(CC.GridRow2.withComponent('article'))`
   height: 100%;
+  max-height: 100%;
   position: relative;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
 
   & > div {
     width: 100%;
     background: ${(props) => props.theme.colors.white80};
-    outline: solid black 1px;
   }
 `;
 
@@ -146,8 +147,9 @@ const TitleContainer = styled(CC.GridColumn2)`
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
   grid-template-columns: 1fr 32px;
   align-items: center;
-  outline: solid black 1px;
   padding: 0px 4px;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
   height: 100%;
@@ -155,6 +157,7 @@ const Title = styled(CC.ColumnCenterCenterDiv)`
     font-size: 0.8rem;
     color: ${(props) => props.theme.colors.black40};
   }
+  cursor: pointer;
 `;
 
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
@@ -162,5 +165,4 @@ const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: 100%;
   height: calc(100% - 48px);
   gap: 4px;
-  outline: solid black 1px;
 `;

@@ -1,7 +1,6 @@
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import { UserSignupYup } from '@components/yup/UserSignupYup';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
@@ -75,8 +74,7 @@ const SignupModal = (props) => {
       <Header>
         <span>회원가입</span>
         <span>
-          비밀번호는 암호화처리되며 <br /> 개인정보는 다른 곳에 사용되지
-          않습니다.
+          비밀번호는 암호화처리되며 개인정보는 다른 곳에 사용되지 않습니다.
         </span>
       </Header>
       <CC.ColumnDiv gap={28}>
@@ -137,33 +135,34 @@ const SignupModal = (props) => {
 export default SignupModal;
 
 const Container = styled(CC.ColumnDiv)`
-  width: 100%;
-  padding: 40px 10px 10px 10px;
-  gap: 28px;
+  padding: ${(props) => props.theme.calcRem(4)};
+  gap: ${(props) => props.theme.calcRem(6)};
   color: ${(props) => props.theme.colors.white80};
   overflow: scroll;
+  font-size: ${(props) => props.theme.calcRem(16)};
+  @media (max-width: 320px) {
+    font-size: ${(props) => props.theme.calcRem(8)};
+  }
 `;
-
-const commonStyle = css`
-  border: 1px solid #fff;
-  background: rgba(0, 0, 0, 0.01);
-  backdrop-filter: blur(1px);
-`;
-
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  padding: 16px;
-  gap: 0.25rem;
+  gap: ${(props) => props.theme.calcRem(4)};
   align-self: stretch;
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  ${commonStyle};
+  padding: ${(props) => props.theme.calcRem(2)};
 
   span:nth-of-type(1) {
-    /* font-family: ${(props) => props.theme.fontFamily.cookieRunRegular}; */
-    font-size: 20px;
+    font-size: ${(props) => props.theme.calcRem(20)};
+    @media (max-width: 320px) {
+      font-size: ${(props) => props.theme.calcRem(12)};
+    }
   }
 
   span:nth-of-type(2) {
+    font-size: ${(props) => props.theme.calcRem(12)};
+    @media (max-width: 320px) {
+      font-size: ${(props) => props.theme.calcRem(8)};
+    }
     color: ${(props) => props.theme.colors.black40};
   }
 `;

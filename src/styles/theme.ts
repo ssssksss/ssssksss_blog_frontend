@@ -62,7 +62,7 @@ export type colorTypes =
   | 'white40'
   | 'white20';
 
-const calcRem = (size: number) => `${size / 16}rem`;
+const calcRem = (size: number | unknown) => `${size / 16}rem`;
 
 const fontSize = {
   xs: `${calcRem(12)}`,
@@ -83,7 +83,7 @@ const fontFamily = {
 const borderRadius = {
   br4: '4px',
   br10: '10px',
-  br16: '16px',
+  br16: calcRem(16),
   br20: '20px',
   br30: '30px',
 };
@@ -93,7 +93,7 @@ const padding = {
   pd4: '4px',
   pd8: '8px',
   pd10: '10px',
-  pd16: '16px',
+  pd16: calcRem(16),
 };
 
 const deviceSizes = {
@@ -115,23 +115,23 @@ const positionStyle = {
 // 버튼은 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const btnSizes = {
   xs: {
-    height: '16px',
+    height: calcRem(16),
     borderRadius: borderRadius.br4,
   },
   sm: {
-    height: '24px',
+    height: calcRem(24),
     borderRadius: borderRadius.br10,
   },
   md: {
-    height: '32px',
+    height: calcRem(32),
     borderRadius: borderRadius.br10,
   },
   lg: {
-    height: '40px',
+    height: calcRem(40),
     borderRadius: borderRadius.br10,
   },
   xl: {
-    height: '48px',
+    height: calcRem(48),
     borderRadius: borderRadius.br16,
   },
 };
@@ -140,11 +140,11 @@ const btnSizes = {
 const inputSizes = {
   checkbox: {
     xs: {
-      height: '16px',
+      height: calcRem(16),
       aspectRatio: 1,
     },
     sm: {
-      height: '24px',
+      height: calcRem(24),
       aspectRatio: 1,
     },
     md: {
@@ -152,21 +152,21 @@ const inputSizes = {
       aspectRatio: 1,
     },
     lg: {
-      height: '40px',
+      height: calcRem(40),
       aspectRatio: 1,
     },
     xl: {
-      height: '48px',
+      height: calcRem(48),
       aspectRatio: 1,
     },
   },
   radio: {
     xs: {
-      height: '16px',
+      height: calcRem(16),
       aspectRatio: 1,
     },
     sm: {
-      height: '24px',
+      height: calcRem(24),
       aspectRatio: 1,
     },
     md: {
@@ -174,29 +174,29 @@ const inputSizes = {
       aspectRatio: 1,
     },
     lg: {
-      height: '40px',
+      height: calcRem(40),
       aspectRatio: 1,
     },
     xl: {
-      height: '48px',
+      height: calcRem(48),
       aspectRatio: 1,
     },
   },
   [('text', 'password', 'email', 'search')]: {
     xs: {
-      height: '16px',
+      height: calcRem(16),
     },
     sm: {
-      height: '24px',
+      height: calcRem(24),
     },
     md: {
       height: '32px',
     },
     lg: {
-      height: '40px',
+      height: calcRem(40),
     },
     xl: {
-      height: '48px',
+      height: calcRem(48),
     },
   },
 };

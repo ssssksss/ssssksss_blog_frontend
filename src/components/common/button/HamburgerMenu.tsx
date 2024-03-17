@@ -36,28 +36,26 @@ interface IContainerProps {
 }
 
 const Container = styled.button<IContainerProps>`
-  width: 44px;
-  height: 44px;
-  border-radius: 10px 0px 0px 0px;
-  z-index: 30;
-  padding: 6px;
+  width: ${(props) => props.theme.calcRem(44)};
+  height: ${(props) => props.theme.calcRem(44)};
+  border-radius: ${(props) => props.theme.calcRem(8)} 0px 0px 0px;
   background-color: transparent;
   display: flex;
   justify-content: center;
   position: relative;
+  padding: 0px;
+  flex-shrink: 0;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
+  z-index: auto;
 
-  @media (min-width: ${props => props.theme.deviceSizes.pc}) {
-    /* display: none; */
-    visibility: hidden;
-  }
-
-  ${props =>
+  ${(props) =>
     props.isHideMenu
       ? css`
           & > div {
             position: absolute;
-            width: 32px;
-            height: 4px;
+            width: ${props.theme.calcRem(32)};
+            height: ${props.theme.calcRem(4)};
             background-color: #000;
             border-radius: 4px;
             transition: all 0.4s ease-in-out;
@@ -81,8 +79,8 @@ const Container = styled.button<IContainerProps>`
       : css`
           & > div {
             position: absolute;
-            width: 24px;
-            height: 4px;
+            width: ${props.theme.calcRem(24)};
+            height: ${props.theme.calcRem(4)};
             background-color: #000;
             border-radius: 4px;
             transition: all 0.4s ease-in-out;

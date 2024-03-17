@@ -25,6 +25,7 @@ import React, {
 import { FormProvider, useForm } from 'react-hook-form';
 import { BlogCreateYup, BlogUpdateYup } from '../yup/BlogCategoryYup';
 import StringFunction from './../../utils/function/stringFunction';
+
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file CreateUpdateBlogContainer.tsx
@@ -328,188 +329,183 @@ const CreateUpdateBlogContainer = (
     };
   }, []);
 
+  useEffect(() => {}, []);
+
   return (
-    <div>
-      <FormProvider {...methods}>
-        {(store.getState().authStore.role === 'ROLE_ADMIN' ||
-          store.getState().authStore.id ===
-            store.getState().blogStore.activeBlogUserId) && (
-          <React.Fragment>
-            <Container
-              isLoading={isLoading}
-              icon={Icons.PlayIcon}
+    <FormProvider {...methods}>
+      {(store.getState().authStore.role === 'ROLE_ADMIN' ||
+        store.getState().authStore.id ===
+          store.getState().blogStore.activeBlogUserId) && (
+        <Container
+          isLoading={isLoading}
+          icon={Icons.PlayIcon}
+          h={'100%'}
+          isDragging={isDragging}
+        >
+          {isLoading && <LoadingComponent />}
+          <HeaderContainer>
+            <Button
+              id={'hideBlogHeaderButton'}
+              w={'100%'}
               h={'100%'}
-              isDragging={isDragging}
+              bg={'primary40'}
+              brR={'0px'}
+              onClick={hideContainerToggle}
             >
-              {isLoading && <LoadingComponent />}
-              <HeaderContainer>
-                <Button
-                  id={'hideBlogHeaderButton'}
+              {isHideContainer ? (
+                <Image src={Icons.DownArrowIcon} />
+              ) : (
+                <Image src={Icons.UpArrowIcon} />
+              )}
+            </Button>
+            <HideContainer isHide={isHideContainer}>
+              <CC.RowBetweenDiv gap={8}>
+                <Select
                   w={'100%'}
-                  h={'100%'}
-                  bg={'primary40'}
-                  brR={'0px'}
-                  onClick={hideContainerToggle}
-                >
-                  {isHideContainer ? (
-                    <Image src={Icons.DownArrowIcon} />
-                  ) : (
-                    <Image src={Icons.UpArrowIcon} />
+                  placeholder={'1번째 카테고리'}
+                  onChange={onChangeFirstCategoryHandler}
+                  defaultValue={{
+                    value: methods.getValues('selectFirstCategoryId'),
+                    name: methods.getValues('selectFirstCategoryName'),
+                  }}
+                  data={Object.entries(categoryList.firstCategoryList)?.map(
+                    ([key, value]) => ({
+                      value: key,
+                      name: value,
+                    }),
                   )}
-                </Button>
-                <HideContainer isHide={isHideContainer}>
-                  <CC.RowBetweenDiv gap={8}>
-                    <Select
-                      w={'100%'}
-                      placeholder={'1번째 카테고리'}
-                      onChange={onChangeFirstCategoryHandler}
-                      defaultValue={{
-                        value: methods.getValues('selectFirstCategoryId'),
-                        name: methods.getValues('selectFirstCategoryName'),
-                      }}
-                      data={Object.entries(categoryList.firstCategoryList)?.map(
-                        ([key, value]) => ({
-                          value: key,
-                          name: value,
-                        }),
-                      )}
-                    ></Select>
-                    <Select
-                      w={'100%'}
-                      placeholder={'2번째 카테고리'}
-                      onChange={onChangeSecondCategoryHandler}
-                      defaultValue={{
-                        value: methods.getValues('selectSecondCategoryId'),
-                        name: methods.getValues('selectSecondCategoryName'),
-                      }}
-                      data={
-                        (categoryList.secondCategoryList[
+                ></Select>
+                <Select
+                  w={'100%'}
+                  placeholder={'2번째 카테고리'}
+                  onChange={onChangeSecondCategoryHandler}
+                  defaultValue={{
+                    value: methods.getValues('selectSecondCategoryId'),
+                    name: methods.getValues('selectSecondCategoryName'),
+                  }}
+                  data={
+                    (categoryList.secondCategoryList[
+                      methods.getValues('selectFirstCategoryId') ||
+                        props.secondCategoryId
+                    ] &&
+                      Object.entries(
+                        categoryList.secondCategoryList[
                           methods.getValues('selectFirstCategoryId') ||
                             props.secondCategoryId
-                        ] &&
-                          Object.entries(
-                            categoryList.secondCategoryList[
-                              methods.getValues('selectFirstCategoryId') ||
-                                props.secondCategoryId
-                            ],
-                          )?.map(([key, value]) => ({
-                            value: key,
-                            name: value.name,
-                          }))) || { value: '', name: '' }
-                      }
-                    ></Select>
-                  </CC.RowBetweenDiv>
-                  <Title
-                    placeholder="제목을 입력해주세요"
-                    initialValue={methods.getValues('title')}
-                    register={methods.register('title')}
-                  />
-                  <Description
-                    placeholder="간단한 설명을 입력해주세요"
-                    initialValue={methods.getValues('description')}
-                    register={methods.register('description')}
-                  />
-                  <CC.ColumnCenterDiv gap={4} pd={'4px 0px'}>
-                    <CC.RowCenterDiv>
-                      <b> 썸네일 이미지 </b>
-                    </CC.RowCenterDiv>
-                    <Input
-                      type="file"
-                      id="imageUpload"
-                      h={'200px'}
-                      // ref={fileRef}
-                      bg={'contrast'}
-                      outline={'black80'}
-                      register={methods.register('thumbnailImageFile')}
-                      setValue={methods.setValue}
-                      trigger={methods.trigger}
-                      defaultImageUrl={defaultImageUrl}
-                    />
-                  </CC.ColumnCenterDiv>
-                </HideContainer>
-              </HeaderContainer>
-              <EditorContainer id={'editor-container'} isDragging={isDragging}>
-                <Editor
-                  ref={textareaRef}
-                  onDragEnter={onDragEnter}
-                  onDragLeave={onDragLeave}
-                  onDragOver={onDragOver}
-                  onDrop={onDrop}
-                  height={'100%'}
-                  value={value}
-                  onChange={editorChangeHandler}
-                  highlightEnable={false}
-                  visibleDragbar={false}
+                        ],
+                      )?.map(([key, value]) => ({
+                        value: key,
+                        name: value.name,
+                      }))) || { value: '', name: '' }
+                  }
+                ></Select>
+              </CC.RowBetweenDiv>
+              <Title
+                placeholder="제목을 입력해주세요"
+                initialValue={methods.getValues('title')}
+                register={methods.register('title')}
+              />
+              <Description
+                placeholder="간단한 설명을 입력해주세요"
+                initialValue={methods.getValues('description')}
+                register={methods.register('description')}
+              />
+              <CC.ColumnCenterDiv gap={4} pd={'4px 0px'}>
+                <Input
+                  type="file"
+                  id="imageUpload"
+                  h={'200px'}
+                  // ref={fileRef}
+                  bg={'contrast'}
+                  outline={'black80'}
+                  register={methods.register('thumbnailImageFile')}
+                  setValue={methods.setValue}
+                  trigger={methods.trigger}
+                  defaultImageUrl={defaultImageUrl}
                 />
-              </EditorContainer>
-              <EditorFooter>
-                <Button
-                  w={'100%'}
-                  onClick={() => submitHandler()}
-                  disabled={!methods.formState.isValid}
-                  brR={'0px'}
-                >
-                  {props.edit ? '수정' : '제출'}
-                </Button>
-                <ConfirmButton
-                  w={'100%'}
-                  onClick={() => router.back()}
-                  brR={'0px'}
-                  bg={'red20'}
-                  icon={'warning'}
-                  text={'페이지를 나가시면 작성중인 글을 사라집니다.'}
-                >
-                  취소
-                </ConfirmButton>
-              </EditorFooter>
-              <BlogItemContentFormContainer>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `| 속성 | 사용 | \n | --- | --- | \n |  |  | \n |  |  | \n |  |  | \n |  |  |`,
-                    );
-                  }}
-                >
-                  테1
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `| 속성 | 사용 | 설명  | \n | --- | --- | --- | \n |  |  |  | \n |  |  |  | \n |  |  |  | \n |  |  |  |`,
-                    );
-                  }}
-                >
-                  테2
-                </BlogItemContentFormButton>
-                <BlogItemContentFormButton
-                  onClick={() => {
-                    const dragText = window.getSelection();
-                    navigator.clipboard.readText().then((res) => {
-                      navigator.clipboard.writeText(
-                        '<a href="' +
-                          res +
-                          '" target="_blank"> ' +
-                          (dragText?.isCollapsed ? res : dragText) +
-                          ' </a>',
-                      );
-                      dragText.getRangeAt(0).deleteContents();
-                    });
-                    store.dispatch(
-                      rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-                        type: 'success',
-                        message: '링크로 복사되었습니다.',
-                      }),
-                    );
-                  }}
-                >
-                  링크
-                </BlogItemContentFormButton>
-              </BlogItemContentFormContainer>
-            </Container>
-          </React.Fragment>
-        )}
-      </FormProvider>
-    </div>
+              </CC.ColumnCenterDiv>
+            </HideContainer>
+          </HeaderContainer>
+          <EditorContainer id={'editor-container'} isDragging={isDragging}>
+            <Editor
+              ref={textareaRef}
+              onDragEnter={onDragEnter}
+              onDragLeave={onDragLeave}
+              onDragOver={onDragOver}
+              onDrop={onDrop}
+              height={'100%'}
+              value={value}
+              onChange={editorChangeHandler}
+              highlightEnable={false}
+              visibleDragbar={false}
+            />
+          </EditorContainer>
+          <ContentTemplateContainer>
+            <ContentTemplateItem
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `| 속성 | 사용 | \n | --- | --- | \n |  |  | \n |  |  | \n |  |  | \n |  |  |`,
+                );
+              }}
+            >
+              테1
+            </ContentTemplateItem>
+            <ContentTemplateItem
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `| 속성 | 사용 | 설명  | \n | --- | --- | --- | \n |  |  |  | \n |  |  |  | \n |  |  |  | \n |  |  |  |`,
+                );
+              }}
+            >
+              테2
+            </ContentTemplateItem>
+            <ContentTemplateItem
+              onClick={() => {
+                const dragText = window.getSelection();
+                navigator.clipboard.readText().then((res) => {
+                  navigator.clipboard.writeText(
+                    '<a href="' +
+                      res +
+                      '" target="_blank"> ' +
+                      (dragText?.isCollapsed ? res : dragText) +
+                      ' </a>',
+                  );
+                  dragText.getRangeAt(0).deleteContents();
+                });
+                store.dispatch(
+                  rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+                    type: 'success',
+                    message: '링크로 복사되었습니다.',
+                  }),
+                );
+              }}
+            >
+              링크
+            </ContentTemplateItem>
+          </ContentTemplateContainer>
+          <EditorFooter>
+            <Button
+              w={'100%'}
+              onClick={() => submitHandler()}
+              disabled={!methods.formState.isValid}
+              brR={'0px'}
+            >
+              {props.edit ? '수정' : '제출'}
+            </Button>
+            <ConfirmButton
+              w={'100%'}
+              onClick={() => router.back()}
+              brR={'0px'}
+              bg={'red20'}
+              icon={'warning'}
+              text={'페이지를 나가시면 작성중인 글을 사라집니다.'}
+            >
+              취소
+            </ConfirmButton>
+          </EditorFooter>
+        </Container>
+      )}
+    </FormProvider>
   );
 };
 export default CreateUpdateBlogContainer;
@@ -518,38 +514,40 @@ const Container = styled.section<{
   isLoading: boolean;
   icon: string;
 }>`
-  background-color: white;
-  padding: 2px;
-  height: calc(100%);
-  display: grid;
-  grid-template-rows: 200px calc(100% - 208px) 32px;
-
+  height: 100%;
   visibility: ${(props) => props.isLoading && 'hidden'};
+  position: relative;
   select {
     z-index: 5;
   }
 `;
 
 const HeaderContainer = styled(CC.ColumnDiv)`
+  position: absolute;
+  width: 100%;
   top: 0;
   left: 0;
-  width: calc(100%);
-  height: 40px;
+  height: ${(props) => props.theme.calcRem(32)};
   z-index: 100000;
+  & > button {
+    flex-shrink: 0;
+  }
 `;
 
 const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
   width: 100%;
-  top: 40px;
-  border-radius: 8px;
-  padding: 8px;
+  top: ${(props) => props.theme.calcRem(32)};
   visibility: ${(props) => (props.isHide ? 'hidden' : 'visible')};
-  height: ${(props) => (props.isHide ? '0px' : 'max-content')};
-  gap: 8px;
+  height: ${(props) =>
+    props.isHide
+      ? '0px'
+      : `min(${props.theme.calcRem(340)}, calc(100vh - ${props.theme.calcRem(76)}))`};
+  gap: 4px;
   background: ${(props) => props.theme.colors.gray60};
-
-  & > div {
-  }
+  padding: ${(props) => props.theme.calcRem(4)};
+  z-index: 100002;
+  position: absolute;
+  overflow: scroll;
 
   select {
     outline: solid black 1px;
@@ -563,16 +561,13 @@ const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
 const Title = styled(Input)`
   --font-size: 1.6rem;
   width: 100%;
-  height: 40px;
+  height: ${(props) => props.theme.calcRem(40)};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   color: ${(props) => props.theme.colors.black80};
-  padding: 0px 10px;
   z-index: 3;
   border: none;
   font-size: var(--font-size);
-  border-bottom: 2px solid ${(props) => props.theme.colors.black40};
-  border-radius: 10px;
-  outline: solid black 1px;
+  outline: solid black ${(props) => props.theme.calcRem(1)};
 
   &::placeholder {
     font-size: var(--font-size);
@@ -588,21 +583,20 @@ const Title = styled(Input)`
 `;
 
 const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
-  gap: 4px;
   overflow: scroll;
   -ms-over-flow-style: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
-  padding-top: 40px;
   &::-webkit-scrollbar {
     display: none;
   }
 
+  .w-md-editor {
+    margin-top: ${(props) => props.theme.calcRem(32)};
+  }
+
   .w-md-editor-content {
-    height: calc(100vh - 104px);
-    @media (pointer: coarse) {
-      height: calc(100vh - 156px);
-    }
+    height: ${(props) => `calc(100% - ${props.theme.calcRem(32)})`};
     &::before {
       content: '';
       background-size: 50%;
@@ -618,8 +612,47 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     }
   }
   .w-md-editor-area {
-    height: 100%;
     opacity: ${(props) => props.isDragging && 0.5};
+    margin-bottom: ${(props) => props.theme.calcRem(20)};
+    padding-bottom: ${(props) => props.theme.calcRem(40)};
+    height: 100%;
+  }
+  .w-md-editor-text-input {
+    height: 100%;
+  }
+  .w-md-editor-preview {
+    margin-bottom: ${(props) => props.theme.calcRem(20)};
+    padding-bottom: 40px;
+
+    pre {
+      outline: solid ${(props) => props.theme.main.primary80} 1px;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+      font-size: ${(props) => props.theme.calcRem(12)};
+
+      button {
+        display: none;
+        content: '';
+        background-image: ${(props) =>
+          props.icon && `url('/img/ui-icon/ic-board.svg')`};
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position-x: 50%;
+        background-position-y: 50%;
+        aspect-ratio: 1;
+        position: absolute;
+        width: max-content;
+        top: 0px;
+
+        aspect-ratio: 1;
+        padding: 0px;
+        border: none;
+      }
+      &:hover > button {
+        display: flex;
+      }
+    }
   }
   .w-md-editor-input {
   }
@@ -633,28 +666,29 @@ const EditorFooter = styled(CC.GridColumn2)`
   background: rgba(255, 255, 255, 0.5);
   width: 100%;
   z-index: 100001;
-  position: absolute;
-  bottom: 0px;
-  @media (pointer: coarse) {
-    bottom: 52px;
-  }
+  position: sticky;
+  top: 100vh;
+  /* top: ${(props) => `calc(100vh - ${props.theme.calcRem(20)})`}; */
 `;
 
-const BlogItemContentFormContainer = styled.section`
+const ContentTemplateContainer = styled.section`
   ${(props) => props.theme.scroll.hidden}
+  position: sticky;
+  width: max-content;
+  left: 100%;
+  top: ${(props) => props.theme.calcRem(76)};
   display: flex;
   flex-flow: nowrap column;
-  padding: 4px;
   background: #eaeaea;
   gap: 2px;
-  z-index: 4;
+  z-index: 100001;
 `;
 
-const BlogItemContentFormButton = styled.button`
-  padding: 2px;
-  box-shadow:
-    rgba(0, 0, 0, 0.4) 0px 2px 2px,
-    rgba(0, 0, 0, 0.3) 0px 7px 6px -3px;
+const ContentTemplateItem = styled.button`
+  width: 2rem;
+  aspect-ratio: 1;
+  background: ${(props) => props.theme.main.primary40};
+  border-radius: 50%;
 `;
 
 const Description = styled(Input)`
@@ -663,7 +697,6 @@ const Description = styled(Input)`
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: var(--font-size);
   color: ${(props) => props.theme.colors.black60};
-  padding: 0px 10px;
   border: none;
   z-index: 2;
   border-radius: 8px;

@@ -26,33 +26,21 @@ export default Layout1;
 const Container = styled.div`
   border-radius: ${(props) => props.theme.borderRadius.br10};
   width: 100vw;
-  height: 100vh;
   transition: all 1.2s ease-in-out;
   transition-property: background-color;
   animation-fill-mode: forwards;
-  display: grid;
-  grid-template-columns: 44px auto;
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
-    grid-template-columns: 120px calc(100vw - 120px);
-  }
 `;
 const Container1 = styled.div`
-  display: grid;
-  grid-template-rows: 44px calc(100vh - 44px);
-
-  @media (pointer: coarse) {
-    grid-template-rows: 44px calc(100vh - 44px - 52px);
-  }
+  padding-top: ${(props) => props.theme.calcRem(44)};
 `;
 
 const MainContainer = styled.main`
   container-name: main-container;
   container-type: inline-size;
-  padding: 2px;
-  max-width: 1440px;
   margin: 0px auto;
   width: 100%;
-  & > div {
-    width: 100%;
-  }
+  height: calc(100vh - ${(props) => props.theme.calcRem(44)});
+  max-width: 1440px;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
 `;

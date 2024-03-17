@@ -59,5 +59,4 @@ Index.layout = Layout1;
 
 const Container = styled.div`
   background: ${(props) => props.theme.colors.gray20};
-  height: calc(100vh - 44px);
 `;

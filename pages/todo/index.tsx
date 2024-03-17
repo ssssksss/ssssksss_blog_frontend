@@ -36,8 +36,8 @@ Index.layout = Layout1;
 
 const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 48px);
-  background: ${(props) => props.theme.colors.white80};
+  height: 100%;
+  outline: solid ${(props) => props.theme.main.primary20} 1px;
+  outline-offset: -1px;
   border-radius: 10px;
-  padding: 4px 2px;
 `;
