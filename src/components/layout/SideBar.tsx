@@ -189,7 +189,6 @@ const FoldContainer = styled.div<IContainerProps>`
 const NavContainer = styled.nav`
   height: 100%;
   padding: 0px 1px;
-  gap: 8px;
   display: flex;
   flex-flow: nowrap column;
   & > :nth-last-child(1) {
@@ -205,9 +204,10 @@ const NavItem = styled(Button)<{
   blur?: boolean;
 }>`
   width: 100%;
+  height: 100%;
   border-radius: 0px;
   display: grid;
-  padding: 0px;
+  padding: 8px 0px;
   grid-template-columns: ${(props) => `${props.theme.calcRem(44)} auto`};
   justify-content: flex-start;
   & > :nth-last-of-type(1) {
