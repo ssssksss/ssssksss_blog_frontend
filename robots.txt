@@ -1,4 +1,6 @@
 User-agent: *
+Allow: /
 Disallow: /schedule/
 Disallow: /memo/
 Disallow: /todo/
+Sitemap: https://blog.ssssksss.xyz/sitemap.xml
