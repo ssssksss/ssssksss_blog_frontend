@@ -98,33 +98,24 @@ const BlogMainContainer = () => {
             ></BlogItem>
           </Link>
         ))}
-        <FixedContainer>
-          {store.getState().authStore.id == 13 && (
-            <Link href={`/blog/create`}>
-              <Button w={'32px'}>
-                <IconsSvg.EditIcon fill={'black80'} />
-              </Button>
-            </Link>
-          )}
-          <Button
-            onClick={() => mainContainerRef.current.scrollTo(0, 0)}
-            w={'32px'}
-          >
-            <Image src={Icons.UpArrowIcon} alt="up-arrow" />
-          </Button>
-          <Button
-            w={'32px'}
-            onClick={() =>
-              mainContainerRef.current.scrollTo(
-                0,
-                mainContainerRef.current.scrollHeight,
-              )
-            }
-          >
-            <Image src={Icons.DownArrowIcon} alt="down-arrow" />
-          </Button>
-        </FixedContainer>
       </MainContainer>
+      <FixedContainer>
+        {store.getState().authStore.id == 13 && (
+          <Link href={`/blog/create`}>
+            <Button>
+              <IconsSvg.EditIcon fill={'black80'} />
+            </Button>
+          </Link>
+        )}
+        <Button onClick={() => window.scrollTo(0, 0)}>
+          <Image src={Icons.UpArrowIcon} alt="up-arrow" />
+        </Button>
+        <Button
+          onClick={() => window.scrollTo(0, window.document.body.scrollHeight)}
+        >
+          <Image src={Icons.DownArrowIcon} alt="down-arrow" />
+        </Button>
+      </FixedContainer>
     </Container>
   );
 };
@@ -132,7 +123,6 @@ export default BlogMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
   gap: 4px;
-  ${(props) => props.theme.scroll.hidden};
   position: relative;
   padding: 2px;
 `;
@@ -157,32 +147,22 @@ const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
   width: max-content;
   left: calc(100% - 20px);
-  bottom: 20px;
+  bottom: 2rem;
   padding: 2px;
   opacity: 0.9;
   border-radius: 8px;
   background: ${(props) => props.theme.main.secondary40};
   gap: 4px;
 
-  & > button {
+  button {
     background: ${(props) => props.theme.main.contrast};
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
   }
 
   & > :hover {
-    transform: scale(1.2);
     cursor: pointer;
     background: ${(props) => props.theme.main.primary80};
-  }
-
-  @media (max-width: 400px) {
-    //max-width보다 작을 떄
-    bottom: 4px;
-    div {
-      width: 24px;
-    }
-    button {
-      width: 24px;
-      aspect-ratio: 1;
-    }
   }
 `;
