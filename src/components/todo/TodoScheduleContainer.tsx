@@ -35,16 +35,8 @@ const TodoScheduleContainer = (_) => {
   const todoResData: IScheduleResDataProps =
     TodoAPI.getTodoList()?.data?.json?.todoList;
   return (
-    <Container>
-      <CC.AbsoluteColumnBox
-        h={
-          containerSpace
-            ? containerSpace < 0
-              ? 'calc(100% - 4.8rem)'
-              : '4.8rem'
-            : '50%'
-        }
-      >
+    <Container containerSpace={containerSpace}>
+      <div>
         <TitleContainer
           onClick={(e) => {
             setContainerSpace((prev) => (prev > -1 ? prev - 1 : prev));
@@ -52,7 +44,7 @@ const TodoScheduleContainer = (_) => {
           }}
         >
           <Title>
-            <h3> 할일 </h3>
+            <h3> 할일 {containerSpace} </h3>
           </Title>
           <ModalButton
             onClick={(e) => e.stopPropagation()}
@@ -74,23 +66,8 @@ const TodoScheduleContainer = (_) => {
             </li>
           ))}
         </ListContainer>
-      </CC.AbsoluteColumnBox>
-      <CC.AbsoluteColumnBox
-        top={
-          containerSpace
-            ? containerSpace < 0
-              ? 'calc(100% - 4.8rem)'
-              : '4.8rem'
-            : '50%'
-        }
-        h={
-          containerSpace
-            ? containerSpace < 0
-              ? '4.8rem'
-              : 'calc(100% - 4.8rem)'
-            : '50%'
-        }
-      >
+      </div>
+      <div>
         <TitleContainer
           onClick={(e) => {
             setContainerSpace((prev) => (prev < 1 ? prev + 1 : prev));
@@ -121,18 +98,25 @@ const TodoScheduleContainer = (_) => {
             </li>
           ))}
         </ListContainer>
-      </CC.AbsoluteColumnBox>
+      </div>
     </Container>
   );
 };
 // export default React.memo(TodoScheduleContainer);
 export default TodoScheduleContainer;
 
-const Container = styled(CC.GridRow2.withComponent('article'))`
-  height: 100%;
-  max-height: 100%;
+const Container = styled(CC.GridRow2.withComponent('article'))<{
+  containerSpace: number;
+}>`
+  height: calc(100vh - 3.2rem);
+  max-height: calc(100vh - 3.2rem);
   position: relative;
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  grid-template-rows: ${(props) =>
+    props.containerSpace === -1 && 'calc(100vh - 8rem) 4.8rem'};
+  grid-template-rows: ${(props) => props.containerSpace === 0 && '50% 50%'};
+  grid-template-rows: ${(props) =>
+    props.containerSpace === 1 && '4.8rem calc(100vh - 8rem)'};
 
   & > div {
     width: 100%;

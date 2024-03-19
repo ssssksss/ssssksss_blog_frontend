@@ -1,13 +1,6 @@
-const TodoScheduleContainer = dynamic(
-  () => import('@components/todo/TodoScheduleContainer'),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
-
 import Layout1 from '@components/layout/Layout1';
+import TodoScheduleContainer from '@components/todo/TodoScheduleContainer';
 import styled from '@emotion/styled';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
