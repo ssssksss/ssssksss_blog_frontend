@@ -49,7 +49,7 @@ const BlogSecondCategoryCreateBox = (
   };
 
   return (
-    <Container gap={28} pd={'8px'} color={'contrast'} brR={'10px'}>
+    <Container gap={28} pd={'0.8rem'} color={'contrast'} brR={'1rem'}>
       <Header>
         <span>블로그 2번째 카테고리 추가 </span>
       </Header>
@@ -61,7 +61,6 @@ const BlogSecondCategoryCreateBox = (
         />
         <Input
           placeholder="2번째 카테고리 이름"
-          state={1}
           register={register('createSecondCategoryName')}
           onKeyPressAction={handleSubmit(createSecondCategoryHandler)}
           errorMessage={errors.createSecondCategoryName?.message}
@@ -71,12 +70,11 @@ const BlogSecondCategoryCreateBox = (
           register={register('createSecondCategoryImageFile')}
           setValue={setValue}
           trigger={trigger}
-          h={'200px'}
+          h={'20rem'}
         />
       </CC.ColumnDiv>
       <CC.ColumnDiv gap={8}>
         <Button
-          h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(createSecondCategoryHandler)}
           disabled={!formState.isValid}
@@ -90,7 +88,7 @@ const BlogSecondCategoryCreateBox = (
 export default memo(BlogSecondCategoryCreateBox);
 
 const Container = styled(CC.ColumnDiv)`
-  outline: solid ${(props) => props.theme.main.contrast} 4px;
+  outline: solid ${(props) => props.theme.main.contrast} 0.4rem;
   & > button:nth-of-type(1) {
     align-items: end;
   }
@@ -98,13 +96,13 @@ const Container = styled(CC.ColumnDiv)`
 
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  padding: 16px;
+  padding: 1.6rem;
   gap: 0.25rem;
   align-self: stretch;
   border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
-    font-size: 20px;
+    font-size: 2rem;
   }
 `;

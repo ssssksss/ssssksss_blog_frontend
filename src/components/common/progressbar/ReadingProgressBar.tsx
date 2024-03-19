@@ -33,9 +33,9 @@ const Container = styled.div<{ width: number }>`
   width: ${(props) => props.width + '%'};
   position: fixed;
   z-index: 50;
-  top: 44px;
-  left: 0px;
-  height: 600px;
-  border-radius: 0px 2px 0px 0px;
+  top: 4.4rem;
+  left: 0rem;
+  height: 60rem;
+  border-radius: 0rem 0.2rem 0rem 0rem;
   background: linear-gradient(90deg, #ffdd00, #fbb034);
 `;

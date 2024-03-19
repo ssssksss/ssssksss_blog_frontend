@@ -310,15 +310,15 @@ const MyStack = (props: IMyStackProps) => {
 
   return (
     <Container>
-      <RowScrollListBox gap={16} pd={'8px'} scrollHidden={true}>
+      <RowScrollListBox gap={16} pd={'0.8rem'} scrollHidden={true}>
         {DevelopList[props.active].map((i) => (
           <Button
             animation={i.stack == activeStack && 1}
             key={i.stack}
             active={i.stack == activeStack}
-            w={'120px'}
-            h={'120px'}
-            pd={'0px'}
+            w={'12rem'}
+            h={'12rem'}
+            pd={'0rem'}
             onClick={() => setActiveStack(i.stack)}
           >
             <Image src={i.img} layout="fill" />
@@ -345,34 +345,34 @@ export default MyStack;
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
-  gap: 20px;
-  padding: 20px 0px;
-  -webkit-backdrop-filter: brightness(1.1) blur(20px);
-  backdrop-filter: brightness(1.1) blur(20px);
+  gap: 2rem;
+  padding: 2rem 0rem;
+  -webkit-backdrop-filter: brightness(1.1) blur(2rem);
+  backdrop-filter: brightness(1.1) blur(2rem);
 `;
 
 const DescriptionList = styled(CC.ColumnDiv.withComponent('ul'))`
-  padding-left: 4px;
-  gap: 16px;
+  padding-left: 0.4rem;
+  gap: 1.6rem;
   color: white;
   font-size: 1.4rem;
 
   li {
     display: grid;
-    grid-template-columns: 200px auto;
-    gap: 8px;
-    border-bottom: solid white 4px;
-    padding-bottom: 8px;
+    grid-template-columns: 20rem auto;
+    gap: 0.8rem;
+    border-bottom: solid white 0.4rem;
+    padding-bottom: 0.8rem;
     div:nth-of-type(1) {
       font-weight: 600;
-      padding: 8px;
+      padding: 0.8rem;
       font-weight: 800;
       display: flex;
       align-items: center;
-      border-right: solid white 4px;
+      border-right: solid white 0.4rem;
     }
     div:nth-of-type(2) {
-      padding: 8px;
+      padding: 0.8rem;
       display: flex;
       align-items: center;
     }

@@ -32,7 +32,7 @@ const HomeThreejs = () => {
     const myRoom_gsap_timeline = gsap.timeline({
       scrollTrigger: {
         trigger: '.section-one',
-        start: 'top top-=300px',
+        start: 'top top-=30rem',
         endTrigger: '.section-two',
         end: 'bottom bottom-=20%',
         // markers: true,
@@ -47,7 +47,7 @@ const HomeThreejs = () => {
     const projectIntroduce_gsap_timeline = gsap.timeline({
       scrollTrigger: {
         trigger: '.section-one',
-        start: 'top top-=240px',
+        start: 'top top-=24rem',
         endTrigger: '.section-one',
         end: 'bottom bottom',
         // markers: true,

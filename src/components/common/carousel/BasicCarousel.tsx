@@ -116,7 +116,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
                 </Content>
                 <Button
                   width={'100%'}
-                  height={'40px'}
+                  height={'4rem'}
                   onClick={() => router.push(el[2])}
                 >
                   보러 가기
@@ -126,7 +126,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
           ))}
         </SliderContainer>
       </SliderSizeContainer>
-      <CC.RowBetweenDiv gap={8} bg={'primary20'} pd={'4px'} w={'300px'}>
+      <CC.RowBetweenDiv gap={8} bg={'primary20'} pd={'0.4rem'} w={'30rem'}>
         <Button onClick={prevIndexHandler}>{'◀️'}</Button>
         <Button onClick={() => setAutoPlay((prev) => !prev)}>
           {autoPlay ? '⏸' : '▶'}
@@ -140,11 +140,11 @@ export default BasicCarousel;
 
 const Container = styled(CC.ColumnDiv)`
   align-items: center;
-  gap: 16px;
+  gap: 1.6rem;
 `;
 
 const SliderSizeContainer = styled.div`
-  width: 500px;
+  width: 50rem;
   max-width: 100%;
   margin: auto;
 `;
@@ -178,22 +178,22 @@ const SliderItem = styled.div<{
 `;
 const SliderContent = styled(CC.ColumnDiv)`
   margin: auto;
-  width: 360px;
+  width: 36rem;
   height: 90%;
-  padding: 20px;
-  gap: 10px;
-  border-radius: 20px;
+  padding: 2rem;
+  gap: 1rem;
+  border-radius: 2rem;
   background: #999999;
 `;
 const Title = styled(CC.RowCenterDiv)`
-  height: 40px;
-  font-size: 24px;
+  height: 4rem;
+  font-size: 2.4rem;
   font-family: ${commonTheme.fontFamily.gmarketSansBold};
   color: white;
 `;
 const Content = styled(CC.RowDiv)`
   width: 100%;
-  height: calc(100% - 100px);
+  height: calc(100% - 10rem);
   background-color: white;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 `;

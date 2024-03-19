@@ -33,8 +33,8 @@ const Index = () => {
     <Container>
       <Section>
         <CC.GridColumn2 gap={8}>
-          <CC.ColumnCenterCenterDiv minH={'240px'} gap={8} pd={'2px'}>
-            <ImageBox w={'180px'} h={'240px'} bg={'transparent'} pd={'4px'}>
+          <CC.ColumnCenterCenterDiv minH={'24rem'} gap={8} pd={'0.2rem'}>
+            <ImageBox w={'18rem'} h={'24rem'} bg={'transparent'} pd={'0.4rem'}>
               <Image
                 src={`https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/private_profile.png`}
                 layout="fill"
@@ -42,46 +42,48 @@ const Index = () => {
             </ImageBox>
           </CC.ColumnCenterCenterDiv>
           <CC.GridRow4
-            h={'240px'}
+            h={'24rem'}
             gap={16}
-            pd={'4px'}
+            pd={'0.4rem'}
             bg={'transparent'}
             fontFamily={'gmarketSansBold'}
             color={'white20'}
           >
-            <CC.RowDiv pd={'0px 0px 0px 4px'} color={'white'}>
+            <CC.RowDiv pd={'0rem 0rem 0rem 0.4rem'} color={'white'}>
               이름 : 이수경
             </CC.RowDiv>
-            <CC.RowDiv pd={'0px 0px 0px 4px'} color={'white'}>
+            <CC.RowDiv pd={'0rem 0rem 0rem 0.4rem'} color={'white'}>
               번호 :
             </CC.RowDiv>
-            <CC.RowDiv pd={'0px 0px 0px 4px'} color={'white'}>
+            <CC.RowDiv pd={'0rem 0rem 0rem 0.4rem'} color={'white'}>
               메일 : ssssksss@naver.com
             </CC.RowDiv>
-            <CC.RowDiv pd={'0px 0px 0px 4px'}>링크 : 깃허브, 블로그</CC.RowDiv>
+            <CC.RowDiv pd={'0rem 0rem 0rem 0.4rem'}>
+              링크 : 깃허브, 블로그
+            </CC.RowDiv>
           </CC.GridRow4>
         </CC.GridColumn2>
         <CC.GridColumn4 gap={8}>
-          <CC.ColumnCenterCenterDiv h={'120px'} gap={8}>
-            <CC.RowCenterDiv w={'80px'} h={'80px'} bg={'contrast'}>
+          <CC.ColumnCenterCenterDiv h={'12rem'} gap={8}>
+            <CC.RowCenterDiv w={'8rem'} h={'8rem'} bg={'contrast'}>
               이미지
             </CC.RowCenterDiv>
             <div> 설명 </div>
           </CC.ColumnCenterCenterDiv>
-          <CC.ColumnCenterCenterDiv h={'120px'} gap={8}>
-            <CC.RowCenterDiv w={'80px'} h={'80px'} bg={'contrast'}>
+          <CC.ColumnCenterCenterDiv h={'12rem'} gap={8}>
+            <CC.RowCenterDiv w={'8rem'} h={'8rem'} bg={'contrast'}>
               이미지
             </CC.RowCenterDiv>
             <div> 설명 </div>
           </CC.ColumnCenterCenterDiv>
-          <CC.ColumnCenterCenterDiv h={'120px'} gap={8}>
-            <CC.RowCenterDiv w={'80px'} h={'80px'} bg={'contrast'}>
+          <CC.ColumnCenterCenterDiv h={'12rem'} gap={8}>
+            <CC.RowCenterDiv w={'8rem'} h={'8rem'} bg={'contrast'}>
               이미지
             </CC.RowCenterDiv>
             <div> 설명 </div>
           </CC.ColumnCenterCenterDiv>
-          <CC.ColumnCenterCenterDiv h={'120px'} gap={8}>
-            <CC.RowCenterDiv w={'80px'} h={'80px'} bg={'contrast'}>
+          <CC.ColumnCenterCenterDiv h={'12rem'} gap={8}>
+            <CC.RowCenterDiv w={'8rem'} h={'8rem'} bg={'contrast'}>
               이미지
             </CC.RowCenterDiv>
             <div> 설명 </div>
@@ -90,7 +92,7 @@ const Index = () => {
       </Section>
       <Section>
         <TabMenu
-          minH={'400px'}
+          minH={'40rem'}
           bg={'transparent'}
           menu={[
             {
@@ -103,7 +105,7 @@ const Index = () => {
             },
           ]}
         ></TabMenu>
-        <TabMenu menu={[...StackList]} tabMenuMinH={'240px'} />
+        <TabMenu menu={[...StackList]} tabMenuMinH={'24rem'} />
       </Section>
       <Footer />
     </Container>
@@ -115,7 +117,7 @@ export default Index;
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
   height: 100vh;
-  gap: 4px;
+  gap: 0.4rem;
   ${(props) => props.theme.scroll.hidden};
 `;
 
@@ -128,6 +130,6 @@ const ImageBox = styled(CC.RowCenterDiv)`
 
 const Section = styled.section`
   ${(props) => props.theme.flex.column};
-  padding: 8px;
-  gap: 8px;
+  padding: 0.8rem;
+  gap: 0.8rem;
 `;

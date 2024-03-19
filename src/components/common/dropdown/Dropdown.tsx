@@ -72,15 +72,15 @@ const Dropdown = (props: IDropdownProps) => {
           {isOpen ? (
             <Image
               src={Icons.UpArrowIcon}
-              width={'16px'}
-              height={'16px'}
+              width={'1.6rem'}
+              height={'1.6rem'}
               alt="down-arrow"
             />
           ) : (
             <Image
               src={Icons.DownArrowIcon}
-              width={'16px'}
-              height={'16px'}
+              width={'1.6rem'}
+              height={'1.6rem'}
               alt="up-arrow"
             />
           )}
@@ -150,7 +150,7 @@ const Container = styled.div<{ props: IContainerProps }>`
   position: relative;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border-radius: 0px;
+  border-radius: 0rem;
   ul {
     overflow: scroll;
     z-index: 20;
@@ -161,7 +161,7 @@ const Container = styled.div<{ props: IContainerProps }>`
     flex-flow: nowrap column;
     max-height: ${(props) => props.height * 5};
     ${(props) => props.theme.scroll.hidden};
-    outline: inset ${(props) => props.theme.main.primary80} 1px;
+    outline: inset ${(props) => props.theme.main.primary80} 0.1rem;
 
     li {
       width: 100%;
@@ -175,13 +175,12 @@ const ButtonStyle = styled(Button)<{ hoverOff: boolean }>`
   width: 100%;
   height: 100%;
   ${(props) => props.theme.flex.row.center.center};
-  gap: 4px;
+  gap: 0.4rem;
   position: relative;
   border-radius: ${(props) => props.borderRadius};
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-  // 우측에 화살표 이미지 때문에 16px을 이동시켜주었다.
-  padding-right: 16px;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
+  padding-right: 1.6rem;
   {
     ${(props) =>
       props.hoverOff === true ||
@@ -195,7 +194,7 @@ const ButtonStyle = styled(Button)<{ hoverOff: boolean }>`
 `;
 const Arrow = styled(CC.RowDiv)`
   position: absolute;
-  right: 0px;
+  right: 0rem;
 `;
 const DropDownItem = styled(Button)<{
   index: number;
@@ -235,7 +234,7 @@ const DropDownItem = styled(Button)<{
 
   & {
     width: 100%;
-    border-radius: 0px;
+    border-radius: 0rem;
   }
   &:hover {
     background: ${(props) => props.hoverOff || props.theme.main.primary80};

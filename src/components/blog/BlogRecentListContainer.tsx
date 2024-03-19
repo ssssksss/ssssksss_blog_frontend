@@ -33,13 +33,13 @@ export default memo(BlogRecentListContainer);
 
 const Container = styled.div<{ isOpen: boolean }>`
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 0rem;
+  top: 0rem;
   background: ${(props) => props.theme.main.secondary40};
-  border-radius: 8px;
+  border-radius: 0.8rem;
   width: ${(props) => (props.isOpen ? '60vw' : 'max-content')};
   height: max-content;
-  padding: ${(props) => (props.isOpen ? '10px 4px' : '4px')};
+  padding: ${(props) => (props.isOpen ? '1rem 0.4rem' : '0.4rem')};
   z-index: 10;
 `;
 
@@ -47,10 +47,10 @@ const Title = styled.div<{ isOpen: boolean }>`
   display: flex;
   justify-content: center;
   color: ${(props) => props.theme.main.contrast};
-  font-size: ${(props) => (props.isOpen ? '1.2rem' : '0.8rem')};
+  font-size: ${(props) => (props.isOpen ? '1.2rem' : '1rem')};
   font-weight: ${(props) => (props.isOpen ? '600' : '400')};
   flex-direction: ${(props) => (props.isOpen ? 'row' : 'column')};
-  height: ${(props) => props.isOpen && props.theme.calcRem(32)};
+  height: ${(props) => props.isOpen && '3.2rem'};
   align-items: center;
   &:hover {
     cursor: pointer;

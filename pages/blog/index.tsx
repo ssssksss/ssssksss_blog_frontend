@@ -5,7 +5,6 @@ import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Head from 'next/head';
@@ -98,9 +97,4 @@ const Index = (props: propsType) => {
 export default Index;
 Index.layout = Layout1;
 
-const Container = styled(CC.ColumnDiv)`
-  gap: 2px;
-  width: 100%;
-  ${(props) => props.theme.scroll.hidden};
-  height: 100%;
-`;
+const Container = styled.div``;

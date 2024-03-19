@@ -60,15 +60,13 @@ const ScheduleBar = (props: {
         setActiveModal(false);
       }}
       modalOverlayVisible={true}
-      modalMinW={'320px'}
+      modalMinW={'32rem'}
     >
       <Title isChecked={isChecked}>{props.data.title}</Title>
       <Input
         type="checkbox"
         outline={true}
         color={'red100'}
-        w={'16px'}
-        h={'16px'}
         checked={isChecked}
         onClick={(e) => {
           _IsCheckedToggleHandler();
@@ -92,11 +90,11 @@ const Container = styled(ModalButton)<{
   props: ICalendarBoxProps;
 }>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
-  border-radius: 0px 8px 8px 0px;
+  border-radius: 0rem 0.8rem 0.8rem 0rem;
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
-  width: ${(props) => `calc(${100 * props.period + '%'} - 5px)`};
-  height: 20px;
-  margin-left: 4px;
+  width: ${(props) => `calc(${100 * props.period + '%'} - 0.5rem)`};
+  height: 1.6rem;
+  margin-left: 0.4rem;
   grid-row-start: ${(props) => props.layer};
   z-index: ${(props) => (props.activeModal ? 20 : 4)};
   justify-content: flex-start;
@@ -110,10 +108,24 @@ const Container = styled(ModalButton)<{
         props.backgroundColor};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: 1rem;
+  font-size: 1.2rem;
   white-space: nowrap;
   overflow: hidden;
   font-weight: 600;
+  input[type='checkbox'] {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+    font-size: 1rem;
+    white-space: pre-wrap;
+    height: 1.2rem;
+    input[type='checkbox'] {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+  }
 
   &:focus {
     z-index: 20;

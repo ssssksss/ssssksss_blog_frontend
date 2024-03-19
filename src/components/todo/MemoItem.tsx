@@ -126,32 +126,32 @@ const MemoItem = (props: IMemoItemProps) => {
 export default MemoItem;
 
 const Container = styled.div<{ bg: string }>`
-  min-height: 200px;
+  min-height: 20rem;
   height: max-content;
   word-wrap: break-word;
   word-break: break-all;
   background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.colors.white80};
-  border-radius: 10px;
-  padding: 4px 8px;
-  outline: solid black 1px;
+  border-radius: 1rem;
+  padding: 0.4rem 0.8rem;
+  outline: solid black 0.1rem;
 
   textarea {
-    min-height: 180px;
-    margin-top: 4px;
+    min-height: 18rem;
+    margin-top: 0.4rem;
     /* background: transparent; */
     background: ${(props) => props.theme.colors.white80};
     border: none;
     appearance: none;
     resize: none;
-    padding: 4px 4px 40px 4px;
-    outline: solid black 1px;
+    padding: 0.4rem 0.4rem 4rem 0.4rem;
+    outline: solid black 0.1rem;
   }
 `;
 const Header = styled(CC.RowRightDiv)`
   width: 100%;
   position: relative;
-  height: 24px;
+  height: 2.4rem;
   .deleteIcon {
     position: absolute;
     cursor: pointer;

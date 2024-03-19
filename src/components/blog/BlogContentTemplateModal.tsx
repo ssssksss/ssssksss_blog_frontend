@@ -78,7 +78,11 @@ const BlogContentTemplateModal = (props: any) => {
 
   return (
     <Container>
-      <Button onClickCapture={() => changeModeHandler()} w={'36px'} h={'36px'}>
+      <Button
+        onClickCapture={() => changeModeHandler()}
+        w={'3.6rem'}
+        h={'3.6rem'}
+      >
         <Image src={Icons.SwapIcon} alt="" width={24} height={24} />
       </Button>
       {!mode && (
@@ -86,16 +90,16 @@ const BlogContentTemplateModal = (props: any) => {
           <Title> 템플릿 삭제 화면 </Title>
           <BlogContentTemplateBox
             gap={28}
-            pd={'8px'}
+            pd={'0.8rem'}
             outline={true}
             color={'primary80'}
-            brR={'10px'}
+            brR={'1rem'}
           >
             <CC.ColumnDiv gap={28}>
               <Select
                 ref={selectRemoveRef}
                 outline={true}
-                h={'40px'}
+                h={'4rem'}
                 color={'primary80'}
                 onChange={() => changeRemoveBlogContentTemplate()}
               >
@@ -109,7 +113,7 @@ const BlogContentTemplateModal = (props: any) => {
               </Select>
               <Button
                 w={'100%'}
-                h={'40px'}
+                h={'4rem'}
                 outline={true}
                 color={'primary80'}
                 onClickCapture={() => removeBlogContentTemplateHandler()}
@@ -128,7 +132,7 @@ const BlogContentTemplateModal = (props: any) => {
           </EditorContainer>
           <EditorFooter>
             <Button
-              h={'32px'}
+              h={'3.2rem'}
               width="100%"
               outline={true}
               onClick={() => addTemplateHandler()}
@@ -136,7 +140,7 @@ const BlogContentTemplateModal = (props: any) => {
               템플릿 생성
             </Button>
             <Button
-              h={'32px'}
+              h={'3.2rem'}
               width="100%"
               outline={true}
               onClick={() => props.closeModal()}
@@ -154,18 +158,15 @@ export default BlogContentTemplateModal;
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
   max-height: calc(100vh - 6rem);
-  gap: 16px;
-  /* color: ${(props) => props.theme.colors.white80}; */
-  font-size: 1.2rem;
+  gap: 1.6rem;
   background: ${(props) => props.theme.main.contrast};
-  /* max-width: 600px; */
 `;
 
 const RemoveBlogContentTemplateContainer = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 200px;
-  min-height: 200px;
+  min-width: 20rem;
+  min-height: 20rem;
 `;
 
 const Title = styled.h2``;
@@ -178,11 +179,11 @@ const EditorContainer = styled.div`
 `;
 
 const EditorFooter = styled(CC.GridColumn2)`
-  gap: 10px;
+  gap: 1rem;
   position: sticky;
-  padding: 4px 4px;
-  bottom: 8px;
-  margin-bottom: 8px;
+  padding: 0.4rem 0.4rem;
+  bottom: 0.8rem;
+  margin-bottom: 0.8rem;
   background: rgba(255, 255, 255, 0.5);
   button {
     color: ${(props) => props.theme.main.primary80};
@@ -194,8 +195,8 @@ const EditorFooter = styled(CC.GridColumn2)`
   }
 `;
 const BlogContentTemplateBox = styled(CC.ColumnDiv)`
-  outline: solid ${(props) => props.theme.main.contrast} 4px;
-  width: 300px;
+  outline: solid ${(props) => props.theme.main.contrast} 0.4rem;
+  width: 30rem;
   height: 100%;
 
   & > button:nth-of-type(1) {

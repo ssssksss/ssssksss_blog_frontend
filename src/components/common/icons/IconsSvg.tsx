@@ -25,7 +25,7 @@ export const IconsSvg = {
 
 const IconSVG = styled.svg<{ fill: any }>`
   align-self: center;
-  width: ${(props) => props.w || '16px'};
+  width: ${(props) => props.w || '1.6rem'};
   aspect-ratio: 1;
   path {
     fill: ${(props) =>

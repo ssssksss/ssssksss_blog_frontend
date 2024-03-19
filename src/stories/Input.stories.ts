@@ -69,8 +69,8 @@ export const Range: Story = {
 export const File: Story = {
   args: {
     type: 'file',
-    w: '200px',
-    h: '200px',
+    w: '20rem',
+    h: '20rem',
     bg: '',
     color: '',
     state: '',

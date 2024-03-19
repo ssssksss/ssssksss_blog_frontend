@@ -30,9 +30,9 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
 
   return (
     <Container active={props.url === props.choiceYoutubeLink.url}>
-      <CC.ColumnDiv width="60%" gap={8} padding={'0px 0px 0px 8px'}>
+      <CC.ColumnDiv width="60%" gap={8} padding={'0rem 0rem 0rem 0.8rem'}>
         <CC.RowBetweenDiv gap={4}>
-          <CC.RowDiv width="50px"> url : </CC.RowDiv>
+          <CC.RowDiv width="5rem"> url : </CC.RowDiv>
           <Input
             value={inputValue.url}
             onChange={(e) => {
@@ -44,7 +44,7 @@ const ReactPlayerYoutubeItem = (props: IReactPlayerYoutubeItemProps) => {
           />
         </CC.RowBetweenDiv>
         <CC.RowBetweenDiv gap={4}>
-          <CC.RowDiv width="50px"> 이름 : </CC.RowDiv>
+          <CC.RowDiv width="5rem"> 이름 : </CC.RowDiv>
           <Input
             value={inputValue.name}
             onChange={(e) => {
@@ -91,8 +91,8 @@ const Container = styled(CC.RowDiv)<{ active: boolean }>`
     props.active && `${animationKeyFrames.rainbowColors} 1s infinite`} 
   background: ${commonTheme.linearGradientColors.skyblue};
   z-index: 10;
-  height: 60px;
-  gap: 12px;
-  padding: '0px 4px';
+  height: 6rem;
+  gap: 1.2rem;
+  padding: '0rem 0.4rem';
   font-size: ${commonTheme.fontSize.sm};
 `;

@@ -77,26 +77,26 @@ export default BlogItem;
 
 const Container = styled.div`
   width: 100%;
-  outline: solid 1px ${(props) => props.theme.main.primary40};
+  outline: solid 0.1rem ${(props) => props.theme.main.primary40};
   border-radius: ${(props) => props.theme.borderRadius.br10};
   cursor: pointer;
   background: ${(props) => props.theme.colors.white80};
-  outline-offset: 0px;
+  outline-offset: 0rem;
   text-shadow: none;
   display: grid;
   grid-template-columns: 4rem auto;
   align-items: center;
-  font-size: ${(props) => props.theme.calcRem(16)};
+  font-size: 1.2rem;
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    font-size: ${(props) => props.theme.calcRem(12)};
+    font-size: 1rem;
   }
-  padding: 8px 4px;
+  padding: 0.8rem 0.4rem;
 
   &:hover {
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-    /* border: 1px solid ${(props) => props.theme.main.primary40}; */
+    /* border: 0.1rem solid ${(props) => props.theme.main.primary40}; */
     outline-color: ${(props) => props.theme.main.primary40};
-    outline-offset: 1px;
+    outline-offset: 0.1rem;
     background: ${(props) => `${props.theme.main.secondary20}`};
   }
 `;
@@ -105,7 +105,7 @@ const Title = styled.div`
   color: ${(props) => props.theme.colors.black100};
   font-weight: 600;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-  padding-top: 4px;
+  padding-top: 0.4rem;
 
   white-space: wrap;
   text-overflow: ellipsis;
@@ -125,7 +125,7 @@ const UpdateData = styled.span`
 `;
 const ViewAndLIke = styled.div`
   ${(props) => props.theme.flex.row._.center};
-  gap: 10px;
+  gap: 1rem;
   font-weight: 800;
   height: 1rem;
   font-size: 0.8em;

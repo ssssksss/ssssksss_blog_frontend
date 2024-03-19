@@ -122,10 +122,9 @@ const UpdateMemoCategoryBox = (props) => {
           ></Select>
         </CC.ColumnDiv>
       </CC.ColumnDiv>
-      <CC.RowDiv gap={8} pd={'16px 0px'}>
+      <CC.RowDiv gap={8} pd={'1.6rem 0rem'}>
         <Button
           w={'100%'}
-          h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(
             updateMemoCategoryHandler,
@@ -142,6 +141,6 @@ const UpdateMemoCategoryBox = (props) => {
 export default UpdateMemoCategoryBox;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

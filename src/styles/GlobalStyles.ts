@@ -30,21 +30,22 @@ const GlobalStyles = css`
     box-sizing: border-box;
     outline: none;
   }
+  html {
+    font-size: 62.5%;
+  }
   html,
   body {
-    width: 100%;
     scroll-behavior: smooth;
+    min-width: 32rem;
     /* background-color: ${theme.backgroundColors.background2}; */
     &::-webkit-scrollbar {
       display: none;
-      /* width: 5px; */
     }
     margin: 0;
     padding: 0;
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    font-size: 1rem;
     font-display: swap;
 
     line-height: 1;
@@ -188,10 +189,10 @@ const GlobalStyles = css`
   a:focus-visible,
   button:focus-visible,
   input:focus-visible {
-    box-shadow:
-      2px 2px 4px 0px rgba(0, 0, 0, 1),
-      -2px -2px 4px 0px rgba(0, 0, 0, 1);
-    z-index: 20;
+    outline: solid black 0.1rem;
+    outline-offset: -0.1rem;
+    border-radius: 0.4rem;
+    z-index: 2;
   }
 `;
 export default GlobalStyles;

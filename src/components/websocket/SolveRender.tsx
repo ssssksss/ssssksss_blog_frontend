@@ -244,40 +244,40 @@ const SolveRender = (props) => {
       </CC.RowCenterDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={'60px'} onClick={() => btnOrderHandler('front')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('front')}>
             앞
           </Button>
-          <Button height={'60px'} onClick={() => ''}></Button>
+          <Button height={'6rem'} onClick={() => ''}></Button>
         </CC.RowDiv>
       </CC.ColumnDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={'60px'} onClick={() => btnOrderHandler('left')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('left')}>
             좌
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('catch')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('catch')}>
             {motorAngs.motor6 > 120 ? '잡기' : '놓기'}
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('right')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('right')}>
             우
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('up')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('up')}>
             상
           </Button>
         </CC.RowDiv>
       </CC.ColumnDiv>
       <CC.ColumnDiv>
         <CC.RowDiv gap={10}>
-          <Button height={'60px'} onClick={() => ''}>
+          <Button height={'6rem'} onClick={() => ''}>
             E
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('back')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('back')}>
             뒤
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('init')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('init')}>
             초기화
           </Button>
-          <Button height={'60px'} onClick={() => btnOrderHandler('down')}>
+          <Button height={'6rem'} onClick={() => btnOrderHandler('down')}>
             하
           </Button>
         </CC.RowDiv>
@@ -357,7 +357,7 @@ const SolveRender = (props) => {
           <Button
             onClick={() => onChangeMotorAngs()}
             width={'100%'}
-            height={'40px'}
+            height={'4rem'}
           >
             변경
           </Button>
@@ -371,7 +371,7 @@ const SolveRender = (props) => {
         ))}
       </div>
       <CC.RowCenterDiv>
-        <Button onClick={() => sendMotorAngs()} width={'260px'} height={'40px'}>
+        <Button onClick={() => sendMotorAngs()} width={'26rem'} height={'4rem'}>
           전송
         </Button>
       </CC.RowCenterDiv>
@@ -386,6 +386,6 @@ const Container = styled.div`
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 2rem;
+  padding: 2rem;
 `;

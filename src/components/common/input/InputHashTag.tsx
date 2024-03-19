@@ -69,12 +69,13 @@ const InputStyle = styled.input<{
   border: string;
 }>`
   font-size: 1rem;
-  border: ${(props) => (props.border ? props.border : '1px solid #acebe7')};
+  border: ${(props) => (props.border ? props.border : '0.1rem solid #acebe7')};
   width: ${(props) => (props.width ? props.width : '100%')};
-  height: ${(props) => (props.height ? props.height : '40px')};
-  padding: ${(props) => (props.padding ? props.padding : '0px 0px 0px 8px')};
+  height: ${(props) => (props.height ? props.height : '4rem')};
+  padding: ${(props) =>
+    props.padding ? props.padding : '0rem 0rem 0rem 0.8rem'};
   background-color: ${(props) => props.backgroundColor || '#fff'};
-  border-radius: ${(props) => props.borderRadius || '0px'};
+  border-radius: ${(props) => props.borderRadius || '0rem'};
   outline: ${(props) => props.outline || 'none'};
 
   &:focus {

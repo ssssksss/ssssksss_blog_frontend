@@ -28,17 +28,17 @@ export default TagList;
 const Container = styled(CC.RowCenterDiv)`
   width: 100%;
   flex-flow: wrap row;
-  padding: 4px;
+  padding: 0.4rem;
 `;
 
 const Tag = styled(CC.RowDiv)<{ bg: string }>`
-  border-radius: 8px;
-  height: 16px;
+  border-radius: 0.8rem;
+  height: 1.6rem;
   background: ${(props) =>
     props.theme.colors?.[props.bg] ||
     props.theme.main?.[props.bg] ||
     props.bg ||
     props.theme.main.primary20};
-  padding: 12px 4px;
+  padding: 1.2rem 0.4rem;
   width: max-content;
 `;

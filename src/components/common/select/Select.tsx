@@ -28,6 +28,7 @@ interface ISelectProps {
   // react-hook-form에서 사용하는 용도
   setValue?: any;
   trigger?: any;
+  enable?: boolean;
   // 클릭후 바로 최신 데이터가 필요한 경우에는 onChange에서 props를 이용하여 값을 받아 사용하면 된다.
   onChange?: () => void;
 }
@@ -66,12 +67,15 @@ const Select = ({ ...props }): ISelectProps => {
     <Container
       {...props}
       onClick={(e) => {
+        if (props.enable === false) return;
         setIsOpen((prev) => !prev);
         e.stopPropagation();
       }}
       tabIndex={'0'}
     >
-      <CC.RowCenterDiv bg={data?.bg || 'white80'}>
+      <CC.RowCenterDiv
+        bg={props.enable === false ? 'gray80' : data?.bg || 'white80'}
+      >
         {data?.name || data?.value}
       </CC.RowCenterDiv>
       {isOpen && (
@@ -119,15 +123,14 @@ const Container = styled.div<ISelectProps>`
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
       props.theme.main.primary80}
-    1px;
-  border-radius: 8px;
+    0.1rem;
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: flex;
   width: ${(props) => props.w || 'max-content'};
-  height: ${(props) => props.h || '32px'};
+  height: ${(props) => props.h || '2.4rem'};
   position: relative;
-  padding-right: 18px;
+  padding-right: 1.8rem;
 
   // 배경색(background) //
   background: ${(props) =>
@@ -136,22 +139,17 @@ const Container = styled.div<ISelectProps>`
     props.bg ||
     props.theme.colors.white80};
 
-  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
   color: ${(props) => props.theme.colors.black60};
   justify-content: flex-start;
 
-  // 애니메이션(animation) //
-
-  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
   &:hover {
     cursor: pointer;
   }
 
-  // 반응형(media-query, overflow, scroll) //
-
-  // 커스텀(custom css) //
-
   div:nth-of-type(1) {
+    cursor: ${(props) => {
+      props.enable === false && 'not-allowed';
+    }};
   }
 
   input {
@@ -163,16 +161,16 @@ const Container = styled.div<ISelectProps>`
     position: absolute;
     z-index: 5;
     width: 100%;
-    top: 32px;
-    max-height: 160px;
+    top: 2.4rem;
+    max-height: 16rem;
     overflow: scroll;
-    outline: inset ${(props) => props.theme.main.primary80} 1px;
+    outline: inset ${(props) => props.theme.main.primary80} 0.1rem;
   }
   li {
-    --pd-left: 2px;
+    --pd-left: 0.2rem;
     --scale-value: 1.4;
     width: 100%;
-    height: 32px;
+    height: 2.4rem;
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.colors.black60};
@@ -201,7 +199,7 @@ const IconSVG = styled.svg<{ bg: string }>`
   position: absolute;
   right: 0;
   align-self: center;
-  width: 16px;
+  width: 1.6rem;
   aspect-ratio: 1;
   background: ${(props) => props.bg};
   path {

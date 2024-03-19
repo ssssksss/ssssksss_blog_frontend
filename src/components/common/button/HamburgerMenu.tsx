@@ -36,17 +36,17 @@ interface IContainerProps {
 }
 
 const Container = styled.button<IContainerProps>`
-  width: ${(props) => props.theme.calcRem(44)};
-  height: ${(props) => props.theme.calcRem(44)};
-  border-radius: ${(props) => props.theme.calcRem(8)} 0px 0px 0px;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 0.8rem 0rem 0rem 0rem;
   background-color: transparent;
   display: flex;
   justify-content: center;
   position: relative;
-  padding: 0px;
+  padding: 0rem;
   flex-shrink: 0;
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
-  outline-offset: -1px;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  outline-offset: -0.1rem;
   z-index: auto;
 
   ${(props) =>
@@ -54,41 +54,41 @@ const Container = styled.button<IContainerProps>`
       ? css`
           & > div {
             position: absolute;
-            width: ${props.theme.calcRem(32)};
-            height: ${props.theme.calcRem(4)};
+            width: 3.2rem;
+            height: 0.4rem;
             background-color: #000;
-            border-radius: 4px;
+            border-radius: 0.4rem;
             transition: all 0.4s ease-in-out;
           }
 
           & > div:nth-of-type(1) {
             top: 50%;
-            transform: translate(0px, -50%) rotate(405deg);
+            transform: translate(0rem, -50%) rotate(405deg);
           }
 
           & > div:nth-of-type(2) {
             opacity: 0;
-            transform: translate(0px, -50%) rotate(360deg);
+            transform: translate(0rem, -50%) rotate(360deg);
           }
 
           & > div:nth-of-type(3) {
             top: 50%;
-            transform: translate(0px, -50%) rotate(-405deg);
+            transform: translate(0rem, -50%) rotate(-405deg);
           }
         `
       : css`
           & > div {
             position: absolute;
-            width: ${props.theme.calcRem(24)};
-            height: ${props.theme.calcRem(4)};
+            width: 2.4rem;
+            height: 0.4rem;
             background-color: #000;
-            border-radius: 4px;
+            border-radius: 0.4rem;
             transition: all 0.4s ease-in-out;
             opacity: 0.6;
           }
 
           & > div:nth-of-type(1) {
-            top: 10px;
+            top: 0.6rem;
           }
 
           & > div:nth-of-type(2) {
@@ -97,7 +97,7 @@ const Container = styled.button<IContainerProps>`
           }
 
           & > div:nth-of-type(3) {
-            bottom: 10px;
+            bottom: 0.6rem;
           }
         `}
 `;

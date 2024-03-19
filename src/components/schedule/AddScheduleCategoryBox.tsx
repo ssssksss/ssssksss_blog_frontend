@@ -97,7 +97,7 @@ const AddScheduleCategoryBox = (props) => {
           }))
         }
       ></Select>
-      <CC.RowDiv pd={'16px 0px'}>
+      <CC.RowDiv pd={'1.6rem 0rem'}>
         <Button
           w={'100%'}
           onClick={() => addScheduleCategoryHandler()}
@@ -115,6 +115,6 @@ const AddScheduleCategoryBox = (props) => {
 export default AddScheduleCategoryBox;
 
 const Container = styled(CC.ColumnStartDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

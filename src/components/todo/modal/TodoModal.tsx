@@ -112,12 +112,12 @@ const TodoModal = (props: ITodoModalProps) => {
 export default TodoModal;
 
 const Container = styled(CC.ColumnBetweenDiv)`
-  gap: 28px;
-  padding: 10px;
+  gap: 2.8rem;
+  padding: 1rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   background: ${(props) => props.theme.main.primary40};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: ${(props) => props.theme.fontSize.xl};
-  min-height: 260px;
+  min-height: 26rem;
 `;

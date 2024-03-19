@@ -104,28 +104,28 @@ const Container = styled.section`
   flex-flow: nowrap column;
   justify-content: flex-end;
   background-color: white;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 0rem 0rem 1rem 1rem;
   /* background: ${commonTheme.backgroundColors.background2}; */
 `;
 
 const Title = styled(Input)`
   width: 100%;
-  height: 48px;
+  height: 4.8rem;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   color: ${(props) => props.theme.colors.black80};
-  padding: 16px;
+  padding: 1.6rem;
   z-index: 3;
   border: none;
   font-size: 1.6rem;
-  border-radius: 0px;
-  border-bottom: 2px solid ${(props) => props.theme.colors.black40};
+  border-radius: 0rem;
+  border-bottom: 0.2rem solid ${(props) => props.theme.colors.black40};
   &::placeholder {
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black40};
   }
 `;
 const EditorContainer = styled.div`
-  padding-bottom: 8px;
+  padding-bottom: 0.8rem;
   &::before {
     content: '';
     background-size: 50%;
@@ -134,19 +134,19 @@ const EditorContainer = styled.div`
     background-position: right bottom;
     opacity: 0.2;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 80px;
+    top: 0rem;
+    left: 0rem;
+    right: 0rem;
+    bottom: 8rem;
   }
 `;
 const EditorFooter = styled(CC.GridColumn2)`
-  height: 40px;
-  gap: 10px;
+  height: 4rem;
+  gap: 1rem;
   position: sticky;
-  padding: 0px 4px;
-  bottom: 8px;
-  margin-bottom: 8px;
+  padding: 0rem 0.4rem;
+  bottom: 0.8rem;
+  margin-bottom: 0.8rem;
   background: rgba(255, 255, 255, 0.5);
   button {
     color: ${(props) => props.theme.main.primary80};

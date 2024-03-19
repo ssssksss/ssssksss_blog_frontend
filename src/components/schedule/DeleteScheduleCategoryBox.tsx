@@ -82,7 +82,7 @@ const DeleteScheduleCategoryBox = (props) => {
           onChange={(i) => choiceDeleteScheduleCategory(i)}
         ></Select>
       </CC.ColumnDiv>
-      <CC.RowDiv gap={8} pd={'12px 0px'}>
+      <CC.RowDiv gap={8} pd={'1.2rem 0rem'}>
         <ConfirmButton
           w={'100%'}
           onClick={() => deleteScheduleCategoryHandler()}
@@ -97,6 +97,6 @@ const DeleteScheduleCategoryBox = (props) => {
 export default DeleteScheduleCategoryBox;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

@@ -41,8 +41,8 @@ const TodoItem = (props: ITodoItemProps) => {
       <Input
         type="checkbox"
         outline={true}
-        w={'24px'}
-        h={'24px'}
+        w={'2.4rem'}
+        h={'2.4rem'}
         checked={isChecked}
         onClick={() => _IsCheckedToggleHandler()}
       />
@@ -65,9 +65,9 @@ const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
     props.isChecked
       ? props.theme.colors.black20
       : props.theme.main.secondary20};
-  padding: 4px;
-  border-radius: 4px;
-  gap: 10px;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  gap: 1rem;
 
   &:focus,
   &:hover {
@@ -76,7 +76,7 @@ const Container = styled(CC.RowDiv)<{ isChecked: boolean }>`
 `;
 
 const Title = styled(ModalButton)<{ isChecked: boolean }>`
-  width: calc(100% - 28px);
+  width: calc(100% - 2.8rem);
   justify-content: flex-start;
   text-align: left;
   background: none;

@@ -62,14 +62,12 @@ export type colorTypes =
   | 'white40'
   | 'white20';
 
-const calcRem = (size: number | unknown) => `${size / 16}rem`;
-
 const fontSize = {
-  xs: `${calcRem(12)}`,
-  sm: `${calcRem(14)}`,
-  md: `${calcRem(16)}`,
-  lg: `${calcRem(18)}`,
-  xl: `${calcRem(20)}`,
+  xs: '1.2rem',
+  sm: '1.4rem',
+  md: '1.6rem',
+  lg: '1.8rem',
+  xl: '2.0rem',
 };
 
 const fontFamily = {
@@ -81,26 +79,26 @@ const fontFamily = {
 };
 
 const borderRadius = {
-  br4: '4px',
-  br10: '10px',
-  br16: calcRem(16),
-  br20: '20px',
-  br30: '30px',
+  br4: '0.4rem',
+  br10: '1rem',
+  br16: '1.6rem',
+  br20: '2rem',
+  br30: '3rem',
 };
 
 const padding = {
-  pd2: '2px',
-  pd4: '4px',
-  pd8: '8px',
-  pd10: '10px',
-  pd16: calcRem(16),
+  pd2: '0.2rem',
+  pd4: '0.4rem',
+  pd8: '0.8rem',
+  pd10: '1rem',
+  pd16: '1.6rem',
 };
 
 const deviceSizes = {
-  mobile: '360px',
-  tablet: '768px',
-  pc: '1024px',
-  maxWidth: '1440px',
+  mobile: '36rem',
+  tablet: '76.8rem',
+  pc: '102.4rem',
+  maxWidth: '144rem',
 };
 
 const positionStyle = {
@@ -115,23 +113,23 @@ const positionStyle = {
 // 버튼은 그때마다 사이즈가 달라서 설정이 필요한지 잘 모르겠다.
 const btnSizes = {
   xs: {
-    height: calcRem(16),
+    height: '1.6rem',
     borderRadius: borderRadius.br4,
   },
   sm: {
-    height: calcRem(24),
+    height: '2.4rem',
     borderRadius: borderRadius.br10,
   },
   md: {
-    height: calcRem(32),
+    height: '3.2rem',
     borderRadius: borderRadius.br10,
   },
   lg: {
-    height: calcRem(40),
+    height: '4rem',
     borderRadius: borderRadius.br10,
   },
   xl: {
-    height: calcRem(48),
+    height: '4.8rem',
     borderRadius: borderRadius.br16,
   },
 };
@@ -140,63 +138,63 @@ const btnSizes = {
 const inputSizes = {
   checkbox: {
     xs: {
-      height: calcRem(16),
+      height: '1.6rem',
       aspectRatio: 1,
     },
     sm: {
-      height: calcRem(24),
+      height: '2.4rem',
       aspectRatio: 1,
     },
     md: {
-      height: '32px',
+      height: '3.2rem',
       aspectRatio: 1,
     },
     lg: {
-      height: calcRem(40),
+      height: '4rem',
       aspectRatio: 1,
     },
     xl: {
-      height: calcRem(48),
+      height: '4.8rem',
       aspectRatio: 1,
     },
   },
   radio: {
     xs: {
-      height: calcRem(16),
+      height: '1.6rem',
       aspectRatio: 1,
     },
     sm: {
-      height: calcRem(24),
+      height: '2.4rem',
       aspectRatio: 1,
     },
     md: {
-      height: '32px',
+      height: '3.2rem',
       aspectRatio: 1,
     },
     lg: {
-      height: calcRem(40),
+      height: '4rem',
       aspectRatio: 1,
     },
     xl: {
-      height: calcRem(48),
+      height: '4.8rem',
       aspectRatio: 1,
     },
   },
   [('text', 'password', 'email', 'search')]: {
     xs: {
-      height: calcRem(16),
+      height: '1.6rem',
     },
     sm: {
-      height: calcRem(24),
+      height: '2.4rem',
     },
     md: {
-      height: '32px',
+      height: '3.2rem',
     },
     lg: {
-      height: calcRem(40),
+      height: '4rem',
     },
     xl: {
-      height: calcRem(48),
+      height: '4.8rem',
     },
   },
 };
@@ -562,7 +560,6 @@ export const commonTheme = {
   linearGradientColors,
   flex,
   grid,
-  calcRem,
   scroll,
   positionStyle,
 };

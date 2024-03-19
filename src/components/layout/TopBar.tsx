@@ -19,6 +19,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { batch, useSelector } from 'react-redux';
+import SideBar from './SideBar';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -73,21 +74,21 @@ const TopBar = () => {
 
   return (
     <Container>
-      <Link href={`/`} prefetch={false}>
-        <CC.ImgContainer w={'2rem'} h={'2rem'} pd={'4px'}>
+      <SideBar />
+      <CC.ImgContainer h={'80%'}>
+        <Link href={`/`} prefetch={false}>
           <Image
             className={'logo'}
             src={Icons.LogoIcon}
             alt="logo"
-            width={'1'}
-            height={'1'}
+            fill
             onClick={() => {
               store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
             }}
           />
-        </CC.ImgContainer>
-      </Link>
-      <CC.RowDiv gap={8}>
+        </Link>
+      </CC.ImgContainer>
+      <CC.RowDiv gap={8} h={'80%'}>
         {useLoading ? (
           <>
             {authStore.email ? (
@@ -104,7 +105,7 @@ const TopBar = () => {
               <ModalButton
                 modal={<AuthModal />}
                 modalW={'90vw'}
-                modalMaxW={'600px'}
+                modalMaxW={'60rem'}
                 w={'max-content'}
                 h={'100%'}
                 color={'secondary80'}
@@ -131,15 +132,15 @@ const Container = styled.div`
   top: 0;
   left: 0;
   background: ${(props) => props.theme.main.contrast};
-  height: ${(props) => props.theme.calcRem(44)};
-  gap: 8px;
+  height: 3.2rem;
+  gap: 0.8rem;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  z-index: 99;
-  padding-left: ${(props) => props.theme.calcRem(44)};
-  outline: solid ${(props) => props.theme.main.primary20} 1px;
-  outline-offset: -1px;
+  z-index: 10;
+  padding: 0rem 0.4rem 0rem 4.4rem;
+  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
+  outline-offset: -0.1rem;
 
   .logo {
     cursor: pointer;

@@ -11,9 +11,7 @@ const HomePage = () => {
       <Head>
         <title>홈 화면</title>
       </Head>
-      <CC.RowCenterDiv>
-        <h2> 현재 반응형 작업 중 </h2>
-      </CC.RowCenterDiv>
+      <CC.RowCenterDiv></CC.RowCenterDiv>
       <ThreeJSBox>
         <MyRoom />
       </ThreeJSBox>
@@ -26,20 +24,21 @@ const HomePage = () => {
 HomePage.layout = Layout1;
 export default HomePage;
 
-const Container = styled(CC.ColumnDiv.withComponent('main'))`
+const Container = styled.div`
   width: 100%;
-  height: 100%;
   justify-content: space-between;
   ${(props) => props.theme.scroll.hiddenY};
+  // FooterBox만큼은 공간을 비워두어야 한다.
+  padding-bottom: 13rem;
 `;
 
 const ThreeJSBox = styled(CC.RowCenterDiv)`
-  height: 300px;
-  padding: 0px 30px;
+  height: 30rem;
+  padding: 0rem 3rem;
 `;
 
 const FooterBox = styled.div`
-  display: flex;
+  position: fixed;
   width: 100%;
-  margin-top: auto;
+  bottom: 0;
 `;

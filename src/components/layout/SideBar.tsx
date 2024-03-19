@@ -89,14 +89,14 @@ const SideBar = () => {
                   i[2].split('?')[0]
                 }
               >
-                <CC.ImgContainer h={'1.5rem'} w={'100%'}>
+                <CC.ImgContainer h={'2.4rem'} w={'100%'}>
                   <Image src={i[0]} alt={i[1]} width={'1'} height={'1'} />
                 </CC.ImgContainer>
                 <div className={'navItemText'}> {i[1]} </div>
               </NavItem>
             </Link>
           ))}
-          <CC.ColumnBetweenDiv gap={4} padding={'0px 1px'}>
+          <CC.ColumnBetweenDiv gap={4} padding={'0rem 0.1rem'}>
             {typeof window != 'undefined' && authStore.id && (
               <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
             )}
@@ -124,13 +124,12 @@ const hideAnimation = keyframes`
 `;
 
 const Container = styled.aside<IContainerProps>`
-  background: ${(props) => props.theme.main.contrast};
   font-weight: 600;
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 100;
-  width: ${(props) => props.theme.calcRem(44)};
+  z-index: 50;
+  width: 3.2rem;
   display: flex;
   flex-flow: nowrap column;
   /* 일반 */
@@ -152,11 +151,11 @@ const Container = styled.aside<IContainerProps>`
   /* 모바일일떄 */
   @media (pointer: coarse) {
     &:hover {
-      height: ${(props) => `calc(100vh - ${props.theme.calcRem(52)})`};
-      .fold-container {
-        animation: none;
-        display: flex;
-      }
+      height: calc(100vh - 5.2rem);
+    }
+    .fold-container {
+      animation: none;
+      display: flex;
     }
   }
 `;
@@ -172,8 +171,8 @@ const FoldContainer = styled.div<IContainerProps>`
   display: flex;
   flex-flow: nowrap column;
   justify-content: flex-start;
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
-  outline-offset: -1px;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  outline-offset: -0.1rem;
   &::-webkit-scrollbar: {
     display: none;
   }
@@ -181,19 +180,19 @@ const FoldContainer = styled.div<IContainerProps>`
   ${(props) =>
     props.isNavbarOpen &&
     `
-      z-index: 20;
-      width: ${props.theme.calcRem(120)};
-      background: ${props.theme.main.contrast};
+      z-index: 50;
+      width: 12rem;
       `}
 `;
 const NavContainer = styled.nav`
   height: 100%;
-  padding: 0px 1px;
+  padding: 0rem 0.1rem;
   display: flex;
   flex-flow: nowrap column;
   & > :nth-last-child(1) {
     margin-top: auto;
   }
+  background: ${(props) => props.theme.main.contrast};
 `;
 
 const NavItem = styled(Button)<{
@@ -205,11 +204,12 @@ const NavItem = styled(Button)<{
 }>`
   width: 100%;
   height: 100%;
-  border-radius: 0px;
+  border-radius: 0rem;
   display: grid;
-  padding: 8px 0px;
-  grid-template-columns: ${(props) => `${props.theme.calcRem(44)} auto`};
+  padding: 0.8rem 0rem;
+  grid-template-columns: 3.2rem auto;
   justify-content: flex-start;
+  background: none;
   & > :nth-last-of-type(1) {
     animation-name: ${Animations.LeftToRightFadein};
     animation-duration: 0.6s;
@@ -230,10 +230,10 @@ const NavItem = styled(Button)<{
   ${(props) =>
     props.isNavbarOpen
       ? `
-      width: ${(props) => props.theme.calcRem(120)};
+      width: 12rem;
       `
       : `
-      width: ${(props) => props.theme.calcRem(44)};
+      width: 4.4rem;
       div:last-child {
         display: none;
       }

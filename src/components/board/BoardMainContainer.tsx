@@ -51,15 +51,15 @@ const BoardMainContainer = () => {
 
   return (
     <Container>
-      <SearchNavContainer>
+      <SearchContainer>
         <SearchResultContainer gap={4}>
-          <div> 검색결과 </div>
-          <SearchResult> {boardStore.keyword} </SearchResult>
+          <span> 검색결과 </span>
+          <span> {boardStore.keyword} </span>
         </SearchResultContainer>
-        <CC.RowRightDiv w={'150px'}>
+        <CC.RowDiv>
           총 {boardListResData?.data?.json?.boardCount} 건의 게시물
-        </CC.RowRightDiv>
-      </SearchNavContainer>
+        </CC.RowDiv>
+      </SearchContainer>
       <BoardListContainer>
         <BoardListTitle>
           <span> 번호 </span>
@@ -68,29 +68,31 @@ const BoardMainContainer = () => {
           <span> 날짜 </span>
           <span> 조회수 </span>
         </BoardListTitle>
-        {boardListResData?.data?.json?.boardList?.map(
-          (el: any, index: number) => (
-            <Link
-              href={`/board/${el.id}`}
-              as={`/board/${el.id}?
-                    page=${store.getState().boardStore.page}
+        {boardListResData?.data?.json?.boardList?.map((el: any) => (
+          <Link
+            key={el.id}
+            href={`/board/${el.id}`}
+            as={`/board/${el.id}?
+              page=${store.getState().boardStore.page}
                     &size=${store.getState().boardStore.size}
                     &keyword=${store.getState().boardStore.keyword}
                     &sort=${store.getState().boardStore.sort}`}
-              key={index}
-            >
-              <BoardItem>
-                <span> {el.id} </span>
-                <span> {el.title} </span>
-                <span> {el.writer} </span>
-                <span>
-                  {timeFromToday(dateFormat4y2m2d(el.baseTimeEntity.createdAt))}
-                </span>
-                <span>{el.views}</span>
-              </BoardItem>
-            </Link>
-          ),
-        )}
+          >
+            <BoardItem>
+              <span> {el.id} </span>
+              <span> {el.title} </span>
+              <span> {el.writer} </span>
+              <span>
+                {timeFromToday(dateFormat4y2m2d(el.baseTimeEntity.createdAt))}
+              </span>
+              <span>{el.views}</span>
+            </BoardItem>
+          </Link>
+        ))}
+        {Array.from(
+          { length: 10 - boardListResData?.data?.json?.boardList?.length || 0 },
+          () => 0,
+        )?.map((_, index) => <BoardItem key={index} />)}
       </BoardListContainer>
       <BoardListBottomContainer>
         <Pagination
@@ -105,81 +107,83 @@ const BoardMainContainer = () => {
 export default BoardMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 4px;
-  height: 100%;
-
-  & > div:nth-last-child(1) {
-    margin-top: auto;
-  }
-`;
-
-const SearchNavContainer = styled.div`
-  display: grid;
-  grid-template-columns: calc(100% - 150px) 150px;
+  width: 100%;
+  gap: 0.4rem;
   align-items: center;
 `;
 
-const SearchResultContainer = styled.div`
+const SearchContainer = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: 70px calc(100% - 70px);
+  grid-template-columns: auto 12rem;
+  outline: solid black 0.2rem;
+  outline-offset: -0.2rem;
+  border-radius: 0.4rem;
+  padding: 0.8rem 0rem;
+  font-size: 1.2rem;
 `;
 
-const SearchResult = styled.div`
-  color: ${(props) => props.theme.colors.red80};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const SearchResultContainer = styled(CC.RowDiv)`
+  width: 100%;
+  span:nth-last-child(1) {
+    font-weight: 800;
+    color: red;
+    align-items: center;
+  }
 `;
 
 const BoardListTitle = styled.div`
   width: 100%;
   display: grid;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-  background: ${(props) => props.theme.main.primary20};
+  outline: solid black 0.2rem;
+  outline-offset: -0.2rem;
+  border-radius: 0.4rem;
+  color: ${(props) => props.theme.main.primary80};
 
   & > span {
+    display: inline-block;
     text-align: center;
   }
 
-  grid-template-columns: 30px auto 60px 60px 40px;
+  grid-template-columns: 3rem auto 6rem 6rem 4rem;
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    grid-template-columns: 30px auto 40px 60px 40px;
+    grid-template-columns: 3rem auto 4rem 6rem 4rem;
   }
-  @media (max-width: 520px) {
-    grid-template-columns: 30px auto 40px 40px 40px;
+  @media (max-width: 52rem) {
+    grid-template-columns: 3rem auto 4rem 4rem 4rem;
   }
 `;
-const BoardListContainer = styled(CC.ColumnDiv)`
-  padding: 4px;
-  gap: 4px;
+const BoardListContainer = styled.div`
+  gap: 0.4rem;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  width: 100%;
+  height: 100%;
 
   & > div {
-    gap: 8px;
-    padding: 4px 0px;
+    gap: 0.4rem;
   }
 `;
 
 const BoardItem = styled.div`
   width: 100%;
-  padding: 2px 0px;
-  min-height: 32px;
+  height: 3.2rem;
   display: grid;
   align-items: center;
-  outline: solid black 2px;
-  border-radius: 2px;
+  outline: solid black 0.2rem;
+  outline-offset: -0.2rem;
+  border-radius: 0.2rem;
   overflow: hidden;
-  border-radius: 4px;
-  gap: 4px;
-
-  & > span {
-    text-align: center;
-  }
+  border-radius: 0.4rem;
+  gap: 0.4rem;
+  font-size: 1rem;
 
   & > span:nth-of-type(1) {
-    font-size: 0.8rem;
     color: ${(props) => props.theme.main.primary80};
+    text-align: center;
   }
 
   & > span:nth-of-type(2) {
@@ -188,15 +192,18 @@ const BoardItem = styled.div`
   }
 
   & > span:nth-of-type(4) {
-    font-size: 0.8rem;
+    text-align: center;
+  }
+  & > span:nth-of-type(5) {
+    text-align: center;
   }
 
-  grid-template-columns: 30px auto 60px 60px 40px;
+  grid-template-columns: 3rem auto 6rem 6rem 4rem;
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    grid-template-columns: 30px auto 40px 60px 40px;
+    grid-template-columns: 3rem auto 4rem 6rem 4rem;
   }
-  @media (max-width: 520px) {
-    grid-template-columns: 30px auto 40px 40px 40px;
+  @media (max-width: 52rem) {
+    grid-template-columns: 3rem auto 4rem 4rem 4rem;
   }
   & > span {
     white-space: nowrap;
@@ -210,5 +217,9 @@ const BoardItem = styled.div`
 `;
 
 const BoardListBottomContainer = styled.div`
-  padding: 0px 4px;
+  width: 100%;
+  padding: 0.4rem 0rem;
+  outline: solid black 0.2rem;
+  outline-offset: -0.2rem;
+  border-radius: 0.4rem;
 `;

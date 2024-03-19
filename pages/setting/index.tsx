@@ -17,7 +17,7 @@ const Index = () => {
       <Head>
         <title>시스템 설정</title>
       </Head>
-      <CC.RowDiv h={'40px'} bg={'white80'} fontSize={'1.2rem'}>
+      <CC.RowDiv h={'4rem'} bg={'white80'} fontSize={'1.2rem'}>
         전체 색상 설정
       </CC.RowDiv>
       <CC.ColumnDiv>
@@ -57,15 +57,15 @@ const Container = styled.div`
 
 const ThemeColorBox = styled.div<{ theme: string }>`
   background: white;
-  padding: 8px;
+  padding: 0.8rem;
   & > div {
     cursor: pointer;
     :hover {
-      outline: solid black 4px;
+      outline: solid black 0.4rem;
     }
   }
   & > div > div {
-    height: 40px;
+    height: 4rem;
   }
   & > div > div:nth-of-type(1) {
     background: ${(props) => rootTheme[props.theme].main.primary20};

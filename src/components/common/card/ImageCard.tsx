@@ -48,9 +48,9 @@ const Container = styled.div<{
   width: ${(props) => props.w || '100%'};
   min-width: ${(props) => props.minW};
   max-width: ${(props) => props.maxW};
-  border-radius: 16px;
+  border-radius: 1.6rem;
   img {
-    border-radius: 16px;
+    border-radius: 1.6rem;
   }
 
   &:hover {
@@ -75,5 +75,5 @@ const BehindCard = styled.div`
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  border-radius: 16px;
+  border-radius: 1.6rem;
 `;

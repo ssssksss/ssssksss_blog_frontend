@@ -67,10 +67,9 @@ const DeleteMemoCategoryBox = (props) => {
           onChange={(i) => selectChangeMemoCategoryHandler(i)}
         ></Select>
       </CC.ColumnDiv>
-      <CC.RowDiv gap={8} pd={'12px 0px'}>
+      <CC.RowDiv gap={8} pd={'1.2rem 0rem'}>
         <Button
           w={'100%'}
-          h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(
             deleteMemoCategoryHandler,
@@ -87,6 +86,6 @@ const DeleteMemoCategoryBox = (props) => {
 export default DeleteMemoCategoryBox;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

@@ -287,7 +287,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   return (
     <Container>
       <ReactiveDiv>
-        <CC.ColumnDiv pd={'0px 4px'}>
+        <CC.ColumnDiv pd={'0rem 0.4rem'}>
           <CC.ColumnStartDiv gap={4}>
             <CC.RowBetweenDiv w={'100%'}>
               <div>카테고리</div>
@@ -335,14 +335,14 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                 props.edit ? updateScheduleHandler() : createScheduleHandler()
               }
               h={'100%'}
-              pd={'8px'}
+              pd={'0.8rem'}
               ref={scheduleContentRef}
               defaultValue={props.data?.content}
               placeholder={'일정 내용을 작성해주세요'}
             />
           </CC.ColumnStartDiv>
         </CC.ColumnDiv>
-        <CC.ColumnCenterDiv h={'100%'} gap={4} pd={'0px 4px'}>
+        <CC.ColumnCenterDiv h={'100%'} gap={4} pd={'0rem 0.4rem'}>
           <DateRangePicker
             onChange={(item) => {
               setState([item.selection]);
@@ -398,14 +398,14 @@ const ScheduleModal = (props: IScheduleModalProps) => {
 export default ScheduleModal;
 
 const Container = styled(CC.ColumnBetweenDiv)`
-  gap: 4px;
-  padding: 8px 8px;
+  gap: 0.4rem;
+  padding: 0.8rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   background: ${(props) => props.theme.main.primary40};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
-  font-size: 0.8rem;
-  min-height: 260px;
+  font-size: 1.4rem;
+  min-height: 26rem;
 
   .rdrCalendarWrapper {
   }
@@ -413,21 +413,21 @@ const Container = styled(CC.ColumnBetweenDiv)`
     display: none;
   }
   .rdrMonthAndYearWrapper {
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 8px;
+    box-shadow: 0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.8rem;
   }
   .rdrDateRangeWrapper {
     width: 100%;
-    padding: 8px 0px;
+    padding: 0.8rem 0rem;
   }
   .rdrMonthsVertical {
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
   }
   .rdrMonth {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-      font-size: 0.7rem;
+      font-size: 1rem;
     }
   }
   & > button {
@@ -438,17 +438,17 @@ const Container = styled(CC.ColumnBetweenDiv)`
 const ReactiveDiv = styled.div`
   display: flex;
   flex-flow: nowrap column;
-  gap: 4px;
+  gap: 0.4rem;
 
-  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
     flex-flow: nowrap row;
     & > div {
       width: 50%;
-      min-width: 320px;
+      min-width: 32rem;
     }
   }
 
   textarea {
-    min-height: 200px;
+    min-height: 20rem;
   }
 `;

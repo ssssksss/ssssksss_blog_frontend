@@ -58,7 +58,7 @@ const Footer = () => {
           </Link>
         </li>
       </ImageList>
-      <CC.ColumnDiv color={'contrast'} gap={16} pd={'8px 0px'}>
+      <CC.ColumnDiv color={'contrast'} gap={16} pd={'0.8rem 0rem'}>
         <CC.RowCenterDiv gap={8}>
           <div> email : ssssksss@naver.com </div>
         </CC.RowCenterDiv>
@@ -75,7 +75,7 @@ export default Footer;
 
 const Container = styled.footer`
   background: ${(props) => props.theme.main.primary80};
-  padding: 8px 2px;
+  padding: 0.8rem 0.2rem;
   width: 100%;
   margin-top: auto;
   display: flex;
@@ -83,14 +83,14 @@ const Container = styled.footer`
   justify-content: center;
 `;
 const ImageList = styled(CC.RowBetweenDiv.withComponent('ul'))`
-  max-width: 500px;
+  max-width: 50rem;
   margin: auto;
   li {
     width: 3rem;
     aspect-ratio: 1;
-    padding: 4px;
+    padding: 0.4rem;
     background: ${(props) => props.theme.main.contrast};
-    border-radius: 8px;
+    border-radius: 0.8rem;
     cursor: pointer;
     img {
       width: 100%;

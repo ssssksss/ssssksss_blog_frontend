@@ -37,7 +37,7 @@ Index.layout = Layout1;
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  outline: solid ${(props) => props.theme.main.primary20} 1px;
-  outline-offset: -1px;
-  border-radius: 10px;
+  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
+  outline-offset: -0.1rem;
+  border-radius: 1rem;
 `;

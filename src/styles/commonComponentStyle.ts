@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { commonTheme } from './theme';
 interface IStyleProps {
@@ -41,7 +41,7 @@ interface IGridProps {
 }
 
 const propsCommonStyle = (props: any) => css`
-  gap: ${props.gap}px;
+  gap: ${props.gap * 0.1}rem;
   border: ${props.br};
   border-radius: ${props.brR};
   padding: ${props.pd};
@@ -71,11 +71,12 @@ const propsCommonStyle = (props: any) => css`
       `}
   ${props.outline &&
   css`
-    outline: inset
+    outline: solid
       ${props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
       props.outlineColor}
-      1px;
+      0.2rem;
+    outline-offset: -0.2rem;
     background: transparent;
   `};
 `;
@@ -249,22 +250,11 @@ const RelativeColumnBox = styled.div<IStyleProps>`
 
 const ErrorDiv = styled.div`
   color: red;
-  font-size: 12px;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
 `;
 
-const rotationDownUp = keyframes`
-        from {
-          opacity: 0;
-          transform: rotateX(90deg);
-        }
-        
-        to {
-          opacity: 1;
-          transform: rotateX(0deg);
-        }
-`;
 const Img = styled.img<IStyleProps>`
   ${(props: any) => css`
     background-color: ${props.backgroundColor};
@@ -289,19 +279,6 @@ const ImgContainer = styled.div<IStyleProps>`
     width: 100%;
     height: 100%;
   }
-
-  /* &:hover {
-    mix-blend-mode: difference;
-    cursor: ${(props) => (props.noCursor ? 'default' : 'pointer')};
-    & > span {
-      position: absolute;
-      animation: ${rotationDownUp} 0.3s ease-in-out;
-      animation-fill-mode: forwards;
-      color: red;
-      font-size: 14px;
-      transition: 0.5s;
-    }
-  } */
 `;
 
 const OverflowText = styled.div<IStyleProps>`

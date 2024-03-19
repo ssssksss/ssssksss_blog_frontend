@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 // const backComponent1 = () => {
 //   return (
 //     <CC.ColumnCenterCenterDiv gap={8} w={'100%'}>
-//       <CC.RowCenterDiv pd={'4px'}>
+//       <CC.RowCenterDiv pd={'0.4rem'}>
 //         블로그, 게시판, 투두, 메모, 일정, 인증 등 계속 개발 중인 토이 프로젝트
 //       </CC.RowCenterDiv>
 //       <CC.RowDiv gap={4}>
@@ -54,8 +54,8 @@ const Portfolio2022 = () => {
     <Container>
       {/* <ImageCard
         imgSrc={BlogProject}
-        w={'300px'}
-        h={'300px'}
+        w={'30rem'}
+        h={'30rem'}
         backComponent={backComponent1()}
       ></ImageCard> */}
     </Container>
@@ -65,14 +65,14 @@ export default Portfolio2022;
 
 const Container = styled.div`
   height: 100%;
-  padding: 16px;
-  gap: 8px;
+  padding: 1.6rem;
+  gap: 0.8rem;
   display: flex;
   flex-flow: nowrap row;
   overflow-x: scroll;
   ${(props) => props.theme.scroll.hidden};
   & > * {
-    outline: solid black 1px;
+    outline: solid black 0.1rem;
     flex-shrink: 0;
   }
 `;

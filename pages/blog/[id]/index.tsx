@@ -35,7 +35,7 @@ export async function getStaticProps({ params }: any) {
 }
 
 const ViewBlogCSR = dynamic(
-  () => import('@components/blog/ViewBlogContainer'),
+  () => import('@components/blog/ViewBlog/ViewBlogContainer'),
   {
     ssr: false,
   },
@@ -43,20 +43,19 @@ const ViewBlogCSR = dynamic(
 
 const Index = (props: any) => {
   return (
-    <>
+    <Container>
       <Head>
         <title>{props.title}</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
-      <Container>
-        <ViewBlogCSR {...props} />
-      </Container>
-    </>
+      <ViewBlogCSR {...props} />
+    </Container>
   );
 };
 export default Index;
 Index.layout = Layout1;
 
 const Container = styled.div`
+  width: 100%;
   background: ${(props) => props.theme.colors.gray20};
 `;

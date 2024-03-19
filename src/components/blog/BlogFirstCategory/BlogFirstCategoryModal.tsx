@@ -64,11 +64,11 @@ export const BlogFirstCategoryModal = (props: {
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
-  min-height: 400px;
-  padding: 10px;
-  gap: 16px;
+  min-height: 40rem;
+  padding: 1rem;
+  gap: 1.6rem;
   color: ${(props) => props.theme.colors.white80};
   font-size: 1.2rem;
-  max-width: 400px;
+  max-width: 40rem;
   margin: auto;
 `;

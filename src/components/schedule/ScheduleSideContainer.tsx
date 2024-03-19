@@ -32,11 +32,12 @@ const ScheduleSideContainer = () => {
         {authStore.id && (
           <ModalButton
             color={'primary80'}
-            modalW={'100vw'}
-            modalMaxW={'600px'}
+            modalW={'90vw'}
+            modalH={'90vh'}
+            modalMaxW={'60rem'}
             modalOverlayVisible={true}
-            w={'16px'}
-            h={'16px'}
+            w={'1.6rem'}
+            h={'1.6rem'}
             modal={<ScheduleCategoryModal />}
           >
             <CC.ImgContainer w={'100%'} h={'100%'}>
@@ -45,12 +46,14 @@ const ScheduleSideContainer = () => {
           </ModalButton>
         )}
       </CategoryBox>
-      <CategoryListContainer isOpen={scheduleCategoryBoxIsOpen}>
-        {scheduleCategoryListResData?.isLoading ||
-          scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-            (i, index) => <ScheduleCategoryItem key={index} {...i} />,
-          )}
-      </CategoryListContainer>
+      {scheduleCategoryBoxIsOpen && (
+        <CategoryListContainer>
+          {scheduleCategoryListResData?.isLoading ||
+            scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+              (i, index) => <ScheduleCategoryItem key={index} {...i} />,
+            )}
+        </CategoryListContainer>
+      )}
     </Container>
   );
 };
@@ -59,40 +62,39 @@ export default memo(ScheduleSideContainer);
 const Container = styled(CC.ColumnDiv.withComponent('article'))`
   position: relative;
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    top: ${(props) => props.theme.calcRem(1)};
-    left: ${(props) => props.theme.calcRem(1)};
+    top: 0.1rem;
+    left: 0.1rem;
     position: absolute;
     background: ${(props) => props.theme.main.contrast};
   }
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  outline-offset: -0.1rem;
 `;
 const CategoryBox = styled.div`
   cursor: pointer;
   display: grid;
-  grid-template-columns: auto ${(props) => props.theme.calcRem(20)};
+  grid-template-columns: auto 2rem;
   background: ${(props) => props.theme.main.secondary40};
   align-items: center;
+  height: 2.4rem;
 
   & > button {
     position: absolute;
-    width: ${(props) => props.theme.calcRem(16)};
-    height: ${(props) => props.theme.calcRem(20)};
-    right: 4px;
+    width: 1.6rem;
+    right: 0.4rem;
   }
 `;
 
 const CategorySideTitle = styled.div<{ isOpen: boolean }>`
-  padding: 4px 2px;
-  /* @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    writing-mode: ${(props) =>
-    props.isOpen ? 'horizontal-tb' : 'vertical-lr'};
-  } */
+  padding: 0.4rem 0.2rem;
 `;
 
-const CategoryListContainer = styled(CC.ColumnDiv)<{ isOpen: boolean }>`
+const CategoryListContainer = styled(CC.ColumnDiv)`
   width: 100%;
+  height: 100%;
+  top: 2.4rem;
   display: flex;
-
-  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
-  }
+  position: absolute;
+  z-index: 4;
+  background: white;
 `;

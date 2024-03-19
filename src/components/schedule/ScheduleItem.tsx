@@ -57,23 +57,23 @@ const ScheduleItem = (props: IScheduleItemProps) => {
       bg={props?.data?.scheduleCategory?.backgroundColor}
       modal={<ScheduleModal edit={true} data={props?.data} />}
       modalOverlayVisible={true}
-      modalMinW={'320px'}
+      modalMinW={'32rem'}
     >
       <CategoryName
-        h={'18px'}
+        h={'1.8rem'}
         fw={true}
         color={props.data.scheduleCategory?.backgroundColor || 'black40'}
       >
         {props?.data?.scheduleCategory?.name}
       </CategoryName>
-      <TitleBox w={'100%'} pd={'2px 6px 2px 2px'} gap={8}>
+      <TitleBox w={'100%'} pd={'0.2rem 0.6rem 0.2rem 0.2rem'} gap={8}>
         <Title isChecked={props?.data?.isChecked}>{props?.data?.content}</Title>
         <Input
           type="checkbox"
           outline={true}
           color={'red100'}
-          w={'24px'}
-          h={'24px'}
+          w={'2.4rem'}
+          h={'2.4rem'}
           checked={props?.data?.isChecked}
           onClick={(e) => {
             _IsCheckedToggleHandler();
@@ -81,7 +81,7 @@ const ScheduleItem = (props: IScheduleItemProps) => {
           }}
         />
       </TitleBox>
-      <CC.RowRightDiv color={'white80'} h={'18px'} fw={true} gap={2}>
+      <CC.RowRightDiv color={'white80'} h={'1.8rem'} fw={true} gap={2}>
         <div> {dateFormat4y2m2d(props.data?.startDateTime)} </div>
         <div> ~ </div>
         <div> {dateFormat4y2m2d(props.data?.endDateTime)} </div>
@@ -92,11 +92,11 @@ const ScheduleItem = (props: IScheduleItemProps) => {
 export default ScheduleItem;
 
 const Container = styled(ModalButton)<{ isChecked: boolean; bg: string }>`
-  outline: solid ${(props) => props.theme.colors?.[props.bg]} 1px;
-  padding: 4px;
-  border-radius: 4px;
+  outline: solid ${(props) => props.theme.colors?.[props.bg]} 0.1rem;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
   font-size: 0.8rem;
-  gap: 10px;
+  gap: 1rem;
   display: flex;
   flex-flow: nowrap column;
   align-items: flex-start;
@@ -107,7 +107,7 @@ const Container = styled(ModalButton)<{ isChecked: boolean; bg: string }>`
     background: ${(props) => props.theme.colors?.[props.bg]};
   }
   /* &:hover {
-    outline: solid ${(props) => `${props.theme.main.primary80}8f`} 5px;
+    outline: solid ${(props) => `${props.theme.main.primary80}8f`} 0.5rem;
   } */
 `;
 
@@ -115,14 +115,14 @@ const CategoryName = styled(CC.RowDiv)<{ color: string }>`
   background: ${(props) => props.theme.colors.white80};
   max-width: max-content;
   color: ${(props) => props.theme.colors?.[props.color]};
-  padding: 0px 2px;
-  border-radius: 4px;
+  padding: 0rem 0.2rem;
+  border-radius: 0.4rem;
 `;
 
 const TitleBox = styled(CC.RowDiv)``;
 
 const Title = styled.div<{ isChecked: boolean }>`
-  width: calc(100% - 28px);
+  width: calc(100% - 2.8rem);
   justify-content: flex-start;
   text-align: left;
   background: none;

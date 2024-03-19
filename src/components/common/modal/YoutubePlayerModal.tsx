@@ -117,7 +117,7 @@ const YoutubePlayerModal = () => {
             >
               <div>
                 <CC.RowCenterDiv>
-                  <img src={i.imageUrl} width={'36px'} height={'36px'} />
+                  <img src={i.imageUrl} width={'3.6rem'} height={'3.6rem'} />
                 </CC.RowCenterDiv>
               </div>
               <div>
@@ -135,18 +135,26 @@ const YoutubePlayerModal = () => {
                   copyLinkHandler(i.youtubeUrl);
                 }}
               >
-                <Image src={Icons.CopyIcon} width={'24px'} height={'24px'} />
+                <Image
+                  src={Icons.CopyIcon}
+                  width={'2.4rem'}
+                  height={'2.4rem'}
+                />
               </ImageBox>
               <ConfirmButton
-                pd={'4px'}
-                brR={'8px'}
+                pd={'0.4rem'}
+                brR={'0.8rem'}
                 bg={'red80'}
                 onClick={(e) => {
                   e.stopPropagation();
                   deleteLinkHandler(i.id);
                 }}
               >
-                <Image src={Icons.DeleteIcon} width={'24px'} height={'24px'} />
+                <Image
+                  src={Icons.DeleteIcon}
+                  width={'2.4rem'}
+                  height={'2.4rem'}
+                />
               </ConfirmButton>
             </LiStyle>
           ))}
@@ -156,23 +164,23 @@ const YoutubePlayerModal = () => {
 };
 export default YoutubePlayerModal;
 const Container = styled(CC.ColumnDiv.withComponent('section'))`
-  gap: 8px;
+  gap: 0.8rem;
   width: 100%;
 
   ul {
     ${(props) => props.theme.scroll.hidden};
-    outline: solid ${(props) => props.theme.main.primary80} 1px;
-    min-height: 120px;
+    outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
+    min-height: 12rem;
     width: 100%;
   }
 
   li {
-    height: 60px;
-    border-bottom: solid ${(props) => props.theme.colors.gray40} 1px;
+    height: 6rem;
+    border-bottom: solid ${(props) => props.theme.colors.gray40} 0.1rem;
     display: grid;
-    grid-template-columns: 36px calc(100% - 108px) 36px 36px;
-    padding: 0px 16px;
-    gap: 4px;
+    grid-template-columns: 3.6rem calc(100% - 10.8rem) 3.6rem 3.6rem;
+    padding: 0rem 1.6rem;
+    gap: 0.4rem;
     align-items: center;
     width: 100%;
 
@@ -194,27 +202,27 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      padding: 0px 4px;
+      padding: 0rem 0.4rem;
       ${(props) => props.theme.scroll.hidden};
-      border-right: solid ${(props) => props.theme.colors.gray80} 1px;
+      border-right: solid ${(props) => props.theme.colors.gray80} 0.1rem;
       p {
         font-weight: 800;
-        padding: 0px 4px;
+        padding: 0rem 0.4rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       span {
-        outline: solid ${(props) => props.theme.colors.black40} 1px;
-        border-radius: 8px;
-        padding: 4px;
+        outline: solid ${(props) => props.theme.colors.black40} 0.1rem;
+        border-radius: 0.8rem;
+        padding: 0.4rem;
       }
     }
     div:not(:nth-of-type(2)) {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 4px;
+      padding: 0.4rem;
     }
   }
 `;
@@ -231,27 +239,27 @@ const LiStyle = styled.li<{ active: boolean }>`
 `;
 const ImageBox = styled.button`
   ${(props) => props.theme.flex.row.center.center};
-  padding: 4px;
-  border-radius: 8px;
+  padding: 0.4rem;
+  border-radius: 0.8rem;
   background: ${(props) => props.theme.colors.gray60};
 
   &:hover {
     background: ${(props) => props.theme.main.primary40};
-    outline: solid ${(props) => props.theme.main.contrast} 2px;
+    outline: solid ${(props) => props.theme.main.contrast} 0.2rem;
   }
 `;
 const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
-  gap: 8px;
-  padding: 0px 8px;
+  gap: 0.8rem;
+  padding: 0rem 0.8rem;
   h2 {
-    height: 30px;
+    height: 3rem;
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.colors.black80};
-    margin: 0px 0px 16px 0px;
+    margin: 0rem 0rem 1.6rem 0rem;
     font-size: 1.4rem;
     font-weight: 700;
-    border-bottom: solid ${(props) => props.theme.colors.gray80} 1px;
+    border-bottom: solid ${(props) => props.theme.colors.gray80} 0.1rem;
   }
   label {
     display: flex;
@@ -259,10 +267,10 @@ const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
     font-weight: 600;
   }
   input {
-    padding: 12px 4px;
-    border-radius: 4px;
+    padding: 1.2rem 0.4rem;
+    border-radius: 0.4rem;
     border: none;
-    outline: solid ${(props) => props.theme.colors.gray80} 2px;
+    outline: solid ${(props) => props.theme.colors.gray80} 0.2rem;
   }
   input::placeholder {
     color: ${(props) => props.theme.colors.gray100};
@@ -274,6 +282,6 @@ const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
   }
   button {
     color: ${(props) => props.theme.colors.white40};
-    height: 36px;
+    height: 3.6rem;
   }
 `;

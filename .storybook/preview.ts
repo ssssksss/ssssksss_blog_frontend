@@ -20,24 +20,24 @@ const preview: Preview = {
       mobile1: {
         name: 'iPhone 13 mini',
         styles: {
-          width: '375px',
-          height: '812px',
+          width: '37.5rem',
+          height: '81.2rem',
         },
         type: 'mobile',
       },
       mobile2: {
         name: 'iPhone 13 / 13 pro',
         styles: {
-          width: '390px',
-          height: '844px',
+          width: '39rem',
+          height: '84.4rem',
         },
         type: 'mobile',
       },
       tablet1: {
         name: 'iPad Pro 11"',
         styles: {
-          width: '834px',
-          height: '1194px',
+          width: '83.4rem',
+          height: '119.4rem',
         },
         type: 'tablet',
       },

@@ -201,7 +201,7 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
                 }
               }}
             >
-              <Image src={Icons.ExitIcon} width={8} height={8} />
+              <Image src={Icons.ExitIcon} width={16} height={16} />
             </button>
           )}
           {imageUrl != '/' ? (
@@ -233,16 +233,15 @@ const Container = styled.div`
 const InputStyle = styled.input<IInputProps>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
   // ! border-radius를 넣으니 focus 되었을 때 다른 요소가 흐려지는 버그 발생
-  border-radius: 10px;
-  ${(props) => props.brR && `border-radius: calc( ${props.brR} + 10px)`};
+  border-radius: ${(props) => props.brR || '1rem'};
   box-shadow:
-    2px 2px 4px 0px rgba(0, 0, 0, 0.5),
-    inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.5),
+    inset 0.1rem 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.5);
   outline: ${(props) =>
     `solid ${
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor]
-    } 1px`};
+    } 0.1rem`};
   width: ${(props) => props.w || '100%'};
   height: ${(props) =>
     props.h ||
@@ -250,12 +249,12 @@ const InputStyle = styled.input<IInputProps>`
       ? '2rem'
       : props.size === 'md'
         ? '3rem'
-        : '2rem')};
+        : '2.4rem')};
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: ${(props) => (props.display ? props.display : 'block')};
   border: none;
-  padding: ${(props) => props.pd || '2px 0px 2px 4px'};
+  padding: ${(props) => props.pd || '0.2rem 0rem 0.2rem 0.4rem'};
   position: relative;
   text-align: ${(props) => props.center && 'center'};
 
@@ -276,7 +275,7 @@ const InputStyle = styled.input<IInputProps>`
   }
 
   &:focus {
-    outline: solid ${(props) => `${props.theme.main?.primary80}2f`} 5px;
+    outline: solid ${(props) => `${props.theme.main?.primary80}2f`} 0.5rem;
   }
 
   ${(props) =>
@@ -291,12 +290,12 @@ const InputStyle = styled.input<IInputProps>`
   `}
 
   &[type='search'] {
-    padding-left: 4px;
+    padding-left: 0.4rem;
   }
 
   &[type='checkbox'] {
     appearance: none;
-    outline: solid ${(props) => props.theme.main?.contrast} 1px;
+    outline: solid ${(props) => props.theme.main?.contrast} 0.1rem;
     height: ${(props) =>
       props.h || props.theme.inputSizes?.checkbox?.md.height};
     aspect-ratio: 1;
@@ -315,9 +314,8 @@ const InputStyle = styled.input<IInputProps>`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    font-size: 50%;
     ${(props) => props.theme.flex?.row.center.center};
-    font-size: ${(props) =>
-      props.h || props.theme.inputSizes?.checkbox?.md.height};
   }
 
   &[type='datetime-local']::-webkit-calendar-picker-indicator {
@@ -341,8 +339,8 @@ const InputStyle = styled.input<IInputProps>`
     props.leftIconImage &&
     `
       background-image: url(${props.leftIconImage});
-      padding: 0px 0px 0px calc(${props.h ? props.h : '2rem'} + 8px);
-      background-position: 4px center;
+      padding: 0rem 0rem 0rem calc(${props.h ? props.h : '2rem'} + 0.8rem);
+      background-position: 0.4rem center;
       background-repeat: no-repeat;
       background-size: contain;
       ::placeholder {
@@ -356,7 +354,7 @@ const InputStyle = styled.input<IInputProps>`
         };
     }
     &[type='search'] {
-      padding-left: calc(${props.h ? props.h : '2rem'} + 8px);
+      padding-left: calc(${props.h ? props.h : '2rem'} + 0.8rem);
     }
   `}
 
@@ -367,9 +365,9 @@ const InputStyle = styled.input<IInputProps>`
 ${(props) =>
     props.state === 1 &&
     `
-    outline: solid ${props.theme.colors.white80} 1px;
+    outline: solid ${props.theme.colors.white80} 0.1rem;
     background: rgba(0, 0, 0, 0.01);
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0.2rem 0.2rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
     height: ${props.h || '2.5rem'};
     color: ${
       props.theme.colors?.[props.color] ||
@@ -380,7 +378,7 @@ ${(props) =>
       transition: all 0.6s ease-in-out;
       font-size: ${props.theme.fontSize.sm};
       color: ${props.theme.colors.black60};
-      padding: '6px';
+      padding: '0.6rem';
     }
   `}
 `;
@@ -390,18 +388,16 @@ const ErrorMessage = styled.span<IInputProps>`
     props.errorLocation ||
     props.h ||
     (props.size && props.size === 'sm'
-      ? props.theme.calcRem(32)
+      ? '0.8rem'
       : props.size === 'md'
-        ? props.theme.calcRem(48)
-        : props.theme.calcRem(32))};
+        ? '1.2rem'
+        : '1rem')};
   color: red;
   position: absolute;
   left: 0;
   text-align: start;
-  font-size: ${(props) => props.theme.calcRem(12)};
-  @media (max-width: 320px) {
-    font-size: ${(props) => props.theme.calcRem(8)};
-  }
+  font-size: 1rem;
+  font-weight: 800;
   word-break: keep-all;
 `;
 
@@ -412,7 +408,7 @@ const ImageFileContainer = styled.label<
   height: ${(props) => props.h || props.theme.inputSizes['text'].md.height};
   display: block;
   ${(props) => props.theme.flex?.row.center.center};
-  border-radius: 10px;
+  border-radius: 1rem;
   position: relative;
   background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
@@ -423,8 +419,8 @@ const ImageFileContainer = styled.label<
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
   button {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 0.4rem;
+    right: 0.4rem;
     z-index: 4;
     background: transparent;
     cursor: pointer;

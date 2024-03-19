@@ -107,21 +107,22 @@ const SignupModal = (props) => {
           <Image src={Icons.KakaoIcon} alt="kakao" />
         </CC.RowCenterDiv> */}
         <CC.RowCenterDiv gap={8}>
-          <span>아이디가 없으시다면?</span>
+          <span>아이디가 있다면?</span>
           <Button
             onClickCapture={(e) => {
               e.stopPropagation();
               props.changeAuthScreen();
             }}
-            pd={'2px 8px'}
+            pd={'0rem 0.8rem'}
             bg={'white80'}
+            h={'2rem'}
           >
             로그인
           </Button>
         </CC.RowCenterDiv>
         <Button
           w={'100%'}
-          h={'40px'}
+          h={'2.4rem'}
           outline={true}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
@@ -135,34 +136,25 @@ const SignupModal = (props) => {
 export default SignupModal;
 
 const Container = styled(CC.ColumnDiv)`
-  padding: ${(props) => props.theme.calcRem(4)};
-  gap: ${(props) => props.theme.calcRem(6)};
+  padding: 0.4rem;
+  gap: 0.6rem;
   color: ${(props) => props.theme.colors.white80};
   overflow: scroll;
-  font-size: ${(props) => props.theme.calcRem(16)};
-  @media (max-width: 320px) {
-    font-size: ${(props) => props.theme.calcRem(8)};
-  }
+  font-size: 1rem;
 `;
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  gap: ${(props) => props.theme.calcRem(4)};
+  gap: 0.4rem;
   align-self: stretch;
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: ${(props) => props.theme.calcRem(2)};
+  padding: 0.2rem;
 
   span:nth-of-type(1) {
-    font-size: ${(props) => props.theme.calcRem(20)};
-    @media (max-width: 320px) {
-      font-size: ${(props) => props.theme.calcRem(12)};
-    }
+    font-size: 2rem;
   }
 
   span:nth-of-type(2) {
-    font-size: ${(props) => props.theme.calcRem(12)};
-    @media (max-width: 320px) {
-      font-size: ${(props) => props.theme.calcRem(8)};
-    }
+    font-size: 1rem;
     color: ${(props) => props.theme.colors.black40};
   }
 `;

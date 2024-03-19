@@ -22,7 +22,7 @@ export default ScheduleCategoryModal;
 
 const Container = styled(CC.ColumnDiv)`
   height: 100%;
-  gap: 32px;
+  gap: 3.2rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};

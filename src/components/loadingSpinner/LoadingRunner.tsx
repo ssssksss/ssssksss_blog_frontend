@@ -39,29 +39,29 @@ const Container = styled.div`
   background: ${(props) => props.theme.main.secondary60};
   &:before,
   &:after {
-    border-radius: 20px 20px 0 0;
+    border-radius: 2rem 2rem 0 0;
     content: '';
     position: absolute;
     width: 100vw;
     background:
       radial-gradient(
           circle at center,
-          #58c9ea 1px,
-          transparent 1px,
-          transparent 10px
+          #58c9ea 0.1rem,
+          transparent 0.1rem,
+          transparent 1rem
         )
-        50% 50% / 20px 20px,
+        50% 50% / 2rem 2rem,
       radial-gradient(
           circle at center,
-          #58c9ea 1px,
-          transparent 1px,
-          transparent 10px
+          #58c9ea 0.1rem,
+          transparent 0.1rem,
+          transparent 1rem
         )
-        calc(50% + 10px) calc(50% + 10px) / 20px 20px;
-    height: calc(50vh - 10px);
-    box-shadow: inset 0 0 0 5px ${(props) => props.theme.main.primary100};
+        calc(50% + 1rem) calc(50% + 1rem) / 2rem 2rem;
+    height: calc(50vh - 1rem);
+    box-shadow: inset 0 0 0 0.5rem ${(props) => props.theme.main.primary100};
     left: 0;
-    top: calc(50% + 22.5px);
+    top: calc(50% + 22.5rem);
     animation: scroll 2s linear infinite -1.5s;
     @keyframes scroll {
       to {
@@ -74,13 +74,13 @@ const Container = styled.div`
     left: 150vw;
   }
   .wrap {
-    width: 400px;
-    height: 400px;
+    width: 40rem;
+    height: 40rem;
     text-align: center;
     position: absolute;
     transform-origin: 100% 0%;
     font-family: 'JetBrains Mono';
-    font-size: 50px;
+    font-size: 5rem;
     animation: wobble 2s linear infinite;
     &:nth-of-type(2) {
       animation-delay: -0.05s;
@@ -89,7 +89,7 @@ const Container = styled.div`
         color: #1e1f24;
         animation: run2 2s ease-in-out infinite;
 
-        \-webkit-text-stroke: 2px #bb9c30;
+        \-webkit-text-stroke: 0.2rem #bb9c30;
       }
     }
     @keyframes wobble {
@@ -127,9 +127,9 @@ const LoadingSpan = styled.div`
   color: white;
   transform: translate(-50%, 0%);
   display: flex;
-  gap: 40px;
+  gap: 4rem;
   & > div {
-    width: 20px;
+    width: 2rem;
   }
 `;
 
@@ -145,7 +145,7 @@ const Letter = styled.div<{ value: number }>`
       transform: translate(0%, 0%);
     }
     50% {
-      transform: translate(0%, 30px) scale(140%);
+      transform: translate(0%, 3rem) scale(140%);
     }
     100% {
       transform: translate(0%, 0%);

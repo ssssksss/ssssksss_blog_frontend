@@ -61,14 +61,14 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
       />
       <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
         <CC.ColumnCenterDiv>
-          <Span fontSize={'10px'}>
+          <Span fontSize={'1rem'}>
             {Time.secToTime(playTime.playedSeconds)} [
             {Math.floor(playTime.played * 100)}%]
           </Span>
 
           <ReactPlayer
-            width="0px"
-            height="0px"
+            width="0rem"
+            height="0rem"
             url={
               window.localStorage.getItem('youtubeLink') ||
               'https://www.youtube.com/watch?v=eyyAUFxlnGg'
@@ -102,9 +102,9 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
         {authStore.id && (
           <ModalButton
             modal={<YoutubePlayerModal />}
-            modalMinW={'320px'}
+            modalMinW={'32rem'}
             modalW={'96vw'}
-            h={'24px'}
+            h={'2.4rem'}
             modalBg={'white'}
             modalOverlayVisible={'true'}
             outline={true}
@@ -125,10 +125,10 @@ const Container = styled.div<{
   anime: any;
 }>`
   display: grid;
-  grid-template-columns: 24px calc(100% - 24px);
+  grid-template-columns: 2.4rem calc(100% - 2.4rem);
   align-items: center;
-  width: 120px;
-  height: 32px;
+  width: 12rem;
+  height: 3.2rem;
   cursor: pointer;
   &:hover {
     background: ${(props) => props.theme.main.primary20};
@@ -137,7 +137,7 @@ const Container = styled.div<{
   ${(props) =>
     props.outline &&
     `
-    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 1px;
+    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 0.1rem;
     background: transparent;
     `}
   & > :nth-last-of-type(1) {
@@ -156,13 +156,13 @@ const Container = styled.div<{
     props.isNavbarOpen
       ? `
       align-items: center;
-      width: 120px;
+      width: 12rem;
     `
       : `
         align-items: center;
-        grid-template-columns: 44px;
-        width: 44px;
-        padding: 0px;
+        grid-template-columns: 4.4rem;
+        width: 4.4rem;
+        padding: 0rem;
         .youtube-sub-menu {
           display: none;
         }
@@ -178,14 +178,14 @@ const Container = styled.div<{
   input[type='range']::-webkit-slider-runnable-track {
     width: calc(100%);
     cursor: pointer;
-    border-radius: 1px;
-    border: 1px solid #000000;
+    border-radius: 0.1rem;
+    border: 0.1rem solid #000000;
   }
   input[type='range']::-webkit-slider-thumb {
-    border: 1px solid #333333;
-    height: 10px;
-    width: 12px;
-    border-radius: 25px;
+    border: 0.1rem solid #333333;
+    height: 1rem;
+    width: 1.2rem;
+    border-radius: 2.5rem;
     cursor: pointer;
     -webkit-appearance: none;
   }
@@ -194,7 +194,7 @@ const Container = styled.div<{
     animation: ${Animations.rainbowColors} 1s infinite;
     animation: ${(props) => props.play || 'none'};
     animation-play-state: ${(props) => props.play || 'paused'};
-    height: 10px;
+    height: 1rem;
     width: calc(100%);
   }
 `;

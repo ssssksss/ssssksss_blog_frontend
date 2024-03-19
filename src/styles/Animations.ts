@@ -25,22 +25,22 @@ to{
 const UpToDownRepeatFadein = keyframes`
   from{
     opacity: 1;
-    transform: translate(0px,-4px);
+    transform: translate(0rem,-0.4rem);
   }
   to{
     opacity: 0.2;
-    transform: translate(0px,4px);
+    transform: translate(0rem,0.4rem);
   }
 `;
 
 const UpToDownRepeat = keyframes`
   0%,100%{
-    transform: translate(0,-1px);
-    padding-bottom: -2px;
+    transform: translate(0,-0.1rem);
+    padding-bottom: -0.2rem;
   }
   50%{
-    transform: translate(0px,1px);
-    padding-top: 2px;
+    transform: translate(0rem,0.1rem);
+    padding-top: 0.2rem;
   }
 `;
 
@@ -146,7 +146,7 @@ const rainbowColors = keyframes`
 const Jelly = keyframes`
   from {
     transform: scale(1.0, 1.0);
-    transform: translate(20px, 25%);
+    transform: translate(2rem, 25%);
   }
   /* 30% {
     transform: scale(1.25, 0.75);
@@ -166,7 +166,7 @@ const Jelly = keyframes`
   } */
   to {
     transform: scale(1.0, 1.0);
-    transform: translate(25%, 20px);
+    transform: translate(25%, 2rem);
   }
 `;
 

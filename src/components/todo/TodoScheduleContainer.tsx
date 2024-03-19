@@ -40,8 +40,8 @@ const TodoScheduleContainer = (_) => {
         h={
           containerSpace
             ? containerSpace < 0
-              ? 'calc(100% - 48px)'
-              : '48px'
+              ? 'calc(100% - 4.8rem)'
+              : '4.8rem'
             : '50%'
         }
       >
@@ -61,8 +61,8 @@ const TodoScheduleContainer = (_) => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
-            w={'32px'}
-            h={'32px'}
+            w={'3.2rem'}
+            h={'3.2rem'}
           >
             +
           </ModalButton>
@@ -79,15 +79,15 @@ const TodoScheduleContainer = (_) => {
         top={
           containerSpace
             ? containerSpace < 0
-              ? 'calc(100% - 48px)'
-              : '48px'
+              ? 'calc(100% - 4.8rem)'
+              : '4.8rem'
             : '50%'
         }
         h={
           containerSpace
             ? containerSpace < 0
-              ? '48px'
-              : 'calc(100% - 48px)'
+              ? '4.8rem'
+              : 'calc(100% - 4.8rem)'
             : '50%'
         }
       >
@@ -108,8 +108,8 @@ const TodoScheduleContainer = (_) => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'80%'}
-            w={'32px'}
-            h={'32px'}
+            w={'3.2rem'}
+            h={'3.2rem'}
           >
             +
           </ModalButton>
@@ -132,7 +132,7 @@ const Container = styled(CC.GridRow2.withComponent('article'))`
   height: 100%;
   max-height: 100%;
   position: relative;
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
 
   & > div {
     width: 100%;
@@ -142,14 +142,14 @@ const Container = styled(CC.GridRow2.withComponent('article'))`
 
 const TitleContainer = styled(CC.GridColumn2)`
   width: 100%;
-  min-height: 48px;
-  max-height: 48px;
+  min-height: 4.8rem;
+  max-height: 4.8rem;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-  grid-template-columns: 1fr 32px;
+  grid-template-columns: 1fr 3.2rem;
   align-items: center;
-  padding: 0px 4px;
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
-  outline-offset: -1px;
+  padding: 0rem 0.4rem;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  outline-offset: -0.1rem;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
   height: 100%;
@@ -163,6 +163,6 @@ const Title = styled(CC.ColumnCenterCenterDiv)`
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   ${(props) => props.theme.scroll.hiddenY};
   width: 100%;
-  height: calc(100% - 48px);
-  gap: 4px;
+  height: calc(100% - 4.8rem);
+  gap: 0.4rem;
 `;

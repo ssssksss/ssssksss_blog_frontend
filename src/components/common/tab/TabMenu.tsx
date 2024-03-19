@@ -69,15 +69,15 @@ const HeadContainer = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  padding-bottom: 1px;
+  padding-bottom: 0.1rem;
 
   .submenu {
     background-color: #dcdcdc;
     color: rgb(240 242 245);
     display: flex;
     width: max-content;
-    padding: 10px;
-    font-size: 15px;
+    padding: 1rem;
+    font-size: 1.5rem;
     transition: 0.5s;
     cursor: pointer;
   }
@@ -91,14 +91,14 @@ const HeadContainer = styled.ul`
     content: '';
     position: absolute;
     width: 100%;
-    height: 1px;
+    height: 0.1rem;
     background-color: rgb(255, 255, 255);
-    bottom: -1px;
-    left: 0px;
+    bottom: -0.1rem;
+    left: 0rem;
   }
 
   li {
-    outline: ${(props) => props.outline && 'solid black 1px'};
+    outline: ${(props) => props.outline && 'solid black 0.1rem'};
     position: relative;
   }
 
@@ -115,8 +115,8 @@ const BodyContainer = styled.div<{
   maxW: string;
   minW: string;
 }>`
-  outline: ${(props) => props.outline && 'solid black 1px'};
-  padding: 4px;
+  outline: ${(props) => props.outline && 'solid black 0.1rem'};
+  padding: 0.4rem;
   height: ${(props) => props.h || '100%'};
   min-height: ${(props) => props.minH};
   max-height: ${(props) => props.maxH};

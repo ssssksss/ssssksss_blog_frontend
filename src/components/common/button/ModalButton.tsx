@@ -8,6 +8,7 @@ import React, {
   MouseEventHandler,
   ReactNode,
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 
@@ -75,6 +76,20 @@ const ModalButton: IModalButtonProps = ({
     setIsOpen(false);
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, [isOpen]);
+
   return (
     <ModalButtonStyle
       onClick={onClick} // {onClick}은 위에서 정의한 함수이다.
@@ -99,7 +114,7 @@ const ModalButton: IModalButtonProps = ({
           minW={props.modalMinW}
         >
           <Exit onClickCapture={closeModal}>
-            <CC.ImgContainer>
+            <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
               <Image src={Icons.ExitIcon} alt="exit" width={'1'} height={'1'} />
             </CC.ImgContainer>
           </Exit>
@@ -131,8 +146,8 @@ const Overlay = styled.div<{ modalOverlayVisible: boolean }>`
       left: 0;
       top: 0;
       opacity: 0.8;
-      border: 0px;
-      z-index: 120;
+      border: 0rem;
+      z-index: 90;
       background: ${props.theme.colors.gray60};
     `}
 `;
@@ -144,56 +159,35 @@ const ModalComponent = styled(CC.ColumnDiv)<{
   maxW: string;
   minW: string;
 }>`
-  // 외곽 디자인(border-radius, outline, box-shadow) //
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  outline: solid ${(props) => props.theme.colors.black80} 2px;
-
-  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  outline: solid ${(props) => props.theme.colors.black80} 0.2rem;
   position: fixed;
-  padding-top: 40px;
+  padding-top: 2.4rem;
   top: 50%;
   left: 50%;
-  z-index: 99999;
+  z-index: 100;
   transform: translate(-50%, -50%);
   height: ${(props) => props.height};
   max-height: ${(props) => props.maxH || `calc(100% - 1rem)`};
   width: ${(props) => `calc(${props.width})`};
   max-width: ${(props) => props.maxW};
   min-width: ${(props) => props.minW};
-
-  // 배경색(background) //
   background: ${(props) =>
     props.theme.colors?.[props.background] ||
     props.theme.main?.[props.background] ||
     props.background ||
     `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};
-  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-
-  // 애니메이션(animation) //
-
-  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
-
-  // 반응형(media-query, overflow, scroll) //
   cursor: default;
   ${(props) => props.theme.scroll.hidden};
   & > * {
     ${(props) => props.theme.scroll.hidden};
   }
-
-  // 커스텀(custom css) //
 `;
 const Exit = styled(CC.RowRightDiv)`
-  // 외곽 디자인(border-radius, outline, box-shadow) //
-  border-radius: 10px 10px 0px 0px;
-  // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
+  border-radius: 1rem 1rem 0rem 0rem;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 20;
-  // 배경색(background) //
-  // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  // 애니메이션(animation) //
-  // 이벤트(active, focus, hover, visited, focus-within, disabled) //
-  // 반응형(media-query, overflow, scroll) //
-  // 커스텀(custom css) //
+  cursor: pointer;
 `;

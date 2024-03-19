@@ -51,7 +51,7 @@ const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
     <Container
       gap={4}
       bg={props.backgroundColor}
-      pd={'4px 2px'}
+      pd={'0.4rem 0.2rem'}
       isVisible={isVisible}
       onClick={(e) => {
         e.preventDefault();

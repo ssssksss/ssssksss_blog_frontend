@@ -67,6 +67,7 @@ const BlogHeadContainer = () => {
   );
 
   const infiniteScrollRef = useIntersection((entry, observer) => {
+    // ref를 감지할 경우 실행되는 로직작성
     observer.unobserve(entry.target);
     if (hasNextPage && !isFetching) fetchNextPage();
   });
@@ -95,8 +96,8 @@ const BlogHeadContainer = () => {
           placeholder="검색어를 입력해주세요"
           color={'black80'}
           outline={true}
-          w={'calc(100% - 40px)'}
-          h={'32px'}
+          w={'calc(100% - 4rem)'}
+          h={'2.4rem'}
           ref={inputRef}
           leftIconImage={Icons.SearchIcon.src}
           onChange={delaySearch(SearchHandler, 300)}
@@ -122,7 +123,7 @@ const BlogHeadContainer = () => {
             </li>
           ))}
           {hasNextPage || (
-            <CC.RowCenterDiv minH={'30px'} bg={'primary40'} brR={'8px'}>
+            <CC.RowCenterDiv minH={'3.2rem'} bg={'primary40'} brR={'0.8rem'}>
               {blogListResData?.length == 0
                 ? '결과가 없습니다.'
                 : '마지막 결과 입니다.'}
@@ -139,21 +140,19 @@ export default BlogHeadContainer;
 
 const Container = styled.div`
   width: 100%;
-  padding: 4px;
   position: relative;
+  padding: 0.4rem;
 `;
 
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
-  width: 100%;
   position: absolute;
-  padding: 2px;
-  transform: translate(-4px, 6px);
-  z-index: 40;
+  width: calc(100% - 0.8rem);
+  z-index: 11;
+  transform: translate(0rem, 0.8rem);
   ${(props) => props.theme.scroll.hiddenY};
-  height: calc(100vh - 96px);
-  @media (max-height: 624px) {
-    ${(props) => props.theme.scroll.hidden};
-  }
+  height: calc(100vh - 9.6rem);
+  overscroll-behavior: contain;
+  border-radius: 0.4rem;
 `;
 
 const Overlay = styled.div`
@@ -161,10 +160,9 @@ const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
   left: 0;
-  top: 42px;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   opacity: 0.8;
-  border: 0px;
-  z-index: 30;
+  border: 0rem;
+  z-index: 10;
   background: ${(props) => props.theme.colors.black80};
 `;

@@ -108,17 +108,17 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 0.2rem;
   width: 100%;
 
-  @media (min-width: 400px) {
-    gap: 4px;
+  @media (min-width: 40rem) {
+    gap: 0.4rem;
   }
 
   button {
     width: calc(100% / 15);
-    max-width: 24px;
-    max-height: 24px;
+    max-width: 2.4rem;
+    max-height: 2.4rem;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;

@@ -183,13 +183,14 @@ const ScheduleContainer = () => {
         <MainContainer>
           <CalendarContainer>
             <DayOfTheWeekHeader>
-              <DayOfTheWeekItem color={'red'}> 일 </DayOfTheWeekItem>
-              <DayOfTheWeekItem> 월 </DayOfTheWeekItem>
-              <DayOfTheWeekItem> 화 </DayOfTheWeekItem>
-              <DayOfTheWeekItem> 수 </DayOfTheWeekItem>
-              <DayOfTheWeekItem> 목 </DayOfTheWeekItem>
-              <DayOfTheWeekItem> 금 </DayOfTheWeekItem>
-              <DayOfTheWeekItem color={'blue'}> 토 </DayOfTheWeekItem>
+              {['일', '월', '화', '수', '목', '금', '토'].map((i) => (
+                <DayOfTheWeekItem
+                  key={i}
+                  color={i == '일' ? 'red' : i == '토' && 'blue'}
+                >
+                  {i}
+                </DayOfTheWeekItem>
+              ))}
             </DayOfTheWeekHeader>
             <DayItemContainer>
               {scheduleStore.calendar.calendar?.map(
@@ -222,45 +223,30 @@ const Container = styled.div<{ active: boolean }>`
   position: relative;
   height: 100%;
   @media (pointer: coarse) {
-    font-size: ${(props) => props.theme.calcRem(12)};
+    font-size: 1.2rem;
   }
   @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
     display: grid;
-    grid-template-columns: ${(props) => props.theme.calcRem(160)} auto;
+    grid-template-columns: 16rem auto;
   }
 `;
 const MainContainer = styled.div`
   width: 100%;
-  outline: solid ${(props) => props.theme.main.primary40} 1px;
-  display: grid;
 `;
 
 const CalendarContainer = styled.div``;
 
 const DayOfTheWeekHeader = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 4px 0px;
 `;
-const HeaderContainer = styled.header`
-  height: 60px;
-  line-height: 40px;
-  text-align: center;
-  display: flex;
-  flex-flow: nowrap row;
-  justify-content: center;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    img {
-      height: 20px;
-    }
-  }
+const HeaderContainer = styled(CC.RowCenterDiv.withComponent('header'))`
+  height: 3.2rem;
 `;
 const DayOfTheWeekItem = styled.div`
+  /* 일월화수목금토일 */
   text-align: center;
-  height: 32px;
+  height: 2.4rem;
   display: flex;
   flex-flow: nowrap column;
   justify-content: center;
@@ -273,14 +259,13 @@ const DayItemContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 4px 0px;
-  height: calc(100vh - 172px);
+  height: 100vh;
   ${(props) => props.theme.scroll.hidden};
 `;
 const LeftButton = styled.button`
-  margin-right: 20px;
+  margin-right: 2rem;
 `;
 const RightButton = styled.button`
-  margin-left: 20px;
+  margin-left: 2rem;
 `;
 // 월화수목금토일 스타일

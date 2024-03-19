@@ -66,7 +66,7 @@ const BlogMainContainer = () => {
         <span>
           검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
         </span>
-        <CC.RowDiv pd={'4px 0px 4px 4px'} gap={8}>
+        <CC.RowDiv pd={'0.4rem'}>
           <Select
             onChange={orderBlogListHandler}
             defaultValue={{
@@ -76,8 +76,8 @@ const BlogMainContainer = () => {
                   ? '조회수순'
                   : '최신순',
             }}
-            w={'90px'}
-            h={'22px'}
+            w={'9rem'}
+            h={'2.2rem'}
             data={[
               { name: '최신순', value: '', bg: '' },
               { name: '조회수순', value: 'viewNumber', bg: '' },
@@ -122,37 +122,37 @@ const BlogMainContainer = () => {
 export default BlogMainContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 4px;
+  gap: 0.4rem;
   position: relative;
-  padding: 2px;
+  padding: 0.2rem;
 `;
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 2px;
-  height: ${(props) => props.theme.calcRem(30)};
+  padding: 0.2rem;
+  height: 3rem;
   background: ${(props) => props.theme.main.contrast};
-  outline: solid ${(props) => props.theme.main.primary20} 1px;
+  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
 `;
 
 const MainContainer = styled(CC.ColumnDiv)`
-  gap: 4px;
+  gap: 0.4rem;
   ${(props) => props.theme.scroll.hidden};
   background: ${(props) => props.theme.main.contrast};
   scroll-behavior: smooth;
-  padding: 2px;
+  padding: 0.2rem;
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
   width: max-content;
-  left: calc(100% - 20px);
+  left: calc(100% - 2rem);
   bottom: 2rem;
-  padding: 2px;
+  padding: 0.2rem;
   opacity: 0.9;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   background: ${(props) => props.theme.main.secondary40};
-  gap: 4px;
+  gap: 0.4rem;
 
   button {
     background: ${(props) => props.theme.main.contrast};

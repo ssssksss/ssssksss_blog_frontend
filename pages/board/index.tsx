@@ -13,11 +13,11 @@ import Head from 'next/head';
 const Index = () => {
   return (
     <Container>
-      <BoardHeaderContainer />
-      <BoardMainContainer />
       <Head>
         <title>게시판</title>
       </Head>
+      <BoardHeaderContainer />
+      <BoardMainContainer />
     </Container>
   );
 };
@@ -25,9 +25,7 @@ export default Index;
 Index.layout = Layout1;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 4px;
+  gap: 0.8rem;
   background: ${(props) => props.theme.main.contrast};
-  padding: 2px;
-  height: 100%;
-  ${(props) => props.theme.scroll.hiddenY};
+  padding: 0.2rem;
 `;

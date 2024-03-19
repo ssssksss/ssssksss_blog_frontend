@@ -71,15 +71,15 @@ const ImageBox = styled.div`
 const Container1 = styled.main`
   container-name: main-container;
   container-type: inline-size;
-  max-width: 1440px;
+  max-width: 144rem;
   /* LeftBar.tsx에 있는 너비와 맞추어주어야 한다. */
-  /* 마진 5px * 2 + leftBar(44px) */
+  /* 마진 0.5rem * 2 + leftBar(4.4rem) */
   & > div {
-    --top-navbar-height: 48px;
+    --top-navbar-height: 4.8rem;
     max-height: calc(100vh - var(--top-navbar-height));
-    padding: 2px;
+    padding: 0.2rem;
     @media (pointer: coarse) {
-      max-height: calc(100vh - var(--top-navbar-height) - 44px);
+      max-height: calc(100vh - var(--top-navbar-height) - 4.4rem);
     }
   }
 `;

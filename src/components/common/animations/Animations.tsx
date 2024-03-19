@@ -25,22 +25,22 @@ to{
 const UpToDownRepeatFadein = keyframes`
   from{
     opacity: 1;
-    transform: translate(0px,-4px);
+    transform: translate(0rem,-0.4rem);
   }
   to{
     opacity: 0.2;
-    transform: translate(0px,4px);
+    transform: translate(0rem,0.4rem);
   }
 `;
 
 const UpToDownRepeat = keyframes`
   0%,100%{
-    transform: translate(0,-1px);
-    padding-bottom: -2px;
+    transform: translate(0,-0.1rem);
+    padding-bottom: -0.2rem;
   }
   50%{
-    transform: translate(0px,1px);
-    padding-top: 2px;
+    transform: translate(0rem,0.1rem);
+    padding-top: 0.2rem;
   }
 `;
 

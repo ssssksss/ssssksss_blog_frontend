@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
  */
 
 const UpdateBlogCSR = dynamic(
-  () => import('@components/blog/CreateUpdateBlogContainer'),
+  () => import('@components/blog/CreateUpdateBlog/CreateUpdateBlogContainer'),
   {
     ssr: false,
     loading: () => (
@@ -46,7 +46,7 @@ Update.layout = Layout1;
 
 const Container = styled.div`
   margin: auto;
-  height: ${(props) => `calc(100vh - ${props.theme.calcRem(44)})`};
+  height: calc(100vh - 4.4rem);
 `;
 
 const Container1 = styled.div`

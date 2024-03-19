@@ -22,14 +22,14 @@ const Container = styled(CC.RowDiv)<{ scrollHidden: boolean }>`
   width: 100%;
   ::-webkit-scrollbar {
     width: auto;
-    height: 8px;
+    height: 0.8rem;
     display: contents;
     position: fixed;
   }
   // 스크롤 막대
   ::-webkit-scrollbar-thumb {
     background: ${(props) => props.theme.main.primary20};
-    border-radius: 16px;
+    border-radius: 1.6rem;
   }
   // 스크롤 막대가 이동하는 공간
   ::-webkit-scrollbar-track {

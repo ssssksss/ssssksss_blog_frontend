@@ -47,7 +47,7 @@ const Textarea = (props: ITextareaProps, ref) => {
   const [textareaValue, setTextareaValue] = useState(props.defaultValue);
   const handleResizeHeight = useCallback(() => {
     textRef.current.style.height = 'auto';
-    textRef.current.style.height = textRef.current.scrollHeight + 'px';
+    textRef.current.style.height = textRef.current.scrollHeight + 'rem';
     setTextareaValue(textRef.current.value);
   }, []);
 
@@ -89,11 +89,11 @@ const Container = styled.div`
   height: 100%;
   button {
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    right: 1rem;
+    bottom: 1rem;
     background: transparent;
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
   }
 `;
 const TextareaStyle = styled.textarea`
@@ -101,12 +101,12 @@ const TextareaStyle = styled.textarea`
   min-height: max-content;
   appearance: none;
   resize: none;
-  border-radius: 10px;
-  padding: ${(props) => props.pd || '2px'};
+  border-radius: 1rem;
+  padding: ${(props) => props.pd || '0.2rem'};
   height: ${(props) => props.h};
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
 
   &:focus {
-    outline: solid ${(props) => `${props.theme.main.primary80}2f`} 5px;
+    outline: solid ${(props) => `${props.theme.main.primary80}2f`} 0.5rem;
   }
 `;

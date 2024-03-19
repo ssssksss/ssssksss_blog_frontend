@@ -42,6 +42,7 @@ const useIntersection = (
 
     const options = {
       root: ref.current.parentElement,
+      rootMargin: '4px 4px 4px 4px',
     };
 
     const observer = new IntersectionObserver(callback, options);

@@ -37,9 +37,9 @@ const ViewBoardContainer = () => {
         <title>{boardResData.data.json?.board.title}</title>
       </Head>
       <Container gap={4}>
-        <CC.ColumnDiv pd={'0px 8px'} w={'100%'}>
+        <CC.ColumnDiv pd={'0rem 0.8rem'} w={'100%'}>
           <CC.RowDiv
-            pd={'16px 0px 0px 0px'}
+            pd={'1.6rem 0rem 0rem 0rem'}
             h={'max-content'}
             overflow={'hidden'}
           >
@@ -89,19 +89,19 @@ const ViewBoardContainer = () => {
 export default ViewBoardContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  height: calc(100vh - 80px);
+  height: calc(100vh - 8rem);
   position: relative;
   & > div {
-    border-radius: 10px;
+    border-radius: 1rem;
   }
   & > div:nth-of-type(1) {
     background: ${(props) => props.theme.main.contrast};
-    padding: 4px;
+    padding: 0.4rem;
 
     & > div:nth-of-type(1) {
       font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
       h1 {
-        padding-top: 2px;
+        padding-top: 0.2rem;
       }
     }
 
@@ -120,24 +120,24 @@ const Container = styled(CC.ColumnDiv)`
 `;
 
 const ViewerContainer = styled.div`
-  min-height: 600px;
-  margin-top: 2px;
-  padding: 8px;
-  border-radius: 0px 0px 10px 10px;
+  min-height: 60rem;
+  margin-top: 0.2rem;
+  padding: 0.8rem;
+  border-radius: 0rem 0rem 1rem 1rem;
   position: relative;
 `;
 
 const FixContainer = styled(CC.ColumnDiv)`
   position: absolute;
-  right: 10px;
-  bottom: 60px;
-  gap: 8px;
+  right: 1rem;
+  bottom: 6rem;
+  gap: 0.8rem;
   opacity: 0.8;
   background: ${(props) => props.theme.main.primary80};
   color: ${(props) => props.theme.main.contrast};
-  outline: solid black 1px;
-  padding: 8px;
-  border-radius: 10px;
+  outline: solid black 0.1rem;
+  padding: 0.8rem;
+  border-radius: 1rem;
 
   img {
     cursor: pointer;

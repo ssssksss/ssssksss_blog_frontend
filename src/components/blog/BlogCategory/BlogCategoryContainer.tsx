@@ -85,7 +85,7 @@ const BlogCategoryContainer = () => {
         {Object.entries(blogStore1.firstCategoryList)?.map(([key, value]) => (
           <Button
             key={key}
-            minW={'5rem'}
+            minW={'8rem'}
             active={key == store.getState().blogStore1.activeFirstCategory}
             outline={true}
             onClick={(e) => {
@@ -106,15 +106,15 @@ const BlogCategoryContainer = () => {
           <ModalButton
             modal={<BlogFirstCategoryModal />}
             modalOverlayVisible={true}
-            modalW={'300px'}
+            modalW={'30rem'}
             outline={true}
             style={{ flexShrink: 0 }}
           >
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'1.5rem'}
-              height={'1.5rem'}
+              width={'2.4rem'}
+              height={'2.4rem'}
             />
           </ModalButton>
         )}
@@ -125,7 +125,7 @@ const BlogCategoryContainer = () => {
         ).map(([key, value]) => (
           <Button
             key={key}
-            minW={'5rem'}
+            minW={'8rem'}
             active={key == blogStore1.activeSecondCategory}
             onClick={(e) => {
               blogSecondCategoryHandler({ id: key });
@@ -144,15 +144,15 @@ const BlogCategoryContainer = () => {
           <ModalButton
             modal={<BlogSecondCategoryModal />}
             modalOverlayVisible={true}
-            modalW={'300px'}
+            modalW={'30rem'}
             outline={true}
             style={{ flexShrink: 0 }}
           >
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'1.5rem'}
-              height={'1.5rem'}
+              width={'2.4rem'}
+              height={'2.4rem'}
             />
           </ModalButton>
         )}
@@ -163,21 +163,19 @@ const BlogCategoryContainer = () => {
 export default BlogCategoryContainer;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 4px;
+  gap: 0.4rem;
   width: 100%;
-  padding: 4px;
-  position: relative;
+  padding: 0.4rem;
 
   & > div {
-    border-radius: 8px;
+    border-radius: 0.8rem;
   }
 `;
 
 const BlogFirstCategoryContainer = styled(CC.RowDiv)`
-  gap: 8px;
-  display: flex;
+  gap: 0.8rem;
   ${(props) => props.theme.scroll.hiddenY};
-  padding: 4px;
+  padding: 0.4rem;
   background: ${(props) => props.theme.main.contrast};
 
   & > button {
@@ -185,15 +183,15 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
     flex-shrink: 0;
   }
 
-  @media screen (max-height: 600px) {
+  @media screen (max-height: 60rem) {
     flex-wrap: nowrap;
     ${(props) => props.theme.scroll.hiddenX};
   }
 `;
 
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
   flex-wrap: wrap;
   width: 100%;
 

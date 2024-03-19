@@ -13,13 +13,13 @@ export const overflowHoverVerticalScrollStyle = styled.div`
   &:hover {
     ::-webkit-scrollbar {
       width: auto;
-      height: 8px;
+      height: 0.8rem;
       display: contents;
       position: fixed;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${props => props.theme.main.primary20};
-      border-radius: 16px;
+      background: ${(props) => props.theme.main.primary20};
+      border-radius: 1.6rem;
     }
     ::-webkit-scrollbar-track {
     }

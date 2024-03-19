@@ -142,7 +142,7 @@ const UpdateScheduleCategoryBox = (props) => {
             ></Select>
           </CC.ColumnDiv>
         </CC.ColumnDiv>
-        <CC.RowDiv gap={8} pd={'16px 0px'}>
+        <CC.RowDiv gap={8} pd={'1.6rem 0rem'}>
           <Button
             w={'100%'}
             onClick={() => updateScheduleCategoryHandler()}
@@ -159,6 +159,6 @@ const UpdateScheduleCategoryBox = (props) => {
 export default UpdateScheduleCategoryBox;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 8px;
-  pupdateing: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

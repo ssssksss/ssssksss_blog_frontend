@@ -95,10 +95,9 @@ const CreateMemoCategoryBox = (props) => {
         })}
         onChange={(i) => selectChangeMemoCategoryHandler(i)}
       ></Select>
-      <CC.RowDiv pd={'16px 0px'}>
+      <CC.RowDiv pd={'1.6rem 0rem'}>
         <Button
           w={'100%'}
-          h={'40px'}
           outline={true}
           onClickCapture={handleSubmit(
             addMemoCategoryHandler,
@@ -115,6 +114,6 @@ const CreateMemoCategoryBox = (props) => {
 export default CreateMemoCategoryBox;
 
 const Container = styled(CC.ColumnStartDiv)`
-  gap: 8px;
-  padding: 4px;
+  gap: 0.8rem;
+  padding: 0.4rem;
 `;

@@ -85,13 +85,13 @@ const BoardHeadContainer = () => {
           </WriteButtonContainer>
         )}
       </TitleContainer>
-      <CC.GridColumn2Adjust e2={'160px'} gap={10}>
+      <CC.GridColumn2Adjust e2={'16rem'} gap={10}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
           color={'black80'}
           outline={true}
-          brR={'6px'}
+          brR={'0.6rem'}
           leftIconImage={Icons.SearchIcon.src}
           ref={keywordRef}
           defaultValue={boardStore.keyword ?? router.query.keyword}
@@ -99,18 +99,18 @@ const BoardHeadContainer = () => {
         />
         <CC.RowBetweenDiv gap={8}>
           <Button
-            w={'40px'}
-            h={'28px'}
+            w={'4rem'}
+            h={'2.8rem'}
             size="md"
             bg={'primary80'}
-            pd={'0px 0px'}
+            pd={'0rem 0rem'}
             color={'contrast'}
             onClick={() => searchHandler(keywordRef)}
           >
             검색
           </Button>
           <Select
-            w={'110px'}
+            w={'11rem'}
             defaultValue={{
               value: `${boardStore.sort}`,
               name: `${boardStore.sort}` == 'views' ? '조회수 순' : '최신순',
@@ -139,10 +139,10 @@ const BoardHeadContainer = () => {
 export default BoardHeadContainer;
 
 const Container = styled.div`
-  border-radius: 8px;
+  border-radius: 0.8rem;
   h1 {
-    padding: 8px 0px;
-    font-size: 36px;
+    padding: 0.8rem 0rem;
+    font-size: 3.6rem;
     color: ${(props) => props.theme.main.primary100};
     ${(props) => props.theme.flex.row.center.center};
     font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
@@ -158,14 +158,14 @@ const TitleContainer = styled(CC.RowCenterDiv)`
 
 const WriteButtonContainer = styled(CC.RowRightDiv)`
   position: absolute;
-  right: 4px;
+  right: 0.4rem;
 
   div {
     cursor: pointer;
     background: ${(props) => props.theme.main.primary80};
     color: ${(props) => props.theme.main.contrast};
-    border-radius: 10px;
-    padding: 8px;
-    gap: 4px;
+    border-radius: 1rem;
+    padding: 0.8rem;
+    gap: 0.4rem;
   }
 `;

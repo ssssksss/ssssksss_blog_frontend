@@ -89,7 +89,7 @@ const ButtonStyle = styled.button<IButtonProps>`
     ${(props) =>
     props.state === 1 &&
     `
-      outline: solid ${props.theme.colors.white100} 1px;
+      outline: solid ${props.theme.colors.white100} 0.1rem;
       background: rgba(0, 0, 0, 0.01);
     `}
 
@@ -133,7 +133,7 @@ ${(props) =>
       props.theme.main?.primary60};
     `}
         
-  padding: ${(props) => props.pd || '4px'};
+  padding: ${(props) => props.pd || '0.4rem'};
   border: none;
   border-radius: ${(props) =>
     props.theme.borderRadius?.[props.brR] ||
@@ -148,7 +148,7 @@ ${(props) =>
       props.theme.colors?.[props.outlineColor] ||
       props.theme.main?.[props.outlineColor] ||
       props.theme.main?.primary80
-    } 1px`};
+    } 0.1rem`};
   width: ${(props) => props.w};
   min-width: ${(props) => props.minW};
   min-height: ${(props) => props.minH};
@@ -158,7 +158,7 @@ ${(props) =>
     props.theme.btnSizes?.sm?.height};
   font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${(props) => props.fontWeight};
-  font-size: ${(props) => props.theme.fontSize?.md};
+  font-size: ${(props) => props.theme.fontSize?.sm};
   font-display: optional;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
@@ -170,17 +170,17 @@ ${(props) =>
 
 const Badge = styled.div`
   position: absolute;
-  border-radius: 8px;
-  right: 2px;
-  top: 4px;
-  padding: ${(props) => props.theme.calcRem(1)};
+  border-radius: 0.8rem;
+  right: 0.2rem;
+  top: 0.4rem;
+  padding: 0.1rem;
   transform: translate(50%, -50%);
-  font-size: ${(props) => props.theme.calcRem(10)};
+  font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: ${(props) => props.theme.calcRem(12)};
-  min-height: ${(props) => props.theme.calcRem(12)};
+  min-width: 1.2rem;
+  min-height: 1.2rem;
   width: max-content;
   background: ${(props) => props.theme.main.secondary80};
   color: ${(props) => props.theme.main.contrast};

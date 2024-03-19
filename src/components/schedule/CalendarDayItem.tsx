@@ -51,7 +51,7 @@ const CalendarDayItem = (props: CalendarDayItemType) => {
       color={'primary80'}
       bg={'primary20'}
       modalOverlayVisible={true}
-      modalMinW={'320px'}
+      modalW={'94vw'}
     >
       <DayTitle>{props.day} </DayTitle>
       <CalendarListBox layer={props.layer} onClick={(e) => e.stopPropagation()}>
@@ -81,20 +81,20 @@ const Container = styled(ModalButton)`
 
   background-color: #ffffff;
   font-weight: 600;
-  outline: 1px solid #999999;
+  outline: 0.1rem solid #999999;
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
-  padding: 2px 0px;
+  padding: 0.2rem 0rem;
   ${(props) => props.theme.flex.column.start};
   height: auto;
   max-height: max-content;
-  border-radius: 0px;
+  border-radius: 0rem;
   /* height: min-content; */
 `;
 
 const DayTitle = styled.div`
-  height: 20px;
-  padding: 2px 0px 0px 4px;
+  height: 2rem;
+  padding: 0.2rem 0rem 0rem 0.4rem;
   font-size: 0.8rem;
   display: flex;
   justify-content: flex-start;
@@ -106,5 +106,5 @@ const CalendarListBox = styled.div<{ layer: number }>`
   width: 100%;
   display: grid;
   grid-template-rows: ${(props) => `repeat(${props.layer}, 1fr)`};
-  gap: 2px;
+  gap: 0.2rem;
 `;

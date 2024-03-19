@@ -81,9 +81,7 @@ const MemoContainer = () => {
           <ModalButton
             modal={<MemoCategoryModal />}
             modalOverlayVisible={true}
-            h={'32px'}
-            modalMinW={'320px'}
-            modalH={'200%'}
+            modalMinW={'32rem'}
             outline={true}
           >
             <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
@@ -108,21 +106,21 @@ const MemoContainer = () => {
 export default MemoContainer;
 
 const Container = styled(CC.ColumnStartDiv.withComponent('article'))`
-  margin-bottom: 12px;
+  margin-bottom: 1.2rem;
   height: 100%;
 `;
 
 const MemoMenuNavListContainer = styled(RowScrollListBox)`
-  gap: 4px;
+  gap: 0.4rem;
   background: ${(props) => props.theme.main.contrast};
-  border-radius: 4px;
-  outline: solid black 1px;
-  padding: 4px;
+  border-radius: 0.4rem;
+  outline: solid black 0.1rem;
+  padding: 0.4rem;
   height: 3em;
   flex-shrink: 0;
   ${(props) => props.theme.scroll.hidden};
   & > button {
-    min-width: 70px;
+    min-width: 7rem;
     border-radius: ${(props) => props.theme.borderRadius.br10};
     font-family: ${(props) => props.theme.fontFamily.yanoljaYacheBold};
   }
@@ -130,10 +128,10 @@ const MemoMenuNavListContainer = styled(RowScrollListBox)`
 
 const MainContainer = styled.div`
   display: grid;
-  gap: 8px;
-  outline: solid black 1px;
-  border-radius: 4px;
-  padding: 8px 8px 16px 8px;
+  gap: 0.8rem;
+  outline: solid black 0.1rem;
+  border-radius: 0.4rem;
+  padding: 0.8rem 0.8rem 1.6rem 0.8rem;
   background: ${(props) => props.theme.colors.gray20};
   ${(props) => props.theme.scroll.hidden};
 
