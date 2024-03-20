@@ -7,6 +7,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -405,13 +406,18 @@ const updateBlog = (props: string) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: async ({ variables }) => {
-      await AxiosInstance.post({
-        url:
-          process.env.NEXT_PUBLIC_ABSOLUTE_URL +
-          '/api/revalidate?secret=' +
-          process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
-        data: { path: 'blog', id: variables.id },
-      })
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:8080'
+          : 'https://blog-server.ssssksss.xyz';
+      await axios
+        .post({
+          url:
+            baseUrl +
+            '/api/revalidate?secret=' +
+            process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
+          data: { path: 'blog', id: variables.id },
+        })
         .then((_) => {
           props.onSuccessHandler();
           router.back();
