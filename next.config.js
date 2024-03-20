@@ -22,19 +22,19 @@ const nextConfig = withPWA({
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   compiler: {
     emotion: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/sitemap.xml',
+  //       destination: '/api/sitemap',
+  //     },
+  //   ];
+  // },
   transpilePackages: ['@mdxeditor/editor'],
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
