@@ -98,7 +98,7 @@ const ViewBlogContainer = (props: IProps) => {
   };
 
   return (
-    <Container id="viewBlogContainer" className={'viewBlogContainer'}>
+    <Container id="view-blog-container" className={'view-blog-container'}>
       <ViewFixContainer {...props} />
       <ViewIndexContainer {...props} blogIndexList={blogIndexList} />
       <ViewHeaderContainer {...props} />

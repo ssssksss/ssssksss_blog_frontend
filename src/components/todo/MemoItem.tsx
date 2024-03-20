@@ -104,7 +104,7 @@ const MemoItem = (props: IMemoItemProps) => {
         </CC.RowCenterDiv>
         {props.data && (
           <ConfirmButton
-            className={'deleteIcon'}
+            className={'delete-icon'}
             onClick={() => deleteMemoHandler()}
             bg={'transparent'}
             hover={false}

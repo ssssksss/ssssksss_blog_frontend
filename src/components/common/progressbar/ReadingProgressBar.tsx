@@ -24,7 +24,7 @@ const ReadingProgressBar = () => {
     return () => window.removeEventListener('scroll', scrollHeight);
   }, []);
 
-  return <Container className="progressBar" width={width}></Container>;
+  return <Container className="progress-bar" width={width}></Container>;
 };
 
 export default ReadingProgressBar;

@@ -292,7 +292,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor1}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor1: e.target.value });
             }}
@@ -303,7 +303,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor2}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor2: e.target.value });
             }}
@@ -314,7 +314,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor3}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor3: e.target.value });
             }}
@@ -325,7 +325,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor4}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor4: e.target.value });
             }}
@@ -336,7 +336,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor5}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor5: e.target.value });
             }}
@@ -347,7 +347,7 @@ const SolveRender = (props) => {
           <input
             type={'number'}
             value={tempMotorAngs.motor6}
-            className={'inputMotor'}
+            className={'input-motor'}
             onChange={(e: any) => {
               setTempMotorAngs({ ...tempMotorAngs, motor6: e.target.value });
             }}

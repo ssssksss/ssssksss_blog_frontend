@@ -92,7 +92,7 @@ const SideBar = () => {
                 <CC.ImgContainer h={'2.4rem'} w={'100%'}>
                   <Image src={i[0]} alt={i[1]} width={'1'} height={'1'} />
                 </CC.ImgContainer>
-                <div className={'navItemText'}> {i[1]} </div>
+                <div className={'nav-item-text'}> {i[1]} </div>
               </NavItem>
             </Link>
           ))}

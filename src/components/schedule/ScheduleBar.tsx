@@ -42,7 +42,7 @@ const ScheduleBar = (props: {
 
   return (
     <Container
-      className={'todoBar'}
+      className={'todo-bar'}
       type="button"
       period={props.data.period}
       layer={props.data.layer}

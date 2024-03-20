@@ -25,8 +25,8 @@ const ImageCard = (props: IImageCardProps) => {
       maxW={props.maxW}
       minW={props.minW}
     >
-      <Image className={'frontCard'} src={props.imgSrc} layout={'fill'} />
-      <BehindCard className={'backCard'}>{props.backComponent}</BehindCard>
+      <Image className={'front-card'} src={props.imgSrc} layout={'fill'} />
+      <BehindCard className={'back-card'}>{props.backComponent}</BehindCard>
     </Container>
   );
 };
