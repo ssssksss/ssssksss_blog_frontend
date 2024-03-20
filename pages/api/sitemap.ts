@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export const handler = (req: NextApiRequest, res: NextApiResponse) => {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/xml');
-  res.setHeader('Cache-Control', 'stale-while-revalidate, s-maxage=3600');
+  res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=3600');
 
   const xml = `
     <?xml version="1.0" encoding="UTF-8"?>
@@ -55,4 +55,4 @@ export const handler = (req: NextApiRequest, res: NextApiResponse) => {
 </urlset>`;
 
   res.end(xml);
-};
+}

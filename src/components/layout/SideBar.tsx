@@ -148,16 +148,6 @@ const Container = styled.aside<IContainerProps>`
       display: flex;
     }
   }
-  /* 모바일일떄 */
-  @media (pointer: coarse) {
-    &:hover {
-      height: calc(100vh - 5.2rem);
-    }
-    .fold-container {
-      animation: none;
-      display: flex;
-    }
-  }
 `;
 
 const FoldContainer = styled.div<IContainerProps>`
