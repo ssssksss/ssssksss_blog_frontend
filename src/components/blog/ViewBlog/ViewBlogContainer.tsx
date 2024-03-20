@@ -82,10 +82,6 @@ const ViewBlogContainer = (props: IProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('ViewBlogContainer.tsx 파일222 : ', Editor);
-  }, [Editor]);
-
   /**
    *
    * @description 블로그 글 인덱스 목록을 만들어주는 함수
