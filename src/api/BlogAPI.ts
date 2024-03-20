@@ -408,15 +408,12 @@ const updateBlog = (props: string) => {
     onSuccessHandler: async ({ variables }) => {
       const baseUrl =
         process.env.NODE_ENV === 'development'
-          ? 'http://localhost:8080'
-          : 'https://blog-server.ssssksss.xyz';
+          ? 'http://localhost:3000'
+          : 'https://blog.ssssksss.xyz';
       await axios
         .post({
-          url:
-            baseUrl +
-            '/api/revalidate?secret=' +
-            process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
-          data: { path: 'blog', id: variables.id },
+          url: `${baseUrl}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}`,
+          data: { path: 'blog', id: variables.id + '' },
         })
         .then((_) => {
           props.onSuccessHandler();
