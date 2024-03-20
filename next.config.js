@@ -27,7 +27,18 @@ const nextConfig = withPWA({
   compiler: {
     emotion: true,
   },
-
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap',
+      },
+      {
+        source: '/robots.txt',
+        destination: '/api/robots',
+      },
+    ];
+  },
   transpilePackages: ['@mdxeditor/editor'],
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
