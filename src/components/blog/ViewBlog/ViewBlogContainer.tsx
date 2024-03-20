@@ -44,6 +44,11 @@ const ViewBlogContainer = (props: IProps) => {
   }>([]);
 
   useEffect(() => {
+    document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
     setTimeout(() => {
       document.querySelectorAll('pre')?.forEach((i) => {
         let test = document.createElement('button');
@@ -64,7 +69,7 @@ const ViewBlogContainer = (props: IProps) => {
         i.appendChild(test);
         createBlogIndex();
       });
-    }, 2000);
+    }, 1000);
 
     let keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
@@ -72,11 +77,14 @@ const ViewBlogContainer = (props: IProps) => {
       }
     };
     window.addEventListener('keydown', keyDownEventFunc);
-
     return () => {
       window.removeEventListener('keydown', keyDownEventFunc);
     };
   }, []);
+
+  useEffect(() => {
+    console.log('ViewBlogContainer.tsx 파일222 : ', Editor);
+  }, [Editor]);
 
   /**
    *
@@ -95,6 +103,9 @@ const ViewBlogContainer = (props: IProps) => {
       });
     });
     setBlogIndexList(htmlTagIndexTempArray);
+    const scrollY = document.body.style.top;
+    document.body.style.cssText = '';
+    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   };
 
   return (
@@ -137,6 +148,7 @@ const ViewerContainer = styled.div<{ icon: any }>`
   .w-md-editor-preview {
     display: block;
     position: static;
+    height: 100% !important;
   }
   .wmde-markdown {
     padding: 0rem 0.2rem;

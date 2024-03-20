@@ -4,12 +4,10 @@ import { MDEditorProps } from '@uiw/react-md-editor';
 import '@uiw/react-md-editor/markdown-editor.css';
 import dynamic from 'next/dynamic';
 // import MDEditor, { commands, ICommand, TextState, TextApi } from '@uiw/react-md-editor';
-import { commands } from '@uiw/react-md-editor';
+// import { commands } from '@uiw/react-md-editor';
 const MDEditor = dynamic<MDEditorProps>(() => import('@uiw/react-md-editor'), {
   ssr: false,
 });
-
-export type EditorProps = MDEditorProps;
 
 // const title3: ICommand = {
 //   name: 'title3',
@@ -66,7 +64,7 @@ export const Editor = ({ ...rest }: MDEditorProps) => {
       //   }),
       // ]}
       {...rest}
-      {...commands}
+      // {...commands}
     />
   );
 };

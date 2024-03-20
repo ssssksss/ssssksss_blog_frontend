@@ -292,6 +292,7 @@ const CreateUpdateBlogContainer = (
             categoryList={categoryList}
             {...props}
           />
+          <CreateUpdateBlogTemplateContainer />
           <EditorContainer id={'editor-container'} isDragging={isDragging}>
             <Editor
               ref={textareaRef}
@@ -306,7 +307,6 @@ const CreateUpdateBlogContainer = (
               visibleDragbar={false}
             />
           </EditorContainer>
-          <CreateUpdateBlogTemplateContainer />
           <EditorFooter>
             <Button
               w={'100%'}
@@ -356,12 +356,11 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
   }
 
   .w-md-editor {
-    padding-top: 5.6rem;
-    z-index: 0;
   }
 
   .w-md-editor-content {
-    height: calc(100% - 3.2rem);
+    height: calc(100vh - 9.9rem);
+
     &::before {
       content: '';
       background-size: 50%;
@@ -378,16 +377,12 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
   }
   .w-md-editor-area {
     opacity: ${(props) => props.isDragging && 0.5};
-    padding-bottom: 0.6rem;
     height: 100%;
   }
   .w-md-editor-text-input {
     height: 100%;
   }
   .w-md-editor-preview {
-    margin-bottom: 2rem;
-    padding-bottom: 4rem;
-
     pre {
       outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
       border-radius: 1rem;
@@ -431,5 +426,4 @@ const EditorFooter = styled(CC.GridColumn2)`
   width: 100%;
   z-index: 1;
   position: sticky;
-  top: 100vh;
 `;
