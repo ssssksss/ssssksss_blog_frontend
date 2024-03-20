@@ -59,9 +59,6 @@ const Footer = () => {
         </li>
       </ImageList>
       <CC.ColumnDiv color={'contrast'} gap={16} pd={'0.8rem 0rem'}>
-        <CC.RowCenterDiv gap={8}>
-          <div> email : ssssksss@naver.com </div>
-        </CC.RowCenterDiv>
         <CC.RowCenterDiv>
           © 2021-{new Date().getFullYear()} Creative 가출한토토로 - All rights
           reserved.
