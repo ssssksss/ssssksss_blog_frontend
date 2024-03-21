@@ -50,6 +50,7 @@ const ViewBlogContainer = (props: IProps) => {
     overflow-y: scroll;
     width: 100%;`;
     setTimeout(() => {
+      createBlogIndex();
       document.querySelectorAll('pre')?.forEach((i) => {
         let test = document.createElement('button');
         test.style.position = 'absolute';
@@ -67,7 +68,6 @@ const ViewBlogContainer = (props: IProps) => {
           );
         });
         i.appendChild(test);
-        createBlogIndex();
       });
     }, 1000);
 

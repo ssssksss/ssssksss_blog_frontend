@@ -1,7 +1,7 @@
 {
   "theme_color": "#C397EC",
   "background_color": "#C397EC",
-  "display": "standalone",
+  "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
   "name": "ssssksss",

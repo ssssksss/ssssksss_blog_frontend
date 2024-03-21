@@ -163,6 +163,7 @@ const FoldContainer = styled.div<IContainerProps>`
   justify-content: flex-start;
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
   outline-offset: -0.1rem;
+  background: ${(props) => props.theme.main.contrast};
   &::-webkit-scrollbar: {
     display: none;
   }
@@ -182,7 +183,6 @@ const NavContainer = styled.nav`
   & > :nth-last-child(1) {
     margin-top: auto;
   }
-  background: ${(props) => props.theme.main.contrast};
 `;
 
 const NavItem = styled(Button)<{
