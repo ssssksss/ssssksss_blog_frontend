@@ -40,8 +40,8 @@ const ScheduleItem = (props: IScheduleItemProps) => {
   const _IsCheckedToggleHandler = () => {
     ScheduleAPI.toggleCheckSchedule({
       id: props.data?.id,
-    }).then((_) => {
-      let temp = scheduleStore.todayScheduleList.map((i) => {
+    }).then(() => {
+      const temp = scheduleStore.todayScheduleList.map((i) => {
         if (i.id == props.data?.id) {
           i.isChecked = !props.data?.isChecked;
         }

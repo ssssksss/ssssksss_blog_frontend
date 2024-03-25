@@ -40,7 +40,7 @@ const BlogFirstCategoryDeleteBox = (
     },
   });
 
-  const deleteFirstCategoryHandler = async (data: any) => {
+  const deleteFirstCategoryHandler = async (data: unknown) => {
     if (!store.getState().authStore.id) return;
     deleteBLogFirstCategoryMutation({
       id: data.deleteFirstCategoryId,

@@ -76,7 +76,7 @@ const YoutubePlayerModal = () => {
     });
   };
 
-  const selectYoutubeLinkHandler = (data: any) => {
+  const selectYoutubeLinkHandler = (data: unknown) => {
     window.localStorage.setItem('youtubeLink', data.youtubeUrl);
     toggleHandler();
     store.dispatch(

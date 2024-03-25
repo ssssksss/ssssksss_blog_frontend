@@ -31,7 +31,7 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
     },
   });
 
-  const deleteSecondCategoryHandler = async (data: any) => {
+  const deleteSecondCategoryHandler = async (data: unknown) => {
     if (!store.getState().authStore.id) return;
     deleteSecondCategoryMutation({
       id: data.deleteSecondCategoryId,

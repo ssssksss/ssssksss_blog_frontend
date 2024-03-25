@@ -39,7 +39,7 @@ const TopBar = () => {
         url: '/api/user',
         method: 'DELETE',
       })
-        .then((_) => {
+        .then(() => {
           store.dispatch(
             rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
               type: 'success',
@@ -68,12 +68,12 @@ const TopBar = () => {
             );
           });
         })
-        .catch((_) => {});
+        .catch(() => {});
     })();
   };
 
   return (
-    <Container>
+    <Container id={'top-bar'}>
       <SideBar />
       <CC.ImgContainer h={'80%'}>
         <Link href={`/`} prefetch={false}>

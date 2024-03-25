@@ -9,7 +9,12 @@ import { Material, Mesh } from 'three';
  * Date: 2023-02-09 18:44:59
  * Description :
  */
-const ProjectIntroduce = (props: any) => {
+
+interface IProjectIntroduceProps {
+  projectIntroduce_gsap: unknown;
+}
+
+const ProjectIntroduce = (props: IProjectIntroduceProps) => {
   const Box = () => {
     const myRef = useRef<Mesh>(null);
 
@@ -20,13 +25,13 @@ const ProjectIntroduce = (props: any) => {
         myRef.current.position.x = 0;
         myRef.current.position.y = 0;
         myRef.current.position.z = 0;
-        myRef.current.scale.x = props.projectIntroduce_gsap.t * 3;
-        myRef.current.scale.y = props.projectIntroduce_gsap.t * 3;
+        myRef.current.scale.x = props.projectIntroduce_gsap?.t * 3;
+        myRef.current.scale.y = props.projectIntroduce_gsap?.t * 3;
         myRef.current.scale.z = 1;
         (myRef.current.material as Material).opacity =
-          props.projectIntroduce_gsap.opacity;
+          props.projectIntroduce_gsap?.opacity;
         (myRef.current.material as Material).transparent =
-          props.projectIntroduce_gsap.transparent;
+          props.projectIntroduce_gsap?.transparent;
         myRef.current.rotation.x = Math.PI / 4;
         myRef.current.rotation.y = -Math.PI / 4;
         myRef.current.rotation.z = Math.PI / 6;

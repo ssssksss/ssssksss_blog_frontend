@@ -14,16 +14,16 @@ interface ITextareaProps {
   /**
    * react-hook-form 사용시 필요한 파라미터
    */
-  register?: any;
+  register?: unknown;
   /**
    * react-hook-form 사용시 필요한 파라미터
    */
-  field?: any;
+  field?: unknown;
   disabled?: boolean;
-  defaultValue?: any;
+  defaultValue?: unknown;
   color?: string;
   placeholderColor?: string;
-  onKeyPress?: any;
+  onKeyPress?: unknown;
   value?: string | number | boolean;
   name?: string;
   id?: string;
@@ -40,6 +40,7 @@ interface ITextareaProps {
   bg?: string;
   outline?: boolean;
   resizeMode?: boolean;
+  submit?: () => void;
 }
 
 const Textarea = (props: ITextareaProps, ref) => {
@@ -59,7 +60,7 @@ const Textarea = (props: ITextareaProps, ref) => {
         onInput={props.resizeMode && handleResizeHeight}
         onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           // if (e.key === 'Enter' && props.onKeyPress) {
-          //   onKeyPress();
+          //   props.submit();
           // }
           if (e.which == 13 && e.ctrlKey) {
             props.submit();
@@ -87,10 +88,11 @@ export default forwardRef(Textarea);
 const Container = styled.div`
   position: relative;
   height: 100%;
+  padding-bottom: 2.4rem;
   button {
     position: absolute;
     right: 1rem;
-    bottom: 1rem;
+    bottom: 2.4rem;
     background: transparent;
     width: 2.4rem;
     height: 2.4rem;
@@ -98,12 +100,12 @@ const Container = styled.div`
 `;
 const TextareaStyle = styled.textarea`
   width: 100%;
-  min-height: max-content;
+  border: none;
   appearance: none;
   resize: none;
   border-radius: 1rem;
   padding: ${(props) => props.pd || '0.2rem'};
-  height: ${(props) => props.h};
+  height: ${(props) => props.h || '100%'};
   box-shadow: 0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
 
   &:focus {

@@ -19,6 +19,7 @@ interface ITodoModalProps {
     content: string;
     isChecked: boolean;
   };
+  closeModal?: () => void;
 }
 
 const TodoModal = (props: ITodoModalProps) => {
@@ -55,7 +56,7 @@ const TodoModal = (props: ITodoModalProps) => {
 
   useEffect(() => {
     setInputTodoContent(props.data?.content);
-    let keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: Event) => {
       if (e.key == 'Enter') {
         todoHandler();
       }

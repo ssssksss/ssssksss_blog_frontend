@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MouseEvent, useState } from 'react';
 
 interface IPaginationProps {
-  refetch: any;
+  refetch: unknown;
   endPage: number;
   currentPage: number;
 }
@@ -13,7 +13,7 @@ interface IPaginationProps {
 /**
  *
  * @param refetch 페이지를 갱신할 함수
- * @example ={({ page }: any) => { pageHandler(page);}}
+ * @example ={({ page }: unknown) => { pageHandler(page);}}
  * @param endPage
  * @example ={Math.ceil(pageCount / size)}
  * @param currentPage

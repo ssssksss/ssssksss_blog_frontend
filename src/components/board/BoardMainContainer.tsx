@@ -36,16 +36,16 @@ const BoardMainContainer = () => {
     },
   });
 
-  const changePage = (props: { page: number }) => {
+  const changePage = (page: number) => {
     store.dispatch(
       rootActions.boardStore.SET_BOARD_LIST_OPTION({
-        page: props.page - 1,
+        page: page - 1,
         size: Number(boardStore.size),
         sort: String(boardStore.sort),
         keyword: boardStore.keyword,
       }),
     );
-    let _url = `/board?page=${props.page}&size=${boardStore.size}&sort=${boardStore.sort}&keyword=${boardStore.keyword}`;
+    const _url = `/board?page=${page}&size=${boardStore.size}&sort=${boardStore.sort}&keyword=${boardStore.keyword}`;
     router.replace(_url, '', { shallow: true });
   };
 
@@ -68,7 +68,7 @@ const BoardMainContainer = () => {
           <span> 날짜 </span>
           <span> 조회수 </span>
         </BoardListTitle>
-        {boardListResData?.data?.json?.boardList?.map((el: any) => (
+        {boardListResData?.data?.json?.boardList?.map((el: unknown) => (
           <Link
             key={el.id}
             href={`/board/${el.id}`}

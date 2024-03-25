@@ -20,7 +20,7 @@ import BlogRecentListContainer from './BlogRecentListContainer';
  */
 const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
-  const [_, setIsInputChange] = useState(true);
+  const [, setIsInputChange] = useState(true);
   const inputRef = useRef<null>();
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const {
@@ -39,7 +39,7 @@ const BlogHeadContainer = () => {
         // ! 새로운 데이터가 오면 기존 이미지들로 디폴트 값을 채워준다.
         let temp = [];
         data?.pages.map((i) => {
-          let temp1 = [
+          const temp1 = [
             ...i.json.blogList.map((_i) => {
               return {
                 ..._i,

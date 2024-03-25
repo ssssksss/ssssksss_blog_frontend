@@ -36,13 +36,13 @@ const MemoContainer = () => {
 
   useEffect(() => {
     if (!authStore.id) return;
-    MemoAPI.getMemoCategoryList().then((res: any) => {
+    MemoAPI.getMemoCategoryList().then((res: unknown) => {
       store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
     });
 
     MemoAPI.getMemoList({
       type: 'all',
-    }).then((res: any) => {
+    }).then((res: unknown) => {
       store.dispatch(SET_MEMO_LIST(res.json?.memoList));
     });
   }, [authStore.id]);

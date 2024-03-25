@@ -40,7 +40,7 @@ const BlogSecondCategoryUpdateBox = (
   });
   const { errors } = methods.formState;
 
-  const updateSecondCategoryHandler = async (data: any) => {
+  const updateSecondCategoryHandler = async (data: unknown) => {
     updateSecondCategoryMutation({
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,

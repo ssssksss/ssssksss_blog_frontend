@@ -19,7 +19,7 @@ const initialState = {
   toggleUptoDateMonthSchedule: true,
 };
 
-export const scheduleReducer = (state = initialState, action: any) => {
+export const scheduleReducer = (state = initialState, action: unknown) => {
   switch (action.type) {
     case 'CURRENT_SCHEDULE_DATE':
       return { ...state, currentScheduleDate: action.payload };

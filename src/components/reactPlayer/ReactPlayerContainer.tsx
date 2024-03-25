@@ -122,7 +122,7 @@ const Container = styled.div<{
   isNavbarOpen: boolean;
   outline: true;
   play: boolean;
-  anime: any;
+  anime: unknown;
 }>`
   display: grid;
   grid-template-columns: 2.4rem calc(100% - 2.4rem);

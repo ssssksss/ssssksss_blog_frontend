@@ -498,6 +498,189 @@ const flex = {
   },
 };
 
+const flexBox = {
+  row: {
+    between: {
+      start: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+      },
+      center: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      },
+      end: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'end',
+        justifyContent: 'space-between',
+      },
+    },
+    center: {
+      start: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+      },
+      center: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      end: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'end',
+        justifyContent: 'center',
+      },
+    },
+    left: {
+      start: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+      },
+      center: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      end: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+      },
+    },
+    right: {
+      start: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'flex-end',
+      },
+      center: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      end: {
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'nowrap row',
+        alignItems: 'end',
+        justifyContent: 'flex-end',
+      },
+    },
+  },
+  col: {
+    between: {
+      start: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+      },
+      center: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      },
+      end: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+      },
+    },
+    center: {
+      start: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+      },
+      center: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      end: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+      },
+    },
+    left: {
+      start: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+      },
+      center: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+      },
+      end: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-start',
+        justifyContent: 'end',
+      },
+    },
+    right: {
+      start: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+      },
+      center: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+      },
+      end: {
+        display: 'flex',
+        flexFlow: 'nowrap column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+      },
+    },
+  },
+};
+
+const gridBox = {
+  display: 'grid',
+};
+
+const calcRem = (size: number) => `${size / 16}rem`;
 const grid = {
   column2: {
     display: 'grid',
@@ -562,6 +745,9 @@ export const commonTheme = {
   grid,
   scroll,
   positionStyle,
+  calcRem,
+  flexBox,
+  gridBox,
 };
 
 export const darkTheme = {

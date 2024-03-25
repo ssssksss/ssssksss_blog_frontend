@@ -15,10 +15,13 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-03-19 15:20:19"
  * @description 설명
  */
-const ViewFixContainer = (props) => {
+const ViewFixContainer = (
+  firstCategoryId: string,
+  secondCategoryId: string,
+) => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
-  const BACK_URL = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
+  const BACK_URL = `/blog?first-category=${firstCategoryId}&second-category=${secondCategoryId}`;
   const router = useRouter();
   const deleteHandler = () => {
     BlogAPI.deleteBlog({

@@ -45,8 +45,8 @@ const MemoItem = (props: IMemoItemProps) => {
     MemoAPI.addMemo({
       content: memoContentRef.current.value,
       memoCategoryId: Number(props.category.categoryId),
-    }).then((res: any) => {
-      let temp = [...memoStore.memoList];
+    }).then((res: unknown) => {
+      const temp = [...memoStore.memoList];
       temp.unshift({
         id: res.json.id,
         content: res.json.content,
@@ -65,8 +65,8 @@ const MemoItem = (props: IMemoItemProps) => {
     MemoAPI.updateMemo({
       id: props.data.id,
       content: memoContentRef.current.value,
-    }).then((res: any) => {
-      let temp = memoStore.memoList.map((i) => {
+    }).then((res: unknown) => {
+      const temp = memoStore.memoList.map((i) => {
         if (i.id == props.data.id) {
           return {
             id: res.json.id,
@@ -89,11 +89,11 @@ const MemoItem = (props: IMemoItemProps) => {
     MemoAPI.deleteMemo({
       id: props.data.id,
     })
-      .then((_) => {
-        let temp = memoStore.memoList.filter((i) => props.data.id != i.id);
+      .then(() => {
+        const temp = memoStore.memoList.filter((i) => props.data.id != i.id);
         store.dispatch(SET_MEMO_LIST([...temp]));
       })
-      .catch((_) => {});
+      .catch(() => {});
   };
 
   return (
@@ -126,8 +126,6 @@ const MemoItem = (props: IMemoItemProps) => {
 export default MemoItem;
 
 const Container = styled.div<{ bg: string }>`
-  min-height: 20rem;
-  height: max-content;
   word-wrap: break-word;
   word-break: break-all;
   background: ${(props) =>
@@ -135,17 +133,13 @@ const Container = styled.div<{ bg: string }>`
   border-radius: 1rem;
   padding: 0.4rem 0.8rem;
   outline: solid black 0.1rem;
+  height: 20rem;
+  max-height: 20rem;
 
   textarea {
-    min-height: 18rem;
-    margin-top: 0.4rem;
-    /* background: transparent; */
+    max-height: calc(100% - 2.4rem);
     background: ${(props) => props.theme.colors.white80};
     border: none;
-    appearance: none;
-    resize: none;
-    padding: 0.4rem 0.4rem 4rem 0.4rem;
-    outline: solid black 0.1rem;
   }
 `;
 const Header = styled(CC.RowRightDiv)`

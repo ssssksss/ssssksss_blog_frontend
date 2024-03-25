@@ -24,7 +24,7 @@ const BoardHeadContainer = () => {
   const boardStore = useSelector((state: RootState) => state.boardStore);
 
   const searchHandler = (keyword: string) => {
-    let _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
+    const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
       boardStore.sort
     }&keyword=${keyword.current?.value || ''}`;
     store.dispatch(
@@ -38,8 +38,8 @@ const BoardHeadContainer = () => {
     router.replace(_url, '', { shallow: true });
   };
 
-  const orderListHandler = (props) => {
-    let _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
+  const orderListHandler = (value: string) => {
+    const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
       boardStore.sort
     }&keyword=${boardStore.keyword || ''}`;
     store.dispatch(
@@ -47,18 +47,14 @@ const BoardHeadContainer = () => {
         keyword: boardStore.keyword || '',
         page: Number(boardStore.page),
         size: Number(boardStore.size),
-        sort: String(props.value),
+        sort: String(value),
       }),
     );
     router.replace(_url, '', { shallow: true });
-    // return {
-    //   ...props,
-
-    // };
   };
 
   const reset = () => {
-    let _url = `/board`;
+    const _url = `/board`;
     store.dispatch(
       rootActions.boardStore.SET_BOARD_LIST_OPTION({
         keyword: '',

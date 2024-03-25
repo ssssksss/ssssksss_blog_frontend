@@ -9,7 +9,12 @@ import UpdateMemoCategoryBox from '../UpdateMemoCategoryBox';
  * @version 0.0.1 "2023-12-13 15:34:42"
  * @description 설명
  */
-const MemoCategoryModal = (props) => {
+
+interface IMemoCategoryModalProps {
+  closeModal: () => void;
+}
+
+const MemoCategoryModal = (props: IMemoCategoryModalProps) => {
   return (
     <Container>
       <CreateMemoCategoryBox closeModal={props.closeModal} />

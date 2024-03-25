@@ -22,14 +22,14 @@ export async function getStaticPaths() {
     return res.data.json.blogList;
   });
 
-  const paths = blogList.map((i: any) => ({
+  const paths = blogList.map((i: unknown) => ({
     params: { id: i.id.toString() },
   }));
 
   return { paths, fallback: 'blocking' };
 }
 
-export async function getStaticProps({ params }: any) {
+export async function getStaticProps({ params }: unknown) {
   const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
   return { props: res.data.json, revalidate: 3600 };
 }
@@ -41,7 +41,7 @@ const ViewBlogCSR = dynamic(
   },
 );
 
-const Index = (props: any) => {
+const Index = (props: unknown) => {
   return (
     <Container>
       <Head>

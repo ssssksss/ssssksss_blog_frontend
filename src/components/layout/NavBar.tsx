@@ -2,6 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import rootTheme from '@styles/theme';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents';
 /**
@@ -11,7 +12,7 @@ import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents
  * @description 설명
  */
 
-const NavBar = ({ children }) => {
+const NavBar = (children: React.ReactNode) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
 
   return (
@@ -25,7 +26,7 @@ const NavBar = ({ children }) => {
 };
 export default NavBar;
 
-const Container = styled.div<{ themeStore: any }>`
+const Container = styled.div<{ themeStore: unknown }>`
   /* background: ${(props) =>
     rootTheme[props.themeStore.theme].main?.primary20}; */
 `;

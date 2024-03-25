@@ -8,7 +8,7 @@ import { useReducer } from 'react';
  * @version 0.0.1 "2024-03-19 15:37:23"
  * @description 설명
  */
-const ViewIndexContainer = (props) => {
+const ViewIndexContainer = (props: { blogIndexList: unknown }) => {
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   return (
     <Container>
@@ -81,7 +81,7 @@ const ContentIndexContainer = styled.nav`
 
 const ContentIndexHeaderContainer = styled.div`
   width: 100%;
-  background-color: ${(props: any) => props.theme.menuBackground};
+  background-color: ${(props: unknown) => props.theme.menuBackground};
   position: absolute;
   top: 0;
 `;

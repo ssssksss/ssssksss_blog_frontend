@@ -18,7 +18,7 @@ const addScheduleCategory = (props) => {
   });
 };
 
-const getScheduleCategoryList = (_) => {
+const getScheduleCategoryList = () => {
   const authStore = useSelector((state) => state.authStore);
   return UseQueryHook({
     queryKey: ['scheduleCategoryList', authStore.id],
@@ -38,7 +38,7 @@ const updateScheduleCategory = (props) => {
       id: reqData.id,
       name: reqData.name,
       backgroundColor: reqData.backgroundColor,
-    }).catch((_) => {
+    }).catch(() => {
       return;
     });
   };
@@ -55,7 +55,7 @@ const deleteScheduleCategory = (props) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/schedule/category?id=${reqData.id}`,
-    ).catch((_) => {
+    ).catch(() => {
       return;
     });
   };

@@ -10,9 +10,13 @@ import { Component } from 'react';
 
 interface IImageCardProps {
   imgSrc: Component;
-  w: string;
-  h: string;
-  backComponent: Component;
+  w?: string;
+  minW?: string;
+  maxW?: string;
+  h?: string;
+  minH?: string;
+  maxH?: string;
+  backComponent?: Component;
 }
 
 const ImageCard = (props: IImageCardProps) => {

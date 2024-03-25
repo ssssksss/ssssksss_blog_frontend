@@ -16,7 +16,12 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-18 03:31:50"
  * @description 설명
  */
-const DeleteMemoCategoryBox = (props) => {
+
+interface IAddScheduleCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const DeleteMemoCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
   const { handleSubmit, formState, setValue, trigger } = useForm({
     resolver: yupResolver(MemoDeleteYup),
@@ -26,12 +31,8 @@ const DeleteMemoCategoryBox = (props) => {
     },
   });
 
-  const selectChangeMemoCategoryHandler = (props: {
-    value: string;
-    name: string;
-    bg: string;
-  }) => {
-    setValue('pickDeleteMemoCategoryId', props.value);
+  const selectChangeMemoCategoryHandler = (value: string) => {
+    setValue('pickDeleteMemoCategoryId', value);
     trigger('pickDeleteMemoCategoryId');
   };
 
@@ -43,8 +44,8 @@ const DeleteMemoCategoryBox = (props) => {
   }) => {
     MemoAPI.deleteMemoCategory({
       id: data.pickDeleteMemoCategoryId,
-    }).then((_) => {
-      let temp = memoStore.memoCategoryList.filter(
+    }).then(() => {
+      const temp = memoStore.memoCategoryList.filter(
         (i) => i.id != data.pickDeleteMemoCategoryId,
       );
       store.dispatch(SET_MEMO_CATEGORY_LIST(temp));

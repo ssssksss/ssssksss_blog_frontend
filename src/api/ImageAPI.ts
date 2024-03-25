@@ -1,6 +1,6 @@
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
-const uploadImage = async (file: any, directory: string) => {
+const uploadImage = async (file: unknown, directory: string) => {
   return await ApiProcessHandler({
     url: '/s3/image',
     method: 'POST',

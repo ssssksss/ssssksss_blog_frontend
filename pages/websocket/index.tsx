@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
  */
 const Index = () => {
   // const [delay, setDelay] = useState("");
-  // useEffect((): any => {
+  // useEffect((): unknown => {
   //   window.onload = function (event) {
   //     start();
   //   };

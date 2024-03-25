@@ -12,7 +12,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 interface IAPiProcessHandlerProps {
   url: string;
   method: string;
-  params?: {};
+  params?: object;
   apiCategory?: string;
   isShowMessage?: boolean;
 }
@@ -55,7 +55,7 @@ export const ApiProcessHandler = async (props: IAPiProcessHandlerProps) => {
             data = res.data.data;
             code = 200;
           })
-          .catch((_) => {
+          .catch(() => {
             toasttifyResponse = ['error', '서버 에러'];
             PromiseType = 'error';
             code = 403;

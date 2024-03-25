@@ -7,18 +7,18 @@ type InitialState = {
   blogListOrderOption: number;
   blogListOrderOption: '';
   firstCategoryList: {
-    String: String;
+    String: string;
   };
   secondCategoryList: {
-    String: {
-      String: {
-        name: String;
-        thumbnailImageUrl: String;
+    [key: string]: {
+      [key: string]: {
+        name: string;
+        thumbnailImageUrl: string;
       };
     };
   };
-  activeFirstCategory: String;
-  activeSecondCategory: String;
+  activeFirstCategory: string;
+  activeSecondCategory: string;
 };
 
 const initialState: InitialState = {

@@ -31,7 +31,7 @@ const getBoardListData = (props: IGetBoardListDataProps) => {
     },
     isRefetchWindowFocus: false,
     enabled: props.enabled,
-    onSuccessHandler: (_) => {
+    onSuccessHandler: () => {
       props.onSuccessHandler();
     },
   });
@@ -83,7 +83,7 @@ const createBoard = () => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      let _url = `/board/${data.data.json.id}`;
+      const _url = `/board/${data.data.json.id}`;
       router.replace(_url);
       // router.beforeHistoryChange()
     },
@@ -97,7 +97,7 @@ const updateBoard = () => {
       id: reqData.id,
       title: reqData.title,
       content: reqData.content,
-    }).catch((_) => {
+    }).catch(() => {
       return;
     });
   };
@@ -105,7 +105,7 @@ const updateBoard = () => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ variables }) => {
-      let _url = `/board/${variables.id}`;
+      const _url = `/board/${variables.id}`;
       router.replace(_url);
     },
   });

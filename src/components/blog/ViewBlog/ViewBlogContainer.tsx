@@ -38,9 +38,9 @@ interface IProps {
 const ViewBlogContainer = (props: IProps) => {
   const router = useRouter();
   const [blogIndexList, setBlogIndexList] = useState<{
-    content: String;
-    top: Number;
-    tagName: String;
+    content: string;
+    top: number;
+    tagName: string;
   }>([]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const ViewBlogContainer = (props: IProps) => {
     setTimeout(() => {
       createBlogIndex();
       document.querySelectorAll('pre')?.forEach((i) => {
-        let test = document.createElement('button');
+        const test = document.createElement('button');
         test.style.position = 'absolute';
         test.style.right = '0.4rem';
         test.style.top = '0.4rem';
@@ -71,7 +71,7 @@ const ViewBlogContainer = (props: IProps) => {
       });
     }, 1000);
 
-    let keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
         router.back();
       }
@@ -87,10 +87,10 @@ const ViewBlogContainer = (props: IProps) => {
    * @description 블로그 글 인덱스 목록을 만들어주는 함수
    */
   const createBlogIndex = () => {
-    let temp = document
+    const temp = document
       ?.getElementsByClassName('wmde-markdown')[0]
       ?.querySelectorAll('h1,h2');
-    let htmlTagIndexTempArray = [];
+    const htmlTagIndexTempArray = [];
     temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
@@ -134,7 +134,7 @@ const Container = styled.div`
   }
 `;
 
-const ViewerContainer = styled.div<{ icon: any }>`
+const ViewerContainer = styled.div<{ icon: unknown }>`
   width: 100%;
   .wmde-markdown-var,
   .w-md-editor,

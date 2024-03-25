@@ -39,7 +39,7 @@ const deleteYoutubeLink = (props) => {
     return await AxiosInstance.delete(
       `/api/youtube/url?id=${reqData?.id}`,
       {},
-    ).catch((_) => {
+    ).catch(() => {
       return;
     });
   };

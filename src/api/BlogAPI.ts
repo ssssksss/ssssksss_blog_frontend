@@ -26,7 +26,7 @@ const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
   });
 };
 
-const getBlog = (props: any) => {
+const getBlog = (props: unknown) => {
   return UseQueryHook({
     queryKey: ['getBlog'],
     requestData: {
@@ -44,7 +44,7 @@ const getBlog = (props: any) => {
   });
 };
 
-const getBlogList = (_) => {
+const getBlogList = () => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   return UseQueryHook({
     queryKey: [
@@ -80,7 +80,7 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
     mutationFn,
     onSuccessHandler: ({ data }) => {
       const _createBlogFirstCategory = data.data.json.createBlogFirstCategory;
-      let _firstCategoryList = JSON.parse(
+      const _firstCategoryList = JSON.parse(
         JSON.stringify(store.getState().blogStore1.firstCategoryList),
       );
       _firstCategoryList[_createBlogFirstCategory.id] =
@@ -90,7 +90,7 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
           Object.assign({}, _firstCategoryList),
         ),
       );
-      let _secondCategoryList = JSON.parse(
+      const _secondCategoryList = JSON.parse(
         JSON.stringify(store.getState().blogStore1.secondCategoryList),
       );
       _secondCategoryList[_createBlogFirstCategory.id] = {};
@@ -115,7 +115,7 @@ const updateBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ variables }) => {
-      let temp = JSON.parse(
+      const temp = JSON.parse(
         JSON.stringify(store.getState().blogStore1.firstCategoryList),
       );
       temp[variables.id] = variables.name;
@@ -132,7 +132,7 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/blog-first-category?id=${reqData?.id}`,
-    ).catch((_) => {
+    ).catch(() => {
       return;
     });
   };
@@ -141,18 +141,18 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
     mutationFn,
     onSuccessHandler: ({ variables }) => {
       // ! 1번째 카테고리를 삭제하였을 때 현재 활성화 된 카테고리면 다른 카테고리로 변경
-      let _firstCategoryList = JSON.parse(
+      const _firstCategoryList = JSON.parse(
         JSON.stringify(blogStore1.firstCategoryList),
       );
-      let _secondCategoryList = JSON.parse(
+      const _secondCategoryList = JSON.parse(
         JSON.stringify(blogStore1.secondCategoryList),
       );
       if (variables.id == blogStore1.activeFirstCategory) {
-        let _firstCategoryId = Object.keys(_firstCategoryList)[0];
+        const _firstCategoryId = Object.keys(_firstCategoryList)[0];
         store.dispatch(
           rootActions.blogStore1.setActiveFirstCategory(_firstCategoryId),
         );
-        let _secondCategoryId = Object.keys(
+        const _secondCategoryId = Object.keys(
           _secondCategoryList[_firstCategoryId],
         )[0];
         store.dispatch(
@@ -200,7 +200,7 @@ const getBlogFirstCategoryList = () => {
 const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const mutationFn = async (reqData) => {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('name', reqData.name);
     formData.append('blogFirstCategoryId', reqData.blogFirstCategoryId);
     formData.append('files', reqData.files);
@@ -219,13 +219,13 @@ const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      let _createBlogSecondCategory: {
+      const _createBlogSecondCategory: {
         id: string | number;
         thumbnailImageUrl: string;
         name: string;
         count: 0;
       } = data.data.json.createBlogSecondCategory;
-      let _secondCategoryList = JSON.parse(
+      const _secondCategoryList = JSON.parse(
         JSON.stringify(store.getState().blogStore1.secondCategoryList),
       );
       _secondCategoryList[blogStore1.activeFirstCategory][
@@ -259,7 +259,7 @@ const getSecondCategory = async (props: string) => {
 const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const mutationFn = async (reqData) => {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('id', reqData.id);
     formData.append('name', reqData.name);
     formData.append('files', reqData.files);
@@ -270,7 +270,7 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data, variables }) => {
-      let _secondCategoryList = JSON.parse(
+      const _secondCategoryList = JSON.parse(
         JSON.stringify(blogStore1.secondCategoryList),
       );
       _secondCategoryList[blogStore1.activeFirstCategory][variables.id] = {
@@ -309,7 +309,7 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
     onSuccessHandler: ({ variables }) => {
       // ! 2번쨰 카테고리가 활성화되어있다면 다른 카테고리가 활성화되게 작업해야한다.
       let _secondCategoryId = blogStore1.activeSecondCategory;
-      let _secondCategoryList = JSON.parse(
+      const _secondCategoryList = JSON.parse(
         JSON.stringify(blogStore1.secondCategoryList),
       );
       if (blogStore1.activeSecondCategory == variables.id) {
@@ -341,7 +341,7 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
 const createBlog = (props: string) => {
   const router = useRouter();
   const mutationFn = async (reqData) => {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('title', reqData.title);
     formData.append('description', reqData.description);
     formData.append('content', reqData.content);
@@ -375,8 +375,8 @@ const createBlog = (props: string) => {
 
 const updateBlog = (props: string) => {
   const router = useRouter();
-  const mutationFn = async (reqData: any) => {
-    let formData = new FormData();
+  const mutationFn = async (reqData: unknown) => {
+    const formData = new FormData();
     formData.append('id', reqData.id);
     formData.append('title', reqData.title);
     formData.append('description', reqData.description);
@@ -415,11 +415,11 @@ const updateBlog = (props: string) => {
           url: `${baseUrl}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}`,
           data: { path: 'blog', id: variables.id + '' },
         })
-        .then((_) => {
+        .then(() => {
           props.onSuccessHandler();
           router.back();
         })
-        .catch((_) => {
+        .catch(() => {
           props.onSuccessHandler();
         });
     },

@@ -12,14 +12,14 @@ type InputHashTagType = {
   type?: string;
   placeholder?: string;
   disabled?: boolean;
-  register?: any;
+  register?: unknown;
   height?: string;
   width?: string;
   padding?: string;
   onKeyUp?: KeyboardEvent<HTMLInputElement>;
   borderRadius?: string;
   backgroundColor?: string;
-  onKeyPress?: any;
+  onKeyPress?: unknown;
   outline?: string;
   border?: string;
 };

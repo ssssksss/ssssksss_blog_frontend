@@ -35,7 +35,7 @@ const BlogFirstCategoryCreateBox = (
     },
   });
 
-  const createFirstCategoryHandler = (data: any) => {
+  const createFirstCategoryHandler = (data: unknown) => {
     const { ...params } = data;
 
     createBlogFirstCategoryMutation({

@@ -13,7 +13,7 @@ import { useState } from 'react';
  * @version 0.0.1 "2024-03-19 15:15:49"
  * @description 설명
  */
-const ViewHeaderContainer = (props) => {
+const ViewHeaderContainer = (props: unknown) => {
   const router = useRouter();
   const [blogCategory] = useState({
     firstCategoryName: props.blogFirstCategoryName,
@@ -82,7 +82,7 @@ const ViewHeaderContainer = (props) => {
 };
 export default ViewHeaderContainer;
 
-const Container = styled(CC.ColumnDiv)<{ props: any }>`
+const Container = styled(CC.ColumnDiv)<{ props: unknown }>`
   background-image: url(${(props) => props?.imageUrl});
   background-position: center center;
   background-repeat: no-repeat;

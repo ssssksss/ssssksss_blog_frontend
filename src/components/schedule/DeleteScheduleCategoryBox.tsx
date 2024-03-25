@@ -13,7 +13,12 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-18 03:31:50"
  * @description 설명
  */
-const DeleteScheduleCategoryBox = (props) => {
+
+interface IDeleteScheduleCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const DeleteScheduleCategoryBox = (props: IDeleteScheduleCategoryBoxProps) => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);
   const authStore = useSelector((state) => state.authStore);
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();

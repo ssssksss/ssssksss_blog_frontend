@@ -27,7 +27,7 @@ const BlogMainContainer = () => {
   const mainContainerRef = useRef<null>();
   const blogListResData = BlogAPI.getBlogList();
 
-  const orderBlogListHandler = (data: any) => {
+  const orderBlogListHandler = (data: unknown) => {
     if (
       !blogStore.activeBlogFirstCategoryId ||
       !blogStore.activeBlogSecondCategoryId
@@ -41,7 +41,7 @@ const BlogMainContainer = () => {
   };
 
   useEffect(() => {
-    let keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: Event) => {
       // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
       if (
         e.which === 32 &&

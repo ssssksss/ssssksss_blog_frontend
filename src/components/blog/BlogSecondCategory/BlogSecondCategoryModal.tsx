@@ -11,7 +11,8 @@ import BlogSecondCategoryUpdateBox from './BlogSecondCategoryUpdateBox';
  * @version 0.0.1 "2024-01-08 17:33:35"
  * @description 설명
  */
-const BlogSecondCategoryModal = (props) => {
+
+const BlogSecondCategoryModal = (props: { closeModal: () => void }) => {
   const [menu, setMenu] = useState('add');
 
   return (

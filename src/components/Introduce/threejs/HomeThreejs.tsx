@@ -15,11 +15,11 @@ import { Suspense, useEffect } from 'react';
 const HomeThreejs = () => {
   const camera_location = 120;
 
-  let myRoom_gsap = {
+  const myRoom_gsap = {
     t: 0,
   };
 
-  let projectIntroduce_gsap = {
+  const projectIntroduce_gsap = {
     t: 1,
     transparent: true,
     opacity: 0,

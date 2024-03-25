@@ -27,17 +27,17 @@ const setApiUserInfo = async () => {
       Authorization: `Bearer ${store.getState().authStore.accessToken}`,
     },
   })
-    .then((response: any) => {
+    .then((response: unknown) => {
       store.dispatch(
         rootActions.authStore.SET_USER_INFO(response.data.data.user),
       );
     })
-    .catch((_) => {});
+    .catch(() => {});
 };
 
 // axios의 인터셉터라고 하여 axios에서 응답을 보내기전과 요청을 받은 후 처리를 해주는 로직을 작성할 수 있다.
 AxiosInstance.interceptors.request.use(
-  (config: any) => {
+  (config: unknown) => {
     // 리덕스에 저장된 accessToken을 가져와서 헤더에 넣어서 api를
     const accessToken = store.getState().authStore.accessToken;
     if (accessToken) {
@@ -58,10 +58,10 @@ AxiosInstance.interceptors.request.use(
 );
 
 AxiosInstance.interceptors.response.use(
-  (response: any) => {
+  (response: unknown) => {
     return response;
   },
-  (error: any) => {
+  (error: unknown) => {
     if (error.response == null) {
       return;
     }
@@ -81,7 +81,7 @@ AxiosInstance.interceptors.response.use(
             'Bearer ' + store.getState().authStore.accessToken;
           await setApiUserInfo();
         })
-        .catch((_) => {
+        .catch(() => {
           existNewAccessToken = false;
         });
       if (existNewAccessToken) {
@@ -93,7 +93,7 @@ AxiosInstance.interceptors.response.use(
         url: '/api/user',
         method: 'DELETE',
       })
-        .then((_) => {
+        .then(() => {
           if (store.getState().authStore.accessToken !== '') {
             // alert("로그인이 필요합니다.");
           }
@@ -115,7 +115,7 @@ AxiosInstance.interceptors.response.use(
             );
           }
         })
-        .catch((_) => {});
+        .catch(() => {});
     }
     return Promise.reject(error);
   },

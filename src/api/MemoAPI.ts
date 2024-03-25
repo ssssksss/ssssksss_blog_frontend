@@ -15,7 +15,7 @@ const addMemoCategory = (props) => {
   });
 };
 
-const getMemoCategoryList = (_) => {
+const getMemoCategoryList = () => {
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'GET',
@@ -94,7 +94,7 @@ const deleteMemo = (props) => {
     params: {
       id: props.id,
     },
-  }).then((_) => {
+  }).then(() => {
     store.dispatch(
       rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
         type: 'success',

@@ -26,7 +26,7 @@ interface IScheduleResDataProps {
   userId: number;
 }
 
-const TodoScheduleContainer = (_) => {
+const TodoScheduleContainer = () => {
   const [containerSpace, setContainerSpace] = useState(0);
   const dayOfTheWeek = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({

@@ -88,7 +88,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       startDateTime: Time.jsDateTypeAddDays(state[0].startDate, 1),
       endDateTime: Time.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
-    }).then((res: any) => {
+    }).then((res: unknown) => {
       const scheduleData = res.json.schedule;
       const { id, title, content, startDateTime, endDateTime, isChecked } =
         scheduleData;
@@ -182,7 +182,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       startDateTime: Time.jsDateTypeAddDays(state[0].startDate, 1),
       endDateTime: Time.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
-    }).then((res: any) => {
+    }).then((res: unknown) => {
       const scheduleData = res.json.schedule;
       if (scheduleData.id == props.data.id)
         if (props.methodType == 'month') {
@@ -218,7 +218,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             },
           );
         } else {
-          let temp = scheduleStore.todayScheduleList.map((i) => {
+          const temp = scheduleStore.todayScheduleList.map((i) => {
             if (i.id == props.data.id) {
               return {
                 id: scheduleData.id,
@@ -247,7 +247,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   const deleteScheduleHandler = () => {
     ScheduleAPI.deleteSchedule({
       id: props.data.id,
-    }).then((_) => {
+    }).then(() => {
       store.dispatch(
         SET_TODAY_SCHEDULE_LIST(
           scheduleStore.todayScheduleList.filter((i) => i.id != props.data.id),
@@ -272,7 +272,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
 
   useEffect(() => {
     if (scheduleCategoryListResData.isFetching) return;
-    let _temp = store
+    const _temp = store
       .getState()
       .scheduleStore.scheduleCategoryList.filter(
         (i) => i.id == scheduleCategory?.id,

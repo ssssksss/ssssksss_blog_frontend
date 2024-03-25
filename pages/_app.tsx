@@ -18,9 +18,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout || ((page) => page);
-  const Layout =
-    Component.layout || ((children: ReactElement) => <> {children} </>);
+  const getLayout = Component.getLayout ?? ((page) => page);
   const queryClient = new QueryClient();
 
   useEffect(() => {
@@ -33,7 +31,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     }
   }, []);
 
-  return getLayout(
+  return (
     <StrictMode>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
@@ -45,15 +43,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"
             />
           </Head>
-          <NavBar>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </NavBar>
+          <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </Provider>
-    </StrictMode>,
+    </StrictMode>
   );
 }
 

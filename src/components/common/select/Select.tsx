@@ -20,20 +20,20 @@ interface ISelectProps {
   w?: string;
   h?: string;
   value?: {
-    value: any;
-    name: any;
+    value: unknown;
+    name: unknown;
     bg: string;
   };
   bg?: string;
   // react-hook-form에서 사용하는 용도
-  setValue?: any;
-  trigger?: any;
+  setValue?: unknown;
+  trigger?: unknown;
   enable?: boolean;
   // 클릭후 바로 최신 데이터가 필요한 경우에는 onChange에서 props를 이용하여 값을 받아 사용하면 된다.
   onChange?: () => void;
 }
 
-const Select = ({ ...props }): ISelectProps => {
+const Select = (props: ISelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState({
     value: props.defaultValue?.value,
@@ -86,7 +86,7 @@ const Select = ({ ...props }): ISelectProps => {
               <SelectItem
                 key={i.value}
                 bg={i.bg}
-                onClick={(_) => {
+                onClick={() => {
                   setData({
                     ...data,
                     value: i.value,
@@ -188,7 +188,7 @@ const Container = styled.div<ISelectProps>`
   }
 `;
 
-const SelectItem = styled.li<{ props: any }>`
+const SelectItem = styled.li<{ props: unknown }>`
   background: ${(props) =>
     props.theme.colors?.[props.bg] ||
     props.theme.main?.[props.bg] ||

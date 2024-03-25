@@ -20,7 +20,7 @@ interface ButtonProps extends IButtonProps {
 
 export const ConfirmButton = ({
   onClick: _onClick,
-  onClickCapture: _onClickCapture,
+  // onClickCapture: _onClickCapture,
   children = 'button',
   ...props
 }: ButtonProps) => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const removeImports = require('next-remove-imports')();
 
 const withPWA = require('next-pwa')({
@@ -22,7 +23,7 @@ const nextConfig = withPWA({
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   compiler: {
     emotion: true,

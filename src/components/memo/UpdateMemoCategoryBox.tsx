@@ -18,7 +18,11 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-18 01:02:26"
  * @description 설명
  */
-const UpdateMemoCategoryBox = (props) => {
+interface IUpdateMemoCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -45,20 +49,12 @@ const UpdateMemoCategoryBox = (props) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const selectChangeMemoCategoryHandler = (props: {
-    value: string;
-    name: string;
-    bg: string;
-  }) => {
-    setValue('pickUpdateMemoCategoryId', props.value);
+  const selectChangeMemoCategoryHandler = (value: string) => {
+    setValue('pickUpdateMemoCategoryId', value);
     trigger('pickUpdateMemoCategoryId');
   };
-  const selectChangeMemoCategoryBackgroundColorHandler = (props: {
-    value: string;
-    name: string;
-    bg: string;
-  }) => {
-    setValue('updateMemoCategoryColor', props.bg);
+  const selectChangeMemoCategoryBackgroundColorHandler = (bg: string) => {
+    setValue('updateMemoCategoryColor', bg);
     trigger('updateMemoCategoryColor');
   };
 
@@ -77,8 +73,8 @@ const UpdateMemoCategoryBox = (props) => {
       id: data.pickUpdateMemoCategoryId,
       name: data.updateMemoCategoryName,
       backgroundColor: data.updateMemoCategoryColor,
-    }).then((res: any) => {
-      let temp = memoStore.memoCategoryList.map((i) => {
+    }).then((res: unknown) => {
+      const temp = memoStore.memoCategoryList.map((i) => {
         if (i.id == res.json.memoCategory.id) {
           i.name = data.updateMemoCategoryName;
           i.backgroundColor = data.updateMemoCategoryColor;

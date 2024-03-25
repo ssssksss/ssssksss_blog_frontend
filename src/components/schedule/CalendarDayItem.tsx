@@ -8,7 +8,7 @@ type CalendarDayItemType = {
   color?: string;
   opacity?: string;
   day?: string;
-  content?: any;
+  content?: unknown;
   id?: string;
   children?: ReactNode;
   date?: string;

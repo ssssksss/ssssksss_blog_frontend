@@ -16,7 +16,12 @@ import { ScheduleCategoryUpdateYup } from '../yup/ScheduleYup';
  * @version 0.0.1 "2023-12-18 01:02:26"
  * @description 설명
  */
-const UpdateScheduleCategoryBox = (props) => {
+
+interface IUpdateScheduleCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const UpdateScheduleCategoryBox = (props: IUpdateScheduleCategoryBoxProps) => {
   const categoryColors = [
     'red40',
     'orange40',

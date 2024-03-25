@@ -3,6 +3,7 @@ import { Spinner37 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
+import { GetServerSideProps } from 'next';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -23,18 +24,20 @@ const UpdateBlogCSR = dynamic(
   },
 );
 
-export async function getServerSideProps(context) {
-  if (context.query.id) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  if (context?.query.id) {
     const { data } = await AxiosInstance.get(
       `/api/blog?id=${context.query.id}`,
     );
     // ! next-redux-wrapper 공부해보기
-    return { props: data.json };
+    return { props: data?.json };
   }
-  return {};
-}
+  return {
+    props: undefined,
+  };
+};
 
-const Update = (props: any) => {
+const Update = (props: unknown) => {
   return (
     <Container>
       <UpdateBlogCSR edit={true} {...props} />

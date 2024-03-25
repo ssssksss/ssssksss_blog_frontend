@@ -17,7 +17,11 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-17 16:56:30"
  * @description 설명
  */
-const CreateMemoCategoryBox = (props) => {
+interface ICreateMemoCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
   const categoryColors = [
     'red40',
     'orange40',
@@ -44,12 +48,8 @@ const CreateMemoCategoryBox = (props) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const selectChangeMemoCategoryHandler = (props: {
-    value: string;
-    name: string;
-    bg: string;
-  }) => {
-    setValue('createMemoCategoryColor', props.bg, {
+  const selectChangeMemoCategoryHandler = (bg: string) => {
+    setValue('createMemoCategoryColor', bg, {
       shouldValidate: true,
     });
   };
@@ -62,7 +62,7 @@ const CreateMemoCategoryBox = (props) => {
     MemoAPI.addMemoCategory({
       name: data.createMemoCategoryName,
       backgroundColor: data.createMemoCategoryColor,
-    }).then((res: any) => {
+    }).then((res: unknown) => {
       store.dispatch(
         SET_MEMO_CATEGORY_LIST([
           ...memoStore.memoCategoryList,

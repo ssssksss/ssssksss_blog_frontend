@@ -13,7 +13,12 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2023-12-17 16:56:30"
  * @description 설명
  */
-const AddScheduleCategoryBox = (props) => {
+
+interface IAddScheduleCategoryBoxProps {
+  closeModal: () => void;
+}
+
+const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   const categoryColors = [
     '',
     'red40',

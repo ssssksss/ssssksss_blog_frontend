@@ -9,7 +9,12 @@ import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';
  * @version 0.0.1 "2023-12-13 15:34:42"
  * @description 설명
  */
-const ScheduleCategoryModal = (props) => {
+
+interface IScheduleCategoryModalProps {
+  closeModal: () => void;
+}
+
+const ScheduleCategoryModal = (props: IScheduleCategoryModalProps) => {
   return (
     <Container onClick={(e) => e.stopPropagation()}>
       <AddScheduleCategoryBox closeModal={props.closeModal} />

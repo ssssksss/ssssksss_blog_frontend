@@ -3,6 +3,7 @@ import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useQuery } from 'react-query';
+import { React } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -17,12 +18,12 @@ interface IAxiosInstanceResponseProps {
     method: string;
   };
   data?: {
-    json: any;
+    json: unknown;
     msg: string;
     statusCode: number;
   };
-  headers?: any;
-  request?: any;
+  headers?: unknown;
+  request?: unknown;
   status?: number;
 }
 
@@ -77,7 +78,7 @@ export const UseQueryHook = (
       staleTime: props.staleTime,
       cacheTime: props.cacheTime,
       onError: (err) => {
-        let toasttifyResponse = ['error', false];
+        const toasttifyResponse = ['error', false];
         switch (err?.response?.status) {
           case '400' | 400:
             toasttifyResponse[1] = '잘못된 요청';
@@ -115,21 +116,21 @@ export const UseQueryHook = (
       isLoading: isLoading,
       isFetching: isFetching,
       data: (
-        <>
+        <React.Fragment>
           <LoadingComponent />
-        </>
+        </React.Fragment>
       ),
     };
   if (isError) {
     return {
       status: status,
-      data: <>{'에러'}</>,
+      data: <React.Fragment>{'에러'}</React.Fragment>,
     };
   }
   if (error) {
     return {
       status: status,
-      data: <>{'에러'}</>,
+      data: <React.Fragment>{'에러'}</React.Fragment>,
     };
   }
   if (data) {

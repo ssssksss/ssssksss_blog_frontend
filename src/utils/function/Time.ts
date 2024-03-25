@@ -1,5 +1,5 @@
 function msToTime(duration) {
-  var milliseconds = parseInt((duration % 1000) / 100),
+  const milliseconds = parseInt((duration % 1000) / 100),
     seconds = Math.floor((duration / 1000) % 60),
     minutes = Math.floor((duration / (1000 * 60)) % 60),
     hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
@@ -12,7 +12,7 @@ function msToTime(duration) {
 }
 
 function secToTime(duration) {
-  var seconds = Math.floor(duration % 60),
+  const seconds = Math.floor(duration % 60),
     minutes = Math.floor((duration / 60) % 60),
     hours = Math.floor((duration / (60 * 60)) % 24);
 

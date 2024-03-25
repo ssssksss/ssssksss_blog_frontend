@@ -5,8 +5,8 @@
  */
 export const dateFormat4y2m2d = (date1: string) => {
   const date = new Date(date1);
-  let month: number | string = date.getMonth() + 1;
-  let day: number | string = date.getDate();
+  const month: number | string = date.getMonth() + 1;
+  const day: number | string = date.getDate();
 
   return (
     date.getFullYear() +

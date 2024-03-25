@@ -18,7 +18,7 @@ const initialState: initialStateType = {
 
 // 리듀서 역할 2 : state를 변경시키는 함수를 정의한다.
 // 타입스크립트 state하고 액션인데 나중에 해결
-export const authReducer = (state = initialState, action: any) => {
+export const authReducer = (state = initialState, action: unknown) => {
   switch (action.type) {
     case 'SET_USER_INFO':
       return {

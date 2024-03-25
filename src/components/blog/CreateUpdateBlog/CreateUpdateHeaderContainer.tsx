@@ -14,7 +14,7 @@ import { useFormContext } from 'react-hook-form';
  * @version 0.0.1 "2024-03-19 18:36:40"
  * @description 설명
  */
-const CreateUpdateHeaderContainer = (props) => {
+const CreateUpdateHeaderContainer = (props: unknown) => {
   const { register, getValues, setValue, trigger } = useFormContext();
   const [isHideContainer, hideContainerToggle] = useReducer(
     (v) => !v,
@@ -76,7 +76,7 @@ const CreateUpdateHeaderContainer = (props) => {
   };
 
   useEffect(() => {
-    let keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: Event) => {
       if (e.key === 'Escape') {
         hideContainerToggle();
       }

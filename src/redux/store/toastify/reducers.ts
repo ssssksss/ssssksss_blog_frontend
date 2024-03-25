@@ -3,7 +3,7 @@ const initialState = {
   message: '가출한토토로의 블로그에 오신것을 환영합니다.',
 };
 
-export const toastifyReducer = (state = initialState, action: any) => {
+export const toastifyReducer = (state = initialState, action: unknown) => {
   switch (action.type) {
     case 'TOASTIFY_MESSAGE':
       return {

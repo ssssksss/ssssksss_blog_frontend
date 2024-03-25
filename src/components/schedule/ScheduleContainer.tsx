@@ -99,9 +99,9 @@ const ScheduleContainer = () => {
   });
 
   useEffect(() => {
-    let month = store.getState().scheduleStore.calendarMonth;
-    let year = store.getState().scheduleStore.calendarYear;
-    let calendar = createCalendar({ year, month });
+    const month = store.getState().scheduleStore.calendarMonth;
+    const year = store.getState().scheduleStore.calendarYear;
+    const calendar = createCalendar({ year, month });
     if (!authStore.id) {
       queryClient.setQueryData(
         [
@@ -137,7 +137,7 @@ const ScheduleContainer = () => {
       calendar.startDateOfMonth,
       calendar.endDateOfMonth,
     ).map((i) => {
-      let index2 =
+      const index2 =
         Time.dayIntervalCalc(
           // (1-2) 첫날짜와 기준날짜를 빼서 몇번째 날짜인지 인덱스를 구하기 위해 사용
           new Date(calendar.startDateOfMonth),
@@ -194,7 +194,7 @@ const ScheduleContainer = () => {
             </DayOfTheWeekHeader>
             <DayItemContainer>
               {scheduleStore.calendar.calendar?.map(
-                (el: any, index: number) => (
+                (el: unknown, index: number) => (
                   // 키(el[0])는 날짜
                   // 값(el[1])은 일, 요일, opacity(저번달,다음달)
                   <CalendarDayItem

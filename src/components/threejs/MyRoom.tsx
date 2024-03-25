@@ -7,7 +7,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // gsap.registerPlugin(ScrollTrigger);
-const MyRoom = ({ myRoom_gsap }) => {
+
+const MyRoom = ({ myRoom_gsap }: unknown) => {
   const gltf = useLoader(GLTFLoader, '/glTF/myhome/myhome.glb');
   useEffect(() => {
     // [] 모니터 오브젝트에 보여주는 mp4 영상 넣어주는 함수
@@ -151,11 +152,11 @@ const MyRoom = ({ myRoom_gsap }) => {
 
   const ref = useRef();
   useFrame(() => {
-    const temp = 1 - myRoom_gsap.t / 20;
+    const temp = 1 - myRoom_gsap?.t / 20;
     ref.current.scale.x = temp > 0 ? temp : 0;
     ref.current.scale.y = temp > 0 ? temp : 0;
     ref.current.scale.z = temp > 0 ? temp : 0;
-    ref.current.rotation.y = 90 * (myRoom_gsap.t / 1000);
+    ref.current.rotation.y = 90 * (myRoom_gsap?.t / 1000);
     ref.current.visible = temp > 0 ? true : false;
   });
 

@@ -111,9 +111,9 @@ export const createCalendar = (props: { year: number; month: number }) => {
     }
   }
   // 달력에서 첫째날짜와 마지막날짜를 넣는 방법
-  let objLength = Object.keys(temp).length - 1;
-  let startDateOfMonth = temp[0].date;
-  let endDateOfMonth = temp[objLength].date;
+  const objLength = Object.keys(temp).length - 1;
+  const startDateOfMonth = temp[0].date;
+  const endDateOfMonth = temp[objLength].date;
 
   return {
     calendar: temp,

@@ -38,13 +38,13 @@ export async function getServerSideProps() {
 
 type propsType = {
   firstCategoryList: {
-    String: String;
+    String: string;
   };
   secondCategoryList?: {
-    firstCategoryId?: {
+    [firstCategoryId: string | number]: {
       secondCategoryId?: {
-        name?: String;
-        thumbnailImageUrl: String;
+        name?: string;
+        thumbnailImageUrl: string;
       };
     };
   };
@@ -52,9 +52,9 @@ type propsType = {
 const Index = (props: propsType) => {
   const router = useRouter();
   useEffect(() => {
-    let urlQueryObject = UrlQueryStringToObject(window.location.href);
+    const urlQueryObject = UrlQueryStringToObject(window.location.href);
     // ! COMM :  url에 첫번째 카테고리 값이 있으면 그걸로 없으면 첫번째 카테고리
-    let firstCategoryIdTemp =
+    const firstCategoryIdTemp =
       urlQueryObject?.[`first-category`] ||
       Object.keys(props.firstCategoryList)[0];
     store.dispatch(
@@ -67,13 +67,16 @@ const Index = (props: propsType) => {
       rootActions.blogStore1.setSecondCategoryList(props.secondCategoryList),
     );
     // ! COMM : 두번째 카테고리도 마찬가지로 작업
-    let secondCategoryIdTemp = urlQueryObject?.[`second-category`]
-      ? urlQueryObject?.[`second-category`]
-      : Object.keys(props.secondCategoryList[firstCategoryIdTemp])[0];
+    let secondCategoryIdTemp = urlQueryObject?.[`second-category`] || null;
+    if (props.secondCategoryList) {
+      secondCategoryIdTemp = Object.keys(
+        props.secondCategoryList[firstCategoryIdTemp],
+      )[0];
+    }
     store.dispatch(
       rootActions.blogStore1.setActiveSecondCategory(secondCategoryIdTemp),
     );
-    let temp =
+    const temp =
       window.document.location.origin +
       window.document.location.pathname +
       '?first-category=' +

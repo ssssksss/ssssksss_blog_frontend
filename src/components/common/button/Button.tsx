@@ -1,31 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { animationKeyFrames } from '@styles/Animations';
-import { colorTypes } from '@styles/theme';
-import { MouseEventHandler, ReactNode, useCallback } from 'react';
-
-export interface IButtonProps {
-  onClick?: (_event: any) => void;
-  onClickCapture?: (_event: any) => void;
-  children: ReactNode;
-  disabled?: boolean;
-  w?: string;
-  h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
-  minW?: string;
-  minH?: string;
-  bg?: colorTypes;
-  brR?: string; // border-radius
-  color?: colorTypes;
-  outline?: boolean;
-  outlineColor?: colorTypes;
-  fontFamily?: string;
-  fontWeight?: number;
-  state?: 'danger' | 'warning';
-  active?: boolean;
-  activeBg?: string;
-  hover?: boolean;
-  badgeValue?: number | string;
-}
+import { MouseEventHandler, useCallback } from 'react';
+import { ButtonTypes } from 'src/@types/Button';
 
 const Button = ({
   onClick: _onClick,
@@ -33,7 +10,7 @@ const Button = ({
   children = 'button',
   hover = true,
   ...props
-}: IButtonProps) => {
+}: ButtonTypes.IButtonProps) => {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
       if (props.disabled) return;
@@ -67,7 +44,7 @@ const Button = ({
 
 export default Button;
 
-const ButtonStyle = styled.button<IButtonProps>`
+const ButtonStyle = styled.button<ButtonTypes.IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
   ${(props) => props.theme.flex?.row.center.center};
   color: ${(props) => props.theme?.colors?.black80};

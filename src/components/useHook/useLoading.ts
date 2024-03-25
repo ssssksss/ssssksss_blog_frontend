@@ -11,7 +11,7 @@ export const useLoading = () => {
 
   const loadingFunction = async (action) => {
     setIsLoading(true);
-    let result = await action;
+    const result = await action;
     setIsLoading(false);
 
     if (result?.type === 'response') {

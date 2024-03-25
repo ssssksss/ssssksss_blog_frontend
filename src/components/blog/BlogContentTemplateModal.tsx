@@ -17,7 +17,7 @@ import Select from '../common/select/Select';
  * @description 설명
  */
 
-const BlogContentTemplateModal = (props: any) => {
+const BlogContentTemplateModal = (props: unknown) => {
   const selectRemoveRef = useRef<HTMLSelectElement>(null);
   const [mode, setMode] = useState(true);
   const [, toggleHandler] = useReducer((prev) => !prev, true);
@@ -47,7 +47,7 @@ const BlogContentTemplateModal = (props: any) => {
     BlogAPI.removeBlogContentTemplate({
       id: selectRemoveRef.current?.value,
     }).then(() => {
-      let temp = blogContentTemplateStore.blogContentTemplateList.filter(
+      const temp = blogContentTemplateStore.blogContentTemplateList.filter(
         (i) => i.id != selectRemoveRef.current?.value,
       );
       store.dispatch(SET_BLOG_CONTENT_TEMPLATE_LIST(temp));

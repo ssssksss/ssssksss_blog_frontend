@@ -33,21 +33,21 @@ import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
 
 interface IEditCreateUpdateBlogContainerProps {
   edit?: boolean;
-  commentNumber: number;
-  blogFirstCategoryName: string;
-  blogSecondCategoryName: string;
-  description: string;
-  viewNumber: number;
-  title: string;
-  blogContentId: number;
-  firstCategoryId: number;
-  userId: number;
-  content: string;
-  createdAt: string;
-  thumbnailImageUrl: string;
-  id: number;
-  secondCategoryId: number;
-  likeNumber: number;
+  commentNumber?: number;
+  blogFirstCategoryName?: string;
+  blogSecondCategoryName?: string;
+  description?: string;
+  viewNumber?: number;
+  title?: string;
+  blogContentId?: number;
+  firstCategoryId?: number;
+  userId?: number;
+  content?: string;
+  createdAt?: string;
+  thumbnailImageUrl?: string;
+  id?: number;
+  secondCategoryId?: number;
+  likeNumber?: number;
 }
 
 const CreateUpdateBlogContainer = (
@@ -118,12 +118,12 @@ const CreateUpdateBlogContainer = (
 
       setTimeout(() => {
         // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
-        let _blogContentImageList = [];
+        const _blogContentImageList = [];
         let index2 = 0;
         const _TRUE = true;
         if (!props.edit) return;
         while (_TRUE) {
-          let index1 = props.content.indexOf(AWSS3Prefix, index2);
+          const index1 = props.content.indexOf(AWSS3Prefix, index2);
           if (index1 === -1) break;
           index2 = props.content.indexOf('.', index1 + AWSS3Prefix.length);
           _blogContentImageList.push(
@@ -135,7 +135,7 @@ const CreateUpdateBlogContainer = (
     },
   });
 
-  const uploadHandler = async (file: any) => {
+  const uploadHandler = async (file: unknown) => {
     const url = URL.createObjectURL(file).substring(5);
     setTempBlogImage((prev) => [...prev, { url, file }]);
     return url;
@@ -162,8 +162,8 @@ const CreateUpdateBlogContainer = (
     e.preventDefault();
     e.stopPropagation();
     if (e.dataTransfer.files[0]) {
-      let _url = await uploadHandler(e.dataTransfer.files[0]);
-      let _text = '![image](blob:' + _url + ')';
+      const _url = await uploadHandler(e.dataTransfer.files[0]);
+      const _text = '![image](blob:' + _url + ')';
       editorChangeHandler(
         value.substring(0, textareaRef.current.selectionStart) +
           _text +
@@ -177,9 +177,9 @@ const CreateUpdateBlogContainer = (
   const submitHandler = async () => {
     setIsLoading(true);
     // store.dispatch(setIsLoading(true));
-    let imageUrlList = [];
-    let imageFileList = [];
-    let deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
+    const imageUrlList = [];
+    const imageFileList = [];
+    const deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
     // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
     // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
@@ -255,7 +255,7 @@ const CreateUpdateBlogContainer = (
 
     setTimeout(() => {
       document.querySelectorAll('pre')?.forEach((i) => {
-        let test = document.createElement('button');
+        const test = document.createElement('button');
         test.style.position = 'absolute';
         test.style.right = '0.4rem';
         test.style.top = '0.4rem';

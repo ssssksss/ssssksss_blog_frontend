@@ -18,7 +18,7 @@ interface IUseMutationHookProps {
 
 export const useMutationHook = (props: IUseMutationHookProps) => {
   const { mutate } = useMutation(props.mutationFn, {
-    onMutate: (_) => {
+    onMutate: () => {
       // variables : {id: 1}
     },
     onSuccess: (data, variables, context) => {

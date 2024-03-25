@@ -1,36 +1,32 @@
-import Footer from '@components/layout/Footer';
-import MyRoom from '@components/threejs/glTF/room/MyRoom';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Head from 'next/head';
 import Layout1 from 'src/components/layout/Layout1';
+import MyRoom from './../src/components/threejs/glTF/room/MyRoom';
+import Footer from './../src/components/layout/Footer';
 
 const HomePage = () => {
   return (
-    <Container>
+    <CC.ColCenterStartBox
+      scroll={'scrollY'}
+      padding={'0rem 0rem 13rem 0rem'}
+      w={'100%'}
+    >
       <Head>
         <title>홈 화면</title>
       </Head>
-      <CC.RowCenterDiv></CC.RowCenterDiv>
       <ThreeJSBox>
         <MyRoom />
       </ThreeJSBox>
+      https://github.com/jsx-eslint/eslint-plugin-react/tree/master/docs/rules/jsx-no-undef.md
       <FooterBox>
         <Footer />
       </FooterBox>
-    </Container>
+    </CC.ColCenterStartBox>
   );
 };
 HomePage.layout = Layout1;
 export default HomePage;
-
-const Container = styled.div`
-  width: 100%;
-  justify-content: space-between;
-  ${(props) => props.theme.scroll.hiddenY};
-  // FooterBox만큼은 공간을 비워두어야 한다.
-  padding-bottom: 13rem;
-`;
 
 const ThreeJSBox = styled(CC.RowCenterDiv)`
   height: 30rem;

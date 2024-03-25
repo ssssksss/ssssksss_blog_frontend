@@ -1,5 +1,5 @@
 const ValidId = (id: string) => {
-  let regExp = /^[a-zA-Z]+[a-z0-9A-Z]{7,15}$/g;
+  const  regExp = /^[a-zA-Z]+[a-z0-9A-Z]{7,15}$/g;
   if (id === "") {
     return "값이 존재하지 않습니다.";
   } else if (id.length < 8 || id.length > 16) {
@@ -11,7 +11,7 @@ const ValidId = (id: string) => {
   }
 };
 const ValidPassword = (password: string) => {
-  let regExp =
+  const  regExp =
     /(?=.*\d{1,20})(?=.*[~`!@#$%^&*()-+=]{1,20})(?=.*[a-z]{1,20})(?=.*[A-Z]{1,20})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,20}$/;
   if (password === "") {
     return "값이 존재하지 않습니다.";
@@ -31,7 +31,7 @@ const ValidPasswordCopy = (password: string, passwordCopy: string) => {
   }
 };
 const ValidEmail = (email: string) => {
-  let regExp =
+  const  regExp =
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/g;
   if (email === "") {
     return "값이 존재하지 않습니다.";
@@ -42,7 +42,7 @@ const ValidEmail = (email: string) => {
   }
 };
 const ValidGender = (gender: string) => {
-  let regExp = /[m|w]/g;
+  const  regExp = /[m|w]/g;
   if (gender === "") {
     return "값이 존재하지 않습니다.";
   } else if (!regExp.test(gender)) {
@@ -52,7 +52,7 @@ const ValidGender = (gender: string) => {
   }
 };
 const ValidBirthDate = (birthDate: string) => {
-  let regExp =
+  const  regExp =
     /^(19[0-9][0-9]|20[0-9]{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/g;
   if (birthDate === "") {
     return "값이 존재하지 않습니다.";

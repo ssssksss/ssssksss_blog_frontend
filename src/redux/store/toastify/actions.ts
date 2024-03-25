@@ -2,7 +2,7 @@ export type ACTION_INSTANCE = ReturnType<typeof SET_TOASTIFY_MESSAGE>;
 
 type TOASTIFY_MESSAGE_STATE = {
   type: 'success' | 'error' | 'warning' | 'info' | 'default';
-  message: String;
+  message: string;
 };
 /**
  * @param 배경색 테마를 지정하는 함수

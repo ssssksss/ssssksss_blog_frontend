@@ -35,7 +35,7 @@ const ScheduleBar = (props: {
   const _IsCheckedToggleHandler = () => {
     ScheduleAPI.toggleCheckSchedule({
       id: props.data?.id,
-    }).then((_) => {
+    }).then(() => {
       setIsChecked((prev) => !prev);
     });
   };

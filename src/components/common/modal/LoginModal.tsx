@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
  * @version 0.0.1 "2023-09-24 13:50:42"
  * @description 설명
  */
-const LoginModal = (props) => {
+const LoginModal = (props: { changeAuthScreen: () => void }) => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
@@ -24,7 +24,7 @@ const LoginModal = (props) => {
   });
   const { errors } = formState;
   const signInMutate = UserAPI.signInUser();
-  const onClickSubmit = async (data: any) => {
+  const onClickSubmit = async (data: unknown) => {
     signInMutate({
       email: data.email,
       password: data.password,

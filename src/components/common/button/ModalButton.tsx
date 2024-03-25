@@ -13,7 +13,8 @@ import React, {
 } from 'react';
 
 interface IModalButtonProps {
-  onClick?: (_event: any) => void;
+  onClick?: (_event: unknown) => void;
+  onClickCapture?: (_event: unknown) => void;
   children: ReactNode;
   disabled?: boolean;
   w?: string;
@@ -69,7 +70,7 @@ const ModalButton: IModalButtonProps = ({
     [_onClickCapture, props.disabled],
   );
 
-  const closeModal = useCallback((_) => {
+  const closeModal = useCallback(() => {
     if (props.beforeCloseFunction) {
       props.beforeCloseFunction();
     }

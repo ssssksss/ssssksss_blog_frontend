@@ -58,7 +58,7 @@ const TabMenu = (props: TabMenuType) => {
 };
 export default TabMenu;
 
-const Container = styled(CC.ColumnDiv)<{ props: any }>`
+const Container = styled(CC.ColumnDiv)<{ props: unknown }>`
   width: 100%;
   height: 100%;
 `;

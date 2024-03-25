@@ -23,7 +23,7 @@ const addTodo = (props) => {
   });
 };
 
-const getTodoList = (_) => {
+const getTodoList = () => {
   return UseQueryHook({
     queryKey: ['todoList'],
     requestData: {
@@ -87,7 +87,7 @@ const toggleCheckTodo = (props) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.patch('/api/todo/check', {
       id: reqData?.id,
-    }).catch((_) => {
+    }).catch(() => {
       return;
     });
   };

@@ -8,9 +8,9 @@ import { ReactNode } from 'react';
  */
 
 interface SpanProps {
-  fontSize?: String;
-  fontFamily?: String;
-  color?: String;
+  fontSize?: string;
+  fontFamily?: string;
+  color?: string;
   children?: ReactNode;
 }
 

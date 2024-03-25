@@ -37,7 +37,7 @@ const BlogSecondCategoryCreateBox = (
   });
   const { errors } = formState;
 
-  const createSecondCategoryHandler = async (data: any) => {
+  const createSecondCategoryHandler = async (data: unknown) => {
     const file = data.createSecondCategoryImageFile;
     createSecondCategoryMutation({
       name: data.createSecondCategoryName,

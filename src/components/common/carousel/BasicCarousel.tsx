@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from 'react';
  * Description :
  */
 interface IBasicCarouselProps {
-  arr: any[];
+  arr: unknown[];
   arrLength: number; // 배열의 갯수
   IntervalTime: number;
   transitionTime: number;
@@ -30,14 +30,14 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
   ];
   const [currentIndex, setCurrentIndex] = useState(1);
   const [time, setTime] = useState(props.IntervalTime);
-  const transitionRef = useRef<any>(null);
+  const transitionRef = useRef<unknown>(null);
   const transitionStyle = `transform ${props.transitionTime}ms ease-out 0s`;
   const [slideTransition, setTransition] = useState(transitionStyle);
   const [autoPlay, setAutoPlay] = useState(true);
   const router = useRouter();
 
-  function useInterval(callback: any, delay: any) {
-    const savedCallback = useRef<any>(null);
+  function useInterval(callback: unknown, delay: unknown) {
+    const savedCallback = useRef<unknown>(null);
     useEffect(() => {
       savedCallback.current = callback;
     }, [callback]);
@@ -47,7 +47,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
         savedCallback.current();
       }
       if (delay !== null) {
-        let id = setInterval(tick, delay);
+        const id = setInterval(tick, delay);
         return () => clearInterval(id);
       }
     }, [delay]);
@@ -99,7 +99,7 @@ const BasicCarousel = (props: IBasicCarouselProps) => {
     <Container>
       <SliderSizeContainer>
         <SliderContainer arrLength={arr.length}>
-          {arr.map((el: any, index: number) => (
+          {arr.map((el: unknown, index: number) => (
             <SliderItem
               key={index}
               currentIndex={currentIndex}

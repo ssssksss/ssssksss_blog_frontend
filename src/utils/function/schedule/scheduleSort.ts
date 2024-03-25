@@ -20,10 +20,10 @@ export const scheduleSort = (
   startDateOfMonth: string,
   endDateOfMonth: string,
 ) => {
-  let eachFloorBaseDate = [startDateOfMonth]; // 몇일까지 일정이 표시되었는지 알 수 있는 용도로 예를 들어 12월 1일에서 어떤 일정이 5일간이면 12월 6일을 잠시 기억해주는 변수
-  let result = [];
+  const eachFloorBaseDate = [startDateOfMonth]; // 몇일까지 일정이 표시되었는지 알 수 있는 용도로 예를 들어 12월 1일에서 어떤 일정이 5일간이면 12월 6일을 잠시 기억해주는 변수
+  const result = [];
   //   시작날짜 부터 마지막날짜까지의 일수 예를 들어 12.01 ~ 12.03 인 경우 3을 반환한다.
-  let dayIntervalCalc = function (start: Date, end: Date) {
+  const dayIntervalCalc = function (start: Date, end: Date) {
     if (start.getTime() - end.getTime() < 0) {
       return (
         Math.ceil(
@@ -40,7 +40,7 @@ export const scheduleSort = (
       );
     }
   };
-  data.map((i, _) => {
+  data.map((i) => {
     let layer = 1; // 1일 칸에 grid로 위치를 잡기 위해서 사용, 일정 막대바가 4개이면 grid-template-rows의 값이 4이상이어야 문제 없이 UI가 표시된다.
     let whichFloor = 1; // 현재 일정이 몇번째 층에서 작업이 되고 있는지를 결정하는 변수
     for (let j = 0; ; j++) {
@@ -75,7 +75,7 @@ export const scheduleSort = (
       // 1번째 주 1번째 층은 7일, 2번째 주 1번째 층은 3일이라는 공간을 차지하게 될것이다. 그러면 1번째 층의 기준날짜(eachFloorBaseDate[0])은 +10일이 되있을 것이다
       while (remainDays > 0) {
         if (remainDays <= 7) {
-          let obj = {
+          const obj = {
             ...i,
             dayIndex: eachFloorBaseDate[whichFloor],
             layer: layer,
@@ -98,7 +98,7 @@ export const scheduleSort = (
           );
           remainDays = 0;
         } else {
-          let obj = {
+          const obj = {
             ...i,
             dayIndex: eachFloorBaseDate[whichFloor],
             layer: layer,
@@ -132,7 +132,7 @@ export const scheduleSort = (
           new Date(eachFloorBaseDate[whichFloor]).getDay() + remainDays <=
           7
         ) {
-          let obj = {
+          const obj = {
             ...i,
             dayIndex: eachFloorBaseDate[whichFloor],
             layer: layer,
@@ -151,7 +151,7 @@ export const scheduleSort = (
           );
           remainDays = 0;
         } else {
-          let obj = {
+          const obj = {
             ...i,
             dayIndex: eachFloorBaseDate[whichFloor],
             layer: layer,

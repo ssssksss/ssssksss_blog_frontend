@@ -26,34 +26,34 @@ const BlogCategoryContainer = () => {
   const blogSecondCategoryVerticalScrollRef = useRef();
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
-  const blogFirstCategoryHandler = (props: any) => {
-    store.dispatch(rootActions.blogStore1.setActiveFirstCategory(props.id));
+  const blogFirstCategoryHandler = (id: string) => {
+    store.dispatch(rootActions.blogStore1.setActiveFirstCategory(id));
     store.dispatch(
       rootActions.blogStore1.setActiveSecondCategory(
-        Object.keys(blogStore1.secondCategoryList[props.id])[0],
+        Object.keys(blogStore1.secondCategoryList[id])[0],
       ),
     );
 
-    let temp =
+    const temp =
       window.document.location.origin +
       window.document.location.pathname +
       '?first-category=' +
-      props.id +
+      id +
       '&second-category=' +
-      Object.keys(store.getState().blogStore1.secondCategoryList[props.id])[0];
+      Object.keys(store.getState().blogStore1.secondCategoryList[id])[0];
     router.push(temp, '', { shallow: true });
   };
 
-  const blogSecondCategoryHandler = (props: { id: string }) => {
-    let temp =
+  const blogSecondCategoryHandler = (id: string) => {
+    const temp =
       window.document.location.origin +
       window.document.location.pathname +
       '?first-category=' +
       store.getState().blogStore1.activeFirstCategory +
       '&second-category=' +
-      props.id;
+      id;
     router.push(temp, '', { shallow: true });
-    store.dispatch(rootActions.blogStore1.setActiveSecondCategory(props.id));
+    store.dispatch(rootActions.blogStore1.setActiveSecondCategory(id));
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const BlogCategoryContainer = () => {
             }}
             badgeValue={Object.entries(
               blogStore1.secondCategoryList?.[key] || {},
-            ).reduce((sum, [_, value]) => sum + Number(value.count), 0)}
+            ).reduce((sum, [, value]) => sum + Number(value.count), 0)}
           >
             {value}
           </Button>
@@ -192,7 +192,6 @@ const BlogFirstCategoryContainer = styled(CC.RowDiv)`
 const BlogSecondCategoryContainer = styled(CC.RowDiv)`
   gap: 0.8rem;
   padding: 0.4rem;
-  flex-wrap: wrap;
   width: 100%;
 
   & > button {

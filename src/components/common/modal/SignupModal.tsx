@@ -16,7 +16,10 @@ import { useForm } from 'react-hook-form';
  * @description 설명
  */
 
-const SignupModal = (props) => {
+const SignupModal = (props: {
+  closeModal: () => void;
+  changeAuthScreen: () => void;
+}) => {
   const { register, handleSubmit, formState, watch, trigger } = useForm({
     resolver: yupResolver(UserSignupYup),
     mode: 'onChange',
@@ -31,7 +34,7 @@ const SignupModal = (props) => {
   });
   const { errors } = formState;
 
-  const onClickSubmit = async (data: any) => {
+  const onClickSubmit = async (data: unknown) => {
     const { ...params } = data;
     await AxiosInstance({
       url: '/api/user',
@@ -44,7 +47,7 @@ const SignupModal = (props) => {
         birthDate: '20000101',
       },
     })
-      .then((_) => {
+      .then(() => {
         store.dispatch(
           rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
             type: 'success',
@@ -53,7 +56,7 @@ const SignupModal = (props) => {
         );
         props.closeModal();
       })
-      .catch((error: any) => {
+      .catch((error: unknown) => {
         alert(error.response.data.errorMsg);
       });
   };

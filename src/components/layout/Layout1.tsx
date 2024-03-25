@@ -11,7 +11,7 @@ type AppLayoutProps = {
 const Layout1 = ({ children }: AppLayoutProps) => {
   return (
     <Container>
-      <TopBar id={'top-bar'} />
+      <TopBar />
       <MainContainer id={'main-container'}>{children}</MainContainer>
       <LoadingComponent w={'100vw'} h={'100vh'} position={'fixed'} />
     </Container>

@@ -24,11 +24,11 @@ interface IInputProps {
   outline?: boolean;
   outlineColor?: colorTypes;
   placeholder?: string;
-  register?: any;
-  setValue?: any;
-  field?: any;
+  register?: unknown;
+  setValue?: unknown;
+  field?: unknown;
   disabled?: boolean;
-  defaultValue?: any;
+  defaultValue?: unknown;
   checked?: boolean;
   color?: string;
   placeholderColor?: string;
@@ -64,7 +64,7 @@ interface IInputProps {
     | 'color';
 }
 
-const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
+const Input = React.forwardRef<IInputProps, HTMLInputElement>((props, ref) => {
   const [imageUrl, setImageUrl] = useState('/');
   const [, setIsDragging] = useState(false);
 
@@ -134,8 +134,8 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
             onChangeFile(e);
             if (props.register) {
               // props.register.onChange(e);
-              props.setValue(props.register.name, e.target.files[0]);
-              props.trigger(props.register.name);
+              props.setValue(props.register?.name, e.target.files[0]);
+              props.trigger(props.register?.name);
             }
           }}
         />
@@ -182,10 +182,10 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
           onDrop={(e) => {
             if (props.register) {
               // ? react-hook-form 사용시 필요한 코드
-              let event = e;
+              const event = e;
               event.target.value = e.dataTransfer.files?.[0];
-              event.target.name = props.register.name;
-              props.register.onChange(event);
+              event.target.name = props.register?.name;
+              props.register?.onChange(event);
             }
             onDrop(e);
           }}
@@ -196,8 +196,8 @@ const Input = React.forwardRef<HTMLInputElement>((props: IInputProps, ref) => {
                 e.preventDefault();
                 setImageUrl('/');
                 if (props.register) {
-                  props.setValue(props.register.name, '');
-                  props.trigger(props.register.name);
+                  props.setValue(props.register?.name, '');
+                  props.trigger(props.register?.name);
                 }
               }}
             >

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-const EditIcon = (props: any) => {
+const EditIcon = (props: unknown) => {
   return (
     <IconSVG
       fill={props.fill}
@@ -23,7 +23,7 @@ export const IconsSvg = {
   EditIcon,
 };
 
-const IconSVG = styled.svg<{ fill: any }>`
+const IconSVG = styled.svg<{ fill: unknown }>`
   align-self: center;
   width: ${(props) => props.w || '1.6rem'};
   aspect-ratio: 1;

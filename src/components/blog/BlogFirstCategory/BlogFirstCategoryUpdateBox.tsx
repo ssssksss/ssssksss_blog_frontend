@@ -41,7 +41,7 @@ const BlogFirstCategoryUpdateBox = (
     methods.setValue('updateFirstCategoryName', data.name);
   };
 
-  const updateFirstCategoryHandler = async (data: any) => {
+  const updateFirstCategoryHandler = async (data: unknown) => {
     const { ...params } = data;
     if (params.updateFirstCategoryName == '') {
       return;

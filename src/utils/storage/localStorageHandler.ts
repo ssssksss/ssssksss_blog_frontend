@@ -1,6 +1,6 @@
 export const localStorageSetHandler = (
   storageKeyName: string,
-  el: any,
+  el: unknown,
   maxLength: number,
 ) => {
   const data = JSON.parse(window.localStorage.getItem(storageKeyName));
