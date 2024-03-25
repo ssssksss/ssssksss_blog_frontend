@@ -3,7 +3,7 @@ import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useQuery } from 'react-query';
-import { React } from 'react';
+import React from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -112,7 +112,7 @@ export const UseQueryHook = (
   );
   if (isLoading)
     return {
-      status: status,
+      status,
       isLoading: isLoading,
       isFetching: isFetching,
       data: (

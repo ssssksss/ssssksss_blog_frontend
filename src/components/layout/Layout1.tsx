@@ -20,7 +20,7 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 
 export default Layout1;
 const Container = styled.div`
-  border-radius: ${(props) => props.theme.borderRadius.br10};
+  border-radius: ${(props) => props.theme.borderRadius?.br10};
   width: 100vw;
   transition: all 1.2s ease-in-out;
   transition-property: background-color;

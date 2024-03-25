@@ -12,14 +12,14 @@ import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents
  * @description 설명
  */
 
-const NavBar = (children: React.ReactNode) => {
+const NavBar = (props: unknown) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
 
   return (
     <Container id="nav" themeStore={themeStore}>
       <ReactToastifyComponents />
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
-        <Main>{children}</Main>
+        <Main>{props.children}</Main>
       </ThemeProvider>
     </Container>
   );
