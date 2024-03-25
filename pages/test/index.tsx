@@ -48,7 +48,9 @@ const Index = () => {
   );
 };
 export default Index;
-Index.layout = Layout1;
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout1>{page}</Layout1>;
+};
 
 const Container = styled.div`
   outline: solid black 0.1rem;

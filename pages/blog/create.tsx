@@ -22,15 +22,17 @@ const CreateBlogCSR = dynamic(
   },
 );
 
-const CreateUpdate = () => {
+const Index = () => {
   return (
     <Container>
       <CreateBlogCSR edit={false} />
     </Container>
   );
 };
-export default CreateUpdate;
-CreateUpdate.layout = Layout1;
+export default Index;
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout1>{page}</Layout1>;
+};
 
 const Container = styled.div`
   margin: auto;

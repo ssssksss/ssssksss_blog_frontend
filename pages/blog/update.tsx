@@ -37,15 +37,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Update = (props: unknown) => {
+const Index = (props: unknown) => {
   return (
     <Container>
       <UpdateBlogCSR edit={true} {...props} />
     </Container>
   );
 };
-export default Update;
-Update.layout = Layout1;
+export default Index;
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout1>{page}</Layout1>;
+};
 
 const Container = styled.div`
   margin: auto;

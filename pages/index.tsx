@@ -5,7 +5,7 @@ import Layout1 from 'src/components/layout/Layout1';
 import MyRoom from './../src/components/threejs/glTF/room/MyRoom';
 import Footer from './../src/components/layout/Footer';
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <CC.ColCenterStartBox
       scroll={'scrollY'}
@@ -18,15 +18,16 @@ const HomePage = () => {
       <ThreeJSBox>
         <MyRoom />
       </ThreeJSBox>
-      https://github.com/jsx-eslint/eslint-plugin-react/tree/master/docs/rules/jsx-no-undef.md
       <FooterBox>
         <Footer />
       </FooterBox>
     </CC.ColCenterStartBox>
   );
+}
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout1>{page}</Layout1>;
 };
-HomePage.layout = Layout1;
-export default HomePage;
 
 const ThreeJSBox = styled(CC.RowCenterDiv)`
   height: 30rem;

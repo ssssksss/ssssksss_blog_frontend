@@ -111,8 +111,10 @@ const Index = () => {
     </Container>
   );
 };
-Index.layout = Layout2;
 export default Index;
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout2>{page}</Layout2>;
+};
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
