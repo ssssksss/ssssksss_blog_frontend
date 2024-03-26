@@ -53,6 +53,10 @@ export default class MyDocument extends Document {
           {/* <meta property="al:android:app_name" content="안드로이드 앱 이름" /> */}
           {/* <meta property="al:android:package" content="안드로이드 패키지 이름" />  */}
           {/* <meta property="al:web:url" content="안드로이드 앱 URL" /> */}
+          <script src="https://developers.kakao.com/sdk/js/kakao.js"
+          defer
+        >
+        </script>
         </Head>
         <body>
           <Main />

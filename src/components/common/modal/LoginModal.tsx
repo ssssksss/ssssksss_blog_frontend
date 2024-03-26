@@ -35,6 +35,59 @@ const LoginModal = (props: { changeAuthScreen: () => void }) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
+  const kakaoInit = () => {
+    const kakao = (window as unknown).Kakao;
+    if (!kakao.isInitialized()) {
+      kakao.init(process.env.NEXT_PUBLIC_KAKAO_SHARE_KEY);
+    }
+
+    return kakao;
+  };
+
+  const kakaoLogin = async () => {
+    // 카카오 초기화
+    const kakao = kakaoInit();
+
+    // 카카오 로그인 구현
+    kakao.Auth.login({
+      success: () => {
+        kakao.API.request({
+          url: '/oauth/authorize', // 사용자 정보 가져오기
+          // url: '/v2/user/me', // 사용자 정보 가져오기
+          success: async (res: unknown) => {
+            console.log('LoginModal.tsx 파일 : ', res);
+            // 로그인 성공할 경우
+            if (!res.kakao_account?.email || res.kakao_account?.email === '') {
+              alert('해당 계정의 이메일이 존재하지 않습니다.');
+            } else {
+              // 쿠키 생성
+              await axios
+                .post('/api/community/login', {
+                  email: res.kakao_account?.email,
+                })
+                .then(({ data }) => {
+                  if (data.success) {
+                    dispatch({
+                      name: 'email',
+                      value: res.kakao_account?.email,
+                    });
+                  } else {
+                    return alert(' 로그인에 실패하였습니다.');
+                  }
+                });
+            }
+          },
+          fail: (error: unknown) => {
+            console.log(error);
+          },
+        });
+      },
+      fail: (error: unknown) => {
+        console.log(error);
+      },
+    });
+  };
+
   return (
     <Container>
       <Header>
@@ -71,6 +124,13 @@ const LoginModal = (props: { changeAuthScreen: () => void }) => {
             회원가입
           </Button>
         </CC.RowCenterDiv>
+        <Button
+          onClick={() => {
+            kakaoLogin();
+          }}
+        >
+          카카오 로그인
+        </Button>
         <Button
           w={'100%'}
           h={'2.4rem'}
