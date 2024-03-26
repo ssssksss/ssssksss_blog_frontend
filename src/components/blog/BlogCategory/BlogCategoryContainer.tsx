@@ -11,7 +11,7 @@ import { CC } from '@styles/commonComponentStyle';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -88,12 +88,14 @@ const BlogCategoryContainer = () => {
             minW={'8rem'}
             active={key == store.getState().blogStore1.activeFirstCategory}
             outline={true}
-            onClick={(e) => {
-              blogFirstCategoryHandler({ id: key });
-              blogFirstCategoryVerticalScrollRef.current.scrollLeft =
+            onClick={(e: any) => {
+              blogFirstCategoryHandler(key);
+              if(blogFirstCategoryVerticalScrollRef.current) {
+                blogFirstCategoryVerticalScrollRef.current.scrollLeft =
                 e.target.offsetLeft +
                 e.target.offsetWidth / 2 -
                 e.target.offsetParent.offsetWidth / 2;
+              }
             }}
             badgeValue={Object.entries(
               blogStore1.secondCategoryList?.[key] || {},
@@ -127,12 +129,12 @@ const BlogCategoryContainer = () => {
             key={key}
             minW={'8rem'}
             active={key == blogStore1.activeSecondCategory}
-            onClick={(e) => {
-              blogSecondCategoryHandler({ id: key });
-              blogSecondCategoryVerticalScrollRef.current.scrollLeft =
+            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+              blogSecondCategoryHandler(key);
+              (blogSecondCategoryVerticalScrollRef.current as HTMLElement).scrollLeft =
                 e.currentTarget.offsetLeft +
                 e.currentTarget.offsetWidth / 2 -
-                e.currentTarget.offsetParent.offsetWidth / 2;
+                (e.currentTarget.offsetParent as HTMLElement).offsetWidth / 2;
             }}
             outline={true}
             badgeValue={value.count || '0'}
