@@ -88,7 +88,7 @@ const BlogCategoryContainer = () => {
             minW={'8rem'}
             active={key == store.getState().blogStore1.activeFirstCategory}
             outline={true}
-            onClick={(e: any) => {
+            onClick={(e: MouseEvent) => {
               blogFirstCategoryHandler(key);
               if(blogFirstCategoryVerticalScrollRef.current) {
                 blogFirstCategoryVerticalScrollRef.current.scrollLeft =
