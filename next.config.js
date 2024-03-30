@@ -31,8 +31,8 @@ const nextConfig = withPWA({
   // async rewrites() {
   //   return [
   //     {
-  //       source: '/sitemap.xml',
-  //       destination: '/api/sitemap',
+  //       source: '/:path*',
+  //       destination: 'http://localhost:8080/:path*',
   //     },
   //   ];
   // },
