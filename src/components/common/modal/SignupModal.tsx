@@ -112,7 +112,7 @@ const SignupModal = (props: {
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 있다면?</span>
           <Button
-            onClickCapture={(e) => {
+            onClickCapture={(e: MouseEvent) => {
               e.stopPropagation();
               props.changeAuthScreen();
             }}
