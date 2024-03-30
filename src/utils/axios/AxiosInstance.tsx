@@ -90,7 +90,7 @@ AxiosInstance.interceptors.response.use(
       }
     } else if (error.response?.status == 888) {
       AxiosInstance({
-        url: '/api/user',
+        url: '/api/auth/user',
         method: 'DELETE',
       })
         .then(() => {
