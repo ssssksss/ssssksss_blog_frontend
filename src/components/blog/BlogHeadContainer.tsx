@@ -21,7 +21,7 @@ import BlogRecentListContainer from './BlogRecentListContainer';
 const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [, setIsInputChange] = useState(true);
-  const inputRef = useRef<null>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const {
     data: blogListResData,
@@ -37,7 +37,7 @@ const BlogHeadContainer = () => {
       retry: 0,
       select: (data) => {
         // ! 새로운 데이터가 오면 기존 이미지들로 디폴트 값을 채워준다.
-        let temp = [];
+        let temp: unknown[] = [];
         data?.pages.map((i) => {
           const temp1 = [
             ...i.json.blogList.map((_i) => {
@@ -101,7 +101,7 @@ const BlogHeadContainer = () => {
           ref={inputRef}
           leftIconImage={Icons.SearchIcon.src}
           onChange={delaySearch(SearchHandler, 300)}
-          onClick={(e) => {
+          onClick={(e: MouseEvent) => {
             setIsOpenBlogItemList((prev) => !prev);
             e.stopPropagation();
           }}

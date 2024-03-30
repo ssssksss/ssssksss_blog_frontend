@@ -4,16 +4,16 @@ export * from './actions';
 export * from './reducers';
 
 type InitialState = {
-  blogListOrderOption: number;
-  blogListOrderOption: '';
+  blogListOrderOption: number | string;
   firstCategoryList: {
-    String: string;
+    [key: string]: string;
   };
   secondCategoryList: {
     [key: string]: {
       [key: string]: {
         name: string;
         thumbnailImageUrl: string;
+        count: number;
       };
     };
   };

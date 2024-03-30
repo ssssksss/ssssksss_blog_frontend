@@ -13,8 +13,8 @@ import BlogFirstCategoryUpdateBox from './BlogFirstCategoryUpdateBox';
  */
 
 export const BlogFirstCategoryModal = (props: {
-  blogCategoryListResData: unknown;
-  closeModal: () => void;
+  blogCategoryListResData?: unknown;
+  closeModal?: () => void;
 }) => {
   const [menu, setMenu] = useState('add');
 

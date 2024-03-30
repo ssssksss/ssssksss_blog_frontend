@@ -13,6 +13,7 @@ declare module ButtonTypes {
     minH?: string;
     bg?: colorTypes;
     brR?: string; // border-radius
+    pd?: string;
     color?: colorTypes;
     outline?: boolean;
     outlineColor?: colorTypes;

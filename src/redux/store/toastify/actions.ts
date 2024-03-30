@@ -5,8 +5,10 @@ type TOASTIFY_MESSAGE_STATE = {
   message: string;
 };
 /**
- * @param 배경색 테마를 지정하는 함수
+ * @param type
  * success, error, warning, info, default
+ * @param message
+ * 보여줄 메시지 입력
  */
 export const SET_TOASTIFY_MESSAGE = (payload: TOASTIFY_MESSAGE_STATE) => {
   return {

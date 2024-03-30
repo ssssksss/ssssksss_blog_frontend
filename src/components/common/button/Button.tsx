@@ -110,7 +110,7 @@ ${(props) =>
       props.theme.main?.primary60};
     `}
         
-  padding: ${(props) => props.pd || '0.4rem'};
+  padding: ${(props) => props.pd};
   border: none;
   border-radius: ${(props) =>
     props.theme.borderRadius?.[props.brR] ||

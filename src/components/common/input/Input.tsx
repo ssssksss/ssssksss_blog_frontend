@@ -4,8 +4,9 @@ import { CC } from '@styles/commonComponentStyle';
 import { colorTypes } from '@styles/theme';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { Icons } from '../icons/Icons';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -24,7 +25,7 @@ interface IInputProps {
   outline?: boolean;
   outlineColor?: colorTypes;
   placeholder?: string;
-  register?: unknown;
+  register?: UseFormRegister<FieldValues>;
   setValue?: unknown;
   field?: unknown;
   disabled?: boolean;
@@ -45,7 +46,6 @@ interface IInputProps {
   brR?: string;
   state?: number;
   bg?: colorTypes;
-  outline?: boolean;
   errorLocation?: string;
   defaultImageUrl?: string;
   center?: boolean;
