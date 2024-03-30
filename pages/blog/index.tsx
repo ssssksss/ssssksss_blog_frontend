@@ -9,7 +9,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx

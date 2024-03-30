@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -48,12 +49,14 @@ const Index = (props: unknown) => {
         <title>{props.title}</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
       </Head>
-      <ViewBlogCSR {...props} />
+      <ViewBlogCSR {...props} /> 
     </Container>
   );
 };
 export default Index;
-Index.layout = Layout1;
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout1>{page}</Layout1>;
+};
 
 const Container = styled.div`
   width: 100%;
