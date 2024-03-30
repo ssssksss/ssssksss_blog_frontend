@@ -28,21 +28,27 @@
       "esnext"
     ],
     "module": "esnext",
-    "strict": true,
-    "skipLibCheck": true,
-    "noImplicitAny": true,
-    "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
+    "jsx": "preserve",
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true,
-    "removeComments": true, //컴파일시 주석제거
+    "noImplicitAny": true,
     "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지
+    "strict": false,
+    "skipLibCheck": true,
+    "noEmit": true,
     "incremental": true,
-    "noEmit": true, // 출력 유무 설정
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true, // 출력 유무 설정
+    "incremental": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "strictNullChecks": true,
+    // "removeComments": true, //컴파일시 주석제거
   },
   "include": [
     "next-env.d.ts",
