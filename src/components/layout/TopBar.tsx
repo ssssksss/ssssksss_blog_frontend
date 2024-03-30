@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { batch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SideBar from './SideBar';
 
 /**
