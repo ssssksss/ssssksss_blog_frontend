@@ -34,10 +34,17 @@ const TopBar = () => {
 
   //* 로그아웃 함수
   const signOutHandler = () => {
+    if(store.getState().authStore.suid.split("_")[0] == "kakao") { }
+    else if(store.getState().authStore.suid.split("_")[0] == "naver") {
+
+    }
+    else if(store.getState().authStore.suid.split("_")[0] == "google") {
+
+    }
     (async () => {
       await AxiosInstance({
-        url: '/api/user',
-        method: 'DELETE',
+        url: '/api/auth/user',
+        method: 'GET',
       })
         .then(() => {
           store.dispatch(
@@ -52,21 +59,20 @@ const TopBar = () => {
               email: '',
               role: '',
               nickname: '',
+              suid: '',
             }),
           );
-          batch(() => {
-            store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
-            store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
-            store.dispatch(
-              rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' }),
-            );
-            store.dispatch(
-              rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]),
-            );
-            store.dispatch(
-              rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]),
-            );
-          });
+          store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
+          store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
+          store.dispatch(
+            rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' }),
+          );
+          store.dispatch(
+            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]),
+          );
+          store.dispatch(
+            rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]),
+          );
         })
         .catch(() => {});
     })();

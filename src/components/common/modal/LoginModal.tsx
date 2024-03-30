@@ -4,8 +4,14 @@ import Input from '@components/common/input/Input';
 import { UserLoginYup } from '@components/yup/UserLoginYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import authAction from '@redux/store/auth/actions';
 import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
+import { Icons } from '../icons/Icons';
+import Image from 'next/image';
+import toastifyAction from '@redux/store/toastify/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -13,7 +19,8 @@ import { useForm } from 'react-hook-form';
  * @version 0.0.1 "2023-09-24 13:50:42"
  * @description 설명
  */
-const LoginModal = (props: { changeAuthScreen: () => void }) => {
+const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => void }) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
@@ -35,58 +42,51 @@ const LoginModal = (props: { changeAuthScreen: () => void }) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const kakaoInit = () => {
-    const kakao = (window as unknown).Kakao;
-    if (!kakao.isInitialized()) {
-      kakao.init(process.env.NEXT_PUBLIC_KAKAO_SHARE_KEY);
+  
+  const oauthLogin = async (oauthService: string) => {
+    if(oauthService == 'kakao') {
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
+      `,"","width=400, height=600");
     }
-
-    return kakao;
-  };
-
-  const kakaoLogin = async () => {
-    // 카카오 초기화
-    const kakao = kakaoInit();
-
-    // 카카오 로그인 구현
-    kakao.Auth.login({
-      success: () => {
-        kakao.API.request({
-          url: '/oauth/authorize', // 사용자 정보 가져오기
-          // url: '/v2/user/me', // 사용자 정보 가져오기
-          success: async (res: unknown) => {
-            console.log('LoginModal.tsx 파일 : ', res);
-            // 로그인 성공할 경우
-            if (!res.kakao_account?.email || res.kakao_account?.email === '') {
-              alert('해당 계정의 이메일이 존재하지 않습니다.');
-            } else {
-              // 쿠키 생성
-              await axios
-                .post('/api/community/login', {
-                  email: res.kakao_account?.email,
-                })
-                .then(({ data }) => {
-                  if (data.success) {
-                    dispatch({
-                      name: 'email',
-                      value: res.kakao_account?.email,
-                    });
-                  } else {
-                    return alert(' 로그인에 실패하였습니다.');
-                  }
-                });
+    if(oauthService == 'google') {
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
+      `,"","width=400, height=600");
+    }
+    if(oauthService == 'facebook') {
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
+      `,"","width=400, height=600");
+    }
+    if(oauthService == 'github') {
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
+      `,"","width=400, height=600");
+    }
+    if(oauthService == 'naver') {
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
+      `,"","width=400, height=600");
+    }
+      const func = () => {
+            queryClient.fetchQuery(['authUserInfo']).then((data: unknown)=>{
+              store.dispatch(authAction.SET_ACCESS_TOKEN(data.json.user.accessToken));
+              store.dispatch(
+                authAction.SET_USER_INFO({
+                  email: data.json.user.email,
+                  role: data.json.user.role,
+                  nickname: data.json.user.nickname,
+                  id: data.json.user.id,
+                  suid: data.json.user.suid,
+                }),
+                ); 
+              });
+              props.closeModal();
+              store.dispatch(toastifyAction.SET_TOASTIFY_MESSAGE({
+                type: "success",
+                message: "카카오 로그인 성공"
+              }))
             }
-          },
-          fail: (error: unknown) => {
-            console.log(error);
-          },
-        });
-      },
-      fail: (error: unknown) => {
-        console.log(error);
-      },
-    });
-  };
+            // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
+      window.document.removeEventListener("oauthLogin",func); 
+      window.document.addEventListener("oauthLogin",func, { once: true }); 
+    }
 
   return (
     <Container>
@@ -124,13 +124,73 @@ const LoginModal = (props: { changeAuthScreen: () => void }) => {
             회원가입
           </Button>
         </CC.RowCenterDiv>
-        <Button
+        <CC.RowCenterCenterBox gap={"8"}>
+        <Button 
+          w={'max-content'}
           onClick={() => {
-            kakaoLogin();
-          }}
-        >
-          카카오 로그인
-        </Button>
+            oauthLogin("kakao");
+          }}>
+          <CC.ImgContainer w={'40px'}>
+              <Image
+              alt={""}
+              src={Icons.KakaoIcon}
+              width={"1"} height={"1"}
+              />
+            </CC.ImgContainer>
+            </Button>
+        <Button 
+          w={'max-content'}
+          onClick={() => {
+            oauthLogin("google");
+          }}>
+          <CC.ImgContainer w={'40px'}>
+              <Image
+              alt={""}
+              src={Icons.KakaoIcon}
+              width={"1"} height={"1"}
+              />
+            </CC.ImgContainer>
+            </Button>
+        <Button 
+          w={'max-content'}
+          onClick={() => {
+            oauthLogin("facebook");
+          }}>
+          <CC.ImgContainer w={'40px'}>
+              <Image
+              alt={""}
+              src={Icons.KakaoIcon}
+              width={"1"} height={"1"}
+              />
+            </CC.ImgContainer>
+            </Button>
+        <Button 
+          w={'max-content'}
+          onClick={() => {
+            oauthLogin("github");
+          }}>
+          <CC.ImgContainer w={'40px'}>
+              <Image
+              alt={""}
+              src={Icons.KakaoIcon}
+              width={"1"} height={"1"}
+              />
+            </CC.ImgContainer>
+            </Button>
+        <Button 
+          w={'max-content'}
+          onClick={() => {
+            oauthLogin("naver");
+          }}>
+          <CC.ImgContainer w={'40px'}>
+              <Image
+              alt={""}
+              src={Icons.KakaoIcon}
+              width={"1"} height={"1"}
+              />
+            </CC.ImgContainer>
+            </Button>
+            </CC.RowCenterCenterBox>
         <Button
           w={'100%'}
           h={'2.4rem'}
