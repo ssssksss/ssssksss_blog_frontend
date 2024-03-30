@@ -9,7 +9,7 @@ interface IObjectKeys {
   [key: string]: string | number | undefined;
 }
 
-const UrlQueryStringToObject = (url: string) => {
+const UrlQueryStringToObject = (url?: string) => {
   const obj: IObjectKeys = {};
   const _url = url || window.document.location.href;
   const queryString = _url.substring(_url.indexOf('?') + 1, _url.length);
