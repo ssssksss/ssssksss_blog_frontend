@@ -34,13 +34,13 @@ const TopBar = () => {
 
   //* 로그아웃 함수
   const signOutHandler = () => {
-    if(store.getState().authStore.suid.split("_")[0] == "kakao") { }
-    else if(store.getState().authStore.suid.split("_")[0] == "naver") {
+    // if(store.getState().authStore.suid.split("_")[0] == "kakao") { }
+    // else if(store.getState().authStore.suid.split("_")[0] == "naver") {
 
-    }
-    else if(store.getState().authStore.suid.split("_")[0] == "google") {
+    // }
+    // else if(store.getState().authStore.suid.split("_")[0] == "google") {
 
-    }
+    // }
     (async () => {
       await AxiosInstance({
         url: '/api/auth/user',
