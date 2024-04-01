@@ -40,7 +40,7 @@ const Container = styled.div<{ isOpen: boolean }>`
   width: ${(props) => (props.isOpen ? '60vw' : 'max-content')};
   height: max-content;
   padding: ${(props) => (props.isOpen ? '1rem 0.4rem' : '0.4rem')};
-  z-index: 10;
+  z-index: 4;
 `;
 
 const Title = styled.div<{ isOpen: boolean }>`

@@ -100,7 +100,7 @@ const BlogMainContainer = () => {
         ))}
       </MainContainer>
       <FixedContainer>
-        {store.getState().authStore.id == 13 && (
+        {store.getState().authStore.role == "ROLE_ADMIN" && (
           <Link href={`/blog/create`}>
             <Button>
               <IconsSvg.EditIcon fill={'black80'} />

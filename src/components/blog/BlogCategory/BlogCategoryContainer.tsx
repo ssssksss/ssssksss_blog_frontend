@@ -104,7 +104,7 @@ const BlogCategoryContainer = () => {
             {value}
           </Button>
         ))}
-        {authStore.id == 13 && (
+        {authStore.role == "ROLE_ADMIN" && (
           <ModalButton
             modal={<BlogFirstCategoryModal />}
             modalOverlayVisible={true}
@@ -142,7 +142,7 @@ const BlogCategoryContainer = () => {
             {value.name}
           </Button>
         ))}
-        {authStore.id == 13 && (
+        {authStore.role == "ROLE_ADMIN" && (
           <ModalButton
             modal={<BlogSecondCategoryModal />}
             modalOverlayVisible={true}

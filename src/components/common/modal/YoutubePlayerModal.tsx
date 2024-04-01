@@ -123,7 +123,7 @@ const YoutubePlayerModal = () => {
               <div>
                 <p> {`${i.title}`} </p>
                 <CC.RowDiv color={'gray80'} gap={4}>
-                  {JSON.parse(i.tags).map((j, index1) => (
+                  {JSON.parse(i.tags)?.map((j, index1) => (
                     <span key={index1}> {j} </span>
                   ))}
                 </CC.RowDiv>
