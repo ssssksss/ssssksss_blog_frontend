@@ -19,21 +19,21 @@ const AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-const setApiUserInfo = async () => {
-  await AxiosInstance({
-    url: '/api/user',
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${store.getState().authStore.accessToken}`,
-    },
-  })
-    .then((response: unknown) => {
-      store.dispatch(
-        rootActions.authStore.SET_USER_INFO(response.data.data.user),
-      );
-    })
-    .catch(() => {});
-};
+// const setApiUserInfo = async () => {
+//   await AxiosInstance({
+//     url: '/api/user',
+//     method: 'GET',
+//     headers: {
+//       Authorization: `Bearer ${store.getState().authStore.accessToken}`,
+//     },
+//   })
+//     .then((response: unknown) => {
+//       store.dispatch(
+//         rootActions.authStore.SET_USER_INFO(response.data.data.user),
+//       );
+//     })
+//     .catch(() => {});
+// };
 
 // axios의 인터셉터라고 하여 axios에서 응답을 보내기전과 요청을 받은 후 처리를 해주는 로직을 작성할 수 있다.
 AxiosInstance.interceptors.request.use(
