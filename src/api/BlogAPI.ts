@@ -412,7 +412,7 @@ const updateBlog = (props: string) => {
           : 'https://blog.ssssksss.xyz';
       await axios
         .post({
-          url: `${baseUrl}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}`,
+          url: `${baseUrl}/api/revalidate?secret=${process.env.REVALIDATE_TOKEN}`,
           data: { path: 'blog', id: variables.id + '' },
         })
         .then(() => {
