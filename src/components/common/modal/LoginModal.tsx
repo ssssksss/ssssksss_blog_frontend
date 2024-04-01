@@ -6,12 +6,12 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import authAction from '@redux/store/auth/actions';
+import toastifyAction from '@redux/store/toastify/actions';
 import { CC } from '@styles/commonComponentStyle';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { Icons } from '../icons/Icons';
-import Image from 'next/image';
-import toastifyAction from '@redux/store/toastify/actions';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -41,28 +41,27 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
-
   
   const oauthLogin = async (oauthService: string) => {
     if(oauthService == 'kakao') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
-      `,"","width=400, height=600");
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      `,"","");
     }
     if(oauthService == 'google') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
-      `,"","width=400, height=600");
+      window.open(`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}&scope=email profile&prompt=select_account
+      `,"","");
     }
     if(oauthService == 'facebook') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
-      `,"","width=400, height=600");
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      `,"","");
     }
     if(oauthService == 'github') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
-      `,"","width=400, height=600");
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      `,"","");
     }
     if(oauthService == 'naver') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&prompt=login
-      `,"","width=400, height=600");
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      `,"","");
     }
       const func = () => {
             queryClient.fetchQuery(['authUserInfo']).then((data: unknown)=>{
@@ -72,15 +71,13 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
                   email: data.json.user.email,
                   role: data.json.user.role,
                   nickname: data.json.user.nickname,
-                  id: data.json.user.id,
-                  suid: data.json.user.suid,
                 }),
                 ); 
               });
               props.closeModal();
               store.dispatch(toastifyAction.SET_TOASTIFY_MESSAGE({
                 type: "success",
-                message: "카카오 로그인 성공"
+                message: "로그인 성공"
               }))
             }
             // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
@@ -146,7 +143,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
           <CC.ImgContainer w={'40px'}>
               <Image
               alt={""}
-              src={Icons.KakaoIcon}
+              src={Icons.GoogleLoginSmallIcon}
               width={"1"} height={"1"}
               />
             </CC.ImgContainer>

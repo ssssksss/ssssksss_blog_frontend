@@ -1,3 +1,5 @@
+import GoogleLoginSmallIcon from '/public/img/oauth/ic-google-login-small.svg';
+import KakaoLoginSmallIcon from '/public/img/oauth/ic-kakao-login-small.png';
 import AlarmIcon from '/public/img/ui-icon/ic-alarm.svg';
 import BlogIcon from '/public/img/ui-icon/ic-blog.svg';
 import BoardIcon from '/public/img/ui-icon/ic-board.svg';
@@ -41,7 +43,6 @@ import ViewCheckboard from '/public/img/ui-icon/ic-view-checkboard.svg';
 import ViewList from '/public/img/ui-icon/ic-view-list.svg';
 import ViewIcon from '/public/img/ui-icon/ic-view.svg';
 import WorkListIcon from '/public/img/ui-icon/ic-workList.svg';
-import KakaoLoginSmallIcon from '/public/img/oauth/ic-kakao-login-small.png';
 
 export const Icons = {
   HomeIcon,
@@ -88,4 +89,5 @@ export const Icons = {
   MemoIcon,
   PortfolioIcon,
   KakaoLoginSmallIcon,
+  GoogleLoginSmallIcon,
 };

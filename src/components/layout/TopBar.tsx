@@ -97,7 +97,7 @@ const TopBar = () => {
       <CC.RowDiv gap={8} h={'80%'}>
         {useLoading ? (
           <>
-            {authStore.email ? (
+            {authStore.id ? (
               <Button
                 color={'secondary80'}
                 outline={'true'}

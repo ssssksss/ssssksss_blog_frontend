@@ -24,7 +24,6 @@ export const SET_USER_INFO = (user: USER_INFO_STATE) => {
       role: user.role,
       nickname: user.nickname,
       id: user.id,
-      suid: user.suid,
     },
   };
 };

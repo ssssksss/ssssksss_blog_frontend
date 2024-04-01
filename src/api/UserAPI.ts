@@ -22,7 +22,6 @@ const getUser = () => {
           role: data.json.user.role,
           nickname: data.json.user.nickname,
           id: data.json.user.id,
-          suid: data.json.user.suid,
         }),
       );
     },

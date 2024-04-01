@@ -79,7 +79,7 @@ AxiosInstance.interceptors.response.use(
           );
           originalRequest.headers['Authorization'] =
             'Bearer ' + store.getState().authStore.accessToken;
-          await setApiUserInfo();
+          // await setApiUserInfo();
         })
         .catch(() => {
           existNewAccessToken = false;
@@ -91,7 +91,7 @@ AxiosInstance.interceptors.response.use(
     } else if (error.response?.status == 888) {
       AxiosInstance({
         url: '/api/auth/user',
-        method: 'DELETE',
+        method: 'GET',
       })
         .then(() => {
           if (store.getState().authStore.accessToken !== '') {
