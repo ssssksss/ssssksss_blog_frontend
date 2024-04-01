@@ -404,7 +404,7 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: async ({ variables }) => {
+    onSuccessHandler: () => {
       // const baseUrl =
       //   process.env.NODE_ENV === 'development'
       //     ? 'http://localhost:3000'
