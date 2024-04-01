@@ -406,14 +406,14 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: async ({ variables }) => {
-      const baseUrl =
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000'
-          : 'https://blog.ssssksss.xyz';
+      // const baseUrl =
+      //   process.env.NODE_ENV === 'development'
+      //     ? 'http://localhost:3000'
+      //     : 'https://blog.ssssksss.xyz';
       await axios
         .get({
           url: `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&id=${variables.id}`,
-        }).catch((error)=>{
+        }).catch(()=>{
           return;
         })
           props.onSuccessHandler();
