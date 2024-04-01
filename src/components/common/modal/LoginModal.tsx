@@ -8,6 +8,7 @@ import { store } from '@redux/store';
 import authAction from '@redux/store/auth/actions';
 import toastifyAction from '@redux/store/toastify/actions';
 import { CC } from '@styles/commonComponentStyle';
+import StringFunction from '@utils/function/stringFunction';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -60,8 +61,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
       `,"","");
     }
     if(oauthService == 'naver') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
-      `,"","");
+      window.open(`https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_NAVER_REDIRECT_URL}&state=${StringFunction.generateRandomString(20)}&auth_type=reauthenticate`,"","");
     }
       const func = () => {
             queryClient.fetchQuery(['authUserInfo']).then((data: unknown)=>{
@@ -71,6 +71,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
                   email: data.json.user.email,
                   role: data.json.user.role,
                   nickname: data.json.user.nickname,
+                  id: data.json.user.id,
                 }),
                 ); 
               });
@@ -148,7 +149,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
               />
             </CC.ImgContainer>
             </Button>
-        <Button 
+        {/* <Button 
           w={'max-content'}
           onClick={() => {
             oauthLogin("facebook");
@@ -173,16 +174,16 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
               width={"1"} height={"1"}
               />
             </CC.ImgContainer>
-            </Button>
+            </Button> */}
         <Button 
           w={'max-content'}
           onClick={() => {
-            oauthLogin("naver");
+            oauthLogin("naver")
           }}>
           <CC.ImgContainer w={'40px'}>
               <Image
               alt={""}
-              src={Icons.KakaoIcon}
+              src={Icons.NaverIcon}
               width={"1"} height={"1"}
               />
             </CC.ImgContainer>

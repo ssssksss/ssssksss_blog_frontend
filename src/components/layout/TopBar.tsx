@@ -6,7 +6,6 @@ import { UserAPI } from '@api/UserAPI';
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
-import { useLoading } from '@components/useHook/useLoading';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
@@ -95,8 +94,6 @@ const TopBar = () => {
         </Link>
       </CC.ImgContainer>
       <CC.RowDiv gap={8} h={'80%'}>
-        {useLoading ? (
-          <>
             {authStore.id ? (
               <Button
                 color={'secondary80'}
@@ -122,10 +119,6 @@ const TopBar = () => {
                 Sign In / Sign up
               </ModalButton>
             )}
-          </>
-        ) : (
-          <div> 로딩중 </div>
-        )}
       </CC.RowDiv>
     </Container>
   );

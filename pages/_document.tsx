@@ -53,10 +53,11 @@ export default class MyDocument extends Document {
           {/* <meta property="al:android:app_name" content="안드로이드 앱 이름" /> */}
           {/* <meta property="al:android:package" content="안드로이드 패키지 이름" />  */}
           {/* <meta property="al:web:url" content="안드로이드 앱 URL" /> */}
-          <script src="https://developers.kakao.com/sdk/js/kakao.js"
+          {/* <script src="https://developers.kakao.com/sdk/js/kakao.js"
           defer
         >
         </script>
+        <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script> */}
         </Head>
         <body>
           <Main />

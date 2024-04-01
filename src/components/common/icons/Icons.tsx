@@ -26,6 +26,7 @@ import LogoIcon from '/public/img/ui-icon/ic-logo.svg';
 import MailIcon from '/public/img/ui-icon/ic-mail.svg';
 import MemoIcon from '/public/img/ui-icon/ic-memo.svg';
 import MenuIcon from '/public/img/ui-icon/ic-menu.svg';
+import NaverIcon from '/public/img/ui-icon/ic-naver.svg';
 import NotionIcon from '/public/img/ui-icon/ic-notion.svg';
 import PauseIcon from '/public/img/ui-icon/ic-pause.svg';
 import PlayIcon from '/public/img/ui-icon/ic-play.svg';
@@ -90,4 +91,5 @@ export const Icons = {
   PortfolioIcon,
   KakaoLoginSmallIcon,
   GoogleLoginSmallIcon,
+  NaverIcon,
 };
