@@ -373,7 +373,7 @@ const createBlog = (props: string) => {
   });
 };
 
-const updateBlog = (props: string) => {
+const updateBlog = (props: { onSuccessHandler: () => void }) => {
   const router = useRouter();
   const mutationFn = async (reqData: unknown) => {
     const formData = new FormData();
@@ -411,17 +411,14 @@ const updateBlog = (props: string) => {
           ? 'http://localhost:3000'
           : 'https://blog.ssssksss.xyz';
       await axios
-        .post({
-          url: `${baseUrl}/api/revalidate?secret=${process.env.REVALIDATE_TOKEN}`,
-          data: { path: 'blog', id: variables.id + '' },
+        .get({
+          url: `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&id=${variables.id}`,
+        }).catch((error)=>{
+          return;
         })
-        .then(() => {
           props.onSuccessHandler();
+          // router.replace(`/blog/${variables.id}`, '', { shallow: true });
           router.back();
-        })
-        .catch(() => {
-          props.onSuccessHandler();
-        });
     },
     onErrorHandler: ({ variables }) => {
       navigator.clipboard.writeText(variables.content);
