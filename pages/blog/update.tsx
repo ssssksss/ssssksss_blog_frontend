@@ -2,8 +2,8 @@ import Layout1 from '@components/layout/Layout1';
 import { Spinner37 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import dynamic from 'next/dynamic';
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -25,7 +25,7 @@ const UpdateBlogCSR = dynamic(
 );
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  if (context?.query.id) {
+  if (typeof context?.query.id == 'string' || typeof context?.query.id == 'number') {
     const { data } = await AxiosInstance.get(
       `/api/blog?id=${context.query.id}`,
     );
