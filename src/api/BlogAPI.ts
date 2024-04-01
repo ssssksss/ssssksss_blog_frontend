@@ -7,7 +7,6 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -410,12 +409,12 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
       //   process.env.NODE_ENV === 'development'
       //     ? 'http://localhost:3000'
       //     : 'https://blog.ssssksss.xyz';
-      await axios
-        .get({
-          url: `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&id=${variables.id}`,
-        }).catch(()=>{
-          return;
-        })
+      // await axios
+      //   .get({
+      //     url: `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&id=${variables.id}`,
+      //   }).catch(()=>{
+      //     return;
+      //   })
           props.onSuccessHandler();
           // router.replace(`/blog/${variables.id}`, '', { shallow: true });
           router.back();
