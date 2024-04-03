@@ -4,10 +4,12 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import authAction, { SET_USER_INFO } from '@redux/store/auth/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import { useSelector } from 'react-redux';
 
 const getUser = () => {
+  const authStore = useSelector((state) => state.authStore);
   return UseQueryHook({
-    queryKey: ['authUserInfo'],
+    queryKey: ['authUserInfo',authStore.id],
     requestData: {
       url: '/api/user',
       method: 'GET',
@@ -25,6 +27,7 @@ const getUser = () => {
         }),
       );
     },
+    enabled: authStore.id != "",
   });
 };
 

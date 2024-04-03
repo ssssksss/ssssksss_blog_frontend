@@ -10,8 +10,10 @@ import toastifyAction from '@redux/store/toastify/actions';
 import { CC } from '@styles/commonComponentStyle';
 import StringFunction from '@utils/function/stringFunction';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import { Icons } from '../icons/Icons';
 
 /**
@@ -22,6 +24,7 @@ import { Icons } from '../icons/Icons';
  */
 const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => void }) => {
   const queryClient = useQueryClient();
+  const authStore = useSelector((state) => state.authStore);
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
@@ -42,6 +45,26 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
+  const _func = async () => {
+    // 로그인 후에 백엔드 과정까지 거치고 난뒤에 실행되는 함수
+    queryClient.fetchQuery(['authUserInfo',authStore.id]).then((data: unknown)=>{
+      store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(data.json.user.accessToken));
+      store.dispatch(
+        rootActions.authStore.SET_USER_INFO({
+          email: data.json.user.email,
+          role: data.json.user.role,
+          nickname: data.json.user.nickname,
+          id: data.json.user.id,
+          suid: data.json.user.suid,
+        }),
+        ); 
+        props.closeModal();
+        store.dispatch(toastifyAction.SET_TOASTIFY_MESSAGE({
+          type: "success",
+          message: "로그인 성공"
+        }))
+      });
+  }
   
   const oauthLogin = async (oauthService: string) => {
     if(oauthService == 'kakao') {
@@ -63,29 +86,16 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
     if(oauthService == 'naver') {
       window.open(`https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_NAVER_REDIRECT_URL}&state=${StringFunction.generateRandomString(20)}&auth_type=reauthenticate`,"","");
     }
-      const func = async () => {
-        queryClient.fetchQuery(['authUserInfo']).then((data: unknown)=>{
-          store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(data.json.user.accessToken));
-          store.dispatch(
-            rootActions.authStore.SET_USER_INFO({
-              email: data.json.user.email,
-              role: data.json.user.role,
-              nickname: data.json.user.nickname,
-              id: data.json.user.id,
-              suid: data.json.user.suid,
-            }),
-            ); 
-            props.closeModal();
-            store.dispatch(toastifyAction.SET_TOASTIFY_MESSAGE({
-              type: "success",
-              message: "로그인 성공"
-            }))
-          });
-      }
             // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
-      window.document.removeEventListener("oauthLogin",func); 
-      window.document.addEventListener("oauthLogin",func, { once: true }); 
+      window.document.removeEventListener("oauthLogin",_func); 
+      window.document.addEventListener("oauthLogin",_func, { once: true }); 
     }
+    
+    useEffect(()=>{
+      return () => {
+        window.document.removeEventListener("oauthLogin",_func); 
+      }
+    },[])
 
   return (
     <Container>
