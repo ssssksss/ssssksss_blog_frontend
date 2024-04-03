@@ -150,6 +150,11 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     padding: 0rem 0.2rem;
     ${(props) => props.theme.scroll.hiddenX};
 
+    p:has(img) {
+      display: flex;
+      justify-content: center;
+    }
+
     img {
       max-width: 80rem;
       max-height: 60rem;
