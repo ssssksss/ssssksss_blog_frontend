@@ -12,8 +12,6 @@ import StringFunction from '@utils/function/stringFunction';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
 import { Icons } from '../icons/Icons';
 
 /**
@@ -23,8 +21,6 @@ import { Icons } from '../icons/Icons';
  * @description 설명
  */
 const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => void }) => {
-  const queryClient = useQueryClient();
-  const authStore = useSelector((state) => state.authStore);
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: 'onChange',
