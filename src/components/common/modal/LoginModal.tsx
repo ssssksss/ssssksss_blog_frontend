@@ -6,8 +6,8 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import toastifyAction from '@redux/store/toastify/actions';
 import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import StringFunction from '@utils/function/stringFunction';
 import Image from 'next/image';
 import { useEffect } from 'react';
@@ -45,25 +45,22 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
-  const _func = async () => {
+  const _func = async (event: Event & {detail: {accessToken: string}}) => {
     // 로그인 후에 백엔드 과정까지 거치고 난뒤에 실행되는 함수
-    queryClient.fetchQuery(['authUserInfo',authStore.id]).then((data: unknown)=>{
-      store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(data.json.user.accessToken));
-      store.dispatch(
-        rootActions.authStore.SET_USER_INFO({
-          email: data.json.user.email,
-          role: data.json.user.role,
-          nickname: data.json.user.nickname,
-          id: data.json.user.id,
-          suid: data.json.user.suid,
-        }),
-        ); 
-        props.closeModal();
-        store.dispatch(toastifyAction.SET_TOASTIFY_MESSAGE({
+    store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(event.detail.accessToken));
+    AxiosInstance({
+      url: '/api/user',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${event.detail.accessToken}`,
+      },
+    }).then((response) => {
+      store.dispatch(rootActions.authStore.SET_USER_INFO(response.data.json.user));
+      store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: "success",
           message: "로그인 성공"
         }))
-      });
+    });
   }
   
   const oauthLogin = async (oauthService: string) => {

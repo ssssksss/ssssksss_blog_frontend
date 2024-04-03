@@ -28,10 +28,7 @@ export const SET_USER_INFO = (user: USER_INFO_STATE) => {
   };
 };
 
-type ACCESS_TOKEN_STATE = {
-  accessToken: string;
-};
-export const SET_ACCESS_TOKEN = (accessToken: ACCESS_TOKEN_STATE) => {
+export const SET_ACCESS_TOKEN = (accessToken: string) => {
   return {
     type: 'SET_ACCESS_TOKEN',
     payload: {

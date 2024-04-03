@@ -2,8 +2,8 @@ import LoadingComponent from '@components/common/loading/LoadingComponent';
 import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import { useQuery } from 'react-query';
 import React from 'react';
+import { useQuery } from 'react-query';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -34,6 +34,7 @@ export const UseQueryHook = (
       url: string;
       method: string;
       params?: object;
+      header?: object;
     };
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;

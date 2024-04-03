@@ -1,6 +1,7 @@
-import styled from "@emotion/styled";
-import { ReactElement, useEffect } from "react";
 import Layout3 from "@components/layout/Layout3";
+import styled from "@emotion/styled";
+import UrlQueryStringToObject from "@utils/function/UrlQueryStringToObject";
+import { ReactElement, useEffect } from "react";
 /**
  * @author Sukyung Lee <ssssksss@naver.com> 
  * @file loginSuccess.tsx
@@ -10,7 +11,11 @@ import Layout3 from "@components/layout/Layout3";
 const LoginSuccess = () => {
 
     useEffect(()=>{
-        const oauthLoginEvent = new CustomEvent("oauthLogin");
+        const oauthLoginEvent = new CustomEvent("oauthLogin", {
+          detail: {
+            accessToken: UrlQueryStringToObject(window.location.href).accessToken,
+          }
+        });
         window.opener.document.dispatchEvent(oauthLoginEvent);
         window.close();
     },[])

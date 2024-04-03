@@ -42,8 +42,8 @@ const TopBar = () => {
     // }
     (async () => {
       await AxiosInstance({
-        url: '/api/auth/user',
-        method: 'GET',
+        url: '/api/user',
+        method: 'DELETE',
       })
         .then(() => {
           store.dispatch(
@@ -64,7 +64,7 @@ const TopBar = () => {
           store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
           store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
           store.dispatch(
-            rootActions.authStore.SET_ACCESS_TOKEN({ accessToken: '' }),
+            rootActions.authStore.SET_ACCESS_TOKEN(''),
           );
           store.dispatch(
             rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]),
