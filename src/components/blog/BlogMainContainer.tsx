@@ -22,6 +22,7 @@ import BlogItem from './BlogItem';
  */
 const BlogMainContainer = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   const router = useRouter();
   const mainContainerRef = useRef<null>();
@@ -100,7 +101,7 @@ const BlogMainContainer = () => {
         ))}
       </MainContainer>
       <FixedContainer>
-        {store.getState().authStore.role == "ROLE_ADMIN" && (
+        {authStore.role == "ROLE_ADMIN" && (
           <Link href={`/blog/create`}>
             <Button>
               <IconsSvg.EditIcon fill={'black80'} />
