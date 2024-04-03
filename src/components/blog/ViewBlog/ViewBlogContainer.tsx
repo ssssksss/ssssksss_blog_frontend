@@ -168,7 +168,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
         content: '';
         background-image: ${(props) =>
           props.icon && `url('/img/ui-icon/ic-board.svg')`};
-        background-size: 2rem;
+        background-size: 1rem;
         background-repeat: no-repeat;
         background-position-x: 50%;
         background-position-y: 50%;
@@ -183,6 +183,13 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       }
       &:hover > button {
         display: flex;
+      }
+    }
+    pre {
+      code {
+        font-size: 0.8rem;
+        padding: 8px 4px;
+        ${props=>props.theme.scroll.hiddenX};
       }
     }
   }

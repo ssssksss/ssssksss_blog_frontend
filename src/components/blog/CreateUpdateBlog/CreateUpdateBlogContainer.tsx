@@ -395,7 +395,7 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
         content: '';
         background-image: ${(props) =>
           props.icon && `url('/img/ui-icon/ic-board.svg')`};
-        background-size: 2rem;
+        background-size: 1rem;
         background-repeat: no-repeat;
         background-position-x: 50%;
         background-position-y: 50%;
@@ -410,6 +410,23 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
       }
       &:hover > button {
         display: flex;
+      }
+    }
+    code {
+        font-size: 1rem;
+        background: #1488CC;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2B32B2, #1488CC);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color: white;
+        padding: 2px;
+      }
+    pre {
+      code {
+        font-size: 0.8rem;
+        padding: 8px 4px;
+        ${props=>props.theme.scroll.hiddenX};
+        background: none;
+        color: black;
       }
     }
   }
