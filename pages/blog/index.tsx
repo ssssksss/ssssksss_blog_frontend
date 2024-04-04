@@ -2,7 +2,6 @@ import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryCon
 import BlogHeadContainer from '@components/blog/BlogHeadContainer';
 import BlogMainContainer from '@components/blog/BlogMainContainer';
 import Layout1 from '@components/layout/Layout1';
-import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
@@ -86,7 +85,7 @@ const Index = (props: propsType) => {
     router.replace(temp, '', { shallow: true });
   }, []);
   return (
-    <Container>
+    <div>
       <Head>
         <title>블로그</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
@@ -94,12 +93,10 @@ const Index = (props: propsType) => {
       <BlogHeadContainer />
       <BlogCategoryContainer />
       <BlogMainContainer />
-    </Container>
+    </div>
   );
 };
 export default Index;
 Index.getLayout = function getLayout(page: ReactElement) {
   return <Layout1>{page}</Layout1>;
 };
-
-const Container = styled.div``;
