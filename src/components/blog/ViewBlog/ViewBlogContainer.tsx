@@ -161,6 +161,10 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       outline: solid black 0.1rem;
     }
 
+    ul, ol {
+      padding-inline-start: 8px;
+    }
+
     pre {
       outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
       border-radius: 1rem;
