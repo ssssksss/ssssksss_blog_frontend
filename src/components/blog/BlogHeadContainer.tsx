@@ -89,15 +89,14 @@ const BlogHeadContainer = () => {
   }, []);
 
   return (
-    <Container>
-      <CC.RelativeBox>
+    <CC.RelativeBox w={"100vw"} pd={"0.5rem"} bg={"purpleTheme"}>
+      <CC.RelativeBox w={"100%"} h={'3.2rem'}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
           color={'black80'}
-          outline={true}
           w={'calc(100% - 4rem)'}
-          h={'2.4rem'}
+          h={'3rem'}
           ref={inputRef}
           leftIconImage={Icons.SearchIcon.src}
           onChange={delaySearch(SearchHandler, 300)}
@@ -105,7 +104,7 @@ const BlogHeadContainer = () => {
             setIsOpenBlogItemList((prev) => !prev);
             e.stopPropagation();
           }}
-        />
+          />
         <BlogRecentListContainer />
       </CC.RelativeBox>
       {isOpenBlogItemList && (
@@ -133,16 +132,10 @@ const BlogHeadContainer = () => {
         </BlogSearchItemContainer>
       )}
       {isOpenBlogItemList && <Overlay />}
-    </Container>
+    </CC.RelativeBox>
   );
 };
 export default BlogHeadContainer;
-
-const Container = styled.div`
-  width: 100%;
-  position: relative;
-  padding: 0.4rem;
-`;
 
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   position: absolute;
