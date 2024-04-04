@@ -5,8 +5,8 @@ import { colorTypes } from '@styles/theme';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 import React, { ChangeEvent, FocusEvent, KeyboardEvent, useEffect, useState } from 'react';
-import { Icons } from '../icons/Icons';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { Icons } from '../icons/Icons';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -141,7 +141,7 @@ const Input = React.forwardRef<IInputProps, HTMLInputElement>((props, ref) => {
         />
       ) : (
         <InputStyle
-          type={props.type ? props.type : 'text'}
+          type={props.type ?? 'text'}
           placeholder={props.placeholder ?? '입력창'}
           onChange={(e) => {
             if (props.register) {
@@ -273,7 +273,7 @@ const InputStyle = styled.input<IInputProps>`
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
-  font-size: ${(props) => props.theme.fontSize?.md};
+  font-size: 1rem;
   color: ${(props) =>
     props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
 
@@ -356,7 +356,6 @@ const InputStyle = styled.input<IInputProps>`
       ::placeholder {
         transition: all 0.6s ease-in-out;
         opacity: 0.7;
-        font-size: ${props.theme.fontSize?.sm};
         color: ${
           props.theme.colors?.[props.color] ||
           props.theme.main?.[props.color] ||

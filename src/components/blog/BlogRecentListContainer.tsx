@@ -26,9 +26,9 @@ const BlogRecentListContainer = () => {
 
   return (
     <Container isOpen={isOpen}>
-      <Title onClick={(e: MouseEvent) => {
+      <Title onClick={(event) => {
         setIsOpen(prev=>!prev);
-        e.stopPropagation();
+        event.stopPropagation();
       }} isOpen={isOpen}>
         {isOpen ? "최근 목록" : <LowPriorityIcon />}
       </Title>
@@ -64,7 +64,7 @@ const Container = styled.div<{ isOpen: boolean }>`
   align-items: center;
 `;
 
-const Title = styled.div<{ isOpen: boolean }>`
+const Title = styled.button<{ isOpen: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
