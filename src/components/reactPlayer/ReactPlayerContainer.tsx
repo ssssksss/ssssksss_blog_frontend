@@ -69,6 +69,7 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
           <ReactPlayer
             width="0rem"
             height="0rem"
+            loop={true}
             url={
               window.localStorage.getItem('youtubeLink') ||
               'https://www.youtube.com/watch?v=eyyAUFxlnGg'
