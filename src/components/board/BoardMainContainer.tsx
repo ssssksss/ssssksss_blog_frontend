@@ -5,7 +5,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
-import { timeFromToday } from '@utils/function/timeFromToday';
+import { timeFunction } from '@utils/function/timeFunction';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -83,7 +83,9 @@ const BoardMainContainer = () => {
               <span> {el.title} </span>
               <span> {el.writer} </span>
               <span>
-                {timeFromToday(dateFormat4y2m2d(el.baseTimeEntity.createdAt))}
+                {timeFunction.timeFromToday(
+                  dateFormat4y2m2d(el.baseTimeEntity.createdAt),
+                )}
               </span>
               <span>{el.views}</span>
             </BoardItem>

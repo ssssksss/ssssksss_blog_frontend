@@ -1,17 +1,18 @@
 import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
 import { ICreateFirstCategoryHandlerProps } from '@api/type/BlogAPI.d';
 import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
+import { useInfiniteQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['blogCategoryList'],
     requestData: {
       url: '/api/blog-category-list',
@@ -26,7 +27,7 @@ const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
 };
 
 const getBlog = (props: unknown) => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['getBlog'],
     requestData: {
       url: '/api/blog',
@@ -45,7 +46,7 @@ const getBlog = (props: unknown) => {
 
 const getBlogList = () => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: [
       'blogList',
       // store.getState().blogStore.activeBlogSecondCategoryId,
@@ -176,7 +177,7 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
 };
 
 const getBlogFirstCategoryList = () => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: 'blogFirstCategoryList',
     requestData: {
       url: '/api/blog-first-category',
@@ -435,7 +436,7 @@ const deleteBlog = async (props: { id: string }) => {
   });
 };
 
-const getSearchBlogList = async (keyword: string, page: number) => {
+const getSearchBlogList1 = async (keyword: string, page: number) => {
   return await ApiProcessHandler({
     url: '/api/blog/search',
     method: 'GET',
@@ -444,6 +445,47 @@ const getSearchBlogList = async (keyword: string, page: number) => {
       page: page || 1,
     },
   });
+};
+
+const getSearchBlogList = (keyword: string, enable: boolean, onSuccessHandler: () => void) => {
+  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  let result = useInfiniteQuery(
+    ['searchBlogList', keyword || ''], // 검색어 key값
+    ({ pageParam = 1 }) =>
+      getSearchBlogList1(keyword, pageParam),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      select: (data) => {
+        let temp: unknown[] = [];
+        data?.pages.map((i) => {
+          const temp1 = [
+            ...i.json.blogList.map((_i) => {
+              return {
+                ..._i,
+                defaultImageUrl:
+                  blogStore1.secondCategoryList[_i.firstCategoryId][
+                    _i.secondCategoryId
+                  ].thumbnailImageUrl,
+              };
+            }),
+          ];
+          temp = temp.concat(temp1);
+        });
+        return temp;
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        return lastPage?.json.blogList?.length < 10 ? undefined : nextPage;
+      },
+      onSuccess: () => {
+        onSuccessHandler();
+      },
+      // enabled: isOpenBlogItemList && isInputChange,
+      enabled: enable,
+    },
+  )
+  return result;
 };
 
 const addBlogContentTemplate = async (props: string) => {

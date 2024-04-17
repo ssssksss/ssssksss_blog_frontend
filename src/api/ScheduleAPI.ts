@@ -1,5 +1,5 @@
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const addScheduleCategory = (props) => {
 
 const getScheduleCategoryList = () => {
   const authStore = useSelector((state) => state.authStore);
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['scheduleCategoryList', authStore.id],
     requestData: {
       url: '/api/schedule/category',
@@ -85,7 +85,7 @@ const addSchedule = (props) => {
 
 const getScheduleList = (props) => {
   const authStore = useSelector((state) => state.authStore);
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['scheduleList'],
     requestData: {
       url: '/api/schedule',
@@ -104,7 +104,7 @@ const getScheduleListTEST = (props) => {
   const scheduleStore = useSelector((state) => state.scheduleStore);
   const authStore = useSelector((state) => state.authStore);
   const { type, startDateTime, endDateTime } = props;
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: [
       'scheduleList',
       store.getState().scheduleStore.calendarMonth,

@@ -47,7 +47,7 @@ interface IModalButtonProps {
  * @param modalOverlayVisible
  * @param modal = {모달컴포넌트}
  */
-const ModalButton: IModalButtonProps = ({
+const ModalButton = ({
   onClick: _onClick,
   onClickCapture: _onClickCapture,
   children,

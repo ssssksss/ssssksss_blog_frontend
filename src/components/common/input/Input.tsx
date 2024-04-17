@@ -244,9 +244,6 @@ const InputStyle = styled.input<IInputProps>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
   // ! border-radius를 넣으니 focus 되었을 때 다른 요소가 흐려지는 버그 발생
   border-radius: ${(props) => props.brR || '1rem'};
-  box-shadow:
-    0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.5),
-    inset 0.1rem 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.5);
   outline: ${(props) =>
     `solid ${
       props.theme.colors?.[props.outlineColor] ||

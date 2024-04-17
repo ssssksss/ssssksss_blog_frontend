@@ -3,6 +3,7 @@ import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import { IconsSvg } from '@components/common/icons/IconsSvg';
 import Select from '@components/common/select/Select';
+import Text from '@components/common/text/Text';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
@@ -62,11 +63,11 @@ const BlogMainContainer = () => {
   }, []);
 
   return (
-    <Container>
+    <CC.ColLeftStartBox w={"100%"} pd={"0.5rem"} bg={"theme"} gap={8}>
       <HeaderContainer>
-        <span>
+        <Text>
           검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
-        </span>
+        </Text>
         <CC.RowDiv pd={'0.4rem'}>
           <Select
             onChange={orderBlogListHandler}
@@ -101,6 +102,7 @@ const BlogMainContainer = () => {
         ))}
       </MainContainer>
       <FixedContainer>
+        <CC.ColLeftCenterBox bg={"primary20"} pd={"0.4rem"} gap={8}>
         {authStore.role == "ROLE_ADMIN" && (
           <Link href={`/blog/create`}>
             <Button>
@@ -116,17 +118,13 @@ const BlogMainContainer = () => {
         >
           <Image src={Icons.DownArrowIcon} alt="down-arrow" />
         </Button>
+        </CC.ColLeftCenterBox>
       </FixedContainer>
-    </Container>
+    </CC.ColLeftStartBox>
   );
 };
 export default BlogMainContainer;
 
-const Container = styled(CC.ColumnDiv)`
-  gap: 0.4rem;
-  position: relative;
-  padding: 0.2rem;
-`;
 const HeaderContainer = styled(CC.RowBetweenDiv)`
   width: 100%;
   border-radius: ${(props) => props.theme.borderRadius.br10};
@@ -136,34 +134,32 @@ const HeaderContainer = styled(CC.RowBetweenDiv)`
   outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
 `;
 
-const MainContainer = styled(CC.ColumnDiv)`
-  gap: 0.4rem;
-  ${(props) => props.theme.scroll.hidden};
-  background: ${(props) => props.theme.main.contrast};
+const MainContainer = styled(CC.ColLeftStartBox)`
+  width: 100%;
+  gap: 8px;
+  ${(props) => props.theme.scroll.hiddenY};
   scroll-behavior: smooth;
-  padding: 0.2rem;
+
+  & > a {
+    width: 100%;
+  }
 `;
 
 const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
-  width: max-content;
+  height: 0px;
   left: calc(100% - 2rem);
   bottom: 2rem;
-  padding: 0.2rem;
-  opacity: 0.9;
-  border-radius: 0.8rem;
-  background: ${(props) => props.theme.main.secondary40};
-  gap: 0.4rem;
-
+  opacity: 0.6;
+  
   button {
     background: ${(props) => props.theme.main.contrast};
-    flex-shrink: 0;
     width: 2rem;
     height: 2rem;
   }
-
-  & > :hover {
+  
+  &:hover {
+    opacity: 1;
     cursor: pointer;
-    background: ${(props) => props.theme.main.primary80};
   }
 `;

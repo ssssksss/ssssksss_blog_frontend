@@ -1,6 +1,6 @@
+import LoadingComponent from '@components/common/loading/LoadingComponent';
 import styled from '@emotion/styled';
 import React from 'react';
-import LoadingComponent from '../common/loading/LoadingComponent';
 import TopBar from './TopBar';
 
 type AppLayoutProps = {
@@ -32,7 +32,7 @@ const MainContainer = styled.main`
   margin: 0rem auto;
   width: 100%;
   min-height: calc(100vh - 3.2rem);
-  max-width: 144rem;
+  /* max-width: 144rem; */
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
   outline-offset: -0.1rem;
 `;

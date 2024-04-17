@@ -4,7 +4,7 @@ import {
   BoxFlexComponentTypes,
   BoxGridComponentTypes,
 } from './../@types/BoxComponent';
-import { commonTheme, purpleTheme } from './theme';
+import { commonTheme, themeTypes } from './theme';
 interface IStyleProps {
   gap?: number;
   br?: string;
@@ -81,8 +81,11 @@ const propsCommonStyle = (props) => css`
       props.outlineColor}
       0.2rem;
     outline-offset: -0.2rem;
-    background: transparent;
   `};
+  ${(props.bg == 'theme') && css`
+        background: ${props.theme.main.primary20};
+        background-clip : padding-box;
+  `}
 `;
 
 const RowDiv = styled.div<IStyleProps>`
@@ -315,7 +318,7 @@ const Wrapper = styled.div<IStyleProps>`
 // s : 2024-03-24 box 형태로 공간을 구분하는 컴포넌트 만들기
 
 const commonBoxStyle = (
-  props: BoxFlexComponentTypes.FlexBoxProps & typeof purpleTheme,
+  props: BoxFlexComponentTypes.FlexBoxProps & themeTypes,
 ) => css`
   width: ${props.w};
   min-width: ${props.minW};
@@ -344,6 +347,10 @@ const commonBoxStyle = (
     outline-offset: -${props.theme.calcRem(2)};
     border-radius: ${props.theme.calcRem(8)};
   `};
+  ${(props.bg == 'theme') && css`
+        background: ${props.theme.main.primary20};
+        background-clip : padding-box;
+  `}
 `;
 
 const RowLeftStartBox = styled.div<BoxFlexComponentTypes.FlexBoxProps>`

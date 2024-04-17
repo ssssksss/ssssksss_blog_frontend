@@ -1,5 +1,5 @@
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ import { IGetBoardListDataProps } from './type/BoardAPI.d';
 
 const getBoardListData = (props: IGetBoardListDataProps) => {
   const boardStore = useSelector((state) => state.boardStore);
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: [
       ['getBoardList'],
       [boardStore.keyword, boardStore.page, boardStore.size, boardStore.sort],
@@ -38,7 +38,7 @@ const getBoardListData = (props: IGetBoardListDataProps) => {
 };
 
 const getBoard = (props: { id: number }) => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['getBoard'],
     requestData: {
       url: '/api/board',

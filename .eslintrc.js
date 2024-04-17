@@ -5,8 +5,8 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   overrides: [
     {
@@ -34,6 +34,7 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     '@next/next/no-page-custom-font': 'off',
     'javascript.validate.enable': 'off',
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
   },
   settings: {
     react: {

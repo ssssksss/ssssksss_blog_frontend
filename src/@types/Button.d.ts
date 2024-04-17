@@ -1,4 +1,4 @@
-import { colorTypes } from '@styles/theme';
+import { colorTypes, themeTypes } from '@styles/theme';
 import { ReactNode } from 'react';
 
 declare module ButtonTypes {
@@ -11,12 +11,12 @@ declare module ButtonTypes {
     h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
     minW?: string;
     minH?: string;
-    bg?: colorTypes;
+    bg?: Partial<colorTypes | themeTypes>;
     brR?: string; // border-radius
     pd?: string;
-    color?: colorTypes;
+    color?: Partial<colorTypes | themeTypes>;
     outline?: boolean;
-    outlineColor?: colorTypes;
+    outlineColor?: Partial<colorTypes | themeTypes>  ;
     fontFamily?: string;
     fontWeight?: number;
     state?: 'danger' | 'warning';

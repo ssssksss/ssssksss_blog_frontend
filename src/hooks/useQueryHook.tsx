@@ -27,7 +27,7 @@ interface IAxiosInstanceResponseProps {
   status?: number;
 }
 
-export const UseQueryHook = (
+export const useQueryHook = (
   props: {
     queryKey: string | [];
     requestData: {

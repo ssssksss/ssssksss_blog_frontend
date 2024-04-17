@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 import Layout1 from 'src/components/layout/Layout1';
-import MyRoom from './../src/components/threejs/glTF/room/MyRoom';
 import Footer from './../src/components/layout/Footer';
-
+import MyRoom from './../src/components/threejs/glTF/room/MyRoom';
 export default function HomePage() {
   return (
     <CC.ColCenterStartBox

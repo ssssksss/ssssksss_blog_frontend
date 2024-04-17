@@ -4,6 +4,7 @@ import BlogMainContainer from '@components/blog/BlogMainContainer';
 import Layout1 from '@components/layout/Layout1';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Head from 'next/head';
@@ -85,7 +86,7 @@ const Index = (props: propsType) => {
     router.replace(temp, '', { shallow: true });
   }, []);
   return (
-    <div>
+    <CC.ColLeftStartBox w={"100vw"} gap={4}>
       <Head>
         <title>블로그</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>
@@ -93,7 +94,7 @@ const Index = (props: propsType) => {
       <BlogHeadContainer />
       <BlogCategoryContainer />
       <BlogMainContainer />
-    </div>
+    </CC.ColLeftStartBox>
   );
 };
 export default Index;

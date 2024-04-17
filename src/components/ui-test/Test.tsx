@@ -1,5 +1,5 @@
+import CommentContainer from '@components/comment/CommentContainer';
 import styled from '@emotion/styled';
-import { CC } from '@styles/commonComponentStyle';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file Test.tsx
@@ -9,10 +9,7 @@ import { CC } from '@styles/commonComponentStyle';
 const Test = () => {
   return (
     <Container>
-      <div> 123 </div>
-      <CC.RowLeftCenterBox outline={true} w={'100px'} h={'100px'}>
-        123
-      </CC.RowLeftCenterBox>
+      <CommentContainer/>
     </Container>
   );
 };

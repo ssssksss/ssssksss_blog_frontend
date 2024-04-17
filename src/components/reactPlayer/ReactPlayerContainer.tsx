@@ -11,7 +11,7 @@ import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { Time } from '@utils/function/Time';
+import { timeFunction } from '@utils/function/timeFunction';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -62,7 +62,7 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
       <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
         <CC.ColumnCenterDiv>
           <Span fontSize={'1rem'}>
-            {Time.secToTime(playTime.playedSeconds)} [
+            {timeFunction.secToTime(playTime.playedSeconds)} [
             {Math.floor(playTime.played * 100)}%]
           </Span>
 

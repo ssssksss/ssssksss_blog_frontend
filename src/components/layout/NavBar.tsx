@@ -2,7 +2,6 @@ import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import rootTheme from '@styles/theme';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents';
 /**
@@ -19,7 +18,7 @@ const NavBar = (props: unknown) => {
     <Container id="nav" themeStore={themeStore}>
       <ReactToastifyComponents />
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
-        <Main>{props.children}</Main>
+        <Main id={"main"}>{props.children}</Main>
       </ThemeProvider>
     </Container>
   );
@@ -36,3 +35,4 @@ const Main = styled.div`
   -o-transition-property: none;
   transition-property: none; */
 `;
+

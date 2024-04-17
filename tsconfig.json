@@ -27,6 +27,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["@emotion/react/types/css-prop"], // 추가
     "module": "esnext",
     "jsxImportSource": "@emotion/react",
     "jsx": "preserve",
@@ -55,7 +56,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/@types"
-  ],
+, "tailwind.config.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -9,6 +9,7 @@ import { ReactElement, ReactNode, StrictMode, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
+import './index.css';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (_page: ReactElement) => ReactNode;

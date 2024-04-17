@@ -22,10 +22,19 @@ import { useSelector } from 'react-redux';
 
 const BlogCategoryContainer = () => {
   const router = useRouter();
-  const blogFirstCategoryVerticalScrollRef = useRef();
-  const blogSecondCategoryVerticalScrollRef = useRef();
+  const blogFirstCategoryVerticalScrollRef = useRef<HTMLButtonElement>(null);
+  const blogSecondCategoryVerticalScrollRef = useRef<HTMLButtonElement>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+
+  const _categoryPath = (firstId: unknown, secondId: unknown) => {
+    return window.document.location.origin +
+    window.document.location.pathname +
+    '?first-category=' +
+    firstId +
+    '&second-category=' +
+    secondId
+  }
   const blogFirstCategoryHandler = (id: string) => {
     store.dispatch(rootActions.blogStore1.setActiveFirstCategory(id));
     store.dispatch(
@@ -33,28 +42,24 @@ const BlogCategoryContainer = () => {
         Object.keys(blogStore1.secondCategoryList[id])[0],
       ),
     );
-
-    const temp =
-      window.document.location.origin +
-      window.document.location.pathname +
-      '?first-category=' +
-      id +
-      '&second-category=' +
-      Object.keys(store.getState().blogStore1.secondCategoryList[id])[0];
-    router.push(temp, '', { shallow: true });
+    const _firstCategoryPath = _categoryPath(id, Object.keys(store.getState().blogStore1.secondCategoryList[id])[0]);
+    router.push(_firstCategoryPath, '', { shallow: true });
   };
-
   const blogSecondCategoryHandler = (id: string) => {
-    const temp =
-      window.document.location.origin +
-      window.document.location.pathname +
-      '?first-category=' +
-      store.getState().blogStore1.activeFirstCategory +
-      '&second-category=' +
-      id;
-    router.push(temp, '', { shallow: true });
+    const _secondCategoryPath = _categoryPath(store.getState().blogStore1.activeFirstCategory, id)
+    router.push(_secondCategoryPath, '', { shallow: true });
     store.dispatch(rootActions.blogStore1.setActiveSecondCategory(id));
   };
+// 카테고리 버튼 클릭시 가로 스크롤 버튼을 중앙으로 이동
+  const onClickAdjustHorizontalScroll = (e: React.MouseEvent<HTMLElement, MouseEvent>, handler: () => void, ref: React.MutableRefObject<HTMLButtonElement>) => {
+    handler();
+    if(ref.current) {
+     (ref.current).scrollLeft =
+     e.currentTarget.offsetLeft +
+     e.currentTarget.offsetWidth / 2 -
+      (e.currentTarget.offsetParent as HTMLElement).offsetWidth / 2;
+    }
+  }
 
   useEffect(() => {
     const routerBackAfterActiveCategoryChangeHandler = () => {
@@ -79,24 +84,18 @@ const BlogCategoryContainer = () => {
     };
   }, []);
 
+
   return (
-    <Container>
-      <BlogFirstCategoryContainer ref={blogFirstCategoryVerticalScrollRef}>
+    <CC.ColLeftStartBox w={"100%"} pd={"0.5rem"} bg={"theme"}>
+      <CategoryBoxStyle scroll={"hiddenX"} pd={"0.4rem"} gap={8} ref={blogFirstCategoryVerticalScrollRef}>
         {Object.entries(blogStore1.firstCategoryList)?.map(([key, value]) => (
           <Button
             key={key}
             minW={'8rem'}
             active={key == store.getState().blogStore1.activeFirstCategory}
             outline={true}
-            onClick={(e: MouseEvent) => {
-              blogFirstCategoryHandler(key);
-              if(blogFirstCategoryVerticalScrollRef.current) {
-                blogFirstCategoryVerticalScrollRef.current.scrollLeft =
-                e.target.offsetLeft +
-                e.target.offsetWidth / 2 -
-                e.target.offsetParent.offsetWidth / 2;
-              }
-            }}
+            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => onClickAdjustHorizontalScroll(e, () => blogFirstCategoryHandler(key), blogFirstCategoryVerticalScrollRef)
+            }
             badgeValue={Object.entries(
               blogStore1.secondCategoryList?.[key] || {},
             ).reduce((sum, [, value]) => sum + Number(value.count), 0)}
@@ -110,18 +109,17 @@ const BlogCategoryContainer = () => {
             modalOverlayVisible={true}
             modalW={'30rem'}
             outline={true}
-            style={{ flexShrink: 0 }}
           >
+          <CC.ImgContainer w={"2.4rem"} h={"2.4rem"}>
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'2.4rem'}
-              height={'2.4rem'}
-            />
+              />
+              </CC.ImgContainer>
           </ModalButton>
         )}
-      </BlogFirstCategoryContainer>
-      <BlogSecondCategoryContainer ref={blogSecondCategoryVerticalScrollRef}>
+      </CategoryBoxStyle>
+      <CategoryBoxStyle scroll={"hiddenX"} pd={"0.4rem"} gap={8} ref={blogSecondCategoryVerticalScrollRef}>
         {Object.entries(
           blogStore1.secondCategoryList[blogStore1.activeFirstCategory] || {},
         ).map(([key, value]) => (
@@ -129,14 +127,9 @@ const BlogCategoryContainer = () => {
             key={key}
             minW={'8rem'}
             active={key == blogStore1.activeSecondCategory}
-            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-              blogSecondCategoryHandler(key);
-              (blogSecondCategoryVerticalScrollRef.current as HTMLElement).scrollLeft =
-                e.currentTarget.offsetLeft +
-                e.currentTarget.offsetWidth / 2 -
-                (e.currentTarget.offsetParent as HTMLElement).offsetWidth / 2;
-            }}
+            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => onClickAdjustHorizontalScroll(e, () => blogSecondCategoryHandler(key), blogSecondCategoryVerticalScrollRef)}
             outline={true}
+            outlineColor={'secondary80'}
             badgeValue={value.count || '0'}
           >
             {value.name}
@@ -148,59 +141,24 @@ const BlogCategoryContainer = () => {
             modalOverlayVisible={true}
             modalW={'30rem'}
             outline={true}
-            style={{ flexShrink: 0 }}
           >
+          <CC.ImgContainer w={"2.4rem"} h={"2.4rem"}>
             <Image
               src={Icons.SettingIcon}
               alt=""
-              width={'2.4rem'}
-              height={'2.4rem'}
-            />
+              />
+              </CC.ImgContainer>
           </ModalButton>
         )}
-      </BlogSecondCategoryContainer>
-    </Container>
+      </CategoryBoxStyle>
+    </CC.ColLeftStartBox>
   );
 };
 export default BlogCategoryContainer;
 
-const Container = styled(CC.ColumnDiv)`
-  gap: 0.4rem;
-  width: 100%;
-  padding: 0.4rem;
-
-  & > div {
-    border-radius: 0.8rem;
-  }
-`;
-
-const BlogFirstCategoryContainer = styled(CC.RowDiv)`
-  gap: 0.8rem;
-  ${(props) => props.theme.scroll.hiddenY};
-  padding: 0.4rem;
-  background: ${(props) => props.theme.main.contrast};
-
-  & > button {
+const CategoryBoxStyle = styled(CC.RowLeftStartBox)`
+    & > button {
     width: max-content;
     flex-shrink: 0;
   }
-
-  @media screen (max-height: 60rem) {
-    flex-wrap: nowrap;
-    ${(props) => props.theme.scroll.hiddenX};
-  }
-`;
-
-const BlogSecondCategoryContainer = styled(CC.RowDiv)`
-  gap: 0.8rem;
-  padding: 0.4rem;
-  width: 100%;
-
-  & > button {
-    width: max-content;
-    flex-shrink: 0;
-  }
-
-  flex-wrap: nowrap;
-  ${(props) => props.theme.scroll.hiddenX};
-`;
+`

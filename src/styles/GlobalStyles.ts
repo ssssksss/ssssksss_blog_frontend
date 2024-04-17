@@ -36,7 +36,6 @@ const GlobalStyles = css`
   html,
   body {
     scroll-behavior: smooth;
-    min-width: 32rem;
     /* background-color: ${theme.backgroundColors.background2}; */
     &::-webkit-scrollbar {
       display: none;
@@ -195,4 +194,6 @@ const GlobalStyles = css`
     z-index: 2;
   }
 `;
+
+
 export default GlobalStyles;

@@ -29,9 +29,11 @@ const BlogRecentListContainer = () => {
       <Title onClick={(event) => {
         setIsOpen(prev=>!prev);
         event.stopPropagation();
+        event.preventDefault();
       }} isOpen={isOpen}>
         {isOpen ? "최근 목록" : <LowPriorityIcon />}
       </Title>
+      {/* 아래는 최근 목록이 담긴 리스트 절대 위치로 이동 */}
       {
         isOpen &&
         <ScrollContainer isOpen={isOpen}>
@@ -53,7 +55,7 @@ export default memo(BlogRecentListContainer);
 const Container = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: ${props=>props.isOpen ? "4rem" : "0px"};
   background: ${(props) => props.theme.main.secondary40};
   border-radius: 1rem;
   width: ${(props) => (props.isOpen ? '60vw' : '3rem')};
@@ -74,6 +76,7 @@ const Title = styled.button<{ isOpen: boolean }>`
   flex-direction: ${(props) => (props.isOpen ? 'row' : 'column')};
   width: ${(props) => props.isOpen ? '100%' : '2rem'};
   height: ${(props) => props.isOpen && '3.2rem'};
+  background: transparent;
   &:hover {
     cursor: pointer;
   }
@@ -84,6 +87,5 @@ const ScrollContainer = styled.div<{ isOpen: boolean }>`
   a > div {
     display: block;
   }
-
   ${(props) => props.theme.scroll.hidden};
 `;

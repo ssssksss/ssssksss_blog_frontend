@@ -1,5 +1,5 @@
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ const createYoutubeLink = (props) => {
 
 const getYoutubeLinkList = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['getYoutubeList'],
     requestData: {
       url: '/api/youtube/url',

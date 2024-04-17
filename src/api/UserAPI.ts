@@ -1,12 +1,13 @@
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import authAction, { SET_USER_INFO } from '@redux/store/auth/actions';
+import blogAction from '@redux/store/blog/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 
 const getUser = () => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['authUserInfo'],
     requestData: {
       url: '/api/user',
@@ -19,6 +20,7 @@ const getUser = () => {
     isShowMessage: false,
     onSuccessHandler: ({ data: data }) => {
       store.dispatch(authAction.SET_ACCESS_TOKEN(data.json.user.accessToken));
+      store.dispatch(blogAction.SET_ACTIVE_BLOG_USER_ID(data.json.user.id));
       store.dispatch(
         authAction.SET_USER_INFO({
           email: data.json.user.email,

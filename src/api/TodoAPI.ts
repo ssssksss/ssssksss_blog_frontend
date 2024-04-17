@@ -1,5 +1,5 @@
-import { useMutationHook } from '@components/useHook/useMutationHook';
-import { UseQueryHook } from '@components/useHook/useQueryHook';
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useQueryClient } from 'react-query';
 
@@ -24,7 +24,7 @@ const addTodo = (props) => {
 };
 
 const getTodoList = () => {
-  return UseQueryHook({
+  return useQueryHook({
     queryKey: ['todoList'],
     requestData: {
       url: '/api/todo',

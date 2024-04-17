@@ -23,7 +23,7 @@ const Index = () => {
     gsap.to('.box1', {
       scrollTrigger: {
         trigger: '.box1',
-        start: '20% 20%',
+        start: '100% 20%',
         end: '100% 100%',
         // markers: true, // 마커 표시 역할
       },
@@ -32,9 +32,9 @@ const Index = () => {
   }, []);
 
   return (
-    <Container className={'container'}>
+    <Container>
       <Test />
-      <Test />
+      {/* <Test />
       <Test />
       <Test />
       <div className={'box1'}> 123 </div>
@@ -43,7 +43,7 @@ const Index = () => {
       <Test />
       <Test />
       <Test />
-      <Test />
+      <Test /> */}
     </Container>
   );
 };
