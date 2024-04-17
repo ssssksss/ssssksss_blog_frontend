@@ -5,23 +5,23 @@
  * Description : 공통적인 스타일을 지정하여 일관성있는 스타일을 보여주기 위해 작성
  */
 
-export type themeTypes = 
-'primary100' |
-'primary80' |
-'primary60' |
-'primary40' |
-'primary20' |
-'secondary100' |
-'secondary80' |
-'secondary60' |
-'secondary40' |
-'secondary20' |
-'third100' |
-'third80' |
-'third60' |
-'third40' |
-'third20' |
-'contrast'
+export type themeTypes =
+  | 'primary100'
+  | 'primary80'
+  | 'primary60'
+  | 'primary40'
+  | 'primary20'
+  | 'secondary100'
+  | 'secondary80'
+  | 'secondary60'
+  | 'secondary40'
+  | 'secondary20'
+  | 'third100'
+  | 'third80'
+  | 'third60'
+  | 'third40'
+  | 'third20'
+  | 'contrast';
 
 export type colorTypes =
   | 'red100'
@@ -78,7 +78,7 @@ export type colorTypes =
   | 'white80'
   | 'white60'
   | 'white40'
-  | 'white20'
+  | 'white20';
 
 const fontSize = {
   xs: '1.2rem',
@@ -217,7 +217,7 @@ const inputSizes = {
   },
 };
 
-const colors = {
+const colors: { [key: string]: string } = {
   red100: '#FF0000',
   red80: '#FF3333',
   red60: '#FF6666',

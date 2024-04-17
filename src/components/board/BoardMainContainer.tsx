@@ -9,6 +9,7 @@ import { timeFunction } from '@utils/function/timeFunction';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { IBoardListProps } from './../../api/type/board/BoardMainContainer.d';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BoardMainContainer.tsx
@@ -20,21 +21,14 @@ const BoardMainContainer = () => {
   const router = useRouter();
   const boardListResData = BoardAPI.getBoardListData({
     keyword: String(boardStore.keyword ?? (router.query.keyword || '')),
-    page: Number(boardStore.page ?? (Number(router.query.page - 1) || 0)),
+    page: Number(boardStore.page ?? (Number(router.query.page) - 1 || 0)),
     size: Number(boardStore.size ?? (router.query.size || 10)),
     sort: String(boardStore.sort ?? (router.query.sort || '')),
     enabled: router.isReady,
-    onSuccessHandler: () => {
-      store.dispatch(
-        rootActions.boardStore.SET_BOARD_LIST_OPTION({
-          keyword: String(boardStore.keyword ?? (router.query.keyword || '')),
-          page: Number(boardStore.page ?? (Number(router.query.page - 1) || 0)),
-          size: Number(boardStore.size ?? (router.query.size || 10)),
-          sort: String(boardStore.sort ?? (router.query.sort || '')),
-        }),
-      );
-    },
   });
+
+  if (boardListResData?.status != 'success') return;
+  const { boardCount, boardList } = boardListResData.data.json;
 
   const changePage = (page: number) => {
     store.dispatch(
@@ -56,9 +50,7 @@ const BoardMainContainer = () => {
           <span> 검색결과 </span>
           <span> {boardStore.keyword} </span>
         </SearchResultContainer>
-        <CC.RowDiv>
-          총 {boardListResData?.data?.json?.boardCount} 건의 게시물
-        </CC.RowDiv>
+        <CC.RowDiv>총 {boardCount} 건의 게시물</CC.RowDiv>
       </SearchContainer>
       <BoardListContainer>
         <BoardListTitle>
@@ -68,15 +60,15 @@ const BoardMainContainer = () => {
           <span> 날짜 </span>
           <span> 조회수 </span>
         </BoardListTitle>
-        {boardListResData?.data?.json?.boardList?.map((el: unknown) => (
+        {boardList?.map((el: IBoardListProps) => (
           <Link
             key={el.id}
-            href={`/board/${el.id}`}
-            as={`/board/${el.id}?
-              page=${store.getState().boardStore.page}
-                    &size=${store.getState().boardStore.size}
-                    &keyword=${store.getState().boardStore.keyword}
-                    &sort=${store.getState().boardStore.sort}`}
+            href={`/board/${el.id}?page=${store.getState().boardStore.page}&size=${store.getState().boardStore.size}&keyword=${store.getState().boardStore.keyword}&sort=${store.getState().boardStore.sort}`}
+            // as={`/board/${el.id}?
+            //   page=${store.getState().boardStore.page}
+            //         &size=${store.getState().boardStore.size}
+            //         &keyword=${store.getState().boardStore.keyword}
+            //         &sort=${store.getState().boardStore.sort}`}
           >
             <BoardItem>
               <span> {el.id} </span>
@@ -91,15 +83,14 @@ const BoardMainContainer = () => {
             </BoardItem>
           </Link>
         ))}
-        {Array.from(
-          { length: 10 - boardListResData?.data?.json?.boardList?.length || 0 },
-          () => 0,
-        )?.map((_, index) => <BoardItem key={index} />)}
+        {Array.from({ length: 10 - boardList?.length || 0 }, () => 0)?.map(
+          (_, index) => <BoardItem key={index} />,
+        )}
       </BoardListContainer>
       <BoardListBottomContainer>
         <Pagination
-          refetch={(props) => changePage(props)}
-          endPage={Math.ceil(boardListResData?.data?.json?.boardCount / 10)}
+          refetch={(props: number) => changePage(props)}
+          endPage={Math.ceil(boardCount / 10)}
           currentPage={Number(boardStore.page + 1)}
         />
       </BoardListBottomContainer>

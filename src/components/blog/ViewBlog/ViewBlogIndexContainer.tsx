@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { useReducer } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file ViewIndexContainer.tsx
+ * @file ViewBlogIndexContainer.tsx
  * @version 0.0.1 "2024-03-19 15:37:23"
  * @description 설명
  */
-const ViewIndexContainer = (props: { blogIndexList: unknown }) => {
+const ViewBlogIndexContainer = (props: { blogIndexList: unknown }) => {
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
   return (
     <Container>
@@ -53,7 +53,7 @@ const ViewIndexContainer = (props: { blogIndexList: unknown }) => {
     </Container>
   );
 };
-export default ViewIndexContainer;
+export default ViewBlogIndexContainer;
 
 const Container = styled.div`
   position: sticky;

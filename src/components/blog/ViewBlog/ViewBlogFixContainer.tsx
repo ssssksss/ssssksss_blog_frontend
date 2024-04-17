@@ -11,11 +11,11 @@ import { useSelector } from 'react-redux';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file ViewFixContainer.tsx
+ * @file ViewBlogFixContainer.tsx
  * @version 0.0.1 "2024-03-19 15:20:19"
  * @description 설명
  */
-const ViewFixContainer = (
+const ViewBlogFixContainer = (
   firstCategoryId: string,
   secondCategoryId: string,
 ) => {
@@ -65,7 +65,7 @@ const ViewFixContainer = (
     </Container>
   );
 };
-export default ViewFixContainer;
+export default ViewBlogFixContainer;
 
 const Container = styled(CC.ColumnDiv)`
   background: ${(props) => props.theme.main.primary80};

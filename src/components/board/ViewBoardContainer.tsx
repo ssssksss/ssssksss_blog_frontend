@@ -1,5 +1,6 @@
 import { BoardAPI } from '@api/BoardAPI';
 import { Icons } from '@components/common/icons/Icons';
+import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
@@ -21,9 +22,10 @@ const ViewBoardContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
   const boardResData = BoardAPI.getBoard({
-    id: router.query.id,
+    enabled: router.query.id != undefined,
   });
   const deleteBoardMutate = BoardAPI.deleteBoard();
+  if (boardResData?.status != 'success') return;
 
   const deleteHandler = () => {
     deleteBoardMutate({
@@ -31,10 +33,13 @@ const ViewBoardContainer = () => {
     });
   };
 
+  const { modifiedAt, id, writer, title, userId, content, views } =
+    boardResData.data.json.board;
+
   return (
     <>
       <Head>
-        <title>{boardResData.data.json?.board.title}</title>
+        <title>{title}</title>
       </Head>
       <Container gap={4}>
         <CC.ColumnDiv pd={'0rem 0.8rem'} w={'100%'}>
@@ -43,29 +48,35 @@ const ViewBoardContainer = () => {
             h={'max-content'}
             overflow={'hidden'}
           >
-            <h1> {boardResData.data.json?.board.title} </h1>
+            <h1> {title} </h1>
           </CC.RowDiv>
           <CC.RowRightDiv gap={4}>
             <Image src={Icons.ViewIcon} alt="" width={16} height={16} />
-            {boardResData.data.json?.board.views}
+            {views}
           </CC.RowRightDiv>
           <CC.RowBetweenDiv>
-            <CC.RowDiv>
-              작성자 : {boardResData.data.json?.board.writer || 'undefined'}
-            </CC.RowDiv>
-            <CC.RowDiv>
-              {dateFormat4y2m2d(boardResData.data.json?.board.modifiedAt)}
-            </CC.RowDiv>
+            <CC.RowDiv>작성자 : {writer || 'undefined'}</CC.RowDiv>
+            <CC.RowDiv>{dateFormat4y2m2d(modifiedAt)}</CC.RowDiv>
           </CC.RowBetweenDiv>
         </CC.ColumnDiv>
-        <ViewerContainer></ViewerContainer>
+        <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+          <Editor
+            highlightEnable={false}
+            value={content}
+            preview={'preview'}
+            hideToolbar={true}
+            visibleDragbar={false}
+            enableScroll={false}
+            overflow={false}
+          />
+        </ViewerContainer>
         <FixContainer>
-          {authStore.id == boardResData.data.json?.board.userId && (
+          {authStore.id == userId && (
             <Link href={`/board/update?id=${router.query.id}`}>
               <Image src={Icons.EditIcon} alt="" width={20} height={20} />
             </Link>
           )}
-          {authStore.id == boardResData.data.json?.board.userId && (
+          {authStore.id == userId && (
             <Image
               src={Icons.DeleteIcon}
               alt=""
@@ -75,9 +86,7 @@ const ViewBoardContainer = () => {
             />
           )}
           <Link
-            href={`/board?keyword=${boardStore.keyword}&page=${
-              boardStore.page + 1
-            }&size=${boardStore.size}&sor=${boardStore.sort}`}
+            href={`/board?keyword=${boardStore.keyword}&page=${boardStore.page + 1}&size=${boardStore.size}&sort=${boardStore.sort}`}
           >
             <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
           </Link>
@@ -119,12 +128,73 @@ const Container = styled(CC.ColumnDiv)`
   }
 `;
 
-const ViewerContainer = styled.div`
-  min-height: 60rem;
-  margin-top: 0.2rem;
-  padding: 0.8rem;
-  border-radius: 0rem 0rem 1rem 1rem;
-  position: relative;
+const ViewerContainer = styled.div<{ icon: unknown }>`
+  width: 100%;
+  .wmde-markdown-var,
+  .w-md-editor,
+  .w-md-editor-show-preview,
+  .w-md-editor-fullscreen,
+  .w-md-editor-content,
+  .w-md-editor-preview {
+    display: block;
+    position: static;
+    height: 100% !important;
+  }
+  padding: 0rem 0.2rem;
+  ${(props) => props.theme.scroll.hiddenX};
+
+  p:has(img) {
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    max-width: 80rem;
+    max-height: 60rem;
+    outline: solid black 0.1rem;
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 8px;
+  }
+
+  pre {
+    outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
+    border-radius: 1rem;
+    position: relative;
+    box-shadow: 0.1rem 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
+    font-size: 1.2rem;
+
+    & > button {
+      display: none;
+      content: '';
+      background-image: ${(props) =>
+        props.icon && `url('/img/ui-icon/ic-board.svg')`};
+      background-size: 1rem;
+      background-repeat: no-repeat;
+      background-position-x: 50%;
+      background-position-y: 50%;
+      aspect-ratio: 1;
+      position: absolute;
+      width: max-content;
+      top: 0rem;
+
+      aspect-ratio: 1;
+      padding: 0rem;
+      border: none;
+    }
+    &:hover > button {
+      display: flex;
+    }
+  }
+  pre {
+    code {
+      font-size: 0.8rem;
+      padding: 8px 4px;
+      ${(props) => props.theme.scroll.hiddenX};
+    }
+  }
 `;
 
 const FixContainer = styled(CC.ColumnDiv)`

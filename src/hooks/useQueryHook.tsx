@@ -18,7 +18,7 @@ interface IAxiosInstanceResponseProps {
     method: string;
   };
   data?: {
-    json: unknown;
+    json: Element;
     msg: string;
     statusCode: number;
   };
@@ -29,7 +29,7 @@ interface IAxiosInstanceResponseProps {
 
 export const useQueryHook = (
   props: {
-    queryKey: string | [];
+    queryKey: string[];
     requestData: {
       url: string;
       method: string;
@@ -39,7 +39,7 @@ export const useQueryHook = (
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;
     refetchOnMount?: boolean | string;
-    onSuccessHandler?: () => () => void;
+    onSuccessHandler?: () => void;
     enabled: boolean;
     staleTime?: number;
   }, // focus시 refetch, default true

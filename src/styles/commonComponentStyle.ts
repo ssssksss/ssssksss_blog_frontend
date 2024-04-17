@@ -22,7 +22,7 @@ interface IStyleProps {
   imgSize?: string; // 이미지 정사각형 형태일때 사용하는 용도인데 나중에 고려해보기
   fontSize?: string;
   fw?: boolean; // font weight
-  overflow?: boolean;
+  overflow?: boolean | string;
   outline?: boolean;
   first?: string; // grid 너비 정하는데 사용
   second?: string; // grid 너비 정하는데 사용
@@ -82,9 +82,10 @@ const propsCommonStyle = (props) => css`
       0.2rem;
     outline-offset: -0.2rem;
   `};
-  ${(props.bg == 'theme') && css`
-        background: ${props.theme.main.primary20};
-        background-clip : padding-box;
+  ${props.bg == 'theme' &&
+  css`
+    background: ${props.theme.main.primary20};
+    background-clip: padding-box;
   `}
 `;
 
@@ -347,9 +348,10 @@ const commonBoxStyle = (
     outline-offset: -${props.theme.calcRem(2)};
     border-radius: ${props.theme.calcRem(8)};
   `};
-  ${(props.bg == 'theme') && css`
-        background: ${props.theme.main.primary20};
-        background-clip : padding-box;
+  ${props.bg == 'theme' &&
+  css`
+    background: ${props.theme.main.primary20};
+    background-clip: padding-box;
   `}
 `;
 

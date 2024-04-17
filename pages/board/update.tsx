@@ -2,6 +2,7 @@ import Layout1 from '@components/layout/Layout1';
 import { Spinner37 } from '@components/loadingSpinner/Spinners';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
+import { ReactElement } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -19,11 +20,7 @@ const UpdateBoardCSR = dynamic(
 );
 
 const Index = () => {
-  return (
-    <Container>
-      {typeof window !== 'undefined' && <UpdateBoardCSR edit={true} />}
-    </Container>
-  );
+  return <Container>{<UpdateBoardCSR edit={true} />}</Container>;
 };
 export default Index;
 Index.getLayout = function getLayout(page: ReactElement) {

@@ -9,11 +9,11 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
- * @file ViewHeaderContainer.tsx
+ * @file ViewBlogHeaderContainer.tsx
  * @version 0.0.1 "2024-03-19 15:15:49"
  * @description 설명
  */
-const ViewHeaderContainer = (props: unknown) => {
+const ViewBlogHeaderContainer = (props: unknown) => {
   const router = useRouter();
   const [blogCategory] = useState({
     firstCategoryName: props.blogFirstCategoryName,
@@ -80,7 +80,7 @@ const ViewHeaderContainer = (props: unknown) => {
     </Container>
   );
 };
-export default ViewHeaderContainer;
+export default ViewBlogHeaderContainer;
 
 const Container = styled(CC.ColumnDiv)<{ props: unknown }>`
   background-image: url(${(props) => props?.imageUrl});

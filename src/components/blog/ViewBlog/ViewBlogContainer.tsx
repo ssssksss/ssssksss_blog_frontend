@@ -6,9 +6,9 @@ import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import ViewFixContainer from './ViewFixContainer';
-import ViewHeaderContainer from './ViewHeaderContainer';
-import ViewIndexContainer from './ViewIndexContainer';
+import ViewBlogFixContainer from './ViewBlogFixContainer';
+import ViewBlogHeaderContainer from './ViewBlogHeaderContainer';
+import ViewBlogIndexContainer from './ViewBlogIndexContainer';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -106,9 +106,9 @@ const ViewBlogContainer = (props: IProps) => {
 
   return (
     <Container id="view-blog-container" className={'view-blog-container'}>
-      <ViewFixContainer {...props} />
-      <ViewIndexContainer {...props} blogIndexList={blogIndexList} />
-      <ViewHeaderContainer {...props} />
+      <ViewBlogFixContainer {...props} />
+      <ViewBlogIndexContainer {...props} blogIndexList={blogIndexList} />
+      <ViewBlogHeaderContainer {...props} />
       <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
         <Editor
           highlightEnable={false}
@@ -161,7 +161,8 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       outline: solid black 0.1rem;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-inline-start: 8px;
     }
 
@@ -198,7 +199,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       code {
         font-size: 0.8rem;
         padding: 8px 4px;
-        ${props=>props.theme.scroll.hiddenX};
+        ${(props) => props.theme.scroll.hiddenX};
       }
     }
   }

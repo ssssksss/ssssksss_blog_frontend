@@ -1,12 +1,13 @@
 import { BoardAPI } from '@api/BoardAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
+import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { commonTheme } from '@styles/theme';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { BoardCreateYup, BoardUpdateYup } from '../yup/BoardYup';
@@ -27,18 +28,21 @@ const CreateUpdateBoardContainer = (
 ) => {
   const router = useRouter();
   const authStore = useSelector((state: RootState) => state.authStore);
-  const createBoardMutation = BoardAPI.createBoard();
+  const createUpdateBoardMutation = props.edit
+    ? BoardAPI.updateBoard()
+    : BoardAPI.createBoard();
   const updateBoardMutation = BoardAPI.updateBoard();
+  const [value, setValue] = useState('');
   const boardResData = BoardAPI.getBoard({
-    id: router.query.id,
     onSuccessHandler: (res) => {
       methods.setValue('title', res.data.json?.board.title);
       methods.setValue('content', res.data.json?.board.content, {
         shouldValidate: true,
       });
       methods.trigger('title');
+      setValue(res.data.json?.board.content);
     },
-    enabled: props.edit,
+    enabled: props.edit && router.query.id != undefined,
   });
   const methods = useForm({
     resolver: yupResolver(props.edit ? BoardUpdateYup : BoardCreateYup),
@@ -49,20 +53,26 @@ const CreateUpdateBoardContainer = (
     },
   });
 
+  if (props.edit && boardResData?.status != 'success') return;
+
   const submitHandler = () => {
-    createBoardMutation({
-      title: methods.getValues('title'),
-      content: '',
-      writer: authStore.nickname,
-    });
+    if (props.edit) {
+      createUpdateBoardMutation({
+        id: router.query.id,
+        title: methods.getValues('title'),
+        content: value,
+      });
+    } else {
+      createUpdateBoardMutation({
+        title: methods.getValues('title'),
+        content: value,
+        writer: authStore.nickname,
+      });
+    }
   };
 
-  const updateHandler = () => {
-    updateBoardMutation({
-      id: router.query.id,
-      title: methods.getValues('title'),
-      content: '',
-    });
+  const editorChangeHandler = (value: string) => {
+    methods.setValue('content', value);
   };
 
   return (
@@ -77,13 +87,18 @@ const CreateUpdateBoardContainer = (
                 register={methods.register('title')}
               />
             )}
-            <EditorContainer></EditorContainer>
+            <EditorContainer id={'editor-container'}>
+              <Editor
+                height={'100%'}
+                onChange={editorChangeHandler}
+                highlightEnable={false}
+                visibleDragbar={false}
+                value={value}
+                onChange={(value) => setValue(value)}
+              />
+            </EditorContainer>
             <EditorFooter>
-              <Button
-                w={'100%'}
-                outline={true}
-                onClick={() => (props.edit ? updateHandler() : submitHandler())}
-              >
+              <Button w={'100%'} outline={true} onClick={() => submitHandler()}>
                 {props.edit ? '수정' : '제출'}
               </Button>
               <Button w={'100%'} outline={true} onClick={() => router.back()}>
@@ -97,16 +112,6 @@ const CreateUpdateBoardContainer = (
   );
 };
 export default CreateUpdateBoardContainer;
-
-const Container = styled.section`
-  position: relative;
-  display: flex;
-  flex-flow: nowrap column;
-  justify-content: flex-end;
-  background-color: white;
-  border-radius: 0rem 0rem 1rem 1rem;
-  /* background: ${commonTheme.backgroundColors.background2}; */
-`;
 
 const Title = styled(Input)`
   width: 100%;
@@ -124,36 +129,121 @@ const Title = styled(Input)`
     color: ${(props) => props.theme.colors.black40};
   }
 `;
-const EditorContainer = styled.div`
-  padding-bottom: 0.8rem;
-  &::before {
-    content: '';
-    background-size: 50%;
-    background-image: url('/img/backgroundImage/원피스.jpg');
-    background-repeat: repeat-x;
-    background-position: right bottom;
-    opacity: 0.2;
-    position: absolute;
-    top: 0rem;
-    left: 0rem;
-    right: 0rem;
-    bottom: 8rem;
+const Container = styled.section<{
+  isLoading: boolean;
+  icon: string;
+}>`
+  height: 100%;
+  visibility: ${(props) => props.isLoading && 'hidden'};
+  position: relative;
+  select {
+    z-index: 5;
+  }
+`;
+
+const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
+  overflow: scroll;
+  -ms-over-flow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .w-md-editor {
+  }
+
+  .w-md-editor-content {
+    height: calc(100vh - 12.2rem);
+
+    &::before {
+      content: '';
+      background-size: 50%;
+      background-image: url('/img/backgroundImage/원피스.jpg');
+      background-repeat: repeat-x;
+      background-position: right bottom;
+      opacity: 0.2;
+      position: absolute;
+      top: 0rem;
+      left: 0rem;
+      right: 0rem;
+      bottom: 0rem;
+    }
+  }
+  .w-md-editor-area {
+    opacity: ${(props) => props.isDragging && 0.5};
+    height: 100%;
+  }
+  .w-md-editor-text-input {
+    height: 100%;
+  }
+  .w-md-editor-preview {
+    pre {
+      outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
+      border-radius: 1rem;
+      position: relative;
+      box-shadow: 0.1rem 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
+      font-size: 1.2rem;
+
+      button {
+        display: none;
+        content: '';
+        background-image: ${(props) =>
+          props.icon && `url('/img/ui-icon/ic-board.svg')`};
+        background-size: 1rem;
+        background-repeat: no-repeat;
+        background-position-x: 50%;
+        background-position-y: 50%;
+        aspect-ratio: 1;
+        position: absolute;
+        width: max-content;
+        top: 0rem;
+
+        aspect-ratio: 1;
+        padding: 0rem;
+        border: none;
+      }
+      &:hover > button {
+        display: flex;
+      }
+    }
+    code {
+      font-size: 1rem;
+      background: #1488cc; /* fallback for old browsers */
+      background: -webkit-linear-gradient(
+        to right,
+        #2b32b2,
+        #1488cc
+      ); /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(
+        to right,
+        #2b32b2,
+        #1488cc
+      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      color: white;
+      padding: 2px;
+    }
+    pre {
+      code {
+        font-size: 0.8rem;
+        padding: 8px 4px;
+        ${(props) => props.theme.scroll.hiddenX};
+        background: none;
+        color: black;
+      }
+    }
+  }
+  .w-md-editor-input {
+  }
+  .w-md-editor-text {
+    height: 100%;
+  }
+  .w-md-editor-show-live {
   }
 `;
 const EditorFooter = styled(CC.GridColumn2)`
-  height: 4rem;
-  gap: 1rem;
-  position: sticky;
-  padding: 0rem 0.4rem;
-  bottom: 0.8rem;
-  margin-bottom: 0.8rem;
   background: rgba(255, 255, 255, 0.5);
-  button {
-    color: ${(props) => props.theme.main.primary80};
-    &:hover {
-      transform: scale(1.2);
-      background: ${(props) => props.theme.main.primary80};
-      color: ${(props) => props.theme.main.contrast};
-    }
-  }
+  width: 100%;
+  z-index: 1;
+  position: sticky;
 `;
