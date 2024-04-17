@@ -10,7 +10,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -23,7 +23,7 @@ const BoardHeadContainer = () => {
   const keywordRef = useRef<null>();
   const boardStore = useSelector((state: RootState) => state.boardStore);
 
-  const searchHandler = (keyword: string) => {
+  const searchHandler = (keyword: MutableRefObject<HTMLInputElement>) => {
     const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
       boardStore.sort
     }&keyword=${keyword.current?.value || ''}`;
@@ -90,14 +90,13 @@ const BoardHeadContainer = () => {
           brR={'0.6rem'}
           leftIconImage={Icons.SearchIcon.src}
           ref={keywordRef}
-          defaultValue={boardStore.keyword ?? router.query.keyword}
+          defaultValue={boardStore.keyword ?? (router.query.keyword as string)}
           onKeyPressAction={() => searchHandler(keywordRef)}
         />
         <CC.RowBetweenDiv gap={8}>
           <Button
             w={'4rem'}
             h={'2.8rem'}
-            size="md"
             bg={'primary80'}
             pd={'0rem 0rem'}
             color={'contrast'}

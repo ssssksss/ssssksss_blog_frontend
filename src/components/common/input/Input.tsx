@@ -4,7 +4,13 @@ import { CC } from '@styles/commonComponentStyle';
 import { colorTypes } from '@styles/theme';
 import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
-import React, { ChangeEvent, FocusEvent, KeyboardEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import { Icons } from '../icons/Icons';
 
@@ -29,7 +35,7 @@ interface IInputProps {
   setValue?: unknown;
   field?: unknown;
   disabled?: boolean;
-  defaultValue?: unknown;
+  defaultValue?: string;
   checked?: boolean;
   color?: string;
   placeholderColor?: string;
