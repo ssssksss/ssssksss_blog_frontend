@@ -416,9 +416,9 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
       //   }).catch(()=>{
       //     return;
       //   })
-          props.onSuccessHandler();
-          // router.replace(`/blog/${variables.id}`, '', { shallow: true });
-          router.back();
+      props.onSuccessHandler();
+      // router.replace(`/blog/${variables.id}`, '', { shallow: true });
+      router.back();
     },
     onErrorHandler: ({ variables }) => {
       navigator.clipboard.writeText(variables.content);
@@ -447,12 +447,15 @@ const getSearchBlogList1 = async (keyword: string, page: number) => {
   });
 };
 
-const getSearchBlogList = (keyword: string, enable: boolean, onSuccessHandler: () => void) => {
+const getSearchBlogList = (
+  keyword: string,
+  enable: boolean,
+  onSuccessHandler: () => void,
+) => {
   const blogStore1 = useSelector((state: RootState) => state.blogStore1);
-  let result = useInfiniteQuery(
+  const result = useInfiniteQuery(
     ['searchBlogList', keyword || ''], // 검색어 key값
-    ({ pageParam = 1 }) =>
-      getSearchBlogList1(keyword, pageParam),
+    ({ pageParam = 1 }) => getSearchBlogList1(keyword, pageParam),
     {
       refetchOnWindowFocus: false,
       retry: 0,
@@ -484,7 +487,7 @@ const getSearchBlogList = (keyword: string, enable: boolean, onSuccessHandler: (
       // enabled: isOpenBlogItemList && isInputChange,
       enabled: enable,
     },
-  )
+  );
   return result;
 };
 

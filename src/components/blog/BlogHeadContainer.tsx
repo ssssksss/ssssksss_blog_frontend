@@ -5,12 +5,10 @@ import Overlay from '@components/common/overlay/Overlay';
 import styled from '@emotion/styled';
 import useIntersection from '@hooks/useIntersection';
 import useWindowClick from '@hooks/useWindowClick';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import BlogItem from './BlogItem';
 import BlogRecentListContainer from './BlogRecentListContainer';
 /**
@@ -23,18 +21,21 @@ const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [, setIsInputChange] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
   useWindowClick(() => setIsOpenBlogItemList(false));
-  
+
   const {
     data: blogListResData,
     fetchNextPage,
     hasNextPage,
     isFetching,
-  } = BlogAPI.getSearchBlogList(inputRef.current?.value, isOpenBlogItemList, () => {
-    setIsInputChange(false);
-  });
-  
+  } = BlogAPI.getSearchBlogList(
+    inputRef.current?.value,
+    isOpenBlogItemList,
+    () => {
+      setIsInputChange(false);
+    },
+  );
+
   const infiniteScrollRef = useIntersection((entry, observer) => {
     // ref를 감지할 경우 실행되는 로직작성
     observer.unobserve(entry.target);
@@ -47,8 +48,8 @@ const BlogHeadContainer = () => {
   };
 
   return (
-    <CC.RelativeBox w={"100vw"} pd={"0.5rem"} bg={"theme"}>
-      <CC.RelativeBox w={"100%"} h={'3.2rem'}>
+    <CC.RelativeBox w={'100vw'} pd={'0.5rem'} bg={'theme'}>
+      <CC.RelativeBox w={'100%'} h={'3.2rem'}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
@@ -62,8 +63,8 @@ const BlogHeadContainer = () => {
             setIsOpenBlogItemList((prev) => !prev);
             e.stopPropagation();
           }}
-          />
-        <BlogRecentListContainer /> 
+        />
+        <BlogRecentListContainer />
       </CC.RelativeBox>
       {/* 아래 코드는 검색창을 클릭했을 경우 보이는 블로그 검색 결과 리스트 */}
       {isOpenBlogItemList && (
