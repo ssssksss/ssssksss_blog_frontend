@@ -4,6 +4,7 @@ import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
