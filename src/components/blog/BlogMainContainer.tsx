@@ -22,21 +22,17 @@ import BlogItem from './BlogItem';
  * @description menuList=[{name. func}]
  */
 const BlogMainContainer = () => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
   const authStore = useSelector((state: RootState) => state.authStore);
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
   const mainContainerRef = useRef<null>();
   const blogListResData = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: unknown) => {
-    if (
-      !blogStore.activeBlogFirstCategoryId ||
-      !blogStore.activeBlogSecondCategoryId
-    )
+    if (!blogStore.activeFirstCategory || !blogStore.activeSecondCategory)
       return;
     store.dispatch(
-      rootActions.blogStore1.setBlogListOrderOption({
+      rootActions.blogStore.setBlogListOrderOption({
         blogListOrderOption: data.value,
       }),
     );
@@ -62,24 +58,26 @@ const BlogMainContainer = () => {
     };
   }, []);
 
+
+  if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
+  const { blogList, blogListDefaultImageUrl } = blogListResData.data.json;
+
   return (
-    <CC.ColLeftStartBox w={"100%"} pd={"0.5rem"} bg={"theme"} gap={8}>
-      <HeaderContainer>
-        <Text>
-          검색결과 : {blogListResData?.data?.json?.blogList.length || '0'}
-        </Text>
-        <CC.RowDiv pd={'0.4rem'}>
+    <CC.ColLeftStartBox w={'100%'} gap={8}>
+      <HeaderContainer outline={1} pd={"0rem 0.5rem"}>
+        <Text>검색결과 : {blogList.length || '0'}</Text>
+        <CC.RowDiv pd={'0.5rem'}>
           <Select
             onChange={orderBlogListHandler}
             defaultValue={{
-              value: blogStore1.blogListOrderOption,
+              value: blogStore.blogListOrderOption,
               name:
-                blogStore1.blogListOrderOption == 'viewNumber'
+                blogStore.blogListOrderOption == 'viewNumber'
                   ? '조회수순'
                   : '최신순',
             }}
-            w={'9rem'}
-            h={'2.2rem'}
+            w={'6rem'}
+            h={'1.5rem'}
             data={[
               { name: '최신순', value: '', bg: '' },
               { name: '조회수순', value: 'viewNumber', bg: '' },
@@ -88,58 +86,56 @@ const BlogMainContainer = () => {
           ></Select>
         </CC.RowDiv>
       </HeaderContainer>
-      <MainContainer ref={mainContainerRef}>
-        {blogListResData?.data?.json?.blogList?.map((i, index) => (
+      <MainContainer ref={mainContainerRef} outline={1}>
+        {blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`} prefetch={false}>
             <BlogItem
               element={i}
               viewMode={true}
-              defaultImageUrl={
-                blogListResData?.data.json?.blogListDefaultImageUrl
-              }
+              defaultImageUrl={blogListDefaultImageUrl}
             ></BlogItem>
           </Link>
         ))}
       </MainContainer>
       <FixedContainer>
-        <CC.ColLeftCenterBox bg={"primary20"} pd={"0.4rem"} gap={8}>
-        {authStore.role == "ROLE_ADMIN" && (
-          <Link href={`/blog/create`}>
-            <Button>
-              <IconsSvg.EditIcon fill={'black80'} />
+          <CC.ColLeftCenterBox bg={'primary20'} pd={'0.4rem'} gap={8}>
+            {authStore.role == 'ROLE_ADMIN' && (
+              <Link href={`/blog/create`}>
+                <Button>
+                  <IconsSvg.EditIcon fill={'black80'} />
+                </Button>
+              </Link>
+            )}
+            <Button onClick={() => window.scrollTo(0, 0)}>
+              <Image src={Icons.UpArrowIcon} alt="up-arrow" />
             </Button>
-          </Link>
-        )}
-        <Button onClick={() => window.scrollTo(0, 0)}>
-          <Image src={Icons.UpArrowIcon} alt="up-arrow" />
-        </Button>
-        <Button
-          onClick={() => window.scrollTo(0, window.document.body.scrollHeight)}
-        >
-          <Image src={Icons.DownArrowIcon} alt="down-arrow" />
-        </Button>
-        </CC.ColLeftCenterBox>
+            <Button
+              onClick={() =>
+                window.scrollTo(0, window.document.body.scrollHeight)
+              }
+            >
+              <Image src={Icons.DownArrowIcon} alt="down-arrow" />
+            </Button>
+          </CC.ColLeftCenterBox>
       </FixedContainer>
     </CC.ColLeftStartBox>
   );
 };
 export default BlogMainContainer;
 
-const HeaderContainer = styled(CC.RowBetweenDiv)`
+const HeaderContainer = styled(CC.RowBetweenStartBox)`
   width: 100%;
-  border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 0.2rem;
+  border-radius: 0.5rem;
   height: 3rem;
   background: ${(props) => props.theme.main.contrast};
-  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
 `;
 
 const MainContainer = styled(CC.ColLeftStartBox)`
   width: 100%;
-  gap: 8px;
+  gap: 0.5rem;
   ${(props) => props.theme.scroll.hiddenY};
   scroll-behavior: smooth;
-
+  padding: 0.5rem;
   & > a {
     width: 100%;
   }
@@ -149,15 +145,21 @@ const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
   height: 0px;
   left: calc(100% - 2rem);
-  bottom: 2rem;
+  top: 4rem;
   opacity: 0.6;
-  
+
+  & > div {
+    position: fixed;
+    top: 80vh;
+    right: 0px;
+  }
+
   button {
     background: ${(props) => props.theme.main.contrast};
     width: 2rem;
     height: 2rem;
   }
-  
+
   &:hover {
     opacity: 1;
     cursor: pointer;

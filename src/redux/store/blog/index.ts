@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export * from './actions';
-export * from './reducers';
-
 type InitialState = {
   blogListOrderOption: number | string;
   firstCategoryList: {
@@ -19,6 +16,7 @@ type InitialState = {
   };
   activeFirstCategory: string;
   activeSecondCategory: string;
+  activeBlogUserId: number | null;
 };
 
 const initialState: InitialState = {
@@ -27,6 +25,7 @@ const initialState: InitialState = {
   secondCategoryList: {},
   activeFirstCategory: '',
   activeSecondCategory: '',
+  activeBlogUserId: null,
 };
 
 const blogSlice = createSlice({
@@ -48,7 +47,10 @@ const blogSlice = createSlice({
     setActiveSecondCategory: (state, action) => {
       state.activeSecondCategory = action.payload;
     },
+    setActiveBlogUserId: (state, action) => {
+      state.activeSecondCategory = action.payload;
+    },
   },
 });
-export const blog1Reducer = blogSlice.reducer;
-export const blog1Action = blogSlice.actions;
+export const blogReducer = blogSlice.reducer;
+export const blogAction = blogSlice.actions;

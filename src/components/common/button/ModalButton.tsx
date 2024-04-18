@@ -1,45 +1,16 @@
 import Button from '@components/common/button/Button';
-import { Icons } from '@components/common/icons/Icons';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import CloseIcon from '@mui/icons-material/Close';
 import { CC } from '@styles/commonComponentStyle';
-import Image from 'next/image';
 import React, {
   MouseEventHandler,
-  ReactNode,
   useCallback,
   useEffect,
-  useState,
+  useState
 } from 'react';
+import { IModalButtonProps } from 'src/@types/component/common/ModalButton';
 
-interface IModalButtonProps {
-  onClick?: (_event: unknown) => void;
-  onClickCapture?: (_event: unknown) => void;
-  children: ReactNode;
-  disabled?: boolean;
-  w?: string;
-  h?: string;
-  bg?: string;
-  brR?: string;
-  color?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  outline?: boolean;
-  outlineColor?: string;
-  fontFamily?: string;
-  fontWeight?: number;
-  state?: number;
-  active?: boolean;
-  modal?: ReactNode;
-  modalW?: string;
-  modalMinW?: string;
-  modalMaxW?: string;
-  modalH?: string;
-  modalMinH?: string;
-  modalMaxH?: string;
-  modalOverlayVisible?: boolean;
-  modalBg?: string;
-  beforeCloseFunction?: () => void;
-}
 
 /**
  * @Param onClick = () => void;
@@ -107,16 +78,16 @@ const ModalButton = ({
       {isOpen && (
         <ModalComponent
           className={'modal-component'}
-          width={props.modalW}
-          height={props.modalH}
-          background={props.modalBg}
+          w={props.modalW}
+          h={props.modalH}
+          bg={props.modalBg}
           maxH={props.modalMaxH}
           maxW={props.modalMaxW}
           minW={props.modalMinW}
         >
-          <Exit onClickCapture={closeModal}>
+          <Exit onClickCapture={closeModal} id={'modal-exit'}>
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
-              <Image src={Icons.ExitIcon} alt="exit" width={'1'} height={'1'} />
+              <CloseIcon />
             </CC.ImgContainer>
           </Exit>
           {{
@@ -154,11 +125,12 @@ const Overlay = styled.div<{ modalOverlayVisible: boolean }>`
 `;
 
 const ModalComponent = styled(CC.ColumnDiv)<{
-  width: string;
-  height: string;
+  w: string;
+  h: string;
   maxH: string;
   maxW: string;
   minW: string;
+  bg: string;
 }>`
   border-radius: ${(props) => props.theme.borderRadius.br10};
   outline: solid ${(props) => props.theme.colors.black80} 0.2rem;
@@ -168,21 +140,21 @@ const ModalComponent = styled(CC.ColumnDiv)<{
   left: 50%;
   z-index: 100;
   transform: translate(-50%, -50%);
-  height: ${(props) => props.height};
+  height: ${(props) => props.h};
   max-height: ${(props) => props.maxH || `calc(100% - 1rem)`};
-  width: ${(props) => `calc(${props.width})`};
+  width: ${(props) => `calc(${props.w})`};
   max-width: ${(props) => props.maxW};
   min-width: ${(props) => props.minW};
   background: ${(props) =>
-    props.theme.colors?.[props.background] ||
-    props.theme.main?.[props.background] ||
-    props.background ||
-    `linear-gradient(45deg, ${props.theme.main.primary40} 0%,${props.theme.main.secondary40} 100%)`};
+    props.theme.colors?.[props.bg] ||
+    props.theme.main?.[props.bg] ||
+    props.bg};
   cursor: default;
   ${(props) => props.theme.scroll.hidden};
   & > * {
     ${(props) => props.theme.scroll.hidden};
   }
+
 `;
 const Exit = styled(CC.RowRightDiv)`
   border-radius: 1rem 1rem 0rem 0rem;

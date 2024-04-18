@@ -20,7 +20,7 @@ import BlogRecentListContainer from './BlogRecentListContainer';
 const BlogHeadContainer = () => {
   const [isOpenBlogItemList, setIsOpenBlogItemList] = useState(false);
   const [, setIsInputChange] = useState(true);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>();
   useWindowClick(() => setIsOpenBlogItemList(false));
 
   const {
@@ -48,23 +48,28 @@ const BlogHeadContainer = () => {
   };
 
   return (
-    <CC.RelativeBox w={'100vw'} pd={'0.5rem'} bg={'theme'}>
-      <CC.RelativeBox w={'100%'} h={'3.2rem'}>
-        <Input
-          type="search"
-          placeholder="검색어를 입력해주세요"
-          color={'black80'}
-          w={'calc(100% - 4rem)'}
-          h={'3rem'}
-          ref={inputRef}
-          leftIconImage={Icons.SearchIcon.src}
-          onChange={delaySearch(SearchHandler, 300)}
-          onClick={(e: MouseEvent) => {
-            setIsOpenBlogItemList((prev) => !prev);
-            e.stopPropagation();
-          }}
-        />
-        <BlogRecentListContainer />
+    <CC.RelativeBox w={'100%'} h={'3rem'} outline={1} brR={"0.5rem"}>
+      <CC.RelativeBox w={'100%'} h={'100%'}>
+        <CC.RowLeftCenterBox
+          w={'100%'}
+          h={'100%'}
+          pd={'0.125rem 0.5rem'}
+        >
+          <Input
+            type="search"
+            placeholder="검색어를 입력해주세요"
+            w={'calc(100vw - 3.5rem)'}
+            h={'1.75rem'}
+            ref={inputRef}
+            leftIconImage={Icons.SearchIcon.src}
+            onChange={delaySearch(SearchHandler, 300)}
+            onClick={(e: MouseEvent) => {
+              setIsOpenBlogItemList((prev) => !prev);
+              e.stopPropagation();
+            }}
+          />
+          <BlogRecentListContainer />
+        </CC.RowLeftCenterBox>
       </CC.RelativeBox>
       {/* 아래 코드는 검색창을 클릭했을 경우 보이는 블로그 검색 결과 리스트 */}
       {isOpenBlogItemList && (
@@ -102,8 +107,13 @@ const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   width: calc(100% - 0.8rem);
   z-index: 11;
   transform: translate(0rem, 0.8rem);
-  ${(props) => props.theme.scroll.hiddenY};
   height: calc(100vh - 9.6rem);
   overscroll-behavior: contain;
   border-radius: 0.4rem;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: scroll;
+  }
 `;

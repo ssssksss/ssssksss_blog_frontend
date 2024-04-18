@@ -1,5 +1,4 @@
 import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
-import { ICreateFirstCategoryHandlerProps } from '@api/type/BlogAPI.d';
 import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
@@ -10,6 +9,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { useSelector } from 'react-redux';
+import { ICreateFirstCategoryHandlerProps } from 'src/@types/api/BlogAPI';
 
 const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
   return useQueryHook({
@@ -45,26 +45,24 @@ const getBlog = (props: unknown) => {
 };
 
 const getBlogList = () => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   return useQueryHook({
     queryKey: [
       'blogList',
-      // store.getState().blogStore.activeBlogSecondCategoryId,
-      blogStore1.activeFirstCategory,
-      blogStore1.activeSecondCategory,
-      blogStore1.blogListOrderOption,
+      blogStore.activeFirstCategory,
+      blogStore.activeSecondCategory,
+      blogStore.blogListOrderOption,
     ],
     requestData: {
       url: '/api/blog-list',
       method: 'GET',
       params: {
-        sort: blogStore1.blogListOrderOption || 'baseTimeEntity.modifiedAt',
-        // secondCategoryId: store.getState().blogStore.activeBlogSecondCategoryId,
-        secondCategoryId: blogStore1.activeSecondCategory,
+        sort: blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
+        secondCategoryId: blogStore.activeSecondCategory,
       },
     },
     isRefetchWindowFocus: false,
-    enabled: blogStore1.activeSecondCategory ?? false,
+    enabled: blogStore.activeSecondCategory ?? false,
     staleTime: 300000,
   });
 };
@@ -81,21 +79,21 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
     onSuccessHandler: ({ data }) => {
       const _createBlogFirstCategory = data.data.json.createBlogFirstCategory;
       const _firstCategoryList = JSON.parse(
-        JSON.stringify(store.getState().blogStore1.firstCategoryList),
+        JSON.stringify(store.getState().blogStore.firstCategoryList),
       );
       _firstCategoryList[_createBlogFirstCategory.id] =
         _createBlogFirstCategory.name;
       store.dispatch(
-        rootActions.blogStore1.setFirstCategoryList(
+        rootActions.blogStore.setFirstCategoryList(
           Object.assign({}, _firstCategoryList),
         ),
       );
       const _secondCategoryList = JSON.parse(
-        JSON.stringify(store.getState().blogStore1.secondCategoryList),
+        JSON.stringify(store.getState().blogStore.secondCategoryList),
       );
       _secondCategoryList[_createBlogFirstCategory.id] = {};
       store.dispatch(
-        rootActions.blogStore1.setSecondCategoryList(
+        rootActions.blogStore.setSecondCategoryList(
           Object.assign({}, _secondCategoryList),
         ),
       );
@@ -116,11 +114,11 @@ const updateBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
     mutationFn,
     onSuccessHandler: ({ variables }) => {
       const temp = JSON.parse(
-        JSON.stringify(store.getState().blogStore1.firstCategoryList),
+        JSON.stringify(store.getState().blogStore.firstCategoryList),
       );
       temp[variables.id] = variables.name;
       store.dispatch(
-        rootActions.blogStore1.setFirstCategoryList(Object.assign({}, temp)),
+        rootActions.blogStore.setFirstCategoryList(Object.assign({}, temp)),
       );
       props.onSuccessHandler();
     },
@@ -128,7 +126,7 @@ const updateBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
 };
 
 const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore1 = useSelector((state) => state.blogStore1);
+  const blogStore = useSelector((state) => state.blogStore);
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/blog-first-category?id=${reqData?.id}`,
@@ -142,32 +140,32 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
     onSuccessHandler: ({ variables }) => {
       // ! 1번째 카테고리를 삭제하였을 때 현재 활성화 된 카테고리면 다른 카테고리로 변경
       const _firstCategoryList = JSON.parse(
-        JSON.stringify(blogStore1.firstCategoryList),
+        JSON.stringify(blogStore.firstCategoryList),
       );
       const _secondCategoryList = JSON.parse(
-        JSON.stringify(blogStore1.secondCategoryList),
+        JSON.stringify(blogStore.secondCategoryList),
       );
-      if (variables.id == blogStore1.activeFirstCategory) {
+      if (variables.id == blogStore.activeFirstCategory) {
         const _firstCategoryId = Object.keys(_firstCategoryList)[0];
         store.dispatch(
-          rootActions.blogStore1.setActiveFirstCategory(_firstCategoryId),
+          rootActions.blogStore.setActiveFirstCategory(_firstCategoryId),
         );
         const _secondCategoryId = Object.keys(
           _secondCategoryList[_firstCategoryId],
         )[0];
         store.dispatch(
-          rootActions.blogStore1.setActiveSecondCategory(_secondCategoryId),
+          rootActions.blogStore.setActiveSecondCategory(_secondCategoryId),
         );
       }
       delete _firstCategoryList[variables.id];
       store.dispatch(
-        rootActions.blogStore1.setFirstCategoryList(
+        rootActions.blogStore.setFirstCategoryList(
           Object.assign({}, _firstCategoryList),
         ),
       );
       delete _secondCategoryList[variables.id];
       store.dispatch(
-        rootActions.blogStore1.setSecondCategoryList(
+        rootActions.blogStore.setSecondCategoryList(
           Object.assign({}, _secondCategoryList),
         ),
       );
@@ -187,18 +185,16 @@ const getBlogFirstCategoryList = () => {
     isRefetchWindowFocus: false,
     onSuccessHandler: (props: IBlogCategoryListResDataProps) => {
       store.dispatch(
-        store
-          .getState()
-          .blogStore.SET_ACTIVE_BLOG_FIRST_CATEGORY(
-            props.data.json.blogFirstCategoryList[0].id,
-          ),
+        rootActions.blogStore.setActiveFirstCategory(
+          props.data.json.blogFirstCategoryList[0].id,
+        ),
       );
     },
   });
 };
 
 const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const mutationFn = async (reqData) => {
     const formData = new FormData();
     formData.append('name', reqData.name);
@@ -226,9 +222,9 @@ const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
         count: 0;
       } = data.data.json.createBlogSecondCategory;
       const _secondCategoryList = JSON.parse(
-        JSON.stringify(store.getState().blogStore1.secondCategoryList),
+        JSON.stringify(store.getState().blogStore.secondCategoryList),
       );
-      _secondCategoryList[blogStore1.activeFirstCategory][
+      _secondCategoryList[blogStore.activeFirstCategory][
         _createBlogSecondCategory.id
       ] = {
         thumbnailImageUrl: _createBlogSecondCategory.thumbnailImageUrl,
@@ -236,7 +232,7 @@ const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
         count: 0,
       };
       store.dispatch(
-        rootActions.blogStore1.setSecondCategoryList(_secondCategoryList),
+        rootActions.blogStore.setSecondCategoryList(_secondCategoryList),
       );
       props.onSuccessHandler();
     },
@@ -257,7 +253,7 @@ const getSecondCategory = async (props: string) => {
 };
 
 const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const mutationFn = async (reqData) => {
     const formData = new FormData();
     formData.append('id', reqData.id);
@@ -271,18 +267,18 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
     mutationFn,
     onSuccessHandler: ({ data, variables }) => {
       const _secondCategoryList = JSON.parse(
-        JSON.stringify(blogStore1.secondCategoryList),
+        JSON.stringify(blogStore.secondCategoryList),
       );
-      _secondCategoryList[blogStore1.activeFirstCategory][variables.id] = {
+      _secondCategoryList[blogStore.activeFirstCategory][variables.id] = {
         id: variables.id,
         name: variables.name,
         thumbnailImageUrl: data.data.json.data.thumbnailImageUrl,
         count:
-          _secondCategoryList[blogStore1.activeFirstCategory][variables.id]
+          _secondCategoryList[blogStore.activeFirstCategory][variables.id]
             .count,
       };
       store.dispatch(
-        rootActions.blogStore1.setSecondCategoryList(
+        rootActions.blogStore.setSecondCategoryList(
           Object.assign({}, _secondCategoryList),
         ),
       );
@@ -292,7 +288,7 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
 };
 
 const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
   const mutationFn = async (reqData) => {
     return await AxiosInstance({
@@ -308,26 +304,26 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
     mutationFn,
     onSuccessHandler: ({ variables }) => {
       // ! 2번쨰 카테고리가 활성화되어있다면 다른 카테고리가 활성화되게 작업해야한다.
-      let _secondCategoryId = blogStore1.activeSecondCategory;
+      let _secondCategoryId = blogStore.activeSecondCategory;
       const _secondCategoryList = JSON.parse(
-        JSON.stringify(blogStore1.secondCategoryList),
+        JSON.stringify(blogStore.secondCategoryList),
       );
-      if (blogStore1.activeSecondCategory == variables.id) {
+      if (blogStore.activeSecondCategory == variables.id) {
         _secondCategoryId = Object.keys(
-          _secondCategoryList[blogStore1.activeFirstCategory],
+          _secondCategoryList[blogStore.activeFirstCategory],
         )[0];
         store.dispatch(
-          rootActions.blogStore1.setActiveSecondCategory(_secondCategoryId),
+          rootActions.blogStore.setActiveSecondCategory(_secondCategoryId),
         );
       }
-      delete _secondCategoryList[blogStore1.activeFirstCategory][variables.id];
+      delete _secondCategoryList[blogStore.activeFirstCategory][variables.id];
       store.dispatch(
-        rootActions.blogStore1.setSecondCategoryList(
+        rootActions.blogStore.setSecondCategoryList(
           Object.assign({}, _secondCategoryList),
         ),
       );
       router.replace(
-        `/blog?first-category=${blogStore1.activeFirstCategory}&second-category=${_secondCategoryId}`,
+        `/blog?first-category=${blogStore.activeFirstCategory}&second-category=${_secondCategoryId}`,
         undefined,
         {
           shallow: true,
@@ -452,7 +448,7 @@ const getSearchBlogList = (
   enable: boolean,
   onSuccessHandler: () => void,
 ) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const result = useInfiniteQuery(
     ['searchBlogList', keyword || ''], // 검색어 key값
     ({ pageParam = 1 }) => getSearchBlogList1(keyword, pageParam),
@@ -467,7 +463,7 @@ const getSearchBlogList = (
               return {
                 ..._i,
                 defaultImageUrl:
-                  blogStore1.secondCategoryList[_i.firstCategoryId][
+                  blogStore.secondCategoryList[_i.firstCategoryId][
                     _i.secondCategoryId
                   ].thumbnailImageUrl,
               };

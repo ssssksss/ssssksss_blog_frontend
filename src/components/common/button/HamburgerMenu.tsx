@@ -19,6 +19,7 @@ interface IHamburgerMenuProps {
 const HamburgerMenu = (props: IHamburgerMenuProps) => {
   return (
     <Container
+      className={'hamburger-menu'}
       onClick={props.onClickHideMenu}
       isHideMenu={props.isHideMenu}
       type="button"
@@ -38,15 +39,12 @@ interface IContainerProps {
 const Container = styled.button<IContainerProps>`
   width: 3.2rem;
   height: 3.2rem;
-  border-radius: 0.8rem 0rem 0rem 0rem;
   background-color: transparent;
   display: flex;
   justify-content: center;
   position: relative;
   padding: 0rem;
   flex-shrink: 0;
-  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
-  outline-offset: -0.1rem;
   z-index: auto;
 
   ${(props) =>

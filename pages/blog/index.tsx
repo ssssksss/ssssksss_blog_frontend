@@ -10,11 +10,12 @@ import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect } from 'react';
+import { propsType } from 'src/@types/blog';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
  * @version 0.0.1 "2023-09-25 00:05:43"
- * @description 설명
+ * @description 블로그 홈 페이지
  */
 export async function getServerSideProps() {
   const res = await AxiosInstance.get('/api/blog-category-list');
@@ -36,57 +37,58 @@ export async function getServerSideProps() {
   return { props: data };
 }
 
-type propsType = {
-  firstCategoryList: {
-    String: string;
-  };
-  secondCategoryList?: {
-    [firstCategoryId: string | number]: {
-      secondCategoryId?: {
-        name?: string;
-        thumbnailImageUrl: string;
-      };
-    };
-  };
-};
 const Index = (props: propsType) => {
   const router = useRouter();
   useEffect(() => {
-    const urlQueryObject = UrlQueryStringToObject(window.location.href);
-    // ! COMM :  url에 첫번째 카테고리 값이 있으면 그걸로 없으면 첫번째 카테고리
-    const firstCategoryIdTemp =
-      urlQueryObject?.[`first-category`] ||
-      Object.keys(props.firstCategoryList)[0];
-    store.dispatch(
-      rootActions.blogStore1.setActiveFirstCategory(firstCategoryIdTemp),
-    );
-    store.dispatch(
-      rootActions.blogStore1.setFirstCategoryList(props.firstCategoryList),
-    );
-    store.dispatch(
-      rootActions.blogStore1.setSecondCategoryList(props.secondCategoryList),
-    );
-    // ! COMM : 두번째 카테고리도 마찬가지로 작업
-    let secondCategoryIdTemp = urlQueryObject?.[`second-category`] || null;
-    if (props.secondCategoryList) {
-      secondCategoryIdTemp = Object.keys(
-        props.secondCategoryList[firstCategoryIdTemp],
-      )[0];
+    // 서버에서 블로그 카테고리 목록을 받아와서 활성화된 카테고리와 카테고리 목록을 redux에 저장하는 과정
+    try {
+      const urlQueryObject = UrlQueryStringToObject(window.location.href);
+      let firstCategoryIdTemp;
+      if (
+        urlQueryObject?.[`first-category`] ||
+        props.firstCategoryList != undefined
+      ) {
+        firstCategoryIdTemp =
+          urlQueryObject?.[`first-category`] ||
+          Object.keys(props.firstCategoryList)[0];
+      }
+      store.dispatch(
+        rootActions.blogStore.setActiveFirstCategory(firstCategoryIdTemp),
+      );
+      store.dispatch(
+        rootActions.blogStore.setFirstCategoryList(props.firstCategoryList),
+      );
+      store.dispatch(
+        rootActions.blogStore.setSecondCategoryList(props.secondCategoryList),
+      );
+      let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
+      if (firstCategoryIdTemp != undefined) {
+        if (
+          JSON.stringify(props.secondCategoryList) != '{}' &&
+          props.secondCategoryList != undefined
+        )
+          secondCategoryIdTemp = Object.keys(
+            props.secondCategoryList[firstCategoryIdTemp],
+          )[0];
+      }
+      store.dispatch(
+        rootActions.blogStore.setActiveSecondCategory(secondCategoryIdTemp),
+      );
+      const temp =
+        window.document.location.origin +
+        window.document.location.pathname +
+        '?first-category=' +
+        firstCategoryIdTemp +
+        '&second-category=' +
+        secondCategoryIdTemp;
+      router.replace(temp, '', { shallow: true });
+    } catch {
+      router.push('/404');
     }
-    store.dispatch(
-      rootActions.blogStore1.setActiveSecondCategory(secondCategoryIdTemp),
-    );
-    const temp =
-      window.document.location.origin +
-      window.document.location.pathname +
-      '?first-category=' +
-      firstCategoryIdTemp +
-      '&second-category=' +
-      secondCategoryIdTemp;
-    router.replace(temp, '', { shallow: true });
   }, []);
+
   return (
-    <CC.ColLeftStartBox w={"100vw"} gap={4}>
+    <CC.ColLeftStartBox w={'100%'} gap={8}>
       <Head>
         <title>블로그</title>
         <link rel="canonical" href="https://blog.ssssksss.xyz/blog"></link>

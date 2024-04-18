@@ -24,7 +24,7 @@ interface IBlogSecondCategoryUpdateBoxProps {
 const BlogSecondCategoryUpdateBox = (
   props: IBlogSecondCategoryUpdateBoxProps,
 ) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const updateSecondCategoryMutation = BlogAPI.updateSecondCategory({
     onSuccessHandler: () => props.closeModal(),
   });
@@ -45,76 +45,74 @@ const BlogSecondCategoryUpdateBox = (
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,
       files: data.updateSecondCategoryImageFile,
-      directory: `/blog-category/${blogStore1.activeFirstCategory}`,
+      directory: `/blog-category/${blogStore.activeFirstCategory}`,
     });
   };
 
   const changeUpdateCategoryImage = (data) => {
     methods.setValue('updateSecondCategoryId', data.value);
     setUpdateImageUrl(
-      blogStore1.secondCategoryList[blogStore1.activeFirstCategory][data.value]
+      blogStore.secondCategoryList[blogStore.activeFirstCategory][data.value]
         .thumbnailImageUrl,
     );
   };
 
   return (
     <FormProvider {...methods}>
-      <Container gap={28} pd={'0.8rem'} color={'contrast'} brR={'1rem'}>
+      <Container outline={1} w={'100%'}>
         <Header>
           <span>블로그 2번째 카테고리 수정 </span>
         </Header>
-        <CC.ColumnDiv gap={28}>
-          <Input
-            value={blogStore1.firstCategoryList[blogStore1.activeFirstCategory]}
-            disabled={true}
-            center={true}
-          />
-          <Select
-            w={'100%'}
-            placeholder={'2번째 카테고리 목록'}
-            bg={'transparent'}
-            outline={true}
-            data={Object.entries(
-              blogStore1.secondCategoryList[blogStore1.activeFirstCategory],
-            ).map(([key, value]) => {
-              return { value: key, name: value.name, bg: '' };
-            })}
-            onChange={changeUpdateCategoryImage}
-          ></Select>
-          <Input
-            placeholder="2번째 카테고리 수정할 이름"
-            register={methods.register('updateSecondCategoryName')}
-            onKeyPressAction={methods.handleSubmit(updateSecondCategoryHandler)}
-            errorMessage={errors.updateSecondCategoryName?.message}
-          />
-          <Input
-            type={'file'}
-            register={methods.register('updateSecondCategoryImageFile')}
-            setValue={methods.setValue}
-            trigger={methods.trigger}
-            h={'20rem'}
-            defaultImageUrl={updateImageUrl}
-          />
-        </CC.ColumnDiv>
-        <CC.ColumnDiv gap={8}>
-          <Button
-            w={'100%'}
-            outline={true}
-            onClickCapture={methods.handleSubmit(updateSecondCategoryHandler)}
-            disabled={!methods.formState.isValid}
-          >
-            수정
-          </Button>
-        </CC.ColumnDiv>
+        <Input
+          value={blogStore.firstCategoryList[blogStore.activeFirstCategory]}
+          disabled={true}
+          center={true}
+          color={"black100"}
+        />
+        <Select
+          w={'100%'}
+          placeholder={'2번째 카테고리 목록'}
+          bg={'transparent'}
+          outline={true}
+          data={Object.entries(
+            blogStore.secondCategoryList[blogStore.activeFirstCategory],
+          ).map(([key, value]) => {
+            return { value: key, name: value.name, bg: '' };
+          })}
+          onChange={changeUpdateCategoryImage}
+        ></Select>
+        <Input
+          placeholder="2번째 카테고리 수정할 이름"
+          register={methods.register('updateSecondCategoryName')}
+          onKeyPressAction={methods.handleSubmit(updateSecondCategoryHandler)}
+          errorMessage={errors.updateSecondCategoryName?.message}
+          bg={1}
+          h={'2.25rem'}
+        />
+        <Input
+          type={'file'}
+          register={methods.register('updateSecondCategoryImageFile')}
+          setValue={methods.setValue}
+          trigger={methods.trigger}
+          h={'20rem'}
+          defaultImageUrl={updateImageUrl}
+        />
+        <Button
+          w={'100%'}
+          onClickCapture={methods.handleSubmit(updateSecondCategoryHandler)}
+          disabled={!methods.formState.isValid}
+        >
+          수정
+        </Button>
       </Container>
     </FormProvider>
   );
 };
 export default memo(BlogSecondCategoryUpdateBox);
 
-const Container = styled(CC.ColumnDiv)`
-  outline: solid ${(props) => props.theme.main.contrast} 0.4rem;
-
+const Container = styled(CC.ColBox)`
+  gap: 2rem;
+  padding: 0.5rem;
   & > button:nth-of-type(1) {
     align-items: end;
   }
@@ -122,10 +120,9 @@ const Container = styled(CC.ColumnDiv)`
 
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  padding: 1.6rem;
-  gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${(props) => props.theme.borderRadius.br10};
+  color: black;
+  border-radius: 0.5rem;
 
   span:nth-of-type(1) {
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};

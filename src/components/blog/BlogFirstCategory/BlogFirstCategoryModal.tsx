@@ -13,11 +13,9 @@ import BlogFirstCategoryUpdateBox from './BlogFirstCategoryUpdateBox';
  */
 
 export const BlogFirstCategoryModal = (props: {
-  blogCategoryListResData?: unknown;
   closeModal?: () => void;
 }) => {
   const [menu, setMenu] = useState('add');
-
   return (
     <Container>
       <CC.RowDiv gap={4}>
@@ -25,20 +23,23 @@ export const BlogFirstCategoryModal = (props: {
           w={'100%'}
           active={menu === 'add'}
           onClick={() => setMenu('add')}
-        >
+          outline={1}
+          >
           추가
         </Button>
         <Button
           w={'100%'}
           active={menu === 'update'}
           onClick={() => setMenu('update')}
-        >
+          outline={1}
+          >
           수정
         </Button>
         <Button
           w={'100%'}
           active={menu === 'delete'}
           onClick={() => setMenu('delete')}
+          outline={1}
         >
           삭제
         </Button>
@@ -48,13 +49,11 @@ export const BlogFirstCategoryModal = (props: {
       )}
       {menu === 'update' && (
         <BlogFirstCategoryUpdateBox
-          blogCategoryListResData={props.blogCategoryListResData}
           closeModal={props.closeModal}
         />
       )}
       {menu === 'delete' && (
         <BlogFirstCategoryDeleteBox
-          blogCategoryListResData={props.blogCategoryListResData}
           closeModal={props.closeModal}
         />
       )}
@@ -64,11 +63,11 @@ export const BlogFirstCategoryModal = (props: {
 
 const Container = styled(CC.ColumnDiv)`
   width: 100%;
+  max-width: 40rem;
   min-height: 40rem;
   padding: 1rem;
   gap: 1.6rem;
   color: ${(props) => props.theme.colors.white80};
   font-size: 1.2rem;
-  max-width: 40rem;
   margin: auto;
 `;

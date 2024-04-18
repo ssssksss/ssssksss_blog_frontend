@@ -46,7 +46,7 @@ export default Button;
 
 const ButtonStyle = styled.button<ButtonTypes.IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
-  ${(props) => props.theme.flex?.row.center.center};
+  ${(props) => props.theme.flex?.row.center.center}
   color: ${(props) => props.theme?.colors?.black80};
   position: relative;
 
@@ -79,16 +79,6 @@ ${(props) =>
       }
     `}
       
-      ${(props) =>
-    props.active &&
-    css`
-      color: ${props.theme.main?.contrast};
-      background: ${props.theme.colors?.[props.activeBg] ||
-      props.theme.main?.[props.activeBg] ||
-      props.activeBg ||
-      props.theme.main?.primary60};
-    `}
-      
       
       ${(props) =>
     props.disabled &&
@@ -116,23 +106,20 @@ ${(props) =>
     props.theme.borderRadius?.[props.brR] ||
     props.brR ||
     props.theme.btnSizes?.[props.h]?.borderRadius ||
-    props.theme.btnSizes?.md?.borderRadius};
+    '0.5rem'};
   background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg] || props.bg};
   outline: ${(props) =>
     props.outline &&
     css`solid  ${
       props.theme.colors?.[props.outlineColor] ||
-      props.theme.main?.[props.outlineColor] ||
-      props.theme.main?.primary80
-    } 0.1rem`};
+      props.theme.main?.[props.outlineColor]
+    } 1px`};
+  outline-offset: -1px;
   width: ${(props) => props.w};
   min-width: ${(props) => props.minW};
   min-height: ${(props) => props.minH};
-  height: ${(props) =>
-    props.theme.btnSizes?.[props.h]?.height ||
-    props.h ||
-    props.theme.btnSizes?.sm?.height};
+  height: ${(props) => props.h};
   font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.theme.fontSize?.sm};
@@ -143,21 +130,56 @@ ${(props) =>
   animation: ${(props) =>
       props.animation == 1 && animationKeyFrames.UpToDownRepeat}
     infinite 1s;
+
+  // 커스텀 스타일
+  ${(props) =>
+    props.outline === 1 &&
+    css`
+      outline: solid black 1px;
+      outline-offset: -1px;
+    `}
+  ${(props) =>
+    props.bg == 2 &&
+    css`
+      color: white;
+      background: ${props.theme.main.secondary80};
+    `}
+      // 커스텀 스타일
+  ${(props) =>
+    props.bg == 3 &&
+    css`
+      color: white;
+      background: linear-gradient(
+        45deg,
+        ${props.theme.main.primary40} 0%,
+        ${props.theme.main.secondary40} 100%
+      );
+    `}
+
+// active 인 경우
+          ${(props) =>
+    props.active &&
+    css`
+      color: ${props.theme.main?.contrast};
+      background: ${props.theme.colors?.[props.activeBg] ||
+      props.theme.main?.[props.activeBg] ||
+      props.activeBg ||
+      props.theme.main?.primary60};
+    `}
 `;
 
 const Badge = styled.div`
   position: absolute;
-  border-radius: 0.8rem;
-  right: 0.2rem;
-  top: 0.4rem;
-  padding: 0.1rem;
-  transform: translate(50%, -50%);
+  border-radius: 0.5rem;
+  top: 0.2rem;
+  right: 0;
+  transform: translate(0%, -50%);
   font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 1.2rem;
-  min-height: 1.2rem;
+  min-width: 1.5rem;
+  min-height: 1rem;
   width: max-content;
   background: ${(props) => props.theme.main.secondary80};
   color: ${(props) => props.theme.main.contrast};

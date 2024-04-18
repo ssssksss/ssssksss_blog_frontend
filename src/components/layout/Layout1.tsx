@@ -20,19 +20,17 @@ const Layout1 = ({ children }: AppLayoutProps) => {
 
 export default Layout1;
 const Container = styled.div`
-  border-radius: ${(props) => props.theme.borderRadius?.br10};
   width: 100vw;
-  transition: all 1.2s ease-in-out;
-  transition-property: background-color;
-  animation-fill-mode: forwards;
-  padding-top: 3.2rem;
+  height: 100vh;
+  /* transition: all 1.2s ease-in-out; */
+  /* transition-property: background-color; */
+  /* animation-fill-mode: forwards; */
+  padding: 4.5rem 0.5rem 5rem 0.5rem;
 `;
 
 const MainContainer = styled.main`
   margin: 0rem auto;
   width: 100%;
-  min-height: calc(100vh - 3.2rem);
-  /* max-width: 144rem; */
-  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
-  outline-offset: -0.1rem;
+  max-height: calc(100vh - 4.5rem);
+  max-width: 1440px;
 `;

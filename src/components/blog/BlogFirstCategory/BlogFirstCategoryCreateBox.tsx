@@ -43,19 +43,19 @@ const BlogFirstCategoryCreateBox = (
     });
   };
   return (
-    <Container gap={28} pd={'0.8rem'} color={'contrast'} brR={'1rem'}>
+    <Container outline={1} w={"100%"}>
       <Header>
         <span>블로그 1번째 카테고리 추가 </span>
       </Header>
-      <CC.ColumnDiv gap={28}>
         <Input
+        w={"100%"}
           placeholder="이름"
           register={register('createFirstCategoryName')}
           onKeyPressAction={handleSubmit(createFirstCategoryHandler)}
           errorMessage={errors.createFirstCategoryName?.message}
+          bg={1}
+          h={"2.25rem"}
         />
-      </CC.ColumnDiv>
-      <CC.ColumnDiv gap={8}>
         <Button
           w={'100%'}
           onClickCapture={handleSubmit(createFirstCategoryHandler)}
@@ -63,15 +63,14 @@ const BlogFirstCategoryCreateBox = (
         >
           추가
         </Button>
-      </CC.ColumnDiv>
     </Container>
   );
 };
 export default BlogFirstCategoryCreateBox;
 
-const Container = styled(CC.ColumnDiv)`
-  outline: solid ${(props) => props.theme.main.contrast} 0.4rem;
-
+const Container = styled(CC.ColBox)`
+  gap: 2rem;
+  padding: 0.5rem;
   & > button:nth-of-type(1) {
     align-items: end;
   }
@@ -79,10 +78,9 @@ const Container = styled(CC.ColumnDiv)`
 
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  padding: 1.6rem;
-  gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${(props) => props.theme.borderRadius.br10};
+  color: black;
+  border-radius: 0.5rem;
 
   span:nth-of-type(1) {
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};

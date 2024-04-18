@@ -47,7 +47,7 @@ const BlogItem = (props: IBlogItemProps) => {
           />
         </CC.ImgContainer>
       )}
-      <CC.ColumnDiv gap={4}>
+      <CC.ColLeftStartBox gap={4}>
         <Title> {props.element.title} </Title>
         <Description> {props.element.description} </Description>
         <CC.RowBetweenDiv w={'100%'}>
@@ -69,7 +69,7 @@ const BlogItem = (props: IBlogItemProps) => {
             </CC.RowDiv>
           </ViewAndLIke>
         </CC.RowBetweenDiv>
-      </CC.ColumnDiv>
+      </CC.ColLeftStartBox>
     </Container>
   );
 };
@@ -77,11 +77,11 @@ export default BlogItem;
 
 const Container = styled.div`
   width: 100%;
-  outline: solid 0.1rem ${(props) => props.theme.main.primary40};
   border-radius: ${(props) => props.theme.borderRadius.br10};
   cursor: pointer;
   background: ${(props) => props.theme.colors.white80};
-  outline-offset: 0rem;
+  outline: solid black 1px;
+  outline-offset: -1px;
   text-shadow: none;
   display: grid;
   grid-template-columns: 4rem auto;
@@ -90,7 +90,7 @@ const Container = styled.div`
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 1rem;
   }
-  padding: 0.8rem 0.4rem;
+  padding: 0.5rem;
 
   &:hover {
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);

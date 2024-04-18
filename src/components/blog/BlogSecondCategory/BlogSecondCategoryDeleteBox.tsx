@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const deleteSecondCategoryMutation = BlogAPI.deleteSecondCategory({
     onSuccessHandler: () => {
       props.closeModal();
@@ -40,7 +40,7 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
 
   return (
     <FormProvider {...methods}>
-      <Container gap={28} pd={'0.8rem'} color={'contrast'} brR={'1rem'}>
+      <Container outline={1} w={'100%'}>
         <Header>
           <span>블로그 2번째 카테고리 삭제</span>
         </Header>
@@ -51,7 +51,7 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
             bg={'transparent'}
             outline={true}
             data={Object.entries(
-              blogStore1.secondCategoryList[blogStore1.activeFirstCategory],
+              blogStore.secondCategoryList[blogStore.activeFirstCategory],
             ).map(([key, value]) => {
               return { value: key, name: value.name, bg: '' };
             })}
@@ -64,7 +64,6 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
         <CC.ColumnDiv gap={8}>
           <ConfirmButton
             w={'100%'}
-            outline={true}
             disabled={!methods.formState.isValid}
             onClick={methods.handleSubmit(deleteSecondCategoryHandler)}
           >
@@ -77,9 +76,9 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
 };
 export default memo(BlogSecondCategoryDeleteBox);
 
-const Container = styled(CC.ColumnDiv)`
-  outline: solid ${(props) => props.theme.main.contrast} 0.4rem;
-
+const Container = styled(CC.ColBox)`
+  gap: 2rem;
+  padding: 0.5rem;
   & > button:nth-of-type(1) {
     align-items: end;
   }
@@ -87,10 +86,9 @@ const Container = styled(CC.ColumnDiv)`
 
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  padding: 1.6rem;
-  gap: 0.25rem;
   align-self: stretch;
-  border-radius: ${(props) => props.theme.borderRadius.br10};
+  color: black;
+  border-radius: 0.5rem;
 
   span:nth-of-type(1) {
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};

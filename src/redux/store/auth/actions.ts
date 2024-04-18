@@ -11,7 +11,7 @@ type USER_INFO_STATE = {
   email: string;
   role: string;
   nickname: string;
-  id: number;
+  id: number | null;
   suid: string;
 };
 

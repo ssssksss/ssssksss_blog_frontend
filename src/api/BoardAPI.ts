@@ -9,7 +9,7 @@ import {
   ICreateBoardProps,
   IGetBoardListDataProps,
   IUpdateBoardProps,
-} from './type/BoardAPI.d';
+} from '../@types/api/BoardAPI';
 
 /**
  * @param props keyword string [df] ""

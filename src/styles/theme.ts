@@ -523,7 +523,7 @@ const flexBox = {
         width: '100%',
         display: 'flex',
         flexFlow: 'nowrap row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'space-between',
       },
       center: {
@@ -577,7 +577,7 @@ const flexBox = {
         display: 'flex',
         flexFlow: 'nowrap row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
       },
       end: {
         width: '100%',
@@ -611,6 +611,8 @@ const flexBox = {
     },
   },
   col: {
+    display: 'flex',
+    flexFlow: 'nowrap column',
     between: {
       start: {
         display: 'flex',

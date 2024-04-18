@@ -9,7 +9,7 @@ import { timeFunction } from '@utils/function/timeFunction';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { IBoardListProps } from './../../api/type/board/BoardMainContainer.d';
+import { IBoardListProps } from '../../@types/api/board/BoardMainContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BoardMainContainer.tsx
@@ -112,7 +112,7 @@ const SearchContainer = styled.div`
   outline: solid black 0.2rem;
   outline-offset: -0.2rem;
   border-radius: 0.4rem;
-  padding: 0.8rem 0rem;
+  padding: 0.8rem 0.5rem;
   font-size: 1.2rem;
 `;
 

@@ -9,7 +9,7 @@ import React, {
   FocusEvent,
   KeyboardEvent,
   useEffect,
-  useState,
+  useState
 } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import { Icons } from '../icons/Icons';
@@ -28,7 +28,7 @@ import { Icons } from '../icons/Icons';
  */
 
 interface IInputProps {
-  outline?: boolean;
+  outline?: boolean | number;
   outlineColor?: colorTypes;
   placeholder?: string;
   register?: UseFormRegister<FieldValues>;
@@ -48,13 +48,14 @@ interface IInputProps {
   pd?: string;
   leftIconImage?: string;
   w?: string;
-  h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
+  h?: string;
   brR?: string;
   state?: number;
-  bg?: colorTypes;
+  bg?: colorTypes | number;
   errorLocation?: string;
   defaultImageUrl?: string;
   center?: boolean;
+  onClick?: (_e: MouseEvent) => void;
   onFocus?: (_e: FocusEvent<HTMLInputElement>) => void;
   onBlur?: (_e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (_e: ChangeEvent<HTMLInputElement>) => void;
@@ -70,7 +71,7 @@ interface IInputProps {
     | 'color';
 }
 
-const Input = React.forwardRef<IInputProps, HTMLInputElement>((props, ref) => {
+const Input = (props: IInputProps, ref: React.MutableRefObject<HTMLInputElement>) => {
   const [imageUrl, setImageUrl] = useState('/');
   const [, setIsDragging] = useState(false);
 
@@ -232,10 +233,10 @@ const Input = React.forwardRef<IInputProps, HTMLInputElement>((props, ref) => {
       )}
     </Container>
   );
-});
+};
 
 Input.displayName = 'Input';
-export default Input;
+export default React.forwardRef(Input);
 
 // 제거할 부분
 
@@ -256,24 +257,18 @@ const InputStyle = styled.input<IInputProps>`
       props.theme.main?.[props.outlineColor]
     } 0.1rem`};
   width: ${(props) => props.w || '100%'};
-  height: ${(props) =>
-    props.h ||
-    (props.size && props.size === 'sm'
-      ? '2rem'
-      : props.size === 'md'
-        ? '3rem'
-        : '2.4rem')};
+  height: ${(props) => props.h || '100%'};
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
-  display: ${(props) => (props.display ? props.display : 'block')};
+  display: ${(props) => props.display ?? 'block'};
   border: none;
-  padding: ${(props) => props.pd || '0.2rem 0rem 0.2rem 0.4rem'};
+  padding: ${(props) => props.pd};
   position: relative;
   text-align: ${(props) => props.center && 'center'};
 
   // 배경색(background) //
   background: ${(props) =>
-    props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
+    props.theme.colors?.[props.bg] || props.theme.main?.[props.bg] || 'none'};
 
   // 폰트(color, font, line-height, letter-spacing, text-align, text-indent, vertical-align, white-space) //
   font-size: 1rem;
@@ -285,10 +280,6 @@ const InputStyle = styled.input<IInputProps>`
   // 이벤트(active, focus, hover, visited, focus-within, disabled) //
   &:hover {
     cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  }
-
-  &:focus {
-    outline: solid ${(props) => `${props.theme.main?.primary80}2f`} 0.5rem;
   }
 
   ${(props) =>
@@ -359,39 +350,18 @@ const InputStyle = styled.input<IInputProps>`
       ::placeholder {
         transition: all 0.6s ease-in-out;
         opacity: 0.7;
-        color: ${
-          props.theme.colors?.[props.color] ||
-          props.theme.main?.[props.color] ||
-          props.theme.colors?.white80
-        };
     }
     &[type='search'] {
       padding-left: calc(${props.h ? props.h : '2rem'} + 0.8rem);
     }
   `}
 
-  // 반응형(media-query, overflow, scroll) //
-
-
-// 커스텀(custom css) //
+  // 커스텀(custom css) //
 ${(props) =>
-    props.state === 1 &&
+    props.bg == 1 &&
     `
-    outline: solid ${props.theme.colors.white80} 0.1rem;
-    background: rgba(0, 0, 0, 0.01);
-    box-shadow: 0.2rem 0.2rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
-    height: ${props.h || '2.5rem'};
-    color: ${
-      props.theme.colors?.[props.color] ||
-      props.theme.main?.[props.color] ||
-      props.theme.colors.white80
-    };
-    ::placeholder {
-      transition: all 0.6s ease-in-out;
-      font-size: ${props.theme.fontSize.sm};
-      color: ${props.theme.colors.black60};
-      padding: '0.6rem';
-    }
+     background: ${props.theme.colors.gray20}; 
+     color: #333333;
   `}
 `;
 
@@ -420,27 +390,28 @@ const ImageFileContainer = styled.label<
   height: ${(props) => props.h || props.theme.inputSizes['text'].md.height};
   display: block;
   ${(props) => props.theme.flex?.row.center.center};
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   position: relative;
   background: ${(props) =>
     props.theme.colors?.[props.bg] || props.theme.main?.[props.bg]};
-  &:hover {
-    cursor: pointer;
-  }
-  color: ${(props) =>
-    props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
-  button {
-    position: absolute;
-    top: 0.4rem;
-    right: 0.4rem;
-    z-index: 4;
-    background: transparent;
-    cursor: pointer;
-  }
-  ${(props) =>
-    props.isImageUrl &&
-    css`
-      outline: none;
+    &:hover {
+      cursor: pointer;
+    }
+    color: ${(props) =>
+      props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+      button {
+        position: absolute;
+        top: 0.4rem;
+        right: 0.4rem;
+        z-index: 4;
+        background: transparent;
+        cursor: pointer;
+      }
+      ${(props) =>
+        props.isImageUrl &&
+        css`
+        outline: solid black 1px;
+        outline-offset: -1px;
       box-shadow: none;
     `}
 `;

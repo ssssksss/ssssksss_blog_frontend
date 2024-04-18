@@ -1,6 +1,5 @@
+import { blogAction } from '@redux/store/blog';
 import authAction from './auth/actions';
-import { blog1Action } from './blog';
-import blogAction from './blog/actions';
 import blogContentTemplateAction from './blogContentTemplate/actions';
 import boardAction from './board/actions';
 import { loadingAction } from './loading';
@@ -11,7 +10,6 @@ import toastifyAction from './toastify/actions';
 import todoAction from './todo/actions';
 
 export const rootActions = {
-  blogStore: blogAction,
   authStore: authAction,
   toastifyStore: toastifyAction,
   blogContentTemplateStore: blogContentTemplateAction,
@@ -21,5 +19,5 @@ export const rootActions = {
   memoStore: memoAction,
   loadingStore: loadingAction,
   themeStore: themeAction,
-  blogStore1: blog1Action,
+  blogStore: blogAction,
 };

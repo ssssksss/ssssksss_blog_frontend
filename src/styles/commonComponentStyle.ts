@@ -15,7 +15,7 @@ interface IStyleProps {
   minH?: string;
   w?: string;
   minW?: string;
-  bg?: string;
+  bg?: string | number;
   maxW?: string;
   color?: string;
   noCursor?: boolean; // 나중에 삭제 고려해보기 별 필요없는 props
@@ -23,7 +23,7 @@ interface IStyleProps {
   fontSize?: string;
   fw?: boolean; // font weight
   overflow?: boolean | string;
-  outline?: boolean;
+  outline?: boolean | string | number;
   first?: string; // grid 너비 정하는데 사용
   second?: string; // grid 너비 정하는데 사용
   third?: string; // grid 너비 정하는데 사용
@@ -81,7 +81,13 @@ const propsCommonStyle = (props) => css`
       props.outlineColor}
       0.2rem;
     outline-offset: -0.2rem;
-  `};
+  `}
+  // 커스텀하게 정해진 스타일 모아놓는 공간
+  ${props.outline == '1' &&
+  css`
+    outline: solid #333333 1px;
+    outline-offset: -1px;
+  `}
   ${props.bg == 'theme' &&
   css`
     background: ${props.theme.main.primary20};
@@ -100,18 +106,19 @@ const RowStartDiv = styled.div<IStyleProps>`
 `;
 
 const RowRightDiv = styled.div<IStyleProps>`
-  width: 100%;
   ${commonTheme.flex.row.end.center};
   ${(props: unknown) => propsCommonStyle(props)};
 `;
 
 const RowCenterDiv = styled.div<IStyleProps>`
   ${commonTheme.flex.row.center.center}
-  width: 100%;
   ${(props: unknown) => propsCommonStyle(props)};
 `;
 const RowBetweenDiv = styled.div<IStyleProps>`
-  width: 100%;
+  ${commonTheme.flex.row.between}
+  ${(props: unknown) => propsCommonStyle(props)};
+`;
+const RowBetweenCenterDiv = styled.div<IStyleProps>`
   ${commonTheme.flex.row.between.center}
   ${(props: unknown) => propsCommonStyle(props)};
 `;
@@ -123,13 +130,11 @@ const RowBetweenStartDiv = styled.div<IStyleProps>`
 
 const ColumnLeftDiv = styled.div<IStyleProps>`
   /*  */
-  width: 100%;
   ${commonTheme.flex.column._.start}
   ${(props: unknown) => propsCommonStyle(props)};
 `;
 const ColumnLeftCenterDiv = styled.div<IStyleProps>`
   /*  */
-  width: 100%;
   ${commonTheme.flex.column._.start}
   justify-content: center;
   ${(props: unknown) => propsCommonStyle(props)};
@@ -157,18 +162,15 @@ const ColumnBetweenDiv = styled.div<IStyleProps>`
 `;
 
 const ColumnCenterDiv = styled.div<IStyleProps>`
-  width: 100%;
   ${commonTheme.flex.column.center}
   ${(props: unknown) => propsCommonStyle(props)};
 `;
 const Column_CenterDiv = styled.div<IStyleProps>`
-  width: 100%;
   ${commonTheme.flex.column._.center};
   ${(props: unknown) => propsCommonStyle(props)};
 `;
 
 const ColumnCenterCenterDiv = styled.div<IStyleProps>`
-  width: 100%;
   ${commonTheme.flex.column.center.center}
   ${(props: unknown) => propsCommonStyle(props)};
 `;
@@ -348,13 +350,36 @@ const commonBoxStyle = (
     outline-offset: -${props.theme.calcRem(2)};
     border-radius: ${props.theme.calcRem(8)};
   `};
+  // 커스텀하게 정해진 스타일 모아놓는 공간
+  ${props.outline == '1' &&
+  css`
+    outline: solid #333333 1px;
+    outline-offset: -1px;
+  `}
   ${props.bg == 'theme' &&
   css`
     background: ${props.theme.main.primary20};
     background-clip: padding-box;
   `}
 `;
-
+const RelativeRowCenterBox = styled.div<IStyleProps>`
+  ${(props: unknown) => propsCommonStyle(props)};
+  position: relative;
+  display: flex;
+  flex-flow: nowrap row;
+  align-items: center;
+  & > * {
+    flex-shrink: 0;
+  }
+`;
+const RelativeRowLeftCenterBox = styled.div<IStyleProps>`
+  ${(props: unknown) => propsCommonStyle(props)};
+  position: relative;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: flex-start;
+  align-items: center;
+`;
 const RowLeftStartBox = styled.div<BoxFlexComponentTypes.FlexBoxProps>`
   ${commonTheme.flexBox.row.left.start};
   ${(props) => commonBoxStyle(props)};
@@ -404,6 +429,11 @@ const RowBetweenEndBox = styled.div<BoxFlexComponentTypes.FlexBoxProps>`
   ${(props) => commonBoxStyle(props)};
 `;
 //
+const ColBox = styled.div<BoxGridComponentTypes.GridBoxProps>`
+  display: flex;
+  flex-flow: nowrap column;
+    ${(props) => commonBoxStyle(props)};
+`;
 const ColLeftStartBox = styled.div<BoxGridComponentTypes.GridBoxProps>`
   ${commonTheme.flexBox.col.left.start};
   ${(props) => commonBoxStyle(props)};
@@ -477,6 +507,9 @@ export const CC = {
   RowBetweenStartBox,
   RowBetweenCenterBox,
   RowBetweenEndBox,
+  RelativeRowCenterBox,
+  RelativeRowLeftCenterBox,
+  ColBox,
   ColLeftStartBox,
   ColLeftCenterBox,
   ColLeftEndBox,

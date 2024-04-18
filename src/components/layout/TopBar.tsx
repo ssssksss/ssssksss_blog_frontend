@@ -54,7 +54,7 @@ const TopBar = () => {
           );
           store.dispatch(
             rootActions.authStore.SET_USER_INFO({
-              id: '',
+              id: null,
               email: '',
               role: '',
               nickname: '',
@@ -63,15 +63,9 @@ const TopBar = () => {
           );
           store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
           store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
-          store.dispatch(
-            rootActions.authStore.SET_ACCESS_TOKEN(''),
-          );
-          store.dispatch(
-            rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]),
-          );
-          store.dispatch(
-            rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]),
-          );
+          store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(''));
+          store.dispatch(rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]));
+          store.dispatch(rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]));
         })
         .catch(() => {});
     })();
@@ -79,69 +73,63 @@ const TopBar = () => {
 
   return (
     <Container id={'top-bar'}>
-      <SideBar />
-      <CC.ImgContainer h={'80%'}>
-        <Link href={`/`} prefetch={false}>
-          <Image
-            className={'logo'}
-            src={Icons.LogoIcon}
-            alt="logo"
-            fill
-            onClick={() => {
-              store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
-            }}
-          />
-        </Link>
-      </CC.ImgContainer>
-      <CC.RowDiv gap={8} h={'80%'}>
-            {authStore.id ? (
-              <Button
-                color={'secondary80'}
-                outline={'true'}
-                h={'100%'}
-                fontWeight={600}
-                onClick={() => signOutHandler()}
-              >
-                Sign Out
-              </Button>
-            ) : (
-              <ModalButton
-                modal={<AuthModal />}
-                modalW={'90vw'}
-                modalMaxW={'60rem'}
-                w={'max-content'}
-                h={'100%'}
-                color={'secondary80'}
-                outline={'true'}
-                modalOverlayVisible={true}
-                fontWeight={600}
-              >
-                Sign In / Sign up
-              </ModalButton>
-            )}
-      </CC.RowDiv>
+      <CC.RowBetweenCenterBox outline={1} h={'100%'} pd={'0.5rem'} bg={"primary20"}>
+        <CC.RowDiv>
+          <SideBar />
+          <CC.ImgContainer h={'100%'} w={'44px'}>
+            <Link href={`/`} prefetch={false}>
+              <Image
+                id={'logo'}
+                src={Icons.LogoIcon}
+                alt="logo"
+                fill
+                onClick={() => {
+                  store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE('/'));
+                }}
+              />
+            </Link>
+          </CC.ImgContainer>
+        </CC.RowDiv>
+        <CC.RowDiv>
+          {authStore.id ? (
+            <Button
+              color={'secondary80'}
+              outline={1}
+              fontWeight={600}
+              onClick={() => signOutHandler()}
+              pd={'0rem 0.125rem'}
+            >
+              Sign Out
+            </Button>
+          ) : (
+            <ModalButton
+              modal={<AuthModal />}
+              modalW={'90vw'}
+              modalMaxW={'60rem'}
+              w={'max-content'}
+              outline={1}
+              modalOverlayVisible={true}
+              fontWeight={600}
+              pd={'0rem 0.125rem'}
+            >
+              Sign In / Sign up
+            </ModalButton>
+          )}
+        </CC.RowDiv>
+      </CC.RowBetweenCenterBox>
     </Container>
   );
 };
 export default React.memo(TopBar);
 
 const Container = styled.div`
-  display: flex;
   position: fixed;
   top: 0;
   left: 0;
-  background: ${(props) => props.theme.main.contrast};
-  height: 3.2rem;
-  gap: 0.8rem;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  padding: 0.5rem;
+  width: 100vw;
+  height: 4rem;
+  gap: 0.5rem;
   z-index: 10;
-  padding: 0rem 0.4rem 0rem 4.4rem;
-  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
-  outline-offset: -0.1rem;
-
-  .logo {
-    cursor: pointer;
-  }
+  background: white;
 `;

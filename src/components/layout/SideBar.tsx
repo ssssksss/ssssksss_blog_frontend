@@ -3,7 +3,6 @@ import Button from '@components/common/button/Button';
 import HamburgerMenu from '@components/common/button/HamburgerMenu';
 import { Icons } from '@components/common/icons/Icons';
 import ReactPlayerContainer from '@components/reactPlayer/ReactPlayerContainer';
-import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
@@ -12,7 +11,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -67,7 +66,6 @@ const SideBar = () => {
   return (
     <Container isNavbarOpen={isNavbarOpen}>
       <HamburgerMenu
-        className={'hamburger-menu'}
         isHideMenu={isNavbarOpen}
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
@@ -77,8 +75,7 @@ const SideBar = () => {
             <Link href={`${i[2]}`} key={'sideBarItem' + index} prefetch={false}>
               <NavItem
                 blur={i[3].isRequiredAuth === true && !authStore.id === true}
-                isNavbarOpen={isNavbarOpen}
-                onClick={(e) => {
+                onClick={(e: MouseEvent) => {
                   if (i[2] == window.document.location.pathname.split('?')[0]) {
                     e.preventDefault();
                   }
@@ -96,7 +93,7 @@ const SideBar = () => {
               </NavItem>
             </Link>
           ))}
-          <CC.ColumnBetweenDiv gap={4} padding={'0rem 0.1rem'}>
+          <CC.ColumnBetweenDiv gap={4}>
             {typeof window != 'undefined' && authStore.id && (
               <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
             )}
@@ -112,72 +109,36 @@ interface IContainerProps {
   isNavbarOpen: boolean;
 }
 
-const hideAnimation = keyframes`
-  0%,90% {
-    height: 100vh;
-    opacity: 1;
-  }
-  100% {
-    height: 0vh;
-    opacity: 0.2;
-  }
-`;
-
 const Container = styled.aside<IContainerProps>`
   font-weight: 600;
-  position: fixed;
-  left: 0;
-  top: 0;
   z-index: 50;
-  width: 3.2rem;
+  width: 2.75rem;
   display: flex;
   flex-flow: nowrap column;
-  /* 일반 */
-
-  height: ${(props) => props.isNavbarOpen && '100vh'};
-  .fold-container {
-    animation: ${hideAnimation} 1s linear;
-    animation-fill-mode: forwards;
-    animation: ${(props) => props.isNavbarOpen && 'none'};
-  }
-
-  &:hover {
-    height: 100vh;
-    .fold-container {
-      animation: none;
-      display: flex;
-    }
-  }
 `;
 
 const FoldContainer = styled.div<IContainerProps>`
-  animation-name: ${Animations.LeftToRightFadein};
-  animation-duration: 0.6s;
-  height: 100%;
-  width: 100%;
+  height: calc(100vh - 4rem);
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  display: flex;
+  display: ${(props) => (props.isNavbarOpen ? 'flex' : 'none')};
   flex-flow: nowrap column;
   justify-content: flex-start;
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
   outline-offset: -0.1rem;
   background: ${(props) => props.theme.main.contrast};
-  &::-webkit-scrollbar: {
+  position: fixed;
+  top: 3.5rem;
+  left: 0.5rem;
+  &::-webkit-scrollbar {
     display: none;
   }
-
-  ${(props) =>
-    props.isNavbarOpen &&
-    `
-      z-index: 50;
-      width: 12rem;
-      `}
+  z-index: ${(props) => props.isNavbarOpen && 50};
 `;
 const NavContainer = styled.nav`
+  width: 12rem;
   height: 100%;
-  padding: 0rem 0.1rem;
   display: flex;
   flex-flow: nowrap column;
   & > :nth-last-child(1) {
@@ -186,9 +147,6 @@ const NavContainer = styled.nav`
 `;
 
 const NavItem = styled(Button)<{
-  outline: boolean;
-  height: string;
-  IContainerProps;
   active?: boolean;
   blur?: boolean;
 }>`
@@ -196,36 +154,14 @@ const NavItem = styled(Button)<{
   height: 100%;
   border-radius: 0rem;
   display: grid;
-  padding: 0.8rem 0rem;
+  padding: 0.5rem 0rem;
   grid-template-columns: 3.2rem auto;
   justify-content: flex-start;
-  background: none;
   & > :nth-last-of-type(1) {
     animation-name: ${Animations.LeftToRightFadein};
     animation-duration: 0.6s;
   }
-
-  ${(props) =>
-    props.blur &&
-    `
-    background: ${props.theme.colors.gray40};
-  `};
-
-  ${(props) =>
-    props.active &&
-    `
-    background: ${props.theme.main.primary20};
-  `};
-
-  ${(props) =>
-    props.isNavbarOpen
-      ? `
-      width: 12rem;
-      `
-      : `
-      width: 4.4rem;
-      div:last-child {
-        display: none;
-      }
-    `}
+  color: ${(props) => props.active && props.theme.colors.white};
+  background: ${(props) =>
+    props.active ? props.theme.main.primary80 : 'none'};
 `;

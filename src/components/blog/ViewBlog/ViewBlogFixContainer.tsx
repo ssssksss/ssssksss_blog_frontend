@@ -20,7 +20,7 @@ const ViewBlogFixContainer = (
   secondCategoryId: string,
 ) => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const blogStore1 = useSelector((state: RootState) => state.blogStore1);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const BACK_URL = `/blog?first-category=${firstCategoryId}&second-category=${secondCategoryId}`;
   const router = useRouter();
   const deleteHandler = () => {
@@ -28,7 +28,7 @@ const ViewBlogFixContainer = (
       id: router.query.id,
     }).then(() => {
       router.replace(
-        `/blog?first-category=${blogStore1.activeFirstCategory}&second-category=${blogStore1.activeSecondCategory}`,
+        `/blog?first-category=${blogStore.activeFirstCategory}&second-category=${blogStore.activeSecondCategory}`,
       );
     });
   };
