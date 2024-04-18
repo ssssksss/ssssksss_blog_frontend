@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unknown-property */
+import CustomEditor from '@components/editor/CustomEditor';
+import ViewEditor from '@components/editor/ViewEditor';
 import Layout1 from '@components/layout/Layout1';
-import Test from '@components/ui-test/Test';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { useEffect } from 'react';
+import { ReactElement, useCallback, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,31 +21,18 @@ gsap.registerPlugin(ScrollTrigger);
 // 60개의 제품 데이터 생성
 
 const Index = () => {
-  useEffect(() => {
-    gsap.to('.box1', {
-      scrollTrigger: {
-        trigger: '.box1',
-        start: '100% 20%',
-        end: '100% 100%',
-        // markers: true, // 마커 표시 역할
-      },
-      x: 200,
-    });
+  const [text, setText] = useState('');
+  const textareaRef = useRef();
+  const textChangeHandler = useCallback((value: string) => {
+    setText(value);
   }, []);
-
   return (
     <Container>
-      <Test />
-      {/* <Test />
-      <Test />
-      <Test />
-      <div className={'box1'}> 123 </div>
-      <Test />
-      <Test />
-      <Test />
-      <Test />
-      <Test />
-      <Test /> */}
+      <h1> 마크다운 만들기(보류) </h1>
+      <CC.GridColumn2 h={'90%'}>
+        <CustomEditor ref={textareaRef} textChangeHandler={textChangeHandler} />
+        <ViewEditor value={text} />
+      </CC.GridColumn2>
     </Container>
   );
 };
@@ -54,4 +43,5 @@ Index.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   outline: solid black 0.1rem;
+  height: 100vh;
 `;

@@ -31,7 +31,6 @@ const CreateUpdateBoardContainer = (
   const createUpdateBoardMutation = props.edit
     ? BoardAPI.updateBoard()
     : BoardAPI.createBoard();
-  const updateBoardMutation = BoardAPI.updateBoard();
   const [value, setValue] = useState('');
   const boardResData = BoardAPI.getBoard({
     onSuccessHandler: (res) => {

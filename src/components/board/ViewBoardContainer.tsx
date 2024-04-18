@@ -33,7 +33,7 @@ const ViewBoardContainer = () => {
     });
   };
 
-  const { modifiedAt, id, writer, title, userId, content, views } =
+  const { modifiedAt, writer, title, userId, content, views } =
     boardResData.data.json.board;
 
   return (

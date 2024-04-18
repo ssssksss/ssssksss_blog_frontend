@@ -7,7 +7,7 @@ import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { createCalendar } from '@utils/function/schedule/createCalendar';
 import { scheduleSort } from '@utils/function/schedule/scheduleSort';
-import { Time } from '@utils/function/timeFunction';
+import { timeFunction } from '@utils/function/timeFunction';
 import Image from 'next/image';
 import { memo, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
@@ -138,7 +138,7 @@ const ScheduleContainer = () => {
       calendar.endDateOfMonth,
     ).map((i) => {
       const index2 =
-        Time.dayIntervalCalc(
+        timeFunction.dayIntervalCalc(
           // (1-2) 첫날짜와 기준날짜를 빼서 몇번째 날짜인지 인덱스를 구하기 위해 사용
           new Date(calendar.startDateOfMonth),
           new Date(i.dayIndex),
