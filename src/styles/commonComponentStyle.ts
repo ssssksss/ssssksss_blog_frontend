@@ -118,11 +118,6 @@ const RowBetweenDiv = styled.div<IStyleProps>`
   ${commonTheme.flex.row.between}
   ${(props: unknown) => propsCommonStyle(props)};
 `;
-const RowBetweenCenterDiv = styled.div<IStyleProps>`
-  ${commonTheme.flex.row.between.center}
-  ${(props: unknown) => propsCommonStyle(props)};
-`;
-
 const RowBetweenStartDiv = styled.div<IStyleProps>`
   ${commonTheme.flex.row.between.start}
   ${(props: unknown) => propsCommonStyle(props)};
