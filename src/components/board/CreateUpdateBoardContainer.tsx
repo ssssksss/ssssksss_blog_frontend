@@ -72,6 +72,7 @@ const CreateUpdateBoardContainer = (
 
   const editorChangeHandler = (value: string) => {
     methods.setValue('content', value);
+    setValue(value);
   };
 
   return (
@@ -93,7 +94,6 @@ const CreateUpdateBoardContainer = (
                 highlightEnable={false}
                 visibleDragbar={false}
                 value={value}
-                onChange={(value) => setValue(value)}
               />
             </EditorContainer>
             <EditorFooter>

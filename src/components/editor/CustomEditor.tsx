@@ -40,7 +40,7 @@ const CustomEditor = (
         flag = true;
       }
     };
-    const onKeyUpHandler = (e: KeyboardEvent) => {
+    const onKeyUpHandler = () => {
       if (flag) return;
       const value = textRef.current.value;
       textChangeValue =
