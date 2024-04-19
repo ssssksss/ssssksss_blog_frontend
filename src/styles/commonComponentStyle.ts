@@ -375,6 +375,11 @@ const RelativeRowLeftCenterBox = styled.div<IStyleProps>`
   justify-content: flex-start;
   align-items: center;
 `;
+const RowBox = styled.div<BoxFlexComponentTypes.FlexBoxProps>`
+  display: flex;
+  align-items: center;
+  ${(props) => commonBoxStyle(props)};
+`;
 const RowLeftStartBox = styled.div<BoxFlexComponentTypes.FlexBoxProps>`
   ${commonTheme.flexBox.row.left.start};
   ${(props) => commonBoxStyle(props)};
@@ -490,6 +495,7 @@ const GridBox = styled.div<BoxGridComponentTypes.GridBoxProps>`
 
 export const CC = {
   // s: 2024-03-24
+  RowBox,
   RowLeftStartBox,
   RowCenterStartBox,
   RowRightStartBox,

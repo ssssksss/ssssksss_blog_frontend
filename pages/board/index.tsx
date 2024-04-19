@@ -28,7 +28,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
 };
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 0.8rem;
+width: 100%;
+  gap: 0.5rem;
   background: ${(props) => props.theme.main.contrast};
-  padding: 0.2rem;
 `;

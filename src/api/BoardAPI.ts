@@ -1,7 +1,6 @@
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
-import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -19,38 +18,26 @@ import {
  */
 
 const getBoardListData = (props: IGetBoardListDataProps) => {
-  const router = useRouter();
-  const boardStore = useSelector((state) => state.boardStore);
+  const boardStore = useSelector((state: RootState) => state.boardStore);
   return useQueryHook({
     queryKey: [
       'getBoardList',
-      boardStore.keyword as string,
-      boardStore.page as string,
-      boardStore.size as string,
-      boardStore.sort as string,
+      boardStore.keyword,
+      boardStore.page + '',
+      boardStore.size + '',
+      boardStore.sort,
     ],
     requestData: {
       url: '/api/boardList',
       method: 'GET',
       params: {
-        keyword: props.keyword,
-        page: props.page,
-        size: props.size,
-        sort: props.sort,
+        keyword: boardStore.keyword,
+        page: boardStore.page + '',
+        size: boardStore.size + '',
+        sort: boardStore.sort,
       },
     },
     isRefetchWindowFocus: false,
-    enabled: props.enabled,
-    onSuccessHandler: () => {
-      store.dispatch(
-        rootActions.boardStore.SET_BOARD_LIST_OPTION({
-          keyword: String(boardStore.keyword ?? (router.query.keyword || '')),
-          page: Number(boardStore.page ?? (Number(router.query.page) - 1 || 0)),
-          size: Number(boardStore.size ?? (router.query.size || 10)),
-          sort: String(boardStore.sort ?? (router.query.sort || 'latest')),
-        }),
-      );
-    },
   });
 };
 

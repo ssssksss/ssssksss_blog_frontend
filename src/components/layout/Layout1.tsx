@@ -25,12 +25,12 @@ const Container = styled.div`
   /* transition: all 1.2s ease-in-out; */
   /* transition-property: background-color; */
   /* animation-fill-mode: forwards; */
-  padding: 4.5rem 0.5rem 5rem 0.5rem;
+  padding: 4rem 0.5rem 5rem 0.5rem;
 `;
 
 const MainContainer = styled.main`
-  margin: 0rem auto;
+  margin: auto;
   width: 100%;
-  max-height: calc(100vh - 4.5rem);
+  max-height: calc(100vh - 4rem);
   max-width: 1440px;
 `;

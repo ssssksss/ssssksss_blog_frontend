@@ -40,7 +40,7 @@ export const useQueryHook = (
     isRefetchWindowFocus?: boolean;
     refetchOnMount?: boolean | string;
     onSuccessHandler?: () => void;
-    enabled: boolean;
+    enabled?: boolean;
     staleTime?: number;
   }, // focus시 refetch, default true
 ) => {

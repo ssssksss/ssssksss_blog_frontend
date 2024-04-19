@@ -363,6 +363,12 @@ ${(props) =>
      background: ${props.theme.colors.gray20}; 
      color: #333333;
   `}
+${(props) =>
+    props.outline === 1 &&
+    `
+    outline: solid black 1px;
+    outline-offset: -1px;
+  `}
 `;
 
 const ErrorMessage = styled.span<IInputProps>`

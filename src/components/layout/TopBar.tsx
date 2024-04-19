@@ -131,5 +131,5 @@ const Container = styled.div`
   height: 4rem;
   gap: 0.5rem;
   z-index: 10;
-  background: white;
+  background: linear-gradient(180deg, white 87.5%, transparent 12.5%);
 `;

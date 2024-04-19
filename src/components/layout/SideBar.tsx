@@ -163,5 +163,5 @@ const NavItem = styled(Button)<{
   }
   color: ${(props) => props.active && props.theme.colors.white};
   background: ${(props) =>
-    props.active ? props.theme.main.primary80 : 'none'};
+    props.active ? props.theme.main.primary60 : 'none'};
 `;

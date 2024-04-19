@@ -10,7 +10,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { MutableRefObject, useRef } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -20,16 +20,17 @@ import { useSelector } from 'react-redux';
  */
 const BoardHeadContainer = () => {
   const router = useRouter();
-  const keywordRef = useRef<null>();
+  const keywordRef = useRef<HTMLInputElement>(null);
   const boardStore = useSelector((state: RootState) => state.boardStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
 
-  const searchHandler = (keyword: MutableRefObject<HTMLInputElement>) => {
+  const searchHandler = () => {
     const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
       boardStore.sort
-    }&keyword=${keyword.current?.value || ''}`;
+      }&keyword=${keywordRef.current?.value || ''}`;
     store.dispatch(
-      rootActions.boardStore.SET_BOARD_LIST_OPTION({
-        keyword: keyword.current?.value || '',
+      rootActions.boardStore.setBoardListOption({
+        keyword: keywordRef.current?.value || '',
         page: 0,
         size: Number(boardStore.size),
         sort: String(boardStore.sort),
@@ -38,16 +39,16 @@ const BoardHeadContainer = () => {
     router.replace(_url, '', { shallow: true });
   };
 
-  const orderListHandler = (value: string) => {
+  const orderListHandler = (props: {value: string}) => {
     const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
-      boardStore.sort
+      props.value
     }&keyword=${boardStore.keyword || ''}`;
     store.dispatch(
-      rootActions.boardStore.SET_BOARD_LIST_OPTION({
+      rootActions.boardStore.setBoardListOption({
         keyword: boardStore.keyword || '',
         page: Number(boardStore.page),
         size: Number(boardStore.size),
-        sort: String(value),
+        sort: props.value,
       }),
     );
     router.replace(_url, '', { shallow: true });
@@ -56,7 +57,7 @@ const BoardHeadContainer = () => {
   const reset = () => {
     const _url = `/board`;
     store.dispatch(
-      rootActions.boardStore.SET_BOARD_LIST_OPTION({
+      rootActions.boardStore.setBoardListOption({
         keyword: '',
         page: 0,
         size: 10,
@@ -64,14 +65,14 @@ const BoardHeadContainer = () => {
       }),
     );
     keywordRef.current.value = '';
-    router.replace(_url, '', { shallow: true });
+    router.replace(_url);
   };
 
   return (
     <Container>
       <TitleContainer>
         <h1 onClick={() => reset()}> 게시판 </h1>
-        {store.getState().authStore.nickname && (
+        {authStore.nickname && (
           <WriteButtonContainer>
             <Link href={'/board/create'}>
               <CC.RowDiv>
@@ -81,63 +82,59 @@ const BoardHeadContainer = () => {
           </WriteButtonContainer>
         )}
       </TitleContainer>
-      <CC.GridColumn2Adjust e2={'16rem'} gap={10}>
+      <CC.RowBox w={'100%'} gap={8} h={'2rem'}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
-          color={'black80'}
-          outline={true}
-          brR={'0.6rem'}
-          leftIconImage={Icons.SearchIcon.src}
+          outline={1}
+          w={'calc(100vw - 11.5rem)'}
+          h={'2rem'}
           ref={keywordRef}
           defaultValue={boardStore.keyword ?? (router.query.keyword as string)}
-          onKeyPressAction={() => searchHandler(keywordRef)}
         />
-        <CC.RowBetweenDiv gap={8}>
-          <Button
-            w={'4rem'}
-            h={'2.8rem'}
-            bg={'primary80'}
-            pd={'0rem 0rem'}
-            color={'contrast'}
-            onClick={() => searchHandler(keywordRef)}
-          >
-            검색
-          </Button>
-          <Select
-            w={'11rem'}
-            defaultValue={{
-              value: `${boardStore.sort}`,
-              name: `${boardStore.sort}` == 'views' ? '조회수 순' : '최신순',
-            }}
-            data={[
-              {
-                value: 'latest',
-                name: '최신순',
-              },
-              {
-                value: 'views',
-                name: '조회수 순',
-              },
-              // {
-              //   value: 'likes',
-              //   name: '좋아요 순',
-              // },
-            ]}
-            onChange={orderListHandler}
-          />
-        </CC.RowBetweenDiv>
-      </CC.GridColumn2Adjust>
+        <Button
+          w={'3.5rem'}
+          h={'2rem'}
+          pd={'0.25rem'}
+          outline={1}
+          onClick={searchHandler}
+        >
+          검색
+        </Button>
+        <Select
+          w={'6rem'}
+          h={'2rem'}
+          defaultValue={{
+            value: `${boardStore.sort}`,
+            name: `${boardStore.sort}` == 'views' ? '조회순' : '최신순',
+          }}
+          data={[
+            {
+              value: 'latest',
+              name: '최신순',
+            },
+            {
+              value: 'views',
+              name: '조회순',
+            },
+            // {
+            //   value: 'likes',
+            //   name: '좋아요 순',
+            // },
+          ]}
+          onChange={orderListHandler}
+        />
+      </CC.RowBox>
     </Container>
   );
 };
 export default BoardHeadContainer;
 
 const Container = styled.div`
-  border-radius: 0.8rem;
+  border-radius: 0.5rem;
+  width: 100%;
   h1 {
-    padding: 0.8rem 0rem;
-    font-size: 3.6rem;
+    font-size: 2rem;
     color: ${(props) => props.theme.main.primary100};
     ${(props) => props.theme.flex.row.center.center};
     font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
@@ -149,6 +146,7 @@ const Container = styled.div`
 const TitleContainer = styled(CC.RowCenterDiv)`
   background: transparent;
   position: relative;
+  height: 4rem;
 `;
 
 const WriteButtonContainer = styled(CC.RowRightDiv)`
@@ -159,8 +157,7 @@ const WriteButtonContainer = styled(CC.RowRightDiv)`
     cursor: pointer;
     background: ${(props) => props.theme.main.primary80};
     color: ${(props) => props.theme.main.contrast};
-    border-radius: 1rem;
-    padding: 0.8rem;
-    gap: 0.4rem;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
   }
 `;

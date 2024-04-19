@@ -1,5 +1,6 @@
 import { BoardAPI } from '@api/BoardAPI';
 import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Input from '@components/common/input/Input';
 import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
@@ -79,7 +80,7 @@ const CreateUpdateBoardContainer = (
     <>
       {(authStore.role === 'ROLE_ADMIN' || authStore.role === 'ROLE_USER') && (
         <>
-          <Container gap={4}>
+          <Container>
             {(!props.edit || boardResData?.status == 'success') && (
               <Title
                 placeholder="제목을 입력해주세요"
@@ -96,13 +97,17 @@ const CreateUpdateBoardContainer = (
                 value={value}
               />
             </EditorContainer>
-            <EditorFooter>
+            <EditorFooter outline={1} pd={'0.5rem'} gap={8} brR={'0.5rem'}>
               <Button w={'100%'} outline={true} onClick={() => submitHandler()}>
                 {props.edit ? '수정' : '제출'}
               </Button>
-              <Button w={'100%'} outline={true} onClick={() => router.back()}>
+              <ConfirmButton
+                w={'100%'}
+                outline={true}
+                onClick={() => router.back()}
+              >
                 취소
-              </Button>
+              </ConfirmButton>
             </EditorFooter>
           </Container>
         </>
@@ -114,23 +119,27 @@ export default CreateUpdateBoardContainer;
 
 const Title = styled(Input)`
   width: 100%;
-  height: 4.8rem;
+  height: 3rem;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   color: ${(props) => props.theme.colors.black80};
-  padding: 1.6rem;
   z-index: 3;
   border: none;
   font-size: 1.6rem;
   border-radius: 0rem;
-  border-bottom: 0.2rem solid ${(props) => props.theme.colors.black40};
+  outline: solid black 1px;
+  outline-offset: -1px;
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  gap: 0.5rem;
+  
   &::placeholder {
     font-size: 1.6rem;
     color: ${(props) => props.theme.colors.black40};
   }
 `;
 const Container = styled.section<{
-  isLoading: boolean;
-  icon: string;
+  isLoading?: boolean;
+  icon?: string;
 }>`
   height: 100%;
   visibility: ${(props) => props.isLoading && 'hidden'};

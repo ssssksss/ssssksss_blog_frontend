@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MouseEvent, useState } from 'react';
 
 interface IPaginationProps {
-  refetch: unknown;
+  refetch: (_page: number) => void;
   endPage: number;
   currentPage: number;
 }
@@ -21,35 +21,34 @@ interface IPaginationProps {
  * @handler
  */
 const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
-  // 마지막 페이지
-  const [startPage, setStartPage] = useState(1);
-
+  // 모든 값은 1을 기준으로 한다.
+  const [startPage, setStartPage] = useState(
+    Math.floor(currentPage / 10) * 10 + 1,
+  );
   // 아래 보여줄 페이지 번호들
-  const movePage = (event: MouseEvent<HTMLButtonElement>) => {
+  const movePage = (event: MouseEvent<HTMLButtonElement>, page?: number) => {
     if (event.currentTarget.id === 'prev') {
       setStartPage((prev) => (prev > 10 ? prev - 10 : 1));
-      refetch({ page: currentPage > 10 ? currentPage - 10 : 1 });
+      refetch(currentPage > 10 ? currentPage - 10 : 1);
     } else if (event.currentTarget.id === 'morePrev') {
       setStartPage(1);
-      refetch({ page: 1 });
+      refetch(1);
     } else if (event.currentTarget.id === 'next') {
       setStartPage((prev) => (prev + 10 <= endPage ? prev + 10 : endPage));
-      refetch({
-        page: currentPage + 10 <= endPage ? currentPage + 10 : endPage,
-      });
+      refetch(currentPage + 10 <= endPage ? currentPage + 10 : endPage);
     } else if (event.currentTarget.id === 'moreNext') {
       if (endPage % 10 === 0) {
         const temp = endPage - 9;
         setStartPage(temp);
-        refetch({ page: temp });
+        refetch(temp);
       } else {
         const temp = endPage - (endPage % 10) + 1;
         setStartPage(temp);
-        refetch({ page: temp });
+        refetch(temp);
       }
     } else {
       if (event.target instanceof Element) {
-        refetch({ page: Number(event.target.id) });
+        refetch(Number(page));
       }
     }
   };
@@ -70,19 +69,22 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
-      {new Array(10).fill(1).map(
-        (_, index) =>
-          Number(index) + Number(startPage) <= Number(endPage) && (
-            <PageNumberButton
+      {
+        new Array(10).fill(1).map(
+          (_, index) =>
+            Number(index + startPage) <= Number(endPage) && (
+              <PageNumberButton
               key={index + startPage}
-              id={String(startPage + index)}
-              onClick={movePage}
-              isActive={startPage + index === Number(currentPage || 1)}
-            >
-              {index + startPage}
-            </PageNumberButton>
-          ),
-      )}
+              onClick={(event: MouseEvent<HTMLButtonElement>) => {
+                movePage(event, index + startPage);
+              }}
+              isActive={startPage + index === Number(currentPage + 1)}
+              >
+                  {index + startPage}
+                </PageNumberButton>
+              ),
+            )
+          }
 
       {startPage + 10 < endPage ? (
         <MoveButton id="next" onClick={movePage}>
