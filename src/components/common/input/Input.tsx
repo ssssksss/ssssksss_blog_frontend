@@ -382,9 +382,9 @@ const ErrorMessage = styled.span<IInputProps>`
         : '1rem')};
   color: red;
   position: absolute;
-  left: 0;
+  left: 0.5rem;
   text-align: start;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 800;
   word-break: keep-all;
 `;

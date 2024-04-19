@@ -94,12 +94,13 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
     <Container>
       <Header>
         <span>로그인</span>
-        <span> 로그인을 하시면 일정과 할일 메뉴를 사용할 수 있습니다. </span>
       </Header>
-      <CC.ColumnDiv gap={28}>
+      <CC.ColBox gap={24} pd={'0px 0px 1rem 0px'}>
         <Input
           placeholder="이메일"
           type="email"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
           register={register('email')}
           onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           errorMessage={errors.email?.message}
@@ -108,97 +109,70 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
         <Input
           placeholder="비밀번호"
           type="password"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
           register={register('password')}
           onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           errorMessage={errors.password?.message}
           h={'2.4rem'}
         />
-      </CC.ColumnDiv>
+      </CC.ColBox>
       <CC.ColumnDiv gap={8}>
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 없으시다면?</span>
           <Button
             onClickCapture={() => props.changeAuthScreen()}
-            pd={'0rem 0.8rem'}
-            bg={'white80'}
-            h={'2rem'}
+            pd={'0rem 0.5rem'}
+            bg={'primary80'}
+            color={'white80'}
+            h={'1.5rem'}
           >
             회원가입
           </Button>
         </CC.RowCenterDiv>
-        <CC.RowCenterCenterBox gap={"8"}>
-        <Button 
-          w={'max-content'}
-          onClick={() => {
-            oauthLogin("kakao");
-          }}>
-          <CC.ImgContainer w={'40px'}>
+        <CC.RowCenterCenterBox gap={'8'}>
+          <Button
+            w={'max-content'}
+            onClick={() => {
+              oauthLogin('kakao');
+            }}
+          >
+            <CC.ImgContainer w={'40px'}>
+              <Image alt={''} src={Icons.KakaoIcon} width={'1'} height={'1'} />
+            </CC.ImgContainer>
+          </Button>
+          <Button
+            w={'max-content'}
+            onClick={() => {
+              oauthLogin('google');
+            }}
+          >
+            <CC.ImgContainer w={'40px'}>
               <Image
-              alt={""}
-              src={Icons.KakaoIcon}
-              width={"1"} height={"1"}
+                alt={''}
+                src={Icons.GoogleLoginSmallIcon}
+                width={'1'}
+                height={'1'}
               />
             </CC.ImgContainer>
-            </Button>
-        <Button 
-          w={'max-content'}
-          onClick={() => {
-            oauthLogin("google");
-          }}>
-          <CC.ImgContainer w={'40px'}>
-              <Image
-              alt={""}
-              src={Icons.GoogleLoginSmallIcon}
-              width={"1"} height={"1"}
-              />
+          </Button>
+          <Button
+            w={'max-content'}
+            onClick={() => {
+              oauthLogin('naver');
+            }}
+          >
+            <CC.ImgContainer w={'40px'}>
+              <Image alt={''} src={Icons.NaverIcon} width={'1'} height={'1'} />
             </CC.ImgContainer>
-            </Button>
-        {/* <Button 
-          w={'max-content'}
-          onClick={() => {
-            oauthLogin("facebook");
-          }}>
-          <CC.ImgContainer w={'40px'}>
-              <Image
-              alt={""}
-              src={Icons.KakaoIcon}
-              width={"1"} height={"1"}
-              />
-            </CC.ImgContainer>
-            </Button>
-        <Button 
-          w={'max-content'}
-          onClick={() => {
-            oauthLogin("github");
-          }}>
-          <CC.ImgContainer w={'40px'}>
-              <Image
-              alt={""}
-              src={Icons.KakaoIcon}
-              width={"1"} height={"1"}
-              />
-            </CC.ImgContainer>
-            </Button> */}
-        <Button 
-          w={'max-content'}
-          onClick={() => {
-            oauthLogin("naver")
-          }}>
-          <CC.ImgContainer w={'40px'}>
-              <Image
-              alt={""}
-              src={Icons.NaverIcon}
-              width={"1"} height={"1"}
-              />
-            </CC.ImgContainer>
-            </Button>
-            </CC.RowCenterCenterBox>
+          </Button>
+        </CC.RowCenterCenterBox>
         <Button
           w={'100%'}
           h={'2.4rem'}
+          pd={'0.5rem'}
           outline={true}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          pd={'0.2rem 0.8rem'}
           disabled={!formState.isValid}
         >
           로그인
@@ -210,22 +184,20 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
 export default LoginModal;
 
 const Container = styled(CC.ColumnDiv)`
-  padding: 0.4rem;
-  gap: 0.6rem;
-  color: ${(props) => props.theme.colors.white80};
+  padding: 0.5rem;
+  gap: 0.5rem;
   overflow: scroll;
   font-size: 1rem;
 `;
 
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  gap: 0.4rem;
+  gap: 0.5rem;
   align-self: stretch;
   border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 0.2rem;
+  padding: 0.5rem;
 
   span:nth-of-type(1) {
-    /* font-family: ${(props) => props.theme.fontFamily.cookieRunRegular}; */
     font-size: 2rem;
   }
 

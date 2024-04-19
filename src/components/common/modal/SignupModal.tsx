@@ -76,39 +76,44 @@ const SignupModal = (props: {
     <Container>
       <Header>
         <span>회원가입</span>
-        <span>
-          비밀번호는 암호화처리되며 개인정보는 다른 곳에 사용되지 않습니다.
-        </span>
       </Header>
-      <CC.ColumnDiv gap={28}>
+      <CC.ColBox gap={32} pd={'0px 0px 2rem 0px'}>
         <Input
           placeholder="이메일"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
+          h={'2.4rem'}
           register={register('email')}
           errorMessage={errors.email?.message}
         />
         <Input
           placeholder="닉네임"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
+          h={'2.4rem'}
           register={register('nickname')}
           errorMessage={errors.nickname?.message}
         />
         <Input
           placeholder="비밀번호"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
+          h={'2.4rem'}
           register={register('password')}
           errorMessage={errors.password?.message}
           type="password"
         />
         <Input
           placeholder="비밀번호확인"
+          bg={'gray20'}
+          pd={'0px 0px 0px 0.5rem'}
+          h={'2.4rem'}
           register={register('passwordConfirm')}
           errorMessage={errors.passwordConfirm?.message}
           type="password"
         />
-      </CC.ColumnDiv>
+      </CC.ColBox>
       <CC.ColumnDiv gap={8}>
-        {/* <CC.RowCenterDiv gap={20}>
-          <Image src={Icons.GoogleIcon} alt="google" />
-          <Image src={Icons.KakaoIcon} alt="kakao" />
-        </CC.RowCenterDiv> */}
         <CC.RowCenterDiv gap={8}>
           <span>아이디가 있다면?</span>
           <Button
@@ -116,9 +121,10 @@ const SignupModal = (props: {
               e.stopPropagation();
               props.changeAuthScreen();
             }}
-            pd={'0rem 0.8rem'}
-            bg={'white80'}
-            h={'2rem'}
+            pd={'0rem 0.5rem'}
+            bg={'primary80'}
+            color={'white80'}
+            h={'1.5rem'}
           >
             로그인
           </Button>
@@ -126,6 +132,7 @@ const SignupModal = (props: {
         <Button
           w={'100%'}
           h={'2.4rem'}
+          pd={'0.5rem'}
           outline={true}
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
@@ -139,25 +146,23 @@ const SignupModal = (props: {
 export default SignupModal;
 
 const Container = styled(CC.ColumnDiv)`
-  padding: 0.4rem;
-  gap: 0.6rem;
-  color: ${(props) => props.theme.colors.white80};
+  padding: 0.5rem;
+  gap: 0.5rem;
   overflow: scroll;
   font-size: 1rem;
 `;
 const Header = styled.header`
   ${(props) => props.theme.flex.column};
-  gap: 0.4rem;
+  gap: 0.5rem;
   align-self: stretch;
-  border-radius: ${(props) => props.theme.borderRadius.br10};
-  padding: 0.2rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 
   span:nth-of-type(1) {
     font-size: 2rem;
   }
 
   span:nth-of-type(2) {
-    font-size: 1rem;
     color: ${(props) => props.theme.colors.black40};
   }
 `;

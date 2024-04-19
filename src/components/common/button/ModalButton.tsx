@@ -85,7 +85,11 @@ const ModalButton = ({
           maxW={props.modalMaxW}
           minW={props.modalMinW}
         >
-          <Exit onClickCapture={closeModal} id={'modal-exit'}>
+          <Exit
+            onClickCapture={closeModal}
+            id={'modal-exit'}
+            bg={props.modalBg}
+          >
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
               <CloseIcon />
             </CC.ImgContainer>
@@ -148,13 +152,12 @@ const ModalComponent = styled(CC.ColumnDiv)<{
   background: ${(props) =>
     props.theme.colors?.[props.bg] ||
     props.theme.main?.[props.bg] ||
-    props.bg};
+    props.bg || "white"};
   cursor: default;
   ${(props) => props.theme.scroll.hidden};
   & > * {
     ${(props) => props.theme.scroll.hidden};
   }
-
 `;
 const Exit = styled(CC.RowRightDiv)`
   border-radius: 1rem 1rem 0rem 0rem;
@@ -163,4 +166,8 @@ const Exit = styled(CC.RowRightDiv)`
   width: 100%;
   z-index: 20;
   cursor: pointer;
+    background: ${(props) =>
+    props.theme.colors?.[props.bg] ||
+    props.theme.main?.[props.bg] ||
+    props.bg || "white"};
 `;
