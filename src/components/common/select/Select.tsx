@@ -190,15 +190,3 @@ const SelectItem = styled.li<{ props: unknown }>`
     props.theme.main?.[props.bg] ||
     props.theme.colors.white80};
 `;
-
-const IconSVG = styled.svg<{ bg: string }>`
-  position: absolute;
-  right: 0;
-  align-self: center;
-  width: 1.6rem;
-  aspect-ratio: 1;
-  background: ${(props) => props.bg};
-  path {
-    fill: ${(props) => props.theme.main.primary80};
-  }
-`;

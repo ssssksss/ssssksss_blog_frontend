@@ -22,7 +22,7 @@ interface IAddScheduleCategoryBoxProps {
 
 const DeleteMemoCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const { handleSubmit, formState, setValue, trigger } = useForm({
+  const { handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(MemoDeleteYup),
     mode: 'onChange',
     defaultValues: {

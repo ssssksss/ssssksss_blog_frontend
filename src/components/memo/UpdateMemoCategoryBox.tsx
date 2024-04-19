@@ -34,7 +34,7 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
     'gray40',
   ];
   const memoStore = useSelector((state: RootState) => state.memoStore);
-  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(MemoUpdateYup),
     mode: 'onChange',
     defaultValues: {
