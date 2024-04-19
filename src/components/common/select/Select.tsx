@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { CC } from '@styles/commonComponentStyle';
 import { ReactNode, useEffect, useState } from 'react';
 /**
@@ -15,7 +16,7 @@ interface ISelectProps {
   placeholder?: string;
   defaultValue?: string;
   data?: [{ value: string; name: string; bg: string }];
-  outline?: boolean;
+  outline?: boolean | number;
   outlineColor?: string;
   w?: string;
   h?: string;
@@ -74,7 +75,9 @@ const Select = (props: ISelectProps) => {
       tabIndex={'0'}
     >
       <CC.RowCenterDiv
-        bg={props.enable === false ? 'gray80' : data?.bg || 'white80'}
+        w={"100%"}
+        bg={props.enable === false ? 'gray80' : data?.bg}
+        pd={"0px 0px 0px 0.25rem"}
       >
         {data?.name || data?.value}
       </CC.RowCenterDiv>
@@ -101,16 +104,9 @@ const Select = (props: ISelectProps) => {
             ))}
         </ul>
       )}
-      <IconSVG
-        bg={props.bg}
-        width="18"
-        height="15"
-        viewBox="0 0 18 15"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path fillRule="evenodd" clipRule="evenodd" d="M9 15L0 0L17 0L9 15Z" />
-      </IconSVG>
+      <CC.ImgContainer h={'100%'} bg={'transparent'}>
+      <ArrowDropDownIcon/>
+      </CC.ImgContainer>
     </Container>
   );
 };
@@ -118,19 +114,19 @@ export default Select;
 
 const Container = styled.div<ISelectProps>`
   // 외곽 디자인(border-radius, outline, box-shadow) //
-  outline: inset
+  outline: solid
     ${(props) =>
       props.theme.colors?.[props.outlineColor] ||
-      props.theme.main?.[props.outlineColor] ||
-      props.theme.main.primary80}
-    0.1rem;
+      props.theme.main?.[props.outlineColor] }
+    1px;
+  outline-offset: -1px;
+  border-radius: 0.5rem;
 
   // 컨테이너(width, height, margin, padding, border, flex, grid, position) //
   display: flex;
   width: ${(props) => props.w || 'max-content'};
   height: ${(props) => props.h || '2.4rem'};
   position: relative;
-  padding-right: 1.8rem;
 
   // 배경색(background) //
   background: ${(props) =>

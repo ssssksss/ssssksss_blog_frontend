@@ -11,7 +11,7 @@ import UpdateMemoCategoryBox from '../UpdateMemoCategoryBox';
  */
 
 interface IMemoCategoryModalProps {
-  closeModal: () => void;
+  closeModal?: () => void;
 }
 
 const MemoCategoryModal = (props: IMemoCategoryModalProps) => {
@@ -26,11 +26,21 @@ const MemoCategoryModal = (props: IMemoCategoryModalProps) => {
 export default MemoCategoryModal;
 
 const Container = styled(CC.ColumnDiv)`
-  gap: 3.2rem;
+  gap: 1rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: ${(props) => props.theme.fontSize.xl};
   min-height: 26rem;
   font-size: 1.2rem;
+  padding: 0.5rem;
+
+  & > * {
+    outline: solid black 1px;
+    outline-offset: -1px;
+    border-radius: 0.5rem;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: ${props=>props.theme.colors.gray20};
+  }
 `;

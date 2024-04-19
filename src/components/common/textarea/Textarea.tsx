@@ -1,6 +1,5 @@
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
-import Image from 'next/image';
+import SendIcon from '@mui/icons-material/Send';
 import { forwardRef, useCallback, useRef, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -38,7 +37,6 @@ interface ITextareaProps {
   brR?: string;
   state?: number;
   bg?: string;
-  outline?: boolean;
   resizeMode?: boolean;
   submit?: () => void;
 }
@@ -71,12 +69,8 @@ const Textarea = (props: ITextareaProps, ref) => {
         {...props}
       />
       {props.defaultValue != textareaValue && (
-        <button>
-          <Image
-            src={Icons.RightArrowIcon}
-            alt=""
-            onClick={() => props.submit()}
-          />
+        <button onClick={() => props.submit()}>
+          <SendIcon />
         </button>
       )}
       {props.errorMessage ? <span> {props.errorMessage} </span> : <></>}
@@ -88,14 +82,26 @@ export default forwardRef(Textarea);
 const Container = styled.div`
   position: relative;
   height: 100%;
-  padding-bottom: 2.4rem;
+  padding-bottom: 2rem;
   button {
     position: absolute;
-    right: 1rem;
-    bottom: 2.4rem;
+    right: 0.25rem;
+    bottom: 2.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    /* transform: translate(0%,-50%); */
     background: transparent;
-    width: 2.4rem;
-    height: 2.4rem;
+    outline: solid black 1px;
+    outline-offset: -1px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    opacity: 0.4;
+    :hover {
+      opacity: 1;
+      background: white;
+    }
   }
 `;
 const TextareaStyle = styled.textarea`
@@ -103,12 +109,8 @@ const TextareaStyle = styled.textarea`
   border: none;
   appearance: none;
   resize: none;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: ${(props) => props.pd || '0.2rem'};
   height: ${(props) => props.h || '100%'};
   box-shadow: 0.2rem 0.2rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
-
-  &:focus {
-    outline: solid ${(props) => `${props.theme.main.primary80}2f`} 0.5rem;
-  }
 `;

@@ -113,10 +113,10 @@ const padding = {
 };
 
 const deviceSizes = {
-  mobile: '36rem',
-  tablet: '76.8rem',
-  pc: '102.4rem',
-  maxWidth: '144rem',
+  mobile: '360px',
+  tablet: '768px',
+  pc: '1024px',
+  maxWidth: '1440px',
 };
 
 const positionStyle = {

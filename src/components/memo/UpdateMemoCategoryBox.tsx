@@ -3,7 +3,6 @@ import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { MemoUpdateYup } from '@components/yup/MemoYup';
-import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { SET_MEMO_CATEGORY_LIST } from '@redux/store/memo';
@@ -49,13 +48,11 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const selectChangeMemoCategoryHandler = (value: string) => {
-    setValue('pickUpdateMemoCategoryId', value);
-    trigger('pickUpdateMemoCategoryId');
+  const selectChangeMemoCategoryHandler = (props: { value: string }) => {
+    setValue('pickUpdateMemoCategoryId', props.value, { shouldValidate: true });
   };
-  const selectChangeMemoCategoryBackgroundColorHandler = (bg: string) => {
-    setValue('updateMemoCategoryColor', bg);
-    trigger('updateMemoCategoryColor');
+  const selectChangeMemoCategoryBackgroundColorHandler = (props: {bg: string}) => {
+    setValue('updateMemoCategoryColor', props.bg, {shouldValidate: true});
   };
 
   const updateMemoCategoryHandler = (data: {
@@ -87,9 +84,11 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
   };
 
   return (
-    <Container>
-      <CC.RowStartDiv w={'100%'}>메모 카테고리 수정 </CC.RowStartDiv>
-      <CC.ColumnDiv gap={32}>
+    <CC.ColumnDiv>
+      <CC.RowCenterCenterBox w={'100%'}>
+        메모 카테고리 수정
+      </CC.RowCenterCenterBox>
+      <CC.ColumnDiv gap={8}>
         <Select
           w={'100%'}
           placeholder={'변경할 카테고리를 선택해주세요'}
@@ -101,11 +100,6 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
           onChange={(i) => selectChangeMemoCategoryHandler(i)}
         ></Select>
         <CC.ColumnDiv gap={8}>
-          <Input
-            placeholder={'변경할 카테고리명을 작성해주세요'}
-            register={register('updateMemoCategoryName')}
-            errorMessage={errors.updateMemoCategoryName?.message}
-          />
           <Select
             w={'100%'}
             placeholder={'변경하려는 색상을 선택해주세요'}
@@ -115,7 +109,15 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
             data={categoryColors?.map((i) => {
               return { value: i, name: ' ', bg: i };
             })}
-          ></Select>
+          />
+          <Input
+            h={'2.25rem'}
+            pd={'0px 0px 0px 0.25rem'}
+            outline={1}
+            placeholder={'변경할 카테고리명을 작성해주세요'}
+            register={register('updateMemoCategoryName')}
+            errorMessage={errors.updateMemoCategoryName?.message}
+          />
         </CC.ColumnDiv>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'1.6rem 0rem'}>
@@ -131,12 +133,7 @@ const UpdateMemoCategoryBox = (props: IUpdateMemoCategoryBoxProps) => {
           메모 수정
         </Button>
       </CC.RowDiv>
-    </Container>
+    </CC.ColumnDiv>
   );
 };
 export default UpdateMemoCategoryBox;
-
-const Container = styled(CC.ColumnDiv)`
-  gap: 0.8rem;
-  padding: 0.4rem;
-`;

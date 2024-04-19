@@ -278,12 +278,14 @@ const ImgContainer = styled.div<IStyleProps>`
   flex-flow: nowrap column;
   align-items: center;
   justify-content: center;
+    
+    img, svg {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
 
-  img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const OverflowText = styled.div<IStyleProps>`

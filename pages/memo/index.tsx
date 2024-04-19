@@ -4,8 +4,10 @@ const MemoContainer = dynamic(() => import('@components/todo/MemoContainer'), {
 
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -14,7 +16,7 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const Index = () => {
-  const authStore = useSelector((state) => state.authStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   return (
     <Container>
       <Head>

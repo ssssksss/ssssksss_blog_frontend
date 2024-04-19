@@ -99,13 +99,12 @@ const MemoItem = (props: IMemoItemProps) => {
   return (
     <Container bg={props.data?.memoCategory.backgroundColor} key={props.key}>
       <Header>
-        <CC.RowCenterDiv>
+        <CC.RowCenterCenterBox w={'100%'}>
           {props.data?.memoCategory.name || '메모 작성'}{' '}
-        </CC.RowCenterDiv>
+        </CC.RowCenterCenterBox>
         {props.data && (
           <ConfirmButton
-            className={'delete-icon'}
-            onClick={() => deleteMemoHandler()}
+            onClick={deleteMemoHandler}
             bg={'transparent'}
             hover={false}
           >
@@ -128,16 +127,16 @@ export default MemoItem;
 const Container = styled.div<{ bg: string }>`
   word-wrap: break-word;
   word-break: break-all;
-  background: ${(props) =>
-    props.theme.colors?.[props.bg] || props.theme.colors.white80};
-  border-radius: 1rem;
-  padding: 0.4rem 0.8rem;
-  outline: solid black 0.1rem;
+  background: ${(props) => props.theme.colors?.[props.bg]};
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  outline: solid black 1px;
+  outline-offset: 1px;
   height: 20rem;
   max-height: 20rem;
 
   textarea {
-    max-height: calc(100% - 2.4rem);
+    max-height: calc(100% - 0.5rem);
     background: ${(props) => props.theme.colors.white80};
     border: none;
   }
@@ -146,10 +145,4 @@ const Header = styled(CC.RowRightDiv)`
   width: 100%;
   position: relative;
   height: 2.4rem;
-  .deleteIcon {
-    position: absolute;
-    cursor: pointer;
-    z-index: 10;
-    background: transparent;
-  }
 `;

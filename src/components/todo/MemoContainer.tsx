@@ -53,6 +53,9 @@ const MemoContainer = () => {
         <Button
           bg={'gray60'}
           active={activeMenu.type === 'all'}
+          activeBg={'transparent'}
+          activeColor={'black80'}
+          h={'2.25rem'}
           onClick={() =>
             setActiveMenu({
               type: 'all',
@@ -66,7 +69,10 @@ const MemoContainer = () => {
           <Button
             key={i.id}
             bg={i.backgroundColor}
+            h={'2.25rem'}
             active={activeMenu.type === i.name}
+            activeBg={'transparent'}
+            activeColor={'black80'}
             onClick={() =>
               setActiveMenu({
                 type: i.name,
@@ -82,7 +88,9 @@ const MemoContainer = () => {
             modal={<MemoCategoryModal />}
             modalOverlayVisible={true}
             modalMinW={'32rem'}
+            modalBg={'white'}
             outline={true}
+            h={'2.25rem'}
           >
             <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
           </ModalButton>

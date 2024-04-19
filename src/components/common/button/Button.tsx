@@ -2,7 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { animationKeyFrames } from '@styles/Animations';
 import { MouseEventHandler, useCallback } from 'react';
-import { ButtonTypes } from 'src/@types/Button';
+import { ButtonTypes } from 'src/@types/component/common/Button';
+import Animations from '../animations/Animations';
 
 const Button = ({
   onClick: _onClick,
@@ -160,11 +161,25 @@ ${(props) =>
           ${(props) =>
     props.active &&
     css`
-      color: ${props.theme.main?.contrast};
       background: ${props.theme.colors?.[props.activeBg] ||
       props.theme.main?.[props.activeBg] ||
       props.activeBg ||
       props.theme.main?.primary60};
+    `}
+          ${(props) =>
+    props.active &&
+    css`
+      color: ${props.theme.colors?.[props.activeColor] ||
+      props.theme.main?.[props.activeColor] ||
+      props.activeColor ||
+      props.theme.main?.contrast};
+      outline: solid
+        ${props.theme.colors?.[props.activeColor] ||
+        props.theme.main?.[props.activeColor] ||
+        props.activeColor ||
+        props.theme.main?.contrast}
+        1px;
+      animation: ${Animations.UpToDownRepeat} 1s infinite;
     `}
 `;
 

@@ -1,7 +1,6 @@
 import { colorTypes, themeTypes } from '@styles/theme';
 import { ReactNode } from 'react';
 
-declare module ButtonTypes {
   export interface IButtonProps {
     onClick?: (_event: unknown) => void;
     onClickCapture?: (_event: unknown) => void;
@@ -22,7 +21,8 @@ declare module ButtonTypes {
     state?: 'danger' | 'warning' | number;
     active?: boolean;
     activeBg?: string;
+    activeColor?: string;
     hover?: boolean;
     badgeValue?: number | string;
   }
-}
+

@@ -1,8 +1,7 @@
 import { MemoAPI } from '@api/MemoAPI';
-import Button from '@components/common/button/Button';
+import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import Select from '@components/common/select/Select';
 import { MemoDeleteYup } from '@components/yup/MemoYup';
-import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { SET_MEMO_CATEGORY_LIST } from '@redux/store/memo';
@@ -31,9 +30,8 @@ const DeleteMemoCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
     },
   });
 
-  const selectChangeMemoCategoryHandler = (value: string) => {
-    setValue('pickDeleteMemoCategoryId', value);
-    trigger('pickDeleteMemoCategoryId');
+  const selectChangeMemoCategoryHandler = (props: { value: string }) => {
+    setValue('pickDeleteMemoCategoryId', props.value, {shouldValidate: true});
   };
 
   const onClickErrorSubmit = () => {
@@ -54,8 +52,8 @@ const DeleteMemoCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   };
 
   return (
-    <Container>
-      <CC.RowStartDiv w={'100%'}>메모 카테고리 삭제</CC.RowStartDiv>
+    <CC.ColumnDiv>
+      <CC.RowCenterCenterBox w={'100%'}>메모 카테고리 삭제</CC.RowCenterCenterBox>
       <CC.ColumnDiv gap={32}>
         <Select
           w={'100%'}
@@ -69,24 +67,19 @@ const DeleteMemoCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
         ></Select>
       </CC.ColumnDiv>
       <CC.RowDiv gap={8} pd={'1.2rem 0rem'}>
-        <Button
+        <ConfirmButton
           w={'100%'}
           outline={true}
-          onClickCapture={handleSubmit(
+          onClick={handleSubmit(
             deleteMemoCategoryHandler,
             onClickErrorSubmit,
           )}
           disabled={!formState.isValid}
         >
           메모 삭제
-        </Button>
+        </ConfirmButton>
       </CC.RowDiv>
-    </Container>
+    </CC.ColumnDiv>
   );
 };
 export default DeleteMemoCategoryBox;
-
-const Container = styled(CC.ColumnDiv)`
-  gap: 0.8rem;
-  padding: 0.4rem;
-`;

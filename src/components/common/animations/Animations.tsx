@@ -36,11 +36,9 @@ const UpToDownRepeatFadein = keyframes`
 const UpToDownRepeat = keyframes`
   0%,100%{
     transform: translate(0,-0.1rem);
-    padding-bottom: -0.2rem;
   }
   50%{
     transform: translate(0rem,0.1rem);
-    padding-top: 0.2rem;
   }
 `;
 

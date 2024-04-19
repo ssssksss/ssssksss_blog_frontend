@@ -3,7 +3,6 @@ import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { MemoCreateYup } from '@components/yup/MemoYup';
-import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
 import { SET_MEMO_CATEGORY_LIST } from '@redux/store/memo';
@@ -48,8 +47,8 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const selectChangeMemoCategoryHandler = (bg: string) => {
-    setValue('createMemoCategoryColor', bg, {
+  const selectChangeMemoCategoryHandler = (props: {bg: string}) => {
+    setValue('createMemoCategoryColor', props.bg, {
       shouldValidate: true,
     });
   };
@@ -74,28 +73,35 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
   };
 
   return (
-    <Container>
-      <CC.RowStartDiv w={'100%'}>메모 카테고리 추가</CC.RowStartDiv>
-      <Input
-        placeholder={'메모 카테고리를 작성해주세요'}
-        onChange={(e) =>
-          setValue('createMemoCategoryName', e.target.value, {
-            shouldValidate: true,
-          })
-        }
-        errorMessage={errors.createMemoCategoryName?.message}
-      />
-      <Select
-        w={'100%'}
-        placeholder={'1번째 카테고리'}
-        bg={'transparent'}
-        outline={true}
-        data={categoryColors.map((i) => {
-          return { value: i, name: ' ', bg: i };
-        })}
-        onChange={(i) => selectChangeMemoCategoryHandler(i)}
-      ></Select>
-      <CC.RowDiv pd={'1.6rem 0rem'}>
+    <CC.ColumnStartDiv>
+      <CC.RowCenterCenterBox w={'100%'}>
+        메모 카테고리 추가
+      </CC.RowCenterCenterBox>
+      <CC.ColBox w={'100%'} gap={32}>
+        <Input
+          h={'2.25rem'}
+          pd={'0px 0px 0px 0.25rem'}
+          outline={1}
+          placeholder={'메모 카테고리를 작성해주세요'}
+          onChange={(e) =>
+            setValue('createMemoCategoryName', e.target.value, {
+              shouldValidate: true,
+            })
+          }
+          errorMessage={errors.createMemoCategoryName?.message}
+        />
+        <Select
+          w={'100%'}
+          placeholder={'1번째 카테고리'}
+          bg={'transparent'}
+          outline={1}
+          data={categoryColors.map((i) => {
+            return { value: i, name: ' ', bg: i };
+          })}
+          onChange={(i) => selectChangeMemoCategoryHandler(i)}
+        />
+      </CC.ColBox>
+      <CC.RowDiv pd={'0.5rem 0rem'}>
         <Button
           w={'100%'}
           outline={true}
@@ -108,12 +114,7 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
           메모 추가
         </Button>
       </CC.RowDiv>
-    </Container>
+    </CC.ColumnStartDiv>
   );
 };
 export default CreateMemoCategoryBox;
-
-const Container = styled(CC.ColumnStartDiv)`
-  gap: 0.8rem;
-  padding: 0.4rem;
-`;

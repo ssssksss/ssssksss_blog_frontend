@@ -1,8 +1,7 @@
 import Button from '@components/common/button/Button';
-import styled from '@emotion/styled';
 import { MouseEventHandler, useCallback } from 'react';
+import { IConfirmButtonProps } from 'src/@types/component/common/ConfirmButton';
 import Swal from 'sweetalert2';
-import { IButtonProps } from './Button';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -11,19 +10,12 @@ import { IButtonProps } from './Button';
  * @description 설명
  */
 
-interface ButtonProps extends IButtonProps {
-  //
-  icon?: 'warning' | 'error' | 'success' | 'info' | 'question';
-  title?: string;
-  text?: string;
-}
-
 export const ConfirmButton = ({
   onClick: _onClick,
   // onClickCapture: _onClickCapture,
   children = 'button',
   ...props
-}: ButtonProps) => {
+}: IConfirmButtonProps) => {
   const showSwal = () => {
     Swal.fire({
       titleText: props.text || 'Do you want to continue',
@@ -49,10 +41,9 @@ export const ConfirmButton = ({
   );
 
   return (
-    <Container onClick={onClick} {...props}>
+    <Button onClick={onClick} {...props}>
       {children}
-    </Container>
+    </Button>
   );
 };
 
-const Container = styled(Button)``;
