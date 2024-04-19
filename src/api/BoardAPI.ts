@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
   ICreateBoardProps,
-  IGetBoardListDataProps,
   IUpdateBoardProps,
 } from '../@types/api/BoardAPI';
 
@@ -17,7 +16,7 @@ import {
  * @param props sort string [df] "latest"
  */
 
-const getBoardListData = (props: IGetBoardListDataProps) => {
+const getBoardListData = () => {
   const boardStore = useSelector((state: RootState) => state.boardStore);
   return useQueryHook({
     queryKey: [
@@ -42,7 +41,7 @@ const getBoardListData = (props: IGetBoardListDataProps) => {
 };
 
 const getBoard = (props?: {
-  onSuccessHandler?: (res) => void;
+  onSuccessHandler?: (_res: unknown) => void;
   enabled?: boolean;
 }) => {
   const router = useRouter();
