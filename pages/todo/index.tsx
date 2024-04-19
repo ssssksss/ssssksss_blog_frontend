@@ -1,7 +1,10 @@
 import Layout1 from '@components/layout/Layout1';
 import TodoScheduleContainer from '@components/todo/TodoScheduleContainer';
 import styled from '@emotion/styled';
+import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { useSelector } from 'react-redux';
@@ -14,13 +17,17 @@ import { useSelector } from 'react-redux';
  */
 
 const Index = () => {
-  const authStore = useSelector((state) => state.authStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   return (
     <Container>
       <Head>
         <title>TODO</title>
       </Head>
-      {authStore.id ? <TodoScheduleContainer /> : '로그인이 필요합니다.'}
+      {authStore.id ? (
+        <TodoScheduleContainer />
+      ) : (
+        <CC.RowCenterCenterBox w={"100%"} h={"100%"}> 로그인이 필요합니다. </CC.RowCenterCenterBox>
+      )}
     </Container>
   );
 };
@@ -31,7 +38,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 4.5rem);
   outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
   outline-offset: -0.1rem;
   border-radius: 1rem;

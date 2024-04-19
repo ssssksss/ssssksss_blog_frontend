@@ -44,7 +44,7 @@ const TodoScheduleContainer = () => {
           }}
         >
           <Title>
-            <h3> 할일 {containerSpace} </h3>
+            <h3> 할일 </h3>
           </Title>
           <ModalButton
             onClick={(e) => e.stopPropagation()}
@@ -53,8 +53,8 @@ const TodoScheduleContainer = () => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
-            w={'3.2rem'}
-            h={'3.2rem'}
+            w={'2.25rem'}
+            h={'2.25rem'}
           >
             +
           </ModalButton>
@@ -85,8 +85,8 @@ const TodoScheduleContainer = () => {
             bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'80%'}
-            w={'3.2rem'}
-            h={'3.2rem'}
+            w={'2.25rem'}
+            h={'2.25rem'}
           >
             +
           </ModalButton>
@@ -108,15 +108,13 @@ export default TodoScheduleContainer;
 const Container = styled(CC.GridRow2.withComponent('article'))<{
   containerSpace: number;
 }>`
-  height: calc(100vh - 3.2rem);
-  max-height: calc(100vh - 3.2rem);
-  position: relative;
+  height: 100%;
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
   grid-template-rows: ${(props) =>
-    props.containerSpace === -1 && 'calc(100vh - 8rem) 4.8rem'};
+    props.containerSpace === -1 && 'calc(100% - 3rem) 3rem'};
   grid-template-rows: ${(props) => props.containerSpace === 0 && '50% 50%'};
   grid-template-rows: ${(props) =>
-    props.containerSpace === 1 && '4.8rem calc(100vh - 8rem)'};
+    props.containerSpace === 1 && '3rem calc(100% - 3rem)'};
 
   & > div {
     width: 100%;
@@ -126,19 +124,18 @@ const Container = styled(CC.GridRow2.withComponent('article'))<{
 
 const TitleContainer = styled(CC.GridColumn2)`
   width: 100%;
-  min-height: 4.8rem;
-  max-height: 4.8rem;
+  min-height: 3rem;
+  max-height: 3rem;
   font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
-  grid-template-columns: 1fr 3.2rem;
+  grid-template-columns: 1fr 2.75rem;
   align-items: center;
-  padding: 0rem 0.4rem;
+  padding: 0rem 0.5rem;
   outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
   outline-offset: -0.1rem;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
   height: 100%;
   & > span {
-    font-size: 0.8rem;
     color: ${(props) => props.theme.colors.black40};
   }
   cursor: pointer;
@@ -147,6 +144,6 @@ const Title = styled(CC.ColumnCenterCenterDiv)`
 const ListContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   ${(props) => props.theme.scroll.hiddenY};
   width: 100%;
-  height: calc(100% - 4.8rem);
+  height: calc(100% - 3rem);
   gap: 0.4rem;
 `;
