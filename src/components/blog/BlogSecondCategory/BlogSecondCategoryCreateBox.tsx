@@ -1,3 +1,4 @@
+
 import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
@@ -57,6 +58,7 @@ const BlogSecondCategoryCreateBox = (
         value={blogStore.firstCategoryList[blogStore.activeFirstCategory]}
         disabled={true}
         center={true}
+        color={"black100"}
       />
       <Input
         placeholder="2번째 카테고리 이름"
@@ -65,12 +67,12 @@ const BlogSecondCategoryCreateBox = (
         errorMessage={errors.createSecondCategoryName?.message}
         bg={1}
         h={'2.25rem'}
+        pd={"0 0 0 0.5rem"}
       />
       <Input
         type={'file'}
         register={register('createSecondCategoryImageFile')}
         setValue={setValue}
-        trigger={trigger}
         h={'20rem'}
       />
       <Button
@@ -91,6 +93,7 @@ const Container = styled(CC.ColBox)`
   & > button:nth-of-type(1) {
     align-items: end;
   }
+  background: ${(props) => props.theme.main.primary20};
 `;
 
 

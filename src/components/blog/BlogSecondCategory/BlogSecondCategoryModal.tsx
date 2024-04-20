@@ -22,20 +22,23 @@ const BlogSecondCategoryModal = (props: { closeModal?: () => void }) => {
           w={'100%'}
           active={menu === 'add'}
           onClick={() => setMenu('add')}
-        >
+          outline={1}
+          >
           추가
         </Button>
         <Button
           w={'100%'}
           active={menu === 'update'}
           onClick={() => setMenu('update')}
-        >
+          outline={1}
+          >
           수정
         </Button>
         <Button
           w={'100%'}
           active={menu === 'delete'}
           onClick={() => setMenu('delete')}
+          outline={1}
         >
           삭제
         </Button>

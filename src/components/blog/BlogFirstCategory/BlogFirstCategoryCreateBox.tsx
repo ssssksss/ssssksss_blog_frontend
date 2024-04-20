@@ -74,6 +74,7 @@ const Container = styled(CC.ColBox)`
   & > button:nth-of-type(1) {
     align-items: end;
   }
+  background: ${props=>props.theme.main.primary20};
 `;
 
 const Header = styled.header`

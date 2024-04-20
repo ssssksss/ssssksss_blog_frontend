@@ -50,7 +50,7 @@ const BlogSecondCategoryUpdateBox = (
   };
 
   const changeUpdateCategoryImage = (data) => {
-    methods.setValue('updateSecondCategoryId', data.value);
+    methods.setValue('updateSecondCategoryId', data.value, { shouldValidate: true});
     setUpdateImageUrl(
       blogStore.secondCategoryList[blogStore.activeFirstCategory][data.value]
         .thumbnailImageUrl,
@@ -88,12 +88,12 @@ const BlogSecondCategoryUpdateBox = (
           errorMessage={errors.updateSecondCategoryName?.message}
           bg={1}
           h={'2.25rem'}
+                    pd={"0 0 0 0.5rem"}
         />
         <Input
           type={'file'}
           register={methods.register('updateSecondCategoryImageFile')}
           setValue={methods.setValue}
-          trigger={methods.trigger}
           h={'20rem'}
           defaultImageUrl={updateImageUrl}
         />
@@ -116,6 +116,7 @@ const Container = styled(CC.ColBox)`
   & > button:nth-of-type(1) {
     align-items: end;
   }
+  background: ${(props) => props.theme.main.primary20};
 `;
 
 const Header = styled.header`

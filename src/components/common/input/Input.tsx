@@ -11,7 +11,7 @@ import React, {
   useEffect,
   useState
 } from 'react';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import { Icons } from '../icons/Icons';
 
 /**
@@ -31,7 +31,7 @@ interface IInputProps {
   outline?: boolean | number;
   outlineColor?: colorTypes;
   placeholder?: string;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegisterReturn<string>;
   setValue?: unknown;
   field?: unknown;
   disabled?: boolean;
@@ -67,6 +67,7 @@ interface IInputProps {
     | 'checkbox'
     | 'email'
     | 'search'
+    | 'file'
     | 'range'
     | 'color';
 }
@@ -140,9 +141,7 @@ const Input = (props: IInputProps, ref: React.MutableRefObject<HTMLInputElement>
             // ! onChangeFile(e)와 아래 조건문 순서 바꾸지 말것 바꾸면 e의 값이 초기화 되면서 제대로 작동이 되지를 않는다.
             onChangeFile(e);
             if (props.register) {
-              // props.register.onChange(e);
-              props.setValue(props.register?.name, e.target.files[0]);
-              props.trigger(props.register?.name);
+              props.setValue(props.register?.name, e.target.files[0], { shouldValidate: true});
             }
           }}
         />
@@ -203,8 +202,9 @@ const Input = (props: IInputProps, ref: React.MutableRefObject<HTMLInputElement>
                 e.preventDefault();
                 setImageUrl('/');
                 if (props.register) {
-                  props.setValue(props.register?.name, '');
-                  props.trigger(props.register?.name);
+                  props.setValue(props.register?.name, '', {
+                    shouldValidate: true,
+                  });
                 }
               }}
             >
