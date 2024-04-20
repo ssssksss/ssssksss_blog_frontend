@@ -47,10 +47,9 @@ const TodoScheduleContainer = () => {
             <h3> 할일 </h3>
           </Title>
           <ModalButton
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: MouseEvent) => e.stopPropagation()}
             modal={<TodoModal />}
             color={'primary80'}
-            bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
             w={'2.25rem'}

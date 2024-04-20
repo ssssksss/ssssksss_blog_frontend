@@ -69,7 +69,7 @@ const TodoModal = (props: ITodoModalProps) => {
 
   return (
     <Container>
-      <CC.ColumnStartDiv h={'100%'} gap={10}>
+      <CC.ColumnStartDiv h={'100%'} gap={8}>
         <CC.RowStartDiv w={'100%'} font>
           할일
         </CC.RowStartDiv>
@@ -77,7 +77,8 @@ const TodoModal = (props: ITodoModalProps) => {
           placeholder={'일정을 작성해주세요'}
           ref={inputRef}
           defaultValue={props.data?.content}
-          outline={true}
+          outline={1}
+          pd={"0.5rem"}
           onChange={(e) => setInputTodoContent(e.target.value)}
         />
       </CC.ColumnStartDiv>

@@ -61,7 +61,7 @@ const BlogMainContainer = () => {
 
   if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
   if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
-  const { blogList, blogListDefaultImageUrl } = blogListResData.data?.json;
+  const { blogList, blogListDefaultImageUrl } = blogListResData.data?.json == null && {blogList: [], blogListDefaultImageUrl: ""};
   
 
   return (

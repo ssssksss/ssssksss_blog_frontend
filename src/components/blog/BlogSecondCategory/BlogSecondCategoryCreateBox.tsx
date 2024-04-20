@@ -28,7 +28,7 @@ const BlogSecondCategoryCreateBox = (
   const createSecondCategoryMutation = BlogAPI.createSecondCategory({
     onSuccessHandler: () => props.closeModal(),
   });
-  const { register, handleSubmit, formState, setValue, trigger } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
     mode: 'onChange',
     defaultValues: {
