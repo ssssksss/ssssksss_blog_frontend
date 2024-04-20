@@ -61,13 +61,13 @@ const BlogMainContainer = () => {
 
   if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
   if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
-  const { blogList, blogListDefaultImageUrl } = blogListResData.data?.json == null && {blogList: [], blogListDefaultImageUrl: ""};
   
-
   return (
     <CC.ColLeftStartBox w={'100%'} gap={8}>
-      <HeaderContainer outline={1} pd={"0rem 0.5rem"}>
-        <Text>검색결과 : {blogList.length || '0'}</Text>
+      <HeaderContainer outline={1} pd={'0rem 0.5rem'}>
+        <Text>
+          검색결과 : {blogListResData.data?.json?.blogList.length || '0'}
+        </Text>
         <CC.RowDiv pd={'0.5rem'}>
           <Select
             onChange={orderBlogListHandler}
@@ -89,36 +89,38 @@ const BlogMainContainer = () => {
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef} outline={1}>
-        {blogList?.map((i, index) => (
+        {blogListResData.data?.json?.blogList?.map((i, index) => (
           <Link href={`/blog/${i.id}`} key={`${i.id}${index}`} prefetch={false}>
             <BlogItem
               element={i}
               viewMode={true}
-              defaultImageUrl={blogListDefaultImageUrl}
+              defaultImageUrl={
+                blogListResData.data?.json?.blogListDefaultImageUrl
+              }
             ></BlogItem>
           </Link>
         ))}
       </MainContainer>
       <FixedContainer>
-          <CC.ColLeftCenterBox bg={'primary20'} pd={'0.4rem'} gap={8}>
-            {authStore.role == 'ROLE_ADMIN' && (
-              <Link href={`/blog/create`}>
-                <Button>
-                  <IconsSvg.EditIcon fill={'black80'} />
-                </Button>
-              </Link>
-            )}
-            <Button onClick={() => window.scrollTo(0, 0)}>
-              <Image src={Icons.UpArrowIcon} alt="up-arrow" />
-            </Button>
-            <Button
-              onClick={() =>
-                window.scrollTo(0, window.document.body.scrollHeight)
-              }
-            >
-              <Image src={Icons.DownArrowIcon} alt="down-arrow" />
-            </Button>
-          </CC.ColLeftCenterBox>
+        <CC.ColLeftCenterBox bg={'primary20'} pd={'0.4rem'} gap={8}>
+          {authStore.role == 'ROLE_ADMIN' && (
+            <Link href={`/blog/create`}>
+              <Button>
+                <IconsSvg.EditIcon fill={'black80'} />
+              </Button>
+            </Link>
+          )}
+          <Button onClick={() => window.scrollTo(0, 0)}>
+            <Image src={Icons.UpArrowIcon} alt="up-arrow" />
+          </Button>
+          <Button
+            onClick={() =>
+              window.scrollTo(0, window.document.body.scrollHeight)
+            }
+          >
+            <Image src={Icons.DownArrowIcon} alt="down-arrow" />
+          </Button>
+        </CC.ColLeftCenterBox>
       </FixedContainer>
     </CC.ColLeftStartBox>
   );

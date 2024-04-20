@@ -41,6 +41,6 @@ const Container = styled(CC.ColumnDiv)`
     border-radius: 0.5rem;
     gap: 0.5rem;
     padding: 0.5rem;
-    background: ${props=>props.theme.colors.gray20};
+    background: ${props=>props.theme.main.primary20};
   }
 `;
