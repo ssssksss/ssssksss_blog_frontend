@@ -54,13 +54,17 @@ const Index = (props: propsType) => {
       }
       let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
       if (firstCategoryIdTemp != undefined) {
-        if (
+        // 1. url에 카테고리2 id 값이 있는지 여부
+        // 2. 없다면 카테고리2 리스트가 존재하는지 여부
+        if(
+          secondCategoryIdTemp == undefined &&
           JSON.stringify(props.secondCategoryList) != '{}' &&
           props.secondCategoryList != undefined
-        )
+        ) {
           secondCategoryIdTemp = Object.keys(
             props.secondCategoryList[firstCategoryIdTemp],
           )[0];
+        }
       }
       store.dispatch(
         rootActions.blogStore.setActiveFirstCategory(
