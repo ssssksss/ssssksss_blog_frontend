@@ -38,9 +38,9 @@ interface IScheduleModalProps {
       userId: number;
     };
   };
-  closeModal: () => void;
+  closeModal?: () => void;
   // methodType은 달력 월 형태와 오늘의 일정만 보는 2가지의 경우 redux에 저장하는 형태가 달라서 필요한 props
-  methodType: string;
+  methodType?: string;
 }
 
 const ScheduleModal = (props: IScheduleModalProps) => {
@@ -285,14 +285,14 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   }, [scheduleCategoryListResData.dataUpdatedAt]);
 
   return (
-    <Container>
+    <Container onClick={(e: React.MouseEvent) => e.stopPropagation()}>
       <ReactiveDiv>
-        <CC.ColumnDiv pd={'0rem 0.4rem'}>
-          <CC.ColumnStartDiv gap={4}>
+        <CC.ColumnDiv pd={'0rem 0.5rem'}>
+          <CC.ColumnStartDiv gap={8}>
             <CC.RowBetweenDiv w={'100%'}>
               <div>카테고리</div>
             </CC.RowBetweenDiv>
-            <CC.RowDiv gap={4}>
+            <CC.RowDiv gap={8}>
               <Select
                 w={'100%'}
                 placeholder={
@@ -319,30 +319,33 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               ></Select>
             </CC.RowDiv>
           </CC.ColumnStartDiv>
-          <CC.ColumnStartDiv gap={4}>
+          <CC.ColumnStartDiv gap={8}>
             <CC.RowStartDiv w={'100%'}>일정 제목</CC.RowStartDiv>
             <Input
               placeholder={'제목을 작성해주세요'}
               ref={scheduleTitleRef}
               defaultValue={props.data?.title}
-              outline={true}
+              outline={1}
+              h={'2.25rem'}
+              pd={'0 0 0 0.5rem'}
+              bg={"white80"}
             />
           </CC.ColumnStartDiv>
-          <CC.ColumnStartDiv h={'100%'} gap={4}>
+          <CC.ColumnStartDiv h={'100%'} gap={8}>
             <CC.RowStartDiv w={'100%'}>일정 내용</CC.RowStartDiv>
             <Textarea
               submit={() =>
                 props.edit ? updateScheduleHandler() : createScheduleHandler()
               }
               h={'100%'}
-              pd={'0.8rem'}
+              pd={'0.5rem'}
               ref={scheduleContentRef}
               defaultValue={props.data?.content}
               placeholder={'일정 내용을 작성해주세요'}
             />
           </CC.ColumnStartDiv>
         </CC.ColumnDiv>
-        <CC.ColumnCenterDiv h={'100%'} gap={4} pd={'0rem 0.4rem'}>
+        <CC.ColumnCenterDiv h={'100%'} gap={8} pd={'0rem 0.5rem'}>
           <DateRangePicker
             onChange={(item) => {
               setState([item.selection]);
@@ -388,6 +391,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             e.stopPropagation();
           }}
           outline={true}
+          h={'2.75rem'}
         >
           일정 추가
         </Button>
@@ -398,8 +402,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
 export default ScheduleModal;
 
 const Container = styled(CC.ColumnBetweenDiv)`
-  gap: 0.4rem;
-  padding: 0.8rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   background: ${(props) => props.theme.main.primary40};

@@ -3,7 +3,7 @@
  * Date 타입을 String "2000-11-11" 형식으로 바꾸어주는 함수
  * @returns "yyyy-mm-dd"
  */
-export const dateFormat4y2m2d = (date1: string) => {
+export const dateFormat4y2m2d = (date1: string | Date) => {
   const date = new Date(date1);
   const month: number | string = date.getMonth() + 1;
   const day: number | string = date.getDate();

@@ -39,7 +39,6 @@ Index.getLayout = function getLayout(page: ReactElement) {
 const Container = styled.div`
   width: 100%;
   height: calc(100vh - 4.5rem);
-  outline: solid ${(props) => props.theme.main.primary20} 0.1rem;
-  outline-offset: -0.1rem;
-  border-radius: 1rem;
+  outline: solid ${(props) => props.theme.main.primary20} 1px;
+  outline-offset: -1px;
 `;

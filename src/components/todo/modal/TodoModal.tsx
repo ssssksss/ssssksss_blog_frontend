@@ -56,7 +56,7 @@ const TodoModal = (props: ITodoModalProps) => {
 
   useEffect(() => {
     setInputTodoContent(props.data?.content);
-    const keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: KeyboardEvent) => {
       if (e.key == 'Enter') {
         todoHandler();
       }
@@ -68,9 +68,9 @@ const TodoModal = (props: ITodoModalProps) => {
   }, []);
 
   return (
-    <Container>
-      <CC.ColumnStartDiv h={'100%'} gap={8}>
-        <CC.RowStartDiv w={'100%'} font>
+    <Container onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+      <CC.ColumnStartDiv w={'100%'} h={'100%'} gap={8}>
+        <CC.RowStartDiv w={'100%'}>
           할일
         </CC.RowStartDiv>
         <Input
@@ -103,7 +103,8 @@ const TodoModal = (props: ITodoModalProps) => {
         <Button
           w={'100%'}
           onClick={() => todoHandler()}
-          disabled={!inputTodoContent}
+            disabled={!inputTodoContent}
+            h={"2.75rem"}
         >
           일정 추가
         </Button>
@@ -114,12 +115,13 @@ const TodoModal = (props: ITodoModalProps) => {
 export default TodoModal;
 
 const Container = styled(CC.ColumnBetweenDiv)`
+  width: 100%;
   gap: 2.8rem;
   padding: 1rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
-  background: ${(props) => props.theme.main.primary40};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: ${(props) => props.theme.fontSize.xl};
   min-height: 26rem;
+  cursor: default;
 `;

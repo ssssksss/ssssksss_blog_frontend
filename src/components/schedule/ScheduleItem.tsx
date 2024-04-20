@@ -8,6 +8,7 @@ import { SET_TODAY_SCHEDULE_LIST } from '@redux/store/schedule';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 import { useSelector } from 'react-redux';
+import { IScheduleItemProps } from 'src/@types/schedule';
 import ScheduleModal from './modal/ScheduleModal';
 /**
  *
@@ -16,23 +17,6 @@ import ScheduleModal from './modal/ScheduleModal';
  * @version 0.0.1 "2023-09-29 23:52:34"
  * @description 설명
  */
-
-interface IScheduleItemProps {
-  data: {
-    id: number;
-    title: string;
-    content: string;
-    isChecked: boolean;
-    startDateTime: 'YYYY-M-DDThh:mm:ss';
-    endDateTime: 'YYYY-M-DDThh:mm:ss';
-    scheduleCategory: {
-      id: number;
-      name: string;
-      backgroundColor: string;
-      userId: number;
-    };
-  };
-}
 
 const ScheduleItem = (props: IScheduleItemProps) => {
   const scheduleStore = useSelector((state: RootState) => state.scheduleStore);

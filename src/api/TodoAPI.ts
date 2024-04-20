@@ -36,7 +36,7 @@ const getTodoList = () => {
 
 const updateTodo = (props) => {
   const queryClient = useQueryClient();
-  const mutationFn = async (reqData) => {
+  const mutationFn = async (reqData: {id: number, content: string}) => {
     return await AxiosInstance.patch('/api/todo', {
       id: reqData?.id,
       content: reqData?.content,
@@ -65,7 +65,7 @@ const updateTodo = (props) => {
 
 const deleteTodo = (props) => {
   const queryClient = useQueryClient();
-  const mutationFn = async (reqData) => {
+  const mutationFn = async (reqData: {id: number}) => {
     return await AxiosInstance.delete(`/api/todo?id=${reqData?.id}`);
   };
 

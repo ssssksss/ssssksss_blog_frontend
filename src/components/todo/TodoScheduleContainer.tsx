@@ -4,12 +4,15 @@ import ModalButton from '@components/common/button/ModalButton';
 import ScheduleItem from '@components/schedule/ScheduleItem';
 import ScheduleModal from '@components/schedule/modal/ScheduleModal';
 import styled from '@emotion/styled';
+import AddIcon from '@mui/icons-material/Add';
 import { CC } from '@styles/commonComponentStyle';
 import {
   dateFormat4y2m2d,
   todayDayOfTheWeek,
 } from '@utils/function/dateFormat';
 import { useState } from 'react';
+import { IScheduleItemProps } from 'src/@types/schedule';
+import { ITodoItemProps } from 'src/@types/todo';
 import TodoItem from './TodoItem';
 import TodoModal from './modal/TodoModal';
 /**
@@ -20,19 +23,19 @@ import TodoModal from './modal/TodoModal';
  */
 
 interface IScheduleResDataProps {
-  content: string;
-  id: number;
-  isChecked: boolean;
-  userId: number;
+        content: string,
+      id: number,
+      isChecked: boolean,
+      userId: number,
 }
 
 const TodoScheduleContainer = () => {
   const [containerSpace, setContainerSpace] = useState(0);
-  const dayOfTheWeek = useState(todayDayOfTheWeek);
+  const [dayOfTheWeek,] = useState(todayDayOfTheWeek);
   const scheduleResData = ScheduleAPI.getScheduleList({
     type: 'today',
   }).data?.json;
-  const todoResData: IScheduleResDataProps =
+  const todoResData: IScheduleResDataProps[] =
     TodoAPI.getTodoList()?.data?.json?.todoList;
   return (
     <Container containerSpace={containerSpace}>
@@ -47,20 +50,25 @@ const TodoScheduleContainer = () => {
             <h3> 할일 </h3>
           </Title>
           <ModalButton
-            onClick={(e: MouseEvent) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             modal={<TodoModal />}
+            modalBg={'primary40'}
             color={'primary80'}
+            bg={'primary20'}
             modalOverlayVisible={true}
             modalW={'50%'}
             w={'2.25rem'}
             h={'2.25rem'}
           >
-            +
+            <AddIcon />
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {todoResData?.map((i) => (
-            <li key={i.data?.id}>
+          {todoResData?.map((i: ITodoItemProps) => (
+            <li key={i.id}>
               <TodoItem {...i} />
             </li>
           ))}
@@ -74,28 +82,34 @@ const TodoScheduleContainer = () => {
           }}
         >
           <Title>
-            <h3> 오늘의 일정 ({dayOfTheWeek}) </h3>
-            <span> {dateFormat4y2m2d(new Date())} </span>
+            <h3> 오늘의 일정 {dayOfTheWeek} </h3>
+            <span> {dateFormat4y2m2d(String(new Date()))} </span>
           </Title>
           <ModalButton
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             modal={<ScheduleModal />}
+            modalBg={'primary40'}
             color={'primary80'}
             bg={'primary20'}
             modalOverlayVisible={true}
-            modalW={'80%'}
+            modalW={'calc(100vw - 1rem)'}
             w={'2.25rem'}
             h={'2.25rem'}
           >
-            +
+            <AddIcon />
           </ModalButton>
         </TitleContainer>
         <ListContainer>
-          {scheduleResData?.scheduleList.map((i, index) => (
-            <li key={index}>
-              <ScheduleItem data={i} />
-            </li>
-          ))}
+          {scheduleResData?.scheduleList.map(
+            (i: IScheduleItemProps, index: number) => (
+              <li key={index}>
+                <ScheduleItem data={i} />
+              </li>
+            ),
+          )}
         </ListContainer>
       </div>
     </Container>
@@ -108,7 +122,8 @@ const Container = styled(CC.GridRow2.withComponent('article'))<{
   containerSpace: number;
 }>`
   height: 100%;
-  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
   grid-template-rows: ${(props) =>
     props.containerSpace === -1 && 'calc(100% - 3rem) 3rem'};
   grid-template-rows: ${(props) => props.containerSpace === 0 && '50% 50%'};
@@ -129,8 +144,8 @@ const TitleContainer = styled(CC.GridColumn2)`
   grid-template-columns: 1fr 2.75rem;
   align-items: center;
   padding: 0rem 0.5rem;
-  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
-  outline-offset: -0.1rem;
+  outline: solid ${(props) => props.theme.main.primary40} 0.1px;
+  outline-offset: -0.1px;
 `;
 const Title = styled(CC.ColumnCenterCenterDiv)`
   height: 100%;

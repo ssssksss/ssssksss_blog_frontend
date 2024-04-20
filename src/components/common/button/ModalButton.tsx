@@ -1,7 +1,7 @@
 import Button from '@components/common/button/Button';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import CloseIcon from '@mui/icons-material/Close';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { CC } from '@styles/commonComponentStyle';
 import React, {
   MouseEventHandler,
@@ -91,7 +91,7 @@ const ModalButton = ({
             bg={props.modalBg}
           >
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
-              <CloseIcon />
+              <HighlightOffIcon />
             </CC.ImgContainer>
           </Exit>
           {{

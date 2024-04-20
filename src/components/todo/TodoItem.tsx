@@ -4,6 +4,7 @@ import Input from '@components/common/input/Input';
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
 import React, { useCallback, useReducer } from 'react';
+import { ITodoItemProps } from 'src/@types/todo';
 import TodoModal from './modal/TodoModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -11,13 +12,6 @@ import TodoModal from './modal/TodoModal';
  * @version 0.0.1 "2023-09-29 23:47:39"
  * @description 설명
  */
-
-interface ITodoItemProps {
-  content: string;
-  id: number;
-  isChecked: boolean;
-  userId: number;
-}
 
 const TodoItem = (props: ITodoItemProps) => {
   const [isChecked, isCheckedToggle] = useReducer(
