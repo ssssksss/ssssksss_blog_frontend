@@ -4,6 +4,7 @@ import Input from '@components/common/input/Input';
 import Overlay from '@components/common/overlay/Overlay';
 import styled from '@emotion/styled';
 import useIntersection from '@hooks/useIntersection';
+import usePreventBodyScroll from '@hooks/usePreventBodyScroll';
 import useWindowClick from '@hooks/useWindowClick';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
@@ -22,7 +23,7 @@ const BlogHeadContainer = () => {
   const [, setIsInputChange] = useState(true);
   const inputRef = useRef<HTMLInputElement>();
   useWindowClick(() => setIsOpenBlogItemList(false));
-
+  usePreventBodyScroll(isOpenBlogItemList);
   const {
     data: blogListResData,
     fetchNextPage,
@@ -87,7 +88,7 @@ const BlogHeadContainer = () => {
             </li>
           ))}
           {hasNextPage || (
-            <CC.RowCenterDiv minH={'3.2rem'} bg={'primary40'} brR={'0.8rem'}>
+            <CC.RowCenterDiv h={'calc(100vh - 7.5rem)'} bg={'primary40'} brR={'0.8rem'}>
               {blogListResData?.length == 0
                 ? '결과가 없습니다.'
                 : '마지막 결과 입니다.'}
@@ -104,12 +105,11 @@ export default BlogHeadContainer;
 
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   position: absolute;
-  width: calc(100% - 0.8rem);
+  width: 100%;
   z-index: 11;
-  transform: translate(0rem, 0.8rem);
-  height: calc(100vh - 9.6rem);
+  height: calc(100vh - 7.5rem);
   overscroll-behavior: contain;
-  border-radius: 0.4rem;
+  border-radius: 0.5rem;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

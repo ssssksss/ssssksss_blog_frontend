@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
-  blogListOrderOption: number | string;
+  blogListOrderOption: string;
   firstCategoryList: {
     [key: string]: string;
   };
@@ -23,8 +23,8 @@ const initialState: InitialState = {
   blogListOrderOption: '',
   firstCategoryList: {},
   secondCategoryList: {},
-  activeFirstCategory: '',
-  activeSecondCategory: '',
+  activeFirstCategory: undefined,
+  activeSecondCategory: undefined,
   activeBlogUserId: null,
 };
 
@@ -48,7 +48,7 @@ const blogSlice = createSlice({
       state.activeSecondCategory = action.payload;
     },
     setActiveBlogUserId: (state, action) => {
-      state.activeSecondCategory = action.payload;
+      state.activeBlogUserId = action.payload;
     },
   },
 });

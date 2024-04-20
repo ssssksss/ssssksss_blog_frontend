@@ -1,6 +1,7 @@
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
-import Image from 'next/image';
+import usePreventBodyScroll from '@hooks/usePreventBodyScroll';
+import ListIcon from '@mui/icons-material/List';
+import { CC } from '@styles/commonComponentStyle';
 import { useReducer } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -10,6 +11,7 @@ import { useReducer } from 'react';
  */
 const ViewBlogIndexContainer = (props: { blogIndexList: unknown }) => {
   const [isOpenModal, IsOpenModalToggle] = useReducer((v) => !v, false);
+  usePreventBodyScroll(isOpenModal);
   return (
     <Container>
       {isOpenModal ? (
@@ -32,7 +34,7 @@ const ViewBlogIndexContainer = (props: { blogIndexList: unknown }) => {
               <button
                 key={index}
                 onClickCapture={() => {
-                  window.scrollTo(0, i.top);
+                  window.scrollTo(0, i.top - 32);
                 }}
                 className={i.tagName}
               >
@@ -46,8 +48,10 @@ const ViewBlogIndexContainer = (props: { blogIndexList: unknown }) => {
           onClick={() => {
             IsOpenModalToggle();
           }}
-        >
-          <Image width={24} height={24} alt="blog_index" src={Icons.MenuIcon} />
+          >
+            <CC.ImgContainer w={"2.25rem"}>
+                <ListIcon />
+            </CC.ImgContainer>
         </ContentIndexNotOpenMenuContainer>
       )}
     </Container>
@@ -60,7 +64,7 @@ const Container = styled.div`
   width: 0px;
   height: 0px;
   left: 100vw;
-  top: 3.2rem;
+  top: 3.5rem;
   z-index: 40;
 `;
 
@@ -70,8 +74,9 @@ const ContentIndexContainer = styled.nav`
   position: relative;
   overflow: scroll;
   transform: translate(-100%, 0%);
-  background: ${(props) => props.theme.colors.white80};
-  outline: solid ${(props) => props.theme.main.primary80} 0.2rem;
+  background: ${(props) => props.theme.colors.white40};
+  outline: solid ${(props) => props.theme.main.primary40} 1px;
+  outline-offset: -1px;
   msoverflowstyle: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -136,10 +141,10 @@ const Exit = styled.button`
 `;
 const ContentIndexMainContainer = styled.div`
   z-index: 50;
-  padding-top: 2rem;
-  height: calc(100vh - 4rem);
+  padding: 2rem 0.5rem 0px 0.5rem;
+  height: calc(100vh - 4.5rem);
   overflow: scroll;
-  msoverflowstyle: none;
+  -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
@@ -159,8 +164,9 @@ const ContentIndexMainContainer = styled.div`
 
   .H1 {
     padding: 0.2rem 0rem;
-    color: ${(props) => props.theme.colors.black100};
+    color: ${(props) => props.theme.main.primary80};
     font-weight: 800;
+    font-size: 1.25rem;
   }
   .H1::before {
     counter-increment: section;
@@ -170,6 +176,7 @@ const ContentIndexMainContainer = styled.div`
     padding: 0.2rem 0rem 0.2rem 0.4rem;
     color: ${(props) => props.theme.colors.black80};
     font-weight: 600;
+    font-size: 1rem;
   }
   .H3 {
     padding: 0.2rem 0rem 0.2rem 0.8rem;
@@ -179,7 +186,7 @@ const ContentIndexMainContainer = styled.div`
 `;
 
 const ContentIndexNotOpenMenuContainer = styled.button`
-  width: 3rem;
+  width: 2.25rem;
   aspect-ratio: 1;
   position: absolute;
   z-index: 50;
@@ -190,12 +197,12 @@ const ContentIndexNotOpenMenuContainer = styled.button`
   &::-webkit-scrollbar {
     display: none;
   }
-  background: ${(props) => props.theme.main.primary80};
-  border: solid black 0.1rem;
-  border-radius: 0.4rem;
+  background: ${(props) => props.theme.main.secondary40};
+  outline: solid black 1px;
+  outline-offset: -1px;
+  border-radius: 0.5rem;
   justify-content: center;
   align-items: center;
-  padding: 0.2rem 0rem;
   &:hover {
     opacity: 0.8;
     box-shadow: black 0.1rem 0.1rem 0rem 0rem;

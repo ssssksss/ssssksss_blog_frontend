@@ -39,10 +39,10 @@ const BlogMainContainer = () => {
   };
 
   useEffect(() => {
-    const keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: KeyboardEvent) => {
       // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
       if (
-        e.which === 32 &&
+        e.code  === "Space" &&
         e.shiftKey &&
         store.getState().blogStore.activeBlogUserId ==
           store.getState().authStore.id
@@ -60,7 +60,9 @@ const BlogMainContainer = () => {
 
 
   if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
-  const { blogList, blogListDefaultImageUrl } = blogListResData.data.json;
+  if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
+  const { blogList, blogListDefaultImageUrl } = blogListResData.data?.json;
+  
 
   return (
     <CC.ColLeftStartBox w={'100%'} gap={8}>

@@ -1,14 +1,14 @@
 import { BlogAPI } from '@api/BlogAPI';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import MenuIcon from '@mui/icons-material/Menu';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ViewBlogFixContainer.tsx
@@ -16,12 +16,11 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const ViewBlogFixContainer = (
-  firstCategoryId: string,
-  secondCategoryId: string,
+  props: {firstCategoryId: number, secondCategoryId: number}
 ) => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const BACK_URL = `/blog?first-category=${firstCategoryId}&second-category=${secondCategoryId}`;
+  const BACK_URL = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
   const router = useRouter();
   const deleteHandler = () => {
     BlogAPI.deleteBlog({
@@ -39,7 +38,7 @@ const ViewBlogFixContainer = (
         {authStore.role === 'ROLE_ADMIN' && (
           <Link href={`/blog/update?id=${router.query.id}`} prefetch={false}>
             <CC.ImgContainer w={'2rem'}>
-              <Image src={Icons.EditIcon} alt="" width={1} height={1} />
+              <EditIcon />
             </CC.ImgContainer>
           </Link>
         )}
@@ -52,13 +51,13 @@ const ViewBlogFixContainer = (
             pd={'0'}
           >
             <CC.ImgContainer w={'2rem'}>
-              <Image src={Icons.DeleteIcon} alt="" width={1} height={1} />
+              <DeleteIcon />
             </CC.ImgContainer>
           </ConfirmButton>
         )}
         <Link href={BACK_URL}>
           <CC.ImgContainer w={'2rem'}>
-            <Image src={Icons.MenuIcon} alt="" width={1} height={1} />
+            <MenuIcon />
           </CC.ImgContainer>
         </Link>
       </Container1>
@@ -92,7 +91,7 @@ const Container1 = styled(CC.ColumnDiv)`
   background: ${(props) => props.theme.colors.white80};
   outline: solid black 1px;
   outline-offset: -1px;
-  msoverflowstyle: none;
+  -ms-overflow-style: none;
   scrollbar-width: none;
   background: ${(props) => props.theme.main.primary80};
   align-items: center;

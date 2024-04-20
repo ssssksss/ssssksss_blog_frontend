@@ -62,7 +62,7 @@ const getBlogList = () => {
       },
     },
     isRefetchWindowFocus: false,
-    enabled: blogStore.activeSecondCategory ?? false,
+    enabled: (blogStore.activeSecondCategory ?? false) as boolean,
     staleTime: 300000,
   });
 };

@@ -52,15 +52,6 @@ const Index = (props: propsType) => {
           urlQueryObject?.[`first-category`] ||
           Object.keys(props.firstCategoryList)[0];
       }
-      store.dispatch(
-        rootActions.blogStore.setActiveFirstCategory(firstCategoryIdTemp),
-      );
-      store.dispatch(
-        rootActions.blogStore.setFirstCategoryList(props.firstCategoryList),
-      );
-      store.dispatch(
-        rootActions.blogStore.setSecondCategoryList(props.secondCategoryList),
-      );
       let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
       if (firstCategoryIdTemp != undefined) {
         if (
@@ -72,7 +63,24 @@ const Index = (props: propsType) => {
           )[0];
       }
       store.dispatch(
-        rootActions.blogStore.setActiveSecondCategory(secondCategoryIdTemp),
+        rootActions.blogStore.setActiveFirstCategory(
+          Number(firstCategoryIdTemp),
+        ),
+      );
+      store.dispatch(
+        rootActions.blogStore.setFirstCategoryList(
+          props.firstCategoryList,
+        ),
+      );
+      store.dispatch(
+        rootActions.blogStore.setSecondCategoryList(
+          props.secondCategoryList,
+        ),
+      );
+      store.dispatch(
+        rootActions.blogStore.setActiveSecondCategory(
+          Number(secondCategoryIdTemp),
+        ),
       );
       const temp =
         window.document.location.origin +
@@ -83,7 +91,7 @@ const Index = (props: propsType) => {
         secondCategoryIdTemp;
       router.replace(temp, '', { shallow: true });
     } catch {
-      router.push('/404');
+      // router.push('/404');
     }
   }, []);
 
