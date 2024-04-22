@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { CC } from '@styles/commonComponentStyle';
-import AddScheduleCategoryBox from '../AddScheduleCategoryBox';
+import CreateScheduleCategoryBox from '../CreateScheduleCategoryBox';
 import DeleteScheduleCategoryBox from '../DeleteScheduleCategoryBox';
 import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';
 /**
@@ -11,13 +11,13 @@ import UpdateScheduleCategoryBox from '../UpdateScheduleCategoryBox';
  */
 
 interface IScheduleCategoryModalProps {
-  closeModal: () => void;
+  closeModal?: () => void;
 }
 
 const ScheduleCategoryModal = (props: IScheduleCategoryModalProps) => {
   return (
     <Container onClick={(e) => e.stopPropagation()}>
-      <AddScheduleCategoryBox closeModal={props.closeModal} />
+      <CreateScheduleCategoryBox closeModal={props.closeModal} />
       <UpdateScheduleCategoryBox closeModal={props.closeModal} />
       <DeleteScheduleCategoryBox closeModal={props.closeModal} />
     </Container>
@@ -26,10 +26,16 @@ const ScheduleCategoryModal = (props: IScheduleCategoryModalProps) => {
 export default ScheduleCategoryModal;
 
 const Container = styled(CC.ColumnDiv)`
-  height: 100%;
-  gap: 3.2rem;
+  gap: 2rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
-  font-size: ${(props) => props.theme.fontSize.xl};
+  padding: 0.5rem;
+
+  & > * {
+    outline: solid black 1px;
+    outline-offset: -1px;
+    border-radius: 0.5rem;
+    background: ${props=>props.theme.main.primary20};
+  }
 `;

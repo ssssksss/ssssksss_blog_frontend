@@ -5,6 +5,7 @@ const MemoContainer = dynamic(() => import('@components/todo/MemoContainer'), {
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
+import { CC } from '@styles/commonComponentStyle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { ReactElement } from 'react';
@@ -22,7 +23,13 @@ const Index = () => {
       <Head>
         <title>MEMO</title>
       </Head>
-      {authStore.id ? <MemoContainer /> : <p> {'로그인이 필요합니다.'} </p>}
+      {authStore.id ? (
+        <MemoContainer />
+      ) : (
+        <CC.RowCenterCenterBox w={'100%'} h={'100%'}>
+          로그인이 필요합니다.
+        </CC.RowCenterCenterBox>
+      )}
     </Container>
   );
 };
@@ -32,5 +39,5 @@ Index.getLayout = function getLayout(page: ReactElement) {
 };
 const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 4.8rem);
+  height: calc(100vh - 4.5rem);
 `;

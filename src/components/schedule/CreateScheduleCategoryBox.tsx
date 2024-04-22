@@ -18,7 +18,7 @@ interface IAddScheduleCategoryBoxProps {
   closeModal: () => void;
 }
 
-const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
+const CreateScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   const categoryColors = [
     '',
     'red40',
@@ -33,14 +33,17 @@ const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
   ];
 
   const authStore = useSelector((state) => state.authStore);
-  const [addCategoryRequestData, setAddCategoryRequestData] = useState();
+  const [createCategoryRequestData, setCreateCategoryRequestData] = useState({
+    id: '',
+    title: '',
+  });
   const queryClient = useQueryClient();
   const addScheduleCategoryHandler = () => {
-    if (addCategoryRequestData.title === '') return;
-    if (addCategoryRequestData.id === '') return;
+    if (createCategoryRequestData.title === '') return;
+    if (createCategoryRequestData.id === '') return;
     ScheduleAPI.addScheduleCategory({
-      name: addCategoryRequestData.title,
-      backgroundColor: addCategoryRequestData.bg,
+      name: createCategoryRequestData.title,
+      backgroundColor: createCategoryRequestData.bg,
     }).then(
       (res: {
         json: {
@@ -78,9 +81,12 @@ const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
       <CC.RowStartDiv w={'100%'}>일정 카테고리 추가</CC.RowStartDiv>
       <Input
         placeholder={'일정 카테고리를 작성해주세요'}
-        outline={true}
+        outline={1}
+        bg={'white20'}
+        pd={"0 0 0 0.5rem"}
+        h={"2.25rem"}
         onChange={(e) =>
-          setAddCategoryRequestData((prev) => ({
+          setCreateCategoryRequestData((prev) => ({
             ...prev,
             title: e.target.value,
           }))
@@ -93,13 +99,16 @@ const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
         data={categoryColors.map((i) => {
           return { value: i, name: ' ', bg: i };
         })}
-        onChange={(i) =>
-          setAddCategoryRequestData((prev) => ({
+        onChange={(i) => 
+        {
+          console.log("CreateScheduleCategoryBox.tsx 파일 : ",i);
+          setCreateCategoryRequestData((prev) => ({
             ...prev,
             id: i.value,
             name: i.name,
             bg: i.bg,
-          }))
+          }));
+          }
         }
       ></Select>
       <CC.RowDiv pd={'1.6rem 0rem'}>
@@ -108,7 +117,7 @@ const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
           onClick={() => addScheduleCategoryHandler()}
           outline={true}
           disabled={
-            !addCategoryRequestData?.id || !addCategoryRequestData?.title
+            !createCategoryRequestData?.id || !createCategoryRequestData?.title
           }
         >
           일정 카테고리 추가
@@ -117,7 +126,7 @@ const AddScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
     </Container>
   );
 };
-export default AddScheduleCategoryBox;
+export default CreateScheduleCategoryBox;
 
 const Container = styled(CC.ColumnStartDiv)`
   gap: 0.8rem;

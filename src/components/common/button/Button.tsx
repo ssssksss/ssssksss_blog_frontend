@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { animationKeyFrames } from '@styles/Animations';
 import { MouseEventHandler, useCallback } from 'react';
-import { ButtonTypes } from 'src/@types/component/common/Button';
+import { IButtonProps } from 'src/@types/component/common/Button';
 import Animations from '../animations/Animations';
 
 const Button = ({
@@ -11,7 +11,7 @@ const Button = ({
   children = 'button',
   hover = true,
   ...props
-}: ButtonTypes.IButtonProps) => {
+}: IButtonProps) => {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
       if (props.disabled) return;
@@ -45,7 +45,7 @@ const Button = ({
 
 export default Button;
 
-const ButtonStyle = styled.button<ButtonTypes.IButtonProps>`
+const ButtonStyle = styled.button<IButtonProps>`
   // TODO 일반적으로 버튼은 가운데 텍스트가 있어서 가운데 정렬 만약에 변경이 필요하다면 수정
   ${(props) => props.theme.flex?.row.center.center}
   color: ${(props) => props.theme?.colors?.black80};
@@ -102,6 +102,7 @@ ${(props) =>
     `}
         
   padding: ${(props) => props.pd};
+  margin: ${(props) => props.mg};
   border: none;
   border-radius: ${(props) =>
     props.theme.borderRadius?.[props.brR] ||

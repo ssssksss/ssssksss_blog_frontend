@@ -108,6 +108,7 @@ const BlogCategoryContainer = () => {
             key={key}
             minW={'8rem'}
             h={'2.75rem'}
+            mg={"0.25rem 0rem"}
             active={key == store.getState().blogStore.activeFirstCategory}
             outline={true}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
@@ -126,12 +127,12 @@ const BlogCategoryContainer = () => {
         ))}
         {authStore.role == 'ROLE_ADMIN' && (
           <ModalButton
-            modal={<BlogFirstCategoryModal />}
-            modalOverlayVisible={true}
-            modalW={'30rem'}
-            h={'2.75rem'}
-            outline={true}
-            modalBg={"white"}
+          modal={<BlogFirstCategoryModal />}
+          modalOverlayVisible={true}
+          modalW={'30rem'}
+          h={'2.75rem'}
+          outline={true}
+          modalBg={"white"}
           >
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
               <SettingsIcon />
@@ -144,25 +145,26 @@ const BlogCategoryContainer = () => {
         scroll={'hiddenX'}
         gap={8}
         ref={blogSecondCategoryVerticalScrollRef}
-      >
+        >
         {Object.entries(
           blogStore.secondCategoryList[blogStore.activeFirstCategory] || {},
         ).map(([key, value]) => (
           <Button
-            key={key}
-            minW={'8rem'}
-            h={'2rem'}
-            active={key == blogStore.activeSecondCategory}
-            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
-              onClickAdjustHorizontalScroll(
-                e,
-                () => blogSecondCategoryHandler(key),
-                blogSecondCategoryVerticalScrollRef,
-              )
-            }
-            outline={true}
-            outlineColor={'secondary80'}
-            badgeValue={value.count || '0'}
+          key={key}
+          minW={'8rem'}
+          mg={"0.25rem 0rem"}
+          h={'2rem'}
+          active={key == blogStore.activeSecondCategory}
+          onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
+            onClickAdjustHorizontalScroll(
+              e,
+              () => blogSecondCategoryHandler(key),
+              blogSecondCategoryVerticalScrollRef,
+            )
+          }
+          outline={true}
+          outlineColor={'secondary80'}
+          badgeValue={value.count || '0'}
           >
             {value.name}
           </Button>

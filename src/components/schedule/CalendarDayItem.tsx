@@ -40,6 +40,7 @@ type CalendarDayItemType = {
 const CalendarDayItem = (props: CalendarDayItemType) => {
   return (
     <Container
+    modalBg={"primary40"}
       modal={
         <ScheduleModal
           data={{

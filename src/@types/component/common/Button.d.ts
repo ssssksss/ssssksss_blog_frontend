@@ -12,6 +12,7 @@ import { ReactNode } from 'react';
     minH?: string;
     bg?: Partial<colorTypes | themeTypes> | number;
     brR?: string; // border-radius
+    mg?: string;
     pd?: string;
     color?: Partial<colorTypes | themeTypes>;
     outline?: boolean | string | number;

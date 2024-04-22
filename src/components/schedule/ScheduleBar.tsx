@@ -53,6 +53,7 @@ const ScheduleBar = (props: {
         event.stopPropagation();
       }}
       activeModal={activeModal}
+      modalBg={'primary40'}
       modal={
         <ScheduleModal data={props.data} methodType={'month'} edit={true} />
       }

@@ -10,7 +10,7 @@ import { store } from '@redux/store';
 import { SET_TODAY_SCHEDULE_LIST } from '@redux/store/schedule';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
-import { Time } from '@utils/function/timeFunction';
+import { timeFunction } from '@utils/function/timeFunction';
 import { addDays } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
@@ -85,8 +85,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
     ScheduleAPI.addSchedule({
       title: scheduleTitleRef.current.value,
       content: scheduleContentRef.current.value,
-      startDateTime: Time.jsDateTypeAddDays(state[0].startDate, 1),
-      endDateTime: Time.jsDateTypeAddDays(state[0].endDate, 1),
+      startDateTime: timeFunction.jsDateTypeAddDays(state[0].startDate, 1),
+      endDateTime: timeFunction.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
     }).then((res: unknown) => {
       const scheduleData = res.json.schedule;
@@ -179,8 +179,8 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       id: props.data.id,
       title: scheduleTitleRef.current.value,
       content: scheduleContentRef.current.value,
-      startDateTime: Time.jsDateTypeAddDays(state[0].startDate, 1),
-      endDateTime: Time.jsDateTypeAddDays(state[0].endDate, 1),
+      startDateTime: timeFunction.jsDateTypeAddDays(state[0].startDate, 1),
+      endDateTime: timeFunction.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
     }).then((res: unknown) => {
       const scheduleData = res.json.schedule;
@@ -375,7 +375,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             w={'100%'}
             bg={'red60'}
             outline={true}
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent) => {
               deleteScheduleHandler();
               e.stopPropagation();
             }}
@@ -386,7 +386,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       ) : (
         <Button
           w={'100%'}
-          onClick={(e) => {
+          onClick={(e: React.MouseEvent) => {
             createScheduleHandler();
             e.stopPropagation();
           }}
@@ -406,7 +406,6 @@ const Container = styled(CC.ColumnBetweenDiv)`
   padding: 0.5rem;
   color: ${(props) => props.theme.colors.black80};
   overflow: scroll;
-  background: ${(props) => props.theme.main.primary40};
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   font-size: 1.4rem;
   min-height: 26rem;

@@ -1,6 +1,7 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
@@ -8,13 +9,11 @@ import { CC } from '@styles/commonComponentStyle';
 import { createCalendar } from '@utils/function/schedule/createCalendar';
 import { scheduleSort } from '@utils/function/schedule/scheduleSort';
 import { timeFunction } from '@utils/function/timeFunction';
-import Image from 'next/image';
 import { memo, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import CalendarDayItem from './CalendarDayItem';
 import ScheduleSideContainer from './ScheduleSideContainer';
-
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ScheduleContainer.tsx
@@ -170,14 +169,18 @@ const ScheduleContainer = () => {
   return (
     <Container>
       <ScheduleSideContainer />
-      <CC.ColumnDiv>
+      <CC.ColumnDiv h={"100%"}>
         <HeaderContainer>
           <MemoizedLeftButton onClick={movePreviousMonth} type="button">
-            <Image src={Icons.LeftArrowIcon} />
+            <CC.ImgContainer w={'2.25rem'} h={'2.25rem'}>
+              <ArrowLeftIcon />
+            </CC.ImgContainer>
           </MemoizedLeftButton>
           {scheduleStore.calendarYear}년 {scheduleStore.calendarMonth + 1}월
           <MemoizedRightButton onClick={moveNextMonth} type="button">
-            <Image src={Icons.RightArrowIcon} />
+            <CC.ImgContainer w={'2.25rem'} h={'2.25rem'}>
+              <ArrowRightIcon />
+            </CC.ImgContainer>
           </MemoizedRightButton>
         </HeaderContainer>
         <MainContainer>
@@ -219,30 +222,41 @@ const ScheduleContainer = () => {
 };
 export default ScheduleContainer;
 
-const Container = styled.div<{ active: boolean }>`
-  position: relative;
+const Container = styled.div<{ active?: boolean }>`
   height: 100%;
   @media (pointer: coarse) {
     font-size: 1.2rem;
   }
   @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
     display: grid;
-    grid-template-columns: 16rem auto;
+    grid-template-columns: 12rem auto;
   }
 `;
-const MainContainer = styled.div`
-  width: 100%;
-`;
 
-const CalendarContainer = styled.div``;
+const CalendarContainer = styled.div`
+  height: calc(100% - 1rem);
+`;
 
 const DayOfTheWeekHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-`;
+  `;
 const HeaderContainer = styled(CC.RowCenterDiv.withComponent('header'))`
-  height: 3.2rem;
-`;
+  height: 3rem;
+  align-items: center;
+  padding: 0.5rem;
+  button {
+    outline: solid black 1px;
+    outline-offset: -1px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  `;
+  const MainContainer = styled.div`
+    width: 100%;
+    height: calc(100% - 4rem);
+  `;
 const DayOfTheWeekItem = styled.div`
   /* 일월화수목금토일 */
   text-align: center;
@@ -259,13 +273,17 @@ const DayItemContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  height: 100vh;
+  height: 100%;
   ${(props) => props.theme.scroll.hidden};
 `;
 const LeftButton = styled.button`
   margin-right: 2rem;
+  width: 2rem;
+  height: 2rem;
 `;
 const RightButton = styled.button`
   margin-left: 2rem;
+  width: 2rem;
+  height: 2rem;
 `;
 // 월화수목금토일 스타일

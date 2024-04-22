@@ -119,6 +119,10 @@ const UpdateScheduleCategoryBox = (props: IUpdateScheduleCategoryBoxProps) => {
           <CC.ColumnDiv gap={8}>
             <Input
               placeholder={'변경할 카테고리명을 작성해주세요'}
+              outline={1}
+              bg={'white20'}
+              pd={'0 0 0 0.5rem'}
+              h={'2.25rem'}
               outline={true}
               // defaultValue={methods.getValues('updatePickScheduleName')}
               register={methods.register('updateScheduleTitle')}

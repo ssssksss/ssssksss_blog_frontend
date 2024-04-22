@@ -41,7 +41,7 @@ const ViewBlogContainer = (props: IProps) => {
     content: string;
     top: number;
     tagName: string;
-  }>([]);
+  }[]>([]);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -90,7 +90,11 @@ const ViewBlogContainer = (props: IProps) => {
     const temp = document
       ?.getElementsByClassName('wmde-markdown')[0]
       ?.querySelectorAll('h1,h2');
-    const htmlTagIndexTempArray = [];
+    const htmlTagIndexTempArray: {
+    content: string;
+    top: number;
+    tagName: string;
+  }[] = [];
     temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,
@@ -109,7 +113,7 @@ const ViewBlogContainer = (props: IProps) => {
       <ViewBlogFixContainer {...props} />
       <ViewBlogIndexContainer {...props} blogIndexList={blogIndexList} />
       <ViewBlogHeaderContainer {...props} />
-      <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
+      <ViewerContainer icon={Icons.PlayIcon}>
         <Editor
           highlightEnable={false}
           value={props.content}

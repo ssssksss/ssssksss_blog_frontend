@@ -32,9 +32,10 @@ const ScheduleSideContainer = () => {
         {authStore.id && (
           <ModalButton
             color={'primary80'}
-            modalW={'90vw'}
-            modalH={'90vh'}
+            modalW={'calc(100vw - 1rem)'}
+            modalH={'auto'}
             modalMaxW={'60rem'}
+            modalBg={"white20"}
             modalOverlayVisible={true}
             w={'1.6rem'}
             h={'1.6rem'}
@@ -61,14 +62,17 @@ export default memo(ScheduleSideContainer);
 
 const Container = styled(CC.ColumnDiv.withComponent('article'))`
   position: relative;
+  height: 100%;
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    top: 0.1rem;
-    left: 0.1rem;
+    top: 0;
+    left: 0;
     position: absolute;
-    background: ${(props) => props.theme.main.contrast};
+    height: auto;
   }
-  outline: solid ${(props) => props.theme.main.primary40} 0.1rem;
-  outline-offset: -0.1rem;
+  font-size: 1rem;
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+    font-size: 0.75rem;
+  }
 `;
 const CategoryBox = styled.div`
   cursor: pointer;
@@ -91,7 +95,6 @@ const CategorySideTitle = styled.div<{ isOpen: boolean }>`
 
 const CategoryListContainer = styled(CC.ColumnDiv)`
   width: 100%;
-  height: 100%;
   top: 2.4rem;
   display: flex;
   position: absolute;
