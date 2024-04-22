@@ -123,7 +123,6 @@ const UpdateScheduleCategoryBox = (props: IUpdateScheduleCategoryBoxProps) => {
               bg={'white20'}
               pd={'0 0 0 0.5rem'}
               h={'2.25rem'}
-              outline={true}
               // defaultValue={methods.getValues('updatePickScheduleName')}
               register={methods.register('updateScheduleTitle')}
             />

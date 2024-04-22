@@ -363,7 +363,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           <Button
             w={'100%'}
             bg={'white80'}
-            onClick={(e) => {
+            onClick={(e: MouseEvent) => {
               updateScheduleHandler();
               e.stopPropagation();
             }}
