@@ -119,15 +119,15 @@ const CreateUpdateBlogContainer = (
       setTimeout(() => {
         // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
         const _blogContentImageList = [];
-        let index2 = 0;
+        let indexPivot = 0; // 처음부터 끝까지 이동하면서 어디까지 읽었는지를 판단
         const _TRUE = true;
         if (!props.edit) return;
         while (_TRUE) {
-          const index1 = props.content.indexOf(AWSS3Prefix, index2);
-          if (index1 === -1) break;
-          index2 = props.content.indexOf('.', index1 + AWSS3Prefix.length);
+          const index1 = props.content.indexOf(AWSS3Prefix, indexPivot); // 이미지 경로라고 판단(서버이미지경로, 시작위치)
+          if (index1 === -1) break; // 더 이상 없으면 탈출
+          indexPivot = props.content.indexOf('.', index1 + AWSS3Prefix.length); // .png, .jpg, .svg 등에서 걸리는 .을 말함
           _blogContentImageList.push(
-            props.content.substring(index1 + AWSS3Prefix.length, index2 + 4),
+            props.content.substring(index1 + AWSS3Prefix.length, indexPivot + 4),
           );
         }
         setBlogContentImageList(_blogContentImageList);
@@ -181,8 +181,7 @@ const CreateUpdateBlogContainer = (
     const imageFileList = [];
     const deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
-    // ObjectURL로 작업을 해서 실제 이미지로 저장하기 위해서 이미지들의 경로를 모으는 중이다.
-    // TODO 똑같은 경로의 이미지들은 어떻게 처리를 해야할지 고민.... (나중에 테스트 해보기)
+    // 미리보기 이미지에서 실제 이미지로 저장하기 위해서 이미지들의 경로를 탐색
     tempBlogImage.map((i) => {
       if (methods.getValues('content').search(i.url) != -1) {
         imageUrlList.push(i.url);
@@ -190,6 +189,7 @@ const CreateUpdateBlogContainer = (
       }
     });
 
+    // 이전 이미지에서 삭제할 이미지가 있나 탐색
     if (props.edit) {
       blogContentImageList?.map((i) => {
         if (methods.getValues('content').search(i) === -1) {
@@ -198,6 +198,7 @@ const CreateUpdateBlogContainer = (
       });
     }
 
+    // 미리보기가 안보여 바꾼 텍스트를 다시 원래대로 전환
     methods.setValue(
       'content',
       StringFunction.replaceAll(
@@ -383,6 +384,40 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     height: 100%;
   }
   .w-md-editor-preview {
+    h1 {
+      font-weight: 800;
+      outline: solid ${(props) => props.theme.main.primary80} 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-size: 2rem;
+      font-family: ${props=>props.theme.fontFamily.gmarketSansBold}; 
+    }
+    
+    h2 {
+      border: none;
+      outline: solid ${(props) => props.theme.main.secondary80} 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-weight: 800;
+      font-size: 1.8rem;
+      font-family: ${props=>props.theme.fontFamily.cookieRunRegular}; 
+    }
+    
+    h3 {
+      border: none;
+      outline: solid #dedede 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-size: 1.6rem;
+      font-family: ${props=>props.theme.fontFamily.yanoljaYacheBold}; 
+    }
+
     pre {
       outline: solid ${(props) => props.theme.main.primary80} 0.1rem;
       border-radius: 1rem;
@@ -414,19 +449,20 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     }
     code {
       font-size: 1rem;
+      font-weight: 800;
       background: #1488cc; /* fallback for old browsers */
-      background: -webkit-linear-gradient(
+      background: ${(props) => `-webkit-linear-gradient(
         to right,
-        #2b32b2,
-        #1488cc
-      ); /* Chrome 10-25, Safari 5.1-6 */
-      background: linear-gradient(
+        ${props.theme.main.primary100},
+        ${props.theme.main.secondary100}
+      )`}; /* Chrome 10-25, Safari 5.1-6 */
+      background: ${(props) => `linear-gradient(
         to right,
-        #2b32b2,
-        #1488cc
-      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        ${props.theme.main.primary100},
+        ${props.theme.main.secondary100}
+      )`}; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       color: white;
-      padding: 2px;
+      padding: 0.25rem;
     }
     pre {
       code {
@@ -437,6 +473,11 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
         color: black;
       }
     }
+  }
+  .wmde-markdown {
+    display: flex;
+    flex-flow: nowrap column;
+    line-height: 2rem;
   }
   .w-md-editor-input {
   }

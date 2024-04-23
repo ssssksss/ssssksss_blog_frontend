@@ -34,7 +34,8 @@ export const useQueryHook = (
       url: string;
       method: string;
       params?: object;
-      header?: object;
+      headers?: object;
+      withCredentials?: boolean;
     };
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;

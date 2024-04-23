@@ -3,17 +3,21 @@ import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import authAction, { SET_USER_INFO } from '@redux/store/auth/actions';
+import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import { useSelector } from 'react-redux';
 
 const getUser = () => {
+  const authStore = useSelector((state: RootState) => state.authStore);
   return useQueryHook({
     queryKey: ['authUserInfo'],
     requestData: {
       url: '/api/user',
       method: 'GET',
-      // headers: {
-      //   Authorization: `Bearer ${data.data.accessToken}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${authStore.accessToken}`,
+      },
+      withCredentials: true,
     },
     isRefetchWindowFocus: false,
     isShowMessage: false,
@@ -39,6 +43,8 @@ const signInUser = () => {
     return await AxiosInstance.put('/api/user', {
       email: reqData?.email,
       password: reqData?.password,
+    },{
+      withCredentials: true,
     });
   };
 

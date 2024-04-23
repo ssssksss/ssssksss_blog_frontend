@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
 const addScheduleCategory = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/category',
     method: 'POST',
@@ -25,6 +26,7 @@ const getScheduleCategoryList = () => {
     requestData: {
       url: '/api/schedule/category',
       method: 'GET',
+      withCredentials: true,
     },
     isRefetchWindowFocus: false,
     refetchOnMount: false,
@@ -34,11 +36,15 @@ const getScheduleCategoryList = () => {
 
 const updateScheduleCategory = (props) => {
   const mutationFn = async (reqData) => {
-    return await AxiosInstance.put('/api/schedule/category', {
-      id: reqData.id,
-      name: reqData.name,
-      backgroundColor: reqData.backgroundColor,
-    }).catch(() => {
+    return await AxiosInstance.put(
+      '/api/schedule/category',
+      {
+        id: reqData.id,
+        name: reqData.name,
+        backgroundColor: reqData.backgroundColor,
+      },
+      { withCredentials: true },
+    ).catch(() => {
       return;
     });
   };
@@ -55,6 +61,7 @@ const deleteScheduleCategory = (props) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/schedule/category?id=${reqData.id}`,
+      { withCredentials: true },
     ).catch(() => {
       return;
     });
@@ -68,6 +75,7 @@ const deleteScheduleCategory = (props) => {
 };
 
 const addSchedule = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
     method: 'POST',
@@ -93,6 +101,7 @@ const getScheduleList = (props) => {
       params: {
         type: props.type,
       },
+            withCredentials: true,
     },
     isRefetchWindowFocus: false,
     onSuccessHandler: () => {},
@@ -113,6 +122,7 @@ const getScheduleListTEST = (props) => {
     requestData: {
       url: `/api/schedule?type=${props.type}&startDateTime=${scheduleStore.calendar.startDateOfMonth}T00:00:00.000Z&endDateTime=${scheduleStore.calendar.endDateOfMonth}T00:00:00.000Z`,
       method: 'GET',
+            withCredentials: true,
     },
     isRefetchWindowFocus: false,
     enabled: [startDateTime, endDateTime, type, authStore.id],
@@ -120,6 +130,7 @@ const getScheduleListTEST = (props) => {
 };
 
 const updateSchedule = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
     method: 'PUT',
@@ -137,6 +148,7 @@ const updateSchedule = (props) => {
 };
 
 const deleteSchedule = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
     method: 'DELETE',
@@ -149,6 +161,7 @@ const deleteSchedule = (props) => {
 };
 
 const toggleCheckSchedule = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/check',
     method: 'PATCH',
@@ -160,6 +173,7 @@ const toggleCheckSchedule = (props) => {
 };
 
 const toggleCheckScheduleCategory = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/category/check',
     method: 'PATCH',

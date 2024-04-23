@@ -11,7 +11,7 @@ export const SET_MEMO_LIST = (payload: []) => {
 
 export const SET_MEMO_CATEGORY_LIST = (payload: []) => {
   return {
-    type: 'MEMO_CATEGORY_LIST',
+    type: 'SET_MEMO_CATEGORY_LIST',
     payload: payload,
   };
 };

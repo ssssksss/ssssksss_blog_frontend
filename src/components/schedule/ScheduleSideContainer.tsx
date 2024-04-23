@@ -34,7 +34,7 @@ const ScheduleSideContainer = () => {
             color={'primary80'}
             modalW={'calc(100vw - 1rem)'}
             modalH={'auto'}
-            modalMaxW={'60rem'}
+            modalMaxW={'30rem'}
             modalBg={"white20"}
             modalOverlayVisible={true}
             w={'1.6rem'}

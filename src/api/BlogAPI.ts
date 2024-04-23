@@ -69,9 +69,13 @@ const getBlogList = () => {
 // TODO
 const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData: ICreateFirstCategoryHandlerProps) => {
-    return await AxiosInstance.post('/api/blog-first-category', {
-      name: reqData.name,
-    });
+    return await AxiosInstance.post(
+      '/api/blog-first-category',
+      {
+        name: reqData.name,
+      },
+      { withCredentials: true },
+    );
   };
 
   return useMutationHook({
@@ -104,10 +108,14 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
 
 const updateBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData: { id: number; name: string }) => {
-    return await AxiosInstance.put('/api/blog-first-category', {
-      id: reqData.id,
-      name: reqData.name,
-    });
+    return await AxiosInstance.put(
+      '/api/blog-first-category',
+      {
+        id: reqData.id,
+        name: reqData.name,
+      },
+      { withCredentials: true },
+    );
   };
 
   return useMutationHook({
@@ -130,6 +138,7 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/blog-first-category?id=${reqData?.id}`,
+      { withCredentials: true },
     ).catch(() => {
       return;
     });
@@ -209,6 +218,7 @@ const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
         'Access-Control-Allow-Origin': '*',
       },
       data: formData,
+      withCredentials: true,
     });
   };
 
@@ -297,6 +307,7 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
       params: {
         id: reqData.id,
       },
+      withCredentials: true, 
     });
   };
 
@@ -334,7 +345,7 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
   });
 };
 
-const createBlog = (props: string) => {
+const createBlog = (props: { onSuccessHandler: () => void}) => {
   const router = useRouter();
   const mutationFn = async (reqData) => {
     const formData = new FormData();
@@ -346,15 +357,18 @@ const createBlog = (props: string) => {
     formData.append('thumbnailImageFile', reqData.thumbnailImageFile);
     formData.append('directory', reqData.directory);
 
-    reqData.imageUrlList?.map((i) => {
+    // ? imageUrlList와 imageFileList를 하나의 단위로 묶고서 map이 아닌 promise로 처리해버리면 속도가 빨라지지 않을까?
+    reqData.imageUrlList?.map((i: string) => {
       formData.append('imageUrlList', i);
     });
 
-    reqData.imageFileList?.map((i) => {
+    reqData.imageFileList?.map((i: File) => {
       formData.append('imageFileList', i);
     });
 
-    return await AxiosInstance.post('/api/blog', formData);
+    return await AxiosInstance.post('/api/blog', formData, {
+      withCredentials: true,
+    });
   };
 
   return useMutationHook({
@@ -394,7 +408,9 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
       formData.append('imageFileList', i);
     });
 
-    return await AxiosInstance.put('/api/blog', formData).then(async (res) => {
+    return await AxiosInstance.put('/api/blog', formData, {
+      withCredentials: true,
+    }).then(async (res) => {
       return res;
     });
   };
@@ -423,12 +439,14 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
 };
 
 const deleteBlog = async (props: { id: string }) => {
+  // TODO: API 수정
   return await ApiProcessHandler({
     url: '/api/blog',
     method: 'DELETE',
     params: {
       id: props.id,
     },
+    withCredentials: true
   });
 };
 
@@ -497,6 +515,7 @@ const addBlogContentTemplate = async (props: string) => {
     },
     apiCategory: '블로그 템플릿',
     isShowMessage: true,
+    withCredentials: true
   });
 };
 
@@ -512,6 +531,7 @@ const getBlogContentTemplate = async (props: string) => {
 };
 
 const deleteBlogContentTemplate = async (props: string) => {
+  // TODO API 수정 필요, 현재 사용은 안되고 있음
   return await ApiProcessHandler({
     url: '/api/blog/template',
     method: 'DELETE',

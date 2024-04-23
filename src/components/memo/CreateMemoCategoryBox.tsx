@@ -4,12 +4,8 @@ import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { MemoCreateYup } from '@components/yup/MemoYup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { store } from '@redux/store';
-import { SET_MEMO_CATEGORY_LIST } from '@redux/store/memo';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AddMemoBox.tsx
@@ -33,7 +29,6 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     'gray40',
   ];
 
-  const memoStore = useSelector((state: RootState) => state.memoStore);
   const { handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(MemoCreateYup),
     mode: 'onChange',
@@ -42,7 +37,9 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
       createMemoCategoryColor: '',
     },
   });
-  const { errors } = formState;
+  const createMemoCategoryMutation = MemoAPI.createMemoCategory({
+    onSuccessHandler: () => { props.closeModal() }
+  });
   const onClickErrorSubmit = () => {
     alert('잘못 입력된 값이 존재합니다.');
   };
@@ -53,22 +50,26 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     });
   };
 
-  const addMemoCategoryHandler = (data: {
+  const createMemoCategoryHandler = (data: {
     createMemoCategoryColor: string;
     createMemoCategoryName: string;
   }) => {
     if (!data.createMemoCategoryColor || !data.createMemoCategoryName) return;
-    MemoAPI.addMemoCategory({
-      name: data.createMemoCategoryName,
-      backgroundColor: data.createMemoCategoryColor,
-    }).then((res: unknown) => {
-      store.dispatch(
-        SET_MEMO_CATEGORY_LIST([
-          ...memoStore.memoCategoryList,
-          res.json.memoCategory,
-        ]),
-      );
-      props.closeModal();
+    // MemoAPI.createMemoCategory({
+    //   name: data.createMemoCategoryName,
+    //   backgroundColor: data.createMemoCategoryColor,
+    // }).then((res: unknown) => {
+    //   store.dispatch(
+    //     SET_MEMO_CATEGORY_LIST([
+    //       ...memoStore.memoCategoryList,
+    //       res.json.memoCategory,
+    //     ]),
+    //   );
+    //   props.closeModal();
+    // });
+    createMemoCategoryMutation({
+        name: data.createMemoCategoryName,
+        backgroundColor: data.createMemoCategoryColor,
     });
   };
 
@@ -88,7 +89,7 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
               shouldValidate: true,
             })
           }
-          errorMessage={errors.createMemoCategoryName?.message}
+          errorMessage={formState.errors.createMemoCategoryName?.message}
         />
         <Select
           w={'100%'}
@@ -106,7 +107,7 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
           w={'100%'}
           outline={true}
           onClickCapture={handleSubmit(
-            addMemoCategoryHandler,
+            createMemoCategoryHandler,
             onClickErrorSubmit,
           )}
           disabled={!formState.isValid}

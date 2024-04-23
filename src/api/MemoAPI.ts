@@ -1,29 +1,67 @@
+import { useMutationHook } from '@hooks/useMutationHook';
+import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import AxiosInstance from '@utils/axios/AxiosInstance';
+import { useQueryClient } from 'react-query';
+import { ICreateMemoCategoryProps, IMemoCommonProps } from 'src/@types/api/memo/MemoAPI';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
-const addMemoCategory = (props) => {
-  return ApiProcessHandler({
-    url: '/api/memo/category',
-    method: 'POST',
-    data: {
-      name: props.name,
-      backgroundColor: props.backgroundColor,
+const createMemoCategory = (props?: IMemoCommonProps) => {
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData: ICreateMemoCategoryProps) => {
+    return await AxiosInstance.post(
+      '/api/memo/category',
+      {
+        name: reqData.name,
+        backgroundColor: reqData.backgroundColor,
+      },
+      {
+        withCredentials: true,
+      },
+    ).catch(() => {
+      return;
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ data }) => {
+      store.dispatch(
+        rootActions.memoStore.SET_MEMO_CATEGORY_LIST(
+          data.data.json.memoCategory,
+        ),
+      );
+      queryClient.setQueryData(['memoCategory'], ((oldData: []) => {
+        return [...oldData, data.data.json.memoCategory];
+      }))
+      props.onSuccessHandler();
     },
-    apiCategory: '할일 카테고리',
-    isShowMessage: true,
+    // onErrorHandler: ({ error, variables, context }) => {},
+    // onSettledHandler: ({ data, error, variables, context }) => {},
   });
 };
 
 const getMemoCategoryList = () => {
-  return ApiProcessHandler({
-    url: '/api/memo/category',
-    method: 'GET',
-    apiCategory: '할일 카테고리',
-  });
+  // return ApiProcessHandler({
+  //   url: '/api/memo/category',
+  //   method: 'GET',
+  //   apiCategory: '할일 카테고리',
+  // });
+
+  // // =========================
+    return useQueryHook({
+      queryKey: ['memoCategory'],
+      requestData: {
+        url: '/api/memo/category',
+        method: 'GET',
+      },
+      isRefetchWindowFocus: false,
+    });
 };
 
 const updateMemoCategory = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'PUT',
@@ -35,9 +73,11 @@ const updateMemoCategory = (props) => {
     },
     isShowMessage: true,
   });
+
 };
 
 const deleteMemoCategory = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/memo/category',
     method: 'DELETE',
@@ -50,6 +90,7 @@ const deleteMemoCategory = (props) => {
 };
 
 const addMemo = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'POST',
@@ -74,6 +115,7 @@ const getMemoList = (props) => {
 };
 
 const updateMemo = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'PUT',
@@ -87,6 +129,7 @@ const updateMemo = (props) => {
 };
 
 const deleteMemo = (props) => {
+  // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/memo',
     method: 'DELETE',
@@ -105,7 +148,7 @@ const deleteMemo = (props) => {
 };
 
 export const MemoAPI = {
-  addMemoCategory,
+  createMemoCategory,
   getMemoCategoryList,
   updateMemoCategory,
   deleteMemoCategory,

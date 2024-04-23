@@ -44,6 +44,7 @@ const TopBar = () => {
       await AxiosInstance({
         url: '/api/user',
         method: 'DELETE',
+        withCredentials: true,
       })
         .then(() => {
           store.dispatch(

@@ -154,23 +154,26 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
           placeholder="제목을 입력해주세요"
           initialValue={getValues('title')}
           register={register('title')}
-        />
+          pd={"0 0 0 0.5rem"}
+          outline={1}
+          h={"2.75rem"}
+          />
         <Description
           placeholder="간단한 설명을 입력해주세요"
           initialValue={getValues('description')}
           register={register('description')}
+          pd={"0 0 0 0.5rem"}
+          outline={1}
+          h={"2.75rem"}
         />
-        <CC.ColumnCenterDiv gap={4} pd={'0.4rem 0rem'}>
+        <CC.ColumnCenterDiv gap={8}>
           <Input
             type="file"
             id="imageUpload"
             h={'20rem'}
-            // ref={fileRef}
-            bg={'contrast'}
-            outline={'black80'}
+            outline={1}
             register={register('thumbnailImageFile')}
             setValue={setValue}
-            trigger={trigger}
             defaultImageUrl={getValues('thumbnailImageUrl')}
           />
         </CC.ColumnCenterDiv>
@@ -195,10 +198,13 @@ const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
   top: 2.4rem;
   visibility: ${(props) => (props.isHide ? 'hidden' : 'visible')};
   height: ${(props) =>
-    props.isHide ? '0rem' : `min(34rem, calc(100vh - 7.6rem))`};
-  gap: 0.4rem;
-  background: ${(props) => props.theme.colors.gray60};
-  padding: 0.4rem;
+  props.isHide ? '0rem' : `min-content`};
+  gap: 0.5rem;
+  background: ${(props) => props.theme.main.contrast};
+  outline: solid black 1px;
+  outline-offset: -1px;
+  border-radius: 0.5rem;
+  padding: 1rem;
   z-index: 6;
   position: absolute;
   overflow: scroll;
@@ -213,37 +219,17 @@ const HideContainer = styled(CC.ColumnDiv)<{ isHide: boolean }>`
 `;
 
 const Title = styled(Input)`
-  --font-size: 1.2rem;
   width: 100%;
-  height: 2.4rem;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
   color: ${(props) => props.theme.colors.black80};
   z-index: 3;
-  border: none;
-  font-size: var(--font-size);
-  outline: solid black 0.1rem;
 
-  &::placeholder {
-    font-size: var(--font-size);
-    color: ${(props) => props.theme.colors.black40};
-  }
 `;
 
 const Description = styled(Input)`
-  --font-size: 1.2rem;
   width: 100%;
   font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
-  font-size: var(--font-size);
   color: ${(props) => props.theme.colors.black60};
-  border: none;
-  z-index: 2;
-  border-radius: 0.8rem;
-  outline: solid black 0.1rem;
-
-  &::placeholder {
-    font-size: var(--font-size);
-    color: ${(props) => props.theme.colors.black40};
-  }
 
   @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
     font-size: 1rem;

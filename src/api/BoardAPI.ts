@@ -66,7 +66,9 @@ const getBoard = (props?: {
 const deleteBoard = () => {
   const router = useRouter();
   const mutationFn = async (reqData) => {
-    return await AxiosInstance.delete(`/api/board?id=${reqData.id}`);
+    return await AxiosInstance.delete(`/api/board?id=${reqData.id}`, {
+      withCredentials: true,
+    });
   };
 
   return useMutationHook({
@@ -80,11 +82,15 @@ const deleteBoard = () => {
 const createBoard = () => {
   const router = useRouter();
   const mutationFn = async (reqData: ICreateBoardProps) => {
-    return await AxiosInstance.post('/api/board', {
-      title: reqData?.title,
-      content: reqData?.content,
-      writer: reqData?.writer,
-    });
+    return await AxiosInstance.post(
+      '/api/board',
+      {
+        title: reqData?.title,
+        content: reqData?.content,
+        writer: reqData?.writer,
+      },
+      { withCredentials: true },
+    );
   };
 
   return useMutationHook({
@@ -100,11 +106,15 @@ const createBoard = () => {
 const updateBoard = () => {
   const router = useRouter();
   const mutationFn = async (reqData: IUpdateBoardProps) => {
-    return await AxiosInstance.put('/api/board', {
-      id: reqData.id,
-      title: reqData.title,
-      content: reqData.content,
-    }).catch(() => {
+    return await AxiosInstance.put(
+      '/api/board',
+      {
+        id: reqData.id,
+        title: reqData.title,
+        content: reqData.content,
+      },
+      { withCredentials: true },
+    ).catch(() => {
       return;
     });
   };

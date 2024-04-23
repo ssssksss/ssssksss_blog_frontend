@@ -16,7 +16,8 @@ const AxiosInstance = axios.create({
   },
   // 프론트 엔드에서 withCredentials을 해주지 않는다면 이거를 설정해두면 cookie가 계속 보내진다...
   // 쿠키가 저장이 되지 않는다. 그리고 백엔드에서도 withCredentials을 true로 설정을 해주어야한다.
-  withCredentials: true,
+  // 쿠키를 받아올때도 있어야 한다.
+  // withCredentials: true,
 });
 
 // const setApiUserInfo = async () => {
@@ -72,6 +73,7 @@ AxiosInstance.interceptors.response.use(
       AxiosInstance({
         url: '/api/user/accessToken',
         method: 'GET',
+        withCredentials: true,
       })
         .then(async (res) => {
           store.dispatch(
@@ -92,6 +94,7 @@ AxiosInstance.interceptors.response.use(
       AxiosInstance({
         url: '/api/auth/user',
         method: 'GET',
+        withCredentials: true,
       })
         .then(() => {
           if (store.getState().authStore.accessToken !== '') {

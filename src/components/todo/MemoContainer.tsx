@@ -6,7 +6,7 @@ import { Icons } from '@components/common/icons/Icons';
 import MemoCategoryModal from '@components/memo/modal/MemoCategoryModal';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
-import { SET_MEMO_CATEGORY_LIST, SET_MEMO_LIST } from '@redux/store/memo';
+import { SET_MEMO_LIST } from '@redux/store/memo';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
@@ -28,7 +28,8 @@ const MemoContainer = () => {
     categoryId: '',
     isShowMessage: true,
   });
-
+  const memoCategoryResData = MemoAPI.getMemoCategoryList();
+  console.log('MemoContainer.tsx 파일 : ', memoCategoryResData);
   // const memoCategoryListQueryResData = MemoAPI.getMemoCategoryList();
   // const memoListQueryResData = MemoAPI.getMemoList({
   //   type: 'all',
@@ -36,9 +37,9 @@ const MemoContainer = () => {
 
   useEffect(() => {
     if (!authStore.id) return;
-    MemoAPI.getMemoCategoryList().then((res: unknown) => {
-      store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
-    });
+    // MemoAPI.getMemoCategoryList().then((res: unknown) => {
+    //   store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
+    // });
 
     MemoAPI.getMemoList({
       type: 'all',
@@ -65,7 +66,7 @@ const MemoContainer = () => {
         >
           ALL
         </Button>
-        {memoStore.memoCategoryList?.map((i) => (
+        {memoCategoryResData?.data?.json?.memoCategoryList?.map((i) => (
           <Button
             key={i.id}
             bg={i.backgroundColor}

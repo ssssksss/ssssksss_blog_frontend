@@ -9,7 +9,8 @@ const createYoutubeLink = (props) => {
     return await AxiosInstance.post('/api/youtube/url', {
       youtubeUrlKeyId: reqData.youtubeUrlKeyId,
       youtubeUrl: reqData?.youtubeUrl,
-    });
+    },
+      { withCredentials: true });
   };
 
   return useMutationHook({
@@ -27,6 +28,7 @@ const getYoutubeLinkList = () => {
     requestData: {
       url: '/api/youtube/url',
       method: 'GET',
+      withCredentials: true
     },
     isRefetchWindowFocus: false,
     onSuccessHandler: () => {},
@@ -34,11 +36,11 @@ const getYoutubeLinkList = () => {
   });
 };
 
-const deleteYoutubeLink = (props) => {
-  const mutationFn = async (reqData) => {
+const deleteYoutubeLink = (props: {onSuccessHandler: () => void}) => {
+  const mutationFn = async (reqData: {id: number}) => {
     return await AxiosInstance.delete(
       `/api/youtube/url?id=${reqData?.id}`,
-      {},
+      { withCredentials: true }
     ).catch(() => {
       return;
     });

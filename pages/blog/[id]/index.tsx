@@ -32,7 +32,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: unknown) {
   const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
-  return { props: res.data.json, revalidate: 3600 };
+  return { props: res.data.json, revalidate: 10 };
 }
 
 const ViewBlogCSR = dynamic(

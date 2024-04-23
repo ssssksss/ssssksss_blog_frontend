@@ -74,11 +74,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   ]);
 
   const createScheduleHandler = () => {
-    if (
-      !scheduleTitleRef.current.value ||
-      !scheduleContentRef.current.value ||
-      !scheduleCategory.id
-    ) {
+    if (disabledCheck) {
       alert('비어있는 공간이 있습니다');
     }
 
@@ -328,7 +324,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               outline={1}
               h={'2.25rem'}
               pd={'0 0 0 0.5rem'}
-              bg={"white80"}
+              bg={'white80'}
             />
           </CC.ColumnStartDiv>
           <CC.ColumnStartDiv h={'100%'} gap={8}>
@@ -390,7 +386,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
             createScheduleHandler();
             e.stopPropagation();
           }}
-          outline={true}
+          outline={1}
           h={'2.75rem'}
         >
           일정 추가

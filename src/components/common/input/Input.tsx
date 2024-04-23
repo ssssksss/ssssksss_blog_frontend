@@ -32,6 +32,7 @@ interface IInputProps {
   outlineColor?: colorTypes;
   placeholder?: string;
   register?: UseFormRegisterReturn<string>;
+  initialValue?: string;
   setValue?: unknown;
   field?: unknown;
   disabled?: boolean;

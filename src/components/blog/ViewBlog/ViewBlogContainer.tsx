@@ -149,10 +149,59 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     display: block;
     position: static;
     height: 100% !important;
-  }
+  }import { Orange20 } from './../../../stories/Button.stories';
+
   .wmde-markdown {
     padding: 0rem 0.2rem;
     ${(props) => props.theme.scroll.hiddenX};
+    display: flex;
+    flex-flow: nowrap column;
+
+    h1 {
+      font-weight: 800;
+      outline: solid ${(props) => props.theme.main.primary80} 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-size: 2rem;
+      font-family: ${props=>props.theme.fontFamily.gmarketSansBold}; 
+    }
+    
+    h2 {
+      border: none;
+      outline: solid ${(props) => props.theme.main.secondary80} 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-weight: 800;
+      font-size: 1.8rem;
+      font-family: ${props=>props.theme.fontFamily.cookieRunRegular}; 
+    }
+    
+    h3 {
+      border: none;
+      outline: solid #dedede 0.25rem;
+      outline-offset: -0.25rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      max-width: max-content;
+      font-size: 1.6rem;
+      font-family: ${props=>props.theme.fontFamily.yanoljaYacheBold}; 
+    }
+    
+    blockquote {
+      font-size: 1.2rem;
+      padding: 0 0 0 0.5rem;
+      border: none;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, 0.075);
+      border-radius: 0.5rem;
+            font-style: italic;
+            
+    }
 
     p:has(img) {
       display: flex;
@@ -160,9 +209,27 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     }
 
     img {
-      max-width: 80rem;
-      max-height: 60rem;
-      outline: solid black 0.1rem;
+      max-width: 40rem;
+      max-height: 30rem;
+      outline: solid black 1px;
+    }
+
+    code:not(:has(&,pre)) {
+      font-size: 1rem;
+      font-weight: 800;
+      background: #1488cc; /* fallback for old browsers */
+      background: ${(props) => `-webkit-linear-gradient(
+        to right,
+        ${props.theme.main.primary100},
+        ${props.theme.main.secondary100}
+      )`}; /* Chrome 10-25, Safari 5.1-6 */
+      background: ${(props) => `linear-gradient(
+        to right,
+        ${props.theme.main.primary100},
+        ${props.theme.main.secondary100}
+      )`}; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      padding: 0.25rem;
+      color: white;
     }
 
     ul,
@@ -202,8 +269,9 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     pre {
       code {
         font-size: 0.8rem;
-        padding: 8px 4px;
+        padding: 0.5rem;
         ${(props) => props.theme.scroll.hiddenX};
+        background: none;
       }
     }
   }

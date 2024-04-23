@@ -6,9 +6,13 @@ import { useQueryClient } from 'react-query';
 const addTodo = (props) => {
   const queryClient = useQueryClient();
   const mutationFn = async (reqData) => {
-    return await AxiosInstance.post('/api/todo', {
-      content: reqData.content,
-    });
+    return await AxiosInstance.post(
+      '/api/todo',
+      {
+        content: reqData.content,
+      },
+      { withCredentials: true },
+    );
   };
 
   return useMutationHook({
@@ -37,10 +41,14 @@ const getTodoList = () => {
 const updateTodo = (props) => {
   const queryClient = useQueryClient();
   const mutationFn = async (reqData: {id: number, content: string}) => {
-    return await AxiosInstance.patch('/api/todo', {
-      id: reqData?.id,
-      content: reqData?.content,
-    });
+    return await AxiosInstance.patch(
+      '/api/todo',
+      {
+        id: reqData?.id,
+        content: reqData?.content,
+      },
+      { withCredentials: true },
+    );
   };
 
   return useMutationHook({
@@ -66,7 +74,9 @@ const updateTodo = (props) => {
 const deleteTodo = (props) => {
   const queryClient = useQueryClient();
   const mutationFn = async (reqData: {id: number}) => {
-    return await AxiosInstance.delete(`/api/todo?id=${reqData?.id}`);
+    return await AxiosInstance.delete(`/api/todo?id=${reqData?.id}`, {
+      withCredentials: true,
+    });
   };
 
   return useMutationHook({
@@ -85,9 +95,13 @@ const deleteTodo = (props) => {
 
 const toggleCheckTodo = (props) => {
   const mutationFn = async (reqData) => {
-    return await AxiosInstance.patch('/api/todo/check', {
-      id: reqData?.id,
-    }).catch(() => {
+    return await AxiosInstance.patch(
+      '/api/todo/check',
+      {
+        id: reqData?.id,
+      },
+      { withCredentials: true }
+    ).catch(() => {
       return;
     });
   };

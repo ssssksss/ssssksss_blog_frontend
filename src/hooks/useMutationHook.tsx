@@ -1,6 +1,6 @@
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import { useMutation } from 'react-query';
+import { MutationFunction, useMutation } from 'react-query';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -10,10 +10,34 @@ import { useMutation } from 'react-query';
  */
 
 interface IUseMutationHookProps {
-  mutationFn: Promise<void>;
-  onErrorHandler: () => void;
-  onSuccessHandler: () => void;
-  onSettledHandler: () => void;
+  mutationFn: MutationFunction;
+  onErrorHandler?: ({
+    data,
+    variables,
+    context,
+  }: {
+    data: unknown;
+    variables: unknown;
+    context: unknown;
+  }) => void;
+  onSuccessHandler?: ({
+    data,
+    variables,
+    context,
+  }: {
+    data: unknown;
+    variables: unknown;
+    context: unknown;
+  }) => void;
+  onSettledHandler?: ({
+    data,
+    variables,
+    context,
+  }: {
+    data: unknown;
+    variables: unknown;
+    context: unknown;
+  }) => void;
 }
 
 export const useMutationHook = (props: IUseMutationHookProps) => {
