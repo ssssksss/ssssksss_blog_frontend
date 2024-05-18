@@ -3,12 +3,10 @@ import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
-import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import { useEffect, useReducer } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -17,14 +15,11 @@ import { useSelector } from 'react-redux';
  * @description 설명
  */
 const CreateUpdateHeaderContainer = (props: unknown) => {
-  const { register, getValues, setValue, trigger } = useFormContext();
+  const { register, getValues, setValue } = useFormContext();
   const [isHideContainer, hideContainerToggle] = useReducer(
     (v) => !v,
     props.edit ? true : false,
   );
-  const blogStore = useSelector((state: RootState) => state.blogStore);
-  
-
   const onChangeSecondCategoryHandler = async ({
     value,
     name,

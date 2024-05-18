@@ -18,8 +18,8 @@ import { propsType } from 'src/@types/blog';
  * @description 블로그 홈 페이지
  */
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let firstCategoryId = context.query?.firstCategoryId;
-  let secondCategoryId = context.query?.secondCategoryId;
+  const firstCategoryId = context.query?.firstCategoryId;
+  const secondCategoryId = context.query?.secondCategoryId;
   const res = await AxiosInstance.get(
     `/api/blog/category/list?firstCategoryId=${firstCategoryId}&secondCategoryId=${secondCategoryId}`,
   );

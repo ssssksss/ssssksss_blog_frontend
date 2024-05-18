@@ -15,9 +15,7 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-03-19 15:20:19"
  * @description 설명
  */
-const ViewBlogFixContainer = (
-  props: {firstCategoryId: number, secondCategoryId: number}
-) => {
+const ViewBlogFixContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const BACK_URL = `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${blogStore.activeSecondCategory}`;

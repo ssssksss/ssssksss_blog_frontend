@@ -26,7 +26,7 @@ const uploadImage = async () => {
       {
         withCredentials: true,
       },
-    ).catch((error) => {
+    ).catch(() => {
       return;
     });
   };

@@ -67,11 +67,11 @@ const CreateUpdateBlogContainer = (
       await setIsLoading(false);
     },
   });
-  const [blogContentImageList, setBlogContentImageList] = useState([]);
+  const [blogContentImageList, ] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content);
   // const [defaultImageUrl, setDefaultImageUrl] = useState();
-  const [categoryList, setCategoryList] = useState({
+  const [categoryList, ] = useState({
     firstCategoryList: {},
     secondCategoryList: {},
   });
