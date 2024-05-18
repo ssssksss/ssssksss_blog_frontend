@@ -1,4 +1,3 @@
-import { BlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import { IconsSvg } from '@components/common/icons/IconsSvg';
@@ -26,7 +25,6 @@ const BlogMainContainer = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
   const mainContainerRef = useRef<null>();
-  const blogListResData = BlogAPI.getBlogList();
 
   const orderBlogListHandler = (data: unknown) => {
     if (!blogStore.activeFirstCategory || !blogStore.activeSecondCategory)
@@ -58,17 +56,57 @@ const BlogMainContainer = () => {
     };
   }, []);
 
+  const blogComponentList = () => {
+    const temp = JSON.parse(JSON.stringify(blogStore.blogCategoryAndBlogList));
+    let temp1 = [];
+    if (blogStore.blogListOrderOption == 'viewNumber') {
+     temp1 = temp
+      .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+      ?.blogSecondCategoryList.filter(
+        (j) => j.id == blogStore.activeSecondCategory,
+      )[0]
+      ?.blogList.sort((a, b) => b.viewNumber - a.viewNumber);
+    } else {
+      temp1 = temp
+        .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+        ?.blogSecondCategoryList.filter(
+          (j) => j.id == blogStore.activeSecondCategory,
+        )[0]
+        ?.blogList;
+    }
+    return temp1.map((k) => (
+        <Link href={`/blog/${k.id}`} key={`${k.id}`} prefetch={false}>
+          <BlogItem
+            element={k}
+            viewMode={true}
+            defaultImageUrl={
+              blogStore.blogCategoryAndBlogList
+                .filter(
+                  (i) => i.id == blogStore.activeFirstCategory,
+                )[0]
+                ?.blogSecondCategoryList.filter(
+                  (j) => j.id == blogStore.activeSecondCategory,
+                )[0]?.thumbnailImageUrl
+            }
+          ></BlogItem>
+        </Link>
+      ));
+  }
 
-  if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
-  if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
-  
+  // if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
+  // if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
   return (
     <CC.ColLeftStartBox w={'100%'} gap={8}>
       <HeaderContainer outline={1} pd={'0rem 0.5rem'}>
         <Text>
-          검색결과 : {blogListResData.data?.json?.blogList.length || '0'}
+          검색결과 :
+          {blogStore.blogCategoryAndBlogList
+            .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+            ?.blogSecondCategoryList.filter(
+              (j) => j.id == blogStore.activeSecondCategory,
+            )[0]?.blogList.length || '0'}
         </Text>
-        <CC.RowDiv pd={'0.5rem'}>
+        <CC.RowDiv pd={'0.125rem'}>
           <Select
             onChange={orderBlogListHandler}
             defaultValue={{
@@ -78,8 +116,8 @@ const BlogMainContainer = () => {
                   ? '조회수순'
                   : '최신순',
             }}
-            w={'6rem'}
-            h={'1.5rem'}
+            w={'8rem'}
+            h={'2rem'}
             data={[
               { name: '최신순', value: '', bg: '' },
               { name: '조회수순', value: 'viewNumber', bg: '' },
@@ -89,17 +127,7 @@ const BlogMainContainer = () => {
         </CC.RowDiv>
       </HeaderContainer>
       <MainContainer ref={mainContainerRef} outline={1}>
-        {blogListResData.data?.json?.blogList?.map((i, index) => (
-          <Link href={`/blog/${i.id}`} key={`${i.id}${index}`} prefetch={false}>
-            <BlogItem
-              element={i}
-              viewMode={true}
-              defaultImageUrl={
-                blogListResData.data?.json?.blogListDefaultImageUrl
-              }
-            ></BlogItem>
-          </Link>
-        ))}
+            {blogComponentList()}
       </MainContainer>
       <FixedContainer>
         <CC.ColLeftCenterBox bg={'primary20'} pd={'0.4rem'} gap={8}>
@@ -154,7 +182,7 @@ const FixedContainer = styled(CC.ColumnDiv)`
 
   & > div {
     position: fixed;
-    top: 80vh;
+    top: 22rem;
     right: 0px;
   }
 

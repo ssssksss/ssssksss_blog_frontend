@@ -451,14 +451,20 @@ const deleteBlog = async (props: { id: string }) => {
 };
 
 const getSearchBlogList1 = async (keyword: string, page: number) => {
-  return await ApiProcessHandler({
-    url: '/api/blog/search',
-    method: 'GET',
+  // return await ApiProcessHandler({
+  //   url: '/api/blog/search',
+  //   method: 'GET',
+  //   params: {
+  //     keyword: keyword || '',
+  //     page: page || 1,
+  //   },
+  // });
+  return AxiosInstance.get("/api/blog/search", {
     params: {
       keyword: keyword || '',
       page: page || 1,
-    },
-  });
+    }
+  })
 };
 
 const getSearchBlogList = (
@@ -477,13 +483,12 @@ const getSearchBlogList = (
         let temp: unknown[] = [];
         data?.pages.map((i) => {
           const temp1 = [
-            ...i.json.blogList.map((_i) => {
+            ...i.data.data.blogList.map((_i) => {
               return {
                 ..._i,
-                defaultImageUrl:
-                  blogStore.secondCategoryList[_i.firstCategoryId][
-                    _i.secondCategoryId
-                  ].thumbnailImageUrl,
+                defaultImageUrl: blogStore.blogCategoryAndBlogList.filter(
+                  (i) => i.id == _i.firstCategoryId,
+                )[0].blogSecondCategoryList.filter(j=>j.id == _i.secondCategoryId)[0].thumbnailImageUrl,
               };
             }),
           ];
@@ -493,7 +498,8 @@ const getSearchBlogList = (
       },
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
-        return lastPage?.json.blogList?.length < 10 ? undefined : nextPage;
+        return lastPage?.data.data.blogList?.length < 10 ? undefined : nextPage;
+        // return allPages.length > 2 ? undefined : nextPage;
       },
       onSuccess: () => {
         onSuccessHandler();

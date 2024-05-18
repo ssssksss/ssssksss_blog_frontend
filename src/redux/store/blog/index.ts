@@ -17,15 +17,17 @@ type InitialState = {
   activeFirstCategory: string;
   activeSecondCategory: string;
   activeBlogUserId: number | null;
+  blogCategoryAndBlogList: [];
 };
 
 const initialState: InitialState = {
   blogListOrderOption: '',
   firstCategoryList: {},
   secondCategoryList: {},
-  activeFirstCategory: undefined,
-  activeSecondCategory: undefined,
+  activeFirstCategory: null,
+  activeSecondCategory: null,
   activeBlogUserId: null,
+  blogCategoryAndBlogList: []
 };
 
 const blogSlice = createSlice({
@@ -50,6 +52,9 @@ const blogSlice = createSlice({
     setActiveBlogUserId: (state, action) => {
       state.activeBlogUserId = action.payload;
     },
+    setBlogCategoryAndBlogList: (state, action) => {
+      state.blogCategoryAndBlogList = action.payload;
+    }
   },
 });
 export const blogReducer = blogSlice.reducer;

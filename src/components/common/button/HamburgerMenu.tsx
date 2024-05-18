@@ -46,6 +46,9 @@ const Container = styled.button<IContainerProps>`
   padding: 0rem;
   flex-shrink: 0;
   z-index: auto;
+  &:focus-visible {
+    outline: none;
+  }
 
   ${(props) =>
     props.isHideMenu

@@ -51,7 +51,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
         Authorization: `Bearer ${event.detail.accessToken}`,
       },
     }).then((response) => {
-      store.dispatch(rootActions.authStore.SET_USER_INFO(response.data.json.user));
+      store.dispatch(rootActions.authStore.SET_USER_INFO(response.data.data.user));
       store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: "success",
           message: "로그인 성공"

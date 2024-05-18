@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       `/api/blog?id=${context.query.id}`,
     );
     // ! next-redux-wrapper 공부해보기
-    return { props: data?.json };
+    return { props: data?.data };
   }
   return {
     props: undefined,

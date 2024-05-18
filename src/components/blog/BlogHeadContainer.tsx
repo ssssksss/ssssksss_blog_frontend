@@ -49,13 +49,9 @@ const BlogHeadContainer = () => {
   };
 
   return (
-    <CC.RelativeBox w={'100%'} h={'3rem'} outline={1} brR={"0.5rem"}>
+    <CC.RelativeBox w={'100%'} h={'3rem'} outline={1} brR={'0.5rem'}>
       <CC.RelativeBox w={'100%'} h={'100%'}>
-        <CC.RowLeftCenterBox
-          w={'100%'}
-          h={'100%'}
-          pd={'0.125rem 0.5rem'}
-        >
+        <CC.RowLeftCenterBox w={'100%'} h={'100%'} pd={'0.125rem 0.5rem'}>
           <Input
             type="search"
             placeholder="검색어를 입력해주세요"
@@ -88,8 +84,12 @@ const BlogHeadContainer = () => {
             </li>
           ))}
           {hasNextPage || (
-            <CC.RowCenterDiv h={'calc(100vh - 7.5rem)'} bg={'primary40'} brR={'0.8rem'}>
-              {blogListResData?.length == 0
+            <CC.RowCenterDiv
+              h={'calc(100vh - 7.5rem)'}
+              bg={'primary40'}
+              brR={'0.8rem'}
+            >
+              {blogListResData?.length == 0 || blogListResData?.length == undefined
                 ? '결과가 없습니다.'
                 : '마지막 결과 입니다.'}
             </CC.RowCenterDiv>

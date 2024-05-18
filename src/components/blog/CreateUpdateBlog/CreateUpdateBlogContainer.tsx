@@ -10,7 +10,6 @@ import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import StringFunction from '@utils/function/stringFunction';
-import { AWSS3Prefix } from '@utils/variables/url';
 import { useRouter } from 'next/router';
 import React, {
   useCallback,
@@ -96,44 +95,44 @@ const CreateUpdateBlogContainer = (
     },
   });
 
-  BlogAPI.getBlogCategoryList({
-    onSuccessHandler: (data) => {
-      setCategoryList({
-        firstCategoryList: data.json.firstCategoryList,
-        secondCategoryList: data.json.secondCategoryList,
-      });
-      methods.setValue('selectFirstCategoryId', props.firstCategoryId);
-      methods.setValue('selectSecondCategoryId', props.secondCategoryId);
-      methods.setValue('selectFirstCategoryName', props.blogFirstCategoryName);
-      methods.setValue(
-        'selectSecondCategoryName',
-        props.blogSecondCategoryName,
-        { shouldValidate: true },
-      );
-      methods.setValue('title', props.title);
-      methods.setValue('description', props.description);
-      methods.setValue('content', props.content);
-      methods.setValue('thumbnailImageUrl', props.thumbnailImageUrl);
-      // setDefaultImageUrl(props.thumbnailImageUrl);
+  // BlogAPI.getBlogCategoryList({
+  //   onSuccessHandler: (data) => {
+  //     setCategoryList({
+  //       firstCategoryList: data.json.firstCategoryList,
+  //       secondCategoryList: data.json.secondCategoryList,
+  //     });
+  //     methods.setValue('selectFirstCategoryId', props.firstCategoryId);
+  //     methods.setValue('selectSecondCategoryId', props.secondCategoryId);
+  //     methods.setValue('selectFirstCategoryName', props.blogFirstCategoryName);
+  //     methods.setValue(
+  //       'selectSecondCategoryName',
+  //       props.blogSecondCategoryName,
+  //       { shouldValidate: true },
+  //     );
+  //     methods.setValue('title', props.title);
+  //     methods.setValue('description', props.description);
+  //     methods.setValue('content', props.content);
+  //     methods.setValue('thumbnailImageUrl', props.thumbnailImageUrl);
+  //     // setDefaultImageUrl(props.thumbnailImageUrl);
 
-      setTimeout(() => {
-        // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
-        const _blogContentImageList = [];
-        let indexPivot = 0; // 처음부터 끝까지 이동하면서 어디까지 읽었는지를 판단
-        const _TRUE = true;
-        if (!props.edit) return;
-        while (_TRUE) {
-          const index1 = props.content.indexOf(AWSS3Prefix, indexPivot); // 이미지 경로라고 판단(서버이미지경로, 시작위치)
-          if (index1 === -1) break; // 더 이상 없으면 탈출
-          indexPivot = props.content.indexOf('.', index1 + AWSS3Prefix.length); // .png, .jpg, .svg 등에서 걸리는 .을 말함
-          _blogContentImageList.push(
-            props.content.substring(index1 + AWSS3Prefix.length, indexPivot + 4),
-          );
-        }
-        setBlogContentImageList(_blogContentImageList);
-      }, 1000);
-    },
-  });
+  //     setTimeout(() => {
+  //       // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
+  //       const _blogContentImageList = [];
+  //       let indexPivot = 0; // 처음부터 끝까지 이동하면서 어디까지 읽었는지를 판단
+  //       const _TRUE = true;
+  //       if (!props.edit) return;
+  //       while (_TRUE) {
+  //         const index1 = props.content.indexOf(AWSS3Prefix, indexPivot); // 이미지 경로라고 판단(서버이미지경로, 시작위치)
+  //         if (index1 === -1) break; // 더 이상 없으면 탈출
+  //         indexPivot = props.content.indexOf('.', index1 + AWSS3Prefix.length); // .png, .jpg, .svg 등에서 걸리는 .을 말함
+  //         _blogContentImageList.push(
+  //           props.content.substring(index1 + AWSS3Prefix.length, indexPivot + 4),
+  //         );
+  //       }
+  //       setBlogContentImageList(_blogContentImageList);
+  //     }, 1000);
+  //   },
+  // });
 
   const uploadHandler = async (file: unknown) => {
     const url = URL.createObjectURL(file).substring(5);
@@ -276,12 +275,11 @@ const CreateUpdateBlogContainer = (
     }, 1000);
   }, []);
 
+
   return (
     <FormProvider {...methods}>
       {isLoading && <LoadingComponent />}
-      {(store.getState().authStore.role === 'ROLE_ADMIN' ||
-        store.getState().authStore.id ===
-          store.getState().blogStore.activeFirstCategory) && (
+      {(store.getState().authStore.role === 'ROLE_ADMIN') && (
         <Container
           isLoading={isLoading}
           icon={Icons.PlayIcon}
@@ -392,9 +390,9 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
       border-radius: 0.5rem;
       max-width: max-content;
       font-size: 2rem;
-      font-family: ${props=>props.theme.fontFamily.gmarketSansBold}; 
+      font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
     }
-    
+
     h2 {
       border: none;
       outline: solid ${(props) => props.theme.main.secondary80} 0.25rem;
@@ -404,9 +402,9 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
       max-width: max-content;
       font-weight: 800;
       font-size: 1.8rem;
-      font-family: ${props=>props.theme.fontFamily.cookieRunRegular}; 
+      font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     }
-    
+
     h3 {
       border: none;
       outline: solid #dedede 0.25rem;
@@ -415,7 +413,18 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
       border-radius: 0.5rem;
       max-width: max-content;
       font-size: 1.6rem;
-      font-family: ${props=>props.theme.fontFamily.yanoljaYacheBold}; 
+      font-family: ${(props) => props.theme.fontFamily.yanoljaYacheBold};
+    }
+
+    blockquote {
+      font-size: 1.2rem;
+      padding: 0 0 0 0.5rem;
+      border: none;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, 0.075);
+      border-radius: 0.5rem;
+      font-style: italic;
     }
 
     pre {
@@ -466,7 +475,7 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     }
     pre {
       code {
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding: 8px 4px;
         ${(props) => props.theme.scroll.hiddenX};
         background: none;
@@ -478,6 +487,7 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     display: flex;
     flex-flow: nowrap column;
     line-height: 2rem;
+    background: transparent;
   }
   .w-md-editor-input {
   }

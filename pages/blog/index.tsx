@@ -6,10 +6,10 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useLayoutEffect } from 'react';
 import { propsType } from 'src/@types/blog';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -17,86 +17,58 @@ import { propsType } from 'src/@types/blog';
  * @version 0.0.1 "2023-09-25 00:05:43"
  * @description 블로그 홈 페이지
  */
-export async function getServerSideProps() {
-  const res = await AxiosInstance.get('/api/blog-category-list');
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  let firstCategoryId = context.query?.firstCategoryId;
+  let secondCategoryId = context.query?.secondCategoryId;
+  const res = await AxiosInstance.get(
+    `/api/blog/category/list?firstCategoryId=${firstCategoryId}&secondCategoryId=${secondCategoryId}`,
+  );
   let data = {};
   // ! next-redux-wrapper 공부해보기
-  if (res) {
-    data = res.data.json;
+  if (res?.data.data != null) {
+    data = res?.data?.data;
   }
 
-  if (Object.keys(data).length === 0) {
-    return {
-      redirect: {
-        source: '/blog',
-        destination: '/500',
-        permanent: false,
-      },
-    };
-  }
+  // if (Object.keys(data).length === 0) {
+  //   return {
+  //     redirect: {
+  //       source: '/blog',
+  //       destination: '/500',
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return { props: data };
 }
 
 const Index = (props: propsType) => {
   const router = useRouter();
-  useEffect(() => {
-    // 서버에서 블로그 카테고리 목록을 받아와서 활성화된 카테고리와 카테고리 목록을 redux에 저장하는 과정
-    try {
-      const urlQueryObject = UrlQueryStringToObject(window.location.href);
-      let firstCategoryIdTemp;
-      if (
-        urlQueryObject?.[`first-category`] ||
-        props.firstCategoryList != undefined
-      ) {
-        firstCategoryIdTemp =
-          urlQueryObject?.[`first-category`] ||
-          Object.keys(props.firstCategoryList)[0];
-      }
-      let secondCategoryIdTemp = urlQueryObject?.[`second-category`];
-      if (firstCategoryIdTemp != undefined) {
-        // 1. url에 카테고리2 id 값이 있는지 여부
-        // 2. 없다면 카테고리2 리스트가 존재하는지 여부
-        if(
-          secondCategoryIdTemp == undefined &&
-          JSON.stringify(props.secondCategoryList) != '{}' &&
-          props.secondCategoryList != undefined
-        ) {
-          secondCategoryIdTemp = Object.keys(
-            props.secondCategoryList[firstCategoryIdTemp],
-          )[0];
-        }
-      }
-      store.dispatch(
-        rootActions.blogStore.setActiveFirstCategory(
-          Number(firstCategoryIdTemp),
-        ),
-      );
-      store.dispatch(
-        rootActions.blogStore.setFirstCategoryList(
-          props.firstCategoryList,
-        ),
-      );
-      store.dispatch(
-        rootActions.blogStore.setSecondCategoryList(
-          props.secondCategoryList,
-        ),
-      );
+  useLayoutEffect(() => {
+    store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(props.blogFirstCategoryList));
+
+    const firstCategoryId = router.query.firstCategoryId ?? props.blogFirstCategoryList[0]?.id;
+    let secondCategoryId = Number(router.query.secondCategoryId); 
+    store.dispatch(rootActions.blogStore.setActiveFirstCategory(firstCategoryId));
+
+    if (router.query.firstCategoryId && router.query.secondCategoryId) {
+      secondCategoryId = props.blogFirstCategoryList
+        .filter((i) => i.id == firstCategoryId)[0]
+        ?.blogSecondCategoryList.filter(
+          (j) => (j.id == router.query.secondCategoryId)
+        )[0].id;
+    } else if (router.query.firstCategoryId) {
+      secondCategoryId = props.blogFirstCategoryList.filter(
+        (i) => i.id == firstCategoryId,
+      )[0]?.blogSecondCategoryList[0].id;
+    } else {
+      secondCategoryId =
+        props.blogFirstCategoryList[0]?.blogSecondCategoryList[0].id;
+    }
       store.dispatch(
         rootActions.blogStore.setActiveSecondCategory(
-          Number(secondCategoryIdTemp),
+          secondCategoryId,
         ),
-      );
-      const temp =
-        window.document.location.origin +
-        window.document.location.pathname +
-        '?first-category=' +
-        firstCategoryIdTemp +
-        '&second-category=' +
-        secondCategoryIdTemp;
-      router.replace(temp, '', { shallow: true });
-    } catch {
-      // router.push('/404');
-    }
+    );
   }, []);
 
   return (

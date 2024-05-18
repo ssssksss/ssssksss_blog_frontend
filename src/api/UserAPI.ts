@@ -22,16 +22,16 @@ const getUser = () => {
     isRefetchWindowFocus: false,
     isShowMessage: false,
     onSuccessHandler: ({ data: data }) => {
-      store.dispatch(authAction.SET_ACCESS_TOKEN(data.json.user.accessToken));
+      store.dispatch(authAction.SET_ACCESS_TOKEN(data.data.user.accessToken));
       store.dispatch(
-        rootActions.blogStore.setActiveBlogUserId(data.json.user.id),
+        rootActions.blogStore.setActiveBlogUserId(data.data.user.id),
       );
       store.dispatch(
         authAction.SET_USER_INFO({
-          email: data.json.user.email,
-          role: data.json.user.role,
-          nickname: data.json.user.nickname,
-          id: data.json.user.id,
+          email: data.data.user.email,
+          role: data.data.user.role,
+          nickname: data.data.user.nickname,
+          id: data.data.user.id,
         }),
       );
     },
@@ -61,7 +61,7 @@ const signInUser = () => {
           Authorization: `Bearer ${data.data.accessToken}`,
         },
       }).then((response) => {
-        store.dispatch(SET_USER_INFO(response.data.json.user));
+        store.dispatch(SET_USER_INFO(response.data.data.user));
       });
     },
   });

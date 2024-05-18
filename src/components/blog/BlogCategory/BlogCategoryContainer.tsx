@@ -8,9 +8,11 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import { useRouter } from 'next/router';
 import { MouseEvent, useEffect, useRef } from 'react';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -25,37 +27,124 @@ const BlogCategoryContainer = () => {
   const blogSecondCategoryVerticalScrollRef = useRef<HTMLButtonElement>(null);
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
-
+  const queryClient = useQueryClient();
   const _categoryPath = (firstId: unknown, secondId: unknown) => {
     return (
       window.document.location.origin +
       window.document.location.pathname +
-      '?first-category=' +
+      '?firstCategoryId=' +
       firstId +
-      '&second-category=' +
+      '&secondCategoryId=' +
       secondId
     );
   };
+
   const blogFirstCategoryHandler = (id: string) => {
     store.dispatch(rootActions.blogStore.setActiveFirstCategory(id));
+    const secondCategoryId = blogStore.blogCategoryAndBlogList.filter(
+      (i) => i.id == id,
+    )[0]?.blogSecondCategoryList[0].id;
     store.dispatch(
-      rootActions.blogStore.setActiveSecondCategory(
-        Object.keys(blogStore.secondCategoryList[id])[0],
-      ),
+      rootActions.blogStore.setActiveSecondCategory(secondCategoryId),
     );
-    const _firstCategoryPath = _categoryPath(
-      id,
-      Object.keys(store.getState().blogStore.secondCategoryList[id])[0],
+    // router.push(_categoryPath(id,secondCategoryId), '', { shallow: true });
+    const _secondCategoryList = blogStore.blogCategoryAndBlogList.filter((i) => i.id == id)[0]
+      .blogSecondCategoryList[0];
+     if (_secondCategoryList?.blogList.length == 0) {
+       // blogList가 0인 경우에만 데이터를 요청한다.
+       queryClient.fetchQuery(
+         [
+           'blogList',
+           id,
+           _secondCategoryList.id,
+           blogStore.blogListOrderOption,
+         ],
+         () => {
+           AxiosInstance({
+             url: '/api/blog/list',
+             method: 'GET',
+             params: {
+               sort:
+                 blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
+               secondCategoryId: _secondCategoryList.id,
+             },
+           }).then((res) => {
+             const temp = JSON.parse(
+               JSON.stringify(blogStore.blogCategoryAndBlogList)
+             );
+             temp.map((i) => {
+               if (i.id == id) {
+                 i.blogSecondCategoryList.map((j) => {
+                   if (j.id == _secondCategoryList.id) {
+                     j.blogList = [...res.data.data];
+                   }
+                 });
+               }
+             });
+             store.dispatch(
+               rootActions.blogStore.setBlogCategoryAndBlogList(temp),
+             );
+             return res.data;
+           });
+         },
+       );
+     }
+    store.dispatch(
+      rootActions.blogStore.setActiveSecondCategory(_secondCategoryList.id),
     );
-    router.push(_firstCategoryPath, '', { shallow: true });
+    router.push(_categoryPath(id, _secondCategoryList.id), '', {
+      shallow: true,
+    });
   };
   const blogSecondCategoryHandler = (id: string) => {
-    const _secondCategoryPath = _categoryPath(
-      store.getState().blogStore.activeFirstCategory,
-      id,
+    if (
+      blogStore.blogCategoryAndBlogList
+        .filter(i=>i.id == blogStore.activeFirstCategory)[0]
+        ?.blogSecondCategoryList.filter((j) => j.id == id)[0]?.blogList
+        .length == 0
+    ) {
+      // blogList가 0인 경우에만 데이터를 요청한다.
+      queryClient.fetchQuery(
+        [
+          'blogList',
+          blogStore.activeFirstCategory,
+          blogStore.activeSecondCategory,
+          blogStore.blogListOrderOption,
+        ],
+        () => {
+          AxiosInstance({
+            url: '/api/blog/list',
+            method: 'GET',
+            params: {
+              sort:
+                blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
+              secondCategoryId: blogStore.activeSecondCategory,
+            },
+          }).then((res) => {
+            const temp = JSON.parse(
+              JSON.stringify(blogStore.blogCategoryAndBlogList),
+            );
+            temp.map((i) => {
+              if (i.id == blogStore.activeFirstCategory) {
+                i.blogSecondCategoryList.map((j) => {
+                  if (j.id == id) {
+                    j.blogList = [...res.data.data];
+                  }
+                });
+              }
+            });
+            store.dispatch(
+              rootActions.blogStore.setBlogCategoryAndBlogList(temp),
+            );
+            return res.data;
+          });
+        },
+      );
+    }
+    store.dispatch(
+      rootActions.blogStore.setActiveSecondCategory(id),
     );
-    router.push(_secondCategoryPath, '', { shallow: true });
-    store.dispatch(rootActions.blogStore.setActiveSecondCategory(id));
+    router.push(_categoryPath(blogStore.activeFirstCategory, id), '', { shallow: true });
   };
   // 카테고리 버튼 클릭시 가로 스크롤 버튼을 중앙으로 이동
   const onClickAdjustHorizontalScroll = (
@@ -74,8 +163,8 @@ const BlogCategoryContainer = () => {
 
   useEffect(() => {
     const routerBackAfterActiveCategoryChangeHandler = () => {
-      const _firstCategoryId = UrlQueryStringToObject()?.['first-category'];
-      const _secondCategoryId = UrlQueryStringToObject()?.['second-category'];
+      const _firstCategoryId = UrlQueryStringToObject()?.['firstCategoryId'];
+      const _secondCategoryId = UrlQueryStringToObject()?.['secondCategoryId'];
       store.dispatch(
         rootActions.blogStore.setActiveFirstCategory(_firstCategoryId),
       );
@@ -95,6 +184,7 @@ const BlogCategoryContainer = () => {
     };
   }, []);
 
+
   return (
     <CC.ColLeftStartBox w={'100%'} pd={'0.5rem'} outline={1} gap={8}>
       {/* 첫번째 카테고리 라인 */}
@@ -103,36 +193,37 @@ const BlogCategoryContainer = () => {
         gap={8}
         ref={blogFirstCategoryVerticalScrollRef}
       >
-        {Object.entries(blogStore.firstCategoryList)?.map(([key, value]) => (
+        {blogStore.blogCategoryAndBlogList.map((el, index) => (
           <Button
-            key={key}
+            key={el.id}
             minW={'8rem'}
             h={'2.75rem'}
-            mg={"0.25rem 0rem"}
-            active={key == store.getState().blogStore.activeFirstCategory}
+            mg={'0.5rem 0rem'}
+            active={el.id == store.getState().blogStore.activeFirstCategory}
             outline={true}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
               onClickAdjustHorizontalScroll(
                 e,
-                () => blogFirstCategoryHandler(key),
+                () => blogFirstCategoryHandler(el.id),
                 blogFirstCategoryVerticalScrollRef,
               )
             }
-            badgeValue={Object.entries(
-              blogStore.secondCategoryList?.[key] || {},
-            ).reduce((sum, [, value]) => sum + Number(value.count), 0)}
+            badgeValue={el.blogSecondCategoryList.reduce(
+              (sum, el) => sum + el.blogCount,
+              0,
+            )}
           >
-            {value}
+            {el.name}
           </Button>
         ))}
         {authStore.role == 'ROLE_ADMIN' && (
           <ModalButton
-          modal={<BlogFirstCategoryModal />}
-          modalOverlayVisible={true}
-          modalW={'30rem'}
-          h={'2.75rem'}
-          outline={true}
-          modalBg={"white"}
+            modal={<BlogFirstCategoryModal />}
+            modalOverlayVisible={true}
+            modalW={'30rem'}
+            h={'2.75rem'}
+            outline={true}
+            modalBg={'white'}
           >
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
               <SettingsIcon />
@@ -145,30 +236,33 @@ const BlogCategoryContainer = () => {
         scroll={'hiddenX'}
         gap={8}
         ref={blogSecondCategoryVerticalScrollRef}
-        >
-        {Object.entries(
-          blogStore.secondCategoryList[blogStore.activeFirstCategory] || {},
-        ).map(([key, value]) => (
-          <Button
-          key={key}
-          minW={'8rem'}
-          mg={"0.25rem 0rem"}
-          h={'2rem'}
-          active={key == blogStore.activeSecondCategory}
-          onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
-            onClickAdjustHorizontalScroll(
-              e,
-              () => blogSecondCategoryHandler(key),
-              blogSecondCategoryVerticalScrollRef,
-            )
-          }
-          outline={true}
-          outlineColor={'secondary80'}
-          badgeValue={value.count || '0'}
-          >
-            {value.name}
-          </Button>
-        ))}
+      >
+        {blogStore.blogCategoryAndBlogList
+          .filter(
+            (i) => i.id == store.getState().blogStore.activeFirstCategory,
+          )[0]
+          ?.blogSecondCategoryList.map((j) => (
+            <Button
+              key={j.id}
+              minW={'8rem'}
+              mg={'0.5rem 0rem'}
+              h={'2rem'}
+              pd={"0rem 0.25rem"}
+              active={j.id == blogStore.activeSecondCategory}
+              onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
+                onClickAdjustHorizontalScroll(
+                  e,
+                  () => blogSecondCategoryHandler(j.id),
+                  blogSecondCategoryVerticalScrollRef,
+                )
+              }
+              outline={true}
+              outlineColor={'secondary80'}
+              badgeValue={j.blogCount || '0'}
+            >
+              {j.name}
+            </Button>
+          ))}
         {authStore.role == 'ROLE_ADMIN' && (
           <ModalButton
             modal={<BlogSecondCategoryModal />}
@@ -176,7 +270,7 @@ const BlogCategoryContainer = () => {
             modalW={'30rem'}
             h={'2rem'}
             outline={true}
-            modalBg={"white"}
+            modalBg={'white'}
           >
             <CC.ImgContainer w={'2.4rem'} h={'2.4rem'}>
               <SettingsIcon />

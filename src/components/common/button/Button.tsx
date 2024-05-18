@@ -187,9 +187,9 @@ ${(props) =>
 const Badge = styled.div`
   position: absolute;
   border-radius: 0.5rem;
-  top: 0.2rem;
+  top: 0rem;
   right: 0;
-  transform: translate(0%, -50%);
+  transform: translate(25%, -50%);
   font-size: 1rem;
   display: flex;
   justify-content: center;

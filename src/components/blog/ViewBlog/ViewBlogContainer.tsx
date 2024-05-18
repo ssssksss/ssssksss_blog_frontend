@@ -136,6 +136,7 @@ const Container = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  padding: 1rem 0rem;
 `;
 
 const ViewerContainer = styled.div<{ icon: unknown }>`
@@ -152,7 +153,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
   }import { Orange20 } from './../../../stories/Button.stories';
 
   .wmde-markdown {
-    padding: 0rem 0.2rem;
+    padding: 2rem 0.2rem;
     ${(props) => props.theme.scroll.hiddenX};
     display: flex;
     flex-flow: nowrap column;
@@ -229,7 +230,6 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
         ${props.theme.main.secondary100}
       )`}; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       padding: 0.25rem;
-      color: white;
     }
 
     ul,
@@ -268,7 +268,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     }
     pre {
       code {
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding: 0.5rem;
         ${(props) => props.theme.scroll.hiddenX};
         background: none;

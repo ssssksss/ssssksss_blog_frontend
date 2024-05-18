@@ -20,7 +20,7 @@ const ViewBlogFixContainer = (
 ) => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const BACK_URL = `/blog?first-category=${props.firstCategoryId}&second-category=${props.secondCategoryId}`;
+  const BACK_URL = `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${blogStore.activeSecondCategory}`;
   const router = useRouter();
   const deleteHandler = () => {
     BlogAPI.deleteBlog({
@@ -72,7 +72,7 @@ const Container = styled(CC.ColumnDiv)`
   width: 0px;
   height: 0px;
   left: 100vw;
-  top: max(6.2rem, 50vh);
+  top: max(6.2rem, 22rem);
   z-index: 40;
 
   img {

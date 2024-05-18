@@ -19,8 +19,8 @@ import { ReactElement } from 'react';
 // }
 
 export async function getStaticPaths() {
-  const blogList = await AxiosInstance.get('/api/blog-all-list').then((res) => {
-    return res.data.json.blogList;
+  const blogList = await AxiosInstance.get('/api/blog/list/all').then((res) => {
+    return res.data.data.blogList;
   });
 
   const paths = blogList.map((i: unknown) => ({
@@ -31,8 +31,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: unknown) {
-  const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
-  return { props: res.data.json, revalidate: 10 };
+  if (!isNaN(params.id)) {
+    const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
+    return { props: res.data.data, revalidate: 10 };
+  }
+  return { props: null, revalidate: 10 };
 }
 
 const ViewBlogCSR = dynamic(
@@ -43,6 +46,7 @@ const ViewBlogCSR = dynamic(
 );
 
 const Index = (props: unknown) => {
+  if (props == null) return <>  </>;
   return (
     <Container>
       <Head>

@@ -1,13 +1,18 @@
 export type propsType = {
-  firstCategoryList: {
-    [key: string]: string;
-  };
-  secondCategoryList?: {
-    [firstCategoryId: string | number]: {
-      secondCategoryId?: {
-        name?: string;
-        thumbnailImageUrl: string;
-      };
-    };
-  };
+  blogFirstCategoryList: [
+    {
+      id: number,
+      name: string,
+      userId: number,
+      blogSecondCategoryList: [
+        {
+          id: number,
+          name: string,
+          thumbnailImageUrl: string,
+          userId: number,
+          blogList: []
+        }
+      ]
+    }
+  ]
 };
