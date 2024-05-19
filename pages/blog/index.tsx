@@ -45,7 +45,6 @@ const Index = (props: propsType) => {
   const router = useRouter();
   useLayoutEffect(() => {
     store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(props.blogFirstCategoryList));
-
     const firstCategoryId = router.query.firstCategoryId ?? props.blogFirstCategoryList[0]?.id;
     let secondCategoryId = Number(router.query.secondCategoryId); 
     store.dispatch(rootActions.blogStore.setActiveFirstCategory(firstCategoryId));

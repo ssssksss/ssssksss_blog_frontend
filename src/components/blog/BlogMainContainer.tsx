@@ -74,7 +74,7 @@ const BlogMainContainer = () => {
         )[0]
         ?.blogList;
     }
-    return temp1.map((k) => (
+    return temp1?.map((k) => (
         <Link href={`/blog/${k.id}`} key={`${k.id}`} prefetch={false}>
           <BlogItem
             element={k}

@@ -57,7 +57,6 @@ const BlogCategoryContainer = () => {
            'blogList',
            id,
            _secondCategoryList.id,
-           blogStore.blogListOrderOption,
          ],
          () => {
            AxiosInstance({
@@ -109,7 +108,6 @@ const BlogCategoryContainer = () => {
           'blogList',
           blogStore.activeFirstCategory,
           blogStore.activeSecondCategory,
-          blogStore.blogListOrderOption,
         ],
         () => {
           AxiosInstance({
@@ -118,7 +116,7 @@ const BlogCategoryContainer = () => {
             params: {
               sort:
                 blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
-              secondCategoryId: blogStore.activeSecondCategory,
+              secondCategoryId: id,
             },
           }).then((res) => {
             const temp = JSON.parse(
@@ -127,7 +125,7 @@ const BlogCategoryContainer = () => {
             temp.map((i) => {
               if (i.id == blogStore.activeFirstCategory) {
                 i.blogSecondCategoryList.map((j) => {
-                  if (j.id == id) {
+                  if (j.id == id && res.data.data != null) {
                     j.blogList = [...res.data.data];
                   }
                 });
