@@ -45,7 +45,7 @@ const Index = (props: propsType) => {
   const router = useRouter();
   useLayoutEffect(() => {
     store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(props.blogFirstCategoryList));
-    const firstCategoryId = router.query.firstCategoryId ?? props.blogFirstCategoryList[0]?.id;
+    const firstCategoryId = router.query.firstCategoryId ?? props.blogFirstCategoryList?.length ? props.blogFirstCategoryList[0]?.id : undefined;
     let secondCategoryId = Number(router.query.secondCategoryId); 
     store.dispatch(rootActions.blogStore.setActiveFirstCategory(firstCategoryId));
 
@@ -61,7 +61,7 @@ const Index = (props: propsType) => {
       )[0]?.blogSecondCategoryList[0].id;
     } else {
       secondCategoryId =
-        props.blogFirstCategoryList[0]?.blogSecondCategoryList[0].id;
+        props.blogFirstCategoryList?.length ? props.blogFirstCategoryList[0]?.blogSecondCategoryList[0].id : undefined;
     }
       store.dispatch(
         rootActions.blogStore.setActiveSecondCategory(

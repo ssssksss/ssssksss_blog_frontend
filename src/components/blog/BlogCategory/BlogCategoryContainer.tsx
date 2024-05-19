@@ -191,7 +191,7 @@ const BlogCategoryContainer = () => {
         gap={8}
         ref={blogFirstCategoryVerticalScrollRef}
       >
-        {blogStore.blogCategoryAndBlogList.map((el) => (
+        {blogStore.blogCategoryAndBlogList?.map((el) => (
           <Button
             key={el.id}
             minW={'8rem'}
@@ -236,7 +236,7 @@ const BlogCategoryContainer = () => {
         ref={blogSecondCategoryVerticalScrollRef}
       >
         {blogStore.blogCategoryAndBlogList
-          .filter(
+          ?.filter(
             (i) => i.id == store.getState().blogStore.activeFirstCategory,
           )[0]
           ?.blogSecondCategoryList.map((j) => (

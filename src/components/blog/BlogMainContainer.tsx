@@ -57,18 +57,18 @@ const BlogMainContainer = () => {
   }, []);
 
   const blogComponentList = () => {
-    const temp = JSON.parse(JSON.stringify(blogStore.blogCategoryAndBlogList));
+    const temp = blogStore.blogCategoryAndBlogList ? JSON.parse(JSON.stringify(blogStore.blogCategoryAndBlogList)) : [];
     let temp1 = [];
     if (blogStore.blogListOrderOption == 'viewNumber') {
      temp1 = temp
-      .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+      ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
       ?.blogSecondCategoryList.filter(
         (j) => j.id == blogStore.activeSecondCategory,
       )[0]
       ?.blogList.sort((a, b) => b.viewNumber - a.viewNumber);
     } else {
       temp1 = temp
-        .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+        ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
         ?.blogSecondCategoryList.filter(
           (j) => j.id == blogStore.activeSecondCategory,
         )[0]
@@ -81,7 +81,7 @@ const BlogMainContainer = () => {
             viewMode={true}
             defaultImageUrl={
               blogStore.blogCategoryAndBlogList
-                .filter(
+                ?.filter(
                   (i) => i.id == blogStore.activeFirstCategory,
                 )[0]
                 ?.blogSecondCategoryList.filter(
@@ -101,7 +101,7 @@ const BlogMainContainer = () => {
         <Text>
           검색결과 :
           {blogStore.blogCategoryAndBlogList
-            .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+            ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
             ?.blogSecondCategoryList.filter(
               (j) => j.id == blogStore.activeSecondCategory,
             )[0]?.blogList.length || '0'}
