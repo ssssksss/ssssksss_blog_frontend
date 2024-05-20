@@ -42,6 +42,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 const Index = (props: propsType) => {
+  console.log("index.tsx 파일 : ",props);
   const router = useRouter();
   useLayoutEffect(() => {
     store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(props.blogFirstCategoryList));

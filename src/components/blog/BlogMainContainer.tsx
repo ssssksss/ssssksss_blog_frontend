@@ -104,7 +104,7 @@ const BlogMainContainer = () => {
             ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
             ?.blogSecondCategoryList.filter(
               (j) => j.id == blogStore.activeSecondCategory,
-            )[0]?.blogList.length || '0'}
+            )[0]?.blogList?.length || '0'}
         </Text>
         <CC.RowDiv pd={'0.125rem'}>
           <Select

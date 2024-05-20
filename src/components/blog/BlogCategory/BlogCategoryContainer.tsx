@@ -50,7 +50,7 @@ const BlogCategoryContainer = () => {
     // router.push(_categoryPath(id,secondCategoryId), '', { shallow: true });
     const _secondCategoryList = blogStore.blogCategoryAndBlogList.filter((i) => i.id == id)[0]
       .blogSecondCategoryList[0];
-     if (_secondCategoryList?.blogList.length == 0) {
+     if (!_secondCategoryList?.blogList?.length) {
        // blogList가 0인 경우에만 데이터를 요청한다.
        queryClient.fetchQuery(
          [
@@ -97,10 +97,10 @@ const BlogCategoryContainer = () => {
   };
   const blogSecondCategoryHandler = (id: string) => {
     if (
-      blogStore.blogCategoryAndBlogList
+      !blogStore.blogCategoryAndBlogList
         .filter(i=>i.id == blogStore.activeFirstCategory)[0]
         ?.blogSecondCategoryList.filter((j) => j.id == id)[0]?.blogList
-        .length == 0
+        ?.length
     ) {
       // blogList가 0인 경우에만 데이터를 요청한다.
       queryClient.fetchQuery(
