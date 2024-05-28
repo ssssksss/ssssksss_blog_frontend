@@ -3,10 +3,16 @@ import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import Image from 'next/image';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useLayoutEffect, useReducer } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { CreateUpdateHeaderProps } from 'src/@types/blog/CreateUpdateHeaderContainer';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -14,8 +20,9 @@ import { useFormContext } from 'react-hook-form';
  * @version 0.0.1 "2024-03-19 18:36:40"
  * @description 설명
  */
-const CreateUpdateHeaderContainer = (props: unknown) => {
+const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
   const { register, getValues, setValue } = useFormContext();
+  const blogStore = useSelector((state: RootState) => state.blogStore);
   const [isHideContainer, hideContainerToggle] = useReducer(
     (v) => !v,
     props.edit ? true : false,
@@ -28,7 +35,6 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
     name: string;
     bg: string; 
   }) => {
-    props.categoryList.secondCategoryList[value];
 
     setValue('selectSecondCategoryId', value);
     setValue('selectSecondCategoryName', name, {
@@ -36,15 +42,10 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
     });
     setValue(
       'thumbnailImageUrl',
-      props.categoryList?.secondCategoryList[
-        getValues('selectFirstCategoryId')
-      ][value].thumbnailImageUrl,
+      blogStore.blogCategoryAndBlogList?.filter((i) => i.id == getValues("selectFirstCategoryId"))[0]
+        .blogSecondCategoryList.filter(j=> j.id == value)[0]?.thumbnailImageUrl,
+      { shouldValidate: true },
     );
-    // setDefaultImageUrl(
-    //   props.categoryList.secondCategoryList[getValues('selectFirstCategoryId')][
-    //     value
-    //   ].thumbnailImageUrl,
-    // );
   };
 
   const onChangeFirstCategoryHandler = async ({
@@ -59,19 +60,36 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
     setValue('selectFirstCategoryName', name);
     setValue(
       'selectSecondCategoryName',
-      Object.values(props.categoryList?.secondCategoryList[value])[0].name,
+      blogStore.blogCategoryAndBlogList?.filter(
+        (i) => i.id == value,
+      )[0].blogSecondCategoryList[0]?.name,
       { shouldValidate: true },
     );
     setValue(
       'selectSecondCategoryId',
-      Object.keys(props.categoryList.secondCategoryList[value])[0],
+      blogStore.blogCategoryAndBlogList?.filter(
+        (i) => i.id == value,
+      )[0].blogSecondCategoryList[0]?.id,
+      { shouldValidate: true },
     );
     setValue(
       'thumbnailImageUrl',
-      Object.values(props.categoryList.secondCategoryList[value])[0]
-        ?.thumbnailImageUrl,
+      blogStore.blogCategoryAndBlogList?.filter(
+        (i) => i.id == value,
+      )[0].blogSecondCategoryList[0]?.thumbnailImageUrl,
       { shouldValidate: true },
     );
+  };
+
+  const onChangeStatus = async ({
+    value,
+    name,
+  }: {
+    value: string;
+    name: string;
+    bg: string;
+    }) => {
+    setValue('status', value);
   };
 
   useEffect(() => {
@@ -80,13 +98,21 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
         hideContainerToggle();
       }
     };
-
     window.addEventListener('keydown', keyDownEventFunc);
-
+    setValue('status', props.status);
     return () => {
       window.removeEventListener('keydown', keyDownEventFunc);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!props.edit) return null;
+      AxiosInstance.get(
+        `/api/blog/category/list`,
+      ).then(res => {
+        store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(res.data.data.blogFirstCategoryList));
+      });
+  },[])
 
   return (
     <Container>
@@ -114,12 +140,12 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
               value: getValues('selectFirstCategoryId'),
               name: getValues('selectFirstCategoryName'),
             }}
-            data={Object.entries(props.categoryList.firstCategoryList)?.map(
-              ([key, value]) => ({
-                value: key,
-                name: value,
-              }),
-            )}
+            data={blogStore.blogCategoryAndBlogList?.map((i) => {
+              return {
+                value: i.id,
+                name: i.name,
+              };
+            })}
           ></Select>
           <Select
             w={'100%'}
@@ -129,26 +155,36 @@ const CreateUpdateHeaderContainer = (props: unknown) => {
               value: getValues('selectSecondCategoryId'),
               name: getValues('selectSecondCategoryName'),
             }}
-            enable={
-              props.categoryList.secondCategoryList[
-                getValues('selectFirstCategoryId') || props.secondCategoryId
-              ] !== undefined
-            }
-            data={
-              (props.categoryList.secondCategoryList[
-                getValues('selectFirstCategoryId') || props.secondCategoryId
-              ] &&
-                Object.entries(
-                  props.categoryList.secondCategoryList[
-                    getValues('selectFirstCategoryId') || props.secondCategoryId
-                  ],
-                )?.map(([key, value]) => ({
-                  value: key,
-                  name: value.name,
-                }))) || { value: '', name: '' }
-            }
+            enable={getValues('selectFirstCategoryId') !== undefined}
+            data={blogStore.blogCategoryAndBlogList
+              ?.filter((i) => i.id == getValues('selectFirstCategoryId'))[0]
+              ?.blogSecondCategoryList?.map((j) => {
+                return {
+                  value: j.id,
+                  name: j.name,
+                };
+              })}
           ></Select>
         </CC.RowBetweenDiv>
+        {props.edit && (
+          <CC.RowBox>
+            <Select
+              w={'100%'}
+              placeholder={'상태'}
+              onChange={onChangeStatus}
+              defaultValue={{
+                value: getValues('status'),
+                name: getValues('status'),
+              }}
+              data={['PUBLIC', 'DEVELOP', 'HIDE'].map((i) => {
+                return {
+                  value: i,
+                  name: i,
+                };
+              })}
+            ></Select>
+          </CC.RowBox>
+        )}
         <Title
           placeholder="제목을 입력해주세요"
           initialValue={getValues('title')}

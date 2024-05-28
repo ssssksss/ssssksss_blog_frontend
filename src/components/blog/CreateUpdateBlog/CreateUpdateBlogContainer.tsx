@@ -14,11 +14,11 @@ import { useRouter } from 'next/router';
 import React, {
   useCallback,
   useEffect,
-  useReducer,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { CreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
 import { BlogCreateYup, BlogUpdateYup } from '../../yup/BlogCategoryYup';
 import CreateUpdateBlogTemplateContainer from './CreateUpdateBlogTemplateContainer';
 import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
@@ -30,36 +30,16 @@ import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
  * @description 설명
  */
 
-interface IEditCreateUpdateBlogContainerProps {
-  edit?: boolean;
-  commentNumber?: number;
-  blogFirstCategoryName?: string;
-  blogSecondCategoryName?: string;
-  description?: string;
-  viewNumber?: number;
-  title?: string;
-  blogContentId?: number;
-  firstCategoryId?: number;
-  userId?: number;
-  content?: string;
-  createdAt?: string;
-  thumbnailImageUrl?: string;
-  id?: number;
-  secondCategoryId?: number;
-  likeNumber?: number;
-}
 
-const CreateUpdateBlogContainer = (
-  props: IEditCreateUpdateBlogContainerProps,
-) => {
-  const [isLoading, setIsLoading] = useReducer((prev) => !prev, false);
+const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [cursor, setCursor] = useState(0);
   const textareaRef = useRef(null);
   const router = useRouter();
   const createBlogMutation = BlogAPI.createBlog({
     onSuccessHandler: async () => {
-      await setIsLoading(false);
+      setIsLoading(false);
     },
   });
   const updateBlogMutation = BlogAPI.updateBlog({
@@ -67,14 +47,9 @@ const CreateUpdateBlogContainer = (
       await setIsLoading(false);
     },
   });
-  const [blogContentImageList, ] = useState([]);
+  const [blogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content);
-  // const [defaultImageUrl, setDefaultImageUrl] = useState();
-  const [categoryList, ] = useState({
-    firstCategoryList: {},
-    secondCategoryList: {},
-  });
   const editorChangeHandler = useCallback((value) => {
     setValue(value);
     methods.setValue('content', value, { shouldValidate: true });
@@ -83,56 +58,18 @@ const CreateUpdateBlogContainer = (
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
     defaultValues: {
-      selectFirstCategoryId: undefined,
-      selectFirstCategoryName: undefined,
-      selectSecondCategoryId: undefined,
-      selectSecondCategoryName: undefined,
-      title: '',
-      description: '',
+      selectFirstCategoryId: props.firstCategoryId,
+      selectFirstCategoryName: props.blogFirstCategoryName,
+      selectSecondCategoryId: props.secondCategoryId,
+      selectSecondCategoryName: props.blogSecondCategoryName,
+      title: props.title || '',
+      description: props.description || '',
       thumbnailImageFile: '',
-      thumbnailImageUrl: '',
+      thumbnailImageUrl: props.thumbnailImageUrl || '',
       content: props.content,
+      status: props.status,
     },
   });
-
-  // BlogAPI.getBlogCategoryList({
-  //   onSuccessHandler: (data) => {
-  //     setCategoryList({
-  //       firstCategoryList: data.json.firstCategoryList,
-  //       secondCategoryList: data.json.secondCategoryList,
-  //     });
-  //     methods.setValue('selectFirstCategoryId', props.firstCategoryId);
-  //     methods.setValue('selectSecondCategoryId', props.secondCategoryId);
-  //     methods.setValue('selectFirstCategoryName', props.blogFirstCategoryName);
-  //     methods.setValue(
-  //       'selectSecondCategoryName',
-  //       props.blogSecondCategoryName,
-  //       { shouldValidate: true },
-  //     );
-  //     methods.setValue('title', props.title);
-  //     methods.setValue('description', props.description);
-  //     methods.setValue('content', props.content);
-  //     methods.setValue('thumbnailImageUrl', props.thumbnailImageUrl);
-  //     // setDefaultImageUrl(props.thumbnailImageUrl);
-
-  //     setTimeout(() => {
-  //       // ? 나중에 이미지들을 삭제하기위해 현재 블로그에 있는 이미지들의 경로를 수집
-  //       const _blogContentImageList = [];
-  //       let indexPivot = 0; // 처음부터 끝까지 이동하면서 어디까지 읽었는지를 판단
-  //       const _TRUE = true;
-  //       if (!props.edit) return;
-  //       while (_TRUE) {
-  //         const index1 = props.content.indexOf(AWSS3Prefix, indexPivot); // 이미지 경로라고 판단(서버이미지경로, 시작위치)
-  //         if (index1 === -1) break; // 더 이상 없으면 탈출
-  //         indexPivot = props.content.indexOf('.', index1 + AWSS3Prefix.length); // .png, .jpg, .svg 등에서 걸리는 .을 말함
-  //         _blogContentImageList.push(
-  //           props.content.substring(index1 + AWSS3Prefix.length, indexPivot + 4),
-  //         );
-  //       }
-  //       setBlogContentImageList(_blogContentImageList);
-  //     }, 1000);
-  //   },
-  // });
 
   const uploadHandler = async (file: unknown) => {
     const url = URL.createObjectURL(file).substring(5);
@@ -216,6 +153,7 @@ const CreateUpdateBlogContainer = (
         firstCategoryId: methods.getValues('selectFirstCategoryId'),
         secondCategoryId: methods.getValues('selectSecondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
+        status: methods.getValues('status'),
         directory: `/blog-category/${methods.getValues(
           'selectFirstCategoryId',
         )}/${methods.getValues('selectSecondCategoryId')}`,
@@ -275,22 +213,17 @@ const CreateUpdateBlogContainer = (
     }, 1000);
   }, []);
 
-
   return (
     <FormProvider {...methods}>
       {isLoading && <LoadingComponent />}
-      {(store.getState().authStore.role === 'ROLE_ADMIN') && (
+      {store.getState().authStore.role === 'ROLE_ADMIN' && (
         <Container
           isLoading={isLoading}
           icon={Icons.PlayIcon}
           h={'100%'}
           isDragging={isDragging}
         >
-          <CreateUpdateHeaderContainer
-            edit={props.edit}
-            categoryList={categoryList}
-            {...props}
-          />
+          <CreateUpdateHeaderContainer edit={props.edit} {...props} />
           <CreateUpdateBlogTemplateContainer />
           <EditorContainer id={'editor-container'} isDragging={isDragging}>
             <Editor
@@ -321,7 +254,7 @@ const CreateUpdateBlogContainer = (
               brR={'0rem'}
               bg={'red20'}
               icon={'warning'}
-              text={'페이지를 나가시면 작성중인 글을 사라집니다.'}
+              text={'페이지를 나가시면 작성중인 글은 사라집니다.'}
             >
               취소
             </ConfirmButton>
@@ -500,6 +433,7 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
 const EditorFooter = styled(CC.GridColumn2)`
   background: rgba(255, 255, 255, 0.5);
   width: 100%;
+  bottom: 0px;
   z-index: 1;
   position: sticky;
 `;

@@ -7,13 +7,14 @@ import { AWSS3Prefix } from '@utils/variables/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { IViewBlogHeaderProps } from 'src/@types/blog/ViewBlogHeaderContainer';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ViewBlogHeaderContainer.tsx
  * @version 0.0.1 "2024-03-19 15:15:49"
  * @description 설명
  */
-const ViewBlogHeaderContainer = (props: unknown) => {
+const ViewBlogHeaderContainer = (props: IViewBlogHeaderProps) => {
   const router = useRouter();
   const [blogCategory] = useState({
     firstCategoryName: props.blogFirstCategoryName,
@@ -25,7 +26,7 @@ const ViewBlogHeaderContainer = (props: unknown) => {
       pd={'0rem'}
       imageUrl={`${AWSS3Prefix}${props.thumbnailImageUrl}`}
     >
-      <CC.AbsoluteRowBox gap={4} pd={'0.25rem'} left={0} top={0}>
+      <CC.AbsoluteRowBox gap={4} pd={'0.25rem'} left={"0"} top={"0"}>
         <Button
           bg={'primary20'}
           w={'max-content'}
@@ -40,9 +41,9 @@ const ViewBlogHeaderContainer = (props: unknown) => {
           w={'max-content'}
           onClick={() =>
             router.push(
-              '/blog?first-category=' +
+              '/blog?firstCategoryId=' +
                 props.firstCategoryId +
-                '&second-category=' +
+                '&secondCategoryId=' +
                 props.secondCategoryId,
             )
           }
@@ -82,7 +83,7 @@ const ViewBlogHeaderContainer = (props: unknown) => {
 };
 export default ViewBlogHeaderContainer;
 
-const Container = styled(CC.ColumnDiv)<{ props: unknown }>`
+const Container = styled(CC.ColumnDiv)<{ imageUrl: string }>`
   background-image: url(${(props) => props?.imageUrl});
   background-position: center center;
   background-repeat: no-repeat;

@@ -182,7 +182,6 @@ const BlogCategoryContainer = () => {
     };
   }, []);
 
-
   return (
     <CC.ColLeftStartBox w={'100%'} pd={'0.5rem'} outline={1} gap={8}>
       {/* 첫번째 카테고리 라인 */}

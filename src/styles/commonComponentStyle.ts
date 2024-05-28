@@ -32,10 +32,10 @@ interface IStyleProps {
 }
 
 interface IPositionProps {
-  top: string;
-  left: string;
-  right: string;
-  bottom: string;
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
 }
 interface IGridProps {
   e1?: string;

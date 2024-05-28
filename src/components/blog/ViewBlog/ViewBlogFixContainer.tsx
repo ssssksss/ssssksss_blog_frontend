@@ -25,7 +25,7 @@ const ViewBlogFixContainer = () => {
       id: router.query.id,
     }).then(() => {
       router.replace(
-        `/blog?first-category=${blogStore.activeFirstCategory}&second-category=${blogStore.activeSecondCategory}`,
+        `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${blogStore.activeSecondCategory}`,
       );
     });
   };

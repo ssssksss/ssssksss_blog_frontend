@@ -334,7 +334,7 @@ const deleteSecondCategory = (props: { onSuccessHandler: () => void }) => {
         ),
       );
       router.replace(
-        `/blog?first-category=${blogStore.activeFirstCategory}&second-category=${_secondCategoryId}`,
+        `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${_secondCategoryId}`,
         undefined,
         {
           shallow: true,
@@ -395,6 +395,7 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
     formData.append('secondCategoryId', reqData.secondCategoryId);
     formData.append('thumbnailImageFile', reqData.thumbnailImageFile);
     formData.append('directory', reqData.directory);
+    formData.append('status', reqData.status);
 
     reqData.deleteImageBucketDirectory?.map((i) => {
       formData.append('deleteImageBucketDirectory', i);

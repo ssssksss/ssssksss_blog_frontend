@@ -13,7 +13,25 @@ import Image from 'next/image';
  */
 interface IBlogItemProps {
   viewMode: boolean;
-  element: object;
+  element: {
+    id: number;
+    title: string;
+    description: string;
+    userId: number;
+    likeNumber: number;
+    commentNumber: number;
+    viewNumber: number;
+    firstCategoryId: number;
+    secondCategoryId: number;
+    thumbnailImageUrl: null | string;
+    baseTimeEntity: {
+      createdAt: string;
+      modifiedAt: string;
+      deleteAt: string;
+      accessYn: boolean;
+    };
+    blogStatus: string;
+  };
   defaultImageUrl?: string;
 }
 
@@ -22,6 +40,7 @@ interface IBlogItemProps {
 const BlogItem = (props: IBlogItemProps) => {
   return (
     <Container
+      status={props.element.blogStatus}
       onClick={() =>
         localStorageSetHandler(
           'recentBlog',
@@ -41,7 +60,11 @@ const BlogItem = (props: IBlogItemProps) => {
       {props.viewMode && (
         <CC.ImgContainer>
           <Image
-            src={`${AWSS3Prefix}${props.element.thumbnailImageUrl ?? props.defaultImageUrl ?? props.element.defaultImageUrl}`}
+            src={`${AWSS3Prefix}${
+              props.element.thumbnailImageUrl ??
+              props.defaultImageUrl ??
+              props.element.defaultImageUrl
+            }`}
             width={1}
             height={1}
           />
@@ -75,11 +98,12 @@ const BlogItem = (props: IBlogItemProps) => {
 };
 export default BlogItem;
 
-const Container = styled.div`
+const Container = styled.div<{ status: string }>`
   width: 100%;
   border-radius: ${(props) => props.theme.borderRadius.br10};
   cursor: pointer;
   background: ${(props) => props.theme.colors.white80};
+  opacity: ${(props) => props.status == 'HIDE' && 0.3};
   outline: solid black 1px;
   outline-offset: -1px;
   text-shadow: none;

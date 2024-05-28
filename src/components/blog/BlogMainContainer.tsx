@@ -11,9 +11,9 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import BlogItem from './BlogItem';
+import BlogItemList from './BlogItemList';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogMainContainer.tsx
@@ -24,7 +24,6 @@ const BlogMainContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const router = useRouter();
-  const mainContainerRef = useRef<null>();
 
   const orderBlogListHandler = (data: unknown) => {
     if (!blogStore.activeFirstCategory || !blogStore.activeSecondCategory)
@@ -55,43 +54,6 @@ const BlogMainContainer = () => {
       window.removeEventListener('keydown', keyDownEventFunc);
     };
   }, []);
-
-  const blogComponentList = () => {
-    const temp = blogStore.blogCategoryAndBlogList ? JSON.parse(JSON.stringify(blogStore.blogCategoryAndBlogList)) : [];
-    let temp1 = [];
-    if (blogStore.blogListOrderOption == 'viewNumber') {
-     temp1 = temp
-      ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
-      ?.blogSecondCategoryList.filter(
-        (j) => j.id == blogStore.activeSecondCategory,
-      )[0]
-      ?.blogList.sort((a, b) => b.viewNumber - a.viewNumber);
-    } else {
-      temp1 = temp
-        ?.filter((i) => i.id == blogStore.activeFirstCategory)[0]
-        ?.blogSecondCategoryList.filter(
-          (j) => j.id == blogStore.activeSecondCategory,
-        )[0]
-        ?.blogList;
-    }
-    return temp1?.map((k) => (
-        <Link href={`/blog/${k.id}`} key={`${k.id}`} prefetch={false}>
-          <BlogItem
-            element={k}
-            viewMode={true}
-            defaultImageUrl={
-              blogStore.blogCategoryAndBlogList
-                ?.filter(
-                  (i) => i.id == blogStore.activeFirstCategory,
-                )[0]
-                ?.blogSecondCategoryList.filter(
-                  (j) => j.id == blogStore.activeSecondCategory,
-                )[0]?.thumbnailImageUrl
-            }
-          ></BlogItem>
-        </Link>
-      ));
-  }
 
   // if (blogListResData == undefined || blogListResData?.status != 'success') return <div> 로딩중... </div>;
   // if (blogListResData.data?.json == null) return <div> 데이터가 없습니다. </div>
@@ -126,9 +88,10 @@ const BlogMainContainer = () => {
           ></Select>
         </CC.RowDiv>
       </HeaderContainer>
-      <MainContainer ref={mainContainerRef} outline={1}>
-            {blogComponentList()}
-      </MainContainer>
+      {
+        !!blogStore.activeSecondCategory &&
+        <BlogItemList />
+      }
       <FixedContainer>
         <CC.ColLeftCenterBox bg={'primary20'} pd={'0.4rem'} gap={8}>
           {authStore.role == 'ROLE_ADMIN' && (
@@ -153,7 +116,7 @@ const BlogMainContainer = () => {
     </CC.ColLeftStartBox>
   );
 };
-export default BlogMainContainer;
+export default React.memo(BlogMainContainer);
 
 const HeaderContainer = styled(CC.RowBetweenStartBox)`
   width: 100%;

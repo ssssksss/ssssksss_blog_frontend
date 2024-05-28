@@ -42,27 +42,35 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 const Index = (props: propsType) => {
-  console.log("index.tsx 파일 : ",props);
   const router = useRouter();
+
   useLayoutEffect(() => {
+    // SSR로 받아온 블로그 카테고리 리스트와 1개 블로그 리스트를 Redux에 저장
     store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(props.blogFirstCategoryList));
-    const firstCategoryId = router.query.firstCategoryId ?? props.blogFirstCategoryList?.length ? props.blogFirstCategoryList[0]?.id : undefined;
-    let secondCategoryId = Number(router.query.secondCategoryId); 
+
+    // localhost:3000/blog?firstCategoryId=31&secondCategoryId=46
+    
+    // 1번째 카테고리 필터링해서 ID값 Redux에 저장
+    const firstCategoryId =
+    router.query.firstCategoryId ?? (props.blogFirstCategoryList?.length
+    ? props.blogFirstCategoryList[0]?.id
+    : undefined);
     store.dispatch(rootActions.blogStore.setActiveFirstCategory(firstCategoryId));
 
-    if (router.query.firstCategoryId && router.query.secondCategoryId) {
+    // 2번째 카테고리 필터링해서 ID값 Redux에 저장
+    let secondCategoryId = Number(router.query.secondCategoryId);
+    if (firstCategoryId && secondCategoryId) {
       secondCategoryId = props.blogFirstCategoryList
         .filter((i) => i.id == firstCategoryId)[0]
-        ?.blogSecondCategoryList.filter(
-          (j) => (j.id == router.query.secondCategoryId)
-        )[0].id;
-    } else if (router.query.firstCategoryId) {
+        ?.blogSecondCategoryList.filter((j) => j.id == secondCategoryId)[0]?.id;
+    } else if (firstCategoryId) {
       secondCategoryId = props.blogFirstCategoryList.filter(
         (i) => i.id == firstCategoryId,
       )[0]?.blogSecondCategoryList[0].id;
     } else {
-      secondCategoryId =
-        props.blogFirstCategoryList?.length ? props.blogFirstCategoryList[0]?.blogSecondCategoryList[0].id : undefined;
+      secondCategoryId = props.blogFirstCategoryList?.length
+        ? props.blogFirstCategoryList[0]?.blogSecondCategoryList[0].id
+        : undefined;
     }
       store.dispatch(
         rootActions.blogStore.setActiveSecondCategory(
@@ -70,6 +78,7 @@ const Index = (props: propsType) => {
         ),
     );
   }, []);
+
 
   return (
     <CC.ColLeftStartBox w={'100%'} gap={8}>
