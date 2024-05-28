@@ -125,17 +125,6 @@ const HeaderContainer = styled(CC.RowBetweenStartBox)`
   background: ${(props) => props.theme.main.contrast};
 `;
 
-const MainContainer = styled(CC.ColLeftStartBox)`
-  width: 100%;
-  gap: 0.5rem;
-  ${(props) => props.theme.scroll.hiddenY};
-  scroll-behavior: smooth;
-  padding: 0.5rem;
-  & > a {
-    width: 100%;
-  }
-`;
-
 const FixedContainer = styled(CC.ColumnDiv)`
   position: sticky;
   height: 0px;

@@ -83,7 +83,6 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
 
   const onChangeStatus = async ({
     value,
-    name,
   }: {
     value: string;
     name: string;

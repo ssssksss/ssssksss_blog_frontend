@@ -50,7 +50,7 @@ const BlogHeadContainer = () => {
         message: "서버 에러로 검색 불가능"
       }))
       return null;
-    };
+    }
     if (hasNextPage && !isFetching) fetchNextPage();
   });
 
