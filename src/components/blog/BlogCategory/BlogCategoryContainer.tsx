@@ -97,10 +97,15 @@ const BlogCategoryContainer = () => {
   };
   const blogSecondCategoryHandler = (id: string) => {
     if (
-      !blogStore.blogCategoryAndBlogList
-        .filter(i=>i.id == blogStore.activeFirstCategory)[0]
+      // TODO : 나중에 블로그 플랫폼이 될 경우에는 변경이 필요할 수 있는 부분
+      authStore.role == "ROLE_ADMIN" ||
+      blogStore.blogCategoryAndBlogList
+        .filter((i) => i.id == blogStore.activeFirstCategory)[0]
         ?.blogSecondCategoryList.filter((j) => j.id == id)[0]?.blogList
-        ?.length
+        ?.length !=
+      blogStore.blogCategoryAndBlogList
+        .filter((i) => i.id == blogStore.activeFirstCategory)[0]
+        ?.blogSecondCategoryList.filter((j) => j.id == id)[0]?.blogCount
     ) {
       // blogList가 0인 경우에만 데이터를 요청한다.
       queryClient.fetchQuery(

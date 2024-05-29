@@ -61,7 +61,7 @@ const Index = (props: propsType) => {
     let secondCategoryId = Number(router.query.secondCategoryId);
     if (firstCategoryId && secondCategoryId) {
       secondCategoryId = props.blogFirstCategoryList
-        .filter((i) => i.id == firstCategoryId)[0]
+        ?.filter((i) => i.id == firstCategoryId)[0]
         ?.blogSecondCategoryList.filter((j) => j.id == secondCategoryId)[0]?.id;
     } else if (firstCategoryId) {
       secondCategoryId = props.blogFirstCategoryList.filter(

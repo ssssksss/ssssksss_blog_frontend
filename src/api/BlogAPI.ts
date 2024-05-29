@@ -46,12 +46,14 @@ const getBlog = (props: unknown) => {
 
 const getBlogList = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   return useQueryHook({
     queryKey: [
       'blogList',
       blogStore.activeFirstCategory,
       blogStore.activeSecondCategory,
       blogStore.blogListOrderOption,
+      authStore.id
     ],
     requestData: {
       url: '/api/blog-list',

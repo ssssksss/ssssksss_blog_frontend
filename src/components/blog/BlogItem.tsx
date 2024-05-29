@@ -1,5 +1,6 @@
-import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
 import { localStorageSetHandler } from '@utils/storage/localStorageHandler';
@@ -80,13 +81,13 @@ const BlogItem = (props: IBlogItemProps) => {
           <ViewAndLIke>
             <CC.RowDiv gap={2} h={'100%'}>
               <CC.ImgContainer h={'100%'}>
-                <Image src={Icons.ViewIcon} alt="view" />
+                <FontAwesomeIcon icon={faEye} />
               </CC.ImgContainer>
               <span> {props.element.viewNumber} </span>
             </CC.RowDiv>
             <CC.RowDiv gap={2} h={'100%'}>
               <CC.ImgContainer h={'100%'}>
-                <Image src={Icons.LikeIcon} alt="like" />
+                <FontAwesomeIcon icon={faThumbsUp} />
               </CC.ImgContainer>
               <span> {props.element.likeNumber} </span>
             </CC.RowDiv>

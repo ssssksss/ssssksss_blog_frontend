@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { useReducer, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Select from '../common/select/Select';
+
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file BlogContentTemplateModal.tsx
@@ -84,6 +85,7 @@ const BlogContentTemplateModal = (props: unknown) => {
         h={'3.6rem'}
       >
         <Image src={Icons.SwapIcon} alt="" width={24} height={24} />
+        <Image src={} alt="" width={24} height={24} />
       </Button>
       {!mode && (
         <RemoveBlogContentTemplateContainer>
