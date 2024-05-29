@@ -35,12 +35,12 @@ const CreateUpdateBoardContainer = (
   const [value, setValue] = useState('');
   const boardResData = BoardAPI.getBoard({
     onSuccessHandler: (res) => {
-      methods.setValue('title', res.data.json?.board.title);
-      methods.setValue('content', res.data.json?.board.content, {
+      methods.setValue('title', res.data.data?.board.title);
+      methods.setValue('content', res.data.data?.board.content, {
         shouldValidate: true,
       });
       methods.trigger('title');
-      setValue(res.data.json?.board.content);
+      setValue(res.data.data?.board.content);
     },
     enabled: props.edit && router.query.id != undefined,
   });

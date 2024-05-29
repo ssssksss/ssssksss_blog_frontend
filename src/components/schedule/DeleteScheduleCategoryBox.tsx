@@ -28,8 +28,8 @@ const DeleteScheduleCategoryBox = (props: IDeleteScheduleCategoryBoxProps) => {
       queryClient.setQueryData(
         ['scheduleCategoryList', authStore.id],
         (oldData) => {
-          oldData.json.scheduleCategoryList =
-            oldData.json.scheduleCategoryList.filter(
+          oldData.data.scheduleCategoryList =
+            oldData.data?.scheduleCategoryList.filter(
               (i) => i.id != deleteCategoryRequestData.value,
             );
           return oldData;
@@ -38,7 +38,7 @@ const DeleteScheduleCategoryBox = (props: IDeleteScheduleCategoryBoxProps) => {
       queryClient.setQueryData(
         ['scheduleList', scheduleStore.calendarMonth, authStore.id],
         (oldData) => {
-          oldData.json.scheduleList = oldData.json.scheduleList.filter(
+          oldData.data.scheduleList = oldData.data?.scheduleList.filter(
             (i) => deleteCategoryRequestData.value != i.scheduleCategory.id,
           );
           return oldData;
@@ -74,7 +74,7 @@ const DeleteScheduleCategoryBox = (props: IDeleteScheduleCategoryBoxProps) => {
           outline={true}
           data={
             scheduleCategoryListResData?.isLoading ||
-            scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+            scheduleCategoryListResData?.data?.data?.scheduleCategoryList.map(
               (i) => {
                 return {
                   value: i.id,

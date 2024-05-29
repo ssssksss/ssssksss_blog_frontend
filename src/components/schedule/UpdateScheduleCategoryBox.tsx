@@ -51,8 +51,8 @@ const UpdateScheduleCategoryBox = (props: IUpdateScheduleCategoryBoxProps) => {
       queryClient.setQueryData(
         ['scheduleCategoryList', authStore.id],
         (oldData) => {
-          oldData.json.scheduleCategoryList =
-            oldData.json.scheduleCategoryList.map((i) => {
+          oldData.data.scheduleCategoryList =
+            oldData.data?.scheduleCategoryList.map((i) => {
               if (i.id == methods.getValues('updatePickScheduleId')) {
                 return {
                   ...i,
@@ -98,7 +98,7 @@ const UpdateScheduleCategoryBox = (props: IUpdateScheduleCategoryBoxProps) => {
             outline={true}
             data={
               scheduleCategoryListResData?.isLoading ||
-              scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+              scheduleCategoryListResData?.data?.data?.scheduleCategoryList.map(
                 (i) => {
                   return {
                     value: i.id,

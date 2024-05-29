@@ -4,7 +4,7 @@ export interface IBlogCategoryListResDataProps {
   data: {
     msg: string;
     statusCode: number;
-    json?: {
+    data?: {
       userId: number;
       blogFirstCategoryList: [
         {

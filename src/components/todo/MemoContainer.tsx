@@ -5,12 +5,10 @@ import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
 import MemoCategoryModal from '@components/memo/modal/MemoCategoryModal';
 import styled from '@emotion/styled';
-import { store } from '@redux/store';
-import { SET_MEMO_LIST } from '@redux/store/memo';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MemoItem from './MemoItem';
 /**
@@ -29,24 +27,9 @@ const MemoContainer = () => {
     isShowMessage: true,
   });
   const memoCategoryResData = MemoAPI.getMemoCategoryList();
-  console.log('MemoContainer.tsx 파일 : ', memoCategoryResData);
-  // const memoCategoryListQueryResData = MemoAPI.getMemoCategoryList();
-  // const memoListQueryResData = MemoAPI.getMemoList({
-  //   type: 'all',
-  // });
+  const memoResData = MemoAPI.getMemoList({ type: activeMenu.type});
 
-  useEffect(() => {
-    if (!authStore.id) return;
-    // MemoAPI.getMemoCategoryList().then((res: unknown) => {
-    //   store.dispatch(SET_MEMO_CATEGORY_LIST(res.json?.memoCategoryList));
-    // });
-
-    MemoAPI.getMemoList({
-      type: 'all',
-    }).then((res: unknown) => {
-      store.dispatch(SET_MEMO_LIST(res.json?.memoList));
-    });
-  }, [authStore.id]);
+  console.log("MemoContainer.tsx 파일 : ",memoResData);
 
   return (
     <Container>
@@ -66,7 +49,7 @@ const MemoContainer = () => {
         >
           ALL
         </Button>
-        {memoCategoryResData?.data?.json?.memoCategoryList?.map((i) => (
+        {memoCategoryResData?.data?.data?.memoCategoryList?.map((i) => (
           <Button
             key={i.id}
             bg={i.backgroundColor}
@@ -101,13 +84,15 @@ const MemoContainer = () => {
         {activeMenu.type != 'all' && authStore.id && (
           <MemoItem edit={false} category={activeMenu} />
         )}
-        {memoStore.memoList
+        {memoResData.data?.data?.memoList
           ?.filter((i) =>
             activeMenu.type == 'all'
               ? true
               : i.memoCategory.name == activeMenu.type,
           )
-          .map((i) => <MemoItem data={i} edit={true} key={i.id} />)}
+          .map((i) => (
+            <MemoItem data={i} edit={true} key={i.id} />
+          ))}
       </MainContainer>
     </Container>
   );

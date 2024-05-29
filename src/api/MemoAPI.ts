@@ -2,8 +2,10 @@ import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import { ICreateMemoCategoryProps, IMemoCommonProps } from 'src/@types/api/memo/MemoAPI';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
@@ -29,11 +31,11 @@ const createMemoCategory = (props?: IMemoCommonProps) => {
     onSuccessHandler: ({ data }) => {
       store.dispatch(
         rootActions.memoStore.SET_MEMO_CATEGORY_LIST(
-          data.data.json.memoCategory,
+          data.data.data?.memoCategory,
         ),
       );
       queryClient.setQueryData(['memoCategory'], ((oldData: []) => {
-        return [...oldData, data.data.json.memoCategory];
+        return [...oldData, data.data.data?.memoCategory];
       }))
       props.onSuccessHandler();
     },
@@ -103,14 +105,19 @@ const addMemo = (props) => {
   });
 };
 
-const getMemoList = (props) => {
-  return ApiProcessHandler({
-    url: '/api/memo',
-    method: 'GET',
-    apiCategory: '메모',
-    params: {
-      type: props.type,
+const getMemoList = (props: {type: string}) => {
+  const authStore = useSelector((state: RootState) => state.authStore);
+  return useQueryHook({
+    queryKey: ['authUserInfo', authStore.id],
+    requestData: {
+      url: '/api/memo',
+      method: 'GET',
+      params: {
+        type: props.type,
+      },
     },
+    isRefetchWindowFocus: false,
+    onSuccessHandler: () => {},
   });
 };
 

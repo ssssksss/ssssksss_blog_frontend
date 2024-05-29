@@ -62,7 +62,7 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     //   store.dispatch(
     //     SET_MEMO_CATEGORY_LIST([
     //       ...memoStore.memoCategoryList,
-    //       res.json.memoCategory,
+    //       res.data?.memoCategory,
     //     ]),
     //   );
     //   props.closeModal();

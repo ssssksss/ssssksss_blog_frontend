@@ -34,7 +34,7 @@ const ScheduleCategoryItem = (props: IScheduleCategoryItemProps) => {
         authStore.id,
       ],
       (oldData) => {
-        oldData.json.scheduleList.map((i) => {
+        oldData.data?.scheduleList.map((i) => {
           if (props.id == i.scheduleCategory.id) {
             i.scheduleCategory.isVisible = !isVisible;
           }

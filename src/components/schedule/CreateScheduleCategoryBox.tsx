@@ -57,11 +57,11 @@ const CreateScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
         };
       }) => {
         const { backgroundColor, id, isVisible, name, userId } =
-          res.json.scheduleCategory;
+          res.data?.scheduleCategory;
         queryClient.setQueryData(
           ['scheduleCategoryList', authStore.id],
           (oldData) => {
-            oldData.json.scheduleCategoryList.push({
+            oldData.data?.scheduleCategoryList.push({
               backgroundColor,
               id,
               isVisible,

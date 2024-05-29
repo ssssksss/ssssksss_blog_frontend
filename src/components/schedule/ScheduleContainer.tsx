@@ -122,7 +122,7 @@ const ScheduleContainer = () => {
     }
     if (scheduleListResponseData.isFetching) return;
     const _scheduleList =
-      scheduleListResponseData.data.json?.scheduleList.filter(
+      scheduleListResponseData.data.data?.scheduleList.filter(
         (i) => i.scheduleCategory.isVisible == true,
       );
     // grid 최대 높이를 알기 위해서 필요한 배열
@@ -224,12 +224,9 @@ export default ScheduleContainer;
 
 const Container = styled.div<{ active?: boolean }>`
   height: 100%;
+  position: relative;
   @media (pointer: coarse) {
     font-size: 1.2rem;
-  }
-  @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    display: grid;
-    grid-template-columns: 12rem auto;
   }
 `;
 

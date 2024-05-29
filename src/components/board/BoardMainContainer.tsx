@@ -50,7 +50,7 @@ const BoardMainContainer = () => {
           <span> {boardStore.keyword} </span>
         </SearchResultContainer>
         <CC.RowDiv>
-          총 {boardListResData.data?.json?.boardCount} 건의 게시물
+          총 {boardListResData.data?.data?.boardCount} 건의 게시물
         </CC.RowDiv>
       </SearchContainer>
       <BoardListContainer>
@@ -61,7 +61,7 @@ const BoardMainContainer = () => {
           <span> 날짜 </span>
           <span> 조회수 </span>
         </BoardListTitle>
-        {boardListResData.data?.json?.boardList?.map((el: IBoardListProps) => (
+        {boardListResData.data?.data?.boardList?.map((el: IBoardListProps) => (
           <Link
             key={el.id}
             href={`/board/${el.id}?page=${store.getState().boardStore.page}&size=${store.getState().boardStore.size}&keyword=${store.getState().boardStore.keyword}&sort=${store.getState().boardStore.sort}`}
@@ -85,14 +85,14 @@ const BoardMainContainer = () => {
           </Link>
         ))}
         {Array.from(
-          { length: 10 - boardListResData.data?.json?.boardList?.length || 0 },
+          { length: 10 - boardListResData.data?.data?.boardList?.length || 0 },
           () => 0,
         )?.map((_, index) => <BoardItem key={index} />)}
       </BoardListContainer>
       <BoardListBottomContainer>
         <Pagination
           refetch={(page: number) => changePage(page)}
-          endPage={Math.ceil(boardListResData.data?.json?.boardCount / 10)}
+          endPage={Math.ceil(boardListResData.data?.data?.boardCount / 10)}
           currentPage={boardStore.page}
         />
       </BoardListBottomContainer>

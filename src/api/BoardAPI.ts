@@ -5,8 +5,8 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
-  ICreateBoardProps,
-  IUpdateBoardProps,
+    ICreateBoardProps,
+    IUpdateBoardProps,
 } from '../@types/api/BoardAPI';
 
 /**
@@ -96,7 +96,7 @@ const createBoard = () => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      const _url = `/board/${data.data.json.id}`;
+      const _url = `/board/${data.data.data?.id}`;
       router.replace(_url);
       // router.beforeHistoryChange()
     },

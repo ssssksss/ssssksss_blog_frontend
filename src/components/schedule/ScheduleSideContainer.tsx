@@ -1,14 +1,14 @@
 import { ScheduleAPI } from '@api/ScheduleAPI';
 import ModalButton from '@components/common/button/ModalButton';
-import { Icons } from '@components/common/icons/Icons';
-import ScheduleCategoryModal from '@components/schedule/modal/ScheduleCategoryModal';
 import styled from '@emotion/styled';
+import { faArrowLeft, faArrowRight, faGear } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import Image from 'next/image';
-import { memo, useReducer } from 'react';
+import { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ScheduleCategoryItem from './ScheduleCategoryItem';
+import ScheduleCategoryModal from './modal/ScheduleCategoryModal';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ScheduleSideContainer.tsx
@@ -17,87 +17,61 @@ import ScheduleCategoryItem from './ScheduleCategoryItem';
  */
 const ScheduleSideContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
-  const [scheduleCategoryBoxIsOpen, hideScheduleCategoryBoxToggle] = useReducer(
-    (v) => !v,
-    true,
-  );
-
+  const [isOpen, setIsOpen] = useState(false);
   const scheduleCategoryListResData = ScheduleAPI.getScheduleCategoryList();
   return (
-    <Container>
-      <CategoryBox onClick={() => hideScheduleCategoryBoxToggle()}>
-        <CategorySideTitle isOpen={scheduleCategoryBoxIsOpen}>
-          카테고리
-        </CategorySideTitle>
-        {authStore.id && (
-          <ModalButton
-            color={'primary80'}
-            modalW={'calc(100vw - 1rem)'}
-            modalH={'auto'}
-            modalMaxW={'30rem'}
-            modalBg={"white20"}
-            modalOverlayVisible={true}
-            w={'1.6rem'}
-            h={'1.6rem'}
-            modal={<ScheduleCategoryModal />}
-          >
-            <CC.ImgContainer w={'100%'} h={'100%'}>
-              <Image src={Icons.SettingIcon} alt="" />
-            </CC.ImgContainer>
-          </ModalButton>
-        )}
-      </CategoryBox>
-      {scheduleCategoryBoxIsOpen && (
-        <CategoryListContainer>
-          {scheduleCategoryListResData?.isLoading ||
-            scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
-              (i, index) => <ScheduleCategoryItem key={index} {...i} />,
-            )}
-        </CategoryListContainer>
+    <Container isOpen={isOpen}>
+      {isOpen ? (
+        <CC.ColumnLeftDiv w={"100%"}>
+          <CC.RowBetweenCenterBox w={"100%"} bg={"primary20"}>
+          <CC.ImgContainer w={'2rem'} h={'2rem'} onClick={() => setIsOpen(false)}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </CC.ImgContainer>
+            {authStore.id && (
+              <ModalButton
+              color={'primary80'}
+                modalW={'calc(100vw - 1rem)'}
+                modalH={'auto'}
+                modalMaxW={'30rem'}
+                modalBg={'white20'}
+                modalOverlayVisible={true}
+                w={'1.6rem'}
+                h={'1.6rem'}
+                modal={<ScheduleCategoryModal />}
+                >
+                <CC.ImgContainer w={'100%'} h={'100%'}>
+                <FontAwesomeIcon icon={faGear} />
+                </CC.ImgContainer>
+                </ModalButton>
+              )}
+              </CC.RowBetweenCenterBox>
+            <CategoryListContainer>
+              {scheduleCategoryListResData?.isLoading ||
+                scheduleCategoryListResData?.data?.data?.scheduleCategoryList.map(
+                  (i, index) => <ScheduleCategoryItem key={index} {...i} />,
+                )}
+            </CategoryListContainer>
+        </CC.ColumnLeftDiv>
+      ) : (
+        <CC.ImgContainer w={'2rem'} h={'2rem'} onClick={() => setIsOpen(true)}>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </CC.ImgContainer>
       )}
     </Container>
   );
 };
 export default memo(ScheduleSideContainer);
 
-const Container = styled(CC.ColumnDiv.withComponent('article'))`
-  position: relative;
-  height: 100%;
-  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    top: 0;
-    left: 0;
-    position: absolute;
-    height: auto;
-  }
-  font-size: 1rem;
-  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
-    font-size: 0.75rem;
-  }
-`;
-const CategoryBox = styled.div`
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: auto 2rem;
-  background: ${(props) => props.theme.main.secondary40};
-  align-items: center;
-  height: 2.4rem;
-
-  & > button {
-    position: absolute;
-    width: 1.6rem;
-    right: 0.4rem;
-  }
-`;
-
-const CategorySideTitle = styled.div<{ isOpen: boolean }>`
-  padding: 0.4rem 0.2rem;
+const Container = styled(CC.ColumnDiv.withComponent('article'))<{isOpen: boolean}>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: ${props=>props.isOpen ? "10rem" : "auto"};
 `;
 
 const CategoryListContainer = styled(CC.ColumnDiv)`
   width: 100%;
-  top: 2.4rem;
   display: flex;
-  position: absolute;
-  z-index: 4;
+  z-index: 1;
   background: white;
 `;

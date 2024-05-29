@@ -34,7 +34,7 @@ const ViewBoardContainer = () => {
   };
 
   const { modifiedAt, writer, title, userId, content, views } =
-    boardResData.data.json.board;
+    boardResData.data.data?.board;
 
   return (
     <>
@@ -98,6 +98,8 @@ const ViewBoardContainer = () => {
 export default ViewBoardContainer;
 
 const Container = styled(CC.ColumnDiv)`
+  background: ${props=>props.theme.main.primary20};
+  padding: 0.5rem;
   height: calc(100vh - 8rem);
   position: relative;
   & > div {
@@ -128,7 +130,7 @@ const Container = styled(CC.ColumnDiv)`
   }
 `;
 
-const ViewerContainer = styled.div<{ icon: unknown }>`
+const ViewerContainer = styled.div<{ icon: unknown, bg: string }>`
   width: 100%;
   .wmde-markdown-var,
   .w-md-editor,

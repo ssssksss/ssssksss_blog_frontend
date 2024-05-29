@@ -26,9 +26,9 @@ const YoutubePlayerModal = () => {
   const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
     onSuccessHandler: (res) => {
       const { id, imageUrl, tags, title, userId, youtubeUrl } =
-        res.data.data.json.youtube;
+        res.data.data.data?.youtube;
       queryClient.setQueryData(['getYoutubeList'], (oldData) => {
-        oldData.json.youtubeList.unshift({
+        oldData.data?.youtubeList.unshift({
           id,
           imageUrl,
           tags,
@@ -44,7 +44,7 @@ const YoutubePlayerModal = () => {
   const deleteYoutubeLinkMutation = YoutubeAPI.deleteYoutubeLink({
     onSuccessHandler: (data) => {
       queryClient.setQueryData('getYoutubeList', (oldData) => {
-        oldData.json.youtubeList = oldData.json.youtubeList.filter(
+        oldData.data.youtubeList = oldData?.data?.youtubeList.filter(
           (i) => i.id != data.variables.id,
         );
         return oldData;
@@ -107,7 +107,7 @@ const YoutubePlayerModal = () => {
       </ArticleStyle>
       <ul>
         {getYoutubeLinkListResData.isLoading ||
-          getYoutubeLinkListResData.data?.json?.youtubeList.map((i, index) => (
+          getYoutubeLinkListResData.data?.data?.youtubeList.map((i, index) => (
             <LiStyle
               key={index}
               onClick={() => selectYoutubeLinkHandler(i)}

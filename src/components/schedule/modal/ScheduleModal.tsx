@@ -85,7 +85,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       endDateTime: timeFunction.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
     }).then((res: unknown) => {
-      const scheduleData = res.json.schedule;
+      const scheduleData = res.data?.schedule;
       const { id, title, content, startDateTime, endDateTime, isChecked } =
         scheduleData;
       if (props.methodType === 'month') {
@@ -97,14 +97,14 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           ],
           (oldData) => {
             let _index = -1;
-            oldData.json.scheduleList.map((i, index) => {
+            oldData.data?.scheduleList.map((i, index) => {
               if (
                 dateFormat4y2m2d(scheduleData.startDateTime) <
                   i.startDateTime &&
                 _index == -1
               ) {
                 _index = index;
-                oldData.json.scheduleList.splice(index, 0, {
+                oldData.data?.scheduleList.splice(index, 0, {
                   id,
                   title,
                   content,
@@ -123,7 +123,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               }
             });
             if (_index == -1) {
-              oldData.json.scheduleList.push({
+              oldData.data?.scheduleList.push({
                 id: scheduleData.id,
                 title: scheduleData.title,
                 content: scheduleData.content,
@@ -179,7 +179,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
       endDateTime: timeFunction.jsDateTypeAddDays(state[0].endDate, 1),
       scheduleCategoryId: Number(scheduleCategory.id),
     }).then((res: unknown) => {
-      const scheduleData = res.json.schedule;
+      const scheduleData = res.data?.schedule;
       if (scheduleData.id == props.data.id)
         if (props.methodType == 'month') {
           queryClient.setQueryData(
@@ -189,7 +189,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
               authStore.id,
             ],
             (oldData) => {
-              oldData.json.scheduleList = oldData.json.scheduleList.map((i) => {
+              oldData.data.scheduleList = oldData.data?.scheduleList?.map((i) => {
                 if (scheduleData.id == i.id) {
                   return {
                     id: scheduleData.id,
@@ -256,7 +256,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
           authStore.id,
         ],
         (oldData) => {
-          oldData.json.scheduleList = oldData.json.scheduleList.filter(
+          oldData.data.scheduleList = oldData.data?.scheduleList?.filter(
             (i) => props.data.id != i.id,
           );
           return oldData;
@@ -307,7 +307,7 @@ const ScheduleModal = (props: IScheduleModalProps) => {
                   name: scheduleCategory?.name,
                   bg: scheduleCategory?.bg || scheduleCategory?.backgroundColor,
                 }}
-                data={scheduleCategoryListResData?.data?.json?.scheduleCategoryList.map(
+                data={scheduleCategoryListResData?.data?.data?.scheduleCategoryList.map(
                   (i) => {
                     return { value: i.id, name: i.name, bg: i.backgroundColor };
                   },

@@ -20,7 +20,7 @@ const addTodo = (props) => {
     onSuccessHandler: ({ data }) => {
       props.onSuccessHandler();
       queryClient.setQueryData(['todoList'], (oldData) => {
-        oldData.json.todoList.unshift(data.data.json.todo);
+        oldData.data?.todoList.unshift(data.data.data?.todo);
         return oldData;
       });
     },
@@ -55,7 +55,8 @@ const updateTodo = (props) => {
     mutationFn,
     onSuccessHandler: ({ variables }) => {
       queryClient.setQueryData(['todoList'], (oldData) => {
-        oldData.json.todoList = oldData.json.todoList.map((i) => {
+        console.log("TodoAPI.ts 파일 : ",oldData);
+        oldData.data.todoList = oldData.data?.todoList?.map((i) => {
           if (i.id == variables.id) {
             return {
               ...i,
@@ -83,7 +84,8 @@ const deleteTodo = (props) => {
     mutationFn,
     onSuccessHandler: ({ variables }) => {
       queryClient.setQueryData(['todoList'], (oldData) => {
-        oldData.json.todoList = oldData.json.todoList.filter(
+        console.log("TodoAPI.ts 파일 : ",oldData);
+        oldData.data.todoList = oldData.data?.todoList?.filter(
           (i) => i.id != variables.id,
         );
         return oldData;

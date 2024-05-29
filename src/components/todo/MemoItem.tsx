@@ -48,12 +48,12 @@ const MemoItem = (props: IMemoItemProps) => {
     }).then((res: unknown) => {
       const temp = [...memoStore.memoList];
       temp.unshift({
-        id: res.json.id,
-        content: res.json.content,
+        id: res.data?.id,
+        content: res.data?.content,
         memoCategory: {
-          id: Number(res.json.memoCategory.id),
-          name: res.json.memoCategory.name,
-          backgroundColor: res.json.memoCategory.backgroundColor,
+          id: Number(res.data?.memoCategory.id),
+          name: res.data?.memoCategory.name,
+          backgroundColor: res.data?.memoCategory.backgroundColor,
         },
       });
       store.dispatch(SET_MEMO_LIST(temp));
@@ -69,13 +69,13 @@ const MemoItem = (props: IMemoItemProps) => {
       const temp = memoStore.memoList.map((i) => {
         if (i.id == props.data.id) {
           return {
-            id: res.json.id,
-            content: res.json.content,
+            id: res.data?.id,
+            content: res.data?.content,
             memoCategory: {
-              id: Number(res.json.memoCategory.id),
-              name: res.json.memoCategory.name,
-              backgroundColor: res.json.memoCategory.backgroundColor,
-              userId: res.json.memoCategory.userId,
+              id: Number(res.data?.memoCategory.id),
+              name: res.data?.memoCategory.name,
+              backgroundColor: res.data?.memoCategory.backgroundColor,
+              userId: res.data?.memoCategory.userId,
             },
           };
         }

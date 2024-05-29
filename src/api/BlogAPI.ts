@@ -83,7 +83,7 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      const _createBlogFirstCategory = data.data.json.createBlogFirstCategory;
+      const _createBlogFirstCategory = data.data.data?.createBlogFirstCategory;
       const _firstCategoryList = JSON.parse(
         JSON.stringify(store.getState().blogStore.firstCategoryList),
       );
@@ -197,7 +197,7 @@ const getBlogFirstCategoryList = () => {
     onSuccessHandler: (props: IBlogCategoryListResDataProps) => {
       store.dispatch(
         rootActions.blogStore.setActiveFirstCategory(
-          props.data.json.blogFirstCategoryList[0].id,
+          props.data.data?.blogFirstCategoryList[0].id,
         ),
       );
     },
@@ -232,7 +232,7 @@ const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
         thumbnailImageUrl: string;
         name: string;
         count: 0;
-      } = data.data.json.createBlogSecondCategory;
+      } = data.data.data?.createBlogSecondCategory;
       const _secondCategoryList = JSON.parse(
         JSON.stringify(store.getState().blogStore.secondCategoryList),
       );
@@ -284,7 +284,7 @@ const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
       _secondCategoryList[blogStore.activeFirstCategory][variables.id] = {
         id: variables.id,
         name: variables.name,
-        thumbnailImageUrl: data.data.json.data.thumbnailImageUrl,
+        thumbnailImageUrl: data.data.data?.data.thumbnailImageUrl,
         count:
           _secondCategoryList[blogStore.activeFirstCategory][variables.id]
             .count,
@@ -377,7 +377,7 @@ const createBlog = (props: { onSuccessHandler: () => void}) => {
     mutationFn,
     onSuccessHandler: ({ data }) => {
       props.onSuccessHandler();
-      router.replace(`/blog/${data.data.json.id}`);
+      router.replace(`/blog/${data.data.data?.id}`);
     },
     onErrorHandler: ({ variables }) => {
       navigator.clipboard.writeText(variables.content);

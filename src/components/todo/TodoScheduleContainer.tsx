@@ -7,8 +7,8 @@ import styled from '@emotion/styled';
 import AddIcon from '@mui/icons-material/Add';
 import { CC } from '@styles/commonComponentStyle';
 import {
-  dateFormat4y2m2d,
-  todayDayOfTheWeek,
+    dateFormat4y2m2d,
+    todayDayOfTheWeek,
 } from '@utils/function/dateFormat';
 import { useState } from 'react';
 import { IScheduleItemProps } from 'src/@types/schedule';
@@ -36,7 +36,7 @@ const TodoScheduleContainer = () => {
     type: 'today',
   }).data?.json;
   const todoResData: IScheduleResDataProps[] =
-    TodoAPI.getTodoList()?.data?.json?.todoList;
+    TodoAPI.getTodoList()?.data?.data?.todoList;
   return (
     <Container containerSpace={containerSpace}>
       <div>
