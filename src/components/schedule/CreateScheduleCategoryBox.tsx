@@ -46,7 +46,7 @@ const CreateScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
       backgroundColor: createCategoryRequestData.bg,
     }).then(
       (res: {
-        json: {
+        data: {
           scheduleCategory: {
             backgroundColor: string;
             id: number;
@@ -61,13 +61,7 @@ const CreateScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
         queryClient.setQueryData(
           ['scheduleCategoryList', authStore.id],
           (oldData) => {
-            oldData.data?.scheduleCategoryList.push({
-              backgroundColor,
-              id,
-              isVisible,
-              name,
-              userId,
-            });
+            oldData.data?.scheduleCategoryList.push(res.data?.scheduleCategory);
             return oldData;
           },
         );
