@@ -31,7 +31,7 @@ const BlogRecentListContainer = () => {
       <Title
         onClick={(event) => {
           setIsOpen((prev) => !prev);
-          let temp = JSON.parse(window.localStorage.getItem('recentBlog') || '[]').filter((i: { status: string }) => i.status != "HIDE");
+          const temp = JSON.parse(window.localStorage.getItem('recentBlog') || '[]').filter((i: { status: string }) => i.status != "HIDE");
           window.localStorage.setItem('recentBlog',JSON.stringify(temp));
           event.stopPropagation();
           event.preventDefault();

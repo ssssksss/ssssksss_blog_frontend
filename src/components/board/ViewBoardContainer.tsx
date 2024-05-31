@@ -33,8 +33,11 @@ const ViewBoardContainer = () => {
     });
   };
 
-  const { modifiedAt, writer, title, userId, content, views } =
-    boardResData.data.data?.board;
+  if (boardResData.data?.data?.board == undefined) {
+    return <div>  </div>
+  }
+    const { modifiedAt, writer, title, userId, content, views } =
+      boardResData.data.data?.board;
 
   return (
     <>
@@ -143,7 +146,7 @@ const ViewerContainer = styled.div<{ icon: unknown, bg: string }>`
     height: 100% !important;
   }
   padding: 0rem 0.2rem;
-  ${(props) => props.theme.scroll.hiddenX};
+  ${(props) => props.theme.scroll .hiddenX};
 
   p:has(img) {
     display: flex;

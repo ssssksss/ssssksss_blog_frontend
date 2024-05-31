@@ -20,9 +20,8 @@ const PrivateProjectDescription = () => {
           <p> 코드 리팩토링 및 정리 중</p>
           <p> 블로그 용도(공부 정리 및 기록)로 사용 중 </p>
           <p>
-            {' '}
             Oauth, 이미지 업로드(미리보기), 무한스크롤(Intersection Observer
-            API, react-query), 페이지네이션 등{' '}
+            API, react-query), 페이지네이션 등
           </p>
         </div>
       </li>
@@ -96,6 +95,7 @@ const PrivateProjectDescription = () => {
           <a
             href={'https://github.com/ssssksss/ssssksss_blog_frontend'}
             target={'_blank'}
+            rel="noreferrer"
           >
             <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white" />
           </a>

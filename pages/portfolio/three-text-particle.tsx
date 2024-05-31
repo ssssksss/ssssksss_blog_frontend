@@ -21,25 +21,23 @@ const TextParticle: React.FC = () => {
       }
     }, 4000);
 
-    let canvas = canvasRef.current;
+    const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const cw = canvas.width = window.innerWidth;
     const ch = canvas.height = 200;
     const radius = 200;
     const drag = 0.9;
-    const ease = 0.2;
     const density = 1;
     const offset = 1;
-    const timeout = 20;
     let pixels: Uint8ClampedArray;
-    let particles: Particle[] = [];
+    const particles: Particle[] = [];
     let mx = 0,
       my = 0;
-    let divisionFontSize = 90 / keyword.length;
+    const divisionFontSize = 90 / keyword.length;
     const event = (e: MouseEvent) => {
       mx = e.clientX - canvas.offsetLeft;
       my = e.clientY - canvas.offsetTop;
@@ -87,7 +85,7 @@ const TextParticle: React.FC = () => {
       }
     }
     
-    let cancelRef: any;
+    let cancelRef: number;
     
     const draw = () => {
       const a = ctx.createImageData(cw, ch);

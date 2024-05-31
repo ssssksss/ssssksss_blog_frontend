@@ -19,7 +19,6 @@ import MemoItem from './MemoItem';
  */
 
 const MemoContainer = () => {
-  const memoStore = useSelector((state: RootState) => state.memoStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const [activeMenu, setActiveMenu] = useState({
     type: 'all',

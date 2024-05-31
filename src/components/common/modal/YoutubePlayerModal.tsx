@@ -26,7 +26,7 @@ const YoutubePlayerModal = () => {
   const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
     onSuccessHandler: (res) => {
       const { id, imageUrl, tags, title, userId, youtubeUrl } =
-        res.data.data.data?.youtube;
+        res.data.data?.data?.youtube;
       queryClient.setQueryData(['getYoutubeList'], (oldData) => {
         oldData.data?.youtubeList.unshift({
           id,
