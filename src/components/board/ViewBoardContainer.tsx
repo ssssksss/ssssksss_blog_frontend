@@ -21,28 +21,32 @@ const ViewBoardContainer = () => {
   const router = useRouter();
   const authStore = useSelector((state: RootState) => state.authStore);
   const boardStore = useSelector((state: RootState) => state.boardStore);
-  const boardResData = BoardAPI.getBoard({
+  const boardResData: {
+    data: {
+      board: {
+        title: string,
+        views: number,
+        writer: string,
+        modifiedAt: string,
+        content: string,
+        userId: number,
+        status: string,
+      }
+    }
+  } = BoardAPI.getBoard({
     enabled: router.query.id != undefined,
-  });
+  })?.data;
   const deleteBoardMutate = BoardAPI.deleteBoard();
-  if (boardResData?.status != 'success') return;
-
   const deleteHandler = () => {
     deleteBoardMutate({
       id: router.query.id,
     });
   };
 
-  if (boardResData.data?.data?.board == undefined) {
-    return <div>  </div>
-  }
-    const { modifiedAt, writer, title, userId, content, views } =
-      boardResData.data.data?.board;
-
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{boardResData?.data?.board?.title}</title>
       </Head>
       <Container gap={4}>
         <CC.ColumnDiv pd={'0rem 0.8rem'} w={'100%'}>
@@ -51,21 +55,25 @@ const ViewBoardContainer = () => {
             h={'max-content'}
             overflow={'hidden'}
           >
-            <h1> {title} </h1>
+            <h1> {boardResData?.data?.board?.title} </h1>
           </CC.RowDiv>
           <CC.RowRightDiv gap={4}>
             <Image src={Icons.ViewIcon} alt="" width={16} height={16} />
-            {views}
+            {boardResData?.data?.board?.views}
           </CC.RowRightDiv>
           <CC.RowBetweenDiv>
-            <CC.RowDiv>작성자 : {writer || 'undefined'}</CC.RowDiv>
-            <CC.RowDiv>{dateFormat4y2m2d(modifiedAt)}</CC.RowDiv>
+            <CC.RowDiv>
+              작성자 : {boardResData?.data?.board?.writer || 'undefined'}
+            </CC.RowDiv>
+            <CC.RowDiv>
+              {dateFormat4y2m2d(boardResData?.data?.board?.modifiedAt)}
+            </CC.RowDiv>
           </CC.RowBetweenDiv>
         </CC.ColumnDiv>
         <ViewerContainer bg={'contrast'} icon={Icons.PlayIcon}>
           <Editor
             highlightEnable={false}
-            value={content}
+            value={boardResData?.data?.board?.content}
             preview={'preview'}
             hideToolbar={true}
             visibleDragbar={false}
@@ -74,12 +82,12 @@ const ViewBoardContainer = () => {
           />
         </ViewerContainer>
         <FixContainer>
-          {authStore.id == userId && (
+          {authStore.id == boardResData?.data?.board?.userId && (
             <Link href={`/board/update?id=${router.query.id}`}>
               <Image src={Icons.EditIcon} alt="" width={20} height={20} />
             </Link>
           )}
-          {authStore.id == userId && (
+          {authStore.id == boardResData?.data?.board?.userId && (
             <Image
               src={Icons.DeleteIcon}
               alt=""
@@ -89,7 +97,9 @@ const ViewBoardContainer = () => {
             />
           )}
           <Link
-            href={`/board?keyword=${boardStore.keyword}&page=${boardStore.page + 1}&size=${boardStore.size}&sort=${boardStore.sort}`}
+            href={`/board?keyword=${boardStore.keyword}&page=${
+              boardStore.page + 1
+            }&size=${boardStore.size}&sort=${boardStore.sort}`}
           >
             <Image src={Icons.MenuIcon} alt="" width={24} height={24} />
           </Link>

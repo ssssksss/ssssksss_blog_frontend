@@ -78,8 +78,7 @@ const PrivateProjectDescription = () => {
           <span
             className={'rounded-lg bg-black text-[white] px-[.25rem] font-bold'}
           >
-            {' '}
-            2022, 2024{' '}
+            2022, 2024
           </span>
         </div>
       </li>
@@ -99,7 +98,11 @@ const PrivateProjectDescription = () => {
           >
             <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white" />
           </a>
-          <a href={'https://blog.ssssksss.xyz/blog'} target={'_blank'}>
+          <a
+            href={'https://blog.ssssksss.xyz/blog'}
+            target={'_blank'}
+            rel="noreferrer"
+          >
             <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
           </a>
         </div>
