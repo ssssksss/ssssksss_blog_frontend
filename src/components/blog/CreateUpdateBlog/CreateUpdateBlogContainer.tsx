@@ -20,7 +20,6 @@ import React, {
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
 import { BlogCreateYup, BlogUpdateYup } from '../../yup/BlogCategoryYup';
-import CreateUpdateBlogTemplateContainer from './CreateUpdateBlogTemplateContainer';
 import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
 
 /**
@@ -224,7 +223,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           isDragging={isDragging}
         >
           <CreateUpdateHeaderContainer edit={props.edit} {...props} />
-          <CreateUpdateBlogTemplateContainer />
+          {/* <CreateUpdateBlogTemplateContainer /> */}
           <EditorContainer id={'editor-container'} isDragging={isDragging}>
             <Editor
               ref={textareaRef}

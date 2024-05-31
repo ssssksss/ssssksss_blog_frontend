@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import theme from './theme';
 
 const GlobalStyles = css`
+
   @font-face {
     font-family: 'gmarketSansBold';
     src: url('/fonts/GmarketSansTTFBold.ttf') format('truetype');

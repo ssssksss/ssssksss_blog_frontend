@@ -150,7 +150,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
     display: block;
     position: static;
     height: 100% !important;
-  }import { Orange20 } from './../../../stories/Button.stories';
+  }
 
   .wmde-markdown {
     padding: 2rem 0.2rem;
@@ -162,8 +162,8 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       font-weight: 800;
       outline: solid ${(props) => props.theme.main.primary80} 0.25rem;
       outline-offset: -0.25rem;
-      padding: 0.5rem;
       border-radius: 0.5rem;
+      padding: 0.5rem;
       max-width: max-content;
       font-size: 2rem;
       font-family: ${props=>props.theme.fontFamily.gmarketSansBold}; 
@@ -200,8 +200,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       font-size: 1.2rem;
       box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, 0.075);
       border-radius: 0.5rem;
-            font-style: italic;
-            
+      font-style: italic;
     }
 
     p:has(img) {

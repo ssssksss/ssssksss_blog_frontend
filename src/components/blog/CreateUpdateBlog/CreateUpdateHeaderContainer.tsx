@@ -105,13 +105,14 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
   }, []);
 
   useLayoutEffect(() => {
-    if (!props.edit) return null;
+    if (props.edit) {
       AxiosInstance.get(
         `/api/blog/category/list`,
       ).then(res => {
-        store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(res.data.data.blogFirstCategoryList));
+        store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(res.data?.data?.blogFirstCategoryList));
       });
-  },[])
+    }
+  });
 
   return (
     <Container>

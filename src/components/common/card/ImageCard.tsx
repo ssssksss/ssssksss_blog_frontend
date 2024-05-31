@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Component } from 'react';
+import { ReactNode } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ImageCard.tsx
@@ -9,14 +9,15 @@ import { Component } from 'react';
  */
 
 interface IImageCardProps {
-  imgSrc: Component;
+  imgSrc: string;
   w?: string;
   minW?: string;
   maxW?: string;
   h?: string;
   minH?: string;
   maxH?: string;
-  backComponent?: Component;
+  backComponent?: ReactNode;
+  className?: string;
 }
 
 const ImageCard = (props: IImageCardProps) => {
@@ -28,8 +29,9 @@ const ImageCard = (props: IImageCardProps) => {
       w={props.w}
       maxW={props.maxW}
       minW={props.minW}
+      className={props.className}
     >
-      <Image className={'front-card'} src={props.imgSrc} layout={'fill'} />
+      <Image className={'front-card'} src={props.imgSrc} layout={'fill'} alt={""} />
       <BehindCard className={'back-card'}>{props.backComponent}</BehindCard>
     </Container>
   );
@@ -58,12 +60,12 @@ const Container = styled.div<{
   }
 
   &:hover {
-    .frontCard {
+    .front-card {
       transition: all 1.2s ease;
       visibility: hidden;
       opacity: 0;
     }
-    .backCard {
+    .back-card {
       transition: all 1.2s ease;
       visibility: visible;
       background: ${(props) => props.theme.colors.white60};

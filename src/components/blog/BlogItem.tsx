@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
@@ -53,6 +53,7 @@ const BlogItem = (props: IBlogItemProps) => {
             likeNumber: props.element.likeNumber,
             baseTimeEntity: props.element.baseTimeEntity,
             thumbnailImageUrl: props.element.thumbnailImageUrl,
+            status: props.element.blogStatus,
           },
           4,
         )
@@ -79,6 +80,15 @@ const BlogItem = (props: IBlogItemProps) => {
             {dateFormat4y2m2d(props.element.baseTimeEntity.modifiedAt)}
           </UpdateData>
           <ViewAndLIke>
+            {
+              props.element.blogStatus == "DEVELOP" &&
+              <CC.RowDiv gap={2} h={'100%'} className={"bg-yellow-300 rounded-md px-[0.25rem]"}>
+                <CC.ImgContainer h={'100%'}>
+                  <FontAwesomeIcon icon={faBolt} />
+                </CC.ImgContainer>
+                <span> 개발중 </span>
+              </CC.RowDiv>
+            }
             <CC.RowDiv gap={2} h={'100%'}>
               <CC.ImgContainer h={'100%'}>
                 <FontAwesomeIcon icon={faEye} />

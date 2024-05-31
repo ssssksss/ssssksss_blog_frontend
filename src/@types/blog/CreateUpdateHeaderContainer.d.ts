@@ -1,5 +1,5 @@
 export interface CreateUpdateHeaderProps {
-  edit: boolean;
+  edit?: boolean;
   commentNumber: number;
   blogFirstCategoryName: string;
   blogSecondCategoryName: string;

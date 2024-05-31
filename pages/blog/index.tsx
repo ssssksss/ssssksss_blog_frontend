@@ -77,7 +77,7 @@ const Index = (props: propsType) => {
           secondCategoryId,
         ),
     );
-  }, []);
+  });
 
 
   return (

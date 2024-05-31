@@ -116,6 +116,8 @@ export default BlogHeadContainer;
 
 const BlogSearchItemContainer = styled(CC.ColumnDiv.withComponent('ul'))`
   position: absolute;
+  background: white;
+  padding: 0.5rem;
   width: 100%;
   z-index: 11;
   height: calc(100vh - 7.5rem);

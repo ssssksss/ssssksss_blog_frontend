@@ -62,9 +62,6 @@ const ImageBox = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background-image: url('https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/%EC%9A%B0%EC%A3%BC+%EB%B0%B0%EA%B2%BD1.svg');
-  background-size: cover;
-  background-repeat: no-repeat;
   z-index: 0;
 `;
 
