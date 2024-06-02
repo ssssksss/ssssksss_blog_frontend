@@ -118,9 +118,9 @@ ${(props) =>
       props.theme.main?.[props.outlineColor]
     } 1px`};
   outline-offset: -1px;
-  width: ${(props) => props.w};
   min-width: ${(props) => props.minW};
   min-height: ${(props) => props.minH};
+  width: ${(props) => props.w};
   height: ${(props) => props.h};
   font-family: ${(props) => props.theme.fontFamily?.[props.fontFamily]};
   font-weight: ${(props) => props.fontWeight};

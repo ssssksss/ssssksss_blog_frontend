@@ -16,10 +16,10 @@ const ProjectsContainer = () => {
       <h1 className={'text-[2.4rem] font-[800]'}> 프로젝트 </h1>
       <ul
         className={
-          'grid md:grid-cols-[1fr_1fr] sm:md:grid-cols-[1fr] gap-[1rem] outline outline-[#333] outline-offset-[-0.25rem] outline-[.25rem] p-[1rem]'
+          'flex flex-col gap-[1rem] sm:flex-row items-center outline outline-[#333] outline-offset-[-0.25rem] outline-[.25rem] p-[1rem]'
         }
       >
-        <li className="aspect-square max-w-[30rem] outline outline-[#333]  outline-offset-[-0.125rem] p-[0.125rem] rounded-md">
+        <li className="aspect-square max-w-[30rem] outline outline-[#333]  outline-offset-[-0.125rem] p-[0.125rem] rounded-md w-full">
           <ImageCard
             imgSrc={BlogProject.src}
             w={'100%'}
@@ -28,9 +28,9 @@ const ProjectsContainer = () => {
             backComponent={PrivateProjectDescription()}
           />
         </li>
-        <li className="aspect-square max-w-[30rem] outline outline-[#333] outline-offset-[-0.125rem] p-[0.125rem] rounded-md">
+        <li className="aspect-square max-w-[30rem] outline outline-[#333] outline-offset-[-0.125rem] p-[0.125rem] rounded-md w-full">
           <ImageCard
-            imgSrc={BlogProject.src}
+            imgSrc={''}
             w={'100%'}
             h={'100%'}
             className={'aspect-auto'}

@@ -13,7 +13,7 @@ const PrivateProjectDescription = () => {
             'font-bold text-[1.2rem] outline outline-[#AF74E6] outline-offset-[-0.2rem] outline-[.2rem] inline p-[.125rem] rounded-lg  px-[.5rem]'
           }
         >
-          설명 (진행 중)
+          설명 (작업 중)
         </h3>
         <div className={'flex flex-col gap-[0.5rem] pt-[.5rem]'}>
           <p> 인증, 블로그, 게시판, 일정, 메모, TODO, 음악 플레이어 기능</p>
@@ -75,11 +75,10 @@ const PrivateProjectDescription = () => {
           <img src="https://img.shields.io/badge/개인-000000?style=for-the-badge&logo=&logoColor=white" />
           <img src="https://img.shields.io/badge/frontend-3B66BC?style=for-the-badge&logo=&logoColor=white" />
           <img src="https://img.shields.io/badge/backend-DD0700?style=for-the-badge&logo=&logoColor=white" />
-          <span
+          <div
             className={'rounded-lg bg-black text-[white] px-[.25rem] font-bold'}
-          >
-            2022, 2024
-          </span>
+          > 2022, 2024
+          </div>
         </div>
       </li>
       <li>

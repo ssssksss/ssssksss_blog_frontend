@@ -42,7 +42,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
     });
     setValue(
       'thumbnailImageUrl',
-      blogStore.blogCategoryAndBlogList?.filter((i) => i.id == getValues("selectFirstCategoryId"))[0]
+      blogStore.blogCategoryList?.filter((i) => i.id == getValues("selectFirstCategoryId"))[0]
         .blogSecondCategoryList.filter(j=> j.id == value)[0]?.thumbnailImageUrl,
       { shouldValidate: true },
     );
@@ -60,21 +60,21 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
     setValue('selectFirstCategoryName', name);
     setValue(
       'selectSecondCategoryName',
-      blogStore.blogCategoryAndBlogList?.filter(
+      blogStore.blogCategoryList?.filter(
         (i) => i.id == value,
       )[0].blogSecondCategoryList[0]?.name,
       { shouldValidate: true },
     );
     setValue(
       'selectSecondCategoryId',
-      blogStore.blogCategoryAndBlogList?.filter(
+      blogStore.blogCategoryList?.filter(
         (i) => i.id == value,
       )[0].blogSecondCategoryList[0]?.id,
       { shouldValidate: true },
     );
     setValue(
       'thumbnailImageUrl',
-      blogStore.blogCategoryAndBlogList?.filter(
+      blogStore.blogCategoryList?.filter(
         (i) => i.id == value,
       )[0].blogSecondCategoryList[0]?.thumbnailImageUrl,
       { shouldValidate: true },
@@ -109,7 +109,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
       AxiosInstance.get(
         `/api/blog/category/list`,
       ).then(res => {
-        store.dispatch(rootActions.blogStore.setBlogCategoryAndBlogList(res.data?.data?.blogFirstCategoryList));
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(res.data?.data?.blogFirstCategoryList));
       });
     }
   });
@@ -140,7 +140,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
               value: getValues('selectFirstCategoryId'),
               name: getValues('selectFirstCategoryName'),
             }}
-            data={blogStore.blogCategoryAndBlogList?.map((i) => {
+            data={blogStore.blogCategoryList?.map((i) => {
               return {
                 value: i.id,
                 name: i.name,
@@ -156,7 +156,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
               name: getValues('selectSecondCategoryName'),
             }}
             enable={getValues('selectFirstCategoryId') !== undefined}
-            data={blogStore.blogCategoryAndBlogList
+            data={blogStore.blogCategoryList
               ?.filter((i) => i.id == getValues('selectFirstCategoryId'))[0]
               ?.blogSecondCategoryList?.map((j) => {
                 return {

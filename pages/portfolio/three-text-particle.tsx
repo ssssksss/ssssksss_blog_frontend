@@ -112,7 +112,6 @@ const TextParticle: React.FC = () => {
     const init = () => {
       ctx.font = `${divisionFontSize + 0.1 * Math.random()}vw 'Jockey One'`;
       // ctx.font = `${5 + 1 * Math.random()}vw 'Arial'`;
-      console.log("three-text-particle.tsx 파일 : ",ctx.font);
       ctx.fillText(
         keyword,
         cw / 2 - Math.round(ctx.measureText(keyword).width / 2) > 0

@@ -2,6 +2,7 @@ import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
 import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
+import { useQueryHook1 } from '@hooks/useQueryHook1';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
@@ -23,6 +24,25 @@ const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
       props.onSuccessHandler(data);
       // let urlQueryObject = UrlQueryStringToObject(window.location.href);
     },
+  });
+};
+
+const getBlogCategoryList1 = () => {
+  const router = useRouter();
+  if (router.query.secondCategoryId == undefined) return null;
+  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const blogSecondCategoryId = router.query.secondCategoryId;
+  return useQueryHook1({
+    queryKey: ['blogCategoryList'],
+    requestData: {
+      url: '/api/blog/category/list',
+      method: 'GET',
+      params: {
+        sort: blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
+        secondCategoryId: blogSecondCategoryId,
+      },
+    },
+    isRefetchWindowFocus: false,
   });
 };
 
@@ -50,13 +70,12 @@ const getBlogList = () => {
   return useQueryHook({
     queryKey: [
       'blogList',
-      blogStore.activeFirstCategory,
-      blogStore.activeSecondCategory,
+      // blogStore.activeSecondCategory,
       blogStore.blogListOrderOption,
       authStore.id
     ],
     requestData: {
-      url: '/api/blog-list',
+      url: '/api/blog/list',
       method: 'GET',
       params: {
         sort: blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
@@ -65,7 +84,6 @@ const getBlogList = () => {
     },
     isRefetchWindowFocus: false,
     enabled: (blogStore.activeSecondCategory ?? false) as boolean,
-    staleTime: 300000,
   });
 };
 // TODO
@@ -489,7 +507,7 @@ const getSearchBlogList = (
             ...i.data.data.blogList.map((_i) => {
               return {
                 ..._i,
-                defaultImageUrl: blogStore.blogCategoryAndBlogList.filter(
+                defaultImageUrl: blogStore.blogCategoryList.filter(
                   (i) => i.id == _i.firstCategoryId,
                 )[0].blogSecondCategoryList.filter(j=>j.id == _i.secondCategoryId)[0].thumbnailImageUrl,
               };
@@ -553,6 +571,7 @@ const deleteBlogContentTemplate = async (props: string) => {
 };
 
 export const BlogAPI = {
+  getBlogCategoryList1,
   getBlogCategoryList,
   createBlogFirstCategory,
   getBlogFirstCategoryList,

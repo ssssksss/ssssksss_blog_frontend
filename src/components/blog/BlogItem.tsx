@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { faBolt, faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faEye, faGhost, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CC } from '@styles/commonComponentStyle';
 import { dateFormat4y2m2d } from '@utils/function/dateFormat';
@@ -87,6 +87,15 @@ const BlogItem = (props: IBlogItemProps) => {
                   <FontAwesomeIcon icon={faBolt} />
                 </CC.ImgContainer>
                 <span> 개발중 </span>
+              </CC.RowDiv>
+            }
+            {
+              props.element.blogStatus == "HIDE" &&
+              <CC.RowDiv gap={2} h={'100%'} className={"bg-gray-300 rounded-md px-[0.25rem]"}>
+                <CC.ImgContainer h={'100%'}>
+                  <FontAwesomeIcon icon={faGhost} />
+                </CC.ImgContainer>
+                <span> 숨김 </span>
               </CC.RowDiv>
             }
             <CC.RowDiv gap={2} h={'100%'}>

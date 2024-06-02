@@ -11,6 +11,7 @@ export interface IModalButtonProps {
   brR?: string;
   color?: string;
   pd?: string;
+  mg?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   outline?: boolean | string | number;
   outlineColor?: string;

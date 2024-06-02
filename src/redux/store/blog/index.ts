@@ -16,8 +16,31 @@ type InitialState = {
   };
   activeFirstCategory: string;
   activeSecondCategory: string;
+  activeFirstCategoryList: [];
+  activeSecondCategoryList: [];
   activeBlogUserId: number | null;
-  blogCategoryAndBlogList: [];
+  blogCategoryList: [];
+  blogList: {
+    [key: string]: [{
+      id: number,
+      title: string,
+      description: string,
+      userId: number,
+      likeNumber: number,
+      commentNumber: number,
+      viewNumber: number,
+      firstCategoryId: number,
+      secondCategoryId: number,
+      thumbnailImageUrl: null | string,
+      baseTimeEntity: {
+        createdAt: string,
+        modifiedAt: string,
+        deleteAt: string,
+        accessYn: boolean,
+      },
+      blogStatus: string,
+    }];
+  };
 };
 
 const initialState: InitialState = {
@@ -26,8 +49,11 @@ const initialState: InitialState = {
   secondCategoryList: {},
   activeFirstCategory: null,
   activeSecondCategory: null,
+  activeFirstCategoryList: [],
+  activeSecondCategoryList: [],
   activeBlogUserId: null,
-  blogCategoryAndBlogList: []
+  blogCategoryList: [],
+  blogList: {},
 };
 
 const blogSlice = createSlice({
@@ -43,6 +69,12 @@ const blogSlice = createSlice({
     setSecondCategoryList: (state, action) => {
       state.secondCategoryList = action.payload;
     },
+    setActiveFirstCategoryList: (state, action) => {
+      state.activeFirstCategoryList = action.payload;
+    },
+    setActiveSecondCategoryList: (state, action) => {
+      state.activeSecondCategoryList = action.payload;
+    },
     setActiveFirstCategory: (state, action) => {
       state.activeFirstCategory = action.payload;
     },
@@ -52,8 +84,11 @@ const blogSlice = createSlice({
     setActiveBlogUserId: (state, action) => {
       state.activeBlogUserId = action.payload;
     },
-    setBlogCategoryAndBlogList: (state, action) => {
-      state.blogCategoryAndBlogList = action.payload;
+    setBlogCategoryList: (state, action) => {
+      state.blogCategoryList = action.payload;
+    },
+    setBlogList: (state, action) => {
+      state.blogList = action.payload;
     }
   },
 });
