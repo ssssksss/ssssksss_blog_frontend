@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
         </QueryClientProvider>
       </Provider>
-    // </StrictMode>
+    </StrictMode>
   );
 }
 {/* <ReactQueryDevtools initialIsOpen={false} /> */}
