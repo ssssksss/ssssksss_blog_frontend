@@ -45,12 +45,11 @@ const BlogCategoryContainer = () => {
       url: '/api/blog/category/list',
       method: 'GET',
       params: {
-        firstCategoryId: firstCategoryId, 
-        secondCategoryId: secondCategoryId,
+        firstCategoryId: firstCategoryId || null, 
+        secondCategoryId: secondCategoryId || null,
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('BlogCategoryContainer.tsx 파일 : ', res);
       const _blogFirstCategoryList =
         res.data?.data?.data?.blogFirstCategoryList;
       const _blogList = res.data?.data?.blogList;

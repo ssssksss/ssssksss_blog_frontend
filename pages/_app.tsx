@@ -5,7 +5,7 @@ import GlobalStyles from '@styles/GlobalStyles';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode, StrictMode, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, []);
 
   return (
-    // <StrictMode>
+    <StrictMode>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <Global styles={GlobalStyles} />
