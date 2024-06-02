@@ -283,6 +283,10 @@ const InputStyle = styled.input<IInputProps>`
     cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 
+  &:focus {
+    outline: none;
+  }
+
   ${(props) =>
     props.disabled &&
     `

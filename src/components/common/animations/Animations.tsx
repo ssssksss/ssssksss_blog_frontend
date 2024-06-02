@@ -78,6 +78,17 @@ const FlipCard = keyframes`
   }
 `;
 
+const skeletonColors = keyframes`
+    0% {
+          background-image: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    }
+    50% {
+          background-image: linear-gradient(90deg, #f0f0f0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    }
+    100% {
+          background-image: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #f0f0f0 75%);
+    }
+`;
 const rainbowColors = keyframes`
   0% {
     background-image: linear-gradient(
@@ -151,6 +162,7 @@ const Animations = {
   UpToDownRepeat,
   FlipCard,
   rainbowColors,
+  skeletonColors,
 };
 
 export default Animations;

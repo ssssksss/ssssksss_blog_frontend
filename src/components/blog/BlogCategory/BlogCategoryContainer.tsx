@@ -2,6 +2,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import BlogFirstCategoryContainer from '../BlogFirstCategory/BlogFirstCategoryContainer';
 import BlogSecondCategoryContainer from './../BlogSecondCategory/BlogSecondCategoryContainer';
@@ -13,7 +14,7 @@ import BlogSecondCategoryContainer from './../BlogSecondCategory/BlogSecondCateg
  */
 
 const BlogCategoryContainer = () => {
-
+  const router = useRouter();
   useEffect(() => {
     const routerBackAfterActiveCategoryChangeHandler = () => {
       const _firstCategoryId = UrlQueryStringToObject()?.['firstCategoryId'];
@@ -88,13 +89,15 @@ const BlogCategoryContainer = () => {
           [secondCategoryId]: _blogList,
         }),
       );
+    }).catch(err => {
+      router.push("/500");
     });
   }, []);
 
   return (
     <div className={"w-full p-[.25rem] outline outline-[1px] outline-offset-[-1px] flex flex-col gap-[.125rem] rounded-lg"}>
-      <BlogFirstCategoryContainer />
-      <BlogSecondCategoryContainer />
+        <BlogFirstCategoryContainer />
+        <BlogSecondCategoryContainer />
     </div>
   );
 };

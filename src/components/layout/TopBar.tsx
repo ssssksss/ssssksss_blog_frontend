@@ -98,7 +98,7 @@ const TopBar = () => {
               outline={1}
               fontWeight={600}
               onClick={() => signOutHandler()}
-              pd={'0rem 0.125rem'}
+              pd={'0.25rem'}
             >
               Sign Out
             </Button>
@@ -111,7 +111,7 @@ const TopBar = () => {
               outline={1}
               modalOverlayVisible={true}
               fontWeight={600}
-              pd={'0rem 0.125rem'}
+              pd={'0.25rem'}
             >
               Sign In / Sign up
             </ModalButton>

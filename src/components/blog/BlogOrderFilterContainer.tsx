@@ -40,31 +40,39 @@ const BlogOrderFilterContainer = () => {
             );
         });
     };
-  
+    
     return (
-    <HeaderContainer outline={1} pd={'0rem 0.5rem'}>
-      <Text>검색결과 :{blogStore.activeFirstCategoryList.length}</Text>
-      <CC.RowDiv pd={'0.125rem'}>
-        <Select
-          onChange={orderBlogListHandler}
-          defaultValue={{
-            value: blogStore.blogListOrderOption,
-            name:
-              blogStore.blogListOrderOption == 'viewNumber'
-                ? '조회수순'
-                : '최신순',
-          }}
-          w={'8rem'}
-          h={'2rem'}
-          data={[
-            { name: '최신순', value: '', bg: '' },
-            { name: '조회수순', value: 'viewNumber', bg: '' },
-            // { name: '좋아요순', value: 'likeNumber', bg: '' },
-          ]}
-        ></Select>
-      </CC.RowDiv>
-    </HeaderContainer>
-  );
+      <HeaderContainer outline={1} pd={'0rem 0.5rem'}>
+        <Text>
+          검색결과 :
+          {
+            blogStore.activeSecondCategoryList.filter(
+              (i: { id: string }) => i.id == blogStore.activeSecondCategory,
+            )[0]?.blogCount
+          }
+          건
+        </Text>
+        <CC.RowDiv pd={'0.125rem'}>
+          <Select
+            onChange={orderBlogListHandler}
+            defaultValue={{
+              value: blogStore.blogListOrderOption,
+              name:
+                blogStore.blogListOrderOption == 'viewNumber'
+                  ? '조회수순'
+                  : '최신순',
+            }}
+            w={'8rem'}
+            h={'2rem'}
+            data={[
+              { name: '최신순', value: '', bg: '' },
+              { name: '조회수순', value: 'viewNumber', bg: '' },
+              // { name: '좋아요순', value: 'likeNumber', bg: '' },
+            ]}
+          ></Select>
+        </CC.RowDiv>
+      </HeaderContainer>
+    );
 };
 export default BlogOrderFilterContainer
 

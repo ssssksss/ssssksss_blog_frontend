@@ -1,5 +1,7 @@
+import Animations from "@components/common/animations/Animations";
 import Button from "@components/common/button/Button";
 import ModalButton from "@components/common/button/ModalButton";
+import styled from "@emotion/styled";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { store } from "@redux/store";
@@ -18,8 +20,8 @@ import { BlogFirstCategoryModal } from "./BlogFirstCategoryModal";
  * @description 설명 
  */
 const BlogFirstCategoryContainer = () => {
-    const blogStore = useSelector((state: RootState) => state.blogStore);
-    const authStore = useSelector((state: RootState) => state.authStore);
+  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   const blogFirstCategoryVerticalScrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
     
@@ -92,6 +94,7 @@ const blogFirstCategoryHandler = (id: string) => {
             );
     });
   };
+
     
   return (
     <div
@@ -100,6 +103,10 @@ const blogFirstCategoryHandler = (id: string) => {
       }
       ref={blogFirstCategoryVerticalScrollRef}
     >
+      {blogStore.blogCategoryList.length == 0 &&
+        Array.from({ length: 10 }, (i, index) => index).map((i) => (
+          <Skeleton />
+        ))}
       {blogStore.blogCategoryList?.map(
         (el: {
           id: string;
@@ -153,3 +160,14 @@ const blogFirstCategoryHandler = (id: string) => {
   );
 };
 export default BlogFirstCategoryContainer
+
+const Skeleton = styled.div`
+  min-width: 8rem;
+  height: 2.75rem;
+  margin: 0.5rem 0rem;
+  outline: solid black 1px;
+  outline-offset: -1px;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  animation: ${Animations.skeletonColors} 1s infinite;
+`;

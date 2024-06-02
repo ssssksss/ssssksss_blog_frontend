@@ -1,5 +1,7 @@
+import Animations from "@components/common/animations/Animations";
 import Button from "@components/common/button/Button";
 import ModalButton from "@components/common/button/ModalButton";
+import styled from "@emotion/styled";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { store } from "@redux/store";
@@ -66,6 +68,10 @@ const blogSecondCategoryHandler = (id: string) => {
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
+      {blogStore.activeSecondCategoryList.length == 0 &&
+        Array.from({ length: 10 }, (i, index) => index).map((i) => (
+          <Skeleton />
+        ))}
       {blogStore.activeSecondCategoryList?.map(
         (j: { id: string; blogCount: number; name: string }) => (
           <Button
@@ -111,3 +117,14 @@ const blogSecondCategoryHandler = (id: string) => {
   );
 };
 export default BlogSecondCategoryContainer
+
+const Skeleton = styled.div`
+  min-width: 8rem;
+  height: 2rem;
+  margin: 0.5rem 0rem;
+  outline: solid black 1px;
+  outline-offset: -1px;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  animation: ${Animations.skeletonColors} 1s infinite;
+`;
