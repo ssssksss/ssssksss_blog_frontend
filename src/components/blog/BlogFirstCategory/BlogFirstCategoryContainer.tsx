@@ -104,8 +104,8 @@ const blogFirstCategoryHandler = (id: string) => {
       ref={blogFirstCategoryVerticalScrollRef}
     >
       {blogStore.blogCategoryList.length == 0 &&
-        Array.from({ length: 10 }, (i, index) => index).map((i) => (
-          <Skeleton />
+        Array.from({ length: 10 }, (index) => index).map((_,index) => (
+          <Skeleton key={index} />
         ))}
       {blogStore.blogCategoryList?.map(
         (el: {

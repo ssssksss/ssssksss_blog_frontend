@@ -89,7 +89,7 @@ const BlogCategoryContainer = () => {
           [secondCategoryId]: _blogList,
         }),
       );
-    }).catch(err => {
+    }).catch(() => {
       router.push("/500");
     });
   }, []);

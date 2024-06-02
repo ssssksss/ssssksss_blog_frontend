@@ -69,8 +69,8 @@ const blogSecondCategoryHandler = (id: string) => {
       ref={blogSecondCategoryVerticalScrollRef}
     >
       {blogStore.activeSecondCategoryList.length == 0 &&
-        Array.from({ length: 10 }, (i, index) => index).map((i) => (
-          <Skeleton />
+        Array.from({ length: 10 }, (index) => index).map((_, index) => (
+          <Skeleton key={index} />
         ))}
       {blogStore.activeSecondCategoryList?.map(
         (j: { id: string; blogCount: number; name: string }) => (

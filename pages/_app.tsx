@@ -45,11 +45,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             />
           </Head>
           <NavBar>{getLayout(<Component {...pageProps} />)}</NavBar>
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </Provider>
     // </StrictMode>
   );
 }
+{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 
 export default MyApp;
