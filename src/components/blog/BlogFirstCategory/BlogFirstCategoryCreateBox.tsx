@@ -1,9 +1,11 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { createFirstCategoryAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import { BlogFirstCategoryCreateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import { useForm } from 'react-hook-form';
 
@@ -29,17 +31,23 @@ const BlogFirstCategoryCreateBox = (
     },
   });
   const { errors } = formState;
-  const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory({
-    onSuccessHandler: () => {
+  // const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory({
+  //   onSuccessHandler: () => {
+  //     props.closeModal();
+  //   },
+  // });
+
+  const createFirstCategoryHandler = (data: { createFirstCategoryName: string }) => {
+    createFirstCategoryAPI(data.createFirstCategoryName).then((res) => {
+      const temp = JSON.parse(
+        JSON.stringify(store.getState().blogStore.blogCategoryList)
+      );
+      temp.push({
+        ...res.data.data,
+        blogSecondCategoryList: [],
+      }),
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
       props.closeModal();
-    },
-  });
-
-  const createFirstCategoryHandler = (data: unknown) => {
-    const { ...params } = data;
-
-    createBlogFirstCategoryMutation({
-      name: params.createFirstCategoryName,
     });
   };
   return (
