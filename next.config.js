@@ -13,14 +13,15 @@ const withPWA = require('next-pwa')({
 const nextConfig = withPWA({
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com',
-        port: '',
-        pathname: '/private/**',
-      },
-    ],
+    domains: ['ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com'],
+    // remotePatterns: [
+    //   {
+    //     protocol: 'https',
+    //     hostname: 'ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com',
+    //     port: '',
+    //     pathname: '/private/**',
+    //   },
+    // ],
   },
   typescript: {
     ignoreBuildErrors: true,

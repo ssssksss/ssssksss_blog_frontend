@@ -63,9 +63,9 @@ const BlogFirstCategoryUpdateBox = (
           w={'100%'}
           placeholder={'1번째 카테고리'}
           bg={'transparent'}
-          data={Object.entries(blogStore.firstCategoryList).map(
-            ([key, value]) => {
-              return { value: key, name: value, bg: '' };
+          data={blogStore.blogCategoryList.map(
+            (i: {id: string, name: string}) => {
+              return { value: i.id, name: i.name, bg: '' };
             },
           )}
           onChange={onChangeSelectHandler}

@@ -67,18 +67,20 @@ const BlogSecondCategoryUpdateBox = (
           value={blogStore.firstCategoryList[blogStore.activeFirstCategory]}
           disabled={true}
           center={true}
-          color={"black100"}
+          color={'black100'}
         />
         <Select
           w={'100%'}
           placeholder={'2번째 카테고리 목록'}
           bg={'transparent'}
           outline={true}
-          data={Object.entries(
-            blogStore.secondCategoryList[blogStore.activeFirstCategory],
-          ).map(([key, value]) => {
-            return { value: key, name: value.name, bg: '' };
-          })}
+          data={
+            blogStore.activeSecondCategoryList.map(
+              (i: { id: string; name: string }) => {
+                return { value: i.id, name: i.name, bg: '' };
+              },
+            )
+          }
           onChange={changeUpdateCategoryImage}
         ></Select>
         <Input
@@ -88,7 +90,7 @@ const BlogSecondCategoryUpdateBox = (
           errorMessage={errors.updateSecondCategoryName?.message}
           bg={1}
           h={'2.25rem'}
-                    pd={"0 0 0 0.5rem"}
+          pd={'0 0 0 0.5rem'}
         />
         <Input
           type={'file'}
