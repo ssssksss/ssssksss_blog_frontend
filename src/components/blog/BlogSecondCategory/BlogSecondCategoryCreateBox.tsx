@@ -46,28 +46,42 @@ const BlogSecondCategoryCreateBox = (
       blogStore.activeFirstCategoryId,
       data.createSecondCategoryImageFile,
     ).then((res) => {
-      const _secondCategory: {blogCount: null, blogList: null, id: number, name: string, thumbnailImageUrl: string, userId: number} = res.data.data.createBlogSecondCategory;
+      const _secondCategory = res.data.data.createBlogSecondCategory;
       let temp = JSON.parse(
         JSON.stringify(blogStore.blogCategoryList),
       );
-      temp = temp.map((i: { id: number; blogSecondCategoryList: [{}]}) => {
-        if (i.id == blogStore.activeFirstCategoryId) {
-          store.dispatch(
-            rootActions.blogStore.setActiveSecondCategoryList([
-              ...blogStore.activeSecondCategoryList,
-              {
-                ..._secondCategory,
-                blogList: [],
-              },
-            ]),
-          );
-          i.blogSecondCategoryList.push({
-            ..._secondCategory,
-            blogList: [],
-          });
-        }
-        return i;
-      });
+      temp = temp.map(
+        (i: {
+          id: number;
+          blogSecondCategoryList: [
+            {
+              blogCount: null;
+              blogList: [];
+              id: number;
+              name: string;
+              thumbnailImageUrl: string;
+              userId: number;
+            },
+          ];
+        }) => {
+          if (i.id == blogStore.activeFirstCategoryId) {
+            store.dispatch(
+              rootActions.blogStore.setActiveSecondCategoryList([
+                ...blogStore.activeSecondCategoryList,
+                {
+                  ..._secondCategory,
+                  blogList: [],
+                },
+              ]),
+            );
+            i.blogSecondCategoryList.push({
+              ..._secondCategory,
+              blogList: [],
+            });
+          }
+          return i;
+        },
+      );
       store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
       props.closeModal();
     });
