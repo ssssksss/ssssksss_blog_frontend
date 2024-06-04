@@ -10,7 +10,7 @@ export const BlogFirstCategoryUpdateYup = yup.object().shape({
 });
 
 export const BlogFirstCategoryDeleteYup = yup.object().shape({
-  deleteFirstCategoryId: yup.string().required('필수 입력'),
+  deleteFirstCategoryId: yup.number().required('필수 입력'),
 });
 
 const validFileExtensions = {

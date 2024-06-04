@@ -1,13 +1,12 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { deleteFirstCategoryAPI } from '@api/BlogAPI';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
-import LoadingComponent from '@components/common/loading/LoadingComponent';
 import Select from '@components/common/select/Select';
 import { BlogFirstCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoading } from '@hooks/useLoading';
-import { RootState } from '@react-three/fiber';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
+import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -25,61 +24,54 @@ interface IBlogFirstCategoryDeleteBoxProps {
 const BlogFirstCategoryDeleteBox = (
   props: IBlogFirstCategoryDeleteBoxProps,
 ) => {
-  const [isLoading] = useLoading();
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const deleteBLogFirstCategoryMutation = BlogAPI.deleteBlogFirstCategory({
-    onSuccessHandler: () => {
-      props.closeModal();
-    },
-  });
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryDeleteYup),
-    mode: 'onClick',
+    mode: 'onChange',
     defaultValues: {
-      deleteFirstCategoryId: '',
+      deleteFirstCategoryId: null,
     },
   });
 
-  const deleteFirstCategoryHandler = async (data: unknown) => {
-    if (!store.getState().authStore.id) return;
-    deleteBLogFirstCategoryMutation({
-      id: data.deleteFirstCategoryId,
+  const deleteFirstCategoryHandler = async (data: {
+    deleteFirstCategoryId: number
+  }) => {
+    deleteFirstCategoryAPI(data.deleteFirstCategoryId).then((res) => {
+      let temp = JSON.parse(
+        JSON.stringify(store.getState().blogStore.blogCategoryList),
+      );
+      temp = temp.filter((i: {id: number}) => i.id != data.deleteFirstCategoryId);
+      store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+      props.closeModal();
     });
   };
   return (
     <FormProvider {...methods}>
       <Container outline={1} w={'100%'}>
-        {isLoading ? (
-          <LoadingComponent> 로딩중 </LoadingComponent>
-        ) : (
-          <>
             <Header>
               <span>블로그 1번째 카테고리 삭제</span>
             </Header>
-              <Select
-                w={'100%'}
-                placeholder={'1번째 카테고리'}
-                bg={'transparent'}
-                outline={true}
-                data={Object.entries(blogStore.firstCategoryList).map(
-                  ([key, value]) => {
-                    return { value: key, name: value, bg: '' };
-                  },
-                )}
-                onChange={(i) => {
-                  methods.setValue('deleteFirstCategoryId', i.value, {
-                    shouldValidate: true,
-                  });
-                }}
-              ></Select>
+                <Select
+                  w={'100%'}
+                  placeholder={'1번째 카테고리'}
+                  bg={'transparent'}
+                  data={blogStore.blogCategoryList.map(
+                    (i: {id: string, name: string}) => {
+                      return { value: i.id, name: i.name, bg: '' };
+                    },
+                  )}
+                  onChange={(i) => {
+                    methods.setValue('deleteFirstCategoryId', i.value, {
+                      shouldValidate: true,
+                    });
+                  }}
+                />
               <ConfirmButton
                 disabled={!methods.formState.isValid}
                 onClick={methods.handleSubmit(deleteFirstCategoryHandler)}
               >
                 삭제
               </ConfirmButton>
-          </>
-        )}
       </Container>
     </FormProvider>
   );

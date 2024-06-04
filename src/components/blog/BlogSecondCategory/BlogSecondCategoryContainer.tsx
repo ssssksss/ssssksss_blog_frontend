@@ -9,8 +9,9 @@ import { rootActions } from "@redux/store/actions";
 import { RootState } from "@redux/store/reducers";
 import AxiosInstance from "@utils/axios/AxiosInstance";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { changeBlogUrlString } from "../function/changeUrl";
 import BlogSecondCategoryModal from "./BlogSecondCategoryModal";
 
 const BlogSecondCategoryContainer = () => {
@@ -33,7 +34,8 @@ const blogSecondCategoryVerticalScrollRef = useRef<HTMLDivElement>(null);
     }
   };
   
-const blogSecondCategoryHandler = (id: string) => { 
+  const blogSecondCategoryHandler = (id: number) => { 
+    if (id == null) return;
     AxiosInstance({
       url: '/api/blog/list',
       method: 'GET',
@@ -42,17 +44,18 @@ const blogSecondCategoryHandler = (id: string) => {
         secondCategoryId: id,
       },
     }).then((res) => {
+      const _blogList = res.data.data ?? [];
       store.dispatch(
         rootActions.blogStore.setBlogList({
           ...blogStore.blogList,
-          [id]: res.data.data,
+          [id]: _blogList,
         }),
       );
       store.dispatch(
-        rootActions.blogStore.setActiveSecondCategory(id),
+        rootActions.blogStore.setActiveSecondCategoryId(id),
       );
         router.push(
-          `blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${id}`,
+          changeBlogUrlString(blogStore.activeFirstCategoryId, id),
           '',
           {
             shallow: true,
@@ -60,6 +63,10 @@ const blogSecondCategoryHandler = (id: string) => {
         );
     });
   }
+
+  useEffect(() => {
+      blogSecondCategoryHandler(blogStore.activeSecondCategoryId);
+  }, [authStore.id]);
   
   return (
     <div
@@ -68,12 +75,12 @@ const blogSecondCategoryHandler = (id: string) => {
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
-      {blogStore.activeSecondCategoryList.length == 0 &&
+      {blogStore.activeSecondCategoryId == null &&
         Array.from({ length: 10 }, (index) => index).map((_, index) => (
           <Skeleton key={index} />
         ))}
       {blogStore.activeSecondCategoryList?.map(
-        (j: { id: string; blogCount: number; name: string }) => (
+        (j: { id: number; blogCount: number; name: string }) => (
           <Button
             className={'flex-shrink-0'}
             key={j.id}
@@ -82,7 +89,7 @@ const blogSecondCategoryHandler = (id: string) => {
             mg={'0.5rem 0rem'}
             h={'2rem'}
             pd={'0rem 0.25rem'}
-            active={j.id == blogStore.activeSecondCategory}
+            active={j.id == blogStore.activeSecondCategoryId}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
               onClickAdjustHorizontalScroll(
                 e,

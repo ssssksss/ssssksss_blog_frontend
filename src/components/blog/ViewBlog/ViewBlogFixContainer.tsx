@@ -18,14 +18,14 @@ import { useSelector } from 'react-redux';
 const ViewBlogFixContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const BACK_URL = `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${blogStore.activeSecondCategory}`;
+  const BACK_URL = `/blog?firstCategoryId=${blogStore.activeFirstCategoryId}&secondCategoryId=${blogStore.activeSecondCategoryId}`;
   const router = useRouter();
   const deleteHandler = () => {
     BlogAPI.deleteBlog({
       id: router.query.id,
     }).then(() => {
       router.replace(
-        `/blog?firstCategoryId=${blogStore.activeFirstCategory}&secondCategoryId=${blogStore.activeSecondCategory}`,
+        `/blog?firstCategoryId=${blogStore.activeFirstCategoryId}&secondCategoryId=${blogStore.activeSecondCategoryId}`,
       );
     });
   };

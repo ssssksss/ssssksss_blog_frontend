@@ -31,11 +31,6 @@ const BlogFirstCategoryCreateBox = (
     },
   });
   const { errors } = formState;
-  // const createBlogFirstCategoryMutation = BlogAPI.createBlogFirstCategory({
-  //   onSuccessHandler: () => {
-  //     props.closeModal();
-  //   },
-  // });
 
   const createFirstCategoryHandler = (data: { createFirstCategoryName: string }) => {
     createFirstCategoryAPI(data.createFirstCategoryName).then((res) => {
@@ -50,6 +45,7 @@ const BlogFirstCategoryCreateBox = (
       props.closeModal();
     });
   };
+  
   return (
     <Container outline={1} w={"100%"}>
       <Header>

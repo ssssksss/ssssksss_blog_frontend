@@ -12,10 +12,10 @@ import { ReactNode, useEffect, useState } from 'react';
  */
 
 interface ISelectProps {
-  children: ReactNode;
+  children?: ReactNode;
   placeholder?: string;
   defaultValue?: string;
-  data?: [{ value: string; name?: string; bg?: string }];
+  data?: { value: string; name?: string; bg?: string }[];
   outline?: boolean | number;
   outlineColor?: string;
   w?: string;
@@ -31,7 +31,7 @@ interface ISelectProps {
   trigger?: unknown;
   enable?: boolean;
   // 클릭후 바로 최신 데이터가 필요한 경우에는 onChange에서 props를 이용하여 값을 받아 사용하면 된다.
-  onChange?: (data: {value: string}) => void;
+  onChange?: (data: { value: string }) => void;
 }
 
 const Select = (props: ISelectProps) => {

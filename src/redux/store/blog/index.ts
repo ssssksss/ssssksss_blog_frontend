@@ -14,11 +14,11 @@ type InitialState = {
       };
     };
   };
-  activeFirstCategory: string;
-  activeSecondCategory: string;
+  activeFirstCategoryId: number;
+  activeSecondCategoryId: number;
   activeFirstCategoryList: [];
   activeSecondCategoryList: [];
-  activeBlogUserId: number | null;
+  activeBlogUserId: number;
   blogCategoryList: [];
   blogList: {
     [key: string]: [{
@@ -47,8 +47,8 @@ const initialState: InitialState = {
   blogListOrderOption: '',
   firstCategoryList: {},
   secondCategoryList: {},
-  activeFirstCategory: null,
-  activeSecondCategory: null,
+  activeFirstCategoryId: null,
+  activeSecondCategoryId: null,
   activeFirstCategoryList: [],
   activeSecondCategoryList: [],
   activeBlogUserId: null,
@@ -75,11 +75,11 @@ const blogSlice = createSlice({
     setActiveSecondCategoryList: (state, action) => {
       state.activeSecondCategoryList = action.payload;
     },
-    setActiveFirstCategory: (state, action) => {
-      state.activeFirstCategory = action.payload;
+    setActiveFirstCategoryId: (state, action) => {
+      state.activeFirstCategoryId = action.payload;
     },
-    setActiveSecondCategory: (state, action) => {
-      state.activeSecondCategory = action.payload;
+    setActiveSecondCategoryId: (state, action) => {
+      state.activeSecondCategoryId = action.payload;
     },
     setActiveBlogUserId: (state, action) => {
       state.activeBlogUserId = action.payload;

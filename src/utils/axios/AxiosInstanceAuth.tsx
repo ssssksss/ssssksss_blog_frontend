@@ -2,26 +2,20 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import axios from 'axios';
 
-const AxiosInstance = axios.create({
+const AxiosInstanceAuth = axios.create({
   baseURL:
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:8080'
       : 'https://blog-server.ssssksss.xyz',
-  //timeout: 1000,
   headers: {
-    // 프론트엔드에서 Cors 문제를 해결하기 위한 방법
-    // 아래 withCredentials하고 allow-Origin 정도만 해주면 프론트엔드에서 Cors문제는 해결되었다고 보면된다.
     'Access-Control-Allow-Origin': '*',
     Accept: 'application/json',
   },
-  // 프론트 엔드에서 withCredentials을 해주지 않는다면 이거를 설정해두면 cookie가 계속 보내진다...
-  // 쿠키가 저장이 되지 않는다. 그리고 백엔드에서도 withCredentials을 true로 설정을 해주어야한다.
-  // 쿠키를 받아올때도 있어야 한다.
-  // withCredentials: true,
+  withCredentials: true,
 });
 
 // const setApiUserInfo = async () => {
-//   await AxiosInstance({
+//   await AxiosInstanceAuth({
 //     url: '/api/user',
 //     method: 'GET',
 //     headers: {
@@ -37,7 +31,7 @@ const AxiosInstance = axios.create({
 // };
 
 // axios의 인터셉터라고 하여 axios에서 응답을 보내기전과 요청을 받은 후 처리를 해주는 로직을 작성할 수 있다.
-AxiosInstance.interceptors.request.use(
+AxiosInstanceAuth.interceptors.request.use(
   (config: unknown) => {
     // 리덕스에 저장된 accessToken을 가져와서 헤더에 넣어서 api를
     const accessToken = store.getState().authStore.accessToken;
@@ -58,13 +52,8 @@ AxiosInstance.interceptors.request.use(
   },
 );
 
-AxiosInstance.interceptors.response.use(
-  (response: {
-    data: {
-      statusCode?: string,
-      msg?: string,
-      data?: unknown,
-  } }) => {
+AxiosInstanceAuth.interceptors.response.use(
+  (response: unknown) => {
     return response;
   },
   (error: unknown) => {
@@ -75,7 +64,7 @@ AxiosInstance.interceptors.response.use(
     if (error.response?.status == 777 && !originalRequest._retry) {
       originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크하는 용도로 사용
       let existNewAccessToken = true;
-      AxiosInstance({
+      AxiosInstanceAuth({
         url: '/api/user/accessToken',
         method: 'GET',
         withCredentials: true,
@@ -93,10 +82,10 @@ AxiosInstance.interceptors.response.use(
         });
       if (existNewAccessToken) {
         originalRequest._retry = true;
-        return AxiosInstance(originalRequest); // 기존에 실행했던 API를 다시 실행
+        return AxiosInstanceAuth(originalRequest); // 기존에 실행했던 API를 다시 실행
       }
     } else if (error.response?.status == 888) {
-      AxiosInstance({
+      AxiosInstanceAuth({
         url: '/api/auth/user',
         method: 'GET',
         withCredentials: true,
@@ -129,4 +118,4 @@ AxiosInstance.interceptors.response.use(
   },
 );
 
-export default AxiosInstance;
+export default AxiosInstanceAuth;

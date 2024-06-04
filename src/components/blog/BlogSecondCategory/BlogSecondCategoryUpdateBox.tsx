@@ -45,14 +45,14 @@ const BlogSecondCategoryUpdateBox = (
       id: data.updateSecondCategoryId,
       name: data.updateSecondCategoryName,
       files: data.updateSecondCategoryImageFile,
-      directory: `/blog-category/${blogStore.activeFirstCategory}`,
+      directory: `/blog-category/${blogStore.activeFirstCategoryId}`,
     });
   };
 
   const changeUpdateCategoryImage = (data) => {
     methods.setValue('updateSecondCategoryId', data.value, { shouldValidate: true});
     setUpdateImageUrl(
-      blogStore.secondCategoryList[blogStore.activeFirstCategory][data.value]
+      blogStore.secondCategoryList[blogStore.activeFirstCategoryId][data.value]
         .thumbnailImageUrl,
     );
   };
@@ -64,7 +64,7 @@ const BlogSecondCategoryUpdateBox = (
           <span>블로그 2번째 카테고리 수정 </span>
         </Header>
         <Input
-          value={blogStore.firstCategoryList[blogStore.activeFirstCategory]}
+          value={blogStore.firstCategoryList[blogStore.activeFirstCategoryId]}
           disabled={true}
           center={true}
           color={'black100'}

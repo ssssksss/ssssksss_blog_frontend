@@ -1,10 +1,11 @@
 
-import { BlogAPI } from '@api/BlogAPI';
+import { BlogAPI, createSecondCategoryAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import { BlogSecondCategoryCreateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { memo } from 'react';
@@ -38,14 +39,46 @@ const BlogSecondCategoryCreateBox = (
   });
   const { errors } = formState;
 
-  const createSecondCategoryHandler = async (data: unknown) => {
-    const file = data.createSecondCategoryImageFile;
-    createSecondCategoryMutation({
-      name: data.createSecondCategoryName,
-      blogFirstCategoryId: blogStore.activeFirstCategory,
-      files: file,
-      // 백엔드에서 이후에 2번째 카테고리 Id를 추가하여 이미지 경로를 설정
-      directory: `/blog-category/${blogStore.activeFirstCategory}`,
+  const createSecondCategoryHandler = async (data: {
+    createSecondCategoryName: string,
+    createSecondCategoryImageFile: File,
+  }) => {
+    // const file = data.createSecondCategoryImageFile;
+    // createSecondCategoryMutation({
+    //   name: data.createSecondCategoryName,
+    //   blogFirstCategoryId: blogStore.activeFirstCategoryId,
+    //   files: file,
+    //   // 백엔드에서 이후에 2번째 카테고리 Id를 추가하여 이미지 경로를 설정
+    //   directory: `/blog-category/${blogStore.activeFirstCategoryId}`,
+    // });
+
+        // const formData = new FormData();
+        // formData.append('name', reqData.name);
+        // formData.append('blogFirstCategoryId', reqData.blogFirstCategoryId);
+        // formData.append('files', reqData.files);
+        // formData.append('directory', reqData.directory);
+        // return await AxiosInstance({
+        //   url: '/api/blog/second/category',
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //     'Access-Control-Allow-Origin': '*',
+        //   },
+        //   data: formData,
+        //   withCredentials: true,
+    // });
+
+    createSecondCategoryAPI(
+      data.createSecondCategoryName,
+      blogStore.activeFirstCategoryId,
+      data.createSecondCategoryImageFile,
+    ).then((res) => {
+      console.log("BlogSecondCategoryCreateBox.tsx 파일 : ",res);
+      const temp = JSON.parse(
+        JSON.stringify(store.getState().blogStore.blogCategoryList),
+      );
+      console.log("BlogSecondCategoryCreateBox.tsx 파일 : ",temp);
+      props.closeModal();
     });
   };
 
@@ -55,7 +88,7 @@ const BlogSecondCategoryCreateBox = (
         <span>블로그 2번째 카테고리 추가 </span>
       </Header>
       <Input
-        value={blogStore.firstCategoryList[blogStore.activeFirstCategory]}
+        value={blogStore.firstCategoryList[blogStore.activeFirstCategoryId]}
         disabled={true}
         center={true}
         color={"black100"}

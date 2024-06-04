@@ -1,10 +1,12 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { updateFirstCategoryAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import { BlogFirstCategoryUpdateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -23,9 +25,6 @@ const BlogFirstCategoryUpdateBox = (
   props: IBlogFirstCategoryUpdateBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const updateBlogFirstCategoryMutation = BlogAPI.updateBlogFirstCategory({
-    onSuccessHandler: () => props.closeModal(),
-  });
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryUpdateYup),
     mode: 'onChange',
@@ -36,21 +35,37 @@ const BlogFirstCategoryUpdateBox = (
   });
   const { errors } = methods.formState;
 
-  const onChangeSelectHandler = (data) => {
+  // TODO: select 태그 수정해서 이런 코드 제거해버리기
+  const onChangeSelectHandler = (data: {value: string, name: string}) => {
     methods.setValue('updateFirstCategoryId', data.value);
     methods.setValue('updateFirstCategoryName', data.name);
   };
 
-  const updateFirstCategoryHandler = async (data: unknown) => {
-    const { ...params } = data;
-    if (params.updateFirstCategoryName == '') {
-      return;
-    }
-
-    updateBlogFirstCategoryMutation({
-      id: methods.getValues('updateFirstCategoryId'),
-      name: methods.getValues('updateFirstCategoryName'),
-    });
+  const updateFirstCategoryHandler = async (data: {
+    updateFirstCategoryId : number,
+    updateFirstCategoryName: string,
+  }) => {
+    updateFirstCategoryAPI(
+      data.updateFirstCategoryId,
+      data.updateFirstCategoryName,
+    ).then(res => {
+      let temp = JSON.parse(
+        JSON.stringify(store.getState().blogStore.blogCategoryList),
+      );
+        temp = temp.map(
+            (i: {
+              id: number;
+              name: string;
+            }) => {
+              if (i.id == data.updateFirstCategoryId) {
+                i.name = data.updateFirstCategoryName;
+              }
+              return i;
+            },
+      );
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        props.closeModal();
+    })
   };
 
   return (
@@ -69,7 +84,7 @@ const BlogFirstCategoryUpdateBox = (
             },
           )}
           onChange={onChangeSelectHandler}
-        ></Select>
+        />
         <Input
           w={'100%'}
           placeholder="변경할 이름"

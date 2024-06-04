@@ -11,6 +11,7 @@ import AxiosInstance from "@utils/axios/AxiosInstance";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+import { changeBlogUrlString } from "../function/changeUrl";
 import { BlogFirstCategoryModal } from "./BlogFirstCategoryModal";
 
 /**
@@ -44,19 +45,14 @@ type BlogCategory = {
   blogSecondCategoryList: { id: number }[];
 };
 
-const blogFirstCategoryHandler = (id: string) => {
-  let _secondCategoryId: number | undefined = undefined;
+const blogFirstCategoryHandler = (id: number) => {
+  let _secondCategoryId: number | null = null;
 
-  const _firstCategoryList: BlogCategory[] = blogStore.blogCategoryList.filter(
-    (i: BlogCategory) => i.id+"" == id
+  const _firstCategory: BlogCategory[] = blogStore.blogCategoryList.filter(
+    (i: BlogCategory) => i.id == id
   );
-
-  const firstCategory = _firstCategoryList[0];
-  if (_firstCategoryList.length > 0) {
-    if (firstCategory.blogSecondCategoryList.length > 0) {
-      _secondCategoryId = firstCategory.blogSecondCategoryList[0].id;
-    }
-  }
+  const _firstCategoryObject = _firstCategory[0]; // undefined , []
+  _secondCategoryId = _firstCategory[0]?.blogSecondCategoryList[0]?.id ?? 0;
 
     AxiosInstance({
       url: '/api/blog/list',
@@ -65,34 +61,52 @@ const blogFirstCategoryHandler = (id: string) => {
         sort: blogStore.blogListOrderOption || 'baseTimeEntity.modifiedAt',
         secondCategoryId: _secondCategoryId,
       },
-    }).then((res) => {
-      store.dispatch(rootActions.blogStore.setBlogList({
-        ...blogStore.blogList,
-          [_secondCategoryId]: res.data.data
-      }))
-      store.dispatch(
-        rootActions.blogStore.setActiveFirstCategory(
-          id
-        ),
-      );
-      store.dispatch(
-        rootActions.blogStore.setActiveSecondCategory(
-          _secondCategoryId
-        ),
-      );
-      store.dispatch(
-        rootActions.blogStore.setActiveSecondCategoryList(
-          firstCategory.blogSecondCategoryList
-        ),
-      );
-            router.push(
-              `blog?firstCategoryId=${id}&secondCategoryId=${_secondCategoryId}`,
-              '',
-              {
-                shallow: true,
-              },
-            );
-    });
+    })
+      .then((res) => {
+        store.dispatch(
+          rootActions.blogStore.setActiveFirstCategoryId(id),
+        );
+        store.dispatch(
+          rootActions.blogStore.setActiveSecondCategoryId(
+            _secondCategoryId,
+          ),
+        );
+        store.dispatch(
+          rootActions.blogStore.setActiveSecondCategoryList(
+            _firstCategoryObject?.blogSecondCategoryList ?? [],
+          ),
+        );
+        if (res.data.statusCode == 200) {
+          //  2번째 카테고리의 인덱스 0의 블로그 리스트가 없다고 판단
+          store.dispatch(
+            rootActions.blogStore.setBlogList({
+              ...blogStore.blogList,
+              [_secondCategoryId]: res.data.data,
+            }),
+          );
+        }
+        router.push(
+          changeBlogUrlString(Number(id), Number(_secondCategoryId)),
+          '',
+          {
+            shallow: true,
+          },
+        );
+      })
+      .catch((err) => {
+        store.dispatch(rootActions.blogStore.setActiveFirstCategoryId(id));
+        store.dispatch(
+          rootActions.blogStore.setActiveSecondCategoryId(_secondCategoryId),
+        );
+        store.dispatch(rootActions.blogStore.setActiveSecondCategoryList([]));
+        router.push(
+          changeBlogUrlString(Number(id), Number(_secondCategoryId)),
+          '',
+          {
+            shallow: true,
+          },
+        );
+      });
   };
 
     
@@ -103,13 +117,13 @@ const blogFirstCategoryHandler = (id: string) => {
       }
       ref={blogFirstCategoryVerticalScrollRef}
     >
-      {blogStore.blogCategoryList.length == 0 &&
+      {blogStore.blogCategoryList?.length == 0 &&
         Array.from({ length: 10 }, (index) => index).map((_,index) => (
           <Skeleton key={index} />
         ))}
       {blogStore.blogCategoryList?.map(
         (el: {
-          id: string;
+          id: number;
           blogSecondCategoryList: [
             {
               blogCount: number;
@@ -123,7 +137,7 @@ const blogFirstCategoryHandler = (id: string) => {
             minW={'8rem'}
             h={'2.75rem'}
             mg={'0.5rem 0rem'}
-            active={el.id == blogStore.activeFirstCategory}
+            active={el.id == blogStore.activeFirstCategoryId}
             outline={true}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
               onClickAdjustHorizontalScroll(

@@ -29,13 +29,13 @@ const BlogOrderFilterContainer = () => {
             params: {
             sort:
                 data.value,
-            secondCategoryId: blogStore.activeSecondCategory,
+            secondCategoryId: blogStore.activeSecondCategoryId,
             },
         }).then((res) => {
             store.dispatch(
               rootActions.blogStore.setBlogList({
                 ...blogStore.blogList,
-                [blogStore.activeSecondCategory]: res.data.data,
+                [blogStore.activeSecondCategoryId]: res.data.data,
               }),
             );
         });
@@ -47,7 +47,7 @@ const BlogOrderFilterContainer = () => {
           검색결과 :
           {
             blogStore.activeSecondCategoryList.filter(
-              (i: { id: string }) => i.id == blogStore.activeSecondCategory,
+              (i: { id: string }) => i.id == blogStore.activeSecondCategoryId,
             )[0]?.blogCount
           }
           건

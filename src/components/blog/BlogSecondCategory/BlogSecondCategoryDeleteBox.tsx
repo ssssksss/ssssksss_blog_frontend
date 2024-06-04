@@ -51,7 +51,7 @@ const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
             bg={'transparent'}
             outline={true}
             data={Object.entries(
-              blogStore.secondCategoryList[blogStore.activeFirstCategory],
+              blogStore.secondCategoryList[blogStore.activeFirstCategoryId],
             ).map(([key, value]) => {
               return { value: key, name: value.name, bg: '' };
             })}
