@@ -93,7 +93,7 @@ const blogFirstCategoryHandler = (id: number) => {
           },
         );
       })
-      .catch((err) => {
+      .catch(() => {
         store.dispatch(rootActions.blogStore.setActiveFirstCategoryId(id));
         store.dispatch(
           rootActions.blogStore.setActiveSecondCategoryId(_secondCategoryId),

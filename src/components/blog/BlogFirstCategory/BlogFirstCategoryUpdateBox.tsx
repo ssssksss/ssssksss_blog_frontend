@@ -48,7 +48,7 @@ const BlogFirstCategoryUpdateBox = (
     updateFirstCategoryAPI(
       data.updateFirstCategoryId,
       data.updateFirstCategoryName,
-    ).then(res => {
+    ).then(() => {
       let temp = JSON.parse(
         JSON.stringify(store.getState().blogStore.blogCategoryList),
       );

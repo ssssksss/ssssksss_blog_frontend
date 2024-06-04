@@ -1,11 +1,12 @@
 
-import { BlogAPI, createSecondCategoryAPI } from '@api/BlogAPI';
+import { createSecondCategoryAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import { BlogSecondCategoryCreateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { memo } from 'react';
@@ -26,9 +27,6 @@ const BlogSecondCategoryCreateBox = (
   props: IBlogSecondCategoryCreateBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const createSecondCategoryMutation = BlogAPI.createSecondCategory({
-    onSuccessHandler: () => props.closeModal(),
-  });
   const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
     mode: 'onChange',
@@ -43,41 +41,34 @@ const BlogSecondCategoryCreateBox = (
     createSecondCategoryName: string,
     createSecondCategoryImageFile: File,
   }) => {
-    // const file = data.createSecondCategoryImageFile;
-    // createSecondCategoryMutation({
-    //   name: data.createSecondCategoryName,
-    //   blogFirstCategoryId: blogStore.activeFirstCategoryId,
-    //   files: file,
-    //   // 백엔드에서 이후에 2번째 카테고리 Id를 추가하여 이미지 경로를 설정
-    //   directory: `/blog-category/${blogStore.activeFirstCategoryId}`,
-    // });
-
-        // const formData = new FormData();
-        // formData.append('name', reqData.name);
-        // formData.append('blogFirstCategoryId', reqData.blogFirstCategoryId);
-        // formData.append('files', reqData.files);
-        // formData.append('directory', reqData.directory);
-        // return await AxiosInstance({
-        //   url: '/api/blog/second/category',
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //     'Access-Control-Allow-Origin': '*',
-        //   },
-        //   data: formData,
-        //   withCredentials: true,
-    // });
-
     createSecondCategoryAPI(
       data.createSecondCategoryName,
       blogStore.activeFirstCategoryId,
       data.createSecondCategoryImageFile,
     ).then((res) => {
-      console.log("BlogSecondCategoryCreateBox.tsx 파일 : ",res);
-      const temp = JSON.parse(
-        JSON.stringify(store.getState().blogStore.blogCategoryList),
+      const _secondCategory: {blogCount: null, blogList: null, id: number, name: string, thumbnailImageUrl: string, userId: number} = res.data.data.createBlogSecondCategory;
+      let temp = JSON.parse(
+        JSON.stringify(blogStore.blogCategoryList),
       );
-      console.log("BlogSecondCategoryCreateBox.tsx 파일 : ",temp);
+      temp = temp.map((i: { id: number; blogSecondCategoryList: [{}]}) => {
+        if (i.id == blogStore.activeFirstCategoryId) {
+          store.dispatch(
+            rootActions.blogStore.setActiveSecondCategoryList([
+              ...blogStore.activeSecondCategoryList,
+              {
+                ..._secondCategory,
+                blogList: [],
+              },
+            ]),
+          );
+          i.blogSecondCategoryList.push({
+            ..._secondCategory,
+            blogList: [],
+          });
+        }
+        return i;
+      });
+      store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
       props.closeModal();
     });
   };

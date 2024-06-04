@@ -36,7 +36,7 @@ const BlogFirstCategoryDeleteBox = (
   const deleteFirstCategoryHandler = async (data: {
     deleteFirstCategoryId: number
   }) => {
-    deleteFirstCategoryAPI(data.deleteFirstCategoryId).then((res) => {
+    deleteFirstCategoryAPI(data.deleteFirstCategoryId).then(() => {
       let temp = JSON.parse(
         JSON.stringify(store.getState().blogStore.blogCategoryList),
       );

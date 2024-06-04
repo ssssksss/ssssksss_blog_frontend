@@ -175,54 +175,6 @@ export const createSecondCategoryAPI = (secondCategoryName: string, activeFirstC
   });
 };
 
-const createSecondCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
-  const mutationFn = async (reqData) => {
-    const formData = new FormData();
-    formData.append('name', reqData.name);
-    formData.append('blogFirstCategoryId', reqData.blogFirstCategoryId);
-    formData.append('files', reqData.files);
-    formData.append('directory', reqData.directory);
-    return await AxiosInstance({
-      url: '/api/blog/second/category',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*',
-      },
-      data: formData,
-      withCredentials: true,
-    });
-  };
-
-  return useMutationHook({
-    mutationFn,
-    onSuccessHandler: ({ data }) => {
-      const _createBlogSecondCategory: {
-        id: string | number;
-        thumbnailImageUrl: string;
-        name: string;
-        count: 0;
-      } = data.data.data?.createBlogSecondCategory;
-      const _secondCategoryList = JSON.parse(
-        JSON.stringify(store.getState().blogStore.secondCategoryList),
-      );
-      _secondCategoryList[blogStore.activeFirstCategoryId][
-        _createBlogSecondCategory.id
-      ] = {
-        thumbnailImageUrl: _createBlogSecondCategory.thumbnailImageUrl,
-        name: _createBlogSecondCategory.name,
-        count: 0,
-      };
-      store.dispatch(
-        rootActions.blogStore.setSecondCategoryList(_secondCategoryList),
-      );
-      props.onSuccessHandler();
-    },
-    onErrorHandler: () => {},
-    onSettledHandler: () => {},
-  });
-};
 
 export const updateSecondCategoryAPI = (
   firstCategoryId: number,
@@ -625,7 +577,6 @@ export const BlogAPI = {
   createBlogFirstCategory,
   getBlogFirstCategoryList,
   deleteBlogFirstCategory,
-  createSecondCategory,
   getSecondCategory,
   updateSecondCategory,
   deleteSecondCategory,
