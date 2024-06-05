@@ -166,9 +166,9 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       padding: 0.5rem;
       max-width: max-content;
       font-size: 2rem;
-      font-family: ${props=>props.theme.fontFamily.gmarketSansBold}; 
+      font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
     }
-    
+
     h2 {
       border: none;
       outline: solid ${(props) => props.theme.main.secondary80} 0.25rem;
@@ -178,9 +178,9 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       max-width: max-content;
       font-weight: 800;
       font-size: 1.8rem;
-      font-family: ${props=>props.theme.fontFamily.cookieRunRegular}; 
+      font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};
     }
-    
+
     h3 {
       border: none;
       outline: solid #dedede 0.25rem;
@@ -189,9 +189,9 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       border-radius: 0.5rem;
       max-width: max-content;
       font-size: 1.6rem;
-      font-family: ${props=>props.theme.fontFamily.yanoljaYacheBold}; 
+      font-family: ${(props) => props.theme.fontFamily.yanoljaYacheBold};
     }
-    
+
     blockquote {
       font-size: 1.2rem;
       padding: 0 0 0 0.5rem;
@@ -214,7 +214,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       outline: solid black 1px;
     }
 
-    code:not(:has(&,pre)) {
+    code:not(:has(&, pre)) {
       font-size: 1rem;
       font-weight: 800;
       background: #1488cc; /* fallback for old browsers */
@@ -229,6 +229,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
         ${props.theme.main.secondary100}
       )`}; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       padding: 0.25rem;
+      color: white;
     }
 
     ul,
