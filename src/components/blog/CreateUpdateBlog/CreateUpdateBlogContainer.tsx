@@ -38,7 +38,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const router = useRouter();
   const [blogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
-  const [value, setValue] = useState(props.content);
+  const [value, setValue] = useState(props.content ?? "");
   const createBlogMutation = BlogAPI.createBlog({ 
     onSuccessHandler: async () => {
       setIsLoading(false);
@@ -184,12 +184,41 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   }, [cursor]);
 
   useEffect(() => {
+    setTimeout(()=>{
+      const target = document.querySelector('.w-md-editor-text-input');
+      if(target == undefined) return;
+      target.addEventListener('paste', async (event: ClipboardEvent) => {
+        const item = event.clipboardData.items[0];
+        if (item.type.indexOf('image') === 0) {
+          const blob = item.getAsFile();
+          const _url = await uploadHandler(blob);
+          const _text = '![image](blob:' + _url + ')';
+          editorChangeHandler(
+            value.substring(0, textareaRef.current.selectionStart) +
+              _text +
+              value.substring(textareaRef.current.selectionStart, value.length),
+          );
+          setCursor(textareaRef.current.selectionStart + _text.length);
+        } else {
+          // 이미지가 아닐 경우 text로 처리
+          const paste = event.clipboardData.getData('text');
+          editorChangeHandler(
+            value.substring(0, textareaRef.current.selectionStart) +
+              paste +
+              value.substring(textareaRef.current.selectionStart, value.length),
+          );
+        }
+        event.preventDefault();
+      });
+    }, 2000)
+  },[])
 
-    textareaRef.current = window.document.querySelector(
-      '.w-md-editor-text-input',
-    );
-
+  useEffect(() => {
+    
     setTimeout(() => {
+      textareaRef.current = window.document.querySelector(
+        '.w-md-editor-text-input',
+      );
       document.querySelectorAll('pre')?.forEach((i) => {
         const test = document.createElement('button');
         test.style.position = 'absolute';
