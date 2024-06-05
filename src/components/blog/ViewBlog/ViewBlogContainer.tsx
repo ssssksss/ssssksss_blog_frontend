@@ -272,7 +272,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
         padding: 0.5rem;
         ${(props) => props.theme.scroll.hiddenX};
         background: none;
-        color: 333;
+        color: #333;
         
       }
     }
