@@ -72,13 +72,27 @@ const BlogCategoryContainer = () => {
           if (validateFirstCategoryId == undefined) {
             _firstCategoryId = 0;
             _secondCategoryId = 0;
+            store.dispatch(
+              rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+                type: 'info',
+                message: '잘못된 카테고리 ID 값입니다.',
+              }),
+            );
           }
           
-          if(validateFirstCategoryId != undefined) {
+          if (validateFirstCategoryId != undefined) {
             const validateSecondCategoryId = validateFirstCategoryId.blogSecondCategoryList.filter(
               (i: { id: number }) => i.id == _secondCategoryId,
             )[0];
-            if (validateSecondCategoryId == undefined) _secondCategoryId = 0; 
+            if (validateSecondCategoryId == undefined) {
+              _secondCategoryId = 0;
+              store.dispatch(
+                rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+                  type: 'info',
+                  message: '잘못된 카테고리 ID 값입니다.',
+                }),
+              );
+            }; 
           }
         }
 
