@@ -1,3 +1,4 @@
+import { getBlogCategoryListAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
@@ -7,7 +8,6 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import AxiosInstance from '@utils/axios/AxiosInstance';
 import Image from 'next/image';
 import { useEffect, useLayoutEffect, useReducer } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -105,14 +105,13 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
   }, []);
 
   useLayoutEffect(() => {
-    if (props.edit) {
-      AxiosInstance.get(
-        `/api/blog/category/list`,
-      ).then(res => {
-        store.dispatch(rootActions.blogStore.setBlogCategoryList(res.data?.data?.blogFirstCategoryList));
-      });
-    }
-  });
+    getBlogCategoryListAPI().then(res => {
+      const _blogFirstCategoryList = res.data?.data?.blogFirstCategoryList;
+      store.dispatch(
+        rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
+      );
+    })
+  },[]);
 
   return (
     <Container>

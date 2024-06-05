@@ -36,7 +36,10 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const [cursor, setCursor] = useState(0);
   const textareaRef = useRef(null);
   const router = useRouter();
-  const createBlogMutation = BlogAPI.createBlog({
+  const [blogContentImageList] = useState([]);
+  const [tempBlogImage, setTempBlogImage] = useState([]);
+  const [value, setValue] = useState(props.content);
+  const createBlogMutation = BlogAPI.createBlog({ 
     onSuccessHandler: async () => {
       setIsLoading(false);
     },
@@ -46,9 +49,6 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       await setIsLoading(false);
     },
   });
-  const [blogContentImageList] = useState([]);
-  const [tempBlogImage, setTempBlogImage] = useState([]);
-  const [value, setValue] = useState(props.content);
   const editorChangeHandler = useCallback((value) => {
     setValue(value);
     methods.setValue('content', value, { shouldValidate: true });
@@ -184,7 +184,6 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   }, [cursor]);
 
   useEffect(() => {
-    // ctrl + space를 누르면 bing이 나온다. 사용하기전에 브라우저에 가서 설정을 해주어야 한다.
 
     textareaRef.current = window.document.querySelector(
       '.w-md-editor-text-input',
@@ -210,6 +209,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         i.appendChild(test);
       });
     }, 1000);
+
+    
   }, []);
 
   return (

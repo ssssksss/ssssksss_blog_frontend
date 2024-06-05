@@ -13,17 +13,28 @@ import { useInfiniteQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { ICreateFirstCategoryHandlerProps } from 'src/@types/api/BlogAPI';
 
-const getBlogCategoryList = (props: { onSuccessHandler: () => void }) => {
-  return useQueryHook({
-    queryKey: ['blogCategoryList'],
-    requestData: {
-      url: '/api/blog-category-list',
-      method: 'GET',
-    },
-    isRefetchWindowFocus: false,
-    onSuccessHandler: ({ data }) => {
-      props.onSuccessHandler(data);
-      // let urlQueryObject = UrlQueryStringToObject(window.location.href);
+export const getBlogCategoryListAPI = (
+  _firstCategoryId?: string | number,
+  _secondCategoryId?: string | number,
+) => {
+  // return useQueryHook({
+  //   queryKey: ['blogCategoryList'],
+  //   requestData: {
+  //     url: '/api/blog-category-list',
+  //     method: 'GET',
+  //   },
+  //   isRefetchWindowFocus: false,
+  //   onSuccessHandler: ({ data }) => {
+  //     props.onSuccessHandler(data);
+  //     // let urlQueryObject = UrlQueryStringToObject(window.location.href);
+  //   },
+  // });
+  return AxiosInstanceAuth({
+    url: '/api/blog/category/list',
+    method: 'GET',
+    params: {
+      firstCategoryId: _firstCategoryId || null,
+      secondCategoryId: _secondCategoryId || null,
     },
   });
 };
@@ -573,7 +584,6 @@ const deleteBlogContentTemplate = async (props: string) => {
 
 export const BlogAPI = {
   getBlogCategoryList1,
-  getBlogCategoryList,
   createBlogFirstCategory,
   getBlogFirstCategoryList,
   deleteBlogFirstCategory,
