@@ -104,10 +104,16 @@ const BlogCategoryContainer = () => {
         ),
       );
 
+
       // 블로그 리스트 저장
       if (_secondCategoryId) {
+        console.log('BlogCategoryContainer.tsx 파일1 : ', {
+          ...store.getState().blogStore.blogList,
+          [_secondCategoryId]: _blogList,
+        });
         store.dispatch(
           rootActions.blogStore.setBlogList({
+            ...store.getState().blogStore.blogList,
             [_secondCategoryId]: _blogList,
           }),
         );

@@ -89,6 +89,18 @@ const blogSlice = createSlice({
     },
     setBlogList: (state, action) => {
       state.blogList = action.payload;
+    },
+    setInit: (state) => {
+        state.blogListOrderOption = '',
+        state.firstCategoryList = {},
+        state.secondCategoryList = {},
+        state.activeFirstCategoryId = null,
+        state.activeSecondCategoryId = null,
+        state.activeFirstCategoryList = [],
+        state.activeSecondCategoryList = [],
+        state.activeBlogUserId = null,
+        state.blogCategoryList = [],
+        state.blogList = {}
     }
   },
 });

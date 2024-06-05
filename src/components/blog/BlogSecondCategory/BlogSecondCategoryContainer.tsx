@@ -44,7 +44,7 @@ const blogSecondCategoryVerticalScrollRef = useRef<HTMLDivElement>(null);
         secondCategoryId: id,
       },
     }).then((res) => {
-      const _blogList = res.data.data ?? [];
+      const _blogList = res.data.data;
       store.dispatch(
         rootActions.blogStore.setBlogList({
           ...blogStore.blogList,

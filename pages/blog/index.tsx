@@ -2,8 +2,10 @@ import BlogCategoryContainer from '@components/blog/BlogCategory/BlogCategoryCon
 import BlogHeadContainer from '@components/blog/BlogHeadContainer';
 import BlogMainContainer from '@components/blog/BlogMainContainer';
 import Layout1 from '@components/layout/Layout1';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
@@ -12,6 +14,15 @@ import { ReactElement } from 'react';
  */
 
 const Index = () => {
+
+
+  useEffect(() => {
+    
+    return () => {
+      store.dispatch(rootActions.blogStore.setInit());
+    }
+  },[])
+
   return (
     <div className={"w-full flex flex-col gap-[.5rem]"}>
     <Head>
