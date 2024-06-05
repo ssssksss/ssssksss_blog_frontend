@@ -92,7 +92,7 @@ const BlogCategoryContainer = () => {
                   message: '잘못된 카테고리 ID 값입니다.',
                 }),
               );
-            }; 
+            }
           }
         }
 
