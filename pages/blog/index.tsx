@@ -17,7 +17,6 @@ const Index = () => {
 
 
   useEffect(() => {
-    
     return () => {
       store.dispatch(rootActions.blogStore.setInit());
     }

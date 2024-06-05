@@ -120,6 +120,7 @@ export default BlogItem;
 
 const Container = styled.div<{ status: string }>`
   width: 100%;
+  min-height: 5rem;
   border-radius: ${(props) => props.theme.borderRadius.br10};
   cursor: pointer;
   background: ${(props) => props.theme.colors.white80};

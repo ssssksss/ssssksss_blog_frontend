@@ -43,24 +43,46 @@ const BlogCategoryContainer = () => {
     const queryStringObject = UrlQueryStringToObject(window.location.href);
     let _firstCategoryId = queryStringObject?.firstCategoryId;
     let _secondCategoryId = queryStringObject?.secondCategoryId;
+    if (!Number(_firstCategoryId)) {
+      _firstCategoryId = null;
+    }
+    if (!Number(_secondCategoryId)) {
+      _secondCategoryId = null;
+    }
+
     getBlogCategoryListAPI(_firstCategoryId, _secondCategoryId)
       .then((res) => {
+      if (!Number(_firstCategoryId)) {
+        _firstCategoryId = 0;
+      }
+      if (!Number(_secondCategoryId)) {
+        _secondCategoryId = 0;
+      }
         const _blogFirstCategoryList = res.data?.data?.blogFirstCategoryList;
         const _blogList = res.data?.data?.blogList; // 초기에 받아온 blogList
-        if (!Number(_firstCategoryId)) {
-          _firstCategoryId = 0;
-        }
-        if (!Number(_secondCategoryId)) {
-          _secondCategoryId = 0;
-        }
         // 카테고리 상태 관련 저장
         store.dispatch(
           rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
         );
-        // [1] 1,2번째 카테고리 ID가 있는 경우
-        // if (firstCategoryId && secondCategoryId) {}
+        // [1] 1,2번째 카테고리 ID가 있는 경우, 검증 하기
+        if (_firstCategoryId && _secondCategoryId) {
+          const validateFirstCategoryId = _blogFirstCategoryList.filter(
+            (i: { id: number }) => i.id == _firstCategoryId,
+          )[0];
+          if (validateFirstCategoryId == undefined) {
+            _firstCategoryId = 0;
+            _secondCategoryId = 0;
+          }
+          
+          if(validateFirstCategoryId != undefined) {
+            const validateSecondCategoryId = validateFirstCategoryId.blogSecondCategoryList.filter(
+              (i: { id: number }) => i.id == _secondCategoryId,
+            )[0];
+            if (validateSecondCategoryId == undefined) _secondCategoryId = 0; 
+          }
+        }
 
-        // [2] 1번째 카테고리 ID만 있는경우
+        // [1] 1번째 카테고리 ID만 맞는경우
         if (_firstCategoryId && _secondCategoryId == 0) {
           _firstCategoryId =
             _blogFirstCategoryList.filter(
@@ -73,7 +95,7 @@ const BlogCategoryContainer = () => {
             )[0]?.blogSecondCategoryList[0]?.id ?? 0;
         }
 
-        // [3] 둘다 없는 경우
+        // [2] 둘다 틀린 경우
         if (_firstCategoryId == 0) {
           _firstCategoryId = _blogFirstCategoryList[0]?.id ?? 0;
           _secondCategoryId =

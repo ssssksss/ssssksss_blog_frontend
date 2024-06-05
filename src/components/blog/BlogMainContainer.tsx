@@ -1,5 +1,7 @@
+import { store } from '@redux/store';
 import { CC } from '@styles/commonComponentStyle';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import BlogFixedMenuContainer from './BlogFixedMenuContainer';
 import BlogListContainer from './BlogListContainer';
 import BlogOrderFilterContainer from './BlogOrderFilterContainer';
@@ -11,26 +13,27 @@ import BlogOrderFilterContainer from './BlogOrderFilterContainer';
  */
 const BlogMainContainer = () => {
 
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   const keyDownEventFunc = (e: KeyboardEvent) => {
-  //     // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
-  //     if (
-  //       e.code  === "Space" &&
-  //       e.shiftKey &&
-  //       store.getState().blogStore.activeBlogUserId ==
-  //         store.getState().authStore.id
-  //     ) {
-  //       router.push('/blog/create');
-  //     }
-  //   };
+  useEffect(() => {
+    const keyDownEventFunc = (e: KeyboardEvent) => {
+      // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
+      if (
+        e.code  === "Space" &&
+        e.shiftKey &&
+        store.getState().blogStore.activeBlogUserId ==
+          store.getState().authStore.id
+      ) {
+        router.push('/blog/create');
+      }
+    };
 
-  //   window.addEventListener('keydown', keyDownEventFunc);
+    window.addEventListener('keydown', keyDownEventFunc);
 
-  //   return () => {
-  //     window.removeEventListener('keydown', keyDownEventFunc);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener('keydown', keyDownEventFunc);
+    };
+  }, []);
 
   return (
     <CC.ColLeftStartBox w={'100%'} gap={8}>
