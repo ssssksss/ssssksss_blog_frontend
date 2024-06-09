@@ -1,6 +1,7 @@
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import AxiosInstanceAuth from '@utils/axios/AxiosInstanceAuth';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { ReactElement } from 'react';
@@ -32,7 +33,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: unknown) {
   if (!isNaN(params.id)) {
-    const res = await AxiosInstance.get(`/api/blog?id=${params.id}`);
+    const res = await AxiosInstanceAuth.get(`/api/blog?id=${params.id}`);
     return { props: res.data.data, revalidate: 10 };
   }
   return { props: null, revalidate: 10 };

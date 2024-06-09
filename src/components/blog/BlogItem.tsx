@@ -64,9 +64,9 @@ const BlogItem = (props: IBlogItemProps) => {
           <Image
             src={`${AWSS3Prefix}${
               props.element.thumbnailImageUrl ??
-              props.defaultImageUrl ??
-              props.element.defaultImageUrl
-            }`}
+              props.defaultImageUrl
+              }`}
+            alt={"blog-thumbnail-image"}
             width={1}
             height={1}
           />

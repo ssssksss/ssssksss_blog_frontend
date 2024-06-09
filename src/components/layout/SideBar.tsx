@@ -11,7 +11,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -26,6 +26,7 @@ const SideBar = () => {
   const boardStore = useSelector((state: RootState) => state.boardStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const router = useRouter();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sideBarActiveCheck = () => {
@@ -34,10 +35,23 @@ const SideBar = () => {
       }
     };
     window.addEventListener('popstate', sideBarActiveCheck);
+
     return () => {
       window.removeEventListener('popstate', sideBarActiveCheck);
     };
   }, []);
+
+  useEffect(() => {
+    const listener = (event: CustomEvent<MouseEvent>) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsNavbarOpen(false);
+      }
+    };
+    document.addEventListener('click', listener as EventListener);
+    return () => {
+      document.removeEventListener('click', listener as EventListener);
+    };
+  },[])
 
   useEffect(() => {
     if (router.isReady) {
@@ -64,7 +78,7 @@ const SideBar = () => {
   ];
 
   return (
-    <Container isNavbarOpen={isNavbarOpen}>
+    <Container isNavbarOpen={isNavbarOpen} ref={ref}>
       <HamburgerMenu
         isHideMenu={isNavbarOpen}
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
@@ -80,6 +94,7 @@ const SideBar = () => {
                     e.preventDefault();
                   }
                   store.dispatch(SET_LEFT_NAV_ITEM_ACTIVE(i[2]));
+                  setIsNavbarOpen(false);
                 }}
                 active={
                   activeMenu.leftNavActiveItem.split('?')[0] ===

@@ -46,9 +46,9 @@ export const BlogSecondCategoryDeleteYup = yup.object().shape({
 });
 
 export const BlogCreateYup = yup.object().shape({
-  selectFirstCategoryId: yup.string().required('필수 입력'),
+  firstCategoryId: yup.string().required('필수 입력'),
   selectFirstCategoryName: yup.string().required('필수 입력'),
-  selectSecondCategoryId: yup.string().required('필수 입력'),
+  secondCategoryId: yup.string().required('필수 입력'),
   selectSecondCategoryName: yup.string().required('필수 입력'),
   title: yup.string().required('필수 입력'),
   description: yup.string().required('필수 입력'),
@@ -64,9 +64,9 @@ export const BlogCreateYup = yup.object().shape({
 });
 
 export const BlogUpdateYup = yup.object().shape({
-  selectFirstCategoryId: yup.string().required('필수 입력'),
+  firstCategoryId: yup.string().required('필수 입력'),
   selectFirstCategoryName: yup.string().required('필수 입력'),
-  selectSecondCategoryId: yup.string().required('필수 입력'),
+  secondCategoryId: yup.string().required('필수 입력'),
   selectSecondCategoryName: yup.string().required('필수 입력'),
   title: yup.string().required('필수 입력'),
   description: yup.string().required('필수 입력'),

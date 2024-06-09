@@ -1,15 +1,16 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { BlogAPI, updateBlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
-import LoadingComponent from '@components/common/loading/LoadingComponent';
 import { Editor } from '@components/editor/MDEditor';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import StringFunction from '@utils/function/stringFunction';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, {
   useCallback,
@@ -39,14 +40,10 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const [blogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content ?? "");
+  let temp = false;
   const createBlogMutation = BlogAPI.createBlog({ 
     onSuccessHandler: async () => {
       setIsLoading(false);
-    },
-  });
-  const updateBlogMutation = BlogAPI.updateBlog({
-    onSuccessHandler: async () => {
-      await setIsLoading(false);
     },
   });
   const editorChangeHandler = useCallback((value) => {
@@ -57,9 +54,10 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
     defaultValues: {
-      selectFirstCategoryId: props.firstCategoryId,
+      id: null,
+      firstCategoryId: props.firstCategoryId,
       selectFirstCategoryName: props.blogFirstCategoryName,
-      selectSecondCategoryId: props.secondCategoryId,
+      secondCategoryId: props.secondCategoryId,
       selectSecondCategoryName: props.blogSecondCategoryName,
       title: props.title || '',
       description: props.description || '',
@@ -67,6 +65,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       thumbnailImageUrl: props.thumbnailImageUrl || '',
       content: props.content,
       status: props.status,
+      imageFileList: [],
+      imageUrlList: [],
     },
   });
 
@@ -112,8 +112,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const submitHandler = async () => {
     setIsLoading(true);
     // store.dispatch(setIsLoading(true));
-    const imageUrlList = [];
-    const imageFileList = [];
+    const imageUrlList: string[] = [];
+    const imageFileList: File[] = [];
     const deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
     // 미리보기 이미지에서 실제 이미지로 저장하기 위해서 이미지들의 경로를 탐색
@@ -144,22 +144,42 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
     );
 
     if (props.edit) {
-      updateBlogMutation({
-        id: router.query.id,
-        title: methods.getValues('title'),
-        description: methods.getValues('description'),
-        content: methods.getValues('content'),
-        firstCategoryId: methods.getValues('selectFirstCategoryId'),
-        secondCategoryId: methods.getValues('selectSecondCategoryId'),
-        thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-        status: methods.getValues('status'),
-        directory: `/blog-category/${methods.getValues(
-          'selectFirstCategoryId',
-        )}/${methods.getValues('selectSecondCategoryId')}`,
-        imageUrlList: imageUrlList,
-        imageFileList: imageFileList,
-        deleteImageBucketDirectory: deleteImageBucketDirectory,
-      });
+      methods.setValue("id", router.query.id);
+      methods.setValue("imageFileList", imageFileList);
+      methods.setValue('imageUrlList', imageUrlList);
+      updateBlogAPI(
+        Object.entries(methods.getValues()).map((i) => {
+          return {
+            key: i[0],
+            value: i[1],
+          };
+        }),
+      ).then(async(res) => {
+        store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+          type: 'success',
+          message: "블로그가 수정되었습니다.",
+        }))
+        const getData = async () => { 
+          await axios
+            .get(
+              process.env.NODE_ENV === 'development'
+                ? 'http://localhost:3000'
+                : 'https://blog.ssssksss.xyz' +
+                    `/api/revalidate?id=${router.query.id}`,
+            )
+            .then(() => {})
+            .catch(() => {});
+        }
+        getData();
+        router.back();
+      }).catch(err => {
+        store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+          type: 'error',
+          message: err.response?.message,
+        }))
+      }).finally(() => {
+        setIsLoading(false);
+      })
     }
 
     if (!props.edit) {
@@ -167,16 +187,39 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         title: methods.getValues('title'),
         description: methods.getValues('description'),
         content: methods.getValues('content'),
-        firstCategoryId: methods.getValues('selectFirstCategoryId'),
-        secondCategoryId: methods.getValues('selectSecondCategoryId'),
+        firstCategoryId: methods.getValues('firstCategoryId'),
+        secondCategoryId: methods.getValues('secondCategoryId'),
         thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-        directory: `/blog-category/${methods.getValues(
-          'selectFirstCategoryId',
-        )}/${methods.getValues('selectSecondCategoryId')}`,
         imageUrlList: imageUrlList,
         imageFileList: imageFileList,
       });
     }
+  };
+
+  const onPasteHandler = async (event: ClipboardEvent<HTMLDivElement>) => {
+    // const target = document.querySelector('.w-md-editor-text-input');
+    // if (target == undefined) return;
+    const item = event.clipboardData.items[0];
+    if (item.type.indexOf('image') === 0) {
+      const blob = item.getAsFile();
+      const _url = await uploadHandler(blob);
+      const _text = '![image](blob:' + _url + ')';
+      editorChangeHandler(
+        value.substring(0, textareaRef.current?.selectionStart) +
+          _text +
+          value.substring(textareaRef.current?.selectionStart , value.length),
+      );
+      setCursor(textareaRef.current?.selectionStart  + _text.length);
+    } else {
+      // 이미지가 아닐 경우 text로 처리
+      const paste = event.clipboardData.getData('text');
+      editorChangeHandler(
+        value.substring(0, textareaRef.current?.selectionStart ) +
+          paste +
+          value.substring(textareaRef.current?.selectionStart , value.length),
+      );
+    }
+    event.preventDefault();
   };
 
   useEffect(() => {
@@ -184,41 +227,16 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   }, [cursor]);
 
   useEffect(() => {
-    setTimeout(()=>{
-      const target = document.querySelector('.w-md-editor-text-input');
-      if(target == undefined) return;
-      target.addEventListener('paste', async (event: ClipboardEvent) => {
-        const item = event.clipboardData.items[0];
-        if (item.type.indexOf('image') === 0) {
-          const blob = item.getAsFile();
-          const _url = await uploadHandler(blob);
-          const _text = '![image](blob:' + _url + ')';
-          editorChangeHandler(
-            value.substring(0, textareaRef.current.selectionStart) +
-              _text +
-              value.substring(textareaRef.current.selectionStart, value.length),
-          );
-          setCursor(textareaRef.current.selectionStart + _text.length);
-        } else {
-          // 이미지가 아닐 경우 text로 처리
-          const paste = event.clipboardData.getData('text');
-          editorChangeHandler(
-            value.substring(0, textareaRef.current.selectionStart) +
-              paste +
-              value.substring(textareaRef.current.selectionStart, value.length),
-          );
-        }
-        event.preventDefault();
-      });
-    }, 2000)
-  },[])
-
-  useEffect(() => {
-    
     setTimeout(() => {
       textareaRef.current = window.document.querySelector(
         '.w-md-editor-text-input',
       );
+    }, 500);
+  },[])
+
+  useEffect(() => {
+    if (!props.edit) return;
+    setTimeout(() => {
       document.querySelectorAll('pre')?.forEach((i) => {
         const test = document.createElement('button');
         test.style.position = 'absolute';
@@ -238,13 +256,11 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         i.appendChild(test);
       });
     }, 1000);
-
-    
   }, []);
 
   return (
     <FormProvider {...methods}>
-      {isLoading && <LoadingComponent />}
+      {/* {isLoading && <LoadingComponent />} */}
       {store.getState().authStore.role === 'ROLE_ADMIN' && (
         <Container
           isLoading={isLoading}
@@ -256,7 +272,6 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           {/* <CreateUpdateBlogTemplateContainer /> */}
           <EditorContainer id={'editor-container'} isDragging={isDragging}>
             <Editor
-              ref={textareaRef}
               onDragEnter={onDragEnter}
               onDragLeave={onDragLeave}
               onDragOver={onDragOver}
@@ -266,6 +281,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
               onChange={editorChangeHandler}
               highlightEnable={false}
               visibleDragbar={false}
+              onPaste={onPasteHandler}
             />
           </EditorContainer>
           <EditorFooter>
@@ -279,7 +295,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
             </Button>
             <ConfirmButton
               w={'100%'}
-              onClick={() => router.back()}
+              onClick={() => {
+                router.back();
+              }}
               brR={'0rem'}
               bg={'red20'}
               icon={'warning'}

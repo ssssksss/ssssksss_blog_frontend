@@ -41,6 +41,10 @@ const BlogSecondCategoryCreateBox = (
     createSecondCategoryName: string,
     createSecondCategoryImageFile: File,
   }) => {
+  // const createSecondCategoryHandler = async (data: {
+  //   createSecondCategoryName: string,
+  //   createSecondCategoryImageFile: File,
+  // }) => {
     createSecondCategoryAPI(
       data.createSecondCategoryName,
       blogStore.activeFirstCategoryId,
@@ -93,10 +97,14 @@ const BlogSecondCategoryCreateBox = (
         <span>블로그 2번째 카테고리 추가 </span>
       </Header>
       <Input
-        value={blogStore.firstCategoryList[blogStore.activeFirstCategoryId]}
+        value={
+          blogStore.blogCategoryList.filter(
+            (i: { id: number }) => i.id == blogStore.activeFirstCategoryId,
+          )[0].name
+        }
         disabled={true}
         center={true}
-        color={"black100"}
+        color={'black100'}
       />
       <Input
         placeholder="2번째 카테고리 이름"
@@ -105,7 +113,7 @@ const BlogSecondCategoryCreateBox = (
         errorMessage={errors.createSecondCategoryName?.message}
         bg={1}
         h={'2.25rem'}
-        pd={"0 0 0 0.5rem"}
+        pd={'0 0 0 0.5rem'}
       />
       <Input
         type={'file'}

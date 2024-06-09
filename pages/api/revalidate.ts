@@ -1,5 +1,7 @@
 // import { NextApiRequest, NextApiResponse } from 'next';
 
+import { NextApiRequest, NextApiResponse } from "next";
+
 // export default async function handler(
 //   req: NextApiRequest,
 //   res: NextApiResponse,
@@ -23,15 +25,15 @@
 //   }
 // }
 
-import { NextApiRequest, NextApiResponse } from 'next';
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  res.revalidate(`/blog/${req.query.id}`);
+// import { NextApiRequest, NextApiResponse } from 'next';
+// export default async function handler(
+//   req: NextApiRequest,
+//   res: NextApiResponse,
+// ) {
+  // res.revalidate(`/blog/${req.query.id}`);
   // return res.json({ revalidated: true });
-  res.statusCode = 200;
-  return res.json({ message: "success" });
+  // res.statusCode = 200;
+  // return res.json({ message: "success" });
   // Check for secret to confirm this is a valid request
   // if (req.query.secret !== process.env.NEXT_PUBLIC_REVALIDATE_TOKEN) {
   //   return res.status(401).json({ message: 'Invalid token' });
@@ -48,4 +50,16 @@ export default async function handler(
   //   // to show the last successfully generated page
   //   return res.status(500).send('Error revalidating');
   // }
-}
+// }
+
+    const REVALIDATE_API_ROUTES = async (req: NextApiRequest, res: NextApiResponse) => {
+      try {
+              await res.revalidate(`/blog/${req.query.id}`);
+      res.statusCode = 200;
+      return res.json({ message: 'success' });
+      } catch {
+        return res.json({ message: 'fail' });
+      }
+    };
+
+    export default REVALIDATE_API_ROUTES;

@@ -10,22 +10,13 @@ import { ReactElement, useCallback, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Author : Sukyung Lee
- * FileName: index.tsx
- * Date: 2023-01-05 01:39:14
- * Description :
- */
-// return <Container> <div> {new Date().toString()} </div> </Container>;
-
-// 60개의 제품 데이터 생성
-
 const Index = () => {
   const [text, setText] = useState('');
   const textareaRef = useRef();
   const textChangeHandler = useCallback((value: string) => {
     setText(value);
   }, []);
+
   return (
     <Container>
       <h1> 마크다운 만들기(보류) </h1>

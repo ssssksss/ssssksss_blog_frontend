@@ -1,4 +1,4 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { updateSecondCategoryAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
@@ -25,27 +25,69 @@ const BlogSecondCategoryUpdateBox = (
   props: IBlogSecondCategoryUpdateBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const updateSecondCategoryMutation = BlogAPI.updateSecondCategory({
-    onSuccessHandler: () => props.closeModal(),
-  });
+  // const updateSecondCategoryMutation = BlogAPI.updateSecondCategory({
+  //   onSuccessHandler: () => props.closeModal(),
+  // });
   const [updateImageUrl, setUpdateImageUrl] = useState();
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryUpdateYup),
     mode: 'onChange',
     defaultValues: {
-      updateSecondCategoryId: '',
+      updateSecondCategoryId: 0,
       updateSecondCategoryName: '',
       updateSecondCategoryImageFile: '',
     },
   });
   const { errors } = methods.formState;
 
-  const updateSecondCategoryHandler = async (data: unknown) => {
-    updateSecondCategoryMutation({
-      id: data.updateSecondCategoryId,
-      name: data.updateSecondCategoryName,
-      files: data.updateSecondCategoryImageFile,
-      directory: `/blog-category/${blogStore.activeFirstCategoryId}`,
+  const updateSecondCategoryHandler = async (data: {
+      updateSecondCategoryId: number,
+      updateSecondCategoryName: string,
+      updateSecondCategoryImageFile: File | null,
+  }) => {
+    updateSecondCategoryAPI(
+      data.updateSecondCategoryId,
+      data.updateSecondCategoryName,
+      data.updateSecondCategoryImageFile,
+    ).then((res) => {
+      console.log("BlogSecondCategoryUpdateBox.tsx 파일 : ", res);
+      console.log("BlogSecondCategoryUpdateBox.tsx 파일 : ",blogStore.blogCategoryList);
+      // const _secondCategory = res.data.data.createBlogSecondCategory;
+      // let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
+      // temp = temp.map(
+      //   (i: {
+      //     id: number;
+      //     blogSecondCategoryList: [
+      //       {
+      //         blogCount: null;
+      //         blogList: [];
+      //         id: number;
+      //         name: string;
+      //         thumbnailImageUrl: string;
+      //         userId: number;
+      //       },
+      //     ];
+      //   }) => {
+      //     if (i.id == blogStore.activeFirstCategoryId) {
+      //       store.dispatch(
+      //         rootActions.blogStore.setActiveSecondCategoryList([
+      //           ...blogStore.activeSecondCategoryList,
+      //           {
+      //             ..._secondCategory,
+      //             blogList: [],
+      //           },
+      //         ]),
+      //       );
+      //       i.blogSecondCategoryList.push({
+      //         ..._secondCategory,
+      //         blogList: [],
+      //       });
+      //     }
+      //     return i;
+      //   },
+      // );
+      // store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+      props.closeModal();
     });
   };
 
@@ -64,7 +106,7 @@ const BlogSecondCategoryUpdateBox = (
           <span>블로그 2번째 카테고리 수정 </span>
         </Header>
         <Input
-          value={blogStore.firstCategoryList[blogStore.activeFirstCategoryId]}
+          value={blogStore.blogCategoryList.filter((i: {id: number})=>i.id == blogStore.activeFirstCategoryId)[0].name}
           disabled={true}
           center={true}
           color={'black100'}

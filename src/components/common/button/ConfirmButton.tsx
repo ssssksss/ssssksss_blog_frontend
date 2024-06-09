@@ -16,7 +16,7 @@ export const ConfirmButton = ({
   children = 'button',
   ...props
 }: IConfirmButtonProps) => {
-  const showSwal = () => {
+  const showSwal = (event) => {
     Swal.fire({
       titleText: props.text || 'Do you want to continue',
       icon: props.icon || 'question',
@@ -27,14 +27,16 @@ export const ConfirmButton = ({
       cancelButtonText: '취소',
       width: '30rem',
     }).then((res) => {
-      if (res.isConfirmed) _onClick?.(event);
+      if (res.isConfirmed) {
+        _onClick?.(event);
+      };
     });
   };
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
       if (props.disabled) return;
-      showSwal();
+      showSwal(event);
       event.stopPropagation();
     },
     [_onClick, props.disabled],

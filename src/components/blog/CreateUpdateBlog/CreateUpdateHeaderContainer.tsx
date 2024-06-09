@@ -4,6 +4,8 @@ import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
 import Select from '@components/common/select/Select';
 import styled from '@emotion/styled';
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
@@ -27,26 +29,15 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
     (v) => !v,
     props.edit ? true : false,
   );
-  const onChangeSecondCategoryHandler = async ({
-    value,
-    name,
-  }: {
-    value: string;
-    name: string;
-    bg: string; 
-  }) => {
 
-    setValue('selectSecondCategoryId', value);
-    setValue('selectSecondCategoryName', name, {
-      shouldValidate: true,
-    });
-    setValue(
-      'thumbnailImageUrl',
-      blogStore.blogCategoryList?.filter((i) => i.id == getValues("selectFirstCategoryId"))[0]
-        .blogSecondCategoryList.filter(j=> j.id == value)[0]?.thumbnailImageUrl,
-      { shouldValidate: true },
-    );
-  };
+
+  const onChangeInitThumbnailImage = () => {
+        setValue(
+          'thumbnailImageUrl',
+          props.thumbnailImageUrl,
+          { shouldValidate: true },
+        );
+  }
 
   const onChangeFirstCategoryHandler = async ({
     value,
@@ -56,7 +47,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
     name: string;
     bg: string;
   }) => {
-    setValue('selectFirstCategoryId', value);
+    setValue('firstCategoryId', value);
     setValue('selectFirstCategoryName', name);
     setValue(
       'selectSecondCategoryName',
@@ -66,7 +57,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
       { shouldValidate: true },
     );
     setValue(
-      'selectSecondCategoryId',
+      'secondCategoryId',
       blogStore.blogCategoryList?.filter(
         (i) => i.id == value,
       )[0].blogSecondCategoryList[0]?.id,
@@ -80,6 +71,26 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
       { shouldValidate: true },
     );
   };
+
+  const onChangeSecondCategoryHandler = async ({
+      value,
+      name,
+    }: {
+      value: number;
+      name: string;
+      bg: string;
+    }) => {
+      setValue('secondCategoryId', value);
+      setValue('selectSecondCategoryName', name, {
+        shouldValidate: true,
+      });
+      const temp = blogStore.blogCategoryList
+        ?.filter((i: { id: number }) => i.id == getValues('firstCategoryId'))[0]
+        .blogSecondCategoryList.filter(
+          (j: { id: number }) => j.id == value,
+    )[0]?.thumbnailImageUrl;
+    setValue('thumbnailImageUrl', temp, { shouldValidate: true });
+    };
 
   const onChangeStatus = async ({
     value,
@@ -111,7 +122,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
         rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
       );
     })
-  },[]);
+  }, []);
 
   return (
     <Container>
@@ -136,7 +147,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
             placeholder={'1번째 카테고리'}
             onChange={onChangeFirstCategoryHandler}
             defaultValue={{
-              value: getValues('selectFirstCategoryId'),
+              value: getValues('firstCategoryId'),
               name: getValues('selectFirstCategoryName'),
             }}
             data={blogStore.blogCategoryList?.map((i) => {
@@ -151,12 +162,12 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
             placeholder={'2번째 카테고리'}
             onChange={onChangeSecondCategoryHandler}
             defaultValue={{
-              value: getValues('selectSecondCategoryId'),
+              value: getValues('secondCategoryId'),
               name: getValues('selectSecondCategoryName'),
             }}
-            enable={getValues('selectFirstCategoryId') !== undefined}
+            enable={getValues('firstCategoryId') != undefined}
             data={blogStore.blogCategoryList
-              ?.filter((i) => i.id == getValues('selectFirstCategoryId'))[0]
+              ?.filter((i) => i.id == getValues('firstCategoryId'))[0]
               ?.blogSecondCategoryList?.map((j) => {
                 return {
                   value: j.id,
@@ -201,15 +212,27 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
           h={'2.75rem'}
         />
         <CC.ColumnCenterDiv gap={8}>
-          <Input
-            type="file"
-            id="imageUpload"
-            h={'20rem'}
-            outline={1}
-            register={register('thumbnailImageFile')}
-            setValue={setValue}
-            defaultImageUrl={getValues('thumbnailImageUrl')}
-          />
+          <div className="w-full relative">
+            <Input
+              type="file"
+              id="imageUpload"
+              h={'20rem'}
+              register={register('thumbnailImageFile')}
+              setValue={setValue}
+              defaultImageUrl={getValues('thumbnailImageUrl')}
+            />
+            {
+              props.edit && props.thumbnailImageUrl != getValues("thumbnailImageUrl") &&
+              <button className={'absolute right-[2rem] top-[.25rem] w-[1.5rem] aspect-square z-10'} onClick={
+                  (e) => {
+                    onChangeInitThumbnailImage();
+                    e.preventDefault();
+                  }
+            }>
+              <FontAwesomeIcon icon={faRotateLeft} />
+            </button>
+            }
+          </div>
         </CC.ColumnCenterDiv>
       </HideContainer>
     </Container>
