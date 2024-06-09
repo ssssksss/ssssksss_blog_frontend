@@ -42,7 +42,7 @@ export const BlogSecondCategoryUpdateYup = yup.object().shape({
 });
 
 export const BlogSecondCategoryDeleteYup = yup.object().shape({
-  deleteSecondCategoryId: yup.string().required('필수 입력'),
+  deleteSecondCategoryId: yup.number().required('필수 입력'),
 });
 
 export const BlogCreateYup = yup.object().shape({

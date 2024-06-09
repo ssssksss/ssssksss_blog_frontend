@@ -15,24 +15,34 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:52:51"
  * @description 설명
  */
-const BlogSecondCategoryDeleteBox = (props: { closeModal: () => void }) => {
+const BlogSecondCategoryDeleteBox = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryDeleteYup),
-    mode: 'onClick',
+    mode: 'onChange',
     defaultValues: {
-      deleteSecondCategoryId: '',
+      deleteSecondCategoryId: null,
     },
   });
 
-  const deleteSecondCategoryHandler = async (data: unknown) => {
-    deleteSecondCategoryAPI.then(res => {
-      console.log("BlogSecondCategoryDeleteBox.tsx 파일 : ", res);
-      console.log("BlogSecondCategoryDeleteBox.tsx 파일 : ",blogStore.blogCategoryList);
-      console.log("BlogSecondCategoryDeleteBox.tsx 파일 : ",blogStore.activeSecondCategoryList);
-    }).catch(() => {
-      alert("삭제에 실패 했습니다.")
-    })
+  const deleteSecondCategoryHandler = async (data: {
+    deleteSecondCategoryId
+   : number}) => {
+    deleteSecondCategoryAPI(data.deleteSecondCategoryId)
+      .then((res) => {
+        console.log('BlogSecondCategoryDeleteBox.tsx 파일 : ', res);
+        console.log(
+          'BlogSecondCategoryDeleteBox.tsx 파일 : ',
+          blogStore.blogCategoryList,
+        );
+        console.log(
+          'BlogSecondCategoryDeleteBox.tsx 파일 : ',
+          blogStore.activeSecondCategoryList,
+        );
+      })
+      .catch(() => {
+        alert('삭제에 실패 했습니다.');
+      });
   };
 
   return (

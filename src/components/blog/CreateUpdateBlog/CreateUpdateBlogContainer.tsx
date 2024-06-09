@@ -40,7 +40,6 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const [blogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content ?? "");
-  let temp = false;
   const createBlogMutation = BlogAPI.createBlog({ 
     onSuccessHandler: async () => {
       setIsLoading(false);
@@ -154,7 +153,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
             value: i[1],
           };
         }),
-      ).then(async(res) => {
+      ).then(async() => {
         store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
           type: 'success',
           message: "블로그가 수정되었습니다.",

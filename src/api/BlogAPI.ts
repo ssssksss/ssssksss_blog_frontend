@@ -112,7 +112,7 @@ const createBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data }) => {
+    onSuccessHandler: () => {
       // const _createBlogFirstCategory = data.data.data?.createBlogFirstCategory;
       // const _firstCategoryList = JSON.parse(
       //   JSON.stringify(store.getState().blogStore.firstCategoryList),
@@ -321,8 +321,8 @@ const updateBlog = (props: { onSuccessHandler: () => void }) => {
 //   });
 // };
 
-export const deleteSecondCategoryAPI = (secondCategoryId: number) => {
-  return AxiosInstanceAuth({
+export const deleteSecondCategoryAPI = async (secondCategoryId: number) => {
+  return await AxiosInstanceAuth({
     url: '/api/blog/second/category',
     method: 'delete',
     params: {
@@ -618,7 +618,6 @@ export const BlogAPI = {
   getBlogFirstCategoryList,
   deleteBlogFirstCategory,
   getSecondCategory,
-  deleteSecondCategory,
   createBlog,
   getBlog,
   deleteBlog,

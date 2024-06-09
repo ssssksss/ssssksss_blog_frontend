@@ -29,7 +29,7 @@ export const ConfirmButton = ({
     }).then((res) => {
       if (res.isConfirmed) {
         _onClick?.(event);
-      };
+      }
     });
   };
 
