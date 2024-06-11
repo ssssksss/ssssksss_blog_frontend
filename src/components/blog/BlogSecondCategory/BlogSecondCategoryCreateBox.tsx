@@ -27,7 +27,7 @@ const BlogSecondCategoryCreateBox = (
   props: IBlogSecondCategoryCreateBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { register, handleSubmit, formState, setValue,setError } = useForm({
     resolver: yupResolver(BlogSecondCategoryCreateYup),
     mode: 'onChange',
     defaultValues: {
@@ -41,54 +41,66 @@ const BlogSecondCategoryCreateBox = (
     createSecondCategoryName: string,
     createSecondCategoryImageFile: File,
   }) => {
-  // const createSecondCategoryHandler = async (data: {
-  //   createSecondCategoryName: string,
-  //   createSecondCategoryImageFile: File,
-  // }) => {
     createSecondCategoryAPI(
       data.createSecondCategoryName,
       blogStore.activeFirstCategoryId,
       data.createSecondCategoryImageFile,
-    ).then((res) => {
-      const _secondCategory = res.data.data.createBlogSecondCategory;
-      let temp = JSON.parse(
-        JSON.stringify(blogStore.blogCategoryList),
-      );
-      temp = temp.map(
-        (i: {
-          id: number;
-          blogSecondCategoryList: [
-            {
-              blogCount: null;
-              blogList: [];
-              id: number;
-              name: string;
-              thumbnailImageUrl: string;
-              userId: number;
-            },
-          ];
-        }) => {
-          if (i.id == blogStore.activeFirstCategoryId) {
-            store.dispatch(
-              rootActions.blogStore.setActiveSecondCategoryList([
-                ...blogStore.activeSecondCategoryList,
-                {
-                  ..._secondCategory,
-                  blogList: [],
-                },
-              ]),
-            );
-            i.blogSecondCategoryList.push({
-              ..._secondCategory,
-              blogList: [],
-            });
-          }
-          return i;
-        },
-      );
-      store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
-      props.closeModal();
-    });
+    )
+      .then((res) => {
+        const _secondCategory = res.data.data.createBlogSecondCategory;
+        let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
+        temp = temp.map(
+          (i: {
+            id: number;
+            blogSecondCategoryList: [
+              {
+                blogCount: null;
+                blogList: [];
+                id: number;
+                name: string;
+                thumbnailImageUrl: string;
+                userId: number;
+              },
+            ];
+          }) => {
+            if (i.id == blogStore.activeFirstCategoryId) {
+              store.dispatch(
+                rootActions.blogStore.setActiveSecondCategoryList([
+                  ...blogStore.activeSecondCategoryList,
+                  {
+                    ..._secondCategory,
+                    blogList: [],
+                  },
+                ]),
+              );
+              i.blogSecondCategoryList.push({
+                ..._secondCategory,
+                blogList: [],
+              });
+            }
+            return i;
+          },
+        );
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: '블로그 2번째 카테고리 생성',
+          }),
+        );
+        props.closeModal();
+      }).catch((err) => {
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'warning',
+            message: err.response.data.msg,
+          }),
+        );
+        setError('createSecondCategoryName', {
+          type: 'custom',
+          message: err.response.data.msg,
+        });
+      });
   };
 
   return (

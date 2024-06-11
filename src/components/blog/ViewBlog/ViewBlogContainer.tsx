@@ -110,7 +110,7 @@ const ViewBlogContainer = (props: IProps) => {
 
   return (
     <Container id="view-blog-container" className={'view-blog-container'}>
-      <ViewBlogFixContainer {...props} />
+      <ViewBlogFixContainer />
       <ViewBlogIndexContainer {...props} blogIndexList={blogIndexList} />
       <ViewBlogHeaderContainer {...props} />
       <ViewerContainer icon={Icons.PlayIcon}>

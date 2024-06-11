@@ -1,4 +1,4 @@
-import { BlogAPI, updateBlogAPI } from '@api/BlogAPI';
+import { createBlogAPI, updateBlogAPI } from '@api/BlogAPI';
 import Button from '@components/common/button/Button';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import { Icons } from '@components/common/icons/Icons';
@@ -37,18 +37,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const [cursor, setCursor] = useState(0);
   const textareaRef = useRef(null);
   const router = useRouter();
-  const [blogContentImageList] = useState([]);
+  const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
   const [value, setValue] = useState(props.content ?? "");
-  const createBlogMutation = BlogAPI.createBlog({ 
-    onSuccessHandler: async () => {
-      setIsLoading(false);
-    },
-  });
-  const editorChangeHandler = useCallback((value) => {
-    setValue(value);
-    methods.setValue('content', value, { shouldValidate: true });
-  }, []);
   const methods = useForm({
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
@@ -61,13 +52,19 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       title: props.title || '',
       description: props.description || '',
       thumbnailImageFile: '',
-      thumbnailImageUrl: props.thumbnailImageUrl || '',
+      thumbnailImageUrl: props.thumbnailImageUrl,
       content: props.content,
       status: props.status,
       imageFileList: [],
       imageUrlList: [],
+      deleteImageBucketDirectory: [],
     },
   });
+
+    const editorChangeHandler = useCallback((value) => {
+    setValue(value);
+    methods.setValue('content', value, { shouldValidate: true });
+  }, []);
 
   const uploadHandler = async (file: unknown) => {
     const url = URL.createObjectURL(file).substring(5);
@@ -109,11 +106,11 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   };
 
   const submitHandler = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
-    const deleteImageBucketDirectory = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
+    const deleteImageBucketDirectory: string[] = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
 
     // 미리보기 이미지에서 실제 이미지로 저장하기 위해서 이미지들의 경로를 탐색
     tempBlogImage.map((i) => {
@@ -130,6 +127,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           deleteImageBucketDirectory.push(i);
         }
       });
+      methods.setValue('deleteImageBucketDirectory', deleteImageBucketDirectory, {shouldValidate: true});
     }
 
     // 미리보기가 안보여 바꾼 텍스트를 다시 원래대로 전환
@@ -142,10 +140,25 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       ),
     );
 
+    // 블로그 수정 API
     if (props.edit) {
-      methods.setValue("id", router.query.id);
-      methods.setValue("imageFileList", imageFileList);
-      methods.setValue('imageUrlList', imageUrlList);
+      methods.setValue('id', router.query.id);
+      const temp = store
+        .getState()
+        .blogStore.blogCategoryList?.filter(
+          (i: { id: number }) => i.id == methods.getValues('firstCategoryId'),
+        )[0]
+        .blogSecondCategoryList.filter(
+          (j: { id: number }) => j.id == methods.getValues('secondCategoryId'),
+      )[0]?.thumbnailImageUrl;
+      let _temp_image_url = "";
+      // ? 대표 이미지 URL이 현재 선택한 2번째 카테고리 이미지 URL과 같다면 null로 변경
+      if (methods.getValues('thumbnailImageUrl') == temp) {
+        _temp_image_url = temp;
+        methods.setValue('thumbnailImageUrl', null, { shouldValidate: true });
+      }
+
+
       updateBlogAPI(
         Object.entries(methods.getValues()).map((i) => {
           return {
@@ -153,45 +166,74 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
             value: i[1],
           };
         }),
-      ).then(async() => {
-        store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'success',
-          message: "블로그가 수정되었습니다.",
-        }))
-        const getData = async () => { 
-          await axios
-            .get(
-              process.env.NODE_ENV === 'development'
-                ? 'http://localhost:3000'
-                : 'https://blog.ssssksss.xyz' +
-                    `/api/revalidate?id=${router.query.id}`,
-            )
-            .then(() => {})
-            .catch(() => {});
-        }
-        getData();
-        router.back();
-      }).catch(err => {
-        store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-          type: 'error',
-          message: err.response?.message,
-        }))
-      }).finally(() => {
-        setIsLoading(false);
-      })
+      )
+        .then(async () => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: '블로그가 수정되었습니다.',
+            }),
+          );
+          const getData = async () => {
+            await axios
+              .get(
+                process.env.NODE_ENV === 'development'
+                  ? 'http://localhost:3000'
+                  : 'https://blog.ssssksss.xyz' +
+                      `/api/revalidate?id=${router.query.id}`,
+              )
+              .then(() => {})
+              .catch(() => {});
+          };
+          getData();
+          router.back();
+        })
+        .catch((err) => {
+        methods.setValue('thumbnailImageUrl', _temp_image_url, {
+          shouldValidate: true,
+        });
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'error',
+              message: err.response?.message,
+            }),
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
 
+    // 블로그 생성 API
     if (!props.edit) {
-      createBlogMutation({
-        title: methods.getValues('title'),
-        description: methods.getValues('description'),
-        content: methods.getValues('content'),
-        firstCategoryId: methods.getValues('firstCategoryId'),
-        secondCategoryId: methods.getValues('secondCategoryId'),
-        thumbnailImageFile: methods.getValues('thumbnailImageFile'),
-        imageUrlList: imageUrlList,
-        imageFileList: imageFileList,
-      });
+      createBlogAPI(
+        Object.entries(methods.getValues()).map((i) => {
+          return {
+            key: i[0],
+            value: i[1],
+          };
+        }),
+      )
+        .then((res) => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: '블로그가 생성되었습니다.',
+            }),
+          );
+          router.replace(`/blog/${res.data.data?.id}`);
+        })
+        .catch((err) => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'error',
+              message: err.response?.message,
+            }),
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
@@ -224,6 +266,22 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   useEffect(() => {
     textareaRef.current?.setSelectionRange(cursor, cursor);
   }, [cursor]);
+
+  useEffect(() => {
+    methods.setValue('thumbnailImageUrl', props.thumbnailImageUrl);
+    
+    if (props.edit) {
+    const regex =
+      /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
+    let matches;
+    const parts = [];
+    while ((matches = regex.exec(props.content)) !== null) {
+      parts.push(matches[1]);
+      }
+      setBlogContentImageList(parts);
+    }
+
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {

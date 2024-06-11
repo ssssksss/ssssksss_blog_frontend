@@ -61,6 +61,7 @@ interface IInputProps {
   onBlur?: (_e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (_e: ChangeEvent<HTMLInputElement>) => void;
   onKeyPressAction?: (_e: KeyboardEvent) => void;
+  removeImageFile?: () => void;
   type?:
     | 'password'
     | 'text'
@@ -201,11 +202,16 @@ const Input = (props: IInputProps, ref: React.MutableRefObject<HTMLInputElement>
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setImageUrl('/');
                 if (props.register) {
-                  props.setValue(props.register?.name, '', {
-                    shouldValidate: true,
-                  });
+                  if (!props.removeImageFile) {
+                    setImageUrl('/');
+                    props.setValue(props.register?.name, '', {
+                      shouldValidate: true,
+                      });
+                      }
+                  if (props.removeImageFile) {
+                    props.removeImageFile();                    
+                  }
                 }
               }}
             >
@@ -218,7 +224,9 @@ const Input = (props: IInputProps, ref: React.MutableRefObject<HTMLInputElement>
             </button>
           )}
           {imageUrl != '/' ? (
-            <Image src={imageUrl} alt={'image'} fill />
+            <div className={'relative w-full h-full'}>
+              <Image src={imageUrl} alt={'image'} fill className={"image"} />
+            </div>
           ) : (
             <CC.ColumnCenterCenterDiv h={'100%'}>
               <Image
@@ -408,21 +416,32 @@ const ImageFileContainer = styled.label<
     &:hover {
       cursor: pointer;
     }
-    color: ${(props) =>
-      props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
-      button {
-        position: absolute;
-        top: 0.4rem;
-        right: 0.4rem;
-        z-index: 4;
-        background: transparent;
-        cursor: pointer;
-      }
-      ${(props) =>
-        props.isImageUrl &&
-        css`
-        outline: solid black 1px;
-        outline-offset: -1px;
+  color: ${(props) =>
+    props.theme.colors?.[props.color] || props.theme.main?.[props.color]};
+.image {
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+  button {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    z-index: 4;
+    background: transparent;
+    cursor: pointer;
+  }
+  ${(props) =>
+    props.isImageUrl &&
+    css`
+      outline: solid black 1px;
+      outline-offset: -1px;
       box-shadow: none;
     `}
+
+  }
 `;

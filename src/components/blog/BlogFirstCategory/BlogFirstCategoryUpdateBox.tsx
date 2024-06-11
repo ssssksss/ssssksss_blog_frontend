@@ -9,7 +9,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -25,23 +25,23 @@ const BlogFirstCategoryUpdateBox = (
   props: IBlogFirstCategoryUpdateBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const methods = useForm({
+  const {formState, setValue, setError, register, handleSubmit} = useForm({
     resolver: yupResolver(BlogFirstCategoryUpdateYup),
     mode: 'onChange',
     defaultValues: {
-      updateFirstCategoryId: '',
+      updateFirstCategoryId: null,
       updateFirstCategoryName: '',
     },
   });
-  const { errors } = methods.formState;
+  const { errors } = formState;
 
   // TODO: select 태그 수정해서 이런 코드 제거해버리기
   const onChangeSelectHandler = (data: {value: string, name: string}) => {
-    methods.setValue('updateFirstCategoryId', data.value);
-    methods.setValue('updateFirstCategoryName', data.name);
+    setValue('updateFirstCategoryId', data.value);
+    setValue('updateFirstCategoryName', data.name);
   };
 
-  const updateFirstCategoryHandler = async (data: {
+  const updateFirstCategoryHandler = (data: {
     updateFirstCategoryId : number,
     updateFirstCategoryName: string,
   }) => {
@@ -63,13 +63,31 @@ const BlogFirstCategoryUpdateBox = (
               return i;
             },
       );
-        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+      store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: '블로그 1번째 카테고리 수정',
+          }),
+        );
         props.closeModal();
+    }).catch((err) => {
+      if (err.response.status == 409) {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'warning',
+              message: err.response.data.msg,
+            }),
+        );
+        setError('updateFirstCategoryName', {
+          type: 'custom',
+          message: err.response.data.msg,
+        });
+      }
     })
   };
 
   return (
-    <FormProvider {...methods}>
       <Container outline={1} w={'100%'}>
         <Header>
           <span>블로그 1번째 카테고리 수정</span>
@@ -88,21 +106,20 @@ const BlogFirstCategoryUpdateBox = (
         <Input
           w={'100%'}
           placeholder="변경할 이름"
-          register={methods.register('updateFirstCategoryName')}
-          onKeyPressAction={methods.handleSubmit(updateFirstCategoryHandler)}
+          register={register('updateFirstCategoryName')}
+          onKeyPressAction={handleSubmit(updateFirstCategoryHandler)}
           errorMessage={errors.updateFirstCategoryName?.message}
           bg={1}
           h={'2.25rem'}
         />
         <Button
           w={'100%'}
-          onClickCapture={methods.handleSubmit(updateFirstCategoryHandler)}
-          disabled={!methods.formState.isValid}
+          onClickCapture={handleSubmit(updateFirstCategoryHandler)}
+          disabled={!formState.isValid}
         >
           수정
         </Button>
       </Container>
-    </FormProvider>
   );
 };
 export default BlogFirstCategoryUpdateBox;
@@ -120,7 +137,7 @@ const Header = styled.header`
   ${(props) => props.theme.flex.column};
   align-self: stretch;
   color: black;
-  border-radius: ${(props) => props.theme.borderRadius.br8};
+  border-radius: ${(props) => props.theme.borderRadius.br10};
 
   span:nth-of-type(1) {
     font-family: ${(props) => props.theme.fontFamily.cookieRunRegular};

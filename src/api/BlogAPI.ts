@@ -190,11 +190,13 @@ export const updateSecondCategoryAPI = (
   secondCategoryId: number,
   secondCategoryNewName: string,
   files: File,
+  firstCategoryId: number,
 ) => {
     const formData = new FormData();
     formData.append('id', secondCategoryId+"");
     formData.append('name', secondCategoryNewName + '');
     formData.append('files', files);
+    formData.append('firstCategoryId', firstCategoryId+"");
   return AxiosInstanceAuth({
     url: '/api/blog/second/category',
     method: 'put',
@@ -205,6 +207,32 @@ export const updateSecondCategoryAPI = (
     data: formData,
   });
 };
+
+export const createBlogAPI = async (
+  data: { key: string; value: string | number | string[] }[],
+) => {
+  const formData = new FormData();
+  const ArrayObjectToFormData = (data: unknown[]) => {
+    data.forEach((i: { key: string; value: string | Blob | [] }) => {
+      if (Array.isArray(i.value)) {
+        i.value.forEach((item) => formData.append(i.key, item));
+      } else if (i.value !== undefined) {
+        formData.append(i.key, i.value);
+      }
+    });
+  };
+  ArrayObjectToFormData(data);
+  return await AxiosInstanceAuth({
+    url: '/api/blog',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+    },
+    data: formData,
+  });
+};
+
 
 
 export const updateBlogAPI = (data: {key: string, value: string | number | string[]}[]) => {

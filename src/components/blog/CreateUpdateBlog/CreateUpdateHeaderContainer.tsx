@@ -11,7 +11,7 @@ import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import { useEffect, useLayoutEffect, useReducer } from 'react';
+import { useEffect, useLayoutEffect, useReducer, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { CreateUpdateHeaderProps } from 'src/@types/blog/CreateUpdateHeaderContainer';
@@ -25,6 +25,7 @@ import { CreateUpdateHeaderProps } from 'src/@types/blog/CreateUpdateHeaderConta
 const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
   const { register, getValues, setValue } = useFormContext();
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const [selectSecondCategoryList, setSelectSecondCategoryList] = useState([]);
   const [isHideContainer, hideContainerToggle] = useReducer(
     (v) => !v,
     props.edit ? true : false,
@@ -37,6 +38,11 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
           props.thumbnailImageUrl,
           { shouldValidate: true },
         );
+        setValue(
+          'thumbnailImageFile',
+          '',
+          { shouldValidate: true },
+        );
   }
 
   const onChangeFirstCategoryHandler = async ({
@@ -47,29 +53,28 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
     name: string;
     bg: string;
   }) => {
+    const _selectSecondCategoryList = (blogStore.blogCategoryList?.filter(
+      (i: {id: number}) => i.id == Number(value),
+    )[0] as {
+      blogSecondCategoryList: [{
+        name: string,
+        id: number,
+        thumbnailImageUrl: string,
+    }]}).blogSecondCategoryList;
     setValue('firstCategoryId', value);
     setValue('selectFirstCategoryName', name);
-    setValue(
-      'selectSecondCategoryName',
-      blogStore.blogCategoryList?.filter(
-        (i) => i.id == value,
-      )[0].blogSecondCategoryList[0]?.name,
-      { shouldValidate: true },
-    );
-    setValue(
-      'secondCategoryId',
-      blogStore.blogCategoryList?.filter(
-        (i) => i.id == value,
-      )[0].blogSecondCategoryList[0]?.id,
-      { shouldValidate: true },
-    );
+    setValue('selectSecondCategoryName', _selectSecondCategoryList[0]?.name, {
+      shouldValidate: true,
+    });
+    setValue('secondCategoryId', _selectSecondCategoryList[0]?.id, {
+      shouldValidate: true,
+    });
     setValue(
       'thumbnailImageUrl',
-      blogStore.blogCategoryList?.filter(
-        (i) => i.id == value,
-      )[0].blogSecondCategoryList[0]?.thumbnailImageUrl,
+      _selectSecondCategoryList[0]?.thumbnailImageUrl,
       { shouldValidate: true },
     );
+    setSelectSecondCategoryList(_selectSecondCategoryList);
   };
 
   const onChangeSecondCategoryHandler = async ({
@@ -84,13 +89,12 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
       setValue('selectSecondCategoryName', name, {
         shouldValidate: true,
       });
-      const temp = blogStore.blogCategoryList
-        ?.filter((i: { id: number }) => i.id == getValues('firstCategoryId'))[0]
-        .blogSecondCategoryList.filter(
-          (j: { id: number }) => j.id == value,
-    )[0]?.thumbnailImageUrl;
+      const temp = selectSecondCategoryList.filter(
+        (j: { id: number }) => j.id == value,
+      )[0]?.thumbnailImageUrl;
     setValue('thumbnailImageUrl', temp, { shouldValidate: true });
-    };
+  };
+  
 
   const onChangeStatus = async ({
     value,
@@ -103,7 +107,7 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
   };
 
   useEffect(() => {
-    const keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         hideContainerToggle();
       }
@@ -121,8 +125,14 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
       store.dispatch(
         rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
       );
+      setSelectSecondCategoryList(
+        _blogFirstCategoryList?.filter(
+          (i: { id: number }) => i.id == props.firstCategoryId,
+        )[0]?.blogSecondCategoryList,
+      );
     })
   }, []);
+
 
   return (
     <Container>
@@ -166,14 +176,12 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
               name: getValues('selectSecondCategoryName'),
             }}
             enable={getValues('firstCategoryId') != undefined}
-            data={blogStore.blogCategoryList
-              ?.filter((i) => i.id == getValues('firstCategoryId'))[0]
-              ?.blogSecondCategoryList?.map((j) => {
-                return {
-                  value: j.id,
-                  name: j.name,
-                };
-              })}
+            data={selectSecondCategoryList?.map((j) => {
+              return {
+                value: j.id,
+                name: j.name,
+              };
+            })}
           ></Select>
         </CC.RowBetweenDiv>
         {props.edit && (
@@ -220,18 +228,36 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
               register={register('thumbnailImageFile')}
               setValue={setValue}
               defaultImageUrl={getValues('thumbnailImageUrl')}
+              removeImageFile={() => {
+                setValue(
+                  'thumbnailImageUrl',
+                  selectSecondCategoryList.filter(
+                    (i: { id: number }) =>
+                      i.id == getValues('secondCategoryId'),
+                  )[0].thumbnailImageUrl,
+                  {
+                    shouldValidate: true,
+                  },
+                );
+                setValue('thumbnailImageFile', '', {
+                  shouldValidate: true,
+                });
+              }}
             />
-            {
-              props.edit && props.thumbnailImageUrl != getValues("thumbnailImageUrl") &&
-              <button className={'absolute right-[2rem] top-[.25rem] w-[1.5rem] aspect-square z-10'} onClick={
-                  (e) => {
+            {props.edit && props.thumbnailImageUrl != getValues('thumbnailImageUrl') &&
+              props.thumbnailImageUrl.search('/blog-category') == -1 && (
+                <button
+                  className={
+                    'absolute right-[2rem] top-[.25rem] w-[1.5rem] aspect-square z-10'
+                  }
+                  onClick={(e) => {
                     onChangeInitThumbnailImage();
                     e.preventDefault();
-                  }
-            }>
-              <FontAwesomeIcon icon={faRotateLeft} />
-            </button>
-            }
+                  }}
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                </button>
+              )}
           </div>
         </CC.ColumnCenterDiv>
       </HideContainer>

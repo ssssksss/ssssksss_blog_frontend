@@ -5,10 +5,12 @@ import Select from '@components/common/select/Select';
 import { BlogSecondCategoryUpdateYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { memo, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -29,16 +31,16 @@ const BlogSecondCategoryUpdateBox = (
   //   onSuccessHandler: () => props.closeModal(),
   // });
   const [updateImageUrl, setUpdateImageUrl] = useState();
-  const methods = useForm({
+  const { register, handleSubmit, formState, setValue, setError } = useForm({
     resolver: yupResolver(BlogSecondCategoryUpdateYup),
     mode: 'onChange',
     defaultValues: {
       updateSecondCategoryId: 0,
       updateSecondCategoryName: '',
-      updateSecondCategoryImageFile: '',
+      updateSecondCategoryImageFile: null,
     },
   });
-  const { errors } = methods.formState;
+  const { errors } = formState;
 
   const updateSecondCategoryHandler = async (data: {
       updateSecondCategoryId: number,
@@ -49,58 +51,65 @@ const BlogSecondCategoryUpdateBox = (
       data.updateSecondCategoryId,
       data.updateSecondCategoryName,
       data.updateSecondCategoryImageFile,
-    ).then((res) => {
-      console.log("BlogSecondCategoryUpdateBox.tsx 파일 : ", res);
-      console.log("BlogSecondCategoryUpdateBox.tsx 파일 : ",blogStore.blogCategoryList);
-      // const _secondCategory = res.data.data.createBlogSecondCategory;
-      // let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
-      // temp = temp.map(
-      //   (i: {
-      //     id: number;
-      //     blogSecondCategoryList: [
-      //       {
-      //         blogCount: null;
-      //         blogList: [];
-      //         id: number;
-      //         name: string;
-      //         thumbnailImageUrl: string;
-      //         userId: number;
-      //       },
-      //     ];
-      //   }) => {
-      //     if (i.id == blogStore.activeFirstCategoryId) {
-      //       store.dispatch(
-      //         rootActions.blogStore.setActiveSecondCategoryList([
-      //           ...blogStore.activeSecondCategoryList,
-      //           {
-      //             ..._secondCategory,
-      //             blogList: [],
-      //           },
-      //         ]),
-      //       );
-      //       i.blogSecondCategoryList.push({
-      //         ..._secondCategory,
-      //         blogList: [],
-      //       });
-      //     }
-      //     return i;
-      //   },
-      // );
-      // store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+      blogStore.activeFirstCategoryId,
+    )
+      .then((res) => {
+        const _data = res.data.data.updateBlogSecondCategory;
+        let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
+        temp = temp.map((i: {id: number, blogSecondCategoryList: [{id:number}]}) => {
+          if (i.id == blogStore.activeFirstCategoryId) {
+            let temp2 = i.blogSecondCategoryList.map((j: { id: number }) => {
+              if (j.id == _data.id) {
+                return _data;
+              }
+              return j;
+            })
+            return {
+              ...i,
+              blogSecondCategoryList: temp2,
+            }
+          }
+          return i;
+        })
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.blogStore.setActiveSecondCategoryList(
+            temp.filter(
+              (i: { id: number }) =>
+                i.id == blogStore.activeFirstCategoryId,
+            )[0]?.blogSecondCategoryList ?? [],
+          ),
+        );
+
+      store.dispatch(
+        rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+          type: 'success',
+          message: '블로그 2번째 카테고리 생성',
+        }),
+      );
       props.closeModal();
-    });
+      }).catch((err) => {
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'warning',
+            message: err.response.data.msg,
+          }),
+        );
+        setError('updateSecondCategoryName', {
+          type: 'custom',
+          message: err.response.data.msg,
+        });
+      });
   };
 
-  const changeUpdateCategoryImage = (data) => {
-    methods.setValue('updateSecondCategoryId', data.value, { shouldValidate: true});
+  const changeUpdateCategoryImage = (data: {value: number, name: string}) => {
+    setValue('updateSecondCategoryId', data.value, { shouldValidate: true });
     setUpdateImageUrl(
-      blogStore.secondCategoryList[blogStore.activeFirstCategoryId][data.value]
-        .thumbnailImageUrl,
+      blogStore.activeSecondCategoryList.filter((i:{id: number})=> i.id == data.value)[0].thumbnailImageUrl
     );
   };
 
   return (
-    <FormProvider {...methods}>
       <Container outline={1} w={'100%'}>
         <Header>
           <span>블로그 2번째 카테고리 수정 </span>
@@ -127,8 +136,8 @@ const BlogSecondCategoryUpdateBox = (
         ></Select>
         <Input
           placeholder="2번째 카테고리 수정할 이름"
-          register={methods.register('updateSecondCategoryName')}
-          onKeyPressAction={methods.handleSubmit(updateSecondCategoryHandler)}
+          register={register('updateSecondCategoryName')}
+          onKeyPressAction={handleSubmit(updateSecondCategoryHandler)}
           errorMessage={errors.updateSecondCategoryName?.message}
           bg={1}
           h={'2.25rem'}
@@ -136,20 +145,19 @@ const BlogSecondCategoryUpdateBox = (
         />
         <Input
           type={'file'}
-          register={methods.register('updateSecondCategoryImageFile')}
-          setValue={methods.setValue}
+          register={register('updateSecondCategoryImageFile')}
+          setValue={setValue}
           h={'20rem'}
           defaultImageUrl={updateImageUrl}
         />
         <Button
           w={'100%'}
-          onClickCapture={methods.handleSubmit(updateSecondCategoryHandler)}
-          disabled={!methods.formState.isValid}
+          onClickCapture={handleSubmit(updateSecondCategoryHandler)}
+          disabled={!formState.isValid}
         >
           수정
         </Button>
       </Container>
-    </FormProvider>
   );
 };
 export default memo(BlogSecondCategoryUpdateBox);

@@ -36,7 +36,7 @@ const BlogListContainer = () => {
               ></BlogItem>
             </Link>
           ))
-        ) : blogStore.activeSecondCategoryId ? (
+        ) : blogStore.activeSecondCategoryId || blogStore.activeSecondCategoryList.length == 0 ? (
           <div
             className={
               'w-full h-[10rem] bg-gray-100 rounded-lg flex justify-center items-center text-[2rem]'
@@ -45,7 +45,7 @@ const BlogListContainer = () => {
             결과가 없습니다.
           </div>
         ) : (
-        <div className={'flex flex-col gap-[.5rem] w-full'}>
+          <div className={'flex flex-col gap-[.5rem] w-full'}>
             {Array.from({ length: 16 }, (index) => index).map((_, index) => (
               <Skeleton key={index} />
             ))}

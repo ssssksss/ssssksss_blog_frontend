@@ -16,7 +16,6 @@ type InitialState = {
   };
   activeFirstCategoryId: number;
   activeSecondCategoryId: number;
-  activeFirstCategoryList: [];
   activeSecondCategoryList: [];
   activeBlogUserId: number;
   blogCategoryList: [];
@@ -49,7 +48,6 @@ const initialState: InitialState = {
   secondCategoryList: {},
   activeFirstCategoryId: null,
   activeSecondCategoryId: null,
-  activeFirstCategoryList: [],
   activeSecondCategoryList: [],
   activeBlogUserId: null,
   blogCategoryList: [],
@@ -68,9 +66,6 @@ const blogSlice = createSlice({
     },
     setSecondCategoryList: (state, action) => {
       state.secondCategoryList = action.payload;
-    },
-    setActiveFirstCategoryList: (state, action) => {
-      state.activeFirstCategoryList = action.payload;
     },
     setActiveSecondCategoryList: (state, action) => {
       state.activeSecondCategoryList = action.payload;
@@ -96,7 +91,6 @@ const blogSlice = createSlice({
         state.secondCategoryList = {},
         state.activeFirstCategoryId = null,
         state.activeSecondCategoryId = null,
-        state.activeFirstCategoryList = [],
         state.activeSecondCategoryList = [],
         state.activeBlogUserId = null,
         state.blogCategoryList = [],

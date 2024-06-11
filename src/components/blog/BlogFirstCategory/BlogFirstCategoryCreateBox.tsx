@@ -23,7 +23,7 @@ interface IBlogFirstCategoryCreateBoxProps {
 const BlogFirstCategoryCreateBox = (
   props: IBlogFirstCategoryCreateBoxProps,
 ) => {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, setError } = useForm({
     resolver: yupResolver(BlogFirstCategoryCreateYup),
     mode: 'onChange',
     defaultValues: {
@@ -33,17 +33,35 @@ const BlogFirstCategoryCreateBox = (
   const { errors } = formState;
 
   const createFirstCategoryHandler = (data: { createFirstCategoryName: string }) => {
-    createFirstCategoryAPI(data.createFirstCategoryName).then((res) => {
-      const temp = JSON.parse(
-        JSON.stringify(store.getState().blogStore.blogCategoryList)
-      );
-      temp.push({
-        ...res.data.data,
-        blogSecondCategoryList: [],
-      }),
-        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
-      props.closeModal();
-    });
+    createFirstCategoryAPI(data.createFirstCategoryName)
+      .then((res) => {
+        const temp = JSON.parse(
+          JSON.stringify(store.getState().blogStore.blogCategoryList),
+        );
+        temp.push({
+          ...res.data.data,
+          blogSecondCategoryList: [],
+        }),
+          store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: '블로그 1번째 카테고리 생성',
+          }),
+        );
+        props.closeModal();
+      }).catch((err) => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'warning',
+              message: err.response.data.msg,
+            }),
+          );
+          setError('createFirstCategoryName', {
+            type: 'custom',
+            message: err.response.data.msg,
+          });
+      });
   };
   
   return (

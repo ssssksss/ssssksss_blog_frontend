@@ -72,8 +72,10 @@ export default ReactToastifyComponents;
 const Container = styled.div`
   position: fixed;
   z-index: 999;
+  font-size: 1.4rem;
 
   .Toastify__toast-container {
-    transform: scale(0.8);
+    transform: scale(1);
+    width: 80vw;
   }
 `;

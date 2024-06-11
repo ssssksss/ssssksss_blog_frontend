@@ -36,15 +36,36 @@ const BlogFirstCategoryDeleteBox = (
   const deleteFirstCategoryHandler = async (data: {
     deleteFirstCategoryId: number
   }) => {
-    deleteFirstCategoryAPI(data.deleteFirstCategoryId).then(() => {
-      let temp = JSON.parse(
-        JSON.stringify(store.getState().blogStore.blogCategoryList),
-      );
-      temp = temp.filter((i: {id: number}) => i.id != data.deleteFirstCategoryId);
-      store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
-      props.closeModal();
-    });
+    deleteFirstCategoryAPI(data.deleteFirstCategoryId)
+      .then(() => {
+        let temp = JSON.parse(
+          JSON.stringify(store.getState().blogStore.blogCategoryList),
+        );
+        temp = temp.filter(
+          (i: { id: number }) => i.id != data.deleteFirstCategoryId,
+        );
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'success',
+            message: '블로그 1번째 카테고리 삭제',
+          }),
+        );
+        props.closeModal();
+      }).catch((err) => {
+          store.dispatch(
+            rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+              type: 'warning',
+              message: err.response.data.msg,
+            }),
+          );
+          methods.setError('deleteFirstCategoryId', {
+            type: 'custom',
+            message: err.response.data.msg,
+          });
+      });
   };
+
   return (
     <FormProvider {...methods}>
       <Container outline={1} w={'100%'}>

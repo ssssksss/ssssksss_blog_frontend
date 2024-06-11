@@ -26,5 +26,6 @@ import { ReactNode } from 'react';
     hover?: boolean;
     badgeValue?: number | string;
     className?: string;
+    id?: string;
   }
 
