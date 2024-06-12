@@ -58,17 +58,18 @@ const BlogCategoryContainer = () => {
       if (!Number(_secondCategoryId)) {
         _secondCategoryId = 0;
       }
-        const _blogFirstCategoryList = res.data?.data?.blogFirstCategoryList;
-        const _blogList = res.data?.data?.blogList; // 초기에 받아온 blogList
+        const _blogFirstCategoryList = res?.data?.data?.blogFirstCategoryList;
+        const _blogList = res?.data?.data?.blogList; // 초기에 받아온 blogList
         // 카테고리 상태 관련 저장
         store.dispatch(
           rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
         );
         // [1] 1,2번째 카테고리 ID가 있는 경우, 검증 하기
         if (_firstCategoryId && _secondCategoryId) {
-          const validateFirstCategoryId = _blogFirstCategoryList.filter(
-            (i: { id: number }) => i.id == _firstCategoryId,
-          )[0];
+          let validateFirstCategoryId
+            validateFirstCategoryId = _blogFirstCategoryList.filter(
+              (i: { id: number }) => i.id == _firstCategoryId,
+            )[0];
           if (validateFirstCategoryId == undefined) {
             _firstCategoryId = 0;
             _secondCategoryId = 0;
@@ -99,21 +100,36 @@ const BlogCategoryContainer = () => {
         // [1] 1번째 카테고리 ID만 맞는경우
         if (_firstCategoryId && _secondCategoryId == 0) {
           _firstCategoryId =
-            _blogFirstCategoryList.filter(
+            _blogFirstCategoryList?.filter(
               (i: { id: number }) => i.id == _firstCategoryId,
             )[0]?.id ?? 0;
           // 2번째 카테고리는 인덱스 0번째로 설정
-          _secondCategoryId =
-            _blogFirstCategoryList.filter(
-              (i: { id: number }) => i.id == _firstCategoryId,
-            )[0]?.blogSecondCategoryList[0]?.id ?? 0;
+          try {
+
+            _secondCategoryId =
+          _blogFirstCategoryList?.filter(
+            (i: { id: number }) => i.id == _firstCategoryId,
+          )[0]?.blogSecondCategoryList[0]?.id ?? 0;
+          } catch {
+            _secondCategoryId = 0;
+          }
         }
 
         // [2] 둘다 틀린 경우
         if (_firstCategoryId == 0) {
-          _firstCategoryId = _blogFirstCategoryList[0]?.id ?? 0;
-          _secondCategoryId =
+          try {
+            _firstCategoryId = _blogFirstCategoryList[0]?.id ?? 0;
+          }
+          catch {
+            _firstCategoryId = 0;
+          }
+          try {
+            _secondCategoryId =
             _blogFirstCategoryList[0]?.blogSecondCategoryList[0]?.id ?? 0;
+          }
+          catch {
+            _secondCategoryId = 0;
+          }
         }
 
         // 1번째 카테고리 상태값 저장, 2번째 카테고리 상태값 저장
@@ -125,7 +141,7 @@ const BlogCategoryContainer = () => {
         );
         store.dispatch(
           rootActions.blogStore.setActiveSecondCategoryList(
-            _blogFirstCategoryList.filter(
+            _blogFirstCategoryList?.filter(
               (i: { id: number }) => i.id == _firstCategoryId,
             )[0]?.blogSecondCategoryList ?? [],
           ),

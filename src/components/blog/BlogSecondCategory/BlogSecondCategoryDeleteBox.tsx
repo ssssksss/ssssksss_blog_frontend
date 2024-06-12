@@ -4,8 +4,11 @@ import Select from '@components/common/select/Select';
 import { BlogSecondCategoryDeleteYup } from '@components/yup/BlogCategoryYup';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import { useRouter } from 'next/router';
 import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -15,8 +18,14 @@ import { useSelector } from 'react-redux';
  * @version 0.0.1 "2024-01-08 17:52:51"
  * @description 설명
  */
-const BlogSecondCategoryDeleteBox = () => {
+
+interface IBlogSecondCategoryDeleteBoxProps {
+  closeModal: () => void;
+}
+
+const BlogSecondCategoryDeleteBox = (props: IBlogSecondCategoryDeleteBoxProps) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryDeleteYup),
     mode: 'onChange',
@@ -30,18 +39,46 @@ const BlogSecondCategoryDeleteBox = () => {
    : number}) => {
     deleteSecondCategoryAPI(data.deleteSecondCategoryId)
       .then((res) => {
-        console.log('BlogSecondCategoryDeleteBox.tsx 파일 : ', res);
-        console.log(
-          'BlogSecondCategoryDeleteBox.tsx 파일 : ',
-          blogStore.blogCategoryList,
+        let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
+        temp = temp.map(
+          (i: { id: number; blogSecondCategoryList: [{ id: number }] }) => {
+            if (i.id == blogStore.activeFirstCategoryId) {
+              let temp2 = i.blogSecondCategoryList.filter(
+                (j: { id: number }) => j.id != data.deleteSecondCategoryId,
+              );
+              return {
+                ...i,
+                blogSecondCategoryList: temp2,
+              };
+            }
+            return i;
+          },
         );
-        console.log(
-          'BlogSecondCategoryDeleteBox.tsx 파일 : ',
-          blogStore.activeSecondCategoryList,
+        store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        store.dispatch(
+          rootActions.blogStore.setActiveSecondCategoryList(
+            temp.filter(
+              (i: { id: number }) => i.id == blogStore.activeFirstCategoryId,
+            )[0]?.blogSecondCategoryList ?? [],
+          ),
         );
-      })
-      .catch(() => {
-        alert('삭제에 실패 했습니다.');
+        if (blogStore.activeSecondCategoryId == data.deleteSecondCategoryId) {
+          store.dispatch(rootActions.blogStore.setActiveSecondCategoryId(0));
+          store.dispatch(rootActions.blogStore.setBlogList([]));
+        // TODO : 나중에 확인 필요 계속 스켈레톤 리스트 나옴 나중에 수정 필요
+        }
+        props.closeModal();
+      }).catch((err) => {
+        store.dispatch(
+          rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: 'warning',
+            message: err.response.data.msg,
+          }),
+        );
+        methods.setError('deleteSecondCategoryId', {
+          type: 'custom',
+          message: err.response.data.msg,
+        });
       });
   };
 

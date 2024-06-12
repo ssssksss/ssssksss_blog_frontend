@@ -108,7 +108,6 @@ const blogFirstCategoryHandler = (id: number) => {
         );
       });
   };
-
     
   return (
     <div
@@ -146,7 +145,7 @@ const blogFirstCategoryHandler = (id: number) => {
                 blogFirstCategoryVerticalScrollRef,
               )
             }
-            badgeValue={el.blogSecondCategoryList.reduce(
+            badgeValue={el.blogSecondCategoryList?.reduce(
               (sum, el) => sum + el.blogCount,
               0,
             )}

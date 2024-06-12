@@ -233,8 +233,6 @@ export const createBlogAPI = async (
   });
 };
 
-
-
 export const updateBlogAPI = (data: {key: string, value: string | number | string[]}[]) => {
   const formData = new FormData();
   const ArrayObjectToFormData = (data: unknown[]) => {
@@ -258,60 +256,15 @@ export const updateBlogAPI = (data: {key: string, value: string | number | strin
     });
 }
 
-const updateBlog = (props: { onSuccessHandler: () => void }) => {
-  const router = useRouter();
-  const mutationFn = async (reqData: unknown) => {
-    const formData = new FormData();
-    formData.append('id', reqData.id);
-    formData.append('title', reqData.title);
-    formData.append('description', reqData.description);
-    formData.append('content', reqData.content);
-    formData.append('firstCategoryId', reqData.firstCategoryId);
-    formData.append('secondCategoryId', reqData.secondCategoryId);
-    formData.append('thumbnailImageFile', reqData.thumbnailImageFile);
-    formData.append('status', reqData.status);
-
-    reqData.deleteImageBucketDirectory?.map((i) => {
-      formData.append('deleteImageBucketDirectory', i);
-    });
-
-    reqData.imageUrlList?.map((i) => {
-      formData.append('imageUrlList', i);
-    });
-
-    reqData.imageFileList?.map((i) => {
-      formData.append('imageFileList', i);
-    });
-
-    return await AxiosInstance.put('/api/blog', formData, {
-      withCredentials: true,
-    }).then(async (res) => {
-      return res;
-    });
-  };
-
-  return useMutationHook({
-    mutationFn,
-    onSuccessHandler: () => {
-      // const baseUrl =
-      //   process.env.NODE_ENV === 'development'
-      //     ? 'http://localhost:3000'
-      //     : 'https://blog.ssssksss.xyz';
-      // await axios
-      //   .get({
-      //     url: `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&id=${variables.id}`,
-      //   }).catch(()=>{
-      //     return;
-      //   })
-      props.onSuccessHandler();
-      // router.replace(`/blog/${variables.id}`, '', { shallow: true });
-      router.back();
-    },
-    onErrorHandler: ({ variables }) => {
-      navigator.clipboard.writeText(variables.content);
-    },
-  });
+export const deleteBlogAPI = async (
+  id: string
+) => {
+  return await AxiosInstanceAuth({
+    url: `/api/blog?id=${id}`,
+    method: 'delete',
+  })
 };
+
 
 
 // const updateSecondCategory = (props: { onSuccessHandler: () => void }) => {
@@ -529,17 +482,7 @@ const createBlog = (props: { onSuccessHandler: () => void}) => {
   });
 };
 
-const deleteBlog = async (props: { id: string }) => {
-  // TODO: API 수정
-  return await ApiProcessHandler({
-    url: '/api/blog',
-    method: 'DELETE',
-    params: {
-      id: props.id,
-    },
-    withCredentials: true
-  });
-};
+
 
 const getSearchBlogList1 = async (keyword: string, page: number) => {
   // return await ApiProcessHandler({
@@ -648,8 +591,6 @@ export const BlogAPI = {
   getSecondCategory,
   createBlog,
   getBlog,
-  deleteBlog,
-  updateBlog,
   getBlogList,
   addBlogContentTemplate,
   deleteBlogContentTemplate,

@@ -58,7 +58,7 @@ const BlogSecondCategoryUpdateBox = (
         let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
         temp = temp.map((i: {id: number, blogSecondCategoryList: [{id:number}]}) => {
           if (i.id == blogStore.activeFirstCategoryId) {
-            let temp2 = i.blogSecondCategoryList.map((j: { id: number }) => {
+            const temp2 = i.blogSecondCategoryList.map((j: { id: number }) => {
               if (j.id == _data.id) {
                 return _data;
               }

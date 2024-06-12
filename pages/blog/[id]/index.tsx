@@ -31,6 +31,12 @@ export async function getStaticPaths() {
   return { paths, fallback: 'blocking' };
 }
 
+    // const res = await axios.get(
+    //   process.env.NODE_ENV === 'development'
+    //     ? 'http://localhost:3000'
+    //     : 'https://blog.ssssksss.xyz' + `/api/revalidate?id=${params.id}`,
+    // );
+
 export async function getStaticProps({ params }: unknown) {
   if (!isNaN(params.id)) {
     const res = await AxiosInstanceAuth.get(`/api/blog?id=${params.id}`);

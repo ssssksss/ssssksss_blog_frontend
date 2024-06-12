@@ -1,4 +1,4 @@
-import { BlogAPI } from '@api/BlogAPI';
+import { deleteBlogAPI } from '@api/BlogAPI';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import styled from '@emotion/styled';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,9 +21,7 @@ const ViewBlogFixContainer = () => {
   const BACK_URL = `/blog?firstCategoryId=${blogStore.activeFirstCategoryId}&secondCategoryId=${blogStore.activeSecondCategoryId}`;
   const router = useRouter();
   const deleteHandler = () => {
-    BlogAPI.deleteBlog({
-      id: router.query.id,
-    }).then(() => {
+    deleteBlogAPI(router.query.id as string).then(() => {
       router.replace(
         `/blog?firstCategoryId=${blogStore.activeFirstCategoryId}&secondCategoryId=${blogStore.activeSecondCategoryId}`,
       );

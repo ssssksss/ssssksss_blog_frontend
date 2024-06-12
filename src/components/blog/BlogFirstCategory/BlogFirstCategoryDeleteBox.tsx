@@ -8,6 +8,7 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
+import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 /**
@@ -25,6 +26,7 @@ const BlogFirstCategoryDeleteBox = (
   props: IBlogFirstCategoryDeleteBoxProps,
 ) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
+  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(BlogFirstCategoryDeleteYup),
     mode: 'onChange',
@@ -45,6 +47,9 @@ const BlogFirstCategoryDeleteBox = (
           (i: { id: number }) => i.id != data.deleteFirstCategoryId,
         );
         store.dispatch(rootActions.blogStore.setBlogCategoryList(temp));
+        if (blogStore.activeFirstCategoryId == data.deleteFirstCategoryId) {
+          router.replace("/blog", "");
+        }
         store.dispatch(
           rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
             type: 'success',

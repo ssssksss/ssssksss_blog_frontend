@@ -118,6 +118,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         imageUrlList.push(i.url);
         imageFileList.push(i.file);
       }
+      methods.setValue("imageFileList", imageFileList);
+      methods.setValue('imageUrlList', imageUrlList, {shouldValidate: true});
     });
 
     // 이전 이미지에서 삭제할 이미지가 있나 탐색
@@ -157,7 +159,6 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         _temp_image_url = temp;
         methods.setValue('thumbnailImageUrl', null, { shouldValidate: true });
       }
-
 
       updateBlogAPI(
         Object.entries(methods.getValues()).map((i) => {
