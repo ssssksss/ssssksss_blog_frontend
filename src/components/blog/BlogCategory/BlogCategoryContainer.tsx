@@ -66,8 +66,7 @@ const BlogCategoryContainer = () => {
         );
         // [1] 1,2번째 카테고리 ID가 있는 경우, 검증 하기
         if (_firstCategoryId && _secondCategoryId) {
-          let validateFirstCategoryId
-            validateFirstCategoryId = _blogFirstCategoryList.filter(
+            const validateFirstCategoryId = _blogFirstCategoryList.filter(
               (i: { id: number }) => i.id == _firstCategoryId,
             )[0];
           if (validateFirstCategoryId == undefined) {

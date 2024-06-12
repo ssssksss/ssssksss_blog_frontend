@@ -8,7 +8,6 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
-import { useRouter } from 'next/router';
 import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -25,7 +24,6 @@ interface IBlogSecondCategoryDeleteBoxProps {
 
 const BlogSecondCategoryDeleteBox = (props: IBlogSecondCategoryDeleteBoxProps) => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
-  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(BlogSecondCategoryDeleteYup),
     mode: 'onChange',
@@ -38,12 +36,12 @@ const BlogSecondCategoryDeleteBox = (props: IBlogSecondCategoryDeleteBoxProps) =
     deleteSecondCategoryId
    : number}) => {
     deleteSecondCategoryAPI(data.deleteSecondCategoryId)
-      .then((res) => {
+      .then(() => {
         let temp = JSON.parse(JSON.stringify(blogStore.blogCategoryList));
         temp = temp.map(
           (i: { id: number; blogSecondCategoryList: [{ id: number }] }) => {
             if (i.id == blogStore.activeFirstCategoryId) {
-              let temp2 = i.blogSecondCategoryList.filter(
+              const temp2 = i.blogSecondCategoryList.filter(
                 (j: { id: number }) => j.id != data.deleteSecondCategoryId,
               );
               return {
