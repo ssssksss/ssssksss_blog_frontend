@@ -172,7 +172,7 @@ export const deleteFirstCategoryAPI = (firstCategoryId: number) => {
 export const createSecondCategoryAPI = (secondCategoryName: string, activeFirstCategoryId: number, files: File) => {
   const formData = new FormData();
   formData.append('name', secondCategoryName);
-  formData.append('blogFirstCategoryId', activeFirstCategoryId+"");
+  formData.append('firstCategoryId', activeFirstCategoryId+"");
   formData.append('files', files);
   return AxiosInstanceAuth({
     url: '/api/blog/second/category',
