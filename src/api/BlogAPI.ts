@@ -506,7 +506,6 @@ const getSearchBlogList = (
   enable: boolean,
   onSuccessHandler: () => void,
 ) => {
-  const blogStore = useSelector((state: RootState) => state.blogStore);
   const result = useInfiniteQuery(
     ['searchBlogList', keyword || ''], // 검색어 key값
     ({ pageParam = 1 }) => getSearchBlogList1(keyword, pageParam),
