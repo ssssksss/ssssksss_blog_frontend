@@ -292,7 +292,10 @@ const InputStyle = styled.input<IInputProps>`
   }
 
   &:focus {
-    outline: none;
+    /* outline: none; */
+    background: ${props=>props.theme.main.secondary60};
+    color: ${props => props.theme.main.contrast};
+    font-weight: 800;
   }
 
   ${(props) =>
