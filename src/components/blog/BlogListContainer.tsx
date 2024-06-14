@@ -25,14 +25,6 @@ const BlogListContainer = () => {
               <BlogItem
                 element={i}
                 viewMode={true}
-                defaultImageUrl={
-                  (
-                    blogStore.activeSecondCategoryList.filter(
-                      (j: { id: number }) =>
-                        j.id == blogStore.activeSecondCategoryId,
-                    )[0] as { thumbnailImageUrl: null | string }
-                  )?.thumbnailImageUrl
-                }
               ></BlogItem>
             </Link>
           ))

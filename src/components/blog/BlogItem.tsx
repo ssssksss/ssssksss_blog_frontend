@@ -23,7 +23,13 @@ interface IBlogItemProps {
     commentNumber: number;
     viewNumber: number;
     firstCategoryId: number;
-    secondCategoryId: number;
+    blogSecondCategory: {
+      id: number,
+      blogCount: number,
+      name: string,
+      thumbnailImageUrl: string,
+      userId: number,
+    }
     thumbnailImageUrl: null | string;
     baseTimeEntity: {
       createdAt: string;
@@ -33,7 +39,6 @@ interface IBlogItemProps {
     };
     blogStatus: string;
   };
-  defaultImageUrl?: string;
 }
 
 // TODO: 나중에 카드 모양의 형태로 보여질지에 대해서는 보류(props.viewMode)
@@ -64,9 +69,9 @@ const BlogItem = (props: IBlogItemProps) => {
           <Image
             src={`${AWSS3Prefix}${
               props.element.thumbnailImageUrl ??
-              props.defaultImageUrl
-              }`}
-            alt={"blog-thumbnail-image"}
+              props.element.blogSecondCategory.thumbnailImageUrl
+            }`}
+            alt={'blog-thumbnail-image'}
             width={1}
             height={1}
           />
@@ -80,24 +85,30 @@ const BlogItem = (props: IBlogItemProps) => {
             {dateFormat4y2m2d(props.element.baseTimeEntity.modifiedAt)}
           </UpdateData>
           <ViewAndLIke>
-            {
-              props.element.blogStatus == "DEVELOP" &&
-              <CC.RowDiv gap={2} h={'100%'} className={"bg-yellow-300 rounded-md px-[0.25rem]"}>
+            {props.element.blogStatus == 'DEVELOP' && (
+              <CC.RowDiv
+                gap={2}
+                h={'100%'}
+                className={'bg-yellow-300 rounded-md px-[0.25rem]'}
+              >
                 <CC.ImgContainer h={'100%'}>
                   <FontAwesomeIcon icon={faBolt} />
                 </CC.ImgContainer>
                 <span> 개발중 </span>
               </CC.RowDiv>
-            }
-            {
-              props.element.blogStatus == "HIDE" &&
-              <CC.RowDiv gap={2} h={'100%'} className={"bg-gray-300 rounded-md px-[0.25rem]"}>
+            )}
+            {props.element.blogStatus == 'HIDE' && (
+              <CC.RowDiv
+                gap={2}
+                h={'100%'}
+                className={'bg-gray-300 rounded-md px-[0.25rem]'}
+              >
                 <CC.ImgContainer h={'100%'}>
                   <FontAwesomeIcon icon={faGhost} />
                 </CC.ImgContainer>
                 <span> 숨김 </span>
               </CC.RowDiv>
-            }
+            )}
             <CC.RowDiv gap={2} h={'100%'}>
               <CC.ImgContainer h={'100%'}>
                 <FontAwesomeIcon icon={faEye} />

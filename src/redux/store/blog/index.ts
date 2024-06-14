@@ -20,25 +20,33 @@ type InitialState = {
   activeBlogUserId: number;
   blogCategoryList: [];
   blogList: {
-    [key: string]: [{
-      id: number,
-      title: string,
-      description: string,
-      userId: number,
-      likeNumber: number,
-      commentNumber: number,
-      viewNumber: number,
-      firstCategoryId: number,
-      secondCategoryId: number,
-      thumbnailImageUrl: null | string,
-      baseTimeEntity: {
-        createdAt: string,
-        modifiedAt: string,
-        deleteAt: string,
-        accessYn: boolean,
+    [key: string]: [
+      {
+        id: number;
+        title: string;
+        description: string;
+        userId: number;
+        likeNumber: number;
+        commentNumber: number;
+        viewNumber: number;
+        firstCategoryId: number;
+        blogSecondCategory: {
+          id: number;
+          blogCount: number;
+          name: string;
+          thumbnailImageUrl: string;
+          userId: number;
+        };
+        thumbnailImageUrl: null | string;
+        baseTimeEntity: {
+          createdAt: string;
+          modifiedAt: string;
+          deleteAt: string;
+          accessYn: boolean;
+        };
+        blogStatus: string;
       },
-      blogStatus: string,
-    }];
+    ];
   };
 };
 

@@ -520,9 +520,6 @@ const getSearchBlogList = (
             ...i.data.data.blogList.map((_i) => {
               return {
                 ..._i,
-                defaultImageUrl: blogStore.blogCategoryList.filter(
-                  (i) => i.id == _i.firstCategoryId,
-                )[0].blogSecondCategoryList.filter(j=>j.id == _i.secondCategoryId)[0].thumbnailImageUrl,
               };
             }),
           ];

@@ -6,8 +6,6 @@ import styled from '@emotion/styled';
 import useIntersection from '@hooks/useIntersection';
 import usePreventBodyScroll from '@hooks/usePreventBodyScroll';
 import useWindowClick from '@hooks/useWindowClick';
-import { store } from '@redux/store';
-import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import { delaySearch } from '@utils/function/delaySearch';
 import Link from 'next/link';
@@ -40,17 +38,18 @@ const BlogHeadContainer = () => {
     },
   );
 
+
   const infiniteScrollRef = useIntersection((entry, observer) => {
     // ref를 감지할 경우 실행되는 로직작성
     observer.unobserve(entry.target);
-    if (isError) {
-      setIsOpenBlogItemList(false);
-      store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-        type: "error",
-        message: "서버 에러로 검색 불가능"
-      }))
-      return null;
-    }
+    // if (isError) {
+    //   setIsOpenBlogItemList(false);
+    //   store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+    //     type: "error",
+    //     message: "서버 에러로 검색 불가능"
+    //   }))
+    //   return null;
+    // }
     if (hasNextPage && !isFetching) fetchNextPage();
   });
 
