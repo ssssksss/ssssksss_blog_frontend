@@ -108,22 +108,24 @@ const TopBar = () => {
               />
             </Link>
           </CC.ImgContainer>
-          <div
-            className={'w-[1.5rem] aspect-square px-[.5rem]'}
-            onClick={() => {
-              store.dispatch(
-                rootActions.reactPlayerStore.setYoutubePlay(
-                  !reactPlayerStore.youtubePlay,
-                ),
-              );
-            }}
-          >
-            {reactPlayerStore.youtubePlay ? (
-              <FontAwesomeIcon icon={faPause} />
-            ) : (
-              <FontAwesomeIcon icon={faPlay} />
-            )}
-          </div>
+          { authStore.id &&
+            <div
+              className={'w-[1.5rem] aspect-square px-[.5rem]'}
+              onClick={() => {
+                store.dispatch(
+                  rootActions.reactPlayerStore.setYoutubePlay(
+                    !reactPlayerStore.youtubePlay,
+                  ),
+                );
+              }}
+            >
+              {reactPlayerStore.youtubePlay ? (
+                <FontAwesomeIcon icon={faPause} />
+              ) : (
+                <FontAwesomeIcon icon={faPlay} />
+              )}
+            </div>
+          }
         </CC.RowDiv>
         <CC.RowDiv>
           {authStore.id ? (

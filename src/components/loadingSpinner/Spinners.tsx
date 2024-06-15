@@ -80,7 +80,7 @@ export const Spinner1 = styled.div`
   aspect-ratio: 1;
   border-radius: 50%;
   border: 0.8rem solid;
-  border-color: #000 #0000;
+  border-color: #fff #0000;
   animation: s1 1s infinite;
 
   @keyframes s1 {

@@ -2,6 +2,7 @@ import { YoutubeAPI } from '@api/YoutubeAPI';
 import Button from '@components/common/button/Button';
 import { Icons } from '@components/common/icons/Icons';
 import Input from '@components/common/input/Input';
+import { Spinner1 } from '@components/loadingSpinner/Spinners';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
@@ -9,7 +10,7 @@ import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Image from 'next/image';
-import { useReducer, useRef } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { ConfirmButton } from '../button/ConfirmButton';
 
@@ -23,12 +24,14 @@ import { ConfirmButton } from '../button/ConfirmButton';
 const YoutubePlayerModal = () => {
   const inputRef = useRef<null>();
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
     onSuccessHandler: (res) => {
       queryClient.setQueryData(['getYoutubeList'], (oldData) => {
         oldData.data?.youtubeList.unshift(res.data.data.data.youtube);
         return oldData;
       });
+      setLoading(false);
     },
   });
   const getYoutubeLinkListResData = YoutubeAPI.getYoutubeLinkList();
@@ -93,8 +96,21 @@ const YoutubePlayerModal = () => {
           ref={inputRef}
         />
         <span> Add a YouTube video link here </span>
-        <Button w={'100%'} onClick={addYoutubeLinkHandler} bg={'black80'}>
-          Add Link
+        <Button
+          w={'100%'}
+          onClick={() => {
+            setLoading(true);
+            addYoutubeLinkHandler();
+          }}
+          bg={'black80'}
+        >
+          {loading ? (
+            <div className={'w-[1.5rem] aspect-square '}>
+              <Spinner1 />
+            </div>
+          ) : (
+            'Add Link'
+          )}
         </Button>
       </ArticleStyle>
       <ul>
@@ -107,8 +123,8 @@ const YoutubePlayerModal = () => {
                 i.youtubeUrl == window.localStorage.getItem('youtubeLink')
               }
             >
-              <div className='w-[5rem] aspect-square'>
-                  <img src={i.imageUrl}/>
+              <div className="w-[5rem] aspect-square">
+                <img src={i.imageUrl} />
               </div>
               <div>
                 <p> {`${i.title}`} </p>

@@ -1,16 +1,15 @@
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { RootState } from '@redux/store/reducers';
-import AxiosInstance from '@utils/axios/AxiosInstance';
+import AxiosInstanceAuth from '@utils/axios/AxiosInstanceAuth';
 import { useSelector } from 'react-redux';
 
 const createYoutubeLink = (props) => {
   const mutationFn = async (reqData) => {
-    return await AxiosInstance.post('/api/youtube/url', {
+    return await AxiosInstanceAuth.post('/api/youtube/url', {
       youtubeUrlKeyId: reqData.youtubeUrlKeyId,
       youtubeUrl: reqData?.youtubeUrl,
-    },
-      { withCredentials: true });
+    });
   };
 
   return useMutationHook({
@@ -38,9 +37,8 @@ const getYoutubeLinkList = () => {
 
 const deleteYoutubeLink = (props: {onSuccessHandler: () => void}) => {
   const mutationFn = async (reqData: {id: number}) => {
-    return await AxiosInstance.delete(
+    return await AxiosInstanceAuth.delete(
       `/api/youtube/url?id=${reqData?.id}`,
-      { withCredentials: true }
     ).catch(() => {
       return;
     });
