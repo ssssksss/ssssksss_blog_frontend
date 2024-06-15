@@ -24,6 +24,7 @@ import { ReactNode } from 'react';
     activeBg?: string;
     activeColor?: string;
     hover?: boolean;
+    hoverBg?: Partial<colorTypes | themeTypes>;
     badgeValue?: number | string;
     className?: string;
     id?: string;

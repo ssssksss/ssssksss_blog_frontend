@@ -10,7 +10,7 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -25,18 +25,18 @@ const BoardHeadContainer = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
 
   const searchHandler = () => {
-    const _url = `/board?page=${boardStore.page}&size=${boardStore.size}&sort=${
+    const _url = `/board?page=${1}&size=${boardStore.size}&sort=${
       boardStore.sort
       }&keyword=${keywordRef.current?.value || ''}`;
     store.dispatch(
       rootActions.boardStore.setBoardListOption({
         keyword: keywordRef.current?.value || '',
-        page: 0,
+        page: 1,
         size: Number(boardStore.size),
         sort: String(boardStore.sort),
       }),
     );
-    router.replace(_url, '', { shallow: true });
+    router.push(_url, '');
   };
 
   const orderListHandler = (props: {value: string}) => {
@@ -59,14 +59,29 @@ const BoardHeadContainer = () => {
     store.dispatch(
       rootActions.boardStore.setBoardListOption({
         keyword: '',
-        page: 0,
+        page: 1,
         size: 10,
         sort: '',
       }),
     );
     keywordRef.current.value = '';
-    router.replace(_url);
+    router.push(_url);
   };
+
+    useEffect(() => {
+      store.dispatch(
+        rootActions.boardStore.setBoardListOption({
+          page:
+            Number(router.query.page) > 0
+              ? Number(router.query.page)
+              : 1 || 1,
+          size: Number(boardStore.size || 10),
+          sort: String(boardStore.sort || 'latest'),
+          keyword: router.query.keyword || '',
+        }),
+      );
+      keywordRef.current.value = router.query.keyword || "";
+    }, [router.query.page, router.query.size, router.query.sort, router.query.keyword]);
 
   return (
     <Container>
@@ -91,6 +106,7 @@ const BoardHeadContainer = () => {
           h={'2rem'}
           ref={keywordRef}
           defaultValue={boardStore.keyword ?? (router.query.keyword as string)}
+          onKeyPressAction={searchHandler}
         />
         <Button
           w={'3.5rem'}
@@ -98,6 +114,8 @@ const BoardHeadContainer = () => {
           pd={'0.25rem'}
           outline={1}
           onClick={searchHandler}
+          hoverBg={"blue40"}
+          hover={true}
         >
           검색
         </Button>

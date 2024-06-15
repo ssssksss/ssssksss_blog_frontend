@@ -69,22 +69,20 @@ const Pagination = ({ refetch, endPage, currentPage }: IPaginationProps) => {
       ) : (
         <MoveButton style={{ visibility: 'hidden' }}> 히든 </MoveButton>
       )}
-      {
-        new Array(10).fill(1).map(
-          (_, index) =>
-            Number(index + startPage) <= Number(endPage) && (
-              <PageNumberButton
+      {new Array(10).fill(1).map(
+        (_, index) =>
+          Number(index + startPage) <= Number(endPage) && (
+            <PageNumberButton
               key={index + startPage}
               onClick={(event: MouseEvent<HTMLButtonElement>) => {
                 movePage(event, index + startPage);
               }}
-              isActive={startPage + index === Number(currentPage + 1)}
-              >
-                  {index + startPage}
-                </PageNumberButton>
-              ),
-            )
-          }
+              isActive={startPage + index === Number(currentPage)}
+            >
+              {index + startPage}
+            </PageNumberButton>
+          ),
+      )}
 
       {startPage + 10 < endPage ? (
         <MoveButton id="next" onClick={movePage}>

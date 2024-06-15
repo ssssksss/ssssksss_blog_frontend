@@ -77,7 +77,10 @@ ${(props) =>
     css`
       &:hover {
         cursor: pointer;
-      }
+        background: ${
+          props.theme.colors?.[props.hoverBg] ||
+          props.theme.main?.[props.hoverBg]
+        }
     `}
       
       

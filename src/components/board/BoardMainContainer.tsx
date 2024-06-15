@@ -22,24 +22,25 @@ const BoardMainContainer = () => {
   const router = useRouter();
   const boardListResData = BoardAPI.getBoardListData({
     keyword: String(router.query.keyword || ''),
-    page: Number(Number(router.query.page) - 1 || 0),
+    page: Number(router.query.page) || 1,
     size: Number(router.query.size || 10),
     sort: String(router.query.sort || 'latest'),
   });
 
   if (boardListResData?.status != 'success') return;
+  const boardListData = boardListResData?.data?.data;
   const changePage = (page: number) => {
     store.dispatch(
       rootActions.boardStore.setBoardListOption({
         // 페이지는 0부터 시작이므로 0부터 보냄
-        page: page - 1,
+        page: page,
         size: Number(boardStore.size || 10),
         sort: String(boardStore.sort || 'latest'),
         keyword: boardStore.keyword || '',
       }),
     );
     const _url = `/board?page=${page}&size=${boardStore.size}&sort=${boardStore.sort}&keyword=${boardStore.keyword}`;
-    router.push(_url,"", {shallow: true});
+    router.push(_url,"");
   };
 
   return (
@@ -50,7 +51,7 @@ const BoardMainContainer = () => {
           <span> {boardStore.keyword} </span>
         </SearchResultContainer>
         <CC.RowDiv>
-          총 {boardListResData.data?.data?.boardCount} 건의 게시물
+          총 {boardListData.boardCount} 건의 게시물
         </CC.RowDiv>
       </SearchContainer>
       <BoardListContainer>
@@ -61,7 +62,7 @@ const BoardMainContainer = () => {
           <span> 날짜 </span>
           <span> 조회수 </span>
         </BoardListTitle>
-        {boardListResData.data?.data?.boardList?.map((el: IBoardListProps) => (
+        {boardListData.boardList?.map((el: IBoardListProps) => (
           <Link
             key={el.id}
             href={`/board/${el.id}?page=${store.getState().boardStore.page}&size=${store.getState().boardStore.size}&keyword=${store.getState().boardStore.keyword}&sort=${store.getState().boardStore.sort}`}
@@ -85,14 +86,14 @@ const BoardMainContainer = () => {
           </Link>
         ))}
         {Array.from(
-          { length: 10 - boardListResData.data?.data?.boardList?.length || 0 },
+          { length: 10 - boardListData.boardList?.length || 0 },
           () => 0,
         )?.map((_, index) => <BoardItem key={index} />)}
       </BoardListContainer>
       <BoardListBottomContainer>
         <Pagination
           refetch={(page: number) => changePage(page)}
-          endPage={Math.ceil(boardListResData.data?.data?.boardCount / 10)}
+          endPage={Math.ceil(boardListData.boardCount / 10)}
           currentPage={boardStore.page}
         />
       </BoardListBottomContainer>
