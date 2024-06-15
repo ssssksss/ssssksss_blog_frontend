@@ -69,6 +69,7 @@ const YoutubePlayerModal = () => {
 
   const selectYoutubeLinkHandler = (data: unknown) => {
     window.localStorage.setItem('youtubeLink', data.youtubeUrl);
+    window.localStorage.setItem('youtubeTitle', data.title);
     toggleHandler();
     store.dispatch(
       SET_TOASTIFY_MESSAGE({
@@ -106,10 +107,8 @@ const YoutubePlayerModal = () => {
                 i.youtubeUrl == window.localStorage.getItem('youtubeLink')
               }
             >
-              <div>
-                <CC.RowCenterDiv>
-                  <img src={i.imageUrl} width={'3.6rem'} height={'3.6rem'} />
-                </CC.RowCenterDiv>
+              <div className='w-[5rem] aspect-square'>
+                  <img src={i.imageUrl}/>
               </div>
               <div>
                 <p> {`${i.title}`} </p>
@@ -169,8 +168,8 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
     height: 6rem;
     border-bottom: solid ${(props) => props.theme.colors.gray40} 0.1rem;
     display: grid;
-    grid-template-columns: 3.6rem calc(100% - 10.8rem) 3.6rem 3.6rem;
-    padding: 0rem 1.6rem;
+    grid-template-columns: 3.6rem calc(100% - 12.5rem) 3.6rem 3.6rem;
+    padding: 0rem .25rem;
     gap: 0.4rem;
     align-items: center;
     width: 100%;

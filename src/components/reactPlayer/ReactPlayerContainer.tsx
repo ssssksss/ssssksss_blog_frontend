@@ -8,7 +8,12 @@ const YoutubePlayerModal = dynamic(
 import Animations from '@components/common/animations/Animations';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { timeFunction } from '@utils/function/timeFunction';
@@ -29,7 +34,7 @@ interface IReactPlayerContainerProps {
 }
 
 const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
-  const [youtubePlay, setYoutubePlay] = useState(false);
+  const reactPlayerStore = useSelector((state: RootState) => state.reactPlayerStore);
   const authStore = useSelector((state: RootState) => state.authStore);
   const player = useRef(null);
 
@@ -46,19 +51,29 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   };
 
   return (
+    <div className='w-full pb-[.5rem]'>
     <Container
       outline={true}
       isNavbarOpen={props.isNavbarOpen}
-      play={youtubePlay}
+      play={reactPlayerStore.youtubePlay}
       anime={Animations.rainbowColors}
-    >
-      <Image
-        src={youtubePlay ? Icons.PauseIcon : Icons.PlayIcon}
-        alt="플레이어"
-        onClick={() => setYoutubePlay((prev) => !prev)}
-        width={'24'}
-        height={'24'}
-      />
+      >
+      <div
+        className={'w-[1.5rem] aspect-square px-[0.9rem]'}
+        onClick={() => {
+          store.dispatch(
+            rootActions.reactPlayerStore.setYoutubePlay(
+              !reactPlayerStore.youtubePlay,
+            ),
+          );
+        }}
+        >
+        {reactPlayerStore.youtubePlay ? (
+          <FontAwesomeIcon icon={faPause} />
+        ) : (
+          <FontAwesomeIcon icon={faPlay} />
+        )}
+      </div>
       <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
         <CC.ColumnCenterDiv>
           <Span fontSize={'1rem'}>
@@ -75,9 +90,9 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
               'https://www.youtube.com/watch?v=eyyAUFxlnGg'
             }
             ref={player}
-            playing={youtubePlay}
+            playing={reactPlayerStore.youtubePlay}
             onProgress={handleProgress}
-          />
+            />
           <div>
             <input
               type="range"
@@ -97,24 +112,30 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
               onTouchEnd={(e) => {
                 player.current?.seekTo(parseFloat(e.target.value), 'fraction');
               }}
-            />
+              />
           </div>
         </CC.ColumnCenterDiv>
         {authStore.id && (
           <ModalButton
-            modal={<YoutubePlayerModal />}
-            modalMinW={'32rem'}
-            modalW={'96vw'}
-            h={'2.4rem'}
-            modalBg={'white'}
-            modalOverlayVisible={'true'}
-            outline={true}
+          modal={<YoutubePlayerModal />}
+          modalMinW={'32rem'}
+          modalW={'96vw'}
+          h={'2.4rem'}
+          modalBg={'white'}
+          modalOverlayVisible={'true'}
+          outline={true}
           >
             <Image src={Icons.EtcIcon} alt="etc" width={10} />
           </ModalButton>
         )}
       </CC.RowDiv>
     </Container>
+      <div className={"w-full px-[.5rem]"}>
+        <MarqueeContainer>
+          <MarqueeText>{reactPlayerStore.youtubeTitle}</MarqueeText>
+        </MarqueeContainer>
+      </div>
+</div>
   );
 };
 export default ReactPlayerContainer;
@@ -129,18 +150,12 @@ const Container = styled.div<{
   grid-template-columns: 2.4rem calc(100% - 2.4rem);
   align-items: center;
   width: 12rem;
-  height: 3.2rem;
+  height: 3.6rem;
   cursor: pointer;
   &:hover {
     background: ${(props) => props.theme.main.primary20};
   }
 
-  ${(props) =>
-    props.outline &&
-    `
-    outline: solid ${props.theme.colors?.[props.color] || props.theme.main?.[props.color] || props.theme.main.primary80} 0.1rem;
-    background: transparent;
-    `}
   & > :nth-last-of-type(1) {
     justify-content: flex-start;
     animation-name: ${Animations.LeftToRightFadein};
@@ -198,4 +213,28 @@ const Container = styled.div<{
     height: 1rem;
     width: calc(100%);
   }
+`;
+const marqueeAnimation = keyframes`
+  from {
+    transform: translateX(0rem);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+`;
+
+
+const MarqueeContainer = styled.div`
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+  outline: 2px solid ${(props) => props.theme.main.primary40};
+  border-radius: 1rem;
+`;
+
+const MarqueeText = styled.span`
+  display: inline-block;
+  padding-left: 100%;
+  animation: ${marqueeAnimation} 15s linear infinite;
 `;

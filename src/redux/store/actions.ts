@@ -4,6 +4,7 @@ import blogContentTemplateAction from './blogContentTemplate/actions';
 import { boardAction } from './board';
 import { loadingAction } from './loading';
 import memoAction from './memo/actions';
+import { reactPlayerAction } from './reactPlayer';
 import scheduleAction from './schedule/actions';
 import { themeAction } from './theme';
 import toastifyAction from './toastify/actions';
@@ -20,4 +21,5 @@ export const rootActions = {
   loadingStore: loadingAction,
   themeStore: themeAction,
   blogStore: blogAction,
+  reactPlayerStore: reactPlayerAction,
 };

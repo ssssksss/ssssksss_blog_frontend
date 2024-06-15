@@ -7,6 +7,8 @@ import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
 import styled from '@emotion/styled';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
@@ -16,7 +18,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SideBar from './SideBar';
 
@@ -28,9 +30,12 @@ import SideBar from './SideBar';
  */
 
 const TopBar = () => {
+    const reactPlayerStore = useSelector(
+      (state: RootState) => state.reactPlayerStore,
+    );
   const authStore = useSelector((state: RootState) => state.authStore);
   UserAPI.getUser();
-
+  
   //* 로그아웃 함수
   const signOutHandler = () => {
     // if(store.getState().authStore.suid.split("_")[0] == "kakao") { }
@@ -72,9 +77,22 @@ const TopBar = () => {
     })();
   };
 
+  useEffect(()=>{
+    store.dispatch(
+      rootActions.reactPlayerStore.setYoutubeTitle(
+        window.localStorage.getItem('youtubeTitle'),
+      )
+    )
+  },[])
+
   return (
     <Container id={'top-bar'}>
-      <CC.RowBetweenCenterBox outline={1} h={'100%'} pd={'0.5rem'} bg={"primary20"}>
+      <CC.RowBetweenCenterBox
+        outline={1}
+        h={'100%'}
+        pd={'0.5rem'}
+        bg={'primary20'}
+      >
         <CC.RowDiv>
           <SideBar />
           <CC.ImgContainer h={'100%'} w={'44px'}>
@@ -90,6 +108,22 @@ const TopBar = () => {
               />
             </Link>
           </CC.ImgContainer>
+          <div
+            className={'w-[1.5rem] aspect-square px-[.5rem]'}
+            onClick={() => {
+              store.dispatch(
+                rootActions.reactPlayerStore.setYoutubePlay(
+                  !reactPlayerStore.youtubePlay,
+                ),
+              );
+            }}
+          >
+            {reactPlayerStore.youtubePlay ? (
+              <FontAwesomeIcon icon={faPause} />
+            ) : (
+              <FontAwesomeIcon icon={faPlay} />
+            )}
+          </div>
         </CC.RowDiv>
         <CC.RowDiv>
           {authStore.id ? (
