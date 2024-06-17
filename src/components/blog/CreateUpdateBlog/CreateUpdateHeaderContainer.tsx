@@ -121,7 +121,6 @@ const CreateUpdateHeaderContainer = (props: CreateUpdateHeaderProps) => {
 
   useLayoutEffect(() => {
     getBlogCategoryListAPI().then(res => {
-      console.log("CreateUpdateHeaderContainer.tsx 파일 : ",res);
       const _blogFirstCategoryList = res?.data?.data?.blogFirstCategoryList;
       store.dispatch(
         rootActions.blogStore.setBlogCategoryList(_blogFirstCategoryList),
