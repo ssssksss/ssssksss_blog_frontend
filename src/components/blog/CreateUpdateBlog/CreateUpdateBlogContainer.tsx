@@ -420,6 +420,10 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     height: 100%;
   }
   .w-md-editor-preview {
+
+    ol, li {
+      padding-inline-start: 0.5rem;
+    }
     h1 {
       font-weight: 800;
       outline: solid ${(props) => props.theme.main.primary80} 0.25rem;
