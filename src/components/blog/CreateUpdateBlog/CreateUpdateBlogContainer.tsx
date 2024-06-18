@@ -100,7 +100,11 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           _text +
           value.substring(textareaRef.current.selectionStart, value.length),
       );
-      setCursor(textareaRef.current.selectionStart + _text.length);
+      let temp = textareaRef.current?.selectionStart + _text.length;
+      if (temp == cursor) {
+        temp = temp + 1;
+      }
+      setCursor(temp);
     }
     setIsDragging(false);
   };
@@ -241,6 +245,12 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const onPasteHandler = async (event: ClipboardEvent<HTMLDivElement>) => {
     // const target = document.querySelector('.w-md-editor-text-input');
     // if (target == undefined) return;
+    event.preventDefault();
+    if (textareaRef.current == null) {
+        textareaRef.current = window.document.querySelector(
+          '.w-md-editor-text-input',
+        );
+    }
     const item = event.clipboardData.items[0];
     if (item.type.indexOf('image') === 0) {
       const blob = item.getAsFile();
@@ -251,21 +261,36 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           _text +
           value.substring(textareaRef.current?.selectionStart , value.length),
       );
-      setCursor(textareaRef.current?.selectionStart  + _text.length);
+      let temp =
+        textareaRef.current?.selectionStart +
+        paste.length -
+        (paste.split('\n\r').length - 1);
+      if (temp == cursor) {
+        temp = temp + 1;
+      }
+      setCursor(temp);
     } else {
       // 이미지가 아닐 경우 text로 처리
       const paste = event.clipboardData.getData('text');
       editorChangeHandler(
-        value.substring(0, textareaRef.current?.selectionStart ) +
-          paste +
-          value.substring(textareaRef.current?.selectionStart , value.length),
+        value.substring(0, textareaRef.current.selectionStart) +
+        paste +
+        value.substring(textareaRef.current.selectionStart , value.length),
       );
+      let temp =
+        textareaRef.current?.selectionStart +
+        paste.length -
+        (paste.split('\n\r').length - 1);
+      if (temp == cursor) {
+        temp = temp + 1;
+      }
+      setCursor(temp);
     }
-    event.preventDefault();
   };
 
   useEffect(() => {
-    textareaRef.current?.setSelectionRange(cursor, cursor);
+    if (textareaRef.current == null) return;
+      textareaRef.current.setSelectionRange(cursor, cursor);
   }, [cursor]);
 
   useEffect(() => {
@@ -285,11 +310,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
       textareaRef.current = window.document.querySelector(
         '.w-md-editor-text-input',
       );
-    }, 500);
   },[])
 
   useEffect(() => {

@@ -234,7 +234,7 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
 
     ul,
     ol {
-      padding-inline-start: 8px;
+      padding-inline-start: 0.5rem;
     }
 
     pre {
