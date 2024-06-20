@@ -1,6 +1,9 @@
 import { deleteBlogAPI } from '@api/BlogAPI';
+import Button from '@components/common/button/Button';
 import { ConfirmButton } from '@components/common/button/ConfirmButton';
 import styled from '@emotion/styled';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -56,6 +59,14 @@ const ViewBlogFixContainer = () => {
             <MenuIcon />
           </CC.ImgContainer>
         </Link>
+        <Button onClick={() => window.scrollTo(0, 0)}>
+          <FontAwesomeIcon icon={faArrowUp} />
+        </Button>
+        <Button
+          onClick={() => window.scrollTo(0, window.document.body.scrollHeight)}
+        >
+          <FontAwesomeIcon icon={faArrowDown} />
+        </Button>
       </Container1>
     </Container>
   );
@@ -70,14 +81,14 @@ const Container = styled(CC.ColumnDiv)`
   left: 100vw;
   top: max(6.2rem, 22rem);
   z-index: 40;
-
+  
   img {
     cursor: pointer;
   }
   img:hover {
     transform: scale(1.2);
   }
-`;
+  `;
 
 const Container1 = styled(CC.ColumnDiv)`
   width: 3rem;
@@ -91,7 +102,7 @@ const Container1 = styled(CC.ColumnDiv)`
   scrollbar-width: none;
   background: ${(props) => props.theme.main.primary80};
   align-items: center;
-  gap: 0.2rem;
+  gap: .5rem;
   padding: 0.4rem 0rem;
   border-radius: 4px;
   & > * {
