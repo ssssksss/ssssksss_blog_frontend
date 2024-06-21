@@ -39,7 +39,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const router = useRouter();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
-  const [value, setValue] = useState(props.content ?? "");
+  const [textareaContent, setTextareaContent] = useState(props.content ?? "");
   const methods = useForm({
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
@@ -62,7 +62,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   });
 
     const editorChangeHandler = useCallback((value) => {
-    setValue(value);
+    setTextareaContent(value);
     methods.setValue('content', value, { shouldValidate: true });
   }, []);
 
@@ -96,9 +96,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       const _url = await uploadHandler(e.dataTransfer.files[0]);
       const _text = '![image](blob:' + _url + ')';
       editorChangeHandler(
-        value.substring(0, textareaRef.current.selectionStart) +
+        textareaContent.substring(0, textareaRef.current.selectionStart) +
           _text +
-          value.substring(textareaRef.current.selectionStart, value.length),
+          textareaContent.substring(textareaRef.current.selectionStart, textareaContent.length),
       );
       let temp = textareaRef.current?.selectionStart + _text.length;
       if (temp == cursor) {
@@ -245,26 +245,38 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const onPasteHandler = async (event: ClipboardEvent<HTMLDivElement>) => {
     // const target = document.querySelector('.w-md-editor-text-input');
     // if (target == undefined) return;
+    const startPosition = textareaRef.current?.selectionStart;
+    const endPosition = textareaRef.current?.selectionEnd;
+    console.log("CreateUpdateBlogContainer.tsx 파일 : ",startPosition);
+    console.log("CreateUpdateBlogContainer.tsx 파일 : ",endPosition);
+    let _textareaContent = textareaContent;
     event.preventDefault();
     if (textareaRef.current == null) {
         textareaRef.current = window.document.querySelector(
           '.w-md-editor-text-input',
         );
     }
+    
     const item = event.clipboardData.items[0];
+    if (startPosition != endPosition) {
+      _textareaContent =
+        _textareaContent.substring(0, startPosition) +
+      _textareaContent.substring(
+          endPosition,
+          _textareaContent.length,
+        );
+    }
     if (item.type.indexOf('image') === 0) {
       const blob = item.getAsFile();
       const _url = await uploadHandler(blob);
       const _text = '![image](blob:' + _url + ')';
       editorChangeHandler(
-        value.substring(0, textareaRef.current?.selectionStart) +
+        _textareaContent.substring(0, startPosition) +
           _text +
-          value.substring(textareaRef.current?.selectionStart , value.length),
+          _textareaContent.substring(startPosition , _textareaContent.length),
       );
       let temp =
-        textareaRef.current?.selectionStart +
-        paste.length -
-        (paste.split('\n\r').length - 1);
+        startPosition + paste.length - (paste.split('\n\r').length - 1);
       if (temp == cursor) {
         temp = temp + 1;
       }
@@ -273,9 +285,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       // 이미지가 아닐 경우 text로 처리
       const paste = event.clipboardData.getData('text');
       editorChangeHandler(
-        value.substring(0, textareaRef.current.selectionStart) +
-        paste +
-        value.substring(textareaRef.current.selectionStart , value.length),
+        _textareaContent.substring(0, startPosition) +
+          paste +
+          _textareaContent.substring(startPosition, _textareaContent.length),
       );
       let temp =
         textareaRef.current?.selectionStart +
@@ -358,7 +370,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
               onDragOver={onDragOver}
               onDrop={onDrop}
               height={'100%'}
-              value={value}
+              value={textareaContent}
               onChange={editorChangeHandler}
               highlightEnable={false}
               visibleDragbar={false}
