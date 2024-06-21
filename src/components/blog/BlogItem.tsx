@@ -48,6 +48,7 @@ const BlogItem = (props: IBlogItemProps) => {
     <Container
       status={props.element.blogStatus}
       onClick={() =>
+      {
         localStorageSetHandler(
           'recentBlog',
           {
@@ -58,10 +59,11 @@ const BlogItem = (props: IBlogItemProps) => {
             likeNumber: props.element.likeNumber,
             baseTimeEntity: props.element.baseTimeEntity,
             thumbnailImageUrl: props.element.thumbnailImageUrl,
-            status: props.element.blogStatus,
+            blogStatus: props.element.blogStatus,
           },
           4,
-        )
+        );
+      }
       }
     >
       {props.viewMode && (
