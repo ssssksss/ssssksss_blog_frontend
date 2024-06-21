@@ -12,12 +12,7 @@ import { CC } from '@styles/commonComponentStyle';
 import StringFunction from '@utils/function/stringFunction';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
 import { BlogCreateYup, BlogUpdateYup } from '../../yup/BlogCategoryYup';
@@ -30,7 +25,6 @@ import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
  * @description 설명
  */
 
-
 const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -39,7 +33,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   const router = useRouter();
   const [blogContentImageList, setBlogContentImageList] = useState([]);
   const [tempBlogImage, setTempBlogImage] = useState([]);
-  const [textareaContent, setTextareaContent] = useState(props.content ?? "");
+  const [textareaContent, setTextareaContent] = useState(props.content ?? '');
   const methods = useForm({
     resolver: yupResolver(props.edit ? BlogUpdateYup : BlogCreateYup),
     mode: 'onChange',
@@ -61,7 +55,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
     },
   });
 
-    const editorChangeHandler = useCallback((value) => {
+  const editorChangeHandler = useCallback((value) => {
     setTextareaContent(value);
     methods.setValue('content', value, { shouldValidate: true });
   }, []);
@@ -98,7 +92,10 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       editorChangeHandler(
         textareaContent.substring(0, textareaRef.current.selectionStart) +
           _text +
-          textareaContent.substring(textareaRef.current.selectionStart, textareaContent.length),
+          textareaContent.substring(
+            textareaRef.current.selectionStart,
+            textareaContent.length,
+          ),
       );
       let temp = textareaRef.current?.selectionStart + _text.length;
       if (temp == cursor) {
@@ -122,8 +119,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         imageUrlList.push(i.url);
         imageFileList.push(i.file);
       }
-      methods.setValue("imageFileList", imageFileList);
-      methods.setValue('imageUrlList', imageUrlList, {shouldValidate: true});
+      methods.setValue('imageFileList', imageFileList);
+      methods.setValue('imageUrlList', imageUrlList, { shouldValidate: true });
     });
 
     // 이전 이미지에서 삭제할 이미지가 있나 탐색
@@ -133,7 +130,11 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           deleteImageBucketDirectory.push(i);
         }
       });
-      methods.setValue('deleteImageBucketDirectory', deleteImageBucketDirectory, {shouldValidate: true});
+      methods.setValue(
+        'deleteImageBucketDirectory',
+        deleteImageBucketDirectory,
+        { shouldValidate: true },
+      );
     }
 
     // 미리보기가 안보여 바꾼 텍스트를 다시 원래대로 전환
@@ -156,8 +157,8 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
         )[0]
         .blogSecondCategoryList.filter(
           (j: { id: number }) => j.id == methods.getValues('secondCategoryId'),
-      )[0]?.thumbnailImageUrl;
-      let _temp_image_url = "";
+        )[0]?.thumbnailImageUrl;
+      let _temp_image_url = '';
       // ? 대표 이미지 URL이 현재 선택한 2번째 카테고리 이미지 URL과 같다면 null로 변경
       if (methods.getValues('thumbnailImageUrl') == temp) {
         _temp_image_url = temp;
@@ -194,9 +195,9 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           router.back();
         })
         .catch((err) => {
-        methods.setValue('thumbnailImageUrl', _temp_image_url, {
-          shouldValidate: true,
-        });
+          methods.setValue('thumbnailImageUrl', _temp_image_url, {
+            shouldValidate: true,
+          });
           store.dispatch(
             rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
               type: 'error',
@@ -247,24 +248,19 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
     // if (target == undefined) return;
     const startPosition = textareaRef.current?.selectionStart;
     const endPosition = textareaRef.current?.selectionEnd;
-    console.log("CreateUpdateBlogContainer.tsx 파일 : ",startPosition);
-    console.log("CreateUpdateBlogContainer.tsx 파일 : ",endPosition);
     let _textareaContent = textareaContent;
     event.preventDefault();
     if (textareaRef.current == null) {
-        textareaRef.current = window.document.querySelector(
-          '.w-md-editor-text-input',
-        );
+      textareaRef.current = window.document.querySelector(
+        '.w-md-editor-text-input',
+      );
     }
-    
+
     const item = event.clipboardData.items[0];
     if (startPosition != endPosition) {
       _textareaContent =
         _textareaContent.substring(0, startPosition) +
-      _textareaContent.substring(
-          endPosition,
-          _textareaContent.length,
-        );
+        _textareaContent.substring(endPosition, _textareaContent.length);
     }
     if (item.type.indexOf('image') === 0) {
       const blob = item.getAsFile();
@@ -273,10 +269,10 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
       editorChangeHandler(
         _textareaContent.substring(0, startPosition) +
           _text +
-          _textareaContent.substring(startPosition , _textareaContent.length),
+          _textareaContent.substring(startPosition, _textareaContent.length),
       );
       let temp =
-        startPosition + paste.length - (paste.split('\n\r').length - 1);
+        startPosition + _text.length
       if (temp == cursor) {
         temp = temp + 1;
       }
@@ -290,7 +286,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
           _textareaContent.substring(startPosition, _textareaContent.length),
       );
       let temp =
-        textareaRef.current?.selectionStart +
+        startPosition +
         paste.length -
         (paste.split('\n\r').length - 1);
       if (temp == cursor) {
@@ -302,30 +298,29 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
 
   useEffect(() => {
     if (textareaRef.current == null) return;
-      textareaRef.current.setSelectionRange(cursor, cursor);
+    textareaRef.current.setSelectionRange(cursor, cursor);
   }, [cursor]);
 
   useEffect(() => {
     methods.setValue('thumbnailImageUrl', props.thumbnailImageUrl);
-    
+
     if (props.edit) {
-    const regex =
-      /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
-    let matches;
-    const parts = [];
-    while ((matches = regex.exec(props.content)) !== null) {
-      parts.push(matches[1]);
+      const regex =
+        /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
+      let matches;
+      const parts = [];
+      while ((matches = regex.exec(props.content)) !== null) {
+        parts.push(matches[1]);
       }
       setBlogContentImageList(parts);
     }
-
   }, []);
 
   useEffect(() => {
-      textareaRef.current = window.document.querySelector(
-        '.w-md-editor-text-input',
-      );
-  },[])
+    textareaRef.current = window.document.querySelector(
+      '.w-md-editor-text-input',
+    );
+  }, []);
 
   useEffect(() => {
     if (!props.edit) return;
@@ -455,8 +450,8 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     height: 100%;
   }
   .w-md-editor-preview {
-
-    ol, li {
+    ol,
+    li {
       padding-inline-start: 0.5rem;
     }
     h1 {
