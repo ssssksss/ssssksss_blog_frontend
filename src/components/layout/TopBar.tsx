@@ -15,10 +15,11 @@ import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import { throttle } from 'lodash';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SideBar from './SideBar';
 
@@ -30,11 +31,31 @@ import SideBar from './SideBar';
  */
 
 const TopBar = () => {
-    const reactPlayerStore = useSelector(
-      (state: RootState) => state.reactPlayerStore,
-    );
+  const reactPlayerStore = useSelector(
+    (state: RootState) => state.reactPlayerStore,
+  );
   const authStore = useSelector((state: RootState) => state.authStore);
-  UserAPI.getUser();
+    const [scrollWidth, setScrollWidth] = useState(0);
+    UserAPI.getUser();
+
+  const updateProgressBar = () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    setScrollWidth(scrolled);
+  };
+
+  const throttledUpdateProgressBar = throttle(updateProgressBar, 100);
+
+  useEffect(() => {
+    window.addEventListener('scroll', throttledUpdateProgressBar);
+    return () => {
+      window.removeEventListener('scroll', throttledUpdateProgressBar);
+      throttledUpdateProgressBar.cancel(); // Clean up the throttle function
+    };
+  }, [throttledUpdateProgressBar]);
   
   //* 로그아웃 함수
   const signOutHandler = () => {
@@ -87,6 +108,7 @@ const TopBar = () => {
 
   return (
     <Container id={'top-bar'}>
+      <ProgressBar style={{ width: `${scrollWidth}%` }}></ProgressBar>
       <CC.RowBetweenCenterBox
         outline={1}
         h={'100%'}
@@ -108,7 +130,7 @@ const TopBar = () => {
               />
             </Link>
           </CC.ImgContainer>
-          { authStore.id &&
+          {authStore.id && (
             <div
               className={'w-[1.5rem] aspect-square px-[.5rem]'}
               onClick={() => {
@@ -125,7 +147,7 @@ const TopBar = () => {
                 <FontAwesomeIcon icon={faPlay} />
               )}
             </div>
-          }
+          )}
         </CC.RowDiv>
         <CC.RowDiv>
           {authStore.id ? (
@@ -169,4 +191,13 @@ const Container = styled.div`
   gap: 0.5rem;
   z-index: 10;
   background: linear-gradient(180deg, white 87.5%, transparent 12.5%);
+  `;
+
+const ProgressBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 0.375rem;
+  background: ${(props) =>
+    `linear-gradient(90deg, ${props.theme.main.primary80} 0%, ${props.theme.main.secondary80} 100%)`};
 `;
