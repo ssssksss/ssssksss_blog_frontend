@@ -25,14 +25,11 @@ const BlogRecentListContainer = () => {
     };
   }, []);
 
-
   return (
     <Container isOpen={isOpen}>
       <Title
         onClick={(event) => {
           setIsOpen((prev) => !prev);
-          const temp = JSON.parse(window.localStorage.getItem('recentBlog') || '[]').filter((i: { status: string }) => i.status != "HIDE");
-          window.localStorage.setItem('recentBlog',JSON.stringify(temp));
           event.stopPropagation();
           event.preventDefault();
         }}
