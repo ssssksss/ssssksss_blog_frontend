@@ -43,6 +43,19 @@ const ViewBlogContainer = (props: IProps) => {
     tagName: string;
   }[]>([]);
 
+  if (props.status == "HIDE") {
+    if (store.getState().authStore.id != props.userId) {
+    store.dispatch(
+      SET_TOASTIFY_MESSAGE({
+        type: 'warning',
+        message: `숨겨진 글입니다.`,
+      }),
+    );
+      router.push("/blog");
+      return <>  </>;
+    }
+  }
+
   useEffect(() => {
     document.body.style.cssText = `
     position: fixed; 
