@@ -110,7 +110,7 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
   };
 
   const submitHandler = async () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
