@@ -10,14 +10,8 @@ import { ReactElement } from 'react';
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file index.tsx
  * @version 0.0.1 "2023-10-10 02:35:13"
- * @description 설명
+ * @description 블로그 조회 패이지
  */
-
-// export async function getServerSideProps(context) {
-//   const { data } = await AxiosInstance.get(`/api/blog?id=${context.params.id}`);
-//   // ! next-redux-wrapper 공부해보기
-//   return { props: data.json };
-// }
 
 export async function getStaticPaths() {
   const blogList = await AxiosInstance.get('/api/blog/list/all').then((res) => {
@@ -31,18 +25,12 @@ export async function getStaticPaths() {
   return { paths, fallback: 'blocking' };
 }
 
-    // const res = await axios.get(
-    //   process.env.NODE_ENV === 'development'
-    //     ? 'http://localhost:3000'
-    //     : 'https://blog.ssssksss.xyz' + `/api/revalidate?id=${params.id}`,
-    // );
-
 export async function getStaticProps({ params }: unknown) {
   if (!isNaN(params.id)) {
     const res = await AxiosInstanceAuth.get(`/api/blog?id=${params.id}`);
-    return { props: res.data.data, revalidate: 10 };
+    return { props: res.data.data, revalidate: 86400 };
   }
-  return { props: null, revalidate: 10 };
+  return { props: null, revalidate: 0 };
 }
 
 const ViewBlogCSR = dynamic(
@@ -53,7 +41,7 @@ const ViewBlogCSR = dynamic(
 );
 
 const Index = (props: unknown) => {
-  if (props == null) return <>  </>;
+  if (props == null) return <> 잘못된 접근입니다. </>;
   return (
     <Container>
       <Head>
