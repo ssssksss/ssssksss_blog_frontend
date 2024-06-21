@@ -45,14 +45,16 @@ const ViewBlogContainer = (props: IProps) => {
 
   if (props.status == "HIDE") {
     if (store.getState().authStore.id != props.userId) {
-    store.dispatch(
-      SET_TOASTIFY_MESSAGE({
-        type: 'warning',
-        message: `숨겨진 글입니다.`,
-      }),
-    );
-      router.push("/blog");
-      return <>  </>;
+      store.dispatch(
+        SET_TOASTIFY_MESSAGE({
+          type: 'warning',
+          message: `숨겨진 글입니다.`,
+        }),
+      );
+      const temp = JSON.parse(window.localStorage.getItem('recentBlog') || '[]').filter((i: { id: number }) => i.id != props.id);
+      window.localStorage.setItem('recentBlog',JSON.stringify(temp));
+      router.push('/blog');
+      return <> </>;
     }
   }
 
