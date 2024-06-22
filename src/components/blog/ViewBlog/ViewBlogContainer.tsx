@@ -247,9 +247,15 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       color: white;
     }
 
-    ul,
-    ol {
-      padding-inline-start: 0.5rem;
+    ul {
+      padding: 0px 0px 0.5rem 0.5rem;
+      margin: 0px;
+      li {
+        background: ${(props) =>
+          props.theme.linearGradientColors.purple40deg70blue40};
+        padding: 0.25rem;
+        border-radius: 1rem;
+      }
     }
 
     pre {
@@ -288,7 +294,6 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
         ${(props) => props.theme.scroll.hiddenX};
         background: none;
         color: #333;
-        
       }
     }
   }

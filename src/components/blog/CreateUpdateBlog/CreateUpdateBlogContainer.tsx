@@ -450,9 +450,14 @@ const EditorContainer = styled(CC.ColumnDiv)<{ isDragging: boolean }>`
     height: 100%;
   }
   .w-md-editor-preview {
-    ol,
-    li {
-      padding-inline-start: 0.5rem;
+    ul {
+      padding: 0px 0px .5rem .5rem;
+      margin: 0px;
+      li {
+        background: ${props => props.theme.linearGradientColors.purple40deg70blue40};
+        padding: .25rem;
+        border-radius: 1rem;
+      }
     }
     h1 {
       font-weight: 800;
