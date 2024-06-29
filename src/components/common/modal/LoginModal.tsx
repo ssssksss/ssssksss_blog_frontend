@@ -61,23 +61,23 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   
   const oauthLogin = async (oauthService: string) => {
     if(oauthService == 'kakao') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URL}&prompt=login
       `,"","");
     }
     if(oauthService == 'google') {
-      window.open(`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}&scope=email profile&prompt=select_account
+      window.open(`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URL}&scope=email profile&prompt=select_account
       `,"","");
     }
     if(oauthService == 'facebook') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URL}&prompt=login
       `,"","");
     }
     if(oauthService == 'github') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URL}&prompt=login
       `,"","");
     }
     if(oauthService == 'naver') {
-      window.open(`https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_NAVER_REDIRECT_URL}&state=${StringFunction.generateRandomString(20)}&auth_type=reauthenticate`,"","");
+      window.open(`https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NAVER_REDIRECT_URL}&state=${StringFunction.generateRandomString(20)}&auth_type=reauthenticate`,"","");
     }
             // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
       window.document.removeEventListener("oauthLogin",_func); 

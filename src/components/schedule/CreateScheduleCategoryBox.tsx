@@ -93,7 +93,6 @@ const CreateScheduleCategoryBox = (props: IAddScheduleCategoryBoxProps) => {
         })}
         onChange={(i) => 
         {
-          console.log("CreateScheduleCategoryBox.tsx 파일 : ",i);
           setCreateCategoryRequestData((prev) => ({
             ...prev,
             id: i.value,
