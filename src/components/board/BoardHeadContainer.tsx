@@ -97,12 +97,12 @@ const BoardHeadContainer = () => {
           </WriteButtonContainer>
         )}
       </TitleContainer>
-      <CC.RowBox w={'100%'} gap={8} h={'2rem'}>
+      <div className={"grid grid-cols-[auto_3.5rem_6rem] gap-2 h-[2rem] "}>
         <Input
           type="search"
           placeholder="검색어를 입력해주세요"
           outline={1}
-          w={'calc(100vw - 11.5rem)'}
+          w={'100%'}
           h={'2rem'}
           ref={keywordRef}
           defaultValue={boardStore.keyword ?? (router.query.keyword as string)}
@@ -142,7 +142,7 @@ const BoardHeadContainer = () => {
           ]}
           onChange={orderListHandler}
         />
-      </CC.RowBox>
+      </div>
     </Container>
   );
 };
