@@ -5,68 +5,66 @@ import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
 import MemoCategoryModal from '@components/memo/modal/MemoCategoryModal';
 import styled from '@emotion/styled';
+import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
-import { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { IMemoCategory } from 'src/@types/memo/memoCategory';
+import { IMemoItem } from 'src/@types/memo/memoItem';
 import MemoItem from './MemoItem';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file MemoContainer.tsx
- * @version 0.0.1 "2023-09-29 02:20:31"
- * @description 설명
- */
 
 const MemoContainer = () => {
-  const authStore = useSelector((state: RootState) => state.authStore);
-  const [activeMenu, setActiveMenu] = useState({
-    type: 'all',
-    categoryId: '',
-    isShowMessage: true,
-  });
-  const memoCategoryResData = MemoAPI.getMemoCategoryList();
-  const memoResData = MemoAPI.getMemoList({ type: activeMenu.type});
-
-  console.log("MemoContainer.tsx 파일 : ",memoResData);
-
-  return (
-    <Container>
-      <MemoMenuNavListContainer>
-        <Button
-          bg={'gray60'}
-          active={activeMenu.type === 'all'}
-          activeBg={'transparent'}
-          activeColor={'black80'}
-          h={'2.25rem'}
-          onClick={() =>
-            setActiveMenu({
-              type: 'all',
-              categoryId: '',
-            })
-          }
-        >
-          ALL
-        </Button>
-        {memoCategoryResData?.data?.data?.memoCategoryList?.map((i) => (
+  const memoStore = useSelector((state: RootState) => state.memoStore);
+  const { data: memoCategoryResData = [] } = MemoAPI.getMemoCategoryList();
+  const { data: memoResData = [] } = MemoAPI.getMemoList({type: "all"});
+  
+    return (
+      <Container>
+        <MemoMenuNavListContainer>
           <Button
-            key={i.id}
-            bg={i.backgroundColor}
-            h={'2.25rem'}
-            active={activeMenu.type === i.name}
+            bg={'gray60'}
+            active={memoStore.memoActiveCategoryId == 0}
             activeBg={'transparent'}
             activeColor={'black80'}
-            onClick={() =>
-              setActiveMenu({
-                type: i.name,
-                categoryId: i.id,
-              })
-            }
+            h={'2.25rem'}
+            onClick={() => {
+              window.history.replaceState(
+                window.history.state,
+                '',
+                `/memo?active=all`,
+              );
+              store.dispatch(rootActions.memoStore.SET_ACTIVE_CATEGORY_ID(0));
+            }}
           >
-            {i.name}
+            ALL
           </Button>
-        ))}
-        {authStore.id && (
+          {memoCategoryResData?.data?.memoCategoryList?.map(
+            (i: IMemoCategory) => (
+              <Button
+                key={i.id}
+                bg={i.backgroundColor}
+                h={'2.25rem'}
+                active={memoStore.memoActiveCategoryId == Number(i.id)}
+                activeBg={'transparent'}
+                activeColor={'black80'}
+                onClick={() => {
+                  window.history.replaceState(
+                    window.history.state,
+                    '',
+                    `/memo?active=${i.name}&categoryId=${Number(i.id)}`,
+                  );
+                  store.dispatch(
+                    rootActions.memoStore.SET_ACTIVE_CATEGORY_ID(Number(i.id)),
+                  );
+                }}
+              >
+                {i.name}
+              </Button>
+            ),
+          )}
           <ModalButton
             modal={<MemoCategoryModal />}
             modalOverlayVisible={true}
@@ -75,28 +73,30 @@ const MemoContainer = () => {
             outline={true}
             h={'2.25rem'}
           >
-            <Image src={Icons.SettingIcon} weight={20} height={20} alt="" />
+            <Image src={Icons.SettingIcon} width={20} height={20} alt="" />
           </ModalButton>
-        )}
-      </MemoMenuNavListContainer>
-      <MainContainer>
-        {activeMenu.type != 'all' && authStore.id && (
-          <MemoItem edit={false} category={activeMenu} />
-        )}
-        {memoResData.data?.data?.memoList
-          ?.filter((i) =>
-            activeMenu.type == 'all'
-              ? true
-              : i.memoCategory.name == activeMenu.type,
-          )
-          .map((i) => (
-            <MemoItem data={i} edit={true} key={i.id} />
-          ))}
-      </MainContainer>
-    </Container>
-  );
+        </MemoMenuNavListContainer>
+        <MainContainer>
+          {memoStore.memoActiveCategoryId != 0 && (
+            <MemoItem
+              edit={false}
+              category={{ categoryId: memoStore.memoActiveCategoryId }}
+            />
+          )}
+          {memoResData.data?.memoList
+            ?.filter((i: IMemoItem) =>
+              memoStore.memoActiveCategoryId == 0
+                ? true
+                : i.memoCategory.id == memoStore.memoActiveCategoryId,
+            )
+            .map((i: IMemoItem) => (
+              <MemoItem data={i} edit={true} key={i.id} />
+            ))}
+        </MainContainer>
+      </Container>
+    );
 };
-export default MemoContainer;
+export default React.memo(MemoContainer);
 
 const Container = styled(CC.ColumnStartDiv.withComponent('article'))`
   margin-bottom: 1.2rem;

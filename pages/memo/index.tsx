@@ -10,14 +10,10 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file index.tsx
- * @version 0.0.1 "2024-03-05 12:53:03"
- * @description 설명
- */
+
 const Index = () => {
   const authStore = useSelector((state: RootState) => state.authStore);
+
   return (
     <Container>
       <Head>

@@ -37,6 +37,7 @@ interface ITextareaProps {
   brR?: string;
   state?: number;
   bg?: string;
+  key?: string;
   resizeMode?: boolean;
   submit?: () => void;
 }
@@ -69,11 +70,13 @@ const Textarea = (props: ITextareaProps, ref) => {
         {...props}
       />
       {props.defaultValue != textareaValue && (
-        <button onClick={() => props.submit()}>
+        <button onClick={() => {
+          props.submit();
+        }}>
           <SendIcon />
         </button>
       )}
-      {props.errorMessage ? <span> {props.errorMessage} </span> : <></>}
+      {props.errorMessage && <span> {props.errorMessage} </span>}
     </Container>
   );
 };
@@ -82,7 +85,6 @@ export default forwardRef(Textarea);
 const Container = styled.div`
   position: relative;
   height: 100%;
-  padding-bottom: 2rem;
   button {
     position: absolute;
     right: 0.25rem;

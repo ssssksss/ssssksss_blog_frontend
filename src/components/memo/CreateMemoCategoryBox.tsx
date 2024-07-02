@@ -44,8 +44,8 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     alert('잘못 입력된 값이 존재합니다.');
   };
 
-  const selectChangeMemoCategoryHandler = (props: {bg: string}) => {
-    setValue('createMemoCategoryColor', props.bg, {
+  const selectChangeMemoCategoryHandler = (props: {value: string}) => {
+    setValue('createMemoCategoryColor', props.value, {
       shouldValidate: true,
     });
   };
@@ -55,18 +55,6 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
     createMemoCategoryName: string;
   }) => {
     if (!data.createMemoCategoryColor || !data.createMemoCategoryName) return;
-    // MemoAPI.createMemoCategory({
-    //   name: data.createMemoCategoryName,
-    //   backgroundColor: data.createMemoCategoryColor,
-    // }).then((res: unknown) => {
-    //   store.dispatch(
-    //     SET_MEMO_CATEGORY_LIST([
-    //       ...memoStore.memoCategoryList,
-    //       res.data?.memoCategory,
-    //     ]),
-    //   );
-    //   props.closeModal();
-    // });
     createMemoCategoryMutation({
         name: data.createMemoCategoryName,
         backgroundColor: data.createMemoCategoryColor,
@@ -99,7 +87,7 @@ const CreateMemoCategoryBox = (props: ICreateMemoCategoryBoxProps) => {
           data={categoryColors.map((i) => {
             return { value: i, name: ' ', bg: i };
           })}
-          onChange={(i) => selectChangeMemoCategoryHandler(i)}
+          onChange={(i: {value: string}) => selectChangeMemoCategoryHandler(i)}
         />
       </CC.ColBox>
       <CC.RowDiv pd={'0.5rem 0rem'}>

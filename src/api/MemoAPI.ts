@@ -2,113 +2,174 @@ import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import { RootState } from '@redux/store/reducers';
-import AxiosInstance from '@utils/axios/AxiosInstance';
+import AxiosInstanceAuth from '@utils/axios/AxiosInstanceAuth';
+import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import { useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
-import { ICreateMemoCategoryProps, IMemoCommonProps } from 'src/@types/api/memo/MemoAPI';
-import { ApiProcessHandler } from './service/ApiProcessHandler';
+import { ICreateMemoCategoryProps, IMemoCommonProps, IUpdateMemoCategoryProps } from 'src/@types/memo/MemoAPI';
+import { IMemoCategory } from 'src/@types/memo/memoCategory';
+import { IMemoItem } from 'src/@types/memo/memoItem';
 
-const createMemoCategory = (props?: IMemoCommonProps) => {
-  const queryClient = useQueryClient();
-  const mutationFn = async (reqData: ICreateMemoCategoryProps) => {
-    return await AxiosInstance.post(
-      '/api/memo/category',
-      {
+const createMemoCategory = (props: IMemoCommonProps) => {
+    const queryClient = useQueryClient();
+    const mutationFn = async (reqData: ICreateMemoCategoryProps) => {
+      return await AxiosInstanceAuth.post('/api/memo/category', {
         name: reqData.name,
         backgroundColor: reqData.backgroundColor,
+      });
+    };
+
+    return useMutationHook({
+      mutationFn,
+      onSuccessHandler: ({ data }) => {
+        queryClient.setQueryData(['memoCategory'], (oldData: any) => {
+          const _temp: IMemoCategory[] = oldData.data.memoCategoryList;
+          _temp.push(data.data.data?.memoCategory);
+          oldData.data.memoCategoryList = _temp;
+          return oldData;
+        });
+        props.onSuccessHandler();
       },
-      {
-        withCredentials: true,
-      },
-    ).catch(() => {
-      return;
     });
+};
+
+const getMemoCategoryList = () => {
+  return useQueryHook({
+    queryKey: ['memoCategory'],
+    requestData: {
+      url: '/api/memo/category',
+      method: 'GET',
+    },
+    isRefetchWindowFocus: false,
+    });
+};
+
+const updateMemoCategory = (props: IMemoCommonProps) => {
+  const queryClient = useQueryClient();
+    const mutationFn = async (reqData: IUpdateMemoCategoryProps) => {
+      return await AxiosInstanceAuth.put('/api/memo/category', {
+        id: reqData.id,
+        name: reqData.name,
+        backgroundColor: reqData.backgroundColor
+      });
+    };
+
+    return useMutationHook({
+      mutationFn,
+      onSuccessHandler: ({ data }) => {
+        const _memoCategoryItem = data.data.data.memoCategory;
+        queryClient.setQueryData(
+          ['memoCategory'],
+          (oldData: {
+            data: {
+              memoCategoryList: IMemoCategory[];
+            };
+          }) => {
+            const _temp: IMemoCategory[] = oldData.data.memoCategoryList.map(
+              (i) => {
+                if (i.id == _memoCategoryItem.id) {
+                  return _memoCategoryItem;
+                }
+                return i;
+              },
+            );
+            oldData.data.memoCategoryList = _temp;
+            return oldData;
+          },
+        );
+        props.onSuccessHandler();
+      },
+    });
+};
+
+const deleteMemoCategory = (props: IMemoCommonProps) => {
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData: { id: number }) => {
+    return await AxiosInstanceAuth.delete(
+      `/api/memo/category?id=${reqData.id}`,
+    );
   };
 
   return useMutationHook({
     mutationFn,
-    onSuccessHandler: ({ data }) => {
-      store.dispatch(
-        rootActions.memoStore.SET_MEMO_CATEGORY_LIST(
-          data.data.data?.memoCategory,
-        ),
+    onSuccessHandler: ({ variables }) => {
+      queryClient.setQueryData(
+        ['memoCategory'],
+        (oldData: {
+          data: {
+            memoCategoryList: IMemoCategory[];
+          };
+        }) => {
+          const _temp: IMemoCategory[] = oldData.data.memoCategoryList.filter(
+            (i) => i.id != variables.id,
+          );
+          oldData.data.memoCategoryList = _temp;
+          return oldData;
+        },
       );
-      queryClient.setQueryData(['memoCategory'], ((oldData: []) => {
-        return [...oldData, data.data.data?.memoCategory];
-      }))
-      props.onSuccessHandler();
+      const _queryStringObject = UrlQueryStringToObject(window.location.href);
+      if (_queryStringObject.categoryId == variables.id) {
+          window.history.replaceState(
+            window.history.state,
+            '',
+            `/memo?active=all`,
+        );
+        store.dispatch(rootActions.memoStore.SET_ACTIVE_CATEGORY_ID(0));
+        queryClient.setQueryData(
+          ['memoList'],
+          (oldData: {
+            data: {
+              memoList: IMemoItem[];
+            };
+          }) => {
+            const _temp: IMemoItem[] = oldData.data.memoList.filter(
+              (i) => i.memoCategory.id != variables.id,
+            );
+            oldData.data.memoList = _temp;
+            return oldData;
+          },
+        );
+      }
+        props.onSuccessHandler();
     },
-    // onErrorHandler: ({ error, variables, context }) => {},
-    // onSettledHandler: ({ data, error, variables, context }) => {},
   });
 };
 
-const getMemoCategoryList = () => {
-  // return ApiProcessHandler({
-  //   url: '/api/memo/category',
-  //   method: 'GET',
-  //   apiCategory: '할일 카테고리',
-  // });
+const createMemo = () => {
+    const queryClient = useQueryClient();
+  const mutationFn = async (reqData: {
+      content: string;
+      memoCategoryId: number;
+    }) => {
+      return await AxiosInstanceAuth.post('/api/memo', {
+        content: reqData.content,
+        memoCategoryId: reqData.memoCategoryId,
+      });
+    };
 
-  // // =========================
-    return useQueryHook({
-      queryKey: ['memoCategory'],
-      requestData: {
-        url: '/api/memo/category',
-        method: 'GET',
+    return useMutationHook({
+      mutationFn,
+      onSuccessHandler: ({ data }) => {
+        const _memoItem = data.data.data;
+        queryClient.setQueryData(
+          ['memoList'],
+          (oldData: {
+            data: {
+              memoList: IMemoItem[];
+            };
+          }) => {
+            const _temp: IMemoItem[] = oldData.data.memoList;
+            _temp.unshift(_memoItem);
+            oldData.data.memoList = _temp;
+            return oldData;
+          },
+        );
       },
-      isRefetchWindowFocus: false,
     });
 };
 
-const updateMemoCategory = (props) => {
-  // TODO API 수정 필요
-  return ApiProcessHandler({
-    url: '/api/memo/category',
-    method: 'PUT',
-    apiCategory: '할일 카테고리',
-    data: {
-      id: props.id,
-      name: props.name,
-      backgroundColor: props.backgroundColor,
-    },
-    isShowMessage: true,
-  });
-
-};
-
-const deleteMemoCategory = (props) => {
-  // TODO API 수정 필요
-  return ApiProcessHandler({
-    url: '/api/memo/category',
-    method: 'DELETE',
-    apiCategory: '할일 카테고리',
-    params: {
-      id: props.id,
-    },
-    isShowMessage: true,
-  });
-};
-
-const addMemo = (props) => {
-  // TODO API 수정 필요
-  return ApiProcessHandler({
-    url: '/api/memo',
-    method: 'POST',
-    data: {
-      content: props.content,
-      memoCategoryId: props.memoCategoryId,
-    },
-    apiCategory: '메모',
-    isShowMessage: true,
-  });
-};
-
 const getMemoList = (props: {type: string}) => {
-  const authStore = useSelector((state: RootState) => state.authStore);
   return useQueryHook({
-    queryKey: ['authUserInfo', authStore.id],
+    queryKey: ['memoList'],
     requestData: {
       url: '/api/memo',
       method: 'GET',
@@ -117,41 +178,68 @@ const getMemoList = (props: {type: string}) => {
       },
     },
     isRefetchWindowFocus: false,
-    onSuccessHandler: () => {},
   });
 };
 
-const updateMemo = (props) => {
-  // TODO API 수정 필요
-  return ApiProcessHandler({
-    url: '/api/memo',
-    method: 'PUT',
-    apiCategory: '메모',
-    data: {
-      id: props.id,
-      content: props.content,
+const updateMemo = () => {
+  const queryClient = useQueryClient();
+  const mutationFn = async (reqData: {
+    id: string;
+    content: string;
+    memoCategoryId: number;
+  }) => {
+    return await AxiosInstanceAuth.put('/api/memo', {
+      id: Number(reqData.id),
+      content: reqData.content,
+      memoCategoryId: reqData.memoCategoryId,
+    });
+  };
+
+  return useMutationHook({
+    mutationFn,
+    onSuccessHandler: ({ data }) => {
+      const _memoItem = data.data.data;
+      queryClient.setQueryData(['memoList'], (oldData: {
+        data: {
+          memoList: IMemoItem[]
+        }
+      }) => {
+        const _temp: IMemoItem[] = oldData.data.memoList.map((i) => {
+          if (i.id == _memoItem.id) {
+            return _memoItem;
+          }
+          return i;
+        });
+        oldData.data.memoList = _temp;
+        return oldData;
+      })
     },
-    isShowMessage: true,
   });
 };
 
-const deleteMemo = (props) => {
-  // TODO API 수정 필요
-  return ApiProcessHandler({
-    url: '/api/memo',
-    method: 'DELETE',
-    apiCategory: '메모',
-    params: {
-      id: props.id,
-    },
-  }).then(() => {
-    store.dispatch(
-      rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
-        type: 'success',
-        message: '메모 삭제 성공',
-      }),
-    );
-  });
+const deleteMemo = (id: number) => {
+    const queryClient = useQueryClient();
+    const mutationFn = async () => {
+      return await AxiosInstanceAuth.delete(`/api/memo?id=${id}`);
+    };
+
+    return useMutationHook({
+      mutationFn,
+      onSuccessHandler: () => {
+        queryClient.setQueryData(
+          ['memoList'],
+          (oldData: {
+            data: {
+              memoList: IMemoItem[];
+            };
+          }) => {
+            const _temp: IMemoItem[] = oldData.data.memoList.filter((i) => i.id != id);
+            oldData.data.memoList = _temp;
+            return oldData;
+          },
+        );
+      },
+    });
 };
 
 export const MemoAPI = {
@@ -159,7 +247,7 @@ export const MemoAPI = {
   getMemoCategoryList,
   updateMemoCategory,
   deleteMemoCategory,
-  addMemo,
+  createMemo,
   getMemoList,
   updateMemo,
   deleteMemo,
