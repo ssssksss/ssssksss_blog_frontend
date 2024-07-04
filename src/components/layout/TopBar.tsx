@@ -1,8 +1,3 @@
-const AuthModal = dynamic(() => import('@components/common/modal/AuthModal'), {
-  loading: () => <p>Loading...</p>,
-});
-
-import { UserAPI } from '@api/UserAPI';
 import Button from '@components/common/button/Button';
 import ModalButton from '@components/common/button/ModalButton';
 import { Icons } from '@components/common/icons/Icons';
@@ -11,6 +6,7 @@ import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
+import authAction from '@redux/store/auth/actions';
 import { SET_LEFT_NAV_ITEM_ACTIVE } from '@redux/store/leftNav';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
@@ -21,22 +17,56 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { IUser } from 'src/@types/auth/user';
 import SideBar from './SideBar';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file TopBar.tsx
- * @version 0.0.1 "2023-09-20 10:42:16"
- * @description 설명
- */
+const AuthModal = dynamic(() => import('@components/common/modal/AuthModal'), {
+  loading: () => <p>Loading...</p>,
+});
+
 
 const TopBar = () => {
   const reactPlayerStore = useSelector(
     (state: RootState) => state.reactPlayerStore,
   );
   const authStore = useSelector((state: RootState) => state.authStore);
-    const [scrollWidth, setScrollWidth] = useState(0);
-    UserAPI.getUser();
+  const [scrollWidth, setScrollWidth] = useState(0);
+
+  useEffect(() => {
+    // 처음 및 새로고침시 로그인 작업,  accessToken 저장 및 사용자 정보 저장하기
+    if (!authStore.id) {
+      const temp = async () => {
+        await AxiosInstance.get("/api/user", {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`
+          },
+          withCredentials: true
+        }).then((res) => {
+          const _user: IUser = res.data.data.user;
+          store.dispatch(authAction.SET_ACCESS_TOKEN(_user.accessToken));
+          store.dispatch(
+            rootActions.blogStore.setActiveBlogUserId(_user.id),
+          );
+          store.dispatch(
+            authAction.SET_USER_INFO({
+              email: _user.email,
+              role: _user.role,
+              nickname: _user.nickname,
+              id: _user.id,
+            }),
+          );
+        }).catch(() => {})
+      }
+      temp();
+    }
+
+    // 유튜브 제목 로컬스토리지에서 꺼내오기
+    store.dispatch(
+      rootActions.reactPlayerStore.setYoutubeTitle(
+        window.localStorage.getItem('youtubeTitle'),
+      )
+    )
+  },[])
 
   const updateProgressBar = () => {
     const winScroll = document.documentElement.scrollTop;
@@ -81,15 +111,11 @@ const TopBar = () => {
           );
           store.dispatch(
             rootActions.authStore.SET_USER_INFO({
-              id: null,
               email: '',
               role: '',
               nickname: '',
-              suid: '',
             }),
           );
-          store.dispatch(rootActions.memoStore.SET_MEMO_LIST([]));
-          store.dispatch(rootActions.memoStore.SET_MEMO_CATEGORY_LIST([]));
           store.dispatch(rootActions.authStore.SET_ACCESS_TOKEN(''));
           store.dispatch(rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]));
           store.dispatch(rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]));
@@ -97,14 +123,6 @@ const TopBar = () => {
         .catch(() => {});
     })();
   };
-
-  useEffect(()=>{
-    store.dispatch(
-      rootActions.reactPlayerStore.setYoutubeTitle(
-        window.localStorage.getItem('youtubeTitle'),
-      )
-    )
-  },[])
 
   return (
     <Container id={'top-bar'}>
@@ -130,7 +148,7 @@ const TopBar = () => {
               />
             </Link>
           </CC.ImgContainer>
-          {authStore.id && (
+          {!!authStore.id && (
             <div
               className={'w-[1.5rem] aspect-square px-[.5rem]'}
               onClick={() => {
