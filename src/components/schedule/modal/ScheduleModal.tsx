@@ -439,12 +439,18 @@ const ReactiveDiv = styled.div`
   flex-flow: nowrap column;
   gap: 0.4rem;
 
-  @media (min-width: ${(props) => props.theme.deviceSizes.tablet}) {
+  @media (min-width: ${(props) => props.theme.deviceSizes.pc}) {
     flex-flow: nowrap row;
-    & > div {
+    display: grid;
+    grid-template-columns: 24rem auto;
+    /* & > div {
       width: 50%;
       min-width: 32rem;
+      } */
     }
+  @media (min-width: 1200px) {
+    grid-template-columns: 50% 50%;
+    min-width: calc(100vw - 4rem);
   }
 
   textarea {

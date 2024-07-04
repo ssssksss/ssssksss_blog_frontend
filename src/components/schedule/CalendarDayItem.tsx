@@ -68,18 +68,6 @@ export default CalendarDayItem;
 
 const Container = styled(ModalButton)`
   width: 100%;
-  &:not(:has(.todoBar:hover)):hover {
-    /* background: ${(props) => props.theme.main.primary40}; */
-    /* color: ${(props) => props.theme.main.contrast}; */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
-  }
-
-  .todoBar:not(:has(.todoBar:hover)):hover {
-    /* background: ${(props) => props.theme.main.primary40}; */
-    /* color: ${(props) => props.theme.main.contrast}; */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
-  }
-
   background-color: #ffffff;
   font-weight: 600;
   outline: 0.1rem solid #999999;
@@ -91,6 +79,18 @@ const Container = styled(ModalButton)`
   max-height: max-content;
   border-radius: 0rem;
   /* height: min-content; */
+
+  &:not(:has(.todo-bar:hover)):hover {
+    /* background: ${(props) => props.theme.main.primary40}; */
+    /* color: ${(props) => props.theme.main.contrast}; */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+  }
+
+  .todo-bar:not(:has(.todo-bar:hover)):hover {
+    /* background: ${(props) => props.theme.main.primary40}; */
+    /* color: ${(props) => props.theme.main.contrast}; */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+  }
 `;
 
 const DayTitle = styled.div`

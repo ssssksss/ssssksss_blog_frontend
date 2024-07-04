@@ -27,7 +27,7 @@ const ScheduleSideContainer = () => {
           <CC.ImgContainer w={'2rem'} h={'2rem'} onClick={() => setIsOpen(false)}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </CC.ImgContainer>
-            {authStore.id && (
+            {!!authStore.id && (
               <ModalButton
               color={'primary80'}
                 modalW={'calc(100vw - 1rem)'}

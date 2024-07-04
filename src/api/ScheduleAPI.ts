@@ -1,11 +1,12 @@
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
+import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
 import { ApiProcessHandler } from './service/ApiProcessHandler';
 
-const addScheduleCategory = (props) => {
+const addScheduleCategory = (props: {name: string, backgroundColor: string}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/category',
@@ -20,17 +21,16 @@ const addScheduleCategory = (props) => {
 };
 
 const getScheduleCategoryList = () => {
-  const authStore = useSelector((state) => state.authStore);
+  const authStore = useSelector((state:RootState) => state.authStore);
   return useQueryHook({
     queryKey: ['scheduleCategoryList', authStore.id],
     requestData: {
       url: '/api/schedule/category',
       method: 'GET',
-      withCredentials: true,
     },
     isRefetchWindowFocus: false,
     refetchOnMount: false,
-    enabled: authStore.id != undefined,
+    enabled: !!authStore.id,
   });
 };
 
@@ -43,7 +43,6 @@ const updateScheduleCategory = (props) => {
         name: reqData.name,
         backgroundColor: reqData.backgroundColor,
       },
-      { withCredentials: true },
     ).catch(() => {
       return;
     });
@@ -61,7 +60,6 @@ const deleteScheduleCategory = (props) => {
   const mutationFn = async (reqData) => {
     return await AxiosInstance.delete(
       `/api/schedule/category?id=${reqData.id}`,
-      { withCredentials: true },
     ).catch(() => {
       return;
     });
@@ -101,11 +99,10 @@ const getScheduleList = (props) => {
       params: {
         type: props.type,
       },
-            withCredentials: true,
     },
     isRefetchWindowFocus: false,
     onSuccessHandler: () => {},
-    enabled: authStore.id,
+    enabled: !!authStore.id,
   });
 };
 
@@ -122,10 +119,9 @@ const getScheduleListTEST = (props) => {
     requestData: {
       url: `/api/schedule?type=${props.type}&startDateTime=${scheduleStore.calendar.startDateOfMonth}T00:00:00.000Z&endDateTime=${scheduleStore.calendar.endDateOfMonth}T00:00:00.000Z`,
       method: 'GET',
-            withCredentials: true,
     },
     isRefetchWindowFocus: false,
-    enabled: [startDateTime, endDateTime, type, authStore.id],
+    enabled: [!!startDateTime, !!endDateTime, !!type, !!authStore.id],
   });
 };
 
