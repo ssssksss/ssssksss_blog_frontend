@@ -5,12 +5,8 @@ import { rootActions } from '@redux/store/actions';
 import { CC } from '@styles/commonComponentStyle';
 import rootTheme from '@styles/theme';
 import Head from 'next/head';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file index.tsx
- * @version 0.0.1 "2023-09-25 00:05:43"
- * @description 설명
- */
+import { ReactElement } from 'react';
+
 const Index = () => {
   return (
     <Container>
@@ -23,7 +19,7 @@ const Index = () => {
       <CC.ColumnDiv>
         {Object.keys(rootTheme).map((i, index) => (
           <ThemeColorBox
-            theme={i}
+            theme1={i}
             key={i + index}
             onClick={() => {
               if (store.getState().themeStore.theme == i) return;
@@ -57,7 +53,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ThemeColorBox = styled.div<{ theme: string }>`
+const ThemeColorBox = styled.div<{ theme1: string }>`
   background: white;
   padding: 0.8rem;
   & > div {
@@ -70,21 +66,21 @@ const ThemeColorBox = styled.div<{ theme: string }>`
     height: 4rem;
   }
   & > div > div:nth-of-type(1) {
-    background: ${(props) => rootTheme[props.theme].main.primary20};
+    background: ${(props) => rootTheme[props.theme1].main.primary20};
     :hover {
-      background: ${(props) => rootTheme[props.theme].main.primary100};
+      background: ${(props) => rootTheme[props.theme1].main.primary100};
     }
   }
   & > div > div:nth-of-type(2) {
-    background: ${(props) => rootTheme[props.theme].main.secondary20};
+    background: ${(props) => rootTheme[props.theme1].main.secondary20};
     :hover {
-      background: ${(props) => rootTheme[props.theme].main.secondary100};
+      background: ${(props) => rootTheme[props.theme1].main.secondary100};
     }
   }
   & > div > div:nth-of-type(3) {
-    background: ${(props) => rootTheme[props.theme].main.third20};
+    background: ${(props) => rootTheme[props.theme1].main.third20};
     :hover {
-      background: ${(props) => rootTheme[props.theme].main.secondary100};
+      background: ${(props) => rootTheme[props.theme1].main.secondary100};
     }
   }
 `;

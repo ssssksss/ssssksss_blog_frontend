@@ -1,5 +1,3 @@
-import { ApiProcessHandler } from '@api/service/ApiProcessHandler';
-import { IBlogCategoryListResDataProps } from '@components/blog/BlogFirstCategory/type/BlogFirstCategoryContainer.type';
 import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { useQueryHook1 } from '@hooks/useQueryHook1';
@@ -7,10 +5,12 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
+import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { ICreateFirstCategoryHandlerProps } from 'src/@types/api/BlogAPI';
+import ApiProcessHandler from './service/ApiProcessHandler';
 
 export const getBlogCategoryListAPI = (
   _firstCategoryId?: string | number,
@@ -42,24 +42,6 @@ const getBlogCategoryList1 = () => {
       },
     },
     isRefetchWindowFocus: false,
-  });
-};
-
-const getBlog = (props: unknown) => {
-  return useQueryHook({
-    queryKey: ['getBlog'],
-    requestData: {
-      url: '/api/blog',
-      method: 'GET',
-      params: {
-        id: props.id,
-      },
-    },
-    isRefetchWindowFocus: false,
-    onSuccessHandler: (res) => {
-      props.onSuccessHandler(res);
-    },
-    enabled: props.enabled,
   });
 };
 
@@ -242,8 +224,8 @@ export const deleteSecondCategoryAPI = async (secondCategoryId: number) => {
 };
 
 const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
-  const blogStore = useSelector((state) => state.blogStore);
-  const mutationFn = async (reqData) => {
+  const blogStore = useSelector((state: RootState) => state.blogStore);
+  const mutationFn = async (reqData: {id: number}) => {
     return await AxiosInstance.delete(
       `/api/blog-first-category?id=${reqData?.id}`,
     ).catch(() => {
@@ -290,42 +272,19 @@ const deleteBlogFirstCategory = (props: { onSuccessHandler: () => void }) => {
   });
 };
 
-const getBlogFirstCategoryList = () => {
-  return useQueryHook({
-    queryKey: 'blogFirstCategoryList',
-    requestData: {
-      url: '/api/blog-first-category',
-      method: 'GET',
-    },
-    method: false,
-    isRefetchWindowFocus: false,
-    onSuccessHandler: (props: IBlogCategoryListResDataProps) => {
-      store.dispatch(
-        rootActions.blogStore.setActiveFirstCategoryId(
-          props.data.data?.blogFirstCategoryList[0].id,
-        ),
-      );
-    },
-  });
-};
-
-
-
-const getSecondCategory = async (props: string) => {
-  return await ApiProcessHandler({
-    url: '/api/blog-second-category',
-    method: 'GET',
-    params: {
-      blogFirstCategoryId: props.firstCategoryId,
-    },
-    apiCategory: '블로그 카테고리2',
-  });
-};
-
 
 const createBlog = (props: { onSuccessHandler: () => void}) => {
   const router = useRouter();
-  const mutationFn = async (reqData) => {
+  const mutationFn = async (reqData: {
+    title: string,
+    description: string,
+    content: string,
+    firstCategoryId: string,
+    secondCategoryId: string,
+    thumbnailImageFile: File,
+    imageUrlList: string[],
+    imageFileList: File[]
+  }) => {
     const formData = new FormData();
     formData.append('title', reqData.title);
     formData.append('description', reqData.description);
@@ -369,78 +328,125 @@ const getSearchBlogList1 = async (keyword: string, page: number) => {
   })
 };
 
+// const getSearchBlogList = (
+//   keyword: string,
+//   enable: boolean,
+//   onSuccessHandler: () => void,
+// ) => {
+//   const result = useInfiniteQuery(
+//     ['searchBlogList', keyword || ''], // 검색어 key값
+//     ({ pageParam = 1 }) => getSearchBlogList1(keyword, pageParam),
+//     {
+//       refetchOnWindowFocus: false,
+//       retry: 0,
+//       select: (data) => {
+//         let temp: unknown[] = [];
+//         data?.pages.map((i) => {
+//           const temp1 = [
+//             ...i.data.data.blogList.map((_i) => {
+//               return {
+//                 ..._i,
+//               };
+//             }),
+//           ];
+//           temp = temp.concat(temp1);
+//         });
+//         return temp;
+//       },
+//       getNextPageParam: (lastPage, allPages) => {
+//         const nextPage = allPages.length + 1;
+//         return lastPage?.data.data.blogList?.length < 10 ? undefined : nextPage;
+//         // return allPages.length > 2 ? undefined : nextPage;
+//       },
+//       onSuccess: () => {
+//         onSuccessHandler();
+//       },
+//       // enabled: isOpenBlogItemList && isInputChange,
+//       enabled: enable,
+//     },
+//   );
+//   return result;
+// };
+
+interface BlogPost {
+  id: number;
+  title: string;
+  content: string;
+  // Add other blog post properties as needed
+}
+interface BlogListResponse {
+  data: {
+    blogList: BlogPost[];
+  };
+}
+
 const getSearchBlogList = (
   keyword: string,
   enable: boolean,
   onSuccessHandler: () => void,
 ) => {
-  const result = useInfiniteQuery(
-    ['searchBlogList', keyword || ''], // 검색어 key값
+  const result = useInfiniteQuery<AxiosResponse<BlogListResponse>>(
+    ['searchBlogList', keyword || ''],
     ({ pageParam = 1 }) => getSearchBlogList1(keyword, pageParam),
     {
       refetchOnWindowFocus: false,
       retry: 0,
       select: (data) => {
-        let temp: unknown[] = [];
-        data?.pages.map((i) => {
-          const temp1 = [
-            ...i.data.data.blogList.map((_i) => {
-              return {
-                ..._i,
-              };
-            }),
-          ];
-          temp = temp.concat(temp1);
-        });
-        return temp;
+        // Flatten the blog lists from all pages
+        const allPosts = data.pages.flatMap((page) => page.data.data.blogList);
+        return {
+          ...data,
+          pages: [
+            {
+              ...data.pages[0],
+              data: {
+                ...data.pages[0].data,
+                data: {
+                  blogList: allPosts,
+                },
+              },
+            },
+          ],
+        };
       },
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
-        return lastPage?.data.data.blogList?.length < 10 ? undefined : nextPage;
-        // return allPages.length > 2 ? undefined : nextPage;
+        return lastPage.data.data.blogList.length < 10 ? undefined : nextPage;
       },
-      onSuccess: () => {
-        onSuccessHandler();
-      },
-      // enabled: isOpenBlogItemList && isInputChange,
+      onSuccess: onSuccessHandler,
       enabled: enable,
     },
   );
   return result;
 };
 
-const addBlogContentTemplate = async (props: string) => {
-  return await ApiProcessHandler({
-    url: '/api/blog/template',
-    method: 'POST',
-    data: {
-      secondCategoryId: props.secondCategoryId,
-      content: props.content,
-    },
-    apiCategory: '블로그 템플릿',
-    isShowMessage: true,
-  });
+const addBlogContentTemplate = async () => {
+  // return await ApiProcessHandler({
+  //   url: '/api/blog/template',
+  //   method: 'POST',
+  //   data: {
+  //     secondCategoryId: props.secondCategoryId,
+  //     content: props.content,
+  //   },
+  //   apiCategory: '블로그 템플릿',
+  //   isShowMessage: true,
+  // });
 };
 
-const getBlogContentTemplate = async (props: string) => {
+const getBlogContentTemplate = async (props: { secondCategoryId: string }) => {
   return await ApiProcessHandler({
     url: '/api/blog/template',
     method: 'GET',
-    params: {
-      secondCategoryId: props.secondCategoryId,
-    },
+    params: props,
     apiCategory: '블로그 템플릿',
   });
 };
 
-const deleteBlogContentTemplate = async (props: string) => {
-  // TODO API 수정 필요, 현재 사용은 안되고 있음
+const deleteBlogContentTemplate = async (props: { id: string }) => {
   return await ApiProcessHandler({
     url: '/api/blog/template',
     method: 'DELETE',
-    params: {
-      id: props.id,
-    },
+    params: props,
     apiCategory: '블로그 템플릿',
     isShowMessage: true,
   });
@@ -449,11 +455,8 @@ const deleteBlogContentTemplate = async (props: string) => {
 export const BlogAPI = {
   getBlogCategoryList1,
   createBlogFirstCategory,
-  getBlogFirstCategoryList,
   deleteBlogFirstCategory,
-  getSecondCategory,
   createBlog,
-  getBlog,
   getBlogList,
   addBlogContentTemplate,
   deleteBlogContentTemplate,

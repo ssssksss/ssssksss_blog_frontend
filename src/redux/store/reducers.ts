@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { authReducer } from './auth';
 import { blogReducer } from './blog';
-import { blogContentTemplateReducer } from './blogContentTemplate';
 import { boardReducer } from './board';
 import { leftNavItemReducer } from './leftNav';
 import loadingReducer from './loading';
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   scheduleStore: scheduleReducer,
   toastifyStore: toastifyReducer,
   leftNavItemStore: leftNavItemReducer,
-  blogContentTemplateStore: blogContentTemplateReducer,
   todoStore: todoReducer,
   memoStore: memoReducer,
   boardStore: boardReducer,

@@ -14,7 +14,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { CreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
+import { ICreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
 import { BlogCreateYup, BlogUpdateYup } from '../../yup/BlogCategoryYup';
 import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
 
@@ -25,7 +25,7 @@ import CreateUpdateHeaderContainer from './CreateUpdateHeaderContainer';
  * @description 설명
  */
 
-const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
+const CreateUpdateBlogContainer = (props: ICreateUpdateBlogProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [cursor, setCursor] = useState(0);
@@ -55,12 +55,12 @@ const CreateUpdateBlogContainer = (props: CreateUpdateBlogProps) => {
     },
   });
 
-  const editorChangeHandler = useCallback((value) => {
+  const editorChangeHandler = useCallback((value: string) => {
     setTextareaContent(value);
     methods.setValue('content', value, { shouldValidate: true });
   }, []);
 
-  const uploadHandler = async (file: unknown) => {
+  const uploadHandler = async (file: File) => {
     const url = URL.createObjectURL(file).substring(5);
     setTempBlogImage((prev) => [...prev, { url, file }]);
     return url;

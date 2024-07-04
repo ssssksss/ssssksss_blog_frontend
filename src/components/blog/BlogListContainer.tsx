@@ -2,6 +2,7 @@ import Animations from "@components/common/animations/Animations";
 import styled from "@emotion/styled";
 import { RootState } from "@redux/store/reducers";
 import Link from "next/link";
+import React from "react";
 import { useSelector } from "react-redux";
 import BlogItem from "./BlogItem";
 /**
@@ -13,7 +14,7 @@ import BlogItem from "./BlogItem";
 const BlogListContainer = () => {
   const blogStore = useSelector((state: RootState) => state.blogStore);
     return (
-      <>
+      <React.Fragment>
         {blogStore.blogList[blogStore.activeSecondCategoryId]?.length > 0 ? (
           blogStore.blogList[blogStore.activeSecondCategoryId]?.map((i) => (
             <Link
@@ -43,7 +44,7 @@ const BlogListContainer = () => {
             ))}
           </div>
         )}
-      </>
+      </React.Fragment>
     );
 };
 export default BlogListContainer

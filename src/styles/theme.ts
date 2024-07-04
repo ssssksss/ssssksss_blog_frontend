@@ -868,7 +868,7 @@ const purpleTheme = {
   ...commonTheme,
 };
 
-const rootTheme: {[key: string]: unknown} = {
+const rootTheme: {[key: string]: typeof purpleTheme} = {
   darkTheme,
   purpleTheme,
 };

@@ -4,7 +4,7 @@ import { store } from '@redux/store';
 import { RootState } from '@redux/store/reducers';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useSelector } from 'react-redux';
-import { ApiProcessHandler } from './service/ApiProcessHandler';
+import ApiProcessHandler from './service/ApiProcessHandler';
 
 const addScheduleCategory = (props: {name: string, backgroundColor: string}) => {
   // TODO API 수정 필요
@@ -34,8 +34,8 @@ const getScheduleCategoryList = () => {
   });
 };
 
-const updateScheduleCategory = (props) => {
-  const mutationFn = async (reqData) => {
+const updateScheduleCategory = (props: {onSuccessHandler: () => void}) => {
+  const mutationFn = async (reqData: {id: number, name: string, backgroundColor: string}) => {
     return await AxiosInstance.put(
       '/api/schedule/category',
       {
@@ -56,8 +56,8 @@ const updateScheduleCategory = (props) => {
   });
 };
 
-const deleteScheduleCategory = (props) => {
-  const mutationFn = async (reqData) => {
+const deleteScheduleCategory = (props: {onSuccessHandler: () => void}) => {
+  const mutationFn = async (reqData: {id: number}) => {
     return await AxiosInstance.delete(
       `/api/schedule/category?id=${reqData.id}`,
     ).catch(() => {
@@ -67,12 +67,18 @@ const deleteScheduleCategory = (props) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      props.onSuccessHandler(data);
+      props.onSuccessHandler();
     },
   });
 };
 
-const addSchedule = (props) => {
+const addSchedule = (props: {
+  title: string;
+  content: string;
+  startDateTime: string; 
+  endDateTime: string; 
+  scheduleCategoryId: number; 
+}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
@@ -89,8 +95,8 @@ const addSchedule = (props) => {
   });
 };
 
-const getScheduleList = (props) => {
-  const authStore = useSelector((state) => state.authStore);
+const getScheduleList = (props: {type: string}) => {
+  const authStore = useSelector((state: RootState) => state.authStore);
   return useQueryHook({
     queryKey: ['scheduleList'],
     requestData: {
@@ -106,10 +112,9 @@ const getScheduleList = (props) => {
   });
 };
 
-const getScheduleListTEST = (props) => {
-  const scheduleStore = useSelector((state) => state.scheduleStore);
-  const authStore = useSelector((state) => state.authStore);
-  const { type, startDateTime, endDateTime } = props;
+const getScheduleListTEST = ({type, startDateTime, endDateTime}: {type: string, startDateTime: string, endDateTime: string}) => {
+  const scheduleStore = useSelector((state:RootState) => state.scheduleStore);
+  const authStore = useSelector((state: RootState) => state.authStore);
   return useQueryHook({
     queryKey: [
       'scheduleList',
@@ -117,7 +122,7 @@ const getScheduleListTEST = (props) => {
       authStore.id,
     ],
     requestData: {
-      url: `/api/schedule?type=${props.type}&startDateTime=${scheduleStore.calendar.startDateOfMonth}T00:00:00.000Z&endDateTime=${scheduleStore.calendar.endDateOfMonth}T00:00:00.000Z`,
+      url: `/api/schedule?type=${type}&startDateTime=${scheduleStore.calendar.startDateOfMonth}T00:00:00.000Z&endDateTime=${scheduleStore.calendar.endDateOfMonth}T00:00:00.000Z`,
       method: 'GET',
     },
     isRefetchWindowFocus: false,
@@ -125,7 +130,14 @@ const getScheduleListTEST = (props) => {
   });
 };
 
-const updateSchedule = (props) => {
+const updateSchedule = (props: {
+  id: number; 
+  title: string;
+  content: string;
+  startDateTime: string; 
+  endDateTime: string; 
+  scheduleCategoryId: number;
+}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
@@ -143,7 +155,7 @@ const updateSchedule = (props) => {
   });
 };
 
-const deleteSchedule = (props) => {
+const deleteSchedule = (props: {id: number}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule',
@@ -156,7 +168,7 @@ const deleteSchedule = (props) => {
   });
 };
 
-const toggleCheckSchedule = (props) => {
+const toggleCheckSchedule = (props: {id: number}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/check',
@@ -168,7 +180,7 @@ const toggleCheckSchedule = (props) => {
   });
 };
 
-const toggleCheckScheduleCategory = (props) => {
+const toggleCheckScheduleCategory = (props: {id: number}) => {
   // TODO API 수정 필요
   return ApiProcessHandler({
     url: '/api/schedule/category/check',

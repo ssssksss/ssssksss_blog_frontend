@@ -43,7 +43,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": false,
     // "forceConsistentCasingInFileNames": true,
     // "strictNullChecks": true,
     // "removeComments": true, //컴파일시 주석제거

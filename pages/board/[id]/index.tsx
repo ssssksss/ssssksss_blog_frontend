@@ -1,6 +1,7 @@
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
+import { ReactElement } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>

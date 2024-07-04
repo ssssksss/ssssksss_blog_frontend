@@ -4,13 +4,9 @@ import styled from '@emotion/styled';
 import AxiosInstance from '@utils/axios/AxiosInstance';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
+import { ReactElement } from 'react';
+import { ICreateUpdateBlogProps } from 'src/@types/blog/CreateUpdateBlogContainer';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file createUpdate.tsx
- * @version 0.0.1 "2023-10-14 00:37:24"
- * @description 설명
- */
 
 const UpdateBlogCSR = dynamic(
   () => import('@components/blog/CreateUpdateBlog/CreateUpdateBlogContainer'),
@@ -37,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Index = (props: unknown) => {
+const Index = (props: ICreateUpdateBlogProps) => {
   return (
     <Container>
       <UpdateBlogCSR edit={true} {...props} />

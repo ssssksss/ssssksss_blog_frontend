@@ -1,4 +1,4 @@
-export interface CreateUpdateBlogProps {
+export interface ICreateUpdateBlogProps {
   edit?: boolean;
   commentNumber?: number;
   blogFirstCategoryName?: string;

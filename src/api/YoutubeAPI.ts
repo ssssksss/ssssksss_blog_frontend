@@ -17,7 +17,7 @@ const createYoutubeLink = (props: {onSuccessHandler: () => void}) => {
   return useMutationHook({
     mutationFn,
     onSuccessHandler: ({ data }) => {
-      queryClient.setQueryData(['getYoutubeList'], (oldData: unknown) => {
+      queryClient.setQueryData(['getYoutubeList'], (oldData: {data: {youtubeList: unknown[]}}) => {
         oldData.data?.youtubeList.unshift(data.data.data.youtube);
         return oldData;
       });
