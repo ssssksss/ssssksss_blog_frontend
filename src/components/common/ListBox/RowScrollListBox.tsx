@@ -9,7 +9,7 @@ import { ReactNode } from 'react';
  */
 interface IRowScrollListBoxProps {
   children: ReactNode;
-  scrollHidden: boolean;
+  scrollHidden?: boolean;
 }
 
 const RowScrollListBox = (props: IRowScrollListBoxProps) => {
@@ -17,7 +17,7 @@ const RowScrollListBox = (props: IRowScrollListBoxProps) => {
 };
 export default RowScrollListBox;
 
-const Container = styled(CC.RowDiv)<{ scrollHidden: boolean }>`
+const Container = styled(CC.RowDiv)<{ scrollHidden?: boolean }>`
   overflow-x: scroll;
   width: 100%;
   ::-webkit-scrollbar {

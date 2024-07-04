@@ -1,6 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file ImageCard.tsx
@@ -21,6 +22,8 @@ interface IImageCardProps {
 }
 
 const ImageCard = (props: IImageCardProps) => {
+  const [isFront, setIsFront] = useState(true);
+
   return (
     <Container
       h={props.h}
@@ -30,9 +33,12 @@ const ImageCard = (props: IImageCardProps) => {
       maxW={props.maxW}
       minW={props.minW}
       className={props.className}
+      isFront={isFront}
+      onClick={()=>setIsFront(prev => !prev)}
     >
-      <Image className={'front-card'} src={props.imgSrc} layout={'fill'} alt={""} />
-      <BehindCard className={'back-card'}>{props.backComponent}</BehindCard>
+
+        <Image className={'front-card'} src={props.imgSrc} fill alt={""} />
+        <BehindCard className={'back-card'}>{props.backComponent}</BehindCard>
     </Container>
   );
 };
@@ -45,6 +51,7 @@ const Container = styled.div<{
   w: string;
   maxW: string;
   minW: string;
+  isFront: boolean;
 }>`
   position: relative;
   height: 100%;
@@ -59,17 +66,34 @@ const Container = styled.div<{
     border-radius: 1.6rem;
   }
 
-  &:hover {
-    .front-card {
-      transition: all 1.2s ease;
-      visibility: hidden;
-      opacity: 0;
-    }
-    .back-card {
-      transition: all 1.2s ease;
-      visibility: visible;
-      background: ${(props) => props.theme.colors.white60};
-    }
+  .front-card {
+    ${(props) =>
+      props.isFront
+        ? css`
+            transition: all 1.2s ease;
+            visibility: visible;
+            background: ${props.theme.colors.white60};
+            cursor: pointer;
+          `
+        : css`
+            transition: all 1.2s ease;
+            visibility: hidden;
+            opacity: 0;
+          `}
+  }
+  .back-card {
+    ${(props) =>
+      props.isFront
+        ? css`
+            transition: all 1.2s ease;
+            visibility: hidden;
+            opacity: 0;
+          `
+        : css`
+            transition: all 1.2s ease;
+            visibility: visible;
+            background: ${props.theme.colors.white60};
+          `}
   }
 `;
 

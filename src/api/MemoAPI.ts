@@ -2,7 +2,7 @@ import { useMutationHook } from '@hooks/useMutationHook';
 import { useQueryHook } from '@hooks/useQueryHook';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
-import AxiosInstanceAuth from '@utils/axios/AxiosInstanceAuth';
+import AxiosInstance from '@utils/axios/AxiosInstance';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import { useQueryClient } from 'react-query';
 import { ICreateMemoCategoryProps, IMemoCommonProps, IUpdateMemoCategoryProps } from 'src/@types/memo/MemoAPI';
@@ -12,7 +12,7 @@ import { IMemoItem } from 'src/@types/memo/memoItem';
 const createMemoCategory = (props: IMemoCommonProps) => {
     const queryClient = useQueryClient();
     const mutationFn = async (reqData: ICreateMemoCategoryProps) => {
-      return await AxiosInstanceAuth.post('/api/memo/category', {
+      return await AxiosInstance.post('/api/memo/category', {
         name: reqData.name,
         backgroundColor: reqData.backgroundColor,
       });
@@ -46,7 +46,7 @@ const getMemoCategoryList = () => {
 const updateMemoCategory = (props: IMemoCommonProps) => {
   const queryClient = useQueryClient();
     const mutationFn = async (reqData: IUpdateMemoCategoryProps) => {
-      return await AxiosInstanceAuth.put('/api/memo/category', {
+      return await AxiosInstance.put('/api/memo/category', {
         id: reqData.id,
         name: reqData.name,
         backgroundColor: reqData.backgroundColor
@@ -84,7 +84,7 @@ const updateMemoCategory = (props: IMemoCommonProps) => {
 const deleteMemoCategory = (props: IMemoCommonProps) => {
   const queryClient = useQueryClient();
   const mutationFn = async (reqData: { id: number }) => {
-    return await AxiosInstanceAuth.delete(
+    return await AxiosInstance.delete(
       `/api/memo/category?id=${reqData.id}`,
     );
   };
@@ -140,7 +140,7 @@ const createMemo = () => {
       content: string;
       memoCategoryId: number;
     }) => {
-      return await AxiosInstanceAuth.post('/api/memo', {
+      return await AxiosInstance.post('/api/memo', {
         content: reqData.content,
         memoCategoryId: reqData.memoCategoryId,
       });
@@ -188,7 +188,7 @@ const updateMemo = () => {
     content: string;
     memoCategoryId: number;
   }) => {
-    return await AxiosInstanceAuth.put('/api/memo', {
+    return await AxiosInstance.put('/api/memo', {
       id: Number(reqData.id),
       content: reqData.content,
       memoCategoryId: reqData.memoCategoryId,
@@ -220,7 +220,7 @@ const updateMemo = () => {
 const deleteMemo = (id: number) => {
     const queryClient = useQueryClient();
     const mutationFn = async () => {
-      return await AxiosInstanceAuth.delete(`/api/memo?id=${id}`);
+      return await AxiosInstance.delete(`/api/memo?id=${id}`);
     };
 
     return useMutationHook({

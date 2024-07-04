@@ -168,7 +168,6 @@ const BlogCategoryContainer = () => {
         );
       })
       .catch((err) => {
-        console.log('BlogCategoryContainer.tsx 파일 : ', err);
         router.push('/500');
       });
   }, []);

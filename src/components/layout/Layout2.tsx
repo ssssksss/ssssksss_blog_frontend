@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LoadingComponent from '../common/loading/LoadingComponent';
+import Footer from './Footer';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -41,10 +42,11 @@ const Layout2 = ({ children }: AppLayoutProps) => {
   }, []);
   return (
     <Container>
-      <div className={"max-w-[144rem] px-[.5rem]"}>{children}</div>
+      <div className={'max-w-[144rem] px-[.5rem] pb-[1rem] min-h-[calc(100%-7.825rem)]'}>{children}</div>
       {isLoading && (
         <LoadingComponent w={'100vw'} h={'100vh'} position={'fixed'} />
       )}
+      <Footer />
     </Container>
   );
 };

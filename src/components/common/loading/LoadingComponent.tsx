@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -46,7 +46,7 @@ const LoadingComponent = (props: ILoadingComponentProps) => {
   }, []);
 
   return (
-    <>
+    <React.Fragment>
       {isLoading && (
         <Container {...props}>
           <Container1>
@@ -54,7 +54,7 @@ const LoadingComponent = (props: ILoadingComponentProps) => {
           </Container1>
         </Container>
       )}
-    </>
+    </React.Fragment>
   );
 };
 export default LoadingComponent;

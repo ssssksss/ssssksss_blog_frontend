@@ -79,7 +79,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
     if(oauthService == 'naver') {
       window.open(`https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NAVER_REDIRECT_URL}&state=${StringFunction.generateRandomString(20)}&auth_type=reauthenticate`,"","");
     }
-            // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
+      // 만일 로그인하지 않고 화면을 닫아버리게 되면 eventListener가 남아있는 문제가 있으므로 재 접속시 제거
       window.document.removeEventListener("oauthLogin",_func); 
       window.document.addEventListener("oauthLogin",_func, { once: true }); 
     }

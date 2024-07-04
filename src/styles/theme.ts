@@ -1,9 +1,12 @@
 /**
+import { purpleTheme } from '@styles/theme';
  * Author : Sukyung Lee
  * FileName: theme.ts
  * Date: 2022-07-02 02:09:11
  * Description : 공통적인 스타일을 지정하여 일관성있는 스타일을 보여주기 위해 작성
  */
+
+
 
 export type themeTypes =
   | 'primary100'
@@ -198,7 +201,58 @@ const inputSizes = {
       aspectRatio: 1,
     },
   },
-  [('text', 'password', 'email', 'search')]: {
+  text: {
+    xs: {
+      height: '1.6rem',
+    },
+    sm: {
+      height: '2.4rem',
+    },
+    md: {
+      height: '3.2rem',
+    },
+    lg: {
+      height: '4rem',
+    },
+    xl: {
+      height: '4.8rem',
+    },
+  },
+  password: {
+    xs: {
+      height: '1.6rem',
+    },
+    sm: {
+      height: '2.4rem',
+    },
+    md: {
+      height: '3.2rem',
+    },
+    lg: {
+      height: '4rem',
+    },
+    xl: {
+      height: '4.8rem',
+    },
+  },
+  email: {
+    xs: {
+      height: '1.6rem',
+    },
+    sm: {
+      height: '2.4rem',
+    },
+    md: {
+      height: '3.2rem',
+    },
+    lg: {
+      height: '4rem',
+    },
+    xl: {
+      height: '4.8rem',
+    },
+  },
+  search: {
     xs: {
       height: '1.6rem',
     },
@@ -217,7 +271,7 @@ const inputSizes = {
   },
 };
 
-const colors: { [key: string]: string } = {
+export const colors: { [key: string]: string } = {
   red100: '#FF0000',
   red80: '#FF3333',
   red60: '#FF6666',
@@ -372,7 +426,7 @@ const linearGradientColors = {
 //   skyblue: 'linear-gradient(lightCyan, skyBlue, deepSkyBlue)',
 // };
 
-const flex = {
+export const flex = {
   display: 'flex',
   row: {
     display: 'flex',
@@ -516,7 +570,7 @@ const flex = {
   },
 };
 
-const flexBox = {
+export const flexBox = {
   row: {
     between: {
       start: {
@@ -701,7 +755,7 @@ const gridBox = {
 };
 
 const calcRem = (size: number) => `${size / 16}rem`;
-const grid = {
+export const grid = {
   column2: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
@@ -726,9 +780,9 @@ const grid = {
 
 const scroll = {
   hidden: {
-    overflow: 'scroll',
-    msOverflowStyle: 'none',
-    scrollbarWidth: 'none',
+    "overflow": 'scroll',
+    "msOverflowStyle": 'none',
+    "scrollbarWidth": 'none',
     [`&::-webkit-scrollbar`]: {
       display: 'none',
     },
@@ -752,6 +806,7 @@ const scroll = {
 };
 
 export const commonTheme = {
+  scroll,
   fontSize,
   borderRadius,
   padding,
@@ -763,14 +818,13 @@ export const commonTheme = {
   linearGradientColors,
   flex,
   grid,
-  scroll,
   positionStyle,
   calcRem,
   flexBox,
   gridBox,
 };
 
-export const darkTheme = {
+const darkTheme = {
   main: {
     primary100: colors.black100,
     primary80: colors.black80,
@@ -787,12 +841,12 @@ export const darkTheme = {
     third60: colors.orange60,
     third40: colors.orange40,
     third20: colors.orange20,
-    contrast: colors.white20,
+    contrast: colors.white80,
   },
   ...commonTheme,
 };
 
-export const purpleTheme = {
+const purpleTheme = {
   main: {
     primary100: colors.purple100,
     primary80: colors.purple80,
@@ -814,7 +868,7 @@ export const purpleTheme = {
   ...commonTheme,
 };
 
-const rootTheme = {
+const rootTheme: {[key: string]: unknown} = {
   darkTheme,
   purpleTheme,
 };

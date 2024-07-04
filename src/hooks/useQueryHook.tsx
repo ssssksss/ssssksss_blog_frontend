@@ -1,8 +1,7 @@
-import LoadingComponent from '@components/common/loading/LoadingComponent';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import AxiosInstance from '@utils/axios/AxiosInstance';
-import React from 'react';
 import { useQuery } from 'react-query';
 
 /**
@@ -12,27 +11,12 @@ import { useQuery } from 'react-query';
  * @description 설명
  */
 
-interface IAxiosInstanceResponseProps {
-  config?: {
-    requestData: string;
-    method: string;
-  };
-  data?: {
-    json: Element;
-    msg: string;
-    statusCode: number;
-  };
-  headers?: unknown;
-  request?: unknown;
-  status?: number;
-}
-
 export const useQueryHook = (
   props: {
     queryKey: string[];
     requestData: {
-      url: string;
-      method: string;
+      url?: string;
+      method?: string;
       params?: object;
       headers?: object;
       withCredentials?: boolean;
@@ -40,9 +24,14 @@ export const useQueryHook = (
     isShowMessage?: boolean; // toastify message, default false
     isRefetchWindowFocus?: boolean;
     refetchOnMount?: boolean | string;
-    onSuccessHandler?: () => void;
-    enabled?: boolean;
+    onSuccessHandler?: ({status, data, isLoading}:{
+      status: string,
+      data: unknown,
+      isLoading: boolean,
+    }) => void;
+    enabled?: boolean | boolean[];
     staleTime?: number;
+    cacheTime?: number;
   }, // focus시 refetch, default true
 ) => {
   const {
@@ -57,47 +46,58 @@ export const useQueryHook = (
   } = useQuery(
     [...props.queryKey],
     () => {
-      return AxiosInstance({ ...props.requestData }).then(
-        (res: IAxiosInstanceResponseProps) => {
-          if (props.isShowMessage) {
-            store.dispatch(
-              SET_TOASTIFY_MESSAGE({
-                type: 'success',
-                message: res.data.msg,
-              }),
-            );
-          }
-          return res.data;
-        },
-      );
+      return AxiosInstance({
+        url: props.requestData.url,
+        method: 'GET',
+        params: props.requestData.params,
+      }).then((res) => {
+        if (props.isShowMessage) {
+          store.dispatch(
+            SET_TOASTIFY_MESSAGE({
+              type: 'success',
+              message: res.data.msg,
+            }),
+          );
+        }
+        return res.data;
+      });
     },
     {
       refetchOnWindowFocus: props.isRefetchWindowFocus,
       refetchOnMount: props.refetchOnMount === false ? false : true,
-      retry: '1',
+      retry: 1,
       // notifyOnChangeProps: ['data', 'isFetching'],
       enabled: props.enabled != false,
-      staleTime: props.staleTime,
-      cacheTime: props.cacheTime,
-      onError: (err) => {
-        const toasttifyResponse = ['error', false];
+      staleTime: props.staleTime || 1000 * 60 * 5,
+      cacheTime: props.cacheTime || 1000 * 60 * 10,
+      onError: (err: {
+        response: {
+        status: number
+      }}) => {
+        const toasttifyResponse = ['error', "error..."];
         switch (err?.response?.status) {
-          case '400' | 400:
+          case 400:
             toasttifyResponse[1] = '잘못된 요청';
             break;
-          // case '401' | 401:
-          //   toasttifyResponse[1] = '인증 에러';
-          // break;
-          case '403' | 403:
+          case 401:
+            toasttifyResponse[1] = '인증 에러';
+          break;
+          case 403:
             toasttifyResponse[1] = '권한 에러';
             break;
-          case '409' | 409:
+          case 409:
             toasttifyResponse[1] = '저장 데이터 중복';
             break;
         }
+        if(err?.response?.status > 400) {
+          store.dispatch(rootActions.toastifyStore.SET_TOASTIFY_MESSAGE({
+            type: "error",
+            message: toasttifyResponse[1],
+          }))
+        }
       },
       select: (data) => {
-        let _data = data;
+        const _data = data;
         if (props.onSuccessHandler != undefined && isLoading) {
           props.onSuccessHandler({
             status: status,
@@ -105,9 +105,9 @@ export const useQueryHook = (
             isLoading: isLoading,
           });
         }
-        if (props.requestData.select) {
-          _data = props.requestData.select(data);
-        }
+        // if (props.requestData.select) {
+        //   _data = props.requestData.select(data);
+        // }
         return _data;
       },
     },
@@ -117,22 +117,15 @@ export const useQueryHook = (
       status,
       isLoading: isLoading,
       isFetching: isFetching,
-      data: (
-        <React.Fragment>
-          <LoadingComponent />
-        </React.Fragment>
-      ),
     };
   if (isError) {
     return {
       status: status,
-      data: <React.Fragment>{'에러'}</React.Fragment>,
     };
   }
   if (error) {
     return {
       status: status,
-      data: <React.Fragment>{'에러'}</React.Fragment>,
     };
   }
   if (data) {

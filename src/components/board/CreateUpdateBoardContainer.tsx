@@ -66,7 +66,7 @@ const CreateUpdateBoardContainer = (
       createUpdateBoardMutation({
         title: methods.getValues('title'),
         content: value,
-        writer: authStore.nickname,
+        writer: authStore.id,
       });
     }
   };

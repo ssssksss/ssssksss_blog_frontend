@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { useLoader } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -115,10 +115,10 @@ const Box = () => {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Video />
       <primitive object={gltf.scene} scale={1} />
-    </>
+    </React.Fragment>
   );
 };
 

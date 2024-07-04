@@ -1,4 +1,4 @@
-export interface IViewBlogHeaderProps {
+export interface IBlogProps {
   id: number;
   title: string;
   description: string;

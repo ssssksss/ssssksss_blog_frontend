@@ -87,7 +87,7 @@ const BoardHeadContainer = () => {
     <Container>
       <TitleContainer>
         <h1 onClick={() => reset()}> 게시판 </h1>
-        {authStore.nickname && (
+        {!!authStore.id && (
           <WriteButtonContainer>
             <Link href={'/board/create'}>
               <CC.RowDiv>

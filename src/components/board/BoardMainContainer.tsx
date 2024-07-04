@@ -121,7 +121,7 @@ const SearchContainer = styled.div`
 
 const SearchResultContainer = styled(CC.RowDiv)`
   width: 100%;
-  span:nth-last-child(1) {
+  span:nth-last-of-type(1) {
     font-weight: 800;
     color: red;
     align-items: center;

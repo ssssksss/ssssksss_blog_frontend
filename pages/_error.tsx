@@ -1,10 +1,14 @@
-import Error from "next/error";
+import { NextPageContext } from 'next';
 
-function Page({ statusCode }: unknown) {
-  return <Error statusCode={statusCode}></Error>;
+interface PageProps {
+  statusCode: number;
 }
 
-Page.getInitialProps = ({ res, err }: unknown) => {
+const Page = ({ statusCode }: PageProps) => {
+  return <div>Status Code: {statusCode}</div>;
+};
+
+Page.getInitialProps = ({ res, err }: NextPageContext): PageProps => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
 };

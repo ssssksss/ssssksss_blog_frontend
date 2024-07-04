@@ -24,7 +24,7 @@ const nextConfig = withPWA({
     // ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   compiler: {
     emotion: true,

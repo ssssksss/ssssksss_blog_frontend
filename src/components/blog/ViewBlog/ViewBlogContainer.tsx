@@ -6,44 +6,23 @@ import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IBlogProps } from 'src/@types/blog/blog-props';
 import ViewBlogFixContainer from './ViewBlogFixContainer';
 import ViewBlogHeaderContainer from './ViewBlogHeaderContainer';
 import ViewBlogIndexContainer from './ViewBlogIndexContainer';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file ViewBlogContainer.tsx
- * @version 0.0.1 "2023-10-10 02:35:13"
- * @description 설명
- */
 
-interface IProps {
-  id: number;
-  title: string;
-  description: string;
-  userId: number;
-  likeNumber: number;
-  commentNumber: number;
-  viewNumber: number;
-  firstCategoryId: number;
-  secondCategoryId: number;
-  thumbnailImageUrl: string;
-  createdAt: string;
-  blogContentId: string;
-  blogFirstCategoryName: string;
-  blogSecondCategoryName: string;
-  content: string;
-}
-
-const ViewBlogContainer = (props: IProps) => {
+const ViewBlogContainer = (props: IBlogProps) => {
   const router = useRouter();
-  const [blogIndexList, setBlogIndexList] = useState<{
-    content: string;
-    top: number;
-    tagName: string;
-  }[]>([]);
+  const [blogIndexList, setBlogIndexList] = useState<
+    {
+      content: string;
+      top: number;
+      tagName: string;
+    }[]
+  >([]);
 
-  if (props.status == "HIDE") {
+  if (props.status == 'HIDE') {
     if (store.getState().authStore.id != props.userId) {
       store.dispatch(
         SET_TOASTIFY_MESSAGE({
@@ -51,8 +30,10 @@ const ViewBlogContainer = (props: IProps) => {
           message: `숨겨진 글입니다.`,
         }),
       );
-      const temp = JSON.parse(window.localStorage.getItem('recentBlog') || '[]').filter((i: { id: number }) => i.id != props.id);
-      window.localStorage.setItem('recentBlog',JSON.stringify(temp));
+      const temp = JSON.parse(
+        window.localStorage.getItem('recentBlog') || '[]',
+      ).filter((i: { id: number }) => i.id != props.id);
+      window.localStorage.setItem('recentBlog', JSON.stringify(temp));
       router.push('/blog');
       return <> </>;
     }
@@ -86,7 +67,7 @@ const ViewBlogContainer = (props: IProps) => {
       });
     }, 1000);
 
-    const keyDownEventFunc = (e: Event) => {
+    const keyDownEventFunc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         router.back();
       }
@@ -106,10 +87,10 @@ const ViewBlogContainer = (props: IProps) => {
       ?.getElementsByClassName('wmde-markdown')[0]
       ?.querySelectorAll('h1,h2');
     const htmlTagIndexTempArray: {
-    content: string;
-    top: number;
-    tagName: string;
-  }[] = [];
+      content: string;
+      top: number;
+      tagName: string;
+    }[] = [];
     temp?.forEach((i) => {
       htmlTagIndexTempArray.push({
         content: i.textContent,

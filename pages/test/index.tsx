@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unknown-property */
+import CustomEditor from '@components/editor/CustomEditor';
+import ViewEditor from '@components/editor/ViewEditor';
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
+import { CC } from '@styles/commonComponentStyle';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import Lottie from "lottie-react";
 import { ReactElement, useCallback, useRef, useState } from 'react';
-import loadingLottie from "../../public/lottie/solitour_auth_logo_image.json";
 gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
@@ -18,16 +19,10 @@ const Index = () => {
   return (
     <Container>
       <h1> 마크다운 만들기(보류) </h1>
-      {/* <CC.GridColumn2 h={'90%'}>
+      <CC.GridColumn2 h={'90%'}>
         <CustomEditor ref={textareaRef} textChangeHandler={textChangeHandler} />
         <ViewEditor value={text} />
-      </CC.GridColumn2> */}
-      <div className={'p-[5rem]'}>
-        <Lottie
-          animationData={loadingLottie}
-          className={'w-[275px] h-[245px]'}
-        />
-      </div>
+      </CC.GridColumn2>
     </Container>
   );
 };

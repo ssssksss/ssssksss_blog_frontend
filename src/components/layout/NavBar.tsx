@@ -1,5 +1,4 @@
 import { ThemeProvider } from '@emotion/react';
-import styled from '@emotion/styled';
 import { RootState } from '@redux/store/reducers';
 import rootTheme from '@styles/theme';
 import { useSelector } from 'react-redux';
@@ -11,28 +10,18 @@ import ReactToastifyComponents from './../react-toastify/ReactToastifyComponents
  * @description 설명
  */
 
-const NavBar = (props: unknown) => {
+const NavBar = (props: {children: React.ReactNode}) => {
   const themeStore = useSelector((state: RootState) => state.themeStore);
 
+
   return (
-    <Container id="nav" themeStore={themeStore}>
+    <div id="nav">
       <ReactToastifyComponents />
       <ThemeProvider theme={rootTheme[themeStore.theme]}>
-        <Main id={"main"}>{props.children}</Main>
+        <div>{props.children}</div>
       </ThemeProvider>
-    </Container>
+    </div>
   );
 };
 export default NavBar;
-
-const Container = styled.div<{ themeStore: unknown }>`
-  /* background: ${(props) =>
-    rootTheme[props.themeStore.theme].main?.primary20}; */
-`;
-const Main = styled.div`
-  /* -webkit-transition-property: none;
-  -moz-transition-property: none;
-  -o-transition-property: none;
-  transition-property: none; */
-`;
 

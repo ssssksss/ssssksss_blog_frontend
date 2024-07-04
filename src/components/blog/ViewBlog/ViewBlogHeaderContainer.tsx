@@ -8,12 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { IViewBlogHeaderProps } from 'src/@types/blog/ViewBlogHeaderContainer';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file ViewBlogHeaderContainer.tsx
- * @version 0.0.1 "2024-03-19 15:15:49"
- * @description 설명
- */
+
 const ViewBlogHeaderContainer = (props: IViewBlogHeaderProps) => {
   const router = useRouter();
   const [blogCategory] = useState({

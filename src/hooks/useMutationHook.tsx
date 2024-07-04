@@ -2,13 +2,6 @@ import { store } from '@redux/store';
 import { rootActions } from '@redux/store/actions';
 import { MutationFunction, useMutation } from 'react-query';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file useMutationHook.tsx
- * @version 0.0.1 "2024-01-26 01:28:03"
- * @description 설명
- */
-
 interface IUseMutationHookProps {
   mutationFn: MutationFunction;
   onErrorHandler?: ({
@@ -16,27 +9,27 @@ interface IUseMutationHookProps {
     variables,
     context,
   }: {
-    data: unknown;
-    variables: unknown;
-    context: unknown;
+    data: any;
+    variables: any;
+    context: any;
   }) => void;
   onSuccessHandler?: ({
     data,
     variables,
     context,
   }: {
-    data: unknown;
-    variables: unknown;
-    context: unknown;
+    data: any;
+    variables: any;
+    context: any;
   }) => void;
   onSettledHandler?: ({
     data,
     variables,
     context,
   }: {
-    data: unknown;
-    variables: unknown;
-    context: unknown;
+    data: any;
+    variables: any;
+    context: any;
   }) => void;
 }
 

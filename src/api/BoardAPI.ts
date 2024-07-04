@@ -5,8 +5,8 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
-    ICreateBoardProps,
-    IUpdateBoardProps,
+  ICreateBoardProps,
+  IUpdateBoardProps,
 } from '../@types/api/BoardAPI';
 
 /**
@@ -65,10 +65,8 @@ const getBoard = (props?: {
 
 const deleteBoard = () => {
   const router = useRouter();
-  const mutationFn = async (reqData) => {
-    return await AxiosInstance.delete(`/api/board?id=${reqData.id}`, {
-      withCredentials: true,
-    });
+  const mutationFn = async (reqData: {id: number}) => {
+    return await AxiosInstance.delete(`/api/board?id=${reqData.id}`);
   };
 
   return useMutationHook({
@@ -89,7 +87,6 @@ const createBoard = () => {
         content: reqData?.content,
         writer: reqData?.writer,
       },
-      { withCredentials: true },
     );
   };
 
@@ -113,7 +110,6 @@ const updateBoard = () => {
         title: reqData.title,
         content: reqData.content,
       },
-      { withCredentials: true },
     ).catch(() => {
       return;
     });

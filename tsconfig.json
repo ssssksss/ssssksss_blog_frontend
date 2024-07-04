@@ -27,26 +27,23 @@
       "dom.iterable",
       "esnext"
     ],
-    "types": ["@emotion/react/types/css-prop"], // 추가
+    "types": [
+      "@emotion/react/types/css-prop"
+    ], // 추가
     "module": "esnext",
     "jsxImportSource": "@emotion/react",
-    "jsx": "preserve",
+    "jsx": "preserve", // "preserve
     "moduleResolution": "node",
     "noImplicitAny": true,
     "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지
     "strict": false,
     "skipLibCheck": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
     "noEmit": true, // 출력 유무 설정
     "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true
     // "forceConsistentCasingInFileNames": true,
     // "strictNullChecks": true,
     // "removeComments": true, //컴파일시 주석제거
@@ -55,8 +52,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/@types"
-, "tailwind.config.js"  ],
+    "src/@types",
+    "tailwind.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]
