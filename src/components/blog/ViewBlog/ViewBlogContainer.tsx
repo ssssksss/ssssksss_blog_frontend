@@ -5,7 +5,7 @@ import { store } from '@redux/store';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IBlogProps } from 'src/@types/blog/blog-props';
 import ViewBlogFixContainer from './ViewBlogFixContainer';
 import ViewBlogHeaderContainer from './ViewBlogHeaderContainer';
@@ -35,7 +35,7 @@ const ViewBlogContainer = (props: IBlogProps) => {
       ).filter((i: { id: number }) => i.id != props.id);
       window.localStorage.setItem('recentBlog', JSON.stringify(temp));
       router.push('/blog');
-      return <> </>;
+      return <React.Fragment> </React.Fragment>;
     }
   }
 

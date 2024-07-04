@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from '@redux/store/reducers';
 import { CC } from '@styles/commonComponentStyle';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { BoardCreateYup, BoardUpdateYup } from '../yup/BoardYup';
@@ -77,9 +77,9 @@ const CreateUpdateBoardContainer = (
   };
 
   return (
-    <>
+    <React.Fragment>
       {(authStore.role === 'ROLE_ADMIN' || authStore.role === 'ROLE_USER') && (
-        <>
+        <React.Fragment>
           <Container>
             {(!props.edit || boardResData?.status == 'success') && (
               <Title
@@ -110,9 +110,9 @@ const CreateUpdateBoardContainer = (
               </ConfirmButton>
             </EditorFooter>
           </Container>
-        </>
+        </React.Fragment>
       )}
-    </>
+    </React.Fragment>
   );
 };
 export default CreateUpdateBoardContainer;

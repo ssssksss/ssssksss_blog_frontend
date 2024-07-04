@@ -1,7 +1,7 @@
 import Layout1 from '@components/layout/Layout1';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -19,9 +19,9 @@ const ViewBoardCSR = dynamic(
 
 const Index = () => {
   return (
-    <>
+    <React.Fragment>
       <Container>{typeof window != 'undefined' && <ViewBoardCSR />}</Container>
-    </>
+    </React.Fragment>
   );
 };
 export default Index;

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { Material, Mesh } from 'three';
 /**
  * Author : Sukyung Lee
@@ -50,13 +50,13 @@ const ProjectIntroduce = (props: IProjectIntroduceProps) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.5} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
       {/* <Box position={[4.2, 0, 0]} /> */}
       <Box />
-    </>
+    </React.Fragment>
   );
 };
 export default ProjectIntroduce;

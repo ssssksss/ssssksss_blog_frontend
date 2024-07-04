@@ -4,7 +4,7 @@ import AxiosInstance from '@utils/axios/AxiosInstance';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { IBlogProps } from 'src/@types/blog/blog-props';
 
 /**
@@ -51,7 +51,7 @@ const ViewBlogCSR = dynamic(
 );
 
 const Index: NextPageWithLayout<IBlogProps | null> = (props) => {
-  if (!props) return <>잘못된 접근입니다.</>;
+  if (!props) return <React.Fragment>잘못된 접근입니다.</React.Fragment>;
   return (
     <Container>
       <Head>

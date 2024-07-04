@@ -14,13 +14,13 @@ const AuthModal = (props) => {
   }, []);
 
   return (
-    <>
+    <React.Fragment>
       {isLogin ? (
         <LoginModal changeAuthScreen={changeAuthScreen} {...props} />
       ) : (
         <SignupModal changeAuthScreen={changeAuthScreen} {...props} />
       )}
-    </>
+    </React.Fragment>
   );
 };
 export default React.memo(AuthModal);

@@ -2,7 +2,7 @@
 // react 18이상 drei,fiber 버전이 높은 경우 props type문제가 있음
 import { useFrame, useLoader } from '@react-three/fiber';
 import gsap from 'gsap';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -161,7 +161,7 @@ const MyRoom = ({ myRoom_gsap }: unknown) => {
   });
 
   return (
-    <>
+    <React.Fragment>
       <directionalLight color="light" />
       <pointLight args={['#ffffff']} position={[10, 20, -10]} intensity={0.6} />
       <pointLight
@@ -181,7 +181,7 @@ const MyRoom = ({ myRoom_gsap }: unknown) => {
       />
       <pointLight args={['#ffffff']} position={[3, 2, -1]} intensity={1} />
       <primitive object={gltf.scene} scale={1} ref={ref} />
-    </>
+    </React.Fragment>
   );
 };
 

@@ -9,6 +9,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 /**
@@ -44,7 +45,7 @@ const ViewBoardContainer = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Head>
         <title>{boardResData?.data?.board?.title}</title>
       </Head>
@@ -105,7 +106,7 @@ const ViewBoardContainer = () => {
           </Link>
         </FixContainer>
       </Container>
-    </>
+    </React.Fragment>
   );
 };
 export default ViewBoardContainer;
