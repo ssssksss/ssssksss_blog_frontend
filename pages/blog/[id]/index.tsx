@@ -39,7 +39,7 @@ export const getStaticProps = async ({
 };
 
 // Custom type for pages that include the getLayout property
-type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+type NextPageWithLayout<P = IBlogProps, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

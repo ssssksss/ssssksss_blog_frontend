@@ -167,7 +167,7 @@ const BlogCategoryContainer = () => {
           },
         );
       })
-      .catch((err) => {
+      .catch(() => {
         router.push('/500');
       });
   }, []);
