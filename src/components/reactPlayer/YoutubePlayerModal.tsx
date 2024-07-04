@@ -6,55 +6,46 @@ import { Spinner1 } from '@components/loadingSpinner/Spinners';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { store } from '@redux/store';
+import { rootActions } from '@redux/store/actions';
 import { SET_TOASTIFY_MESSAGE } from '@redux/store/toastify';
 import { CC } from '@styles/commonComponentStyle';
 import UrlQueryStringToObject from '@utils/function/UrlQueryStringToObject';
 import Image from 'next/image';
-import { useReducer, useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
-import { ConfirmButton } from '../button/ConfirmButton';
+import { MutableRefObject, useReducer, useRef, useState } from 'react';
+import { ConfirmButton } from '../common/button/ConfirmButton';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file YoutubePlayerModal.tsx
- * @version 0.0.1 "2023-09-24 00:47:28"
- * @description 설명
- */
+interface YoutubeLink {
+  id: string;
+  youtubeUrl: string;
+  imageUrl: string;
+  title: string;
+  tags: string;
+}
 
-const YoutubePlayerModal = () => {
-  const inputRef = useRef<null>();
-  const queryClient = useQueryClient();
-  const [loading, setLoading] = useState(false);
+const YoutubePlayerModal: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
-    onSuccessHandler: (res) => {
-      queryClient.setQueryData(['getYoutubeList'], (oldData) => {
-        oldData.data?.youtubeList.unshift(res.data.data.data.youtube);
-        return oldData;
-      });
+    onSuccessHandler: () => {
       setLoading(false);
-    },
+    }
   });
   const getYoutubeLinkListResData = YoutubeAPI.getYoutubeLinkList();
-  const deleteYoutubeLinkMutation = YoutubeAPI.deleteYoutubeLink({
-    onSuccessHandler: (data) => {
-      queryClient.setQueryData('getYoutubeList', (oldData) => {
-        oldData.data.youtubeList = oldData?.data?.youtubeList.filter(
-          (i) => i.id != data.variables.id,
-        );
-        return oldData;
-      });
-    },
-  });
-  const [, toggleHandler] = useReducer((prev) => !prev, true);
+  const deleteYoutubeLinkMutation = YoutubeAPI.deleteYoutubeLink();
 
-  const addYoutubeLinkHandler = async () => {
-    createYoutubeLinkMutation({
-      youtubeUrlKeyId: UrlQueryStringToObject(inputRef.current.value)?.v,
-      youtubeUrl: inputRef.current.value,
-    });
+  const [, toggleHandler] = useReducer((prev: boolean) => !prev, true);
+
+  const addYoutubeLinkHandler = async (): Promise<void> => {
+    if (inputRef.current) {
+      createYoutubeLinkMutation({
+        youtubeUrlKeyId: UrlQueryStringToObject(inputRef.current.value)?.v,
+        youtubeUrl: inputRef.current.value,
+      });
+    }
   };
 
-  const copyLinkHandler = (youtubeUrl: string) => {
+  const copyLinkHandler = (youtubeUrl: string): void => {
     navigator.clipboard.writeText(youtubeUrl);
     store.dispatch(
       SET_TOASTIFY_MESSAGE({
@@ -64,16 +55,26 @@ const YoutubePlayerModal = () => {
     );
   };
 
-  const deleteLinkHandler = (id: string) => {
+  const deleteLinkHandler = (id: string): void => {
     deleteYoutubeLinkMutation({
       id: id,
     });
   };
 
-  const selectYoutubeLinkHandler = (data: unknown) => {
+  const selectYoutubeLinkHandler = (data: YoutubeLink): void => {
+    if (store.getState().reactPlayerStore.youtubeTitle == data.title) {
+      store.dispatch(
+        rootActions.reactPlayerStore.setYoutubePlay(
+          !store.getState().reactPlayerStore.youtubePlay,
+        ),
+      );
+      return;
+    }
     window.localStorage.setItem('youtubeLink', data.youtubeUrl);
     window.localStorage.setItem('youtubeTitle', data.title);
     toggleHandler();
+    store.dispatch(rootActions.reactPlayerStore.setYoutubeTitle(data.title));
+    store.dispatch(rootActions.reactPlayerStore.setYoutubePlay(true));
     store.dispatch(
       SET_TOASTIFY_MESSAGE({
         type: 'success',
@@ -93,7 +94,7 @@ const YoutubePlayerModal = () => {
           id={'youtube-link'}
           placeholder={'Enter YouTube link'}
           onKeyPressAction={addYoutubeLinkHandler}
-          ref={inputRef}
+          ref={inputRef as MutableRefObject<HTMLInputElement>}
         />
         <span> Add a YouTube video link here </span>
         <Button
@@ -115,60 +116,65 @@ const YoutubePlayerModal = () => {
       </ArticleStyle>
       <ul>
         {getYoutubeLinkListResData.isLoading ||
-          getYoutubeLinkListResData.data?.data?.youtubeList.map((i, index) => (
-            <LiStyle
-              key={index}
-              onClick={() => selectYoutubeLinkHandler(i)}
-              active={
-                i.youtubeUrl == window.localStorage.getItem('youtubeLink')
-              }
-            >
-              <div className="w-[5rem] aspect-square">
-                <img src={i.imageUrl} />
-              </div>
-              <div>
-                <p> {`${i.title}`} </p>
-                <CC.RowDiv color={'gray80'} gap={4}>
-                  {JSON.parse(i.tags)?.map((j, index1) => (
-                    <span key={index1}> {j} </span>
-                  ))}
-                </CC.RowDiv>
-              </div>
-              <ImageBox
-                bg={'gray80'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  copyLinkHandler(i.youtubeUrl);
-                }}
+          getYoutubeLinkListResData.data?.data?.youtubeList.map(
+            (i: YoutubeLink, index: number) => (
+              <LiStyle
+                key={index}
+                onClick={() => selectYoutubeLinkHandler(i)}
+                active={
+                  i.youtubeUrl == window.localStorage.getItem('youtubeLink')
+                }
               >
-                <Image
-                  src={Icons.CopyIcon}
-                  width={'2.4rem'}
-                  height={'2.4rem'}
-                />
-              </ImageBox>
-              <ConfirmButton
-                pd={'0.4rem'}
-                brR={'0.8rem'}
-                bg={'red80'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteLinkHandler(i.id);
-                }}
-              >
-                <Image
-                  src={Icons.DeleteIcon}
-                  width={'2.4rem'}
-                  height={'2.4rem'}
-                />
-              </ConfirmButton>
-            </LiStyle>
-          ))}
+                <div className="w-[5rem] aspect-square">
+                  <img src={i.imageUrl} />
+                </div>
+                <div>
+                  <p> {`${i.title}`} </p>
+                  <CC.RowDiv color={'gray80'} gap={4}>
+                    {JSON.parse(i.tags)?.map((j: string, index1: number) => (
+                      <span key={index1}> {j} </span>
+                    ))}
+                  </CC.RowDiv>
+                </div>
+                <ImageBox
+                  bg={'gray80'}
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    copyLinkHandler(i.youtubeUrl);
+                  }}
+                >
+                  <Image
+                    src={Icons.CopyIcon}
+                    width={39}
+                    height={39}
+                    alt={""}
+                  />
+                </ImageBox>
+                <ConfirmButton
+                  pd={'0.4rem'}
+                  brR={'0.8rem'}
+                  bg={'red80'}
+                  onClick={(e: React.MouseEvent) => {
+                    deleteLinkHandler(i.id);
+                    e.stopPropagation();
+                  }}
+                >
+                  <Image
+                    src={Icons.DeleteIcon}
+                    width={39}
+                    height={39}
+                    alt={""}
+                  />
+                </ConfirmButton>
+              </LiStyle>
+            ),
+          )}
       </ul>
     </Container>
   );
 };
 export default YoutubePlayerModal;
+
 const Container = styled(CC.ColumnDiv.withComponent('section'))`
   gap: 0.8rem;
   width: 100%;
@@ -185,7 +191,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
     border-bottom: solid ${(props) => props.theme.colors.gray40} 0.1rem;
     display: grid;
     grid-template-columns: 3.6rem calc(100% - 12.5rem) 3.6rem 3.6rem;
-    padding: 0rem .25rem;
+    padding: 0rem 0.25rem;
     gap: 0.4rem;
     align-items: center;
     width: 100%;
@@ -232,6 +238,7 @@ const Container = styled(CC.ColumnDiv.withComponent('section'))`
     }
   }
 `;
+
 const LiStyle = styled.li<{ active: boolean }>`
   ${(props) =>
     props.active &&
@@ -243,17 +250,19 @@ const LiStyle = styled.li<{ active: boolean }>`
       }
     `};
 `;
-const ImageBox = styled.button`
+
+const ImageBox = styled.button<{ bg: string }>`
   ${(props) => props.theme.flex.row.center.center};
   padding: 0.4rem;
   border-radius: 0.8rem;
-  background: ${(props) => props.theme.colors.gray60};
+  background: ${(props) => props.bg};
 
   &:hover {
     background: ${(props) => props.theme.main.primary40};
     outline: solid ${(props) => props.theme.main.contrast} 0.2rem;
   }
 `;
+
 const ArticleStyle = styled(CC.ColumnDiv.withComponent('article'))`
   gap: 0.8rem;
   padding: 0rem 0.8rem;

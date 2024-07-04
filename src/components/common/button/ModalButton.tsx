@@ -7,10 +7,9 @@ import React, {
   MouseEventHandler,
   useCallback,
   useEffect,
-  useState
+  useState,
 } from 'react';
 import { IModalButtonProps } from 'src/@types/component/common/ModalButton';
-
 
 /**
  * @Param onClick = () => void;
@@ -25,10 +24,10 @@ const ModalButton = ({
   ...props
 }: IModalButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const onClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (props.disabled) return;
     if (props.modal && !isOpen) {
+      event.stopPropagation();
       setIsOpen(true);
       _onClick?.(event);
     }
@@ -152,7 +151,8 @@ const ModalComponent = styled(CC.ColumnDiv)<{
   background: ${(props) =>
     props.theme.colors?.[props.bg] ||
     props.theme.main?.[props.bg] ||
-    props.bg || "white"};
+    props.bg ||
+    'white'};
   cursor: default;
   ${(props) => props.theme.scroll.hidden};
   & > * {
@@ -166,8 +166,9 @@ const Exit = styled(CC.RowRightDiv)`
   width: 100%;
   z-index: 20;
   cursor: pointer;
-    background: ${(props) =>
+  background: ${(props) =>
     props.theme.colors?.[props.bg] ||
     props.theme.main?.[props.bg] ||
-    props.bg || "white"};
+    props.bg ||
+    'white'};
 `;

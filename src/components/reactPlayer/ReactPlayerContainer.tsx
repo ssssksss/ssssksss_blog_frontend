@@ -1,5 +1,5 @@
 const YoutubePlayerModal = dynamic(
-  () => import('@components/common/modal/YoutubePlayerModal'),
+  () => import('@components/reactPlayer/YoutubePlayerModal'),
   {
     loading: () => <p>Loading...</p>,
   },
@@ -23,12 +23,7 @@ import { useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { useSelector } from 'react-redux';
 import Span from '../common/span/Span';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file ReactPlayer.tsx
- * @version 0.0.1 "2023-09-20 20:38:35"
- * @description 설명
- */
+
 interface IReactPlayerContainerProps {
   isNavbarOpen: boolean;
 }
@@ -43,7 +38,7 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
     played: 0,
   });
 
-  const handleProgress = (state) => {
+  const handleProgress = (state: {playedSeconds: number, played: number}) => {
     setPlayTime({
       playedSeconds: state.playedSeconds,
       played: state.played,
@@ -51,91 +46,97 @@ const ReactPlayerContainer = (props: IReactPlayerContainerProps) => {
   };
 
   return (
-    <div className='w-full pb-[.5rem]'>
-    <Container
-      outline={true}
-      isNavbarOpen={props.isNavbarOpen}
-      play={reactPlayerStore.youtubePlay}
-      anime={Animations.rainbowColors}
+    <div className="w-full pb-[.5rem]">
+      <Container
+        outline={true}
+        isNavbarOpen={props.isNavbarOpen}
+        play={reactPlayerStore.youtubePlay}
+        anime={Animations.rainbowColors}
       >
-      <div
-        className={'w-[1.5rem] aspect-square px-[0.9rem]'}
-        onClick={() => {
-          store.dispatch(
-            rootActions.reactPlayerStore.setYoutubePlay(
-              !reactPlayerStore.youtubePlay,
-            ),
-          );
-        }}
+        <div
+          className={'w-[1.5rem] aspect-square px-[0.9rem]'}
+          onClick={() => {
+            store.dispatch(
+              rootActions.reactPlayerStore.setYoutubePlay(
+                !reactPlayerStore.youtubePlay,
+              ),
+            );
+          }}
         >
-        {reactPlayerStore.youtubePlay ? (
-          <FontAwesomeIcon icon={faPause} />
-        ) : (
-          <FontAwesomeIcon icon={faPlay} />
-        )}
-      </div>
-      <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
-        <CC.ColumnCenterDiv>
-          <Span fontSize={'1rem'}>
-            {timeFunction.secToTime(playTime.playedSeconds)} [
-            {Math.floor(playTime.played * 100)}%]
-          </Span>
+          {reactPlayerStore.youtubePlay ? (
+            <FontAwesomeIcon icon={faPause} />
+          ) : (
+            <FontAwesomeIcon icon={faPlay} />
+          )}
+        </div>
+        <CC.RowDiv gap={4} className={'youtube-sub-menu'}>
+          <CC.ColumnCenterDiv>
+            <Span fontSize={'1rem'}>
+              {timeFunction.secToTime(playTime.playedSeconds)} [
+              {Math.floor(playTime.played * 100)}%]
+            </Span>
 
-          <ReactPlayer
-            width="0rem"
-            height="0rem"
-            loop={true}
-            url={
-              window.localStorage.getItem('youtubeLink') ||
-              'https://www.youtube.com/watch?v=eyyAUFxlnGg'
-            }
-            ref={player}
-            playing={reactPlayerStore.youtubePlay}
-            onProgress={handleProgress}
-            />
-          <div>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.001"
-              value={playTime.played}
-              onChange={(e) =>
-                setPlayTime((prev) => ({
-                  playedSeconds: prev.playedSeconds,
-                  played: parseFloat(e.target.value),
-                }))
+            <ReactPlayer
+              width="0rem"
+              height="0rem"
+              loop={true}
+              url={
+                window.localStorage.getItem('youtubeLink') ||
+                'https://www.youtube.com/watch?v=eyyAUFxlnGg'
               }
-              onMouseUp={(e) => {
-                player.current?.seekTo(parseFloat(e.target.value), 'fraction');
-              }}
-              onTouchEnd={(e) => {
-                player.current?.seekTo(parseFloat(e.target.value), 'fraction');
-              }}
+              ref={player}
+              playing={reactPlayerStore.youtubePlay}
+              onProgress={handleProgress}
+            />
+            <div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.001"
+                value={playTime.played}
+                onChange={(e) =>
+                  setPlayTime((prev) => ({
+                    playedSeconds: prev.playedSeconds,
+                    played: parseFloat(e.target.value),
+                  }))
+                }
+                onMouseUp={(e: React.MouseEvent<HTMLInputElement>) => {
+                  player.current?.seekTo(
+                    parseFloat(e.currentTarget.value),
+                    'fraction',
+                  );
+                }}
+                onTouchEnd={(e: React.TouchEvent<HTMLInputElement>) => {
+                  player.current?.seekTo(
+                    parseFloat(e.currentTarget.value),
+                    'fraction',
+                  );
+                }}
               />
-          </div>
-        </CC.ColumnCenterDiv>
-        {authStore.id && (
-          <ModalButton
-          modal={<YoutubePlayerModal />}
-          modalMinW={'32rem'}
-          modalW={'96vw'}
-          h={'2.4rem'}
-          modalBg={'white'}
-          modalOverlayVisible={'true'}
-          outline={true}
-          >
-            <Image src={Icons.EtcIcon} alt="etc" width={10} />
-          </ModalButton>
-        )}
-      </CC.RowDiv>
-    </Container>
-      <div className={"w-full px-[.5rem]"}>
+            </div>
+          </CC.ColumnCenterDiv>
+          {!!authStore.id && (
+            <ModalButton
+              modal={<YoutubePlayerModal />}
+              modalMinW={'32rem'}
+              modalW={'96vw'}
+              h={'2.4rem'}
+              modalBg={'white'}
+              modalOverlayVisible={true}
+              outline={true}
+            >
+              <Image src={Icons.EtcIcon} alt="etc" width={10} />
+            </ModalButton>
+          )}
+        </CC.RowDiv>
+      </Container>
+      <div className={'w-full px-[.5rem]'}>
         <MarqueeContainer>
           <MarqueeText>{reactPlayerStore.youtubeTitle}</MarqueeText>
         </MarqueeContainer>
       </div>
-</div>
+    </div>
   );
 };
 export default ReactPlayerContainer;
@@ -145,6 +146,7 @@ const Container = styled.div<{
   outline: true;
   play: boolean;
   anime: unknown;
+  active?: boolean;
 }>`
   display: grid;
   grid-template-columns: 2.4rem calc(100% - 2.4rem);

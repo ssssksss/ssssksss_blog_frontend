@@ -11,14 +11,8 @@ import { CC } from '@styles/commonComponentStyle';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file SideBar.tsx
- * @version 0.0.1 "2023-09-20 10:42:22"
- * @description 설명
- */
 
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -41,17 +35,17 @@ const SideBar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const listener = (event: CustomEvent<MouseEvent>) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsNavbarOpen(false);
-      }
-    };
-    document.addEventListener('click', listener as EventListener);
-    return () => {
-      document.removeEventListener('click', listener as EventListener);
-    };
-  },[])
+  // useEffect(() => {
+  //   const listener = (event: CustomEvent<MouseEvent>) => {
+  //     if (ref.current && !ref.current.contains(event.target as Node)) {
+  //       setIsNavbarOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener('click', listener as EventListener);
+  //   return () => {
+  //     document.removeEventListener('click', listener as EventListener);
+  //   };
+  // },[])
 
   useEffect(() => {
     if (router.isReady) {
@@ -88,7 +82,7 @@ const SideBar = () => {
           {LeftNavItems.map((i, index) => (
             <Link href={`${i[2]}`} key={'sideBarItem' + index} prefetch={false}>
               <NavItem
-                blur={i[3].isRequiredAuth === true && !authStore.id === true}
+                blur={i[3].isRequiredAuth === true && !authStore.id}
                 onClick={(e: MouseEvent) => {
                   if (i[2] == window.document.location.pathname.split('?')[0]) {
                     e.preventDefault();
@@ -109,7 +103,7 @@ const SideBar = () => {
             </Link>
           ))}
           <CC.ColumnBetweenDiv gap={4}>
-            {typeof window != 'undefined' && authStore.id && (
+            {!!authStore.id && (
               <ReactPlayerContainer isNavbarOpen={isNavbarOpen} />
             )}
           </CC.ColumnBetweenDiv>
@@ -118,7 +112,7 @@ const SideBar = () => {
     </Container>
   );
 };
-export default SideBar;
+export default React.memo(SideBar);
 
 interface IContainerProps {
   isNavbarOpen: boolean;
@@ -156,7 +150,7 @@ const NavContainer = styled.nav`
   height: 100%;
   display: flex;
   flex-flow: nowrap column;
-  & > :nth-last-child(1) {
+  & > a:nth-last-of-type(1) {
     margin-top: auto;
   }
 `;

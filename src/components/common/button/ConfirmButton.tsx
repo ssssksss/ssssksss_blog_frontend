@@ -3,20 +3,12 @@ import { MouseEventHandler, useCallback } from 'react';
 import { IConfirmButtonProps } from 'src/@types/component/common/ConfirmButton';
 import Swal from 'sweetalert2';
 
-/**
- * @author Sukyung Lee <ssssksss@naver.com>
- * @file ConfirmButton.tsx
- * @version 0.0.1 "2024-02-15 20:37:45"
- * @description 설명
- */
-
 export const ConfirmButton = ({
   onClick: _onClick,
-  // onClickCapture: _onClickCapture,
   children = 'button',
   ...props
 }: IConfirmButtonProps) => {
-  const showSwal = (event) => {
+  const showSwal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     Swal.fire({
       titleText: props.text || 'Do you want to continue',
       icon: props.icon || 'question',
@@ -28,7 +20,10 @@ export const ConfirmButton = ({
       width: '30rem',
     }).then((res) => {
       if (res.isConfirmed) {
+        event.stopPropagation();
         _onClick?.(event);
+      } else if (res.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info');
       }
     });
   };
@@ -48,4 +43,3 @@ export const ConfirmButton = ({
     </Button>
   );
 };
-
