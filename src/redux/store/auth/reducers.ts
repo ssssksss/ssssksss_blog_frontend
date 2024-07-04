@@ -5,7 +5,6 @@ type initialStateType = {
   nickname: string;
   accessToken: string;
   id: number;
-  suid: string;
 };
 
 // 리듀서 역할 1 : state를 정의한다. 실제 사용한 state값들
@@ -13,9 +12,8 @@ const initialState: initialStateType = {
   email: '',
   role: '',
   nickname: '',
-  id: '',
+  id: NaN,
   accessToken: '',
-  suid: '',
 };
 
 // 리듀서 역할 2 : state를 변경시키는 함수를 정의한다.
@@ -29,7 +27,6 @@ export const authReducer = (state = initialState, action: unknown) => {
         role: action.payload.role,
         nickname: action.payload.nickname,
         id: action.payload.id,
-        suid: action.payload.suid,
       };
     case 'SET_ACCESS_TOKEN':
       return {

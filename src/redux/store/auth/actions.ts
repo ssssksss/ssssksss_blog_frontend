@@ -11,8 +11,7 @@ type USER_INFO_STATE = {
   email: string;
   role: string;
   nickname: string;
-  id: number | null;
-  suid: string;
+  id: number;
 };
 
 // 액션 함수의 역할 : 파라미터로 인자값을 받아서 redux의 state값을 어떻게 바꿀지를 작성한다.

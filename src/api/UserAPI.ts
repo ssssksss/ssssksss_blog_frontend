@@ -31,7 +31,6 @@ const getUser = () => {
           email: data.data.user.email,
           role: data.data.user.role,
           nickname: data.data.user.nickname,
-          id: data.data.user.id,
         }),
       );
     },
@@ -39,12 +38,15 @@ const getUser = () => {
 };
 
 const signInUser = () => {
-  const mutationFn = async (reqData) => {
-    return await AxiosInstance.put('/api/user', {
-      email: reqData?.email,
-      password: reqData?.password,
-    },{
-      withCredentials: true,
+  const mutationFn = async (reqData: {email: string, password: string}) => {
+    return await AxiosInstance({
+      method: 'put',
+      url: '/api/user',
+      data: {
+        email: reqData?.email,
+        password: reqData?.password,
+      },
+      withCredentials: true
     });
   };
 
