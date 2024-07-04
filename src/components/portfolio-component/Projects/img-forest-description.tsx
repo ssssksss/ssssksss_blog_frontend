@@ -6,7 +6,7 @@
  */
 const ImgForestDescription = () => {
   return (
-    <ul className="p-[1rem] gap-[1rem] flex flex-col h-full items-start justify-start bg-red-100 w-full overflow-y-scroll">
+    <ul className="p-[1rem] gap-[1rem] flex flex-col h-full items-start justify-start w-full overflow-y-scroll">
       <li>
         <h3
           className={

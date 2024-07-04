@@ -12,7 +12,7 @@ const TextParticle: React.FC = () => {
         setContentCount(1);
       }
       if (contentCount == 1) {
-        setKeyword('풀스택 개발자가 되려고 노력 중');
+        setKeyword('풀스택 공부도 하는 중');
         setContentCount(2);
       }
       if (contentCount == 2) {
@@ -28,7 +28,7 @@ const TextParticle: React.FC = () => {
     if (!ctx) return;
 
     const cw = canvas.width = window.innerWidth;
-    const ch = canvas.height = 200;
+    const ch = canvas.height = 240;
     const radius = 200;
     const drag = 0.9;
     const density = 1;
@@ -37,7 +37,8 @@ const TextParticle: React.FC = () => {
     const particles: Particle[] = [];
     let mx = 0,
       my = 0;
-    const divisionFontSize = 90 / keyword.length;
+      const divisionFontSize = cw > 1800 ? 5 : 6;
+    // const divisionFontSize = Math.min(90 / keyword.length, 4);
     const event = (e: MouseEvent) => {
       mx = e.clientX - canvas.offsetLeft;
       my = e.clientY - canvas.offsetTop;
@@ -111,7 +112,6 @@ const TextParticle: React.FC = () => {
     
     const init = () => {
       ctx.font = `${divisionFontSize + 0.1 * Math.random()}vw 'Jockey One'`;
-      // ctx.font = `${5 + 1 * Math.random()}vw 'Arial'`;
       ctx.fillText(
         keyword,
         cw / 2 - Math.round(ctx.measureText(keyword).width / 2) > 0
