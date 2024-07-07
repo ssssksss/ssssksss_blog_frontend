@@ -54,10 +54,10 @@ const PrivateProjectAuth = () => {
           <span className={'text-green-600'}> 개발 </span>
           <span className={'text-green-600'}> 계획 </span>
         </div>
-        <ul className="flex flex-col gap-[.5rem] items-start">
+        <ul className="flex flex-col gap-[2rem] items-start">
           <li
             className={
-              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'
+              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start w-full'
             }
           >
             <p className={'text-purple-400 text-lg font-semibold'}>
@@ -70,32 +70,22 @@ const PrivateProjectAuth = () => {
               3. react-hook-form으로 validation
             </p>
             <p className={'text-purple-400 text-lg font-semibold'}>
-              4. accessToken은 redux 상태값으로 저장, refreshToken은 jwt cookie로 저장,
+              4. accessToken은 redux, refreshToken은 jwt cookie에 보관
             </p>
           </li>
           <li
             className={
-              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'
+              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start  w-full'
             }
           >
             <p className={'text-red-600 text-lg font-semibold'}>
-              모바일에서는 구글 로그인 안되는 문제 발생 
-            </p>
-            <br />
-            <p className={'text-blue-600 text-lg font-semibold'}> 앱 권한 문제라고 추측 </p>
-          </li>
-          <li
-            className={
-              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'
-            }
-          >
-            <p className={'text-red-600 text-lg font-semibold'}>
-              모달창에서 로그인 페이지 등으로 이동하지 않고 Oauth 로그인 처리에
-              대해 고민
+              모달창에서 로그인 페이지로 이동하지 않고서 oauth로그인을 하는
+              방법에 대해서 고민
             </p>
             <br />
             <p className={'text-blue-600 text-lg font-semibold'}>
-              .....
+              모달창에서 "카카오 로그인"을 클릭하면 "window.open"으로 새탭을
+              열고 완료 후 합성 이벤트를 사용해서 로그인 처리
             </p>
           </li>
           <li

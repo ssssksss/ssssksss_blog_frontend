@@ -71,7 +71,7 @@ const PrivateProjectYoutubePlayer = () => {
           <span className={'text-green-600'}> 개발 </span>
           <span className={'text-green-600'}> 계획 </span>
         </div>
-        <ul className="flex flex-col gap-[.5rem] items-start">
+        <ul className="flex flex-col gap-[2rem] items-start">
           <li
             className={
               'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'

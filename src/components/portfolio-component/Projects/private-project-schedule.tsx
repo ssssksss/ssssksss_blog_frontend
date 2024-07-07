@@ -6,8 +6,16 @@ import tw from "twin.macro";
 const PrivateProjectSchedule = () => {
     const imageList = [
       [
-        'https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/memo/memo-all-list.png',
-        '메모 전체 목록',
+        'https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/schedule/schedule-list.png',
+        '스케줄 전체 목록',
+      ],
+      [
+        'https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/schedule/schedule-update.png',
+        '스케줄 수정',
+      ],
+      [
+        'https://ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com/private/schedule/schedule-category-crud.png',
+        '스케줄 카테고리 cud',
       ],
     ];
 
@@ -50,7 +58,7 @@ const PrivateProjectSchedule = () => {
           <span className={'text-green-600'}> 개발 </span>
           <span className={'text-green-600'}> 계획 </span>
         </div>
-        <ul className="flex flex-col gap-[.5rem] items-start">
+        <ul className="flex flex-col gap-[2rem] items-start">
           <li
             className={
               'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'

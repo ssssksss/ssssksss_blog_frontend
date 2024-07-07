@@ -53,10 +53,10 @@ const PrivateProjectMemo = () => {
         <div className="justify-start items-start h-full flex flex-col font-bold text-[1.6rem]">
           <span className={'text-purple-400'}> 세부 </span>
           <span className={'text-purple-400'}> 설명 </span>
-          <span className={'px-[1rem]'}> {' & '} </span>
+          {/* <span className={'px-[1rem]'}> {' & '} </span>
           <span className={'text-red-600'}> 문제 </span>
           <span className={'px-[1rem]'}> {' & '} </span>
-          <span className={'text-blue-600'}> 해결 </span>
+          <span className={'text-blue-600'}> 해결 </span> */}
           <span className={'px-[1rem]'}> {' & '} </span>
           <span className={'text-green-600'}> 개발 </span>
           <span className={'text-green-600'}> 계획 </span>
@@ -70,19 +70,8 @@ const PrivateProjectMemo = () => {
             <p className={'text-purple-400 text-lg font-semibold'}>
               간편하게 바로 메모를 작성할 수 있게 전체보기에서도 수정 가능하게 제작
             </p>
-          </li>
-          <li
-            className={
-              'text-[1rem] outline outline-[1px] outline-offset-[-1px] outline-[#E3E3E3] rounded-[1rem] p-2 text-start'
-            }
-          >
-            <p className={'text-red-600 text-lg font-semibold'}>
-              react-query 방식과 csr 방식으로 다시 변경 중 코드 혼합으로 인해
-              기능 작동 문제
-            </p>
-            <br />
-            <p className={'text-blue-600 text-lg font-semibold'}>
-              react-query 방식으로 모두 전환
+            <p className={'text-purple-400 text-lg font-semibold'}>
+              react-query로 작업
             </p>
           </li>
           <li
