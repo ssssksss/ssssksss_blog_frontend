@@ -44,14 +44,14 @@ const Footer = () => {
             <Image src={Icons.GithubIcon} width={48} height={48} alt={"icon"} />
           </a>
         </li>
-        <li className={"relative"}>
+        {/* <li className={"relative"}>
           <a
             href={'https://master--64eeece7369a220b140a6b70.chromatic.com/'}
             target={'_blanket'}
           >
             <Image src={Icons.StoryBookIcon} width={48} height={48} alt={"icon"} />
           </a>
-        </li>
+        </li> */}
         <li className={"relative"}>
           <Link href={'/portfolio'} prefetch={false}>
             <Image src={Icons.PortfolioIcon} width={48} height={48} alt={""} />
