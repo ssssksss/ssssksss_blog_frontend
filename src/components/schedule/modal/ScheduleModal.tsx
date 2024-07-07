@@ -74,9 +74,6 @@ const ScheduleModal = (props: IScheduleModalProps) => {
   ]);
 
   const createScheduleHandler = () => {
-    if (disabledCheck) {
-      alert('비어있는 공간이 있습니다');
-    }
 
     ScheduleAPI.addSchedule({
       title: scheduleTitleRef.current.value,
