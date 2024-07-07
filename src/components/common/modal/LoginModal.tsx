@@ -31,7 +31,7 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   });
   const { errors } = formState;
   const signInMutate = UserAPI.signInUser();
-  const onClickSubmit = async (data: unknown) => {
+  const onClickSubmit = async (data: {email: string, password: string}) => {
     signInMutate({
       email: data.email,
       password: data.password,

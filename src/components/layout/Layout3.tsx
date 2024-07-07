@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import TopBar from './TopBar';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -10,7 +9,6 @@ type AppLayoutProps = {
 const Layout3 = ({ children }: AppLayoutProps) => {
   return (
     <Container>
-      <TopBar />
       {children}
     </Container>
   );
@@ -18,7 +16,6 @@ const Layout3 = ({ children }: AppLayoutProps) => {
 
 export default Layout3;
 const Container = styled.div`
-visibility: hidden;
 `;
 
 
