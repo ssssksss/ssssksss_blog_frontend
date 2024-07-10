@@ -20,6 +20,9 @@
       ],
       "@utils/*": [
         "src/utils/*"
+      ],
+      "@lottie/*": [
+        "public/lottie/*"
       ]
     },
     "lib": [
