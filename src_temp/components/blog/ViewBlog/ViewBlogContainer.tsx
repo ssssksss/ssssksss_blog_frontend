@@ -65,7 +65,7 @@ const ViewBlogContainer = (props: IBlogProps) => {
         });
         i.appendChild(test);
       });
-    }, 1000);
+    }, 600);
 
     const keyDownEventFunc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -159,13 +159,15 @@ const ViewerContainer = styled.div<{ icon: unknown }>`
       outline: solid ${(props) => props.theme.main.primary80} 0.25rem;
       outline-offset: -0.25rem;
       border-radius: 0.5rem;
-      padding: 0.5rem;
+      padding: .5rem;
+      margin-top: 4rem;
       max-width: max-content;
       font-size: 2rem;
       font-family: ${(props) => props.theme.fontFamily.gmarketSansBold};
     }
 
     h2 {
+      margin-top: 2rem;
       border: none;
       outline: solid ${(props) => props.theme.main.secondary80} 0.25rem;
       outline-offset: -0.25rem;

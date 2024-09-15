@@ -26,9 +26,9 @@ const nextConfig = withPWA({
   typescript: {
     ignoreBuildErrors: true,
   },
-  compiler: {
-    emotion: true,
-  },
+  // compiler: {
+  //   emotion: true,
+  // },
   // async rewrites() {
   //   return [
   //     {
@@ -37,7 +37,7 @@ const nextConfig = withPWA({
   //     },
   //   ];
   // },
-  transpilePackages: ['@mdxeditor/editor'],
+  // transpilePackages: ['@mdxeditor/editor'],
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;

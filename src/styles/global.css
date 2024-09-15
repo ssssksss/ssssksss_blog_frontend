@@ -1,0 +1,89 @@
+/* Reset some default browser styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Set a common base style for all elements */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Make images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Remove list item bullet points */
+ul, ol {
+  list-style-type: none;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #0366d6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+  line-height: 1.7;
+}
+
+/* Button styling */
+button {
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #005bb5;
+}
+
+/* Basic form styles */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+

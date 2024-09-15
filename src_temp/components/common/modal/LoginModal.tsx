@@ -61,8 +61,12 @@ const LoginModal = (props: { changeAuthScreen: () => void, closeModal: () => voi
   
   const oauthLogin = async (oauthService: string) => {
     if(oauthService == 'kakao') {
-      window.open(`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URL}&prompt=login
-      `,"","");
+      window.open(
+        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&prompt=login
+      `,
+        '',
+        '',
+      );
     }
     if(oauthService == 'google') {
       window.open(`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URL}&scope=email profile&prompt=select_account

@@ -1,65 +1,37 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "baseUrl": ".",
-    "paths": {
-      "@api/*": [
-        "src/api/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@hooks/*": [
-        "src/hooks/*"
-      ],
-      "@redux/*": [
-        "src/redux/*"
-      ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@lottie/*": [
-        "public/lottie/*"
-      ]
-    },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "types": [
-      "@emotion/react/types/css-prop"
-    ], // 추가
-    "module": "esnext",
-    "jsxImportSource": "@emotion/react",
-    "jsx": "preserve", // "preserve
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지
-    "strict": false,
+    "target": "esnext",
+    "module": "NodeNext", // NodeNext로 설정
+    "moduleResolution": "NodeNext", // NodeNext로 설정
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
-    "noEmit": true, // 출력 유무 설정
-    "incremental": true,
+    "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": false,
-    // "forceConsistentCasingInFileNames": true,
-    // "strictNullChecks": true,
-    // "removeComments": true, //컴파일시 주석제거
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["src/app/api/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@service/*": ["src/service/*"],
+      "@stories/*": ["src/stories/*"],
+      "@styles/*": ["src/styles/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@lottie/*": ["public/lottie/*"],
+      "@font/*": ["public/fonts/*"]
+    },
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/@types",
-    "tailwind.config.js"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
