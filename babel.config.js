@@ -1,5 +1,7 @@
 module.exports = {
   presets: [
-        ["@babel/preset-react", { runtime: "automatic" }]
-  ]
+        ["next/babel"]
+      //   ["@babel/preset-react", { runtime: "automatic" }, "next/babel"]
+  ],
+ plugins: ["babel-plugin-macros"]
 };

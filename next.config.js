@@ -11,24 +11,24 @@ const withPWA = require('next-pwa')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
-    domains: ['ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com'],
-    // remotePatterns: [
-    //   {
-    //     protocol: 'https',
-    //     hostname: 'ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com',
-    //     port: '',
-    //     pathname: '/private/**',
-    //   },
-    // ],
+    // domains: ['ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/private/**',
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  // compiler: {
-  //   emotion: true,
-  // },
+  compiler: {
+    styledComponents: true,
+  },
   // async rewrites() {
   //   return [
   //     {
@@ -38,8 +38,13 @@ const nextConfig = withPWA({
   //   ];
   // },
   // transpilePackages: ['@mdxeditor/editor'],
-  webpack: (config) => {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false, // 클라이언트 번들에서 fs 모듈 제외
+        path: false, // path 모듈도 제외 가능
+      };
+    }
     return config;
   },
 });

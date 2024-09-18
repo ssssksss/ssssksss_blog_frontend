@@ -1,5 +1,7 @@
 import '@styles/global.css';
 import type { Metadata } from 'next';
+import Footer from 'src/component/common/layout/hybrid/Footer';
+import Header from 'src/component/common/layout/hybrid/Header';
 
 export const metadata: Metadata = {
   title: '가출한토토로의 사이트',
@@ -9,6 +11,8 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // const { theme } = useTheme();
+
   return (
     <html lang="ko">
       <head>
@@ -46,8 +50,10 @@ export default function RootLayout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </head>
-      <body>
-        {children}
+      <body className={'h-full w-full flex flex-col'}>
+        <Header />
+          <main className={'w-full'}>{children}</main>
+        <Footer />
         <div id="modal-root"></div>
       </body>
     </html>
