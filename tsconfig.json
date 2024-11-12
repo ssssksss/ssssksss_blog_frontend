@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "NodeNext", // NodeNext로 설정
-    "moduleResolution": "NodeNext", // NodeNext로 설정
+    "target": "es2015",
+    "module": "esnext",
+    "moduleResolution": "Node",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -13,6 +13,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "allowImportingTsExtensions": true,
+    "removeComments": true,
     "plugins": [
       {
         "name": "next"
@@ -30,6 +32,7 @@
       "@font/*": ["public/fonts/*"],
       "@component/*": ["src/component/*"],
       "@service/*": ["src/service/*"],
+      "@store/*": ["src/store/*"],
     },
     "forceConsistentCasingInFileNames": true
   },

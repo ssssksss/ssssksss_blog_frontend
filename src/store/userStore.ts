@@ -1,13 +1,13 @@
-import { StateCreator, create } from "zustand";
-import { devtools } from "zustand/middleware";
+import {StateCreator, create} from "zustand";
+import {devtools} from "zustand/middleware";
 
 // 1. 상태 인터페이스 정의
 interface UserState {
   email: string;
-  role: string;
-  nickname: string;
-  accessToken: string;
   id: number;
+  nickname: string;
+  role: string;
+  suid: string;
 }
 
 // 2. 액션 인터페이스 정의
@@ -18,20 +18,21 @@ interface UserActions {
 
 // 3. 초기 상태 정의
 const initialState: UserState = {
-  email: '',
-  role: '',
-  nickname: '',
-  id: NaN,
-  accessToken: '',
+  email: "",
+  role: "",
+  nickname: "",
+  id: 0,
+  suid: "",
 };
 
 // 4. 상태 및 액션 생성
 const userStore: StateCreator<UserState & UserActions> = (set, get) => ({
   ...initialState,
-  initialize: () => set({
-    ...initialState,
-    id: -1
-  }),
+  initialize: () =>
+    set({
+      ...initialState,
+      id: -1,
+    }),
   setUser: (data) =>
     set(() => ({
       ...data,

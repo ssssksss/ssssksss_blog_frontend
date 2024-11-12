@@ -1,147 +1,204 @@
-"use client"
+"use client";
 
-import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFetchHandler } from "@hooks/useFetchHandler";
-import useModalState from "@hooks/useModalState";
-import { UserAPI } from "@service/userAPI";
-import { throttle } from "lodash";
+import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
+import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
+import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useFetchCSRHandler} from "@hooks/useFetchCSRHandler";
+import useThrottle from "@hooks/useThrottle";
+import useMemoStore from "@store/memoStore";
+import usePlanStore from "@store/planStore";
+import {throttle} from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
+import {useEffect, useRef, useState} from "react";
 import AuthModal from "src/component/auth/hybrid/AuthModal";
-import ReactToastifyComponents from "src/component/common/alert/ReactToastifyComponents";
 import Button from "src/component/common/button/hybrid/Button";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import useNavStore from "src/store/navStore";
 import usePlayerStore from "src/store/playerStore";
-import AxiosInstance from "src_temp/utils/axios/AxiosInstance";
 import SideBar from "./SideBar";
 
-interface IHeader {
-
-}
+interface IHeader {}
 const Header = (props: IHeader) => {
   const playerStore = usePlayerStore();
+  const planStore = usePlanStore();
   const navStore = useNavStore();
+  const memoStore = useMemoStore();
   const [scrollWidth, setScrollWidth] = useState(0);
-  const modalState = useModalState();
-  const { toastifyStore, userStore, fetchHandler } = useFetchHandler();
+  const router = useRouter();
+  const {toastifyStore, userStore, fetchCSR} = useFetchCSRHandler();
+  const [isHidden, setIsHidden] = useState(true); // 헤더 감추기 상태
+  const [isVisible, setIsVisible] = useState(false); // 마우스 상단에 있을 때 헤더 보이기
+  const [lastScrollY, setLastScrollY] = useState(200);
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // 처음 및 새로고침시 로그인 작업,  accessToken 저장 및 사용자 정보 저장하기
-      // const temp = async () => {
-      //   await AxiosInstance.get('/api/user', {
-      //     headers: {
-      //       Authorization: `Bearer ${userStore.accessToken}`,
-      //     },
-      //     withCredentials: true,
-      //   })
-      //     .then((res) => {
-      //       const _user: IUser = res.data.data.user;
-      //       userStore.setUser({
-      //         accessToken: _user.accessToken,
-      //       });
-      //       // store.dispatch(rootActions.blogStore.setActiveBlogUserId(_user.id));
-      //       userStore.setUser({
-      //         email: _user.email,
-      //         role: _user.role,
-      //         nickname: _user.nickname,
-      //         id: _user.id,
-      //       });
-      //     })
-      //     .catch(() => {});
-      // };
-      // temp();
     const getInitUser = async () => {
-      fetchHandler(await UserAPI.initGetUser(), (response) => {
+      // fetchCSR(
+      //   await UserAPI.initGetUser(),
+      //   (response) => {
+      //     userStore.setUser({
+      //       ...response.data.user,
+      //     });
+      //   },
+      //   (error) => {
+      //     userStore.setUser({
+      //       id: -1,
+      //     });
+      //   },
+      // );
+      const response = await fetch("/api/user");
+      if (!response.ok) {
         userStore.setUser({
-          ...response.data.user
-        })
-      })
-    }
+          id: -1,
+        });
+        return;
+      }
+      const result: IResponseUser = await response.json();
+      userStore.setUser({
+        ...result.data,
+      });
+    };
     getInitUser();
+
+    const currentYoutube = window.localStorage.getItem("currentYoutube")
+      ? JSON.parse(window.localStorage.getItem("currentYoutube")!)
+      : "";
+    const currentYoutubePlaylist = window.localStorage.getItem(
+      "currentYoutubePlaylist",
+    )
+      ? JSON.parse(window.localStorage.getItem("currentYoutubePlaylist")!)
+      : "";
+    const playRepeatType = window.localStorage.getItem("playRepeatType");
+    const isPlayRandom = window.localStorage.getItem("isPlayRandom")
+      ? true
+      : false;
 
     // 유튜브 제목 로컬스토리지에서 꺼내오기
     playerStore.setPlayer({
-      youtubeTitle: window.localStorage.getItem('youtubeTitle') || '',
+      currentYoutube,
+      currentYoutubePlaylist,
+      playRepeatType,
+      isPlayRandom,
     });
   }, []);
 
-  const updateProgressBar = () => {
+  const throttledUpdateProgressBar = useThrottle(() => {
     const winScroll = document.documentElement.scrollTop;
     const height =
       document.documentElement.scrollHeight -
       document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
     setScrollWidth(scrolled);
-  };
-
-  const throttledUpdateProgressBar = throttle(updateProgressBar, 100);
+  }, 20);
 
   useEffect(() => {
-    window.addEventListener('scroll', throttledUpdateProgressBar);
+    window.addEventListener("scroll", throttledUpdateProgressBar);
     return () => {
-      window.removeEventListener('scroll', throttledUpdateProgressBar);
-      throttledUpdateProgressBar.cancel(); // Clean up the throttle function
+      window.removeEventListener("scroll", throttledUpdateProgressBar);
     };
   }, [throttledUpdateProgressBar]);
 
+  // 스크롤이 상단으로 가면 헤더가 보임
+  const handleScroll = throttle((e: Event) => {
+    if (window.scrollY > 300) {
+      if (headerRef.current!.contains(e.target as Node)) {
+        return;
+      }
+      setIsVisible(false);
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+      setIsVisible(true);
+    }
+    setLastScrollY(window.scrollY);
+  }, 50);
+
+  // 마우스가 상단에 가면 헤더창이 보임
+  const handleMouseMove = throttle((e: MouseEvent) => {
+    if (window.scrollY < 80) {
+      setIsHidden(false);
+      setIsVisible(true);
+    } else {
+      if (e.clientY < 70) {
+        setIsVisible(true);
+        setIsHidden(false);
+      } else {
+        if (headerRef.current!.contains(e.target as Node)) {
+          return;
+        }
+        setIsVisible(false);
+      }
+    }
+  }, 50);
+
+  useEffect(() => {
+    const scrollContainer = headerRef.current;
+    if (scrollContainer) {
+      window.addEventListener("scroll", handleScroll);
+    }
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      if (scrollContainer) {
+        window.removeEventListener("scroll", handleScroll);
+      }
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [lastScrollY, handleScroll, handleMouseMove]);
+
   //* 로그아웃 함수
-  const signOutHandler = () => {
-    // if(store.getState().userStore.suid.split("_")[0] == "kakao") { }
-    // else if(store.getState().userStore.suid.split("_")[0] == "naver") {
+  const signOutHandler = async () => {
+    const response = await fetch("/api/user", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    // }
-    // else if(store.getState().userStore.suid.split("_")[0] == "google") {
-
-    // }
-    (async () => {
-      await AxiosInstance({
-        url: '/api/user',
-        method: 'DELETE',
-        withCredentials: true,
-      })
-        .then(() => {
-          toastifyStore.setToastify({
-            type: 'success',
-            message: '로그아웃 되었습니다.',
-          });
-          // store.dispatch(rootActions.scheduleStore.SET_MONTH_SCHEDULE_LIST([]));
-          // store.dispatch(rootActions.scheduleStore.SET_TODAY_SCHEDULE_LIST([]));
-          userStore.initialize();
-
-        })
-        .catch(() => {});
-    })();
+    if (response.ok) {
+      userStore.initialize();
+      planStore.initialize();
+      memoStore.initialize();
+      toastifyStore.setToastify({
+        type: "success",
+        message: "로그아웃 되었습니다.",
+      });
+      router.push("/");
+    }
   };
 
   return (
-    <div className="w-full relative h-[3rem]">
+    // 헤더 3.5rem = progreebar .5rem + header 3rem
+    <div className="relative min-h-[3.5rem] w-full">
       <ReactToastifyComponents />
       <div
         id="progressBar"
-        className={`z-100 fixed top-0 left-0 h-[0.375rem] bg-gradient-purple-40-deg-70-blue-40`}
-        style={{ width: `${scrollWidth}%` }}
-      ></div>
-      <header className="fixed top-0 left-0 w-full h-[3rem]">
+        className={
+          "fixed left-0 top-0 z-[100] h-[0.5rem] bg-gradient-purple-40-blue-40-70deg"
+        }
+        style={{width: `${scrollWidth}%`}}></div>
+      <header
+        ref={headerRef}
+        className={`fixed z-50 h-[3rem] w-full bg-white-80 ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "opacity-0"}`}>
         <section
           className={
-            'flex h-full w-full relative justify-between pr-1 items-center outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20'
-          }
-        >
+            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60"
+          }>
           <SideBar />
           <div className="flex">
-            <div className={'h-full w-[2.75rem] relative'}>
-              <Link href={`/`} prefetch={false}>
+            <div className={"relative h-full w-[2.75rem]"}>
+              <Link href={"/"} prefetch={false}>
                 <Image
-                  id={'logo'}
-                  src={'/images/logo/logo.png'}
+                  id={"logo"}
+                  src={"/images/logo/logo.png"}
                   alt="logo"
                   fill
                   onClick={() => {
                     navStore.setState({
-                      leftPath: '/',
+                      leftPath: "/",
                     });
                   }}
                 />
@@ -149,13 +206,12 @@ const Header = (props: IHeader) => {
             </div>
             {!!userStore.id && (
               <div
-                className={'w-[1.5rem] aspect-square px-[.5rem]'}
+                className={"aspect-square w-[1.5rem] px-[.5rem]"}
                 onClick={() => {
                   playerStore.setPlayer({
                     youtubePlay: !playerStore.youtubePlay,
                   });
-                }}
-              >
+                }}>
                 {playerStore.youtubePlay ? (
                   <FontAwesomeIcon icon={faPause} />
                 ) : (
@@ -164,27 +220,22 @@ const Header = (props: IHeader) => {
               </div>
             )}
           </div>
-          <div className={'flex'}>
-            {userStore.id ? (
+          <div className={"flex"}>
+            {userStore.id == 0 ? (
+              <div
+                className={
+                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 default-outline"
+                }></div>
+            ) : userStore.id > 0 ? (
               <Button
                 onClick={() => signOutHandler()}
-                className={
-                  'p-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[.5rem]'
-                }
-              >
-                Sign Out
+                className={"p-2 default-outline"}>
+                로그아웃
               </Button>
             ) : (
               <ModalButton
-                modal={<AuthModal closeModal={modalState.closeModal} />}
-                buttonClassName={
-                  'p-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[.5rem]'
-                }
-                modalClassName={'max-w-[30rem]'}
-                modalOverlayVisible={true}
-                isHeaderBar={true}
-                headerBarStyle="bg-white-100 rounded-t-2xl h-[3rem]"
-              >
+                modal={<AuthModal />}
+                buttonClassName={"p-2 default-outline hover:bg-primary-20"}>
                 Sign In / Sign up
               </ModalButton>
             )}
@@ -194,4 +245,4 @@ const Header = (props: IHeader) => {
     </div>
   );
 };
-export default Header
+export default Header;

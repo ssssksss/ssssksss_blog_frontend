@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import LoginModal from './LoginModal';
-import SignupModal from './SignupModal';
+import React, {useCallback, useState} from "react";
+import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file AuthModal.tsx
@@ -8,11 +8,7 @@ import SignupModal from './SignupModal';
  * @description 설명
  */
 
-interface IAuthModal {
-    closeModal: () => void;
-}
-
-const AuthModal = (props: IAuthModal) => {
+const AuthModal = (props: IModalComponent) => {
   const [isLogin, setIsLogin] = useState(true);
   const changeAuthScreen = useCallback(() => {
     setIsLogin((prev) => !prev);
@@ -21,18 +17,17 @@ const AuthModal = (props: IAuthModal) => {
   return (
     <div
       className={
-        'bg-white-100 relative rounded-b-2xl h-full w-[20rem] max-h-[28rem] overflow-scroll bg-white scrollbar-hide'
-      }
-    >
+        "bg-white relative h-full max-h-[28rem] w-[20rem] overflow-scroll rounded-b-2xl bg-white-100 scrollbar-hide"
+      }>
       {isLogin ? (
         <LoginModal
           changeAuthScreen={changeAuthScreen}
-          closeModal={props.closeModal}
+          closeModal={() => props.closeModal && props.closeModal()}
         />
       ) : (
         <SignupModal
           changeAuthScreen={changeAuthScreen}
-          closeModal={props.closeModal}
+          closeModal={() => props.closeModal && props.closeModal()}
         />
       )}
     </div>

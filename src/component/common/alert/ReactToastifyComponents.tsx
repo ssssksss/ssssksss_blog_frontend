@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import useToastifyStore from 'src/store/toastifyStore';
+import {useEffect, useRef} from "react";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useToastifyStore from "src/store/toastifyStore";
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
@@ -13,20 +13,20 @@ const ReactToastifyComponents = () => {
   const toastifyStore = useToastifyStore();
   const isMounted = useRef(false);
   const notify = () => {
-    switch (toastifyStore.type || 'default') {
-      case 'success':
+    switch (toastifyStore.type || "default") {
+      case "success":
         toast.success(toastifyStore.message);
         break;
-      case 'error':
+      case "error":
         toast.error(toastifyStore.message);
         break;
-      case 'warning':
+      case "warning":
         toast.warning(toastifyStore.message);
         break;
-      case 'info':
+      case "info":
         toast.info(toastifyStore.message);
         break;
-      case 'default':
+      case "default":
         toast(toastifyStore.message);
         break;
       default:
@@ -41,22 +41,25 @@ const ReactToastifyComponents = () => {
   }, [toastifyStore]);
 
   return (
-    <div>
-      <ToastContainer
-        position={'top-right'} // 알람 위치 지정
-        autoClose={500} // 자동 off 시간
-        hideProgressBar={false} // 진행시간바 숨김
-        // closeOnClick // 클릭으로 알람 닫기
-        rtl={false} // 알림 좌우 반전
-        closeButton={true}
-        // pauseOnFocusLoss // 화면을 벗어나면 알람 정지
-        draggable // 드래그 가능
-        pauseOnHover={false} // 마우스를 올리면 알람 정지
-        limit={3} // 알람 개수 제한\
-        theme={'colored'}
-        // className={'translate-y-[4rem] w-[40vw] relative'}
-      />
-    </div>
+    <ToastContainer
+      position={"top-right"} // 알람 위치 지정
+      autoClose={1000} // 자동 off 시간
+      hideProgressBar={true} // 진행시간바 숨김
+      // closeOnClick // 클릭으로 알람 닫기
+      rtl={false} // 알림 좌우 반전
+      // closeButton={true}
+      // pauseOnFocusLoss // 화면을 벗어나면 알람 정지
+      draggable // 드래그 가능
+      pauseOnHover={false} // 마우스를 올리면 알람 정지
+      limit={3} // 알람 개수 제한\
+      closeButton={false}
+      // theme={"colored"}
+      // className={"translate-y-[4rem]"}
+      bodyClassName={() =>
+        "pl-4 py-4 text-white-60 translate-y-24 text-lg outline outline-black-60 flex items-center rounded-[2rem] fillAnimation animate-fill shadow-2xl"
+      }
+      toastClassName={() => ""}
+    />
   );
 };
 export default ReactToastifyComponents;

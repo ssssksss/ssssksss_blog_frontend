@@ -1,13 +1,12 @@
-import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
-import { useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
-import ModalButton from 'src/component/common/modal/hybrid/ModalButton';
-import usePlayerStore from 'src/store/playerStore';
-import useAuthStore from 'src/store/userStore';
-import YoutubePlayerModal from './YoutubePlayerModal';
-
+import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
+import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {timeFunction} from "@utils/timeFunction";
+import {useRef, useState} from "react";
+import ReactPlayer from "react-player";
+import ModalButton from "src/component/common/modal/hybrid/ModalButton";
+import usePlayerStore from "src/store/playerStore";
+import YoutubePlayerModal from "./YoutubePlayerModal";
 
 interface IMusicPlayerProps {
   isNavbarOpen: boolean;
@@ -15,58 +14,124 @@ interface IMusicPlayerProps {
 
 const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
-  const authStore = useAuthStore();
-  const player = useRef<ReactPlayer | null>(null);
+  const playerRef = useRef<ReactPlayer | null>(null);
 
   const [playTime, setPlayTime] = useState({
     playedSeconds: 0,
     played: 0,
   });
 
-  const handleProgress = (state: { playedSeconds: number; played: number }) => {
+  const handleProgress = (state: {playedSeconds: number; played: number}) => {
     setPlayTime({
       playedSeconds: state.playedSeconds,
       played: state.played,
     });
   };
 
+  const ReactPlayerError = () => {
+    const playlist = playerStore.playlist.map((i) => {
+      if (i.id == playerStore.currentYoutubePlaylist.id) {
+        i.youtubeList = i.youtubeList.map((j) => {
+          if (j.id != playerStore.currentYoutube.id) return j;
+          j.title = "";
+          j.tags = "";
+          return j;
+        });
+        return i;
+      }
+      return i;
+    });
+    playerStore.setPlayer({
+      playlist,
+    });
+    playerStore.removeCurrentYoutube();
+  };
+
+  const ReactPlayerEnded = () => {
+    if (playerStore.playRepeatType == "one") {
+      playerRef.current!.seekTo(0);
+    }
+    if (playerStore.playRepeatType == "all") {
+      if (playerStore.isPlayRandom) {
+        let max = playerStore.currentYoutubePlaylist.youtubeList.length;
+        let num = Math.floor(Math.random() * max);
+        playerStore.setPlayer({
+          currentYoutube: playerStore.currentYoutubePlaylist.youtubeList[num],
+        });
+        window.localStorage.setItem(
+          "currentYoutube",
+          JSON.stringify(playerStore.currentYoutubePlaylist.youtubeList[num]),
+        );
+      } else {
+        playerStore.currentYoutubePlaylist.youtubeList.forEach((i, index) => {
+          if (i.id == playerStore.currentYoutube.id) {
+            playerStore.setPlayer({
+              currentYoutube:
+                playerStore.currentYoutubePlaylist.youtubeList[
+                  playerStore.currentYoutubePlaylist.youtubeList.length - 1 ==
+                  index
+                    ? 0
+                    : index + 1
+                ],
+            });
+            window.localStorage.setItem(
+              "currentYoutube",
+              JSON.stringify(
+                playerStore.currentYoutubePlaylist.youtubeList[
+                  playerStore.currentYoutubePlaylist.youtubeList.length - 1 ==
+                  index
+                    ? 0
+                    : index + 1
+                ],
+              ),
+            );
+          }
+        });
+      }
+      playerRef.current!.seekTo(0);
+    }
+  };
+
   return (
-    <div className="w-full pb-2">
-      <div
-        className={`grid grid-cols-[2.4rem_calc(100%-2.4rem)] items-center w-48 h-14 cursor-pointer transition-all duration-300 hover:bg-primary-200 ${
-          props.isNavbarOpen ? 'w-48' : 'w-11 grid-cols-[4.4rem] p-0'
-        }`}
+    <section className="grid w-full grid-rows-[3rem_2rem]">
+      {/* 플레이 바가 보이는 UI */}
+      <button
+        className={
+          "grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto] items-center transition-all duration-300 hover:bg-primary-20 disabled:cursor-not-allowed disabled:bg-gray-80"
+        }
         onClick={() => {
           playerStore.setPlayer({
             youtubePlay: !playerStore.youtubePlay,
           });
         }}
-      >
-        <div className="w-6 aspect-square px-3.5">
+        disabled={!playerStore.currentYoutube.id}>
+        <div className="h-full default-outline default-flex">
           {playerStore.youtubePlay ? (
             <FontAwesomeIcon icon={faPause} />
           ) : (
             <FontAwesomeIcon icon={faPlay} />
           )}
         </div>
-        <div
-          className={`${props.isNavbarOpen ? 'flex' : 'hidden'} flex-col items-center gap-4`}
-        >
-          {/* <Span fontSize="1rem">
+        <div className="flex h-full w-full flex-col justify-between px-1">
+          <span className={"text-start text-[1rem]"}>
             {timeFunction.secToTime(playTime.playedSeconds)} [
             {Math.floor(playTime.played * 100)}%]
-          </Span> */}
+          </span>
           <ReactPlayer
             width="0rem"
             height="0rem"
-            loop
             url={
-              window.localStorage.getItem('youtubeLink') ||
-              'https://www.youtube.com/watch?v=eyyAUFxlnGg'
+              playerStore.currentYoutube.youtubeUrl
+                ? playerStore.currentYoutube.youtubeUrl
+                : "https://www.youtube.com/watch?v=eyyAUFxlnGg"
             }
-            ref={player}
+            ref={playerRef}
             playing={playerStore.youtubePlay}
             onProgress={handleProgress}
+            onError={() => {
+              ReactPlayerError();
+            }}
+            onEnded={() => ReactPlayerEnded()}
           />
           <input
             type="range"
@@ -81,45 +146,36 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
               }))
             }
             onMouseUp={(e) =>
-              player.current?.seekTo(
+              playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
-                'fraction',
+                "fraction",
               )
             }
             onTouchEnd={(e) =>
-              player.current?.seekTo(
+              playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
-                'fraction',
+                "fraction",
               )
             }
-            className="w-full h-4 appearance-none bg-transparent focus:outline-none"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="h-full w-full bg-red-20 bg-transparent focus:outline-none disabled:bg-gray-40"
+            disabled={!playerStore.currentYoutube.id}
           />
         </div>
-        {!!authStore.id && (
-          <ModalButton
-            modal={<YoutubePlayerModal />}
-            modalClassName={"min-w-[32rem] max-w-[96vw] h-[2.4rem]"}
-            modalOverlayVisible
-          >
-            <Image src={"/images/logo/ic-etc.svg"} alt="etc" width={10} height={10} />
-          </ModalButton>
-        )}
-        {/* {!!authStore.id && (
-        <Modal
-          modalState={modalState}
-        >
-          <YoutubePlayerModal />
-        </Modal>
-        )} */}
-      </div>
-      <div className="w-full px-2">
-        <div className="w-full overflow-hidden whitespace-nowrap box-border outline outline-2 outline-primary-400 rounded-xl">
-          <span className="inline-block pl-full animate-marquee">
-            {playerStore.youtubeTitle}
-          </span>
+      </button>
+      {/* 하단에 어떤 음악인지 보여주는 UI */}
+      <ModalButton
+        buttonClassName={
+          "min-h-[2rem] w-full overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl bg-white-80"
+        }
+        modal={<YoutubePlayerModal />}>
+        <div className="pl-full animate-marquee whitespace-nowrap px-1 hover:animate-none">
+          {playerStore.currentYoutube.title || "아무런 노래가 없습니다."}
         </div>
-      </div>
-    </div>
+      </ModalButton>
+    </section>
   );
 };
 

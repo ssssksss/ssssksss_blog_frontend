@@ -1,7 +1,11 @@
-import { ReactNode } from 'react';
+import Blog2FloatMenu from "@component/blog2/hybrid/Blog2FloatMenu";
+import {ReactNode} from "react";
 
-export default function Template({ children }: { children: ReactNode }) {
+export default function Template({children}: {children: ReactNode}) {
   return (
-      <main className='p-4 bg-red-100 w-full h-full'>{children}</main>
+    <main className="h-full w-full p-1">
+      {children}
+      <Blog2FloatMenu />
+    </main>
   );
 }

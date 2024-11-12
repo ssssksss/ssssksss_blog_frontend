@@ -1,173 +1,540 @@
-import { useReducer, useRef, useState } from 'react';
-import Button from 'src/component/common/button/hybrid/Button';
+import Button from "@component/common/button/hybrid/Button";
+import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
+import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import usePlayerStore from "@store/playerStore";
+import useToastifyStore from "@store/toastifyStore";
+import Image from "next/image";
+import {useEffect, useRef, useState} from "react";
 
-interface YoutubeLink {
-  id: string;
-  youtubeUrl: string;
-  imageUrl: string;
-  title: string;
-  tags: string;
-}
+// src\component\common\layout\hybrid\Header.tsx 로컬에서 데이터를 받아옴
 
-const YoutubePlayerModal: React.FC = () => {
+const YoutubePlayerModal = (props: IModalComponent) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const playerStore = usePlayerStore();
+  const [openPlaylist, setOpenPlaylist] = useState<IYoutubePlaylist | null>(
+    playerStore.currentYoutubePlaylist.id
+      ? playerStore.currentYoutubePlaylist
+      : null,
+  ); // 화면에 보이는 플레이리스트
+  const toastifyStore = useToastifyStore();
 
-  // const createYoutubeLinkMutation = YoutubeAPI.createYoutubeLink({
-  //   onSuccessHandler: () => {
-  //     setLoading(false);
-  //   },
-  // });
-  // const getYoutubeLinkListResData = YoutubeAPI.getYoutubeLinkList();
-  // const deleteYoutubeLinkMutation = YoutubeAPI.deleteYoutubeLink();
+  const handlePlaylist = (item: IYoutubePlaylist) => {
+    setOpenPlaylist((prev) => (prev != null ? null : item));
+  };
 
-  const [, toggleHandler] = useReducer((prev: boolean) => !prev, true);
+  const createPlaylist = async () => {
+    const title = inputRef.current?.value;
+    const res = await fetch("/api/youtube/playlist", {
+      method: "POST",
+      body: JSON.stringify({playlistTitle: title}),
+    });
 
-  const addYoutubeLinkHandler = async (): Promise<void> => {
-    // if (inputRef.current) {
-    //   createYoutubeLinkMutation({
-    //     youtubeUrlKeyId: UrlQueryStringToObject(inputRef.current.value)?.v,
-    //     youtubeUrl: inputRef.current.value,
-    //   });
-    // }
+    if (!res.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "에러",
+      });
+      return;
+    }
+    const result: createYoutubePlaylistResponse = await res.json();
+    playerStore.setPlayer({
+      playlist: [...playerStore.playlist, result.data],
+    });
+    inputRef.current!.value = "";
+  };
+
+  const handlePlayItemClick = (item: IYoutube) => {
+    playerStore.setPlayer({
+      currentYoutube: item,
+      currentYoutubePlaylist: openPlaylist!,
+    });
+    window.localStorage.setItem("currentYoutube", JSON.stringify(item));
+    window.localStorage.setItem(
+      "currentYoutubePlaylist",
+      JSON.stringify(openPlaylist),
+    );
+  };
+
+  const deletePlaylist = async (id: number) => {
+    const res = await fetch(`/api/youtube/playlist?id=${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "에러",
+      });
+      return;
+    }
+    let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
+      localStorage.getItem("currentYoutubePlaylist")!,
+    );
+    if (currentYoutubePlaylist) {
+      if (currentYoutubePlaylist.id == id) {
+        localStorage.removeItem("currentYoutubePlaylist");
+        localStorage.removeItem("currentYoutube");
+      }
+    }
+    playerStore.setPlayer({
+      playlist: playerStore.playlist.filter((i) => i.id != id),
+    });
+    setOpenPlaylist(null);
+  };
+
+  // ==================================================================
+
+  const createYoutubeUrl = async () => {
+    const url = inputRef.current?.value;
+    const _url = new URL(url || "");
+    const regex = /^(https?:\/\/|www\.)[^\s]+(\?|\&)([^&]*v=([^&]*))[^]*$/;
+    if (!regex.test(url || "")) {
+      return;
+    }
+    const v = _url.searchParams.get("v");
+    const res = await fetch("/api/youtube/url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        youtubePlaylistId: openPlaylist?.id,
+        youtubeUrlKeyId: v,
+        youtubeUrl: url,
+      }),
+    });
+
+    if (!res.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "에러",
+      });
+      return;
+    }
+    const result: createYoutubeUrlResponse = await res.json();
+    const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
+      if (i.id == openPlaylist?.id) {
+        return {
+          ...i,
+          youtubeList: [...i.youtubeList, result.data.youtube], // youtubeList 업데이트
+        };
+      } else {
+        return i; // 다른 항목은 그대로 반환
+      }
+    });
+    playerStore.setPlayer({
+      playlist: temp,
+    });
+    if (playerStore.currentYoutubePlaylist.id == openPlaylist?.id) {
+      playerStore.setPlayer({
+        playlist: temp,
+        currentYoutubePlaylist: temp.filter((i) => i.id == openPlaylist.id)[0],
+      });
+      localStorage.setItem(
+        "currentYoutubePlaylist",
+        JSON.stringify(temp.filter((i) => i.id == openPlaylist.id)[0]),
+      );
+    }
+    inputRef.current!.value = "";
+  };
+
+  const deleteYoutube = async (id: number) => {
+    const res = await fetch(`/api/youtube/url?id=${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "에러",
+      });
+      return;
+    }
+    const temp = playerStore.playlist.map((i) => {
+      if (i.id == openPlaylist?.id) {
+        return {
+          ...i,
+          youtubeList: i.youtubeList.filter((j) => j.id != id),
+        };
+      } else {
+        return i;
+      }
+    });
+    playerStore.setPlayer({
+      playlist: temp,
+    });
+    const currentYoutube: IYoutube = playerStore.currentYoutube;
+    if (currentYoutube.id == id) {
+      localStorage.removeItem("currentYoutube");
+      let currentYoutubePlaylist: IYoutubePlaylist =
+        playerStore.currentYoutubePlaylist;
+      currentYoutubePlaylist.youtubeList =
+        currentYoutubePlaylist.youtubeList.filter(
+          (youtube) => youtube.id != id,
+        );
+      localStorage.setItem(
+        "currentYoutubePlaylist",
+        JSON.stringify(currentYoutubePlaylist),
+      );
+      playerStore.removeCurrentYoutube();
+      playerStore.setPlayer({
+        currentYoutubePlaylist: currentYoutubePlaylist,
+      });
+    }
+  };
+
+  const handlePlayBackwardClick = () => {
+    if (!playerStore.currentYoutubePlaylist.id) return;
+    playerStore.currentYoutubePlaylist.youtubeList.forEach((i, index) => {
+      if (i.id == playerStore.currentYoutube.id) {
+        const newCurrentYoutube =
+          playerStore.currentYoutubePlaylist.youtubeList[
+            index == 0 ? 0 : index - 1
+          ];
+        // store
+        playerStore.setPlayer({
+          currentYoutube: newCurrentYoutube,
+        });
+        // localStorage
+        window.localStorage.setItem(
+          "currentYoutube",
+          JSON.stringify(newCurrentYoutube),
+        );
+      }
+    });
+  };
+
+  const handlePlayForwardClick = () => {
+    if (!playerStore.currentYoutubePlaylist.id) return;
+    playerStore.currentYoutubePlaylist.youtubeList.forEach((i, index) => {
+      if (i.id == playerStore.currentYoutube.id) {
+        const newCurrentYoutube =
+          playerStore.currentYoutubePlaylist.youtubeList[
+            index == playerStore.currentYoutubePlaylist.youtubeList.length - 1
+              ? index
+              : index + 1
+          ];
+        // store
+        playerStore.setPlayer({
+          currentYoutube: newCurrentYoutube,
+        });
+        // localStorage
+        window.localStorage.setItem(
+          "currentYoutube",
+          JSON.stringify(newCurrentYoutube),
+        );
+      }
+    });
   };
 
   const copyLinkHandler = (youtubeUrl: string): void => {
     navigator.clipboard.writeText(youtubeUrl);
-    // store.dispatch(
-    //   SET_TOASTIFY_MESSAGE({
-    //     type: 'success',
-    //     message: `복사되었습니다.`,
-    //   }),
-    // );
+    toastifyStore.setToastify({
+      type: "success",
+      message: "복사되었습니다.",
+    });
   };
 
-  const deleteLinkHandler = (id: string): void => {
-    // deleteYoutubeLinkMutation({
-    //   id: id,
-    // });
+  const handlePlayRepeat = () => {
+    if (!playerStore.playRepeatType) {
+      playerStore.setPlayer({
+        playRepeatType: "one",
+      });
+      localStorage.setItem("playRepeatType", "one");
+    } else if (playerStore.playRepeatType == "one") {
+      playerStore.setPlayer({
+        playRepeatType: "all",
+      });
+      localStorage.setItem("playRepeatType", "all");
+    } else {
+      playerStore.setPlayer({
+        playRepeatType: null,
+      });
+      localStorage.removeItem("playRepeatType");
+    }
   };
 
-  const selectYoutubeLinkHandler = (data: YoutubeLink): void => {
-    // if (store.getState().reactPlayerStore.youtubeTitle == data.title) {
-    //   store.dispatch(
-    //     rootActions.reactPlayerStore.setYoutubePlay(
-    //       !store.getState().reactPlayerStore.youtubePlay,
-    //     ),
-    //   );
-    //   return;
-    // }
-    // window.localStorage.setItem('youtubeLink', data.youtubeUrl);
-    // window.localStorage.setItem('youtubeTitle', data.title);
-    // toggleHandler();
-    // store.dispatch(rootActions.reactPlayerStore.setYoutubeTitle(data.title));
-    // store.dispatch(rootActions.reactPlayerStore.setYoutubePlay(true));
-    // store.dispatch(
-    //   SET_TOASTIFY_MESSAGE({
-    //     type: 'success',
-    //     message: `선택되었습니다.`,
-    //   }),
-    // );
+  const handlePlaybackMode = () => {
+    playerStore.setPlayer({
+      isPlayRandom: !playerStore.isPlayRandom,
+    });
+    localStorage.setItem("isPlayRandom", !playerStore.isPlayRandom + "");
   };
+
+  useEffect(() => {
+    const getPlaylist = async () => {
+      const res = await fetch("/api/youtube/playlist", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: {tags: ["getPlaylist"]},
+      });
+
+      if (!res.ok) {
+        toastifyStore.setToastify({
+          type: "error",
+          message: "에러",
+        });
+        return;
+      }
+      const result: getYoutubePlaylistResponse = await res.json();
+      playerStore.setPlayer({
+        isFetchYoutubePlaylist: true,
+        playlist: result.data,
+        playRepeatType: localStorage.getItem("playRepeatType"),
+        isPlayRandom:
+          localStorage.getItem("isPlayRandom") == "true" ? true : false,
+      });
+    };
+    // 처음 요청이 아니라면 요청을 보내지 않음
+    if (!playerStore.isFetchYoutubePlaylist) {
+      getPlaylist();
+    }
+  }, []);
 
   return (
-    <section className="flex flex-col gap-2 w-full">
-      <article className="flex flex-col gap-2 px-2">
-        <div className="flex gap-2.5">
-          <h2 className="h-12 flex items-center text-gray-800 mb-6 text-lg font-bold border-b border-gray-300">
-            
-            Add YouTube Links
-          </h2>
+    <ModalTemplate
+      className={
+        "h-[min(calc(100vh-1rem),800px)] w-[80vw] min-w-[22.5rem] bg-gradient"
+      }>
+      {props.closeButtonComponent}
+      <div className="relative z-0 flex h-full w-full justify-end gap-2">
+        <div className="absolute left-0 top-1/2 w-full max-w-[37.5rem] -translate-y-1/2 default-flex">
+          <div
+            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -outline-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}>
+            {playerStore.currentYoutube?.imageUrl && (
+              <Image src={playerStore.currentYoutube.imageUrl} alt={""} fill />
+            )}
+          </div>
         </div>
-        <label
-          htmlFor={'youtube-link'}
-          className="flex justify-start font-semibold"
-        >
-          YouTube Link
-        </label>
-        {/* <Input
-          id={'youtube-link'}
-          placeholder={'Enter YouTube link'}
-          onKeyPressAction={addYoutubeLinkHandler}
-          ref={inputRef as MutableRefObject<HTMLInputElement>}
-          className="py-3 px-1 rounded border-2 border-gray-300 placeholder-gray-400"
-        /> */}
-        <span className="text-xs text-gray-500 text-left">
-          
-          Add a YouTube video link here
-        </span>
-        <Button
-          className="w-full bg-gray-800 text-gray-200 h-14"
-          onClick={() => {
-            setLoading(true);
-            addYoutubeLinkHandler();
-          }}
-        >
-          {loading ? (
-            <div className="w-6 aspect-square">
-              스피너
-            </div>
-          ) : (
-            'Add Link'
-          )}
-        </Button>
-      </article>
-      <ul className="min-h-48 w-full border border-primary-500 overflow-hidden">
-        {/* {getYoutubeLinkListResData.isLoading ||
-          getYoutubeLinkListResData.data?.data?.youtubeList.map(
-            (i: YoutubeLink, index: number) => (
+        <div className="z-50 flex min-h-[3.75rem] w-full max-w-[37.5rem] flex-col p-2">
+          <div className={"flex min-h-[3.75rem] w-full"}>
+            <input
+              ref={inputRef}
+              placeholder={
+                openPlaylist == null
+                  ? "플레이리스트 명을 입력하세요"
+                  : "유튜브 url을 입력하세요"
+              }
+              type={"text"}
+              className="mr-1 w-full rounded-[1rem] bg-white-80/60 pl-1"
+              maxLength={!openPlaylist?.id ? 30 : 500}
+            />
+            <Button
+              className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-80/60"
+              onClick={() =>
+                openPlaylist == null ? createPlaylist() : createYoutubeUrl()
+              }>
+              추가
+            </Button>
+          </div>
+          <ul
+            className={`relative mt-2 flex max-h-[calc(100%-7.5rem)] w-full flex-col gap-y-1 pb-1 ${openPlaylist != null ? "pt-[4rem]" : "overflow-y-scroll scrollbar-hide"}`}>
+            {playerStore.playlist.map((i, index) => (
               <li
                 key={index}
-                onClick={() => selectYoutubeLinkHandler(i)}
-                className={`h-24 border-b border-gray-200 grid grid-cols-[3.6rem_calc(100%-12.5rem)_3.6rem_3.6rem] px-1 gap-1 items-center w-full hover:bg-primary-200 hover:cursor-pointer hover:text-contrast ${
-                  i.youtubeUrl == window.localStorage.getItem('youtubeLink')
-                    ? 'bg-primary-200 text-contrast'
-                    : ''
-                }`}
-              >
-                <div className="w-20 aspect-square">
-                  <img src={i.imageUrl} alt="" />
+                id={i.id + ""}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-80/60 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-x-[100vw] translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
+                onClick={() => handlePlaylist(i)}>
+                <div className="flex w-full items-center justify-start pl-1">
+                  {i.title}
                 </div>
-                <div className="flex flex-col justify-start items-start max-w-full overflow-hidden text-ellipsis px-1 border-r border-gray-300">
-                  <p className="font-extrabold px-1 whitespace-nowrap overflow-hidden text-ellipsis">
-                    
-                    {`${i.title}`}
-                  </p>
-                  <div className="flex text-gray-500 gap-1">
-                    {JSON.parse(i.tags)?.map((j: string, index1: number) => (
-                      <span
-                        key={index1}
-                        className="outline outline-1 outline-black-200 rounded-lg p-1"
-                      >
-                        
-                        {j}
-                      </span>
-                    ))}
-                  </div>
+                <div className="relative h-auto w-[4rem] rounded-[1rem] p-[0.0625rem] text-sm default-flex glassmorphism">
+                  {i.youtubeList.length} 개
                 </div>
                 <button
-                  className="flex justify-center items-center p-1 rounded-lg bg-gray-300 hover:bg-primary-200 hover:outline hover:outline-2 hover:outline-contrast"
-                  onClick={(e: React.MouseEvent) => {
-                    e.stopPropagation();
-                    copyLinkHandler(i.youtubeUrl);
-                  }}
-                >
-                  <Image src={Icons.CopyIcon} width={39} height={39} alt="" />
+                  className="relative h-full w-[3.75rem] px-2 default-flex"
+                  onClick={() => deletePlaylist(i.id)}>
+                  <Image
+                    alt=""
+                    src={"/images/icons/ic-delete-black.svg"}
+                    width={48}
+                    height={48}
+                  />
                 </button>
-                <ConfirmButton
-                  className="p-1 rounded-lg bg-red-500"
-                  onClick={(e: React.MouseEvent) => {
-                    deleteLinkHandler(i.id);
-                    e.stopPropagation();
-                  }}
-                >
-                  <Image src={Icons.DeleteIcon} width={39} height={39} alt="" />
-                </ConfirmButton>
               </li>
-            ),
-          )} */}
-      </ul>
-    </section>
+            ))}
+            {
+              // 노래가 있는 UI
+              openPlaylist != null && (
+                <div
+                  className={
+                    "flex h-full w-full animate-fadeUp flex-col gap-y-1 overflow-y-scroll rounded-[1rem] scrollbar-hide"
+                  }>
+                  {playerStore.playlist
+                    .filter((i) => i.id == openPlaylist?.id)[0]
+                    ?.youtubeList.map((i, index) => (
+                      <li
+                        key={index}
+                        className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-80/60"}`}
+                        onClick={() => handlePlayItemClick(i)}>
+                        <div className={"aspect-square h-full default-flex"}>
+                          <Image
+                            alt=""
+                            src={`${i.imageUrl}`}
+                            width={72}
+                            height={72}
+                            className={"rounded-[.25rem]"}
+                          />
+                        </div>
+                        <div className="flex w-full flex-col gap-y-1 overflow-hidden pl-1">
+                          <div className="w-fit whitespace-nowrap hover:animate-marquee">
+                            {i.title || "재생할 수 없는 노래입니다."}
+                          </div>
+                          <div className="whitespace-nowrap text-sm text-black-40 hover:animate-marquee">
+                            {i.tags}
+                          </div>
+                        </div>
+                        <div className="flex gap-x-1 px-2">
+                          <Image
+                            alt=""
+                            src={"/images/icons/ic-copy-black.svg"}
+                            width={48}
+                            height={48}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              copyLinkHandler(i.youtubeUrl);
+                            }}
+                          />
+                          <Image
+                            alt=""
+                            src={"/images/icons/ic-delete-black.svg"}
+                            width={48}
+                            height={48}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteYoutube(i.id);
+                            }}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                </div>
+              )
+            }
+          </ul>
+          <div
+            className={
+              "mt-auto h-[3rem] w-full flex-shrink-0 rounded-[1rem] bg-white-80/60 py-1 sm:h-[4rem]"
+            }>
+            {/* 버튼 5개 */}
+            <div className="h-full w-full gap-x-4 default-flex">
+              <button
+                onClick={() => handlePlaybackMode()}
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                {playerStore.isPlayRandom ? (
+                  <div className={"relative h-[50%] w-full"}>
+                    <Image
+                      alt=""
+                      src={"/images/icons/ic-shuffle.svg"}
+                      fill
+                      style={{objectFit: "contain"}}
+                    />
+                  </div>
+                ) : (
+                  <div className={"relative h-[50%] w-full"}>
+                    <Image
+                      alt=""
+                      src={"/images/icons/ic-arrow-right-arrow-left.svg"}
+                      fill
+                      style={{objectFit: "contain"}}
+                    />
+                  </div>
+                )}
+              </button>
+              <button
+                onClick={() => handlePlayBackwardClick()}
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                <div className={"relative h-[50%] w-full"}>
+                  <Image
+                    alt=""
+                    src={"/images/icons/ic-backward-step.svg"}
+                    fill
+                    style={{objectFit: "contain"}}
+                  />
+                </div>
+              </button>
+              <button
+                className="relative flex aspect-square h-full items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
+                onClick={() => {
+                  playerStore.setPlayer({
+                    youtubePlay: !playerStore.youtubePlay,
+                  });
+                }}>
+                {playerStore.youtubePlay ? (
+                  <FontAwesomeIcon
+                    icon={faPause}
+                    className={"h-5/8 aspect-square default-flex"}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faPlay}
+                    className={"h-5/8 aspect-square default-flex"}
+                  />
+                )}
+              </button>
+              <button
+                onClick={() => handlePlayForwardClick()}
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                <div className={"relative h-[50%] w-full"}>
+                  <Image
+                    alt=""
+                    src={"/images/icons/ic-forward-step.svg"}
+                    fill
+                    style={{objectFit: "contain"}}
+                  />
+                </div>
+              </button>
+              <button
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
+                onClick={() => handlePlayRepeat()}>
+                <div className={"relative h-[50%] w-full"}>
+                  <Image
+                    alt=""
+                    src={"/images/icons/ic-rotate.svg"}
+                    fill
+                    style={{objectFit: "contain"}}
+                  />
+                </div>
+                {playerStore.playRepeatType == null && (
+                  <div
+                    className={
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                    }>
+                    X
+                  </div>
+                )}
+                {playerStore.playRepeatType == "one" && (
+                  <div
+                    className={
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                    }>
+                    1
+                  </div>
+                )}
+                {playerStore.playRepeatType == "all" && (
+                  <div
+                    className={
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                    }>
+                    all
+                  </div>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalTemplate>
   );
 };
 

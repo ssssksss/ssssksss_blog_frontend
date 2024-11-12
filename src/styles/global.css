@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+}
+
 /* Global CSS Reset */
 
 *,
@@ -11,20 +15,27 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
+  font-family: WavvePADO-Regular;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-body {
-  line-height: 1.5;
-}
+
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -33,7 +44,10 @@ table {
   border-spacing: 0;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
@@ -49,12 +63,16 @@ abbr[title] {
   text-decoration: dotted;
 }
 
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
 
-code, kbd, samp, pre {
-  font-family: monospace, monospace;
+code,
+kbd,
+samp,
+pre {
+  font: inherit;
 }
 
 hr {
@@ -72,4 +90,77 @@ legend {
   border: none;
   padding: 0;
   margin: 0;
+}
+
+@font-face {
+  font-family: "gmarketSansBold";
+  src: url("/fonts/GmarketSansTTFBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "cookieRunRegular";
+  src: url("/fonts/cookieRunRegular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "typoHelloPOP";
+  src: url("/fonts/TypoHelloPOP.ttf") format("truetype");
+}
+@font-face {
+  font-family: "yanoljaYacheBold";
+  src: url("/fonts/YanoljaYacheBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "yanoljaYacheRegular";
+  src: url("/fonts/YanoljaYacheRegular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "D2Coding";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "bitbit";
+  src: url("//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff"),
+    url("//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff2");
+}
+@font-face {
+  font-family: "SDSamliphopangche_Outline";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+  transform: scale(0.9);
+  font-color: red;
+}
+
+@font-face {
+  font-family: "Ownglyph_meetme-Rg";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "DNFBitBitv2";
+  font-style: normal;
+  font-weight: 400;
+  src: url("//cdn.df.nexon.com/img/common/font/DNFBitBitv2.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "HakgyoansimPuzzleTTF-Black";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimPuzzleTTF-Black.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WavvePADO-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }

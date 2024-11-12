@@ -5,7 +5,7 @@ const signInUser = async (args: ISignUserProps) => {
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
     bodyData: args,
     credentials: true,
-    method: 'PUT',
+    method: "PUT",
   };
 };
 
@@ -14,7 +14,7 @@ const initGetUser = async () => {
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
     methods: "GET",
   };
-}
+};
 
 export const UserAPI = {
   signInUser,

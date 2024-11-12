@@ -3,3 +3,8 @@ declare interface IModalState {
   openModal: () => void;
   closeModal: () => void;
 }
+
+declare interface IModalComponent {
+  closeModal?: () => void;
+  closeButtonComponent?: ReactNode;
+}

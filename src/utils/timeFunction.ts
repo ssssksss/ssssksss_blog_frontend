@@ -1,24 +1,24 @@
 function msToTime(duration: number): string {
-  const milliseconds = Math.floor((duration % 1000) / 100);
-  let seconds = Math.floor((duration / 1000) % 60);
-  let minutes = Math.floor((duration / (1000 * 60)) % 60);
-  let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  const milliseconds = parseInt(((duration % 1000) / 100).toString());
+  let seconds: number | string = Math.floor((duration / 1000) % 60);
+  let minutes: number | string = Math.floor((duration / (1000 * 60)) % 60);
+  let hours: number | string = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
 
   return `${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
 function secToTime(duration: number): string {
-  let seconds = Math.floor(duration % 60);
-  let minutes = Math.floor((duration / 60) % 60);
-  let hours = Math.floor((duration / (60 * 60)) % 24);
+  let seconds: number | string = Math.floor(duration % 60);
+  let minutes: number | string = Math.floor((duration / 60) % 60);
+  let hours: number | string = Math.floor((duration / (60 * 60)) % 24);
 
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
 
   return `${hours}:${minutes}:${seconds}`;
 }
@@ -32,11 +32,45 @@ function jsDateTypeAddDays(date: Date, days: number): string {
 }
 
 function dayIntervalCalc(start: Date, end: Date): number {
-  const timeDifference = Math.abs(start.getTime() - end.getTime());
-  const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
-
-  return start.getTime() - end.getTime() < 0 ? daysDifference : -daysDifference;
+  const difference = start.getTime() - end.getTime();
+  if (difference < 0) {
+    return Math.ceil(Math.abs(difference) / (1000 * 3600 * 24)) + 1;
+  } else {
+    return -1 * Math.ceil(Math.abs(difference) / (1000 * 3600 * 24)) + 1;
+  }
 }
 
-// Function to display relative time (e.g., "3 hours ago")
-export const timeFromToday = (time: string | Date): string => {
+// 몇 시간, 몇 분 전과 같이 보여주는 함수
+export const timeFromToday = (time: string | number | Date): string => {
+  const today = new Date();
+  const timeValue = new Date(time);
+
+  const betweenTime = Math.floor(
+    (today.getTime() - timeValue.getTime()) / 1000 / 60,
+  );
+  if (betweenTime < 1) return "방금전";
+  if (betweenTime < 60) {
+    return `${betweenTime}분전`;
+  }
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    return `${betweenTimeHour}시간전`;
+  }
+
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeDay < 365) {
+    return `${betweenTimeDay}일전`;
+  }
+
+  return `${Math.floor(betweenTimeDay / 365)}년전`;
+};
+
+// timeFunction 객체
+export const timeFunction = {
+  msToTime,
+  secToTime,
+  jsDateTypeAddDays,
+  dayIntervalCalc,
+  timeFromToday,
+};

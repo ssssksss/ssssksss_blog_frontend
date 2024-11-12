@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useCallback } from 'react';
+import { MouseEventHandler, ReactNode, useCallback } from "react";
 
 export interface IButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -6,7 +6,7 @@ export interface IButtonProps {
   children: ReactNode;
   disabled?: boolean;
   w?: string;
-  h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
+  h?: "xs" | "sm" | "md" | "lg" | "xl" | string;
   minW?: string;
   minH?: string;
   bg?: string;
@@ -18,7 +18,7 @@ export interface IButtonProps {
   outlineColor?: string;
   fontFamily?: string;
   fontWeight?: number;
-  state?: 'danger' | 'warning' | number;
+  state?: "danger" | "warning" | number;
   active?: boolean;
   activeBg?: string;
   activeColor?: string;
@@ -58,6 +58,7 @@ const Button = ({
       onClick={onClick}
       onClickCapture={onClickCapture}
       className={className}
+      disabled={props.disabled}
       style={{
         padding: props.pd,
         margin: props.mg,

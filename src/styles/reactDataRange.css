@@ -1,0 +1,94 @@
+.rdrCalendarWrapper {
+  border-radius: 1rem;
+  /* 6주가 채워진 달력의 높이 */
+  min-height: 24rem;
+}
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+.rdrMonthAndYearWrapper {
+}
+.rdrDateRangeWrapper {
+  width: 100%;
+}
+.rdrMonthsVertical {
+  align-items: center;
+  gap: 0.25rem;
+}
+.rdrStartEdge {
+}
+.rdrEndEdge {
+}
+.rdrWeekDays {
+  .rdrWeekDay {
+    color: #111;
+    font-weight: 600;
+  }
+  .rdrWeekDay:nth-of-type(1) {
+    color: red;
+    font-weight: 600;
+  }
+  .rdrWeekDay:nth-of-type(7) {
+    color: blue;
+    font-weight: 600;
+  }
+}
+.rdrDay {
+}
+.rdrDayToday {
+}
+.rdrDayActive {
+}
+.rdrInRange {
+}
+.rdrMonthAndYearWrapper .rdrNextPrevButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  i {
+    visibility: hidden;
+  }
+}
+.rdrMonthAndYearWrapper .rdrNextPrevButton:hover {
+  background: #00b488;
+}
+.rdrMonthAndYearWrapper .rdrPprevButton {
+  background-image: url("/images/icons/ic-calendar-prev-arrow-icon.svg");
+  background-repeat: no-repeat;
+  background-size: 6px 12px;
+  background-position: 50% 50%;
+}
+.rdrMonthAndYearWrapper .rdrNextButton {
+  background-image: url("/images/icons/ic-calendar-next-arrow-icon.svg");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 6px 12px;
+}
+.rdrMonthAndYearWrapper .rdrPprevButton:hover {
+  background-image: url("/images/icons/ic-calendar-prev-arrow-white-icon.svg");
+  background-repeat: no-repeat;
+  background-size: 6px 12px;
+  background-position: 50% 50%;
+}
+.rdrMonthAndYearWrapper .rdrNextButton:hover {
+  background-image: url("/images/icons/ic-calendar-next-arrow-white-icon.svg");
+  background-repeat: no-repeat;
+  background-size: 6px 12px;
+  background-position: 50% 50%;
+}
+.rdrMonth {
+  font-size: 0.875rem;
+  @media (max-width: ${(props) => props.theme.deviceSizes.tablet}) {
+    font-size: 1rem;
+  }
+  height: 17.5rem;
+}
+.rdrMonthAndYearPickers {
+  display: flex;
+  flex-direction: row-reverse;
+  visibility: hidden;
+}
+.rdrMonthName {
+  visibility: hidden;
+}

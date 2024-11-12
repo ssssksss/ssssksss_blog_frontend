@@ -4,7 +4,7 @@ declare interface IButtonProps {
   children: ReactNode;
   disabled?: boolean;
   w?: string;
-  h?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | string;
+  h?: "xs" | "sm" | "md" | "lg" | "xl" | string;
   minW?: string;
   minH?: string;
   bg?: Partial<colorTypes | themeTypes> | number;
@@ -16,7 +16,7 @@ declare interface IButtonProps {
   outlineColor?: Partial<colorTypes | themeTypes>;
   fontFamily?: string;
   fontWeight?: number;
-  state?: 'danger' | 'warning' | number;
+  state?: "danger" | "warning" | number;
   active?: boolean;
   activeBg?: string;
   activeColor?: string;

@@ -1,12 +1,11 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import Button from 'src/component/common/button/hybrid/Button';
-import HamburgerMenu from 'src/component/common/button/hybrid/HamburgerMenu';
-import MusicPlayer from 'src/component/player/hybrid/MusicPlayer';
-import useNavStore from 'src/store/navStore';
-import useAuthStore from 'src/store/userStore';
+import Button from "@component/common/button/hybrid/Button";
+import HamburgerMenu from "@component/common/button/hybrid/HamburgerMenu";
+import MusicPlayer from "@component/player/hybrid/MusicPlayer";
+import {default as useAuthStore} from "@store/userStore";
+import Image from "next/image";
+import Link from "next/link";
+import {useSearchParams} from "next/navigation";
+import React, {MouseEvent, useEffect, useState} from "react";
 
 interface LeftNavItem {
   icon: string;
@@ -17,74 +16,110 @@ interface LeftNavItem {
   };
 }
 
-  const LeftNavItems: LeftNavItem[] = [
-    {
-      icon: '/images/icons/ic-home.svg',
-      label: '홈',
-      href: '/',
-      options: { isRequiredAuth: false },
-    },
-    {
-      icon: '/images/icons/ic-blog.svg',
-      label: '블로그2',
-      href: '/blog2',
-      options: { isRequiredAuth: false },
-    },
-  ];
+const LeftNavItems: LeftNavItem[] = [
+  {
+    icon: "/images/icons/ic-home.svg",
+    label: "홈",
+    href: "/",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-blog.svg",
+    label: "블로그",
+    href: "/blog",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-blog.svg",
+    label: "블로그2",
+    href: "/blog2",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-list-check.svg",
+    label: "일정",
+    href: "/plan",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-plane.svg",
+    label: "여행",
+    href: "/travel",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-board.svg",
+    label: "게시판",
+    href: "/board",
+    options: {isRequiredAuth: false},
+  },
+];
 
 const SideBar = () => {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
-  const authStore = useAuthStore();
-  const navStore = useNavStore();
-  const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const userStore = useAuthStore();
+  // const navStore = useNavStore();
+  const [activeMenu, setActiveMenu] = useState("");
+  const searchParams = useSearchParams();
+
+  // useEffect(() => {
+  //   setActiveMenu(window.location.pathname);
+
+  //   const sideBarActiveCheck = () => {
+  //     if (window.document.location.pathname === "/") {
+  //       navStore.setState({
+  //         leftPath: "/",
+  //       });
+  //     }
+  //   };
+  //   window.addEventListener("popstate", sideBarActiveCheck);
+
+  //   return () => {
+  //     window.removeEventListener("popstate", sideBarActiveCheck);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    const sideBarActiveCheck = () => {
-      if (window.document.location.pathname === '/') {
-        navStore.setState({
-          leftPath: '/',
-        });
-      }
-    };
-    window.addEventListener('popstate', sideBarActiveCheck);
-
-    return () => {
-      window.removeEventListener('popstate', sideBarActiveCheck);
-    };
-  }, []);
+    // 컴포넌트가 마운트될 때 현재 경로를 가져와서 상태에 저장
+    setActiveMenu(window.location.pathname);
+  }, [searchParams]);
 
   return (
-    <aside
-      className={`absolute font-semibold flex flex-col ${isNavbarOpen ? 'w-12 h-12' : 'w-12 h-12'}`}
-    >
+    <aside className={"z-200 absolute flex flex-col font-semibold"}>
       <HamburgerMenu
         isHideMenu={isNavbarOpen}
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
       <div
-        className={`bg-white-100 absolute top-12 h-[calc(100vh-1rem)] overflow-y-scroll ${isNavbarOpen ? 'flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20' : 'hidden'} flex-col justify-start z-[200]`}
-      >
-        <nav className="w-48 h-full flex flex-col">
-          {LeftNavItems.map((item, index) => (
-            <Link href={item.href} key={`sideBarItem${index}`} prefetch={false} className={"flex"}>
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-100 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20" : "hidden"} flex-col justify-start`}>
+        <nav className="flex h-full w-[22.5rem] flex-col">
+          {LeftNavItems.filter(
+            (i) =>
+              i.options.isRequiredAuth == false ||
+              (i.options.isRequiredAuth == true && userStore.id > 0),
+          ).map((item, index) => (
+            <Link
+              href={item.href}
+              key={`sideBarItem${index}`}
+              prefetch={false}
+              className={"flex animate-fadeIn"}>
               <Button
-                className={`w-full h-full rounded-none p-2 flex items-center ${navStore.leftPath.split('?')[0] === item.href.split('?')[0] ? 'bg-primary-20 text-white' : 'bg-transparent text-black'}`}
+                className={`flex h-full w-full items-center rounded-none p-2 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white bg-primary-20" : "text-black bg-transparent"}`}
                 onClick={(e: MouseEvent) => {
                   if (
                     item.href ===
-                    window.document.location.pathname.split('?')[0]
+                    window.document.location.pathname.split("?")[0]
                   ) {
                     e.preventDefault();
                   }
-                  navStore.setState({
-                    leftPath: item.href,
-                  });
+                  // navStore.setState({
+                  //   leftPath: item.href,
+                  // });
                   setIsNavbarOpen(false);
+                  setActiveMenu(item.href.split("?")[0]);
                 }}
-                disabled={item.options.isRequiredAuth && !authStore.id}
-              >
-                <div className="w-8 h-8 flex items-center justify-start ">
+                disabled={item.options.isRequiredAuth && !userStore.id}>
+                <div className="flex h-8 w-8 items-center justify-start">
                   <Image
                     src={item.icon}
                     alt={item.label}
@@ -96,8 +131,8 @@ const SideBar = () => {
               </Button>
             </Link>
           ))}
-          {!!authStore.id && (
-            <div className="flex-grow flex flex-col justify-between gap-4">
+          {userStore.id > 0 && (
+            <div className="absolute bottom-0 h-[5rem] w-full bg-gray-20">
               <MusicPlayer isNavbarOpen={isNavbarOpen} />
             </div>
           )}
