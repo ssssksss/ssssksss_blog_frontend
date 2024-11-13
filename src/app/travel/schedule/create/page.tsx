@@ -1,4 +1,4 @@
-import TravelCreateUpdateContainer from "@component/schedule/hybrid/TravelCreateUpdateContainer";
+import TravelCreateUpdateContainer from "@component/travel/hybrid/TravelCreateUpdateContainer";
 
 export async function generateMetadata() {
   return {

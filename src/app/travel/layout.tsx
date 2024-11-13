@@ -1,4 +1,4 @@
-import TravelSideBar from "@component/plan/hybrid/travel/TravelSideBar";
+import TravelSideBar from "@component/travel/hybrid/TravelSideBar";
 import {ReactNode, Suspense} from "react";
 
 export default function Layout({children}: {children: ReactNode}) {

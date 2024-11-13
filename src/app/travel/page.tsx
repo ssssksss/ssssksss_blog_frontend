@@ -1,5 +1,5 @@
-import PlanTravelBanner from "@component/plan/hybrid/travel/PlanTravelBanner";
-import PlanTravelBody from "@component/plan/hybrid/travel/PlanTravelBody";
+import PlanTravelBanner from "@component/travel/hybrid/PlanTravelBanner";
+import PlanTravelBody from "@component/travel/hybrid/PlanTravelBody";
 
 interface IPage {}
 
