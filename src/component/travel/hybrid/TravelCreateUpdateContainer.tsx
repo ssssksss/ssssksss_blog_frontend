@@ -3,7 +3,7 @@
 import Button from "@component/common/button/hybrid/Button";
 import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import PlanTravelKakaoMap from "@component/plan/hybrid/travel/PlanTravelKakaoMap";
+import PlanTravelKakaoMap from "@component/travel/hybrid/PlanTravelKakaoMap";
 import useLoading from "@hooks/useLoading";
 import useToastifyStore from "@store/toastifyStore";
 import useUserStore from "@store/userStore";
@@ -80,7 +80,8 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                   data={list}
                   addTravelLocation={addTravelLocation}
                 />
-              }>
+              }
+            >
               <Image alt="" src={"/images/icons/ic-plus-black.svg"} fill />
             </ModalButton>
           </h2>
@@ -88,14 +89,16 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
             {list.map((i, index) => (
               <li
                 key={i.contentid}
-                className="flex h-auto w-full flex-col gap-x-2 p-2 default-outline">
+                className="flex h-auto w-full flex-col gap-x-2 p-2 default-outline"
+              >
                 <div className="grid w-full grid-cols-[auto_2rem]">
                   <div className="w-fit rounded-[1rem] bg-primary-20 px-2 py-1">
                     {travelContentTypeId[+i.contenttypeid]}
                   </div>
                   <ModalButton
                     buttonClassName="default-flex"
-                    modal={<TravelItemInfonModal data={i} />}>
+                    modal={<TravelItemInfonModal data={i} />}
+                  >
                     <Info />
                   </ModalButton>
                 </div>
@@ -108,7 +111,8 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                       "relative aspect-square w-[2rem] default-flex hover:scale-[120%]"
                     }
                     disabled={loading}
-                    onClick={() => deleteTravelLocation(+i.contentid)}>
+                    onClick={() => deleteTravelLocation(+i.contentid)}
+                  >
                     {loading ? (
                       <Image
                         alt=""
@@ -132,7 +136,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
         </div>
       </div>
       <Button className={"min-h-[2.5rem] w-[calc(100%-.5rem)] default-outline"}>
-        일정 생성하기
+        일정 생성하기(개발중)
       </Button>
     </div>
   );
