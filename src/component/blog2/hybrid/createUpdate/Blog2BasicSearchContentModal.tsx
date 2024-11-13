@@ -27,7 +27,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
   // 블로그 기초 글 검색 api
   const blog2BasicSearchHandler = async () => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`,
+      `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,8 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
           className={
             "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2"
           }
-          onClick={() => blog2BasicSearchHandler()}>
+          onClick={() => blog2BasicSearchHandler()}
+        >
           검색
         </Button>
       </div>
@@ -93,7 +94,8 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
               >
                 <h2
                   className={EditorTitleStyle}
-                  id={i.title.replace(/\s+/g, "-").toLowerCase()}>
+                  id={i.title.replace(/\s+/g, "-").toLowerCase()}
+                >
                   {i.title}
                 </h2>
                 <div
@@ -108,14 +110,16 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                     className={
                       "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
                     }
-                    onClick={() => deleteBlog2BasicContentHandler(i.id)}>
+                    onClick={() => deleteBlog2BasicContentHandler(i.id)}
+                  >
                     삭제
                   </Button>
                   <Button
                     className={
                       "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
                     }
-                    onClick={() => props.addBlog2BasicContent(i)}>
+                    onClick={() => props.addBlog2BasicContent(i)}
+                  >
                     선택
                   </Button>
                   {/* <Button className={"p-2 default-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
