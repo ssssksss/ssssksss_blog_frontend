@@ -83,7 +83,7 @@ const BlogListBox = (props: IBlogListBox) => {
   return (
     <div className="w-full flex flex-col mt-[.5rem]">
       <ul className="flex flex-col gap-y-2 max-w-full">
-        {blogList.map((blog) => (
+        {blogList?.map((blog) => (
           <Link href={`/blog/${blog.id}`} key={blog.id} className="block w-full ">
             <li className="max-w-full w-full grid grid-cols-[4rem_calc(100%-10rem)_6rem] default-outline h-[6rem] gap-x-1 p-2 hover:bg-third-20">
               <div className="default-flex relative">
