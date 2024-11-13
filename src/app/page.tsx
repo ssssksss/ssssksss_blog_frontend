@@ -92,7 +92,7 @@ export default function Home() {
               {
                 icon: <Globe size={32} />,
                 title: "Other",
-                skills: ["Git,", "Figma"],
+                skills: ["Git", "Figma"],
                 etc: ["slack, jira, discord, erdcloud"],
               },
             ].map((category, index) => (
