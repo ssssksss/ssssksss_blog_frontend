@@ -198,7 +198,7 @@ const projects = [
     stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/70`,
     term: "",
-    etc: "",
+    etc: "노래가 많아지면 찾기가 어려워 검색이나, 페이지네이션 등을 고려 중",
   },
   {
     icon: <CalendarFold size={32} />,
@@ -214,7 +214,7 @@ const projects = [
     stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/71`,
     term: "",
-    etc: "추가적인 구현 필요",
+    etc: "연도, 주단위 등의 일정과 일정 공유, 일정 숨김처리 등의 기능 추가 예정",
   },
   {
     icon: <ClipboardList size={32} />,
@@ -225,7 +225,7 @@ const projects = [
     stack: "",
     link: "",
     term: "24.11.11 ~ 24.11.12",
-    etc: "개발중",
+    etc: "개발중 - 댓글, 좋아요 기능, 이미지, 에디터 기능 추가 예정",
   },
   {
     icon: <KeyRound />,
@@ -236,7 +236,7 @@ const projects = [
     stack: "",
     link: "",
     term: "",
-    etc: "구현 필요",
+    etc: "정리 필요",
   },
   {
     icon: <Map size={32} />,
@@ -247,6 +247,6 @@ const projects = [
     stack: "",
     link: "https://www.solitourist.com",
     term: "",
-    etc: "현재 기획부터 다시 제작 중",
+    etc: "현재 기획부터 다시 제작 중, 위에는 이전에 했던 기록 정리",
   },
 ];
