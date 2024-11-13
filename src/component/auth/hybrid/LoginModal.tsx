@@ -1,10 +1,9 @@
 "use client";
 
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useFetchCSRHandler} from "@hooks/useFetchCSRHandler";
-import {UserAPI} from "@service/userAPI";
-import {UserLoginYup} from "@utils/validation/UserLoginYup";
-import {useForm} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useFetchCSRHandler } from "@hooks/useFetchCSRHandler";
+import { UserLoginYup } from "@utils/validation/UserLoginYup";
+import { useForm } from "react-hook-form";
 import Button from "src/component/common/button/hybrid/Button";
 import Input from "src/component/common/input/Input";
 
@@ -26,20 +25,24 @@ const LoginModal = (props: ILoginModal) => {
   });
   const {errors} = formState;
   const onClickSubmit = async (data: {email: string; password: string}) => {
-    fetchCSR(
-      await UserAPI.signInUser({
+    const response = await fetch("/api/user", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         email: data.email,
         password: data.password,
       }),
-      (response) => {
-        if (response.statusCode >= 200 && response.statusCode < 300) {
-          userStore.setUser({
-            ...response.data,
-          });
-          props.closeModal();
-        }
-      },
-    );
+    });
+    if (!response.ok) {
+      return;
+    }
+    const result = await response.json();
+    userStore.setUser({
+      ...result.data,
+    });
+    props.closeModal();
   };
 
   const onClickErrorSubmit = () => {

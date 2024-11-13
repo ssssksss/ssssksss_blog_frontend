@@ -1,10 +1,23 @@
-import {fetchCSR} from "@utils/api/fetchCSR";
-import {NextRequest, NextResponse} from "next/server";
+import { fetchCSR } from "@utils/api/fetchCSR";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   return await fetchCSR({
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
     req: request,
+  });
+}
+
+// 로그인 용도
+export async function PUT(request: NextRequest) {
+  const data = await request.json();
+  return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
   });
 }
 
