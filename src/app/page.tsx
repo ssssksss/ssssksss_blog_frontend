@@ -7,6 +7,7 @@ import {
   Disc3,
   Github,
   Globe,
+  KeyRound,
   Mail,
   Map,
   Terminal,
@@ -16,7 +17,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black-100 p-8 text-white-80">
       <div
-        className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}>
+        className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
+      >
         <nav className="mb-16 flex items-center justify-between">
           <div className="text-xl font-bold">DEV.에이지</div>
           <div className="flex gap-6">
@@ -25,7 +27,8 @@ export default function Home() {
             </a>
             <a
               href="#projects"
-              className="transition-colors hover:text-blue-40">
+              className="transition-colors hover:text-blue-40"
+            >
               Projects
             </a>
             {/* <a href="#contact" className="transition-colors hover:text-blue-40">
@@ -44,14 +47,16 @@ export default function Home() {
               href="https://github.com/ssssksss"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 transition-colors hover:text-blue-40">
+              className="p-2 transition-colors hover:text-blue-40"
+            >
               <Github size={24} />
             </a>
             <a
               href=""
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 transition-colors hover:text-blue-40">
+              className="p-2 transition-colors hover:text-blue-40"
+            >
               <Contact2 size={24} />
             </a>
             <a href="" className="p-2 transition-colors hover:text-blue-40">
@@ -106,7 +111,8 @@ export default function Home() {
                 <div
                   className={
                     "flex h-[2rem] items-center overflow-hidden whitespace-nowrap rounded-lg bg-black-80 px-2"
-                  }>
+                  }
+                >
                   <div className={"flex animate-marquee5 flex-nowrap gap-x-2"}>
                     {category.etc.map((i, index) => (
                       <span key={index}> {i} </span>
@@ -129,10 +135,10 @@ export default function Home() {
                     {i.icon}
                     <h3 className="text-xl font-semibold">{i.title}</h3>
                   </div>
-                  <div> 분류 : {i.workType} </div>
+                  <div> 분류 : <span className={`${i.workType == "팀" && ""}`}> {i.workType} </span> </div>
                   <div className="pt-[0.125rem]">역할 : {i.role} </div>
                   <div>
-                    링크 :
+                    링크 👉 :
                     <a href={i.link} target="_blank">
                       {i.link}
                     </a>
@@ -140,15 +146,16 @@ export default function Home() {
                   <div
                     className={
                       "mb-2 mt-3 flex flex-col rounded-[0.25rem] py-2 outline outline-white-80"
-                    }>
+                    }
+                  >
                     {i.work.map((j, index) => (
                       <div key={index} className="pl-1 font-cookieRunRegular">
                         {j}
                       </div>
                     ))}
                   </div>
-                  {i.term && <div> {i.term} </div>}
-                  {i.etc && <div> {i.etc} </div>}
+                  {i.term && <div> 기간: {i.term} </div>}
+                  {i.etc && <div> 기타: {i.etc} </div>}
                 </div>
               </div>
             ))}
@@ -172,6 +179,7 @@ const projects = [
       "5. 블로그 인덱스 목차",
     ],
     role: "FE,BE",
+    stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/72`,
     term: "",
     etc: "",
@@ -187,6 +195,7 @@ const projects = [
       "4. 재생,정지 등 기능 구현",
     ],
     role: "FE,BE",
+    stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/70`,
     term: "",
     etc: "",
@@ -202,19 +211,32 @@ const projects = [
       "4. 메모장",
     ],
     role: "FE,BE",
+    stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/71`,
     term: "",
-    etc: "",
+    etc: "추가적인 구현 필요",
   },
   {
     icon: <ClipboardList size={32} />,
     title: "게시판",
     workType: "개인",
-    work: ["...다시만들어야 함"],
+    work: ["1. 게시판 CRUD", "2. 게시판 정렬", "3. 게시판 제목 검색"],
     role: "FE,BE",
+    stack: "",
+    link: "",
+    term: "24.11.11 ~ 24.11.12",
+    etc: "개발중",
+  },
+  {
+    icon: <KeyRound />,
+    title: "인증처리",
+    workType: "개인",
+    work: ["1.일반 로그인", "2.oauth 로그인"],
+    role: "FE,BE",
+    stack: "",
     link: "",
     term: "",
-    etc: "",
+    etc: "구현 필요",
   },
   {
     icon: <Map size={32} />,
@@ -222,8 +244,9 @@ const projects = [
     workType: "팀",
     work: ["블로그 카테고리 CRUD", "블로그 에디터(기능 추가 및 수정 중)"],
     role: "FE",
+    stack: "",
     link: "https://www.solitourist.com",
     term: "",
-    etc: "",
+    etc: "현재 기획부터 다시 제작 중",
   },
 ];

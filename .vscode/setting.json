@@ -1,7 +1,7 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "eslint.enable": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "javascript.validate.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
