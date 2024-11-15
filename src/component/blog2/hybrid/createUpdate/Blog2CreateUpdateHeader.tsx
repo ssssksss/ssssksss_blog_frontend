@@ -189,10 +189,13 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     // * 블로그 수정 API
     if (props.isEdit) {
       formData.append("id", formContext.getValues("id"));
-      const response = await fetch("/api/blog2", {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await fetch(
+        `/api/blog2?id=${formContext.getValues("id")}`,
+        {
+          method: "PUT",
+          body: formData,
+        },
+      );
       if (!response.ok) {
         toastifyStore.setToastify({
           type: "error",
@@ -203,7 +206,9 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       }
       if (response.ok) {
         stopLoading();
-        router.replace(`/blog2/${formContext.getValues("id")}`);
+        router.replace(
+          `/blog2/${formContext.getValues("id")}?timestamp=${new Date()}`,
+        );
       }
     }
   };

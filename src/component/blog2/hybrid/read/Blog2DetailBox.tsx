@@ -15,7 +15,7 @@ import useBlog2Store from "@store/blog2Store";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useUserStore from "src/store/userStore";
 import Blog2StructureContentViewBox from "./../../view/Blog2StructureContentViewBox";
 
@@ -71,6 +71,16 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
     );
   };
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    if (params.get("timestamp")) {
+      params.delete("timestamp");
+      url.search = params.toString();
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, []);
 
   return (
     <section

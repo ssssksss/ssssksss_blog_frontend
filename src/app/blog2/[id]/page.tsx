@@ -3,25 +3,56 @@ import { cookies } from "next/headers";
 import Template from "../template";
 
 async function getData(id: number) {
-  const accessToken = cookies().get("accessToken");
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/blog2/${id}`,
-    {
+  let accessToken = cookies().get("accessToken")?.value;
+  const refreshToken = cookies().get("refreshToken");
+
+  // 액세스 토큰을 가져오는 함수
+  const fetchAccessToken = async () => {
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/user/accessToken`,
+      {
+        method: "GET",
+        headers: {
+          Cookie: `${refreshToken?.name}=${refreshToken?.value}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+
+    const data = await response.json();
+    accessToken = data.accessToken;
+
+    // 새로운 accessToken을 쿠키에 저장
+    document.cookie = `accessToken=${accessToken}; path=/`;
+  };
+
+  // 데이터 가져오기 함수
+  const fetchData = async () => {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/blog2/${id}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${accessToken?.value}`,
+        Authorization: `Bearer ${accessToken}`,
       },
-      // cache: "no-store",
-      next: { revalidate: 10 },
-    //   next: { revalidate: 3600, tags: [`blog2 - ${id}`] },
-    },
-  );
+      next: {revalidate: 3600, tags: [`getBlog2/${id}`]},
+    });
 
-  if (!response.ok) {
-    throw new Error("");
-  }
+    if (!response.ok) {
+      // 401 Unauthorized 에러가 발생할 경우
+      if (response.status === 401 && refreshToken) {
+        await fetchAccessToken(); // 토큰 갱신
+        return fetchData(); // 갱신된 토큰으로 재요청
+      }
+      throw new Error(`Request failed with status ${response.status}`);
+    }
 
-  return response.json() as Promise<any>;
+    return response.json() as Promise<any>;
+  };
+
+  return fetchData();
 }
 
 export async function generateMetadata({ params: { id } }: {params: { id: string }}) {

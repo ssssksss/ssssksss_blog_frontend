@@ -1,6 +1,6 @@
-import {fetchCSR} from "@utils/api/fetchCSR";
-import {fetchMultipartCSR} from "@utils/api/fetchMultipartCSR";
-import {NextRequest} from "next/server";
+import { fetchCSR } from "@utils/api/fetchCSR";
+import { fetchMultipartCSR } from "@utils/api/fetchMultipartCSR";
+import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -15,11 +15,13 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const formData = await request.formData();
-
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
   const result = await fetchMultipartCSR({
     req: request,
     url: `${process.env.BACKEND_URL}/api/blog2`,
     formData: formData,
+    handleRevalidateTags: [`getBlog2/${id}`],
   });
   return result;
 }

@@ -25,7 +25,6 @@ async function getData(id: number) {
         Authorization: `Bearer ${accessToken?.value}`,
       },
       cache: "no-store",
-    //   next: { revalidate: 3600, tags: [`blog2 - ${id}`] },
     },
   );
 

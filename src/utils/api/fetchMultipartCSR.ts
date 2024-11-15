@@ -1,10 +1,13 @@
-import {NextRequest, NextResponse} from "next/server";
+import { revalidateTag } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 
 interface IFetchCSR {
   req: NextRequest;
   url: string;
   formData?: FormData;
   retry?: number;
+  next?: NextFetchRequestConfig;
+  handleRevalidateTags?: string[];
 }
 
 interface ResponseData {
@@ -18,6 +21,8 @@ export const fetchMultipartCSR = async ({
   url,
   formData,
   retry = 1,
+  next,
+  handleRevalidateTags,
 }: IFetchCSR): Promise<any> => {
   let accessToken = req.cookies.get("accessToken");
   const refreshToken = req.cookies.get("refreshToken");
@@ -76,5 +81,10 @@ export const fetchMultipartCSR = async ({
     }
   }
 
+  if (handleRevalidateTags?.length) {
+    for (const tag of handleRevalidateTags) {
+      await revalidateTag(tag); // 비동기 호출
+    }
+  }
   return res;
 };
