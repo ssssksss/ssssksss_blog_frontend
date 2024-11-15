@@ -99,7 +99,7 @@ const CustomEditor = (props: ICustomEditor) => {
 
   return (
     <div
-      className={`grid h-[calc(100vh-16rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}>
+      className={`grid h-[calc(100vh-19rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}>
       {/* 내용작성 */}
       <article
         className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "preview" && "hidden"}`}>
@@ -112,7 +112,7 @@ const CustomEditor = (props: ICustomEditor) => {
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={
-            "h-[calc(100vh-12.5rem)] w-full resize-none overflow-scroll p-2 default-outline"
+            "h-[calc(100vh-22.5rem)] w-full resize-none overflow-scroll p-2 default-outline"
           }
           onChange={(e) => handleTextareaChange(e.target.value)}
           value={content}
@@ -135,7 +135,7 @@ const CustomEditor = (props: ICustomEditor) => {
         <div
           id={"preview"}
           className={
-            "h-[calc(100vh-12.5rem)] max-h-full w-full overflow-scroll break-all p-2 default-outline"
+            "h-[calc(100vh-22.5rem)] max-h-full w-full overflow-scroll break-all p-2 default-outline"
           }
           dangerouslySetInnerHTML={{
             __html: convertMarkdownToHtml(content, true),

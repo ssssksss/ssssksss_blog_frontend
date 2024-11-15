@@ -2,11 +2,12 @@ import Button from "@component/common/button/hybrid/Button";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Blog2ResultYup} from "@utils/validation/BlogYup";
-import {useParams} from "next/navigation";
-import {useEffect, useState} from "react";
-import {SubmitErrorHandler, SubmitHandler, useForm} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import useModalState from "@hooks/useModalState";
+import { Blog2ResultYup } from "@utils/validation/BlogYup";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
 
 interface IFormContext {
@@ -28,7 +29,8 @@ interface IBlog2ResultCreateUpdateModal extends IModalComponent {
 const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   const [loading, setIsLoading] = useState(false);
   const toastifyStore = useToastifyStore();
-  const {id: blogId} = useParams();
+  const { id: blogId } = useParams();
+  const modalState = useModalState(props.edit ? true : false);
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2ResultYup),
     mode: "onChange",
@@ -161,7 +163,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   return (
     <ModalTemplate
       className={
-        "grid h-[100vh] max-h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[75rem] grid-rows-[3rem_3rem_auto_3rem] gap-y-4 p-8"
+        "grid h-[100vh] max-h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[75rem] grid-rows-[3rem_3rem_calc(100%-12rem)_3rem] gap-y-4 p-8"
       }>
       {props.closeButtonComponent}
       <h2
