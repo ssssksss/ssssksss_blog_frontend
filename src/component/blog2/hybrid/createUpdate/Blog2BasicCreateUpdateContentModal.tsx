@@ -224,7 +224,7 @@ const Blog2BasicCreateUpdateContentModal = (
       }
     >
       {props.closeButtonComponent}
-      <h2
+      <div
         className={
           "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
         }
@@ -238,7 +238,7 @@ const Blog2BasicCreateUpdateContentModal = (
         >
           {modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
         </button>
-      </h2>
+      </div>
       {!modalState.isOpen && (
         <div className="absolute left-[1rem] top-[9rem] flex min-h-[12rem] w-[calc(100vw-3rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
           <Dropdown
