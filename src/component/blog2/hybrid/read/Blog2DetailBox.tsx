@@ -6,15 +6,16 @@ import Button from "@component/common/button/hybrid/Button";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import useBlog2Store from "@store/blog2Store";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import useUserStore from "src/store/userStore";
 import Blog2StructureContentViewBox from "./../../view/Blog2StructureContentViewBox";
 
@@ -74,6 +75,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   return (
     <section
       className={"mt-[.25rem] flex h-auto w-full flex-col gap-y-2 pb-[1rem]"}>
+      <LoadingSpinner loading={loading} />
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
         <Button
           className={
@@ -99,7 +101,10 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
                 "aspect-square h-[2rem] bg-primary-20 font-bold default-outline default-flex"
               }
               onClick={() =>
-                router.push(`/blog2/update/${props.data.blog2.id}`)
+              {
+                startLoading();
+                router.push(`/blog2/update/${props.data.blog2.id}`);
+              }
               }>
               <Image
                 alt=""
@@ -116,7 +121,10 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
                 <ConfirmModal
                   loading={loading}
                   onCancelClick={() => modalState.closeModal()}
-                  onConfirmClick={() => deleteBlog2Handler()}
+                  onConfirmClick={() => {
+                    startLoading();
+                    deleteBlog2Handler();
+                  }}
                   mainMessage={["블로그를 삭제하시겠습니까?"]}
                 />
               }>
