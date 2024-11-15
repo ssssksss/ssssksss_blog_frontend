@@ -1,14 +1,15 @@
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import {faBolt} from "@fortawesome/free-solid-svg-icons/faBolt";
-import {faGhost} from "@fortawesome/free-solid-svg-icons/faGhost";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
+import { faBolt } from "@fortawesome/free-solid-svg-icons/faBolt";
+import { faGhost } from "@fortawesome/free-solid-svg-icons/faGhost";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoading from "@hooks/useLoading";
 import useBlog2Store from "@store/blog2Store";
-import {AWSS3Prefix} from "@utils/variables/s3url";
+import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {useEffect} from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 interface IBlog2ListBox {}
 
@@ -56,16 +57,25 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
     }
   }, [searchParams.get("secondCategoryId")]);
 
+  useEffect(() => {
+    return () => {
+      loadingState.stopLoading();
+    };
+  }, []);
+
   return (
     <div className="mt-[.5rem] flex w-full flex-col">
       <ul className="flex max-w-full flex-col gap-y-2">
+        <LoadingSpinner loading={loadingState.loading} />
         {blog2Store.blog2List.list.length == 0 && (
           <div className={"w-full default-flex"}>
             <LottieNotFound text={"블로그 글이 없습니다."} />
           </div>
         )}
         {blog2Store.blog2List.list.map((i, index) => (
-          <Link href={`/blog2/${i.id}`} key={i.id} className="block w-full">
+          <Link href={`/blog2/${i.id}`} key={i.id} className="block w-full"
+            onClick={()=>loadingState.startLoading()}
+          >
             <li
               className={
                 "grid h-[6rem] w-full max-w-full animate-fadeIn grid-cols-[4rem_calc(100%-10rem)_6rem] gap-x-1 p-2 default-outline hover:animate-fill hover:animate--duration-1 hover:fillAnimation"
