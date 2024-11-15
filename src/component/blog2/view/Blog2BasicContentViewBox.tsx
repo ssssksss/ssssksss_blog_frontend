@@ -7,12 +7,11 @@ import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import React, { useCallback, useRef } from "react";
+import Blo2BasicContentViewItem from "./Blo2BasicContentViewItem";
 
 interface IBlog2BasicContentViewBox {
   data: IBlog2Basic[];
@@ -124,19 +123,7 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
       <ul className={EditorUlStyle}>
         {props.data.map((i) => (
           <li key={i.id} className={EditorLiStyle}>
-            <h2
-              className={EditorTitleStyle}
-              id={i.blog2BasicContent.title.replace(/\s+/g, "-").toLowerCase()}
-            >
-              {i.blog2BasicContent.title}
-            </h2>
-            <div
-              id="preview"
-              className={EditorPriviewStyle}
-              dangerouslySetInnerHTML={{
-                __html: convertMarkdownToHtml(i.blog2BasicContent.content),
-              }}
-            />
+            <Blo2BasicContentViewItem data={i} />
           </li>
         ))}
       </ul>
