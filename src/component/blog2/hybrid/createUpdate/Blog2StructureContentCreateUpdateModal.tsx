@@ -3,9 +3,11 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Blog2CreateStructureContentYup} from "@utils/validation/BlogYup";
-import {useEffect, useState} from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import useModalState from "@hooks/useModalState";
+import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
+import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
@@ -33,6 +35,7 @@ const Blog2StructureContentCreateUpdateModal = (
   const [loading, setIsLoading] = useState(false);
   const toastifyStore = useToastifyStore();
   const [projectName, setProjectName] = useState("");
+  const modalState = useModalState(props.edit ? true : false);
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateStructureContentYup),
     mode: "onChange",
@@ -135,72 +138,94 @@ const Blog2StructureContentCreateUpdateModal = (
   }, []);
 
   return (
-    <ModalTemplate className={"w-[calc(100vw-1rem)]"}>
+    <ModalTemplate
+      className={
+        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto_3rem] gap-y-4 p-8"
+      }
+    >
       {props.closeButtonComponent}
-      <div className="grid h-screen max-h-[calc(100vh-1rem)] w-[calc(100%-2rem)] grid-rows-[3rem_3rem_3rem_1fr_3rem] gap-y-4 p-8">
-        <h2
-          className={
-            "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] w-full font-bold default-flex"
-          }>
-          블로그 구조 글 {props.edit ? "수정" : "생성"}
-        </h2>
-        <div className={"grid w-full grid-cols-2"}>
+      <div
+        className={
+          "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
+        }
+      >
+        <h2> 블로그 구조 글 {props.edit ? "수정" : "생성"} </h2>
+        <button
+          className={`p-2 default-outline default-flex ${modalState.isOpen ? "bg-primary-20" : ""} `}
+          onClick={() =>
+            modalState.isOpen ? modalState.closeModal() : modalState.openModal()
+          }
+        >
+          {modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
+        </button>
+      </div>
+      {!modalState.isOpen && (
+        <div className="absolute left-[1rem] top-[9rem] flex min-h-[9rem] w-[calc(100vw-3rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
+          <div className={"grid w-full grid-cols-2"}>
+            <Input
+              type={"text"}
+              // register={blog2ContentFormContext.register("project")}
+              className={
+                "flex h-[3rem] min-h-12 w-full items-center px-2 default-outline"
+              }
+              placeholder="프로젝트명 스네이크케이스를 이용해서 표기"
+              value={projectName}
+              onChange={(e) => {
+                setProjectName(e.target.value);
+                blog2ContentFormContext.setValue("project", e.target.value, {
+                  shouldValidate: true,
+                });
+              }}
+            />
+            <Dropdown
+              options={projectList}
+              value=""
+              defaultValue=""
+              containerClassName={"min-h-12 bg-white-80"}
+              dropdownHandler={(value) => {
+                setProjectName(value);
+                blog2ContentFormContext.setValue("project", value, {
+                  shouldValidate: true,
+                });
+              }}
+            />
+          </div>
           <Input
             type={"text"}
-            // register={blog2ContentFormContext.register("project")}
-            className={"flex h-[3rem] w-full items-center px-2 default-outline"}
-            placeholder="프로젝트명 스네이크케이스를 이용해서 표기"
-            value={projectName}
-            onChange={(e) => {
-              setProjectName(e.target.value);
-              blog2ContentFormContext.setValue("project", e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-          />
-          <Dropdown
-            options={projectList}
-            value=""
-            defaultValue=""
-            dropdownHandler={(value) => {
-              setProjectName(value);
-              blog2ContentFormContext.setValue("project", value, {
-                shouldValidate: true,
-              });
-            }}
+            register={blog2ContentFormContext.register("directory")}
+            className={
+              "flex h-[3rem] min-h-12 items-center px-2 default-outline"
+            }
+            placeholder="경로의 시작은 /로 시작하지 않습니다. ex) src/..."
           />
         </div>
-        <Input
-          type={"text"}
-          register={blog2ContentFormContext.register("directory")}
-          className={"flex h-[3rem] items-center px-2 default-outline"}
-          placeholder="경로의 시작은 /로 시작하지 않습니다. ex) src/..."
-        />
-        <CustomEditor
-          defaultValue={props.edit ? props.item!.content : "```js\n\n```"}
-          handleContentChange={handleContentChange}
-        />
-        <div className={"mt-auto flex h-[3rem] w-full gap-x-2"}>
-          <Button
-            onClick={blog2ContentFormContext.handleSubmit(
-              handleSubmitClick,
-              onClickErrorSubmit,
-            )}
-            disabled={!blog2ContentFormContext.formState.isValid}
-            className={
-              "h-[3rem] w-full bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
-            }>
-            {props.edit ? "수정" : "생성"}
-          </Button>
-          <Button
-            onClick={() => props.closeModal && props.closeModal()}
-            className={
-              "h-[3rem] w-full default-outline default-flex hover:bg-red-20"
-            }>
-            취소
-          </Button>
-          {/* <span> {errors.변수?.message} </span> */}
-        </div>
+      )}
+      <CustomEditor
+        defaultValue={props.edit ? props.item!.content : "```js\n\n```"}
+        handleContentChange={handleContentChange}
+      />
+      <div className={"mt-auto flex h-[3rem] w-full gap-x-2"}>
+        <Button
+          onClick={blog2ContentFormContext.handleSubmit(
+            handleSubmitClick,
+            onClickErrorSubmit,
+          )}
+          disabled={!blog2ContentFormContext.formState.isValid}
+          className={
+            "h-[3rem] w-full bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
+          }
+        >
+          {props.edit ? "수정" : "생성"}
+        </Button>
+        <Button
+          onClick={() => props.closeModal && props.closeModal()}
+          className={
+            "h-[3rem] w-full default-outline default-flex hover:bg-red-20"
+          }
+        >
+          취소
+        </Button>
+        {/* <span> {errors.변수?.message} </span> */}
       </div>
     </ModalTemplate>
   );
