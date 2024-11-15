@@ -1,18 +1,16 @@
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useRef} from "react";
+import { useRef } from "react";
+import Blog2StructureContentViewItem from "./Blog2StructureContentViewItem";
 import Blog2StructureIndexTree from "./Blog2StructureIndexTree";
 
 interface IBlog2StructureContentViewBox {
@@ -121,21 +119,7 @@ const Blog2StructureContentViewBox = (props: IBlog2StructureContentViewBox) => {
         <>
           {props.data.map((i: IBlog2Structure) => (
             <li key={i.id} className={EditorLiStyle}>
-              <h2
-                className={EditorTitleStyle}
-                // id={i.blog2StructureContent.directory.replace(/\s+/g, "-").toLowerCase()}>
-                id={i.blog2StructureContent.directory.split("/").pop()}>
-                {i.blog2StructureContent.directory.split("/").pop()}
-              </h2>
-              <div
-                id={"preview"}
-                className={EditorPriviewStyle}
-                dangerouslySetInnerHTML={{
-                  __html: convertMarkdownToHtml(
-                    i.blog2StructureContent.content,
-                  ),
-                }}
-              />
+              <Blog2StructureContentViewItem data={i} />
             </li>
           ))}
         </>
