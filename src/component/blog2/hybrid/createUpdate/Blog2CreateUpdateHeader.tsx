@@ -290,7 +290,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   return (
     <>
       <LoadingSpinner loading={loading} />
-      <div className="flex w-full justify-between">
+      <div className="flex w-full justify-between mb-2">
         <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center">
           <Button
             className={
