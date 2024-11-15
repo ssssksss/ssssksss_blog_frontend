@@ -1,18 +1,17 @@
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useRef, useState} from "react";
+import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { useRef, useState } from "react";
+import Blog2ResultContentViewItem from "./Blog2ResultContentViewItem";
 
 interface IBlog2ResultContentViewBox {
   data: IBlog2Result[];
@@ -139,18 +138,7 @@ const Blog2ResultContentViewBox = (props: IBlog2ResultContentViewBox) => {
         <>
           {props.data.map((i: IBlog2Result) => (
             <li key={i.id} className={EditorLiStyle}>
-              <h2
-                className={EditorTitleStyle}
-                id={i.title.replace(/\s+/g, "-").toLowerCase()}>
-                {i.title}
-              </h2>
-              <div
-                id={"preview"}
-                className={EditorPriviewStyle}
-                dangerouslySetInnerHTML={{
-                  __html: convertMarkdownToHtml(i.content),
-                }}
-              />
+              <Blog2ResultContentViewItem data={i} />
             </li>
           ))}
         </>
