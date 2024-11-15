@@ -1,17 +1,19 @@
 import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
-import {faSquarePlus} from "@fortawesome/free-solid-svg-icons/faSquarePlus";
-import {faXmark} from "@fortawesome/free-solid-svg-icons/faXmark";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
+import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useModalState from "@hooks/useModalState";
 import {
   EditorLiStyle,
   EditorPriviewStyle,
   EditorTitleStyle,
   EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useFormContext} from "react-hook-form";
+import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import Image from "next/image";
+import { useFormContext } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
 import Blog2ResultCreateUpdateModal from "./Blog2ResultCreateUpdateModal";
 
@@ -21,6 +23,7 @@ interface IBlog2ResultBox {
 const Blog2ResultBox = (props: IBlog2ResultBox) => {
   const blog2FormContext = useFormContext();
   const toastifyStore = useToastifyStore();
+  const modalState = useModalState();
 
   const addBlog2Result = (data: IBlog2Result) => {
     // 생성
@@ -96,7 +99,8 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
               addBlog2Result={addBlog2Result}
               updateBlog2Result={updateBlog2Result}
             />
-          }>
+          }
+        >
           <FontAwesomeIcon
             icon={faSquarePlus}
             style={{width: "24px", height: "24px"}}
@@ -112,17 +116,39 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                 <h2 className={EditorTitleStyle} id={i.title}>
                   {i.title}
                 </h2>
-                <div
-                  id={"preview"}
-                  className={EditorPriviewStyle}
-                  dangerouslySetInnerHTML={{
-                    __html: convertMarkdownToHtml(i.content),
-                  }}
-                />
+                {modalState.isOpen && (
+                  <div
+                    id={"preview"}
+                    className={EditorPriviewStyle}
+                    dangerouslySetInnerHTML={{
+                      __html: convertMarkdownToHtml(i.content),
+                    }}
+                  />
+                )}
                 <div
                   className={
                     "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1"
-                  }>
+                  }
+                > <button
+                    className="h-8 w-8"
+                    onClick={() => modalState.isOpen ? modalState.closeModal() : modalState.openModal()}
+                  >
+                    {!modalState.isOpen ? (
+                      <Image
+                        alt="ic"
+                        src={"/images/icons/ic-maximize.svg"}
+                        width={28}
+                        height={28}
+                      />
+                    ) : (
+                      <Image
+                        alt="ic"
+                        src={"/images/icons/ic-minimize.svg"}
+                        width={28}
+                        height={28}
+                      />
+                    )}
+                  </button>
                   <ModalButton
                     buttonClassName={
                       "font-bold rounded-2xl hover:bg-primary-20 p-1 w-[2.25rem] default-flex"
@@ -134,7 +160,8 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                         addBlog2Result={addBlog2Result}
                         updateBlog2Result={updateBlog2Result}
                       />
-                    }>
+                    }
+                  >
                     <FontAwesomeIcon
                       icon={faPenToSquare}
                       style={{width: "28px", height: "28px"}}
@@ -144,7 +171,8 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                     className={
                       "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
                     }
-                    onClick={() => deleteBlog2Result(i.id!)}>
+                    onClick={() => deleteBlog2Result(i.id!)}
+                  >
                     <FontAwesomeIcon
                       icon={faXmark}
                       style={{width: "28px", height: "28px"}}
