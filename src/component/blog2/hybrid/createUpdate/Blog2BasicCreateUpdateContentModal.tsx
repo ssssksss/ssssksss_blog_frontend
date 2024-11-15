@@ -3,10 +3,12 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {EditorCreateUpdateTitleStyle} from "@utils/editor/EditorTailwindcssStyle";
-import {Blog2CreateBasicContentYup} from "@utils/validation/BlogYup";
-import {useEffect, useState} from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import useModalState from "@hooks/useModalState";
+import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
+import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
@@ -39,6 +41,7 @@ const Blog2BasicCreateUpdateContentModal = (
   const [secondCategoryList, setSecondCategoryList] = useState<
     IBlog2SecondCategoryList[]
   >([]);
+  const modalState = useModalState(props.edit ? true : false);
   const [loading, setIsLoading] = useState(false);
   const blog2FormContext = useFormContext();
   const toastifyStore = useToastifyStore();
@@ -53,7 +56,6 @@ const Blog2BasicCreateUpdateContentModal = (
       blobImageList: [],
     },
   });
-  const {errors} = blog2ContentFormContext.formState;
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
     setIsLoading(true);
@@ -218,49 +220,73 @@ const Blog2BasicCreateUpdateContentModal = (
   return (
     <ModalTemplate
       className={
-        "grid h-full w-[calc(100vw-1rem)] grid-rows-[3rem_3rem_3rem_3rem_auto_3rem] gap-y-4 p-8"
-      }>
+        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto_3rem] gap-y-4 p-8"
+      }
+    >
       {props.closeButtonComponent}
       <h2
         className={
-          "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] font-bold default-flex"
-        }>
-        블로그 기초 글 {props.edit ? "수정" : "생성"}
-      </h2>
-      <Dropdown
-        options={blog2Store.categoryList.map((i) => {
-          return {
-            value: i.id,
-            name: i.name,
-          };
-        })}
-        value={props.item?.blog2FirstCategoryId || 0}
-        defaultValue={props.item?.blog2FirstCategoryId || 0}
-        dropdownHandler={handleClickFirstCategory}
-        placeholder={"카테고리1"}
-      />
-      <Dropdown
-        options={secondCategoryList.map((i) => {
-          return {
-            value: i.id,
-            name: i.name,
-          };
-        })}
-        value={props.item?.blog2SecondCategoryId || 0}
-        defaultValue={props.item?.blog2SecondCategoryId || 0}
-        dropdownHandler={handleClickSecondCategory}
-        placeholder={"카테고리2"}
-        disabled={
-          !blog2ContentFormContext.getValues("firstCategoryId") ||
-          secondCategoryList.length < 1
+          "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
         }
-      />
-      <Input
-        type={"text"}
-        register={blog2ContentFormContext.register("title")}
-        className={EditorCreateUpdateTitleStyle}
-        placeholder="제목"
-      />
+      >
+        <h2> 블로그 기초 글 {props.edit ? "수정" : "생성"} </h2>
+        <button
+          className={`p-2 default-outline default-flex ${modalState.isOpen ? "bg-primary-20 " : ""} `}
+          onClick={() =>
+            modalState.isOpen ? modalState.closeModal() : modalState.openModal()
+          }
+        >
+          {modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
+        </button>
+      </h2>
+      {!modalState.isOpen && (
+        <div className="absolute left-[1rem] top-[9rem] flex min-h-[12rem] w-[calc(100vw-3rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
+          <Dropdown
+            options={blog2Store.categoryList.map((i) => {
+              return {
+                value: i.id,
+                name: i.name,
+              };
+            })}
+            value={
+              blog2ContentFormContext.getValues("firstCategoryId") ||
+              props.item?.blog2FirstCategoryId ||
+              0
+            }
+            defaultValue={props.item?.blog2FirstCategoryId || 0}
+            dropdownHandler={handleClickFirstCategory}
+            placeholder={"카테고리1"}
+            containerClassName={"min-h-12 bg-white-80"}
+          />
+          <Dropdown
+            options={secondCategoryList.map((i) => {
+              return {
+                value: i.id,
+                name: i.name,
+              };
+            })}
+            value={
+              blog2ContentFormContext.getValues("secondCategoryId") ||
+              props.item?.blog2SecondCategoryId ||
+              0
+            }
+            defaultValue={props.item?.blog2SecondCategoryId || 0}
+            dropdownHandler={handleClickSecondCategory}
+            placeholder={"카테고리2"}
+            disabled={
+              !blog2ContentFormContext.getValues("firstCategoryId") ||
+              secondCategoryList.length < 1
+            }
+            containerClassName={"min-h-12 bg-white-80"}
+          />
+          <Input
+            type={"text"}
+            register={blog2ContentFormContext.register("title")}
+            className={EditorCreateUpdateTitleStyle}
+            placeholder="제목"
+          />
+        </div>
+      )}
       <CustomEditor
         defaultValue={props.edit ? props.item!.content : ""}
         handleContentChange={handleContentChange}
@@ -275,14 +301,16 @@ const Blog2BasicCreateUpdateContentModal = (
           disabled={!blog2ContentFormContext.formState.isValid}
           className={
             "h-[3rem] w-full bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
-          }>
+          }
+        >
           {props.edit ? "수정" : "생성"}
         </Button>
         <Button
           onClick={() => props.closeModal && props.closeModal()}
           className={
             "h-[3rem] w-full default-outline default-flex hover:bg-red-20"
-          }>
+          }
+        >
           취소
         </Button>
         {/* <span> {errors.변수?.message} </span> */}
