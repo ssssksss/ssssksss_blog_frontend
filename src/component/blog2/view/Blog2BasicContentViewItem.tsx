@@ -3,10 +3,10 @@ import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import Image from "next/image";
 import { useState } from "react";
 
-interface IBlo2BasicContentViewItem {
+interface IBlog2BasicContentViewItem {
   data: IBlog2Basic;
 }
-const Blo2BasicContentViewItem = (props: IBlo2BasicContentViewItem) => {
+const Blog2BasicContentViewItem = (props: IBlog2BasicContentViewItem) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
     <>
@@ -50,4 +50,4 @@ const Blo2BasicContentViewItem = (props: IBlo2BasicContentViewItem) => {
     </>
   );
 };
-export default Blo2BasicContentViewItem;
+export default Blog2BasicContentViewItem;

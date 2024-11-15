@@ -11,7 +11,7 @@ import {
 } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import React, { useCallback, useRef } from "react";
-import Blo2BasicContentViewItem from "./Blo2BasicContentViewItem";
+import Blog2BasicContentViewItem from "./Blog2BasicContentViewItem";
 
 interface IBlog2BasicContentViewBox {
   data: IBlog2Basic[];
@@ -123,7 +123,7 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
       <ul className={EditorUlStyle}>
         {props.data.map((i) => (
           <li key={i.id} className={EditorLiStyle}>
-            <Blo2BasicContentViewItem data={i} />
+            <Blog2BasicContentViewItem data={i} />
           </li>
         ))}
       </ul>
