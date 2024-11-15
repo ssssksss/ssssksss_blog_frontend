@@ -1,20 +1,15 @@
-import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import {faMagnifyingGlassPlus} from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
-import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
-import {faSquarePlus} from "@fortawesome/free-solid-svg-icons/faSquarePlus";
-import {faXmark} from "@fortawesome/free-solid-svg-icons/faXmark";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
+import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
+import Blog2StructureContentItem from "./Blog2StructureContentItem";
 import Blog2StructureSearchContentModal from "./Blog2StructureSearchContentModal";
 
 interface IBlog2StructureContentBox {
@@ -87,7 +82,8 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
               addBlog2StructureContent={addBlog2StructureContent}
               updateBlog2StructureContent={updateBlog2StructureContent}
             />
-          }>
+          }
+        >
           <FontAwesomeIcon
             icon={faSquarePlus}
             style={{width: "24px", height: "24px"}}
@@ -101,7 +97,8 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
             <Blog2StructureSearchContentModal
               addBlog2StructureContent={addBlog2StructureContent}
             />
-          }>
+          }
+        >
           <FontAwesomeIcon
             icon={faMagnifyingGlassPlus}
             style={{width: "24px", height: "24px"}}
@@ -114,58 +111,12 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
             .getValues("blog2StructureList")
             ?.map((i: IBlog2Structure) => (
               <li key={i.id} className={EditorLiStyle}>
-                <h2
-                  className={EditorTitleStyle}
-                  id={i.blog2StructureContent.directory
-                    .replace(/\s+/g, "-")
-                    .toLowerCase()}>
-                  {i.blog2StructureContent.directory.split("/").pop()}
-                </h2>
-                <div
-                  id={"preview"}
-                  className={EditorPriviewStyle}
-                  dangerouslySetInnerHTML={{
-                    __html: convertMarkdownToHtml(
-                      i.blog2StructureContent.content,
-                    ),
-                  }}
+                <Blog2StructureContentItem
+                  data={i}
+                  addBlog2StructureContent={addBlog2StructureContent}
+                  updateBlog2StructureContent={updateBlog2StructureContent}
+                  removeBlog2StructureContent={removeBlog2StructureContent}
                 />
-                <div
-                  className={
-                    "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1"
-                  }>
-                  <ModalButton
-                    buttonClassName={
-                      "font-bold rounded-2xl hover:bg-primary-20 p-1 w-[2.25rem] default-flex"
-                    }
-                    modal={
-                      <Blog2StructureContentCreateUpdateModal
-                        edit={true}
-                        item={i.blog2StructureContent}
-                        addBlog2StructureContent={addBlog2StructureContent}
-                        updateBlog2StructureContent={
-                          updateBlog2StructureContent
-                        }
-                      />
-                    }>
-                    <FontAwesomeIcon
-                      icon={faPenToSquare}
-                      style={{width: "28px", height: "28px"}}
-                    />
-                  </ModalButton>
-                  <Button
-                    className={
-                      "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
-                    }
-                    onClick={() =>
-                      removeBlog2StructureContent(i.blog2StructureContent.id)
-                    }>
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                      style={{width: "28px", height: "28px"}}
-                    />
-                  </Button>
-                </div>
               </li>
             ))}
         </>
