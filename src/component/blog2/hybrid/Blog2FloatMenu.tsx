@@ -7,7 +7,7 @@ import { faArrowUp } from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import useUserStore from "src/store/userStore";
 
@@ -16,6 +16,7 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
   const router = useRouter();
   const userStore = useUserStore();
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname(); // 현재 경로 가져오기
 
   useEffect(() => {
     const keyDownEventFunc = (e: KeyboardEvent) => {
@@ -40,27 +41,27 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
   return (
     <div
       className={
-        "fixed z-50 h-0 max-[440px]:left-[calc(100%-2rem)] left-[calc(100%-2.75rem)] bottom-[10rem] opacity-60 hover:opacity-100 cursor-pointer"
+        "fixed bottom-[10rem] left-[calc(100%-2.75rem)] z-50 h-0 cursor-pointer opacity-60 hover:opacity-100 max-[440px]:left-[calc(100%-2rem)]"
       }
       ref={menuRef}
     >
-      <div className="flex flex-col outline outline-[0.3125rem] outline-offset-[-0.0625rem] outline-secondary-80 rounded-[.25rem] bg-third-20">
-        {userStore.role == "ROLE_ADMIN" && (
+      <div className="flex flex-col rounded-[.25rem] bg-third-20 outline outline-[0.3125rem] outline-offset-[-0.0625rem] outline-secondary-80">
+        {userStore.role == "ROLE_ADMIN" && !pathname?.includes("update")  && (
           <Link
             href={"/blog2/create"}
-            className="w-11 h-11 max-[440px]:w-8 max-[440px]:h-8 flex justify-center items-center hover:bg-primary-20"
+            className="flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
           >
             <FontAwesomeIcon icon={faEdit} width={44} height={44} />
           </Link>
         )}
         <button
           onClick={() => window.scrollTo(0, 0)}
-          className="relative w-11 h-11 max-[440px]:w-8 max-[440px]:h-8 flex justify-center items-center hover:bg-primary-20"
+          className="relative flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
         >
-          <FontAwesomeIcon icon={faArrowUp} width={14} height={14}/>
+          <FontAwesomeIcon icon={faArrowUp} width={14} height={14} />
         </button>
         <button
-          className="relative w-11 h-11 max-[440px]:w-8 max-[440px]:h-8 flex justify-center items-center hover:bg-primary-20"
+          className="relative flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
           onClick={() => window.scrollTo(0, window.document.body.scrollHeight)}
         >
           <FontAwesomeIcon icon={faArrowDown} width={14} height={14} />
