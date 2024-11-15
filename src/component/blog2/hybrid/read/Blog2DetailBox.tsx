@@ -74,7 +74,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
 
   return (
     <section
-      className={"mt-[.25rem] flex h-auto w-full flex-col gap-y-2 pb-[1rem]"}>
+      className={"mt-[.25rem] flex h-auto w-full flex-col gap-y-2 pb-[1rem]"}
+    >
       <LoadingSpinner loading={loading} />
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
         <Button
@@ -85,13 +86,15 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
             router.push(
               `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
             )
-          }>
+          }
+        >
           <FontAwesomeIcon icon={faArrowLeft} />
         </Button>
         <div
           className={
             "w-full break-words break-all rounded-[1rem] text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
-          }>
+          }
+        >
           {props.data.blog2.title}
         </div>
         {userStore.role == "ROLE_ADMIN" && (
@@ -100,12 +103,11 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
               className={
                 "aspect-square h-[2rem] bg-primary-20 font-bold default-outline default-flex"
               }
-              onClick={() =>
-              {
+              onClick={() => {
                 startLoading();
                 router.push(`/blog2/update/${props.data.blog2.id}`);
-              }
-              }>
+              }}
+            >
               <Image
                 alt=""
                 src={"/images/icons/ic-edit-black.svg"}
@@ -127,7 +129,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
                   }}
                   mainMessage={["블로그를 삭제하시겠습니까?"]}
                 />
-              }>
+              }
+            >
               <Image
                 alt=""
                 src={"/images/icons/ic-trash.svg"}
@@ -141,11 +144,13 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       <div
         className={
           "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 default-outline"
-        }>
+        }
+      >
         {props.data.blog2BasicList.length > 0 && (
           <Button
             onClick={() => setMenu("기초")}
-            className={`h-auto w-full ${menu == "기초" && "rounded-l-[1rem] bg-primary-20"}`}>
+            className={`h-auto w-full rounded-2xl ${menu == "기초" && "bg-primary-60 animate-rotateFadeIn"}`}
+          >
             기초
             <span className="pl-1 text-black-40">
               {props.data.blog2BasicList.length || 0}
@@ -155,7 +160,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         {props.data.blog2StructureList.length > 0 && (
           <Button
             onClick={() => setMenu("구조")}
-            className={`h-auto w-full ${menu == "구조" && "bg-primary-20"}`}>
+            className={`h-auto w-full rounded-2xl ${menu == "구조" && "bg-primary-60 animate-rotateFadeIn"}`}
+          >
             구조
             <span className="pl-1 text-black-40">
               {props.data.blog2StructureList.length || 0}
@@ -165,7 +171,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         {props.data.blog2ResultList.length > 0 && (
           <Button
             onClick={() => setMenu("결과")}
-            className={`h-auto w-full ${menu == "결과" && "rounded-r-[1rem] bg-primary-20"}`}>
+            className={`h-auto w-full rounded-2xl ${menu == "결과" && "bg-primary-60 animate-rotateFadeIn"}`}
+          >
             결과
             <span className="pl-1 text-black-40">
               {props.data.blog2ResultList.length || 0}
@@ -175,8 +182,9 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         {menu == "" && (
           <div
             className={
-              "h-auto w-full rounded-r-[1rem] bg-primary-20 default-flex"
-            }>
+              "h-auto w-full rounded-l-[1rem] rounded-r-[1rem] default-flex"
+            }
+          >
             아무런 내용이 없습니다.
           </div>
         )}

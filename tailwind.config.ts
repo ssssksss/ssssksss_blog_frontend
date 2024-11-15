@@ -1,5 +1,5 @@
-import type {Config} from "tailwindcss";
-import {PluginAPI} from "tailwindcss/types/config";
+import type { Config } from "tailwindcss";
+import { PluginAPI } from "tailwindcss/types/config";
 
 export function extractFontFamilies(
   cssContent: string,
@@ -239,12 +239,12 @@ const config: Config = {
         },
         rotateFadeIn: {
           "0%": {
-            transform: "translateY(100%) rotate3d(1, 0, 0, 90deg)",
-            opacity: "0.0",
+            transform: "translateY(50%) rotate3d(1, 0, 0, 45deg)",
+            opacity: "0.3",
           },
           "50%": {
-            transform: "translateY(100%) rotate3d(1, 0, 0, 90deg)",
-            opacity: "0.05",
+            transform: "translateY(25%) rotate3d(1, 0, 0, 30deg)",
+            opacity: "0.7",
           },
           "100%": {
             transform: "translateY(0%) rotate3d(1, 0, 0, 0deg)",
@@ -269,7 +269,7 @@ const config: Config = {
         fadeUp: "fade-up 1.5s ease-out",
         outlineBlink: "outlineBlink 2s infinite",
         fadeIn: "fadeIn 0.8s ease-in-out forwards",
-        rotateFadeIn: "rotateFadeIn 0.6s linear",
+        rotateFadeIn: "rotateFadeIn 0.2s linear",
         fill: "fill 4s linear infinite",
         updown: "updown 1.4s linear infinite",
         modalGrowingScale: "modalGrowingScale 0.3s linear",
