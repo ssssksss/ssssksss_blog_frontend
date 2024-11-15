@@ -112,7 +112,7 @@ const CustomEditor = (props: ICustomEditor) => {
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={
-            "h-[calc(100vh-22.5rem)] w-full resize-none overflow-scroll p-2 default-outline"
+            "h-[calc(100vh-23.5rem)] w-full resize-none overflow-scroll p-2 border-2 border-primary-80 rounded-2xl"
           }
           onChange={(e) => handleTextareaChange(e.target.value)}
           value={content}
@@ -122,7 +122,7 @@ const CustomEditor = (props: ICustomEditor) => {
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}
           onDrop={onDropOrInputEvent}
-        />
+        />  
       </article>
       {/* 미리보기 */}
       <article
@@ -135,7 +135,7 @@ const CustomEditor = (props: ICustomEditor) => {
         <div
           id={"preview"}
           className={
-            "h-[calc(100vh-22.5rem)] max-h-full w-full overflow-scroll break-all p-2 default-outline"
+            "h-[calc(100vh-23.5rem)] max-h-full w-full overflow-scroll break-all p-2 border-2 border-primary-80 rounded-2xl"
           }
           dangerouslySetInnerHTML={{
             __html: convertMarkdownToHtml(content, true),
