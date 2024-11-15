@@ -3,17 +3,17 @@ import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useDragAndDropBlob} from "@hooks/useDragAndDropBlob";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
-import {AWSS3Prefix} from "@utils/variables/s3url";
+import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
-import {useRef, useState} from "react";
-import {useFormContext} from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
 import useLoading from "./../../../../hooks/useLoading";
@@ -64,6 +64,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const blog2CreateUpdateSubmitHandler = async () => {
     startLoading();
     const formData = new FormData();
+    formData.append("blog2Status", formContext.getValues("blog2Status"));
     if (!props.isEdit || formContext.getValues("isUpdateBlog2Header")) {
       formData.append("title", formContext.getValues("title"));
       formData.append("description", formContext.getValues("description"));
@@ -75,7 +76,6 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         "secondCategoryId",
         formContext.getValues("secondCategoryId"),
       );
-      formData.append("blog2Status", formContext.getValues("blog2Status"));
     }
 
     // ? [1] 기초 내용
@@ -401,25 +401,23 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                 onChange={onDropOrInputEvent}
               /> */}
             </label>
-            {props.isEdit && (
-              <div className="flex h-[3rem] default-outline">
-                <Button
-                  className={`h-full w-full default-flex ${blog2Status == "PUBLIC" && "rounded-l-[1rem] bg-primary-20"}`}
-                  onClick={() => handleBlog2Status("PUBLIC")}>
+            <div className="flex h-[3rem] default-outline">
+              <Button
+                className={`h-full w-full default-flex ${blog2Status == "PUBLIC" && "rounded-l-[1rem] bg-primary-20"}`}
+                onClick={() => handleBlog2Status("PUBLIC")}>
                   PUBLIC
-                </Button>
-                <Button
-                  className={`h-full w-full default-flex ${blog2Status == "HIDE" && "bg-primary-20"}`}
-                  onClick={() => handleBlog2Status("HIDE")}>
+              </Button>
+              <Button
+                className={`h-full w-full default-flex ${blog2Status == "HIDE" && "bg-primary-20"}`}
+                onClick={() => handleBlog2Status("HIDE")}>
                   HIDE
-                </Button>
-                <Button
-                  className={`h-full w-full default-flex ${blog2Status == "DEVELOP" && "rounded-r-[1rem] bg-primary-20"}`}
-                  onClick={() => handleBlog2Status("DEVELOP")}>
+              </Button>
+              <Button
+                className={`h-full w-full default-flex ${blog2Status == "DEVELOP" && "rounded-r-[1rem] bg-primary-20"}`}
+                onClick={() => handleBlog2Status("DEVELOP")}>
                   DEVELOP
-                </Button>
-              </div>
-            )}
+              </Button>
+            </div>
             <Button
               className={
                 "h-[3rem] w-full p-2 default-outline hover:bg-purple-20 disabled:bg-gray-60"
