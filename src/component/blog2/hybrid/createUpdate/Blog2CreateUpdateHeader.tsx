@@ -10,6 +10,7 @@ import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
 import { AWSS3Prefix } from "@utils/variables/s3url";
+import { SendHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -289,13 +290,14 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   return (
     <>
       <LoadingSpinner loading={loading} />
-      <div className="flex w-full justify-between pb-2">
-        <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center pb-2">
+      <div className="flex w-full justify-between">
+        <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center">
           <Button
             className={
-              "aspect-square min-h-[3rem] bg-primary-20 p-2 default-outline default-flex"
+              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-outline default-flex"
             }
-            onClick={() => router.back()}>
+            onClick={() => router.back()}
+          >
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={{width: "24px", height: "24px"}}
@@ -304,21 +306,24 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
           <div
             className={
               "w-full break-words break-all rounded-[1rem] p-2 text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
-            }>
+            }
+          >
             {formContext.getValues("title")}
           </div>
           <Button
             className={
-              "aspect-square min-h-[3rem] bg-primary-20 p-2 font-bold default-outline default-flex"
+              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-outline default-flex"
             }
-            onClick={() => blog2CreateUpdateSubmitHandler()}>
-            {props.isEdit ? "수정 완료" : "저장"}
+            onClick={() => blog2CreateUpdateSubmitHandler()}
+          >
+            <SendHorizontal />
           </Button>
         </div>
       </div>
       <Button
         className={"w-full p-2 default-outline hover:bg-primary-20"}
-        onClick={() => modalState.openModal()}>
+        onClick={() => modalState.openModal()}
+      >
         {formContext.getValues("title") ? (
           <div className="gap-x-1 break-keep default-flex">
             <span className={"font-bold text-primary-100"}>
@@ -342,10 +347,12 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         <div
           className={
             "fixed left-0 top-0 z-[70] h-full w-full bg-black-100/30 default-flex"
-          }>
+          }
+        >
           <div
             ref={ref}
-            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[6rem_4rem_3rem_3rem_16rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-white-80 p-[2.75rem] pt-[4rem] scrollbar-hide">
+            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[6rem_4rem_3rem_3rem_16rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-white-80 p-[2.75rem] pt-[4rem] scrollbar-hide"
+          >
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -364,7 +371,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             />
             <Button
               onClick={() => modalState1.openModal()}
-              className={"flex items-center p-2 default-outline"}>
+              className={"flex items-center p-2 default-outline"}
+            >
               {firstCategory.name || "1번째 카테고리"}
             </Button>
             <Button
@@ -372,7 +380,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               disabled={firstCategory.id < 1}
               className={
                 "flex items-center p-2 default-outline disabled:bg-gray-40"
-              }>
+              }
+            >
               {secondCategory.name || "2번째 카테고리"}
             </Button>
             <label
@@ -404,18 +413,21 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             <div className="flex h-[3rem] default-outline">
               <Button
                 className={`h-full w-full default-flex ${blog2Status == "PUBLIC" && "rounded-l-[1rem] bg-primary-20"}`}
-                onClick={() => handleBlog2Status("PUBLIC")}>
-                  PUBLIC
+                onClick={() => handleBlog2Status("PUBLIC")}
+              >
+                PUBLIC
               </Button>
               <Button
                 className={`h-full w-full default-flex ${blog2Status == "HIDE" && "bg-primary-20"}`}
-                onClick={() => handleBlog2Status("HIDE")}>
-                  HIDE
+                onClick={() => handleBlog2Status("HIDE")}
+              >
+                HIDE
               </Button>
               <Button
                 className={`h-full w-full default-flex ${blog2Status == "DEVELOP" && "rounded-r-[1rem] bg-primary-20"}`}
-                onClick={() => handleBlog2Status("DEVELOP")}>
-                  DEVELOP
+                onClick={() => handleBlog2Status("DEVELOP")}
+              >
+                DEVELOP
               </Button>
             </div>
             <Button
@@ -425,7 +437,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               onClick={() => handleSaveClick()}
               disabled={
                 !(title && description && firstCategory.id && secondCategory.id)
-              }>
+              }
+            >
               저장
             </Button>
             {!modalState1.isOpen && !modalState2.isOpen && (
@@ -438,7 +451,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                   <div
                     className={
                       "flex h-full w-full flex-wrap gap-2 rounded-[1rem] p-8"
-                    }>
+                    }
+                  >
                     {blog2Store.categoryList.map((i) => (
                       <Button
                         onClick={() =>
@@ -448,7 +462,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                           })
                         }
                         key={i.id}
-                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${firstCategory.id == i.id && "bg-primary-20"}`}>
+                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${firstCategory.id == i.id && "bg-primary-20"}`}
+                      >
                         {i.name}
                       </Button>
                     ))}
@@ -466,7 +481,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                   <div
                     className={
                       "flex h-full w-full flex-wrap gap-2 rounded-[1rem] p-8"
-                    }>
+                    }
+                  >
                     {firstCategory.id > 0 &&
                       blog2Store.categoryList
                         .filter((i) => i.id == firstCategory.id)[0]
@@ -479,7 +495,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                               })
                             }
                             key={j.id}
-                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${secondCategory.id == j.id && "bg-primary-20"}`}>
+                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${secondCategory.id == j.id && "bg-primary-20"}`}
+                          >
                             {j.name}
                           </Button>
                         ))}
