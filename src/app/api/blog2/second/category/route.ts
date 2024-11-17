@@ -1,6 +1,7 @@
 // app/api/route.ts
-import {fetchMultipartCSR} from "@utils/api/fetchMultipartCSR";
-import {NextRequest} from "next/server";
+import { fetchCSR } from "@utils/api/fetchCSR";
+import { fetchMultipartCSR } from "@utils/api/fetchMultipartCSR";
+import { NextRequest } from "next/server";
 
 // export async function GET(request: NextRequest) {
 //   return NextResponse.json({ message: 'Hello from GET' });
@@ -47,8 +48,11 @@ export async function PUT(request: NextRequest) {
   });
   return result;
 }
-// export async function DELETE(request: NextRequest) {
-//   const data = await request.json();
-//   // 데이터 처리
-//   return NextResponse.json({ message: 'Hello from POST', data });
-// }
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("deleteSecondCategoryId");
+  return await fetchCSR({
+    url: `${process.env.BACKEND_URL}/api/blog2/category/second?id=${id}`,
+    req: request,
+  });
+}

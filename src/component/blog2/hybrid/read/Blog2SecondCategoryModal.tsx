@@ -1,8 +1,8 @@
 import Button from "@component/common/button/hybrid/Button";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {useState} from "react";
-import useBlog2Store from "src/store/blog2Store";
+import { useState } from "react";
 import Blog2SecondCategoryCreateForm from "./Blog2SecondCategoryCreateForm";
+import Blog2SecondCategoryDeleteForm from "./Blog2SecondCategoryDeleteForm";
 import Blog2SecondCategoryUpdateForm from "./Blog2SecondCategoryUpdateForm";
 
 interface IBlog2SecondCategoryModal extends IModalComponent {}
@@ -15,7 +15,6 @@ const buttons = [
 
 const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
   const [menu, setMenu] = useState("add");
-  const blog2Store = useBlog2Store();
 
   return (
     <ModalTemplate
@@ -42,6 +41,9 @@ const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
         )}
         {menu == "update" && (
           <Blog2SecondCategoryUpdateForm closeModal={props.closeModal!} />
+        )}
+        {menu == "delete" && (
+          <Blog2SecondCategoryDeleteForm closeModal={props.closeModal!} />
         )}
       </div>
     </ModalTemplate>

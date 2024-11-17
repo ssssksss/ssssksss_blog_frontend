@@ -10,3 +10,7 @@ declare interface Blog2SecondCategoryUpdateForm {
   firstCategoryId: string;
   updateSecondCategoryImageFile: File | undefined; // File or undefined
 }
+
+declare interface Blog2SecondCategoryDeleteForm {
+  deleteSecondCategoryId: number;
+}
