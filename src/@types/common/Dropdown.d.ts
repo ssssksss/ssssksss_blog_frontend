@@ -1,5 +1,5 @@
 declare interface IDropdown<T> {
-  options: { value: T; name: string }[];
+  options: {value: T; name: string}[];
   dropdownHandler: (value: T) => void;
   defaultValue: T;
   value: T;
@@ -8,4 +8,5 @@ declare interface IDropdown<T> {
   elementClassName?: string;
   placeholder?: string;
   disabled?: boolean;
+  OptionContainerMaxH?: string;
 }
