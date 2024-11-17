@@ -1,6 +1,6 @@
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Dropdown<T>(props: IDropdown<T>) {
   const [selectedOption, setSelectedOption] = useState<T>(props.defaultValue);
@@ -62,14 +62,14 @@ export default function Dropdown<T>(props: IDropdown<T>) {
         </svg>
       </button>
       {modalState.isOpen && (
-        <div
-          className={`absolute z-[80] max-h-[50vh] overflow-y-scroll bg-white-100 scrollbar-hide default-outline ${props.elementClassName} bg-white/95 text-gray1 flex flex-col items-center gap-1 shadow transition duration-200 ease-out`}
+        <ul
+          className={`absolute z-[80] overflow-y-scroll bg-white-100 scrollbar-hide default-outline ${props.elementClassName} bg-white/95 text-gray1 flex flex-col items-center gap-1 shadow transition duration-200 ease-out ${props.OptionContainerMaxH}`}
           style={{
             top: ref.current?.clientHeight + "px",
             width: ref.current?.clientWidth,
           }}>
           {props.options.map((i) => (
-            <button
+            <li
               key={i.name}
               onClick={() => {
                 props.dropdownHandler(i.value);
@@ -81,9 +81,9 @@ export default function Dropdown<T>(props: IDropdown<T>) {
               }`}
               role="menuitem">
               {i.name}
-            </button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
