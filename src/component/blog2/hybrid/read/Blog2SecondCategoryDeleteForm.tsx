@@ -58,9 +58,13 @@ const Blog2SecondCategoryDeleteForm = (
         +searchParams.get("secondCategoryId")! ==
         getValues("deleteSecondCategoryId")
       ) {
-        router.replace(
-          `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
-        );
+        // 모달창이 열린 상태에서 router를 이용할 경우에는 아래와 같이 처리
+        if (history.state.isModal) {
+          router.back();
+          router.replace(
+            `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
+          );
+        }
       }
       props.closeModal()!;
     } else {
