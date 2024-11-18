@@ -2,11 +2,13 @@ import Button from "@component/common/button/hybrid/Button";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
 
@@ -27,10 +29,11 @@ interface IBlog2ResultCreateUpdateModal extends IModalComponent {
 }
 
 const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
-  const [loading, setIsLoading] = useState(false);
   const toastifyStore = useToastifyStore();
   const { id: blogId } = useParams();
   const modalState = useModalState(props.edit ? true : false);
+  const {loading, startLoading, stopLoading} = useLoading();
+  
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2ResultYup),
     mode: "onChange",
@@ -44,7 +47,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    setIsLoading(true);
+    startLoading();
     // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
@@ -107,10 +110,12 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
           type: "error",
           message: "수정이 실패했습니다.",
         });
+        stopLoading();
         return;
       }
       const result: responseCreateUpdateBlog2Result = await response.json();
       props.updateBlog2Result!(result.data.blog2Result);
+      stopLoading();
       props.closeModal!();
     }
 
@@ -125,10 +130,12 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
           type: "error",
           message: "결과 생성에 실패했습니다.",
         });
+        stopLoading();
         return;
       }
       const result: responseCreateUpdateBlog2Result = await response.json();
       props.addBlog2Result!(result.data.blog2Result);
+      stopLoading();
       props.closeModal!();
     }
   };
@@ -166,6 +173,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         "grid h-[100vh] max-h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[75rem] grid-rows-[3rem_3rem_calc(100%-12rem)_3rem] gap-y-4 p-8"
       }>
       {props.closeButtonComponent}
+      <LoadingSpinner loading={loading} />
       <h2
         className={
           "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] font-bold default-flex"
