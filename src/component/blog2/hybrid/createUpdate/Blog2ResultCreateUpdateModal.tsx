@@ -6,6 +6,7 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
+import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
@@ -99,60 +100,35 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       formData.append("imageFileList", i);
     });
 
-    const res = await fetch("/api/auth/cookies");
-    const cookies = await res.json(); // {accessToken, refreshToken}
-
-    // 블로그 결과 수정
+    const response: Response = await fetchMultipartRetry({
+      url: "api/blog2/result",
+      method: props.edit ? "PUT" : "POST",
+      formData: formData,
+    });
+  
+    if (!response.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: props.edit
+          ? "수정이 실패했습니다."
+          : "결과 생성에 실패했습니다.",
+      });
+      stopLoading();
+      return;
+    }
     if (props.edit) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/result`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${cookies?.accessToken}`,
-          },
-          body: formData,
-        },
-      );
-      if (!response.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "수정이 실패했습니다.",
-        });
-        stopLoading();
-        return;
-      }
+      // 블로그 결과 수정 성공시
       const result: responseCreateUpdateBlog2Result = await response.json();
-      props.updateBlog2Result!(result.data.blog2Result);
-      stopLoading();
-      props.closeModal!();
+        props.updateBlog2Result!(result.data.blog2Result);
+    } else {
+      // 블로그 결과 생성 성공시
+      const result: responseCreateUpdateBlog2Result =
+          await response.json();
+        props.addBlog2Result!(result.data.blog2Result);
     }
+    stopLoading();
+      props.closeModal!();
 
-    // 블로그 결과 생성
-    if (!props.edit) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/result`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${cookies?.accessToken}`,
-          },
-          body: formData,
-        },
-      );
-      if (!response.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "결과 생성에 실패했습니다.",
-        });
-        stopLoading();
-        return;
-      }
-      const result: responseCreateUpdateBlog2Result = await response.json();
-      props.addBlog2Result!(result.data.blog2Result);
-      stopLoading();
-      props.closeModal!();
-    }
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
