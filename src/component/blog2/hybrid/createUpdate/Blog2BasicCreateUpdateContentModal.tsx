@@ -3,8 +3,11 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
+import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
 import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
@@ -42,7 +45,7 @@ const Blog2BasicCreateUpdateContentModal = (
     IBlog2SecondCategoryList[]
   >([]);
   const modalState = useModalState(props.edit ? true : false);
-  const [loading, setIsLoading] = useState(false);
+  const {loading, startLoading, stopLoading} = useLoading();
   const blog2FormContext = useFormContext();
   const toastifyStore = useToastifyStore();
   const blog2ContentFormContext = useForm<IFormContext>({
@@ -58,7 +61,7 @@ const Blog2BasicCreateUpdateContentModal = (
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    setIsLoading(true);
+    stopLoading();
     // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
@@ -92,16 +95,6 @@ const Blog2BasicCreateUpdateContentModal = (
       });
     }
 
-    // 미리보기가 안보여 바꾼 텍스트를 다시 원래대로 전환
-    // blog2ContentFormContext.setValue(
-    //   "content",
-    //   StringFunction.replaceAll(
-    //     blog2ContentFormContext.getValues("content"),
-    //     "](blob:http",
-    //     "](http",
-    //   ),
-    // );
-
     // API 공통 작업
     if (props.edit) {
       formData.append("id", props.item!.id + "");
@@ -123,43 +116,35 @@ const Blog2BasicCreateUpdateContentModal = (
       formData.append("imageFileList", i);
     });
 
-    // 블로그 수정 API
-    if (props.edit) {
-      const response = await fetch("/api/blog2/basic", {
-        method: "PUT",
-        body: formData,
-      });
-      if (!response.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "수정이 실패했습니다.",
-        });
-        return;
-      }
-      const result: responseCreateUpdateBlog2BasicContent =
-        await response.json();
-      props.updateBlog2BasicContent!(result.data.blog2BasicContent);
-      props.closeModal!();
-    }
+    const response: Response = await fetchMultipartRetry({
+      url: "/api/blog2/basic",
+      method: props.edit ? "PUT" : "POST",
+      formData: formData,
+    });
 
-    // 블로그 생성 API
-    if (!props.edit) {
-      const response = await fetch("/api/blog2/basic", {
-        method: "POST",
-        body: formData,
+    if (!response.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: props.edit
+          ? "수정이 실패했습니다."
+          : "구조 생성에 실패했습니다.",
       });
-      if (!response.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "기초 글 작성에 실패했습니다.",
-        });
-        return;
-      }
+      stopLoading();
+      return;
+    }
+    if (props.edit) {
+      // 블로그 기초 수정 성공시
+      const result: responseCreateUpdateBlog2BasicContent =
+  await response.json();
+  props.updateBlog2BasicContent!(result.data.blog2BasicContent);
+    } else {
+      // 블로그 기초 생성 성공시
       const result: responseCreateUpdateBlog2BasicContent =
         await response.json();
       props.addBlog2BasicContent!(result.data.blog2BasicContent);
-      props.closeModal!();
     }
+    stopLoading();
+        props.closeModal!();
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
@@ -224,6 +209,7 @@ const Blog2BasicCreateUpdateContentModal = (
       }
     >
       {props.closeButtonComponent}
+      <LoadingSpinner loading={loading} />
       <div
         className={
           "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
