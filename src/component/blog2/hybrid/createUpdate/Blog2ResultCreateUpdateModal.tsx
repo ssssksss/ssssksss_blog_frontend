@@ -99,12 +99,21 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       formData.append("imageFileList", i);
     });
 
+    const res = await fetch("/api/auth/cookies");
+    const cookies = await res.json(); // {accessToken, refreshToken}
+
     // 블로그 결과 수정
     if (props.edit) {
-      const response = await fetch("/api/blog2/result", {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/result`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${cookies?.accessToken}`,
+          },
+          body: formData,
+        },
+      );
       if (!response.ok) {
         toastifyStore.setToastify({
           type: "error",
@@ -121,10 +130,16 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
 
     // 블로그 결과 생성
     if (!props.edit) {
-      const response = await fetch("/api/blog2/result", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/result`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${cookies?.accessToken}`,
+          },
+          body: formData,
+        },
+      );
       if (!response.ok) {
         toastifyStore.setToastify({
           type: "error",
