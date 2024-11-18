@@ -43,7 +43,7 @@ export const convertMarkdownToHtml = (
       /\[([^\]]+)\]\(([^)]+)\)/g,
       '<a href="$2" class="text-blue-600 hover:underline" target="_blank">$1</a>',
     )
-    .replace(/^\s*\-\s(.*$)/gim, '<li class="ml-4">$1</li>')
+    .replace(/^\s*\-\s(.*$)/gim, '<li class="ml-1">$1</li>')
     // .replace(/`([^`]+)`/g, '<code class="px-1 rounded bg-red-20">$1</code>')
     .replace(
       /```ex\s*([\s\S]*?)\s*```/g,
