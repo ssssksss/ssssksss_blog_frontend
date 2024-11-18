@@ -1,5 +1,5 @@
 interface IFetchMultipartRetry {
-  url: string;
+  url: string; // /api경로 와 같이 /로 시작할것
   method?: string;
   formData?: FormData;
 }
@@ -12,7 +12,7 @@ export const fetchMultipartRetry = async ({
   const res = await fetch("/api/auth/cookies");
   const cookies = await res.json();
   let response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/${url}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
     {
       method: method || "GET",
       headers: {
