@@ -3,8 +3,11 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
+import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
 import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -32,10 +35,10 @@ interface IBlog2StructureContentCreateUpdateModal extends IModalComponent {
 const Blog2StructureContentCreateUpdateModal = (
   props: IBlog2StructureContentCreateUpdateModal,
 ) => {
-  const [loading, setIsLoading] = useState(false);
   const toastifyStore = useToastifyStore();
   const [projectName, setProjectName] = useState("");
   const modalState = useModalState(props.edit ? true : false);
+  const {loading, startLoading, stopLoading} = useLoading();
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateStructureContentYup),
     mode: "onChange",
@@ -52,7 +55,7 @@ const Blog2StructureContentCreateUpdateModal = (
 
   const blog2FormContext = useFormContext();
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    setIsLoading(true);
+    startLoading();
 
     // API 공통 작업
     const formData = new FormData();
@@ -66,44 +69,36 @@ const Blog2StructureContentCreateUpdateModal = (
     formData.append("content", blog2ContentFormContext.getValues("content"));
     formData.append("project", blog2ContentFormContext.getValues("project"));
 
-    // 블로그 수정 API
-    if (props.edit) {
-      const response = await fetch("/api/blog2/structure", {
-        method: "PUT",
-        body: formData,
+ 
+    const response: Response = await fetchMultipartRetry({
+      url: "/api/blog2/structure",
+      method: props.edit ? "PUT" : "POST",
+      formData: formData,
+    });
+    if (!response.ok) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: props.edit
+          ? "수정이 실패했습니다."
+          : "결과 생성에 실패했습니다.",
       });
-      if (!response.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "수정이 실패했습니다.",
-        });
-        return;
-      }
+      stopLoading();
+      return;
+    }
+    if (props.edit) {
+      // 블로그 구조 수정 성공시
       const result: responseCreateUpdateBlog2StructureContent =
         await response.json();
       props.updateBlog2StructureContent!(result.data.blog2StructureContent);
-      props.closeModal!();
-    }
-
-    // 블로그 생성 API
-    if (!props.edit) {
-      const response = await fetch("/api/blog2/structure", {
-        method: "POSt",
-        body: formData,
-      });
-      if (!response.ok) {
-        const data = await response.json();
-        toastifyStore.setToastify({
-          type: "error",
-          message: data.msg || "생성에 실패했습니다.",
-        });
-        return;
-      }
+    } else {
+      // 블로그 구조 생성 성공시
       const result: responseCreateUpdateBlog2StructureContent =
-        await response.json();
-      props.addBlog2StructureContent!(result.data.blog2StructureContent);
-      props.closeModal!();
+           await response.json();
+         props.addBlog2StructureContent!(result.data.blog2StructureContent);
     }
+    stopLoading();
+      props.closeModal!();
+
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
@@ -144,6 +139,7 @@ const Blog2StructureContentCreateUpdateModal = (
       }
     >
       {props.closeButtonComponent}
+      <LoadingSpinner loading={loading} />
       <div
         className={
           "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"

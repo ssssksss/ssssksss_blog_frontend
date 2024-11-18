@@ -101,7 +101,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
     });
 
     const response: Response = await fetchMultipartRetry({
-      url: "api/blog2/result",
+      url: "/api/blog2/result",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
     });
