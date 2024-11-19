@@ -1,12 +1,12 @@
 import Button from "@component/common/button/hybrid/Button";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
-import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import usePlayerStore from "@store/playerStore";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 // src\component\common\layout\hybrid\Header.tsx 로컬에서 데이터를 받아옴
 
@@ -343,7 +343,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-80/60 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-x-[100vw] translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-80/60 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
                 onClick={() => handlePlaylist(i)}>
                 <div className="flex w-full items-center justify-start pl-1">
                   {i.title}
