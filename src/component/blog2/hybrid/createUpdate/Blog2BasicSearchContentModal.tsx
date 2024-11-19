@@ -4,10 +4,10 @@ import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import "@styles/customEditor.css";
 import {
-    EditorLiStyle,
-    EditorPreviewStyle,
-    EditorTitleStyle,
-    EditorUlStyle,
+  EditorLiStyle,
+  EditorPreviewStyle,
+  EditorTitleStyle,
+  EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import { useRef, useState } from "react";

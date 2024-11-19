@@ -5,10 +5,10 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import "@styles/customEditor.css";
 import {
-    EditorLiStyle,
-    EditorPreviewStyle,
-    EditorTitleStyle,
-    EditorUlStyle,
+  EditorLiStyle,
+  EditorPreviewStyle,
+  EditorTitleStyle,
+  EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import { useState } from "react";
