@@ -116,18 +116,24 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       stopLoading();
       return;
     }
-    if (props.edit) {
-      // 블로그 결과 수정 성공시
-      const result: responseCreateUpdateBlog2Result = await response.json();
+    try {
+
+      if (props.edit) {
+        // 블로그 결과 수정 성공시
+        const result: responseCreateUpdateBlog2Result = await response.json();
         props.updateBlog2Result!(result.data.blog2Result);
-    } else {
-      // 블로그 결과 생성 성공시
-      const result: responseCreateUpdateBlog2Result =
-          await response.json();
+      } else {
+        // 블로그 결과 생성 성공시
+        const result: responseCreateUpdateBlog2Result =
+        await response.json();
         props.addBlog2Result!(result.data.blog2Result);
-    }
-    stopLoading();
+      }
+      stopLoading();
       props.closeModal!();
+    } catch {
+      stopLoading();
+      props.closeModal!();
+    }
 
   };
 
