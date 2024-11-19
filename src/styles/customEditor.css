@@ -7,3 +7,7 @@
   padding: 1rem;
   object-fit: contain;
 }
+
+#preview li {
+  list-style: none;
+}
