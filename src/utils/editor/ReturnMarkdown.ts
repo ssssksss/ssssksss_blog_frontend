@@ -1,151 +1,94 @@
-/* eslint-disable quotes */
+import hljs from "highlight.js/lib/core";
+import css from "highlight.js/lib/languages/css"; // CSS 추가
+import java from "highlight.js/lib/languages/java"; // Java 언어 추가
+import javascript from "highlight.js/lib/languages/javascript";
+// import json from "highlight.js/lib/languages/json"; // JSON 추가
+// import markdown from "highlight.js/lib/languages/markdown"; // Markdown 추가
+// import python from "highlight.js/lib/languages/python"; // Python 언어 추가
+// import sql from "highlight.js/lib/languages/sql"; // SQL 추가
+// import html from "highlight.js/lib/languages/xml"; // HTML/XML 추가
 
+import "highlight.js/styles/panda-syntax-light.css"; // 스타일 설정
+
+// 언어 등록
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("java", java);
+// hljs.registerLanguage("python", python);
+// hljs.registerLanguage("html", html); // 등록
+hljs.registerLanguage("css", css);
+// hljs.registerLanguage("json", json);
+// hljs.registerLanguage("sql", sql);
+// hljs.registerLanguage("markdown", markdown);
+
+/**
+ * Convert Markdown to HTML with syntax highlighting for code blocks.
+ * @param markdown - The Markdown string to convert.
+ * @param isPreview - Whether the output is for preview mode.
+ * @returns The converted HTML string.
+ */
 export const convertMarkdownToHtml = (
   markdown: string,
   isPreview?: boolean,
-) => {
+): string => {
   let html = markdown
-    // .replace(
-    //   /^> (.*$)/gim,
-    //   '<span class="font-bold italic text-[1.25rem] font-yanoljaYacheBold p-2 rounded-[1rem]">$1</span>',
-    // )
     .replace(
       /^>! (.*$)/gim,
-      '📌 <span class="py-1 font-bold text-[1.125rem] font-GangwonEduHyeonokT text-gradient1 rounded-[1rem]">$1</span>',
+      "📌 <span class=\"py-1 font-bold text-[1.125rem] font-GangwonEduHyeonokT text-gradient1 rounded-[1rem]\">$1</span>",
     )
     .replace(
       /^>tip (.*$)/gim,
-      '💡<span class="text-[1.125rem] font-HakgyoansimPuzzleTTF-Black text-gradient p-2 rounded-[1rem]"> $1</span>',
+      "💡<span class=\"text-[1.125rem] font-HakgyoansimPuzzleTTF-Black text-gradient p-2 rounded-[1rem]\"> $1</span>",
     )
     .replace(
       /^>\? (.*$)/gim,
-      '<span class="font-bold text-[1.25rem]  font-cookieRunRegular text-green-80 p-2 rounded-[1rem]">$1</span>',
+      "<span class=\"font-bold text-[1.25rem]  font-cookieRunRegular text-green-80 p-2 rounded-[1rem]\">$1</span>",
     )
     .replace(
       /^# (.*$)/gim,
-      '<h1 class="text-[1.375rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md pt-2 pb-1 px-2 w-fit" id="$1" data-index="true"># $1</h1>',
+      "<h1 class=\"text-[1.375rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md pb-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
     )
     .replace(
       /^## (.*$)/gim,
-      '<h2 class="text-[1.25rem] text-secondary-80  font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md  py-1 px-2 w-fit" id="$1" data-index="true">## $1</h2>',
+      "<h2 class=\"text-[1.25rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
     )
     .replace(
       /^### (.*$)/gim,
-      '<h3 class="text-[1.125rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit" id="$1" data-index="true">### $1</h3>',
+      "<h3 class=\"text-[1.125rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
     )
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+    .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
     .replace(
       /!\[([^\]]+)\]\(([^)]+)\)/g,
-      '<div class="flex justify-center px-8 my-[1rem]"> <img src="$2" alt="$1" class="max-w-full h-auto rounded-[1rem]" /> </div>',
+      "<div class=\"flex justify-center px-8 my-[1rem]\"> <img src=\"$2\" alt=\"$1\" class=\"max-w-full h-auto rounded-[1rem]\" /> </div>",
     )
     .replace(
       /\[([^\]]+)\]\(([^)]+)\)/g,
-      '<a href="$2" class="text-blue-600 hover:underline" target="_blank">$1</a>',
+      "<a href=\"$2\" class=\"text-blue-600 hover:underline\" target=\"_blank\">$1</a>",
     )
-    .replace(/^\s*\-\s(.*$)/gim, '<li class="ml-1">$1</li>')
-    // .replace(/`([^`]+)`/g, '<code class="px-1 rounded bg-red-20">$1</code>')
+    .replace(/^\s*\-\s(.*$)/gim, "<li class=\"ml-1\">$1</li>")
     .replace(
-      /```ex\s*([\s\S]*?)\s*```/g,
-      '<div class=" bg-gray-20 overflow-x-scroll px-2 py-6 scrollbar-hide rounded-[1rem] break-all">$1</div>',
-    )
-    .replace(/```java\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-gray-40 default-outline overflow-x-scroll p-1 scrollbar-hide rounded break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    })
-    .replace(/```py\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-gray-40 default-outline overflow-x-scroll p-1 scrollbar-hide rounded break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    })
-    .replace(/```html\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-black-60 text-white-80 font-D2Coding overflow-x-scroll pt-8 pb-4 px-1 scrollbar-hide rounded-[1rem] break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    })
-    .replace(/```css\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-black-60 text-white-80 font-D2Coding overflow-x-scroll pt-8 pb-4 px-1 scrollbar-hide rounded-[1rem] break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    })
-    .replace(/```js\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-black-60 text-white-80 font-D2Coding overflow-x-scroll pt-8 pb-4 px-1 scrollbar-hide rounded-[1rem] break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    })
-    .replace(/```ts\s*([\s\S]*?)\s*```/g, (match, codeBlock) => {
-      const temp = highlightSyntax(codeBlock.trim(), isPreview); // trim()을 사용해 앞뒤 공백과 개행을 제거
-      return `<pre class="bg-white-80 default-outline overflow-x-scroll p-1 scrollbar-hide rounded break-all"><code class="whitespace-pre-wrap">${temp}</code></pre>`;
-    });
-
+      /```(js|ts|tsx|html|css|java|py|ex)\s*([\s\S]*?)\s*```/g,
+      (match, lang, codeBlock) => {
+        let highlightedCode = highlightSyntax(codeBlock.trim(), lang);
+        highlightedCode = highlightedCode.replace(/\n/g, "");
+        return `<pre class=\"text-white overflow-x-scroll p-4 rounded-[1rem] break-all\"><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code></pre>`;
+      },
+    );
   html = html.replace(/\n/g, "<br>");
+  html = html.replace(/<\/h1>\s*<br\s*\/?>/g, "</h1>");
   return html;
 };
 
-const highlightSyntax = (code: string, isPreview?: boolean) => {
-  // Define some basic syntax rules
-  const keywords = [
-    "function",
-    "const",
-    "let",
-    "var",
-    "if",
-    "else",
-    "for",
-    "while",
-    "return",
-  ];
-  const specialChars1 = ["{", "}"];
-  const specialChars2 = ["(", ")"];
-  const specialChars3 = ["[", "]"];
-  // const specialChars4 = ["<", ">"];
-
-  // Helper function to escape HTML special characters
-  const escapeHtml = (unsafe: string) => {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  };
-
-  // Split the code into lines
-  const lines = code.split("\n");
-
-  // Process each line
-  const highlightedLines = lines.map((line, lineIndex) => {
-    // Split each line into tokens
-    const tokens = line.split(/(\s+)/).filter(Boolean);
-
-    // Process each token
-    const highlightedTokens = tokens.map((token) => {
-      // if (keywords.includes(token)) {
-      //   return `<span style="color: blue;">${escapeHtml(token)}</span>`;
-      // } else if (specialChars1.includes(token)) {
-      //   return `<span style="color: black; background: #8000800f;">${escapeHtml(token)}</span>`;
-      // } else if (specialChars2.includes(token)) {
-      //   return `<span style="color: black; background: #0000FF0f;">${escapeHtml(token)}</span>`;
-      // } else if (specialChars3.includes(token)) {
-      //   return `<span style="color: black; background: #8000800f;">${escapeHtml(token)}</span>`;
-      // } else if (specialChars4.includes(token)) {
-      //   return `<span style="color: black; background: #8000800f;">${escapeHtml(token)}</span>`;
-      // } else if (token.startsWith('"') || token.startsWith("'")) {
-      //   return `<span style="color: green;">${escapeHtml(token)}</span>`;
-      // } else if (!isNaN(+token)) {
-      //   return `<span style="color: blue;">${escapeHtml(token)}</span>`;
-      // }
-      return escapeHtml(token);
-    });
-
-    // Join the tokens back into a line
-    // return `<div class="select-none inline-block w-[1.5rem] text-center ">${(
-    //   lineIndex + 1
-    // )
-    //   .toString()
-    //   .padStart(2, "0")}</div> ${highlightedTokens.join("")}`;
-    return `${highlightedTokens.join("")}`;
-  });
-
-  const str = isPreview ? "" : "";
-  // Join the lines and wrap in a pre tag
-  return `<pre class="rounded-[0.3125rem] leading-5">${highlightedLines.join(
-    str,
-  )}</pre>`;
+/**
+ * Highlight syntax for code blocks using highlight.js.
+ * @param code - The code block to highlight.
+ * @param language - The language of the code block (e.g., 'js', 'ts', 'html').
+ * @returns Highlighted code as an HTML string.
+ */
+const highlightSyntax = (code: string, language: string): string => {
+  if (hljs.getLanguage(language)) {
+    return hljs.highlight(code, {language}).value;
+  }
+  // Fallback for unsupported languages
+  return hljs.highlightAuto(code).value;
 };
