@@ -6,7 +6,7 @@ export const EditorLiStyle =
 export const EditorTitleStyle =
   "w-full text-[2.25rem] font-bold font-SDSamliphopangche_Outline whitespace-pre-wrap  break-all flex justify-start items-center px-2 pb-2 pt-3 rounded-[1rem] text-center";
 
-export const EditorPriviewStyle =
+export const EditorPreviewStyle =
   "relative w-full min-h-[4rem] h-auto mt-[1rem]";
 
 export const EditorCreateUpdateTitleStyle =

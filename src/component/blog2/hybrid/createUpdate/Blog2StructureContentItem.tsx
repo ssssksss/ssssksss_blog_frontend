@@ -4,7 +4,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
-import { EditorPriviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import { EditorPreviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import Image from "next/image";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
@@ -30,7 +30,7 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
       {modalState.isOpen && (
         <div
           id={"preview"}
-          className={EditorPriviewStyle}
+          className={EditorPreviewStyle}
           dangerouslySetInnerHTML={{
             __html: convertMarkdownToHtml(
               props.data.blog2StructureContent.content,

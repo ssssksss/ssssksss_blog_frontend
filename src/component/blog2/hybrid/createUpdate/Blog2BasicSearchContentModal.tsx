@@ -4,13 +4,13 @@ import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import "@styles/customEditor.css";
 import {
-  EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+    EditorLiStyle,
+    EditorPreviewStyle,
+    EditorTitleStyle,
+    EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useRef, useState} from "react";
+import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { useRef, useState } from "react";
 
 interface IBlog2BasicSearchContentModal extends IModalComponent {
   addBlog2BasicContent: (data: IBlog2BasicContent) => void;
@@ -100,7 +100,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                 </h2>
                 <div
                   id={"preview"}
-                  className={EditorPriviewStyle}
+                  className={EditorPreviewStyle}
                   dangerouslySetInnerHTML={{
                     __html: convertMarkdownToHtml(i.content),
                   }}

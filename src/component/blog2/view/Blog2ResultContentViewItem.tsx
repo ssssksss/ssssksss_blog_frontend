@@ -1,4 +1,7 @@
-import { EditorPriviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import {
+  EditorPreviewStyle,
+  EditorTitleStyle,
+} from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import Image from "next/image";
 import { useState } from "react";
@@ -41,7 +44,7 @@ const Blog2ResultContentViewItem = (props: IBlog2ResultContentViewItem) => {
       {isCollapsed || (
         <div
           id="preview"
-          className={EditorPriviewStyle}
+          className={EditorPreviewStyle}
           dangerouslySetInnerHTML={{
             __html: convertMarkdownToHtml(props.data.content),
           }}

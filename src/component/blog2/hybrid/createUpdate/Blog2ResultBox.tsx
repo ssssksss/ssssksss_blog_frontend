@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import {
   EditorLiStyle,
-  EditorPriviewStyle,
+  EditorPreviewStyle,
   EditorTitleStyle,
   EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
@@ -119,7 +119,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                 {modalState.isOpen && (
                   <div
                     id={"preview"}
-                    className={EditorPriviewStyle}
+                    className={EditorPreviewStyle}
                     dangerouslySetInnerHTML={{
                       __html: convertMarkdownToHtml(i.content),
                     }}

@@ -24,6 +24,8 @@ const CustomEditor = (props: ICustomEditor) => {
     },
   });
 
+  console.log("CustomEditor.tsx 파일 : ",content);
+
   // 텍스트가 변경되면 뒤로가기 저장 후 텍스트값 변경
   const handleTextareaChange = (value: string) => {
     handleRedoSave();

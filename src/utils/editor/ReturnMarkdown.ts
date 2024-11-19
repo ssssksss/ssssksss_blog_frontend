@@ -143,7 +143,7 @@ const highlightSyntax = (code: string, isPreview?: boolean) => {
     return `${highlightedTokens.join("")}`;
   });
 
-  const str = isPreview ? "\n" : "";
+  const str = isPreview ? "" : "";
   // Join the lines and wrap in a pre tag
   return `<pre class="rounded-[0.3125rem] leading-5">${highlightedLines.join(
     str,

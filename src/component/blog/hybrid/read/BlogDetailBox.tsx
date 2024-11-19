@@ -3,7 +3,7 @@
 import Button from "@component/common/button/hybrid/Button";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditorLiStyle, EditorPriviewStyle, EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
+import { EditorLiStyle, EditorPreviewStyle, EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import { useRouter } from "next/navigation";
 import useUserStore from "src/store/userStore";
@@ -33,7 +33,7 @@ const BlogDetailBox = (props: IBlogDetailBox) => {
         >
           <div
             id={"preview"}
-            className={EditorPriviewStyle}
+            className={EditorPreviewStyle}
             dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(props.data.content) }}
           />
         </div>

@@ -3,7 +3,7 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditorLiStyle, EditorPriviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import { EditorLiStyle, EditorPreviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
 import Image from "next/image";
 import { useState } from "react";
@@ -31,7 +31,7 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
         !isFold && 
       <div
         id={"preview"}
-        className={EditorPriviewStyle}
+        className={EditorPreviewStyle}
         dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(props.data.blog2BasicContent.content) }}
       />
       }

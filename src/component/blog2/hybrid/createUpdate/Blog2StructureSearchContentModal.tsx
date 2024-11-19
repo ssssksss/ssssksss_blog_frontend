@@ -5,13 +5,13 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import "@styles/customEditor.css";
 import {
-  EditorLiStyle,
-  EditorPriviewStyle,
-  EditorTitleStyle,
-  EditorUlStyle,
+    EditorLiStyle,
+    EditorPreviewStyle,
+    EditorTitleStyle,
+    EditorUlStyle,
 } from "@utils/editor/EditorTailwindcssStyle";
-import {convertMarkdownToHtml} from "@utils/editor/ReturnMarkdown";
-import {useState} from "react";
+import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { useState } from "react";
 
 interface IBlog2StructureSearchContentModal extends IModalComponent {
   addBlog2StructureContent: (data: IBlog2StructureContent) => void;
@@ -87,7 +87,7 @@ const Blog2StructureSearchContentModal = (
                 <div
                   id={"preview"}
                   className={
-                    EditorPriviewStyle
+                    EditorPreviewStyle
                   }
                   dangerouslySetInnerHTML={{
                     __html: convertMarkdownToHtml(i.content),
