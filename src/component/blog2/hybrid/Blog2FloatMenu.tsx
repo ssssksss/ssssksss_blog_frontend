@@ -46,7 +46,7 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
       ref={menuRef}
     >
       <div className="flex flex-col rounded-[.25rem] bg-third-20 outline outline-[0.3125rem] outline-offset-[-0.0625rem] outline-secondary-80">
-        {userStore.role == "ROLE_ADMIN" && !pathname?.includes("update")  && (
+        {userStore.role == "ROLE_ADMIN" && !pathname?.includes("blog2/") && (
           <Link
             href={"/blog2/create"}
             className="flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
