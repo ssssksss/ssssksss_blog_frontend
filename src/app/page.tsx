@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
+
   return (
     <div className="min-h-screen bg-black-100 p-8 text-white-80">
       <div
@@ -31,9 +32,9 @@ export default function Home() {
             >
               Projects
             </a>
-            {/* <a href="#contact" className="transition-colors hover:text-blue-40">
+            <a href="#contact" className="transition-colors hover:text-blue-40">
               Contact
-            </a> */}
+            </a>
           </div>
         </nav>
 
@@ -59,7 +60,12 @@ export default function Home() {
             >
               <Contact2 size={24} />
             </a>
-            <a href="" className="p-2 transition-colors hover:text-blue-40">
+            <a
+              href=""
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 transition-colors hover:text-blue-40"
+            >
               <Mail size={24} />
             </a>
           </div>
@@ -86,7 +92,7 @@ export default function Home() {
               {
                 icon: <Code2 size={32} />,
                 title: "Backend",
-                skills: ["Spring", "MySQL"],
+                skills: ["Spring Boot", "MySQL"],
                 etc: ["spring-data-jpa,", "spring security"],
               },
               {
@@ -126,7 +132,9 @@ export default function Home() {
 
         {/* Project Section */}
         <section id="projects" className="flex flex-col gap-y-8 py-8">
-          <h2 className="text-center text-3xl font-bold">Projects</h2>
+          <h2 className="text-center text-3xl font-bold">
+            Projects ({projects.length})
+          </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {projects.map((i, index) => (
               <div className="flex flex-col gap-y-4" key={index}>
@@ -135,14 +143,31 @@ export default function Home() {
                     {i.icon}
                     <h3 className="text-xl font-semibold">{i.title}</h3>
                   </div>
-                  <div> 분류 : <span className={`${i.workType == "팀" && ""}`}> {i.workType} </span> </div>
+                  <div>
+                    분류 :
+                    <span className={`${i.workType == "팀" && ""}`}>
+                      {i.workType}
+                    </span>
+                  </div>
                   <div className="pt-[0.125rem]">역할 : {i.role} </div>
                   <div>
-                    링크 👉 :
+                    정리 👉 :
                     <a href={i.link} target="_blank">
                       {i.link}
                     </a>
                   </div>
+                  {i.deploymentLink && (
+                    <div>
+                      배포 👉 :
+                      <a
+                        className="pl-2"
+                        href={i.deploymentLink}
+                        target="_blank"
+                      >
+                        {i.deploymentLink}
+                      </a>
+                    </div>
+                  )}
                   <div
                     className={
                       "mb-2 mt-3 flex flex-col rounded-[0.25rem] py-2 outline outline-white-80"
@@ -159,6 +184,34 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="flex flex-col gap-y-8 py-8">
+          <h2 className="text-center text-3xl font-bold">Contact</h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {/* 이메일 */}
+            <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
+              <div className="mb-4 flex flex-col items-center gap-4">
+                <h3 className="w-full default-flex text-xl font-semibold"> 이메일 </h3>
+                <div className="default-flex"> ssssksss@naver.com </div>
+              </div>
+            </div>
+            {/* 학업 */}
+            <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
+              <div className="mb-4 flex flex-col items-center gap-4">
+                <h3 className="w-full default-flex text-xl font-semibold"> 학업 </h3>
+                <div className="default-flex flex-col"> <span> 서울과기대 </span> <span> 기계시스템디자인 </span> </div>
+              </div>
+            </div>
+            {/* 자격증 */}
+            <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
+              <div className="mb-4 flex flex-col items-center gap-4">
+                <h3 className="w-full default-flex text-xl font-semibold"> 자격증 </h3>
+                <div className="default-flex flex-col"> 정보처리기사 </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -182,6 +235,8 @@ const projects = [
     stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/72`,
     term: "",
+    deploymentLink:
+      "https://blog.ssssksss.xyz/blog2",
     etc: "",
   },
   {
@@ -198,6 +253,7 @@ const projects = [
     stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/70`,
     term: "",
+    deploymentLink: "",
     etc: "노래가 많아지면 찾기가 어려워 검색이나, 페이지네이션 등을 고려 중",
   },
   {
@@ -214,6 +270,7 @@ const projects = [
     stack: "",
     link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/71`,
     term: "",
+    deploymentLink: "https://blog.ssssksss.xyz/plan",
     etc: "연도, 주단위 등의 일정과 일정 공유, 일정 숨김처리 등의 기능 추가 예정",
   },
   {
@@ -225,6 +282,7 @@ const projects = [
     stack: "",
     link: "",
     term: "24.11.11 ~ 24.11.12",
+    deploymentLink: "https://blog.ssssksss.xyz/board",
     etc: "개발중 - 댓글, 좋아요 기능, 이미지, 에디터 기능 추가 예정",
   },
   {
@@ -236,6 +294,7 @@ const projects = [
     stack: "",
     link: "",
     term: "",
+    deploymentLink: "",
     etc: "정리 필요",
   },
   {
@@ -245,8 +304,9 @@ const projects = [
     work: ["블로그 카테고리 CRUD", "블로그 에디터(기능 추가 및 수정 중)"],
     role: "FE",
     stack: "",
-    link: "https://www.solitourist.com",
+    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/105`,
     term: "",
-    etc: "현재 기획부터 다시 제작 중, 위에는 이전에 했던 기록 정리",
+    deploymentLink: "",
+    etc: "현재 기획부터 다시 리빌딩 중",
   },
 ];
