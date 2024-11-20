@@ -55,8 +55,8 @@ export const convertMarkdownToHtml = (
       /^### (.*$)/gim,
       "<h3 class=\"text-[1.125rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
     )
-    .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
+    // .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
+    // .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
     .replace(
       /!\[([^\]]+)\]\(([^)]+)\)/g,
       "<div class=\"flex justify-center px-8 my-[1rem]\"> <img src=\"$2\" alt=\"$1\" class=\"max-w-full h-auto rounded-[1rem]\" /> </div>",
@@ -71,7 +71,7 @@ export const convertMarkdownToHtml = (
       (match, lang, codeBlock) => {
         let highlightedCode = highlightSyntax(codeBlock.trim(), lang);
         highlightedCode = highlightedCode.replace(/\n/g, "");
-        return `<pre class=\"text-white overflow-x-scroll p-4 rounded-[1rem] break-all\"><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code></pre>`;
+        return `<pre class=\"text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-20 default-outline break-all\"><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code></pre>`;
       },
     );
   html = html.replace(/\n/g, "<br>");
