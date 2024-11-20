@@ -35,7 +35,7 @@ export const fetchMultipartRetry = async ({
     if (refreshResponse.ok) {
       const data = await refreshResponse.json();
       const newAccessToken = data.data;
-      response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${url}`, {
+      response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`, {
         method: method,
         headers: {
           Authorization: `Bearer ${newAccessToken}`, // 새 액세스 토큰 사용
