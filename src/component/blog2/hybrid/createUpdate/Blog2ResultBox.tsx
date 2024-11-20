@@ -7,11 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import {
   EditorLiStyle,
-  EditorPreviewStyle,
   EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
@@ -117,13 +116,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                   {i.title}
                 </h2>
                 {modalState.isOpen && (
-                  <div
-                    id={"preview"}
-                    className={EditorPreviewStyle}
-                    dangerouslySetInnerHTML={{
-                      __html: convertMarkdownToHtml(i.content),
-                    }}
-                  />
+                  <MarkdownPreview content={i.content} />
                 )}
                 <div
                   className={

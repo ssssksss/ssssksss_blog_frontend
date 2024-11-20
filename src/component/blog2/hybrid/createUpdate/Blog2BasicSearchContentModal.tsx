@@ -5,11 +5,10 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
-  EditorPreviewStyle,
   EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useRef, useState } from "react";
 
 interface IBlog2BasicSearchContentModal extends IModalComponent {
@@ -98,13 +97,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                 >
                   {i.title}
                 </h2>
-                <div
-                  id={"preview"}
-                  className={EditorPreviewStyle}
-                  dangerouslySetInnerHTML={{
-                    __html: convertMarkdownToHtml(i.content),
-                  }}
-                />
+                <MarkdownPreview content={i.content} />
                 <div className={"absolute right-2 top-2 flex gap-x-2"}>
                   <Button
                     className={

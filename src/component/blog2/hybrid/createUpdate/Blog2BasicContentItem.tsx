@@ -3,8 +3,8 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditorLiStyle, EditorPreviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { EditorLiStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
 import { useState } from "react";
 import Blog2BasicCreateUpdateContentModal from "./Blog2BasicCreateUpdateContentModal";
@@ -28,12 +28,7 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
         {props.data.blog2BasicContent.title}
       </h2>
       {
-        !isFold && 
-      <div
-        id={"preview"}
-        className={EditorPreviewStyle}
-        dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(props.data.blog2BasicContent.content) }}
-      />
+        !isFold && <MarkdownPreview content={props.data.blog2BasicContent.content} />
       }
       {/* 수정 버튼과 닫기 제거 버튼 */}
       <div className={"absolute right-2 top-2 flex h-[2rem] items-center"}>

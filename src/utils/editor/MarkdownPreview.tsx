@@ -1,35 +1,23 @@
 import hljs from "highlight.js/lib/core";
-import css from "highlight.js/lib/languages/css"; // CSS 추가
-import java from "highlight.js/lib/languages/java"; // Java 언어 추가
+import css from "highlight.js/lib/languages/css";
+import java from "highlight.js/lib/languages/java";
 import javascript from "highlight.js/lib/languages/javascript";
-// import json from "highlight.js/lib/languages/json"; // JSON 추가
-// import markdown from "highlight.js/lib/languages/markdown"; // Markdown 추가
-// import python from "highlight.js/lib/languages/python"; // Python 언어 추가
-// import sql from "highlight.js/lib/languages/sql"; // SQL 추가
-// import html from "highlight.js/lib/languages/xml"; // HTML/XML 추가
-
-import "highlight.js/styles/panda-syntax-light.css"; // 스타일 설정
+import "highlight.js/styles/panda-syntax-light.css"; // 코드 블록 스타일
+import React from "react";
+import { EditorPreviewStyle } from "./EditorTailwindcssStyle";
 
 // 언어 등록
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("java", java);
-// hljs.registerLanguage("python", python);
-// hljs.registerLanguage("html", html); // 등록
 hljs.registerLanguage("css", css);
-// hljs.registerLanguage("json", json);
-// hljs.registerLanguage("sql", sql);
-// hljs.registerLanguage("markdown", markdown);
 
 /**
- * Convert Markdown to HTML with syntax highlighting for code blocks.
+ * Convert Markdown to HTML with syntax highlighting and copy button for code blocks.
  * @param markdown - The Markdown string to convert.
  * @param isPreview - Whether the output is for preview mode.
  * @returns The converted HTML string.
  */
-export const convertMarkdownToHtml = (
-  markdown: string,
-  isPreview?: boolean,
-): string => {
+export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): string => {
   let html = markdown
     .replace(
       /^>! (.*$)/gim,
@@ -37,11 +25,11 @@ export const convertMarkdownToHtml = (
     )
     .replace(
       /^>tip (.*$)/gim,
-      "💡<span class=\"text-[1.125rem] font-HakgyoansimPuzzleTTF-Black text-gradient p-2 rounded-[1rem]\"> $1</span>",
+      "💡<span class=\"text-[1rem] font-HakgyoansimPuzzleTTF-Black text-gradient p-2 rounded-[1rem]\"> $1</span>",
     )
     .replace(
       /^>\? (.*$)/gim,
-      "<span class=\"font-bold text-[1.25rem]  font-cookieRunRegular text-green-80 p-2 rounded-[1rem]\">$1</span>",
+      "<span class=\"font-bold text-[1.125rem]  font-cookieRunRegular text-green-80 p-2 rounded-[1rem]\">$1</span>",
     )
     .replace(
       /^# (.*$)/gim,
@@ -66,15 +54,17 @@ export const convertMarkdownToHtml = (
       "<a href=\"$2\" class=\"text-blue-600 hover:underline\" target=\"_blank\">$1</a>",
     )
     .replace(/^\s*\-\s(.*$)/gim, "<li class=\"ml-1\">$1</li>")
+    .replace(/\n/g, "<br>")
     .replace(
       /```(js|ts|tsx|html|css|java|py|ex)\s*([\s\S]*?)\s*```/g,
       (match, lang, codeBlock) => {
-        let highlightedCode = highlightSyntax(codeBlock.trim(), lang);
-        highlightedCode = highlightedCode.replace(/\n/g, "");
+        const highlightedCode = highlightSyntax(
+          codeBlock.replace(/<br\s*\/?>/g, "").trim(),
+          lang,
+        );
         return `<pre class=\"text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-20 default-outline break-all\"><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code></pre>`;
       },
     );
-  html = html.replace(/\n/g, "<br>");
   html = html.replace(/<\/h1>\s*<br\s*\/?>/g, "</h1>");
   return html;
 };
@@ -87,8 +77,27 @@ export const convertMarkdownToHtml = (
  */
 const highlightSyntax = (code: string, language: string): string => {
   if (hljs.getLanguage(language)) {
-    return hljs.highlight(code, {language}).value;
+    return hljs.highlight(code, { language }).value;
   }
   // Fallback for unsupported languages
   return hljs.highlightAuto(code).value;
 };
+
+/**
+ * Add a click event listener to handle copy functionality for code blocks.
+ */
+
+const MarkdownPreview: React.FC<{ content: string, className?: string }> = ({ content, className }) => {
+
+  return (
+    <div
+      id= "preview"
+      className={className || EditorPreviewStyle}
+      dangerouslySetInnerHTML={{
+        __html: convertMarkdownToHtml(content, true),
+      }}
+    />
+  );
+};
+
+export default MarkdownPreview;

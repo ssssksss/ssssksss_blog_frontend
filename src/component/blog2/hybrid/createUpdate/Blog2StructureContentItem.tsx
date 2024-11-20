@@ -4,8 +4,8 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
-import { EditorPreviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
 
@@ -28,15 +28,7 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
         {props.data.blog2StructureContent.directory.split("/").pop()}
       </h2>
       {modalState.isOpen && (
-        <div
-          id={"preview"}
-          className={EditorPreviewStyle}
-          dangerouslySetInnerHTML={{
-            __html: convertMarkdownToHtml(
-              props.data.blog2StructureContent.content,
-            ),
-          }}
-        />
+        <MarkdownPreview content={props.data.blog2StructureContent.content} />
       )}
       <div
         className={"absolute right-2 top-2 flex h-[2rem] items-center gap-x-1"}

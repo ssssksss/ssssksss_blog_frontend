@@ -3,8 +3,8 @@
 import Button from "@component/common/button/hybrid/Button";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditorLiStyle, EditorPreviewStyle, EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { EditorLiStyle, EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useRouter } from "next/navigation";
 import useUserStore from "src/store/userStore";
 
@@ -16,29 +16,41 @@ const BlogDetailBox = (props: IBlogDetailBox) => {
   const userStore = useUserStore();
   
   return (
-    <section className={"w-full h-full flex flex-col gap-y-2 mt-[.25rem]"}>
-      <div className="grid grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] w-full pb-2 items-center">  
-        <Button className={"p-2 default-outline bg-primary-20 min-h-[3rem] aspect-square default-flex"} onClick={()=>router.back()}> <FontAwesomeIcon icon={faArrowLeft} /> </Button>
-        <div className={"text-[1.5rem] w-full font-bold font-SDSamliphopangche_Outline text-center p-2 rounded-[1rem] break-all break-words"}>
+    <section className={"mt-[.25rem] flex h-full w-full flex-col gap-y-2"}>
+      <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center pb-2">
+        <Button
+          className={
+            "aspect-square min-h-[3rem] bg-primary-20 p-2 default-outline default-flex"
+          }
+          onClick={() => router.back()}
+        >
+          
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </Button>
+        <div
+          className={
+            "w-full break-words break-all rounded-[1rem] p-2 text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
+          }
+        >
           {props.data.title}
         </div>
-        {
-          userStore.role == "ROLE_ADMIN" &&
-          <Button className={"p-2 font-bold default-outline bg-primary-20  min-h-[3rem] aspect-square default-flex"} onClick={() => router.push(`/blog/update/${props.data.id}`)}> 수정 </Button>
-        } 
+        {userStore.role == "ROLE_ADMIN" && (
+          <Button
+            className={
+              "aspect-square min-h-[3rem] bg-primary-20 p-2 font-bold default-outline default-flex"
+            }
+            onClick={() => router.push(`/blog/update/${props.data.id}`)}
+          >
+            수정
+          </Button>
+        )}
       </div>
       <div className={EditorUlStyle}>
-        <div
-          className={EditorLiStyle}
-        >
-          <div
-            id={"preview"}
-            className={EditorPreviewStyle}
-            dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(props.data.content) }}
-          />
+        <div className={EditorLiStyle}>
+          <MarkdownPreview content={props.data.content} />
         </div>
       </div>
-    </section> 
+    </section>
   );
 };
 export default BlogDetailBox;

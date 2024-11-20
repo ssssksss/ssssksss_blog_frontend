@@ -6,11 +6,10 @@ import useLoading from "@hooks/useLoading";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
-  EditorPreviewStyle,
   EditorTitleStyle,
-  EditorUlStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useState } from "react";
 
 interface IBlog2StructureSearchContentModal extends IModalComponent {
@@ -84,15 +83,7 @@ const Blog2StructureSearchContentModal = (
                   id={i.directory.replace(/\s+/g, "-").toLowerCase()}>
                   {i.directory}
                 </h2>
-                <div
-                  id={"preview"}
-                  className={
-                    EditorPreviewStyle
-                  }
-                  dangerouslySetInnerHTML={{
-                    __html: convertMarkdownToHtml(i.content),
-                  }}
-                />
+                <MarkdownPreview content={i.content} />
                 <div className={"absolute right-2 top-2 flex gap-x-2"}>
                   <Button
                     className={

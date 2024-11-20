@@ -2,7 +2,7 @@ import { useCursor } from "@hooks/useCursor";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import { useUndoRedo } from "@hooks/useUndoRedo";
 import "@styles/customEditor.css";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { convertToObjectUrl } from "@utils/function/convertToObjectUrl";
 import { ClipboardEvent, useEffect, useRef, useState } from "react";
 
@@ -99,20 +99,23 @@ const CustomEditor = (props: ICustomEditor) => {
 
   return (
     <div
-      className={`grid h-[calc(100vh-19rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}>
+      className={`grid h-[calc(100vh-19rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
+    >
       {/* 내용작성 */}
       <article
-        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "preview" && "hidden"}`}>
+        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "preview" && "hidden"}`}
+      >
         <h3
           className="rounded-[1rem] bg-primary-20 py-2 text-2xl font-bold default-flex"
-          onClick={() => setMode(mode === "all" ? "markdown" : "all")}>
+          onClick={() => setMode(mode === "all" ? "markdown" : "all")}
+        >
           내용작성
         </h3>
         <textarea
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={
-            "h-[calc(100vh-23.5rem)] w-full resize-none overflow-scroll p-2 border-2 border-primary-80 rounded-2xl"
+            "h-[calc(100vh-23.5rem)] w-full resize-none overflow-scroll rounded-2xl border-2 border-primary-80 p-2"
           }
           onChange={(e) => handleTextareaChange(e.target.value)}
           value={content}
@@ -122,24 +125,23 @@ const CustomEditor = (props: ICustomEditor) => {
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}
           onDrop={onDropOrInputEvent}
-        />  
+        />
       </article>
       {/* 미리보기 */}
       <article
-        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "markdown" && "hidden"}`}>
+        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "markdown" && "hidden"}`}
+      >
         <h3
           className="rounded-[1rem] bg-primary-20 py-2 text-2xl font-bold default-flex"
-          onClick={() => setMode(mode === "all" ? "preview" : "all")}>
+          onClick={() => setMode(mode === "all" ? "preview" : "all")}
+        >
           미리보기
         </h3>
-        <div
-          id={"preview"}
+        <MarkdownPreview
+          content={content}
           className={
-            "h-[calc(100vh-23.5rem)] max-h-full w-full overflow-scroll break-all p-2 border-2 border-primary-80 rounded-2xl"
+            "h-[calc(100vh-23.5rem)] max-h-full w-full overflow-scroll break-all rounded-2xl border-2 border-primary-80 p-2"
           }
-          dangerouslySetInnerHTML={{
-            __html: convertMarkdownToHtml(content, true),
-          }}
         />
       </article>
     </div>

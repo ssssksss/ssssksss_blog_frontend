@@ -1,5 +1,5 @@
-import { EditorPreviewStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
-import { convertMarkdownToHtml } from "@utils/editor/ReturnMarkdown";
+import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -37,13 +37,7 @@ const Blog2StructureContentViewItem = (props: IBlog2StructureContentViewItem) =>
         {props.data.blog2StructureContent.directory.split("/").pop()}
       </h2>
       {isCollapsed || (
-        <div
-          id={"preview"}
-          className={EditorPreviewStyle}
-          dangerouslySetInnerHTML={{
-            __html: convertMarkdownToHtml(props.data.blog2StructureContent.content),
-          }}
-        />
+        <MarkdownPreview content={props.data.blog2StructureContent.content} />
       )}
     </>
   );
