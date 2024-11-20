@@ -1,8 +1,8 @@
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
 import Image from "next/image";
-import React, {useEffect, useRef, useState} from "react";
-import {createPortal} from "react-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ModalProps extends React.PropsWithChildren {
   className?: React.HTMLProps<HTMLElement>["className"];
@@ -20,6 +20,9 @@ export const Modal = ({children, modalState}: ModalProps) => {
   }, []);
 
   useOutsideClick(ref, () => {
+    if (history.state.isModal) {
+      window.history.back();
+    }
     modalState.closeModal();
   });
 
@@ -72,6 +75,9 @@ export const Modal = ({children, modalState}: ModalProps) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                if (history.state.isModal) {
+                  window.history.back();
+                }
                 modalState.closeModal();
               }}
               className="absolute right-[2rem] top-[2rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
