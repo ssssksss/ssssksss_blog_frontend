@@ -53,18 +53,21 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
       /\[([^\]]+)\]\(([^)]+)\)/g,
       "<a href=\"$2\" class=\"text-blue-600 hover:underline\" target=\"_blank\">$1</a>",
     )
+    // 일반 코드와 코드블록안에 \n을 각각 다르게 처리하기 위해서 임시로 값을 변경
+    .replace(/\n/g, "<br12345>")
     .replace(/^\s*\-\s(.*$)/gim, "<li class=\"ml-1\">$1</li>")
-    .replace(/\n/g, "<br>")
     .replace(
       /```(js|ts|tsx|html|css|java|py|ex)\s*([\s\S]*?)\s*```/g,
       (match, lang, codeBlock) => {
-        const highlightedCode = highlightSyntax(
-          codeBlock.replace(/<br\s*\/?>/g, "").trim(),
+        let highlightedCode = highlightSyntax(
+          codeBlock.replace(/<br12345>/g, "\n"),
           lang,
         );
+        highlightedCode = highlightedCode.trim();
         return `<pre class=\"text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-20 default-outline break-all\"><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code></pre>`;
       },
-    );
+    )
+    .replace(/<br12345>/g, "<br>");
   html = html.replace(/<\/h1>\s*<br\s*\/?>/g, "</h1>");
   return html;
 };
