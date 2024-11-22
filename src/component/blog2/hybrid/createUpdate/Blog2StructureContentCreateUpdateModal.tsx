@@ -9,7 +9,7 @@ import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
-import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
+import { PanelBottomClose, PanelBottomOpen, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   SubmitErrorHandler,
@@ -135,7 +135,7 @@ const Blog2StructureContentCreateUpdateModal = (
   return (
     <ModalTemplate
       className={
-        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto_3rem] gap-y-4 p-8"
+        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto] gap-y-4"
       }
     >
       {props.closeButtonComponent}
@@ -200,29 +200,18 @@ const Blog2StructureContentCreateUpdateModal = (
         defaultValue={props.edit ? props.item!.content : "```js\n\n```"}
         handleContentChange={handleContentChange}
       />
-      <div className={"mt-auto flex h-[3rem] w-full gap-x-2"}>
-        <Button
-          onClick={blog2ContentFormContext.handleSubmit(
-            handleSubmitClick,
-            onClickErrorSubmit,
-          )}
-          disabled={!blog2ContentFormContext.formState.isValid}
-          className={
-            "h-[3rem] w-full bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
-          }
-        >
-          {props.edit ? "수정" : "생성"}
-        </Button>
-        <Button
-          onClick={() => props.closeModal && props.closeModal()}
-          className={
-            "h-[3rem] w-full default-outline default-flex hover:bg-red-20"
-          }
-        >
-          취소
-        </Button>
-        {/* <span> {errors.변수?.message} </span> */}
-      </div>
+      <Button
+        onClick={blog2ContentFormContext.handleSubmit(
+          handleSubmitClick,
+          onClickErrorSubmit,
+        )}
+        disabled={!blog2ContentFormContext.formState.isValid}
+        className={
+          "absolute right-[1.5rem] top-[5.25rem] h-[2.5rem] w-[2.5rem] bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
+        }
+      >
+        <Save />
+      </Button>
     </ModalTemplate>
   );
 };

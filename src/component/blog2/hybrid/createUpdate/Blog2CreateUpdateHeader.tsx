@@ -356,7 +356,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         >
           <div
             ref={ref}
-            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[6rem_4rem_3rem_3rem_16rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-white-80 p-[2.75rem] pt-[4rem] scrollbar-hide"
+            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[3rem_3rem_3rem_3rem_18rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-white-80 px-[2.25rem] pb-[1.75rem] pt-[5rem] scrollbar-hide"
           >
             <Input
               value={title}

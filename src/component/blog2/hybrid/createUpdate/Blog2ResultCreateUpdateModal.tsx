@@ -8,6 +8,7 @@ import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
+import { PanelBottomClose, PanelBottomOpen, Save } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
@@ -167,48 +168,53 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   return (
     <ModalTemplate
       className={
-        "grid h-[100vh] max-h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[75rem] grid-rows-[3rem_3rem_calc(100%-12rem)_3rem] gap-y-4 p-8"
-      }>
+        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto] gap-y-4"
+      }
+    >
       {props.closeButtonComponent}
       <LoadingSpinner loading={loading} />
       <h2
         className={
-          "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] font-bold default-flex"
-        }>
+          "bg-gray-20 py-2 default-outline max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
+        }
+      >
         블로그 결과 글 {props.edit ? "수정" : "생성"}
+        <button
+          className={`p-2 default-outline default-flex ${modalState.isOpen ? "bg-primary-20" : ""} `}
+          onClick={() =>
+            modalState.isOpen ? modalState.closeModal() : modalState.openModal()
+          }
+        >
+          {modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
+        </button>
       </h2>
-      <Input
-        type={"text"}
-        register={blog2ContentFormContext.register("title")}
-        className={"flex h-[3rem] items-center px-2 default-outline"}
-        placeholder="제목 입력"
-      />
+      {!modalState.isOpen && (
+        <div className="absolute left-[1rem] top-[9rem] flex min-h-[4rem] w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
+          <Input
+            type={"text"}
+            register={blog2ContentFormContext.register("title")}
+            className={"flex h-[3rem] items-center px-2 default-outline"}
+            placeholder="제목 입력"
+          />
+        </div>
+      )}
       <CustomEditor
         defaultValue={props.edit ? props.item!.content : ""}
         handleContentChange={handleContentChange}
         handleFileChange={handleFileChange}
       />
-      <div className={"mt-auto flex h-[3rem] w-full gap-x-2"}>
-        <Button
-          onClick={blog2ContentFormContext.handleSubmit(
-            handleSubmitClick,
-            onClickErrorSubmit,
-          )}
-          disabled={!blog2ContentFormContext.formState.isValid}
-          className={
-            "h-[3rem] w-full bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
-          }>
-          {props.edit ? "수정" : "생성"}
-        </Button>
-        <Button
-          onClick={() => props.closeModal && props.closeModal()}
-          className={
-            "h-[3rem] w-full default-outline default-flex hover:bg-red-20"
-          }>
-          취소
-        </Button>
-        {/* <span> {errors.변수?.message} </span> */}
-      </div>
+      <Button
+        onClick={blog2ContentFormContext.handleSubmit(
+          handleSubmitClick,
+          onClickErrorSubmit,
+        )}
+        disabled={!blog2ContentFormContext.formState.isValid}
+        className={
+          "absolute right-[1.5rem] top-[5.25rem] h-[2.5rem] w-[2.5rem] bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
+        }
+      >
+        <Save />
+      </Button>
     </ModalTemplate>
   );
 };

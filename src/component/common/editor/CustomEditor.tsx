@@ -99,7 +99,7 @@ const CustomEditor = (props: ICustomEditor) => {
 
   return (
     <div
-      className={`grid h-[calc(100vh-19rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
+      className={`grid h-[calc(100vh-12rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
     >
       {/* 내용작성 */}
       <article
@@ -115,7 +115,7 @@ const CustomEditor = (props: ICustomEditor) => {
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={
-            "h-[calc(100vh-23.5rem)] w-full resize-none overflow-scroll rounded-2xl border-2 border-primary-80 p-2"
+            "h-full w-full resize-none overflow-scroll rounded-2xl border-2 border-primary-80 p-2"
           }
           onChange={(e) => handleTextareaChange(e.target.value)}
           value={content}
@@ -140,7 +140,7 @@ const CustomEditor = (props: ICustomEditor) => {
         <MarkdownPreview
           content={content}
           className={
-            "h-[calc(100vh-23.5rem)] max-h-full w-full overflow-scroll break-all rounded-2xl border-2 border-primary-80 p-2"
+            "h-full max-h-full w-full overflow-scroll break-all rounded-2xl border-2 border-primary-80 p-2"
           }
         />
       </article>
