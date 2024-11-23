@@ -156,7 +156,7 @@ const Blog2StructureContentCreateUpdateModal = (
         </button>
       </div>
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[9rem] flex min-h-[9rem] w-[calc(100vw-3rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
+        <div className="absolute left-[1rem] top-[9rem] flex min-h-[9rem] w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
           <div className={"grid w-full grid-cols-2"}>
             <Input
               type={"text"}
