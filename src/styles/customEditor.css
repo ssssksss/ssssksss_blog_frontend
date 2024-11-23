@@ -1,6 +1,7 @@
 #preview img {
   max-width: 30rem;
   width: 100%;
+  max-height: 37.5rem;
   border-radius: 1rem;
   outline: solid #e0e0e0 1px;
   outline-offset: -1px;
