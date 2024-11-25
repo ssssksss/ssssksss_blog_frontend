@@ -3,7 +3,7 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
 import Image from "next/image";
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
 
 export interface Test {
   addr1: string;
@@ -51,7 +51,8 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
   };
 
   return (
-    <div className={"flex h-auto w-full flex-col gap-y-2 pr-2"}>
+    <div className={"flex h-full w-full flex-col gap-y-2 pr-2 pt-2"}>
+      <h2 className="text-[20px] default-flex"> 여행 일정 </h2>
       <div className="flex h-[3rem] min-h-[3rem] items-center gap-x-2">
         <Input
           ref={keywordRef}
@@ -67,7 +68,7 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
         </button>
       </div>
 
-      <ul className={"grid w-full grid-cols-2 p-4 default-outline"}>
+      <ul className={"grid w-full flex-grow grid-cols-2 p-4 default-outline"}>
         {data.map((i, index) => (
           <li
             key={i.contentid}
@@ -94,24 +95,6 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
           </li>
         ))}
       </ul>
-      <ul className="p-2">
-        {list.map((i, index) => (
-          <li key={index} className="w-full py-2">
-            {index + 1} : {i.title} , x: {i.mapx} , y: {i.mapy}
-          </li>
-        ))}
-      </ul>
-      {/* <div>
-        {list.length > 0 &&
-          Object.entries(list[0]).map((i, index) => (
-            <div key={index}>
-              {i[0]} : {i[1]}
-            </div>
-          ))}
-      </div>
-      <div className="relative py-8">
-        <PlanTravelKakaoMap data={list} />
-      </div> */}
     </div>
   );
 };

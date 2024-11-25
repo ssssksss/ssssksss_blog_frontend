@@ -1,12 +1,13 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const keyword = url.searchParams.get("keyword") || "";
+  const page = url.searchParams.get("page") || "1";
 
   // 외부 API 호출
   const apiResponse = await fetch(
-    `http://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${process.env.OPEN_KOREA_TOURISM_ORGANIZATION}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppName&keyword=${decodeURIComponent(
+    `http://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${process.env.OPEN_KOREA_TOURISM_ORGANIZATION}&numOfRows=10&pageNo=${page}&MobileOS=ETC&MobileApp=AppName&keyword=${decodeURIComponent(
       keyword,
     )}&_type=json`,
   );

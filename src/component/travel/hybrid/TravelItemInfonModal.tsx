@@ -1,7 +1,7 @@
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import useLoading from "@hooks/useLoading";
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 interface ITravelItemInfonModal extends IModalComponent {
   data: IKeywordTravel;
@@ -45,7 +45,7 @@ const TravelItemInfonModal = (props: ITravelItemInfonModal) => {
   }, []);
 
   return (
-    <ModalTemplate className={"h-[calc(100vh-1rem)] w-full animate-fadeUp"}>
+    <ModalTemplate className={"h-[calc(100vh-1rem)] max-h-[800px] w-[calc(100vw-1rem)] max-w-[600px] animate-fadeUp"}>
       {props.closeButtonComponent}
       <h2 className={"w-full py-2 text-2xl default-outline default-flex"}>
         {props.data.title}

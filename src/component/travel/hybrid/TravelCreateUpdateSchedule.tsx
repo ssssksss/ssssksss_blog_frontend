@@ -1,14 +1,14 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import Pagination from "@component/common/pagination/Pagination";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import Image from "next/image";
-import {useRef, useState} from "react";
-import {travelContentTypeId} from "./TravelCreateUpdateContainer";
+import { useRef, useState } from "react";
+import { travelContentTypeId } from "./TravelCreateUpdateContainer";
 
-interface ITravelCreateUpdateSchedule extends IModalComponent {
+interface ITravelCreateUpdateSchedule {
   data: IKeywordTravel[];
   addTravelLocation: (data: IKeywordTravel) => void;
 }
@@ -16,12 +16,15 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
   const [data, setData] = useState<IKeywordTravel[]>([]);
   const [keyword, setKeyword] = useState("");
   const keywordRef = useRef<HTMLInputElement>(null);
-  const {loading, startLoading, stopLoading} = useLoading();
-  const fetchTouristInfo = async () => {
+  const { loading, startLoading, stopLoading } = useLoading();
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(1);
+  
+  const fetchTouristInfo = async (page?: number) => {
     startLoading();
     try {
       const response = await fetch(
-        `/api/publicAPI/B551011/KorService1/searchKeyword1?keyword=${keyword}`,
+        `/api/publicAPI/B551011/KorService1/searchKeyword1?keyword=${keyword}&page=${page || 1}`,
       );
       if (!response.ok) {
         stopLoading();
@@ -29,6 +32,7 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
       }
       const data = await response.json();
       const items = data.response.body.items.item;
+      setTotalElements(data.response.body.totalCount);
       setData(items);
       stopLoading();
     } catch (error) {
@@ -37,25 +41,29 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
     }
   };
 
+  const pageHandler = (page: number) => {
+    setPage(page);
+    fetchTouristInfo(page);
+  };
+
   return (
-    <ModalTemplate
+    <section
       className={
-        "flex h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] flex-col gap-y-2"
+        "flex h-full w-full flex-col gap-y-2 default-outline p-2"
       }
     >
       <LoadingSpinner loading={loading} />
-      {props.closeButtonComponent}
-      <div className={"flex w-full gap-x-2"}>
+      <div className={"flex w-full gap-x-2 px-2 pt-2 min-h-[3.5rem]"}>
         <Input
           ref={keywordRef}
           onChange={(e) => setKeyword(e.target.value)}
-          className="max-h-[3rem] w-full default-outline"
+          className="h-full w-full default-outline"
           placeholder="키워드를 입력해주세요"
           onKeyPressAction={() => fetchTouristInfo()}
         />
         <button
           onClick={() => fetchTouristInfo()}
-          className="h-8 min-w-12 px-2 py-2 default-outline default-flex"
+          className="h-full min-w-12 px-2 py-2 default-outline default-flex"
         >
           버튼
         </button>
@@ -64,23 +72,22 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
       {data?.length > 0 ? (
         <ul
           className={
-            "flex-grow-1 mb-2 grid h-full min-h-[25rem] w-full grid-cols-2 gap-2 overflow-y-scroll p-2 default-outline"
+            "flex-grow-1 grid h-full min-h-[25rem] w-full grid-cols-2 gap-2 overflow-y-scroll p-2  rounded-2xl"
           }
         >
           {data?.map((i, index) => (
             <li
               key={i.contentid}
-              className="relative h-[20rem] w-full overflow-hidden rounded-2xl shadow-md"
+              className="relative h-[20rem] w-full overflow-hidden rounded-2xl shadow-md default-outline"
             >
               <Button
                 className="h-full w-full p-2 default-outline"
                 onClick={() => {
                   props.addTravelLocation(i);
-                  props.closeModal!();
                 }}
               >
                 <h2 className="mb-4 text-xl font-bold">{i?.title}</h2>
-                <div className="relative aspect-square w-[10rem]">
+                <div className="relative aspect-square w-[10rem] mx-auto">
                   <Image
                     alt=""
                     src={i.firstimage || "/images/icons/ic-plane.svg"}
@@ -94,9 +101,18 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
           ))}
         </ul>
       ) : (
-        <LottieNotFound text={"데이터가 없습니다."} />
+        <div className=" h-full w-full default-flex">
+          <LottieNotFound text={"데이터가 없습니다."} />
+        </div>
       )}
-    </ModalTemplate>
+      <div className="w-full mt-auto border-t-2 border-primary-60">
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(totalElements / 10)}
+          pageHandler={pageHandler}
+        />
+      </div>
+    </section>
   );
 };
 export default TravelCreateUpdateSchedule;
