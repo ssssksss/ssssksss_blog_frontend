@@ -4,12 +4,12 @@ import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton"
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import usePlanStore from "@store/planStore";
-import {createScheduleCalendar} from "@utils/function/createScheduleCalendar";
-import {scheduleSort} from "@utils/function/scheduleSort";
-import {parse} from "date-fns";
-import {format} from "date-fns-tz";
+import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
+import { scheduleSort } from "@utils/function/scheduleSort";
+import { parse } from "date-fns";
+import { format } from "date-fns-tz";
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import PlanCalendarItem from "./PlanCalendarItem";
 import {
   default as PlanCreateSchedule,
@@ -115,14 +115,16 @@ const PlanScheduleMonthBox = () => {
     <div
       className={
         "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-offset-[-0.0625rem] outline-primary-20"
-      }>
+      }
+    >
       <LoadingSpinner loading={loading} />
       <div className={"flex gap-x-2 border-b-[0.0625rem] pb-1"}>
         <ModalButton
           modal={<PlanCreateScheduleModal />}
           buttonClassName={
             "hover:bg-gradient default-outline px-2 py-[0.125rem] flex items-center gap-x-1"
-          }>
+          }
+        >
           <div className={"relative h-6 w-6 default-flex"}>
             <Image alt="" src="/images/icons/ic-calendar.svg" fill />
           </div>
@@ -132,7 +134,8 @@ const PlanScheduleMonthBox = () => {
           modal={<PlanScheduleCategoryModal />}
           buttonClassName={
             "hover:bg-gradient default-outline px-2 py-[0.125rem]"
-          }>
+          }
+        >
           <div className={"relative h-4 w-4 default-flex"}>
             <Image alt="" src="/images/icons/ic-list.svg" fill />
           </div>
@@ -142,7 +145,8 @@ const PlanScheduleMonthBox = () => {
         <div className="mb-4 flex items-center justify-center gap-x-2">
           <Button
             onClick={prevMonth}
-            className={"aspect-square w-[1.5rem] default-outline"}>
+            className={"aspect-square w-[1.5rem] default-outline"}
+          >
             {"<"}
           </Button>
           <h2 className="font-semibold max-[440px]:text-sm">
@@ -153,7 +157,8 @@ const PlanScheduleMonthBox = () => {
           </h2>
           <Button
             onClick={nextMonth}
-            className={"aspect-square w-[1.5rem] default-outline"}>
+            className={"aspect-square w-[1.5rem] default-outline"}
+          >
             {">"}
           </Button>
         </div>
@@ -161,14 +166,16 @@ const PlanScheduleMonthBox = () => {
           {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
             <div
               key={day}
-              className="min-h-[2rem] text-center font-bold default-outline default-flex">
+              className="min-h-[2rem] text-center font-bold default-outline default-flex"
+            >
               {day}
             </div>
           ))}
         </div>
         <ModalButton
           buttonClassName="w-full grid grid-cols-7 mt-1"
-          modal={<PlanCreateSchedule />}>
+          modal={<PlanCreateSchedule />}
+        >
           {planStore.calendar.map((i, index) => (
             <PlanCalendarItem
               key={i.key}
@@ -181,6 +188,29 @@ const PlanScheduleMonthBox = () => {
           ))}
         </ModalButton>
       </div>
+      <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 default-outline">
+        {planStore.scheduleList.map((i) => (
+          <div
+            key={i.id}
+            className={"flex w-full flex-col gap-y-2 p-2 default-outline"}
+          >
+            <div className="flex justify-between">
+              <span className="text-sm text-black-80">
+                {format(i.scheduleStartDate, "yyyy-MM-dd")} ~
+                {format(i.scheduleEndDate, "yyyy-MM-dd")}
+              </span>
+              <span
+                className={`${i.scheduleCategoryBackgroundColor} rounded-2xl px-4`}
+              >
+                {i.scheduleCategoryName}
+              </span>
+            </div>
+            <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              {i.title}
+            </p>
+          </div>
+        ))}
+      </section>
     </div>
   );
 };

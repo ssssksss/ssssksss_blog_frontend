@@ -9,7 +9,6 @@ import { useRef, useState } from "react";
 import { travelContentTypeId } from "./TravelCreateUpdateContainer";
 
 interface ITravelCreateUpdateSchedule {
-  data: IKeywordTravel[];
   addTravelLocation: (data: IKeywordTravel) => void;
 }
 const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
@@ -49,11 +48,11 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
   return (
     <section
       className={
-        "flex h-full w-full flex-col gap-y-2 default-outline p-2"
+        "flex h-full w-full flex-col default-outline pt-2 px-2"
       }
     >
       <LoadingSpinner loading={loading} />
-      <div className={"flex w-full gap-x-2 px-2 pt-2 min-h-[3.5rem]"}>
+      <div className={"flex w-full gap-x-2 min-h-[3.5rem]"}>
         <Input
           ref={keywordRef}
           onChange={(e) => setKeyword(e.target.value)}
@@ -72,7 +71,7 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
       {data?.length > 0 ? (
         <ul
           className={
-            "flex-grow-1 grid h-full min-h-[25rem] w-full grid-cols-2 gap-2 overflow-y-scroll p-2  rounded-2xl"
+            "flex-grow-1 grid h-full min-h-[25rem] w-full grid-cols-2 gap-2 overflow-y-scroll py-2 rounded-2xl"
           }
         >
           {data?.map((i, index) => (

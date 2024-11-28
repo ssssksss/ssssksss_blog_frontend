@@ -19,7 +19,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
   const rightPage = Math.min(leftPage + 4, totalPages);
 
   return (
-    <div className="text-black flex flex-row items-center justify-center gap-3 py-6 text-sm">
+    <div className="text-black flex flex-row items-center justify-center gap-3 py-4 text-sm">
       <button
         className={`rounded-md px-3 py-2 ${
           currentPage === 1

@@ -2,9 +2,10 @@
 
 import Button from "@component/common/button/hybrid/Button";
 import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
-import {useState} from "react";
+import { useState } from "react";
 
 const PlanScheduleMonthBox = dynamic(() => import("./PlanScheduleMonthBox"), {
   ssr: false,
@@ -14,6 +15,14 @@ interface IPlanScheduleMainBox {}
 const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   const [dateType, setDateType] = useState("month");
   const userStore = useUserStore();
+
+  if (userStore.id == 0) {
+    return (
+      <div className="min-h-full w-full default-flex">
+        <LoadingSpinner loading={true} />
+      </div>
+    );
+  }
 
   if (userStore.id < 1) {
     return (
