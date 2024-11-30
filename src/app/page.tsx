@@ -43,6 +43,9 @@ export default function Home() {
           <p className="text-xl text-gray-400">
             다양한 시도를 해보면서 경험을 쌓아가고 있습니다.
           </p>
+          <p className="text-xl text-gray-400">
+            현재는 React Native 공부하면서 솔리투어 작업 중
+          </p>
           <div className="flex justify-center gap-4">
             <a
               href="https://github.com/ssssksss"
