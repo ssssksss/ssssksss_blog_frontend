@@ -11,6 +11,7 @@ import { format } from "date-fns-tz";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import PlanCalendarItem from "./PlanCalendarItem";
+import PlanCalendarItemInfoModal from "./PlanCalendarItemInfoModal";
 import {
   default as PlanCreateSchedule,
   default as PlanCreateScheduleModal,
@@ -190,11 +191,12 @@ const PlanScheduleMonthBox = () => {
       </div>
       <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 default-outline">
         {planStore.scheduleList.map((i) => (
-          <div
+          <NestedModalButton
             key={i.id}
-            className={"flex w-full flex-col gap-y-2 p-2 default-outline"}
+            buttonClassName={"flex w-full flex-col gap-y-2 p-2 default-outline"}
+            modal={<PlanCalendarItemInfoModal data={i} />}
           >
-            <div className="flex justify-between">
+            <div className="w-full flex justify-between ">
               <span className="text-sm text-black-80">
                 {format(i.scheduleStartDate, "yyyy-MM-dd")} ~
                 {format(i.scheduleEndDate, "yyyy-MM-dd")}
@@ -205,10 +207,10 @@ const PlanScheduleMonthBox = () => {
                 {i.scheduleCategoryName}
               </span>
             </div>
-            <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+            <p className="w-full text-start overflow-hidden text-ellipsis whitespace-nowrap">
               {i.title}
             </p>
-          </div>
+          </NestedModalButton>
         ))}
       </section>
     </div>

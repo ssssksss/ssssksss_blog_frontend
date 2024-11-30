@@ -263,7 +263,7 @@ const config: Config = {
       animation: {
         marquee: "marquee 10s linear infinite",
         marquee5: "marquee5 10s linear infinite alternate",
-        marqueeContent: "marqueeContent 3s linear infinite alternate",
+        marqueeContent: "marqueeContent 1s linear infinite alternate",
         pulseSkeleton: "pulseSkeleton 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         slowSpin: "spin 12s linear infinite",
         fadeUp: "fade-up 1.5s ease-out",

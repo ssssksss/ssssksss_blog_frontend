@@ -3,14 +3,14 @@ import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton"
 import useLoading from "@hooks/useLoading";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
-import {createScheduleCalendar} from "@utils/function/createScheduleCalendar";
-import {scheduleSort} from "@utils/function/scheduleSort";
-import {addHours, format, parse, parseISO} from "date-fns";
+import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
+import { scheduleSort } from "@utils/function/scheduleSort";
+import { addHours, format, parse, parseISO } from "date-fns";
 import Image from "next/image";
 import PlanUpdateScheduleModal from "./PlanUpdateScheduleModal";
 
 interface IPlanCalendarItemInfoModal extends INestedModalComponent {
-  data: IPlanScheduleObject;
+  data: IPlanScheduleObject | IPlanSchedule;
 }
 
 const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
