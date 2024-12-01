@@ -64,7 +64,7 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
   }, []);
 
   return (
-    <div className="mt-[.5rem] flex w-full flex-col">
+    <div className="mt-[.5rem] pb-[.5rem] flex w-full flex-col">
       <ul className="flex max-w-full flex-col gap-y-2">
         <LoadingSpinner loading={loadingState.loading} />
         {blog2Store.blog2List.list.length == 0 && (

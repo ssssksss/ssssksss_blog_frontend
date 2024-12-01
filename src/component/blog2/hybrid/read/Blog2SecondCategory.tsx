@@ -59,7 +59,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   return (
     <div
       className={
-        "mt-[.5rem] flex min-h-[4rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap rounded-[1rem] p-[.5rem] outline-primary-20 scrollbar-hide"
+        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap rounded-[1rem] outline-primary-20 scrollbar-hide"
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
