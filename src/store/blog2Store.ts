@@ -1,5 +1,5 @@
-import {StateCreator, create} from "zustand";
-import {devtools} from "zustand/middleware";
+import { StateCreator, create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 // 1. 상태 인터페이스 정의
 interface Blog2State {
@@ -8,6 +8,8 @@ interface Blog2State {
     blog2SecondCategoryId: number;
     list: IBlog2[];
   };
+  activeBlog2FirstCategoryId: number,
+  activeBlog2SecondCategoryId: number,
 }
 
 // 2. 액션 인터페이스 정의
@@ -15,6 +17,8 @@ interface BlogActions {
   initialize: () => void;
   setBlog2List: (data: {id: number; list: IBlog2[]}) => void;
   setBlog2CategoryList: (data: IBlog2FirstCategory[]) => void;
+  setBlog2ActiveFirstCategoryId: (id: number) => void;
+  setBlog2ActiveSecondCategoryId: (id: number) => void;
 }
 
 // 3. 초기 상태 정의
@@ -24,6 +28,8 @@ const initialState: Blog2State = {
     blog2SecondCategoryId: 0,
     list: [],
   },
+  activeBlog2FirstCategoryId: 0,
+  activeBlog2SecondCategoryId: 0,
 };
 
 // 4. 상태 및 액션 생성
@@ -43,6 +49,14 @@ const blog2Store: StateCreator<Blog2State & BlogActions> = (set, get) => ({
   setBlog2CategoryList: (data) =>
     set(() => ({
       categoryList: data,
+    })),
+  setBlog2ActiveFirstCategoryId: (id: number) =>
+    set(() => ({
+      activeBlog2FirstCategoryId: id,
+    })),
+  setBlog2ActiveSecondCategoryId: (id: number) =>
+    set(() => ({
+      activeBlog2SecondCategoryId: id,
     })),
 });
 

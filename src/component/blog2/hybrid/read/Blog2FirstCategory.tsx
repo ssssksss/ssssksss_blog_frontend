@@ -35,7 +35,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     params.set("firstCategoryId", id + "");
-    
+    blog2Store.setBlog2ActiveFirstCategoryId(id);
     blog2Store.categoryList.map(i => {
       if (i.id == id) {
         if (i.blog2SecondCategoryList!.length > 0) {
@@ -65,14 +65,10 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
       ref={blogFirstCategoryVerticalScrollRef}
     >
-      {/* {props.blogCategoryList?.length == 0 &&
-        Array.from({ length: 10 }, (index) => index).map((_, index) => (
-          <Skeleton key={index} />
-        ))} */}
       {blog2Store.categoryList?.map((el) => (
         <Button
           className={`px-4 py-2 h-[3rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem] ${
-            el.id == (searchParams.get("firstCategoryId") || 0) &&
+            el.id == blog2Store.activeBlog2FirstCategoryId &&
             "bg-primary-20"
           }`}
           key={el.id}
@@ -83,10 +79,6 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
               blogFirstCategoryVerticalScrollRef,
             )
           }
-          // badgeValue={el.blog2SecondCategoryList?.reduce(
-          //   (sum, el) => sum + el.blogCount,
-          //   0,
-          // )}
         >
           {el.name}
         </Button>

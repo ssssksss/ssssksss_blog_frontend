@@ -19,7 +19,7 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
   const blog2Store = useBlog2Store();
 
   useEffect(() => {
-    if (searchParams.get("secondCategoryId")) {
+    if (blog2Store.activeBlog2SecondCategoryId) {
       const fetchBlogList = async () => {
         loadingState.startLoading();
         try {
@@ -33,7 +33,7 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
             throw new Error("Failed to fetch blog list");
           }
           const result: responseBlog2List = await response.json();
-          const secondCategoryId = Number(searchParams.get("secondCategoryId"));
+          const secondCategoryId = blog2Store.activeBlog2SecondCategoryId;
           if (!isNaN(secondCategoryId)) {
             blog2Store.setBlog2List({
               id: secondCategoryId,
@@ -55,7 +55,7 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
         list: [],
       });
     }
-  }, [searchParams.get("secondCategoryId")]);
+  }, [blog2Store.activeBlog2SecondCategoryId]);
 
   useEffect(() => {
     return () => {
