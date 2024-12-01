@@ -25,7 +25,7 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
     )
     .replace(
       /^>tip (.*$)/gim,
-      "💡<span class=\"text-[1rem] font-HakgyoansimPuzzleTTF-Black text-gradient p-2 rounded-[1rem]\"> $1</span>",
+      "💡<span class=\"text-[1.125rem] font-OKCHAN text-gradient py-2 rounded-[1rem]\"> $1</span>",
     )
     .replace(
       /^>\? (.*$)/gim,
@@ -33,11 +33,11 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
     )
     .replace(
       /^# (.*$)/gim,
-      "<h1 class=\"text-[1.375rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md pb-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
+      "<h1 class=\"text-[1.375rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
     )
     .replace(
       /^## (.*$)/gim,
-      "<h2 class=\"text-[1.25rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
+      "<h2 class=\"text-[1.25rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
     )
     .replace(
       /^### (.*$)/gim,

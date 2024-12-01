@@ -29,6 +29,7 @@ const fonts = extractFontFamilies(`
   font-family: "DNFBitBitv2";
   font-family: "HakgyoansimPuzzleTTF-Black";
   font-family: "WavvePADO-Regular";
+  font-family: "OKCHAN";
 `);
 
 const config: Config = {
