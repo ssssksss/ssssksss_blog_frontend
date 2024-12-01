@@ -205,7 +205,7 @@ export default function Home() {
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full default-flex text-xl font-semibold"> 학업 </h3>
-                <div className="default-flex flex-col"> <span> 서울과기대 </span> <span> 기계시스템디자인 </span> </div>
+                <div className="default-flex flex-col"> <span> 서울과학기술대학교 </span> <span> 기계시스템디자인 </span> </div>
               </div>
             </div>
             {/* 자격증 */}
@@ -302,7 +302,7 @@ const projects = [
   },
   {
     icon: <Map size={32} />,
-    title: "솔로투어",
+    title: "솔리투어",
     workType: "팀",
     work: ["블로그 카테고리 CRUD", "블로그 에디터(기능 추가 및 수정 중)"],
     role: "FE",
