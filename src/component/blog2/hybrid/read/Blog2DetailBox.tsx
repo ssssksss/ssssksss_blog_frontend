@@ -73,6 +73,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   };
 
   useEffect(() => {
+    blog2Store.setBlog2ActiveFirstCategoryId(props.data.blog2.firstCategoryId);
+    blog2Store.setBlog2ActiveSecondCategoryId(props.data.blog2SecondCategory.id);
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     if (params.get("timestamp")) {
