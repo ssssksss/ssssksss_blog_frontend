@@ -40,6 +40,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       if (i.id == id) {
         if (i.blog2SecondCategoryList!.length > 0) {
           params.set("secondCategoryId", i.blog2SecondCategoryList![0].id + "");
+          blog2Store.setBlog2ActiveSecondCategoryId(i.blog2SecondCategoryList![0].id);
         } else {
           params.delete("secondCategoryId");
         }
