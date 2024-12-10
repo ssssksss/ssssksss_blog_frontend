@@ -80,7 +80,7 @@ export const Modal = ({children, modalState}: ModalProps) => {
                 }
                 modalState.closeModal();
               }}
-              className="absolute right-[2rem] top-[2rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
+              className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
               style={{zIndex: 200}}>
               <Image
                 src={"/images/icons/ic-exit.svg"}
