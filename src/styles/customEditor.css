@@ -12,3 +12,7 @@
 #preview li {
   list-style: none;
 }
+
+#preview {
+  line-height: 1.2;
+}

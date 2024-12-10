@@ -33,15 +33,15 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
     )
     .replace(
       /^# (.*$)/gim,
-      "<h1 class=\"text-[1.375rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
+      "<h1 class=\"text-[1.25rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
     )
     .replace(
       /^## (.*$)/gim,
-      "<h2 class=\"text-[1.25rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
+      "<h2 class=\"text-[1.125rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
     )
     .replace(
       /^### (.*$)/gim,
-      "<h3 class=\"text-[1.125rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
+      "<h3 class=\"text-[1rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
     )
     // .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
     // .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
