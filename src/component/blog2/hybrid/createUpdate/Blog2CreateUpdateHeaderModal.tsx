@@ -17,12 +17,12 @@ import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
-import useLoading from "./../../../../hooks/useLoading";
+import useLoading from "../../../../hooks/useLoading";
 
-interface IBlog2CreateUpdateHeader {
+interface IBlog2CreateUpdateHeaderModal {
   isEdit: boolean;
 }
-const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
+const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
   const modalState = useModalState();
   const modalState1 = useModalState();
   const modalState2 = useModalState();
@@ -518,4 +518,4 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     </>
   );
 };
-export default Blog2CreateUpdateHeader;
+export default Blog2CreateUpdateHeaderModal;

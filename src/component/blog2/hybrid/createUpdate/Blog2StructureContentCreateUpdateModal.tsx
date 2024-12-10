@@ -1,4 +1,3 @@
-import Button from "@component/common/button/hybrid/Button";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
@@ -9,7 +8,6 @@ import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
-import { PanelBottomClose, PanelBottomOpen, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   SubmitErrorHandler,
@@ -18,6 +16,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import useToastifyStore from "src/store/toastifyStore";
+import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
   directory: string;
@@ -135,28 +134,23 @@ const Blog2StructureContentCreateUpdateModal = (
   return (
     <ModalTemplate
       className={
-        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto] gap-y-4"
+        "grid h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] grid-rows-[3rem_auto]"
       }
     >
       {props.closeButtonComponent}
       <LoadingSpinner loading={loading} />
-      <div
-        className={
-          "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] gap-x-2 font-bold default-flex"
-        }
-      >
-        <h2> 블로그 구조 글 {props.edit ? "수정" : "생성"} </h2>
-        <button
-          className={`p-2 default-outline default-flex ${modalState.isOpen ? "bg-primary-20" : ""} `}
-          onClick={() =>
-            modalState.isOpen ? modalState.closeModal() : modalState.openModal()
-          }
-        >
-          {modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
-        </button>
-      </div>
+      <Blog2SubCreateUpdateHeader
+        type={"structure"}
+        saveHandler={blog2ContentFormContext.handleSubmit(
+          handleSubmitClick,
+          onClickErrorSubmit,
+        )}
+        saveDisabled={!blog2ContentFormContext.formState.isValid}
+        edit={props.edit ?? false}
+        modalState={modalState}
+      />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[9rem] flex min-h-[9rem] w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-gray-40 p-4 default-outline">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-outline">
           <div className={"grid w-full grid-cols-2"}>
             <Input
               type={"text"}
@@ -200,18 +194,6 @@ const Blog2StructureContentCreateUpdateModal = (
         defaultValue={props.edit ? props.item!.content : "```js\n\n```"}
         handleContentChange={handleContentChange}
       />
-      <Button
-        onClick={blog2ContentFormContext.handleSubmit(
-          handleSubmitClick,
-          onClickErrorSubmit,
-        )}
-        disabled={!blog2ContentFormContext.formState.isValid}
-        className={
-          "absolute right-[1.5rem] top-[5.25rem] h-[2.5rem] w-[2.5rem] bg-primary-60 text-white-80 default-outline default-flex hover:bg-primary-20 disabled:bg-gray-80"
-        }
-      >
-        <Save />
-      </Button>
     </ModalTemplate>
   );
 };

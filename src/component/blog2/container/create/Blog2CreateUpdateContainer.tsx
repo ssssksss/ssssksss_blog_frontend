@@ -1,6 +1,6 @@
 "use client";
 
-import Blog2CreateUpdateHeader from "@component/blog2/hybrid/createUpdate/Blog2CreateUpdateHeader";
+import Blog2CreateUpdateHeader from "@component/blog2/hybrid/createUpdate/Blog2CreateUpdateHeaderModal";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Blog2CreateYup } from "@utils/validation/Blog2Yup";
 import { useEffect } from "react";
