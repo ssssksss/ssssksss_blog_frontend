@@ -1,6 +1,6 @@
-import useToastifyStore, {useToastifyStoreType} from "src/store/toastifyStore";
-import useAuthStore, {useUserStoreType} from "src/store/userStore";
-import {IFetchCSRProps} from "../@types/api/useFetchCSRHandler";
+import useToastifyStore, { useToastifyStoreType } from "src/store/toastifyStore";
+import useAuthStore, { useUserStoreType } from "src/store/userStore";
+import { IFetchCSRProps } from "../@types/api/useFetchCSRHandler";
 
 let errorFlag = false;
 // 추가 작업을 위한 고차 함수
@@ -21,7 +21,6 @@ function withPostFetchAction(
 
       return result;
     } catch (error) {
-      console.log("useFetchCSRHandler.ts 파일error : ", error);
       throw error;
     }
   };

@@ -46,7 +46,6 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         }
       }
     });
-    console.log("Blog2FirstCategory.tsx 파일 : ",params.get("secondCategoryId"));
     if (!params.get("secondCategoryId")) {
       blog2Store.setBlog2List({
         id: 0,

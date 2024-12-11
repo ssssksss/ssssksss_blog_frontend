@@ -1,20 +1,20 @@
 import Button from "@component/common/button/hybrid/Button";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/reactDataRange.css";
-import {createScheduleCalendar} from "@utils/function/createScheduleCalendar";
-import {scheduleSort} from "@utils/function/scheduleSort";
-import {PlanCreateScheduleYup} from "@utils/validation/PlanScheduleYup";
-import {addHours, format, isSameDay, parse} from "date-fns";
-import {ko} from "date-fns/locale";
-import {debounce} from "lodash";
-import {useEffect, useState} from "react";
-import {DateRangePicker, RangeKeyDict} from "react-date-range";
+import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
+import { scheduleSort } from "@utils/function/scheduleSort";
+import { PlanCreateScheduleYup } from "@utils/validation/PlanScheduleYup";
+import { addHours, format, isSameDay, parse } from "date-fns";
+import { ko } from "date-fns/locale";
+import { debounce } from "lodash";
+import { useEffect, useState } from "react";
+import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // 기본 스타일
 import "react-date-range/dist/theme/default.css"; // 기본 테마
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const PlanCreateScheduleModal = (props: any) => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -143,7 +143,6 @@ const PlanCreateScheduleModal = (props: any) => {
   };
 
   const onClickErrorSubmit = (error: any) => {
-    console.log("PlanCreateScheduleModal.tsx 파일 : ", error);
   };
 
   return (
