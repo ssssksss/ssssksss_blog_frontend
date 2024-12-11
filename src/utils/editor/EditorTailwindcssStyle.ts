@@ -1,4 +1,4 @@
-export const EditorUlStyle = "flex flex-col gap-y-4 mt-[3rem]";
+export const EditorUlStyle = "flex flex-col gap-y-4";
 
 export const EditorLiStyle =
   "relative outline outline-gray-80 outline-offset-[-.25rem] outline-[.5rem] rounded-[1rem] bg-white-80 p-[1rem]";
