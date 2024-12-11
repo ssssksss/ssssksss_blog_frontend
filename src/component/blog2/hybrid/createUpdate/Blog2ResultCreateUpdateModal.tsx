@@ -1,9 +1,7 @@
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
@@ -33,7 +31,6 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   const toastifyStore = useToastifyStore();
   const { id: blogId } = useParams();
   const modalState = useModalState(props.edit ? true : false);
-  const {loading, startLoading, stopLoading} = useLoading();
   
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2ResultYup),
@@ -48,7 +45,6 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    startLoading();
     // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
@@ -113,7 +109,6 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
           ? "수정이 실패했습니다."
           : "결과 생성에 실패했습니다.",
       });
-      stopLoading();
       return;
     }
     try {
@@ -128,10 +123,8 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         await response.json();
         props.addBlog2Result!(result.data.blog2Result);
       }
-      stopLoading();
       props.closeModal!();
     } catch {
-      stopLoading();
       props.closeModal!();
     }
 
@@ -171,13 +164,16 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       }
     >
       {props.closeButtonComponent}
-      <LoadingSpinner loading={loading} />
       <Blog2SubCreateUpdateHeader
         type={"result"}
-        saveHandler={blog2ContentFormContext.handleSubmit(
-          handleSubmitClick,
-          onClickErrorSubmit,
-        )}
+        saveHandler={() =>
+          props.loadingWithHandler(
+            blog2ContentFormContext.handleSubmit(
+              handleSubmitClick,
+              onClickErrorSubmit,
+            ),
+          )
+        }
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}

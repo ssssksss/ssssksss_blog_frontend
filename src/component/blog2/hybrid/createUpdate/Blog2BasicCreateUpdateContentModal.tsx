@@ -2,9 +2,7 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
@@ -43,7 +41,6 @@ const Blog2BasicCreateUpdateContentModal = (
     IBlog2SecondCategoryList[]
   >([]);
   const modalState = useModalState(props.edit ? true : false);
-  const {loading, startLoading, stopLoading} = useLoading();
   const toastifyStore = useToastifyStore();
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
@@ -58,8 +55,6 @@ const Blog2BasicCreateUpdateContentModal = (
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    startLoading();
-    // store.dispatch(setIsLoading(true));
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
     const deleteImageBucketDirectory: string[] = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
@@ -126,7 +121,6 @@ const Blog2BasicCreateUpdateContentModal = (
           ? "수정이 실패했습니다."
           : "구조 생성에 실패했습니다.",
       });
-      stopLoading();
       return;
     }
     if (props.edit) {
@@ -140,7 +134,6 @@ const Blog2BasicCreateUpdateContentModal = (
         await response.json();
       props.addBlog2BasicContent!(result.data.blog2BasicContent);
     }
-    stopLoading();
         props.closeModal!();
   };
 
@@ -206,19 +199,20 @@ const Blog2BasicCreateUpdateContentModal = (
       }
     >
       {props.closeButtonComponent}
-      <LoadingSpinner loading={loading} />
       <Blog2SubCreateUpdateHeader
         type={"basic"}
-        saveHandler={blog2ContentFormContext.handleSubmit(
-          handleSubmitClick,
-          onClickErrorSubmit,
+        saveHandler={()=>props.loadingWithHandler(
+          blog2ContentFormContext.handleSubmit(
+            handleSubmitClick,
+            onClickErrorSubmit,
+          )
         )}
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 p-4 default-outline bg-white-100">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-outline">
           <Dropdown
             options={blog2Store.categoryList.map((i) => {
               return {

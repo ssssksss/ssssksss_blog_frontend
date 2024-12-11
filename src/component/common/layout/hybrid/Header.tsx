@@ -1,18 +1,20 @@
 "use client";
 
 import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
-import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
-import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useFetchCSRHandler} from "@hooks/useFetchCSRHandler";
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
+import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useFetchCSRHandler } from "@hooks/useFetchCSRHandler";
 import useThrottle from "@hooks/useThrottle";
+import useLoadingStore from "@store/loadingStore";
 import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
-import {throttle} from "lodash";
+import { throttle } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
-import {useEffect, useRef, useState} from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import AuthModal from "src/component/auth/hybrid/AuthModal";
 import Button from "src/component/common/button/hybrid/Button";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
@@ -33,6 +35,7 @@ const Header = (props: IHeader) => {
   const [isVisible, setIsVisible] = useState(false); // 마우스 상단에 있을 때 헤더 보이기
   const [lastScrollY, setLastScrollY] = useState(200);
   const headerRef = useRef<HTMLDivElement | null>(null);
+  const loadingStore = useLoadingStore();
 
   useEffect(() => {
     const getInitUser = async () => {
@@ -174,6 +177,7 @@ const Header = (props: IHeader) => {
     // 헤더 3.5rem = progreebar .5rem + header 3rem
     <div className="relative min-h-[3.5rem] w-full">
       <ReactToastifyComponents />
+      <LoadingSpinner loading={loadingStore.loading} />
       <div
         id="progressBar"
         className={

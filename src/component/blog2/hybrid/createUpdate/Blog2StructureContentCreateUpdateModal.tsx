@@ -2,9 +2,7 @@ import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
@@ -37,7 +35,6 @@ const Blog2StructureContentCreateUpdateModal = (
   const toastifyStore = useToastifyStore();
   const [projectName, setProjectName] = useState("");
   const modalState = useModalState(props.edit ? true : false);
-  const {loading, startLoading, stopLoading} = useLoading();
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateStructureContentYup),
     mode: "onChange",
@@ -54,7 +51,6 @@ const Blog2StructureContentCreateUpdateModal = (
 
   const blog2FormContext = useFormContext();
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    startLoading();
 
     // API 공통 작업
     const formData = new FormData();
@@ -81,7 +77,6 @@ const Blog2StructureContentCreateUpdateModal = (
           ? "수정이 실패했습니다."
           : "결과 생성에 실패했습니다.",
       });
-      stopLoading();
       return;
     }
     if (props.edit) {
@@ -95,7 +90,6 @@ const Blog2StructureContentCreateUpdateModal = (
            await response.json();
          props.addBlog2StructureContent!(result.data.blog2StructureContent);
     }
-    stopLoading();
       props.closeModal!();
 
   };
@@ -138,12 +132,13 @@ const Blog2StructureContentCreateUpdateModal = (
       }
     >
       {props.closeButtonComponent}
-      <LoadingSpinner loading={loading} />
       <Blog2SubCreateUpdateHeader
         type={"structure"}
-        saveHandler={blog2ContentFormContext.handleSubmit(
-          handleSubmitClick,
-          onClickErrorSubmit,
+        saveHandler={()=>props.loadingWithHandler(
+          blog2ContentFormContext.handleSubmit(
+            handleSubmitClick,
+            onClickErrorSubmit,
+          ),
         )}
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}

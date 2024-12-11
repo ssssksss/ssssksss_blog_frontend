@@ -7,4 +7,5 @@ declare interface IModalState {
 declare interface IModalComponent {
   closeModal?: () => void;
   closeButtonComponent?: ReactNode;
+  loadingWithHandler?: any;
 }
