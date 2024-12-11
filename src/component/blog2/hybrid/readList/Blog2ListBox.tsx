@@ -8,13 +8,11 @@ import useBlog2Store from "@store/blog2Store";
 import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 interface IBlog2ListBox {}
 
 const Blog2ListBox = (props: IBlog2ListBox) => {
-  const searchParams = useSearchParams();
   const loadingState = useLoading();
   const blog2Store = useBlog2Store();
 
@@ -41,7 +39,10 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
             });
           }
         } catch {
-          // Error handling
+          blog2Store.setBlog2List({
+            id: 0,
+            list: [],
+          });
         } finally {
           setTimeout(() => {
             loadingState.stopLoading();

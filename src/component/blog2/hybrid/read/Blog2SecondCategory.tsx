@@ -41,15 +41,23 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
 
   useEffect(() => {
     blog2Store.setBlog2CategoryList(props.categoryList);
-    console.log("Blog2SecondCategory.tsx 파일 : 1");
     if (!searchParams.get("firstCategoryId")) {
-      console.log("Blog2SecondCategory.tsx 파일 : 2");
       if (props.categoryList.length > 0) {
-        console.log("Blog2SecondCategory.tsx 파일 : 3");
         if (props.categoryList[0].blog2SecondCategoryList!.length > 0) {
-          console.log("Blog2SecondCategory.tsx 파일 : 4");
           handleSecondCategoryClick(
             props.categoryList[0].blog2SecondCategoryList![0].id,
+          );
+        }
+      }
+    }else if (searchParams.get("firstCategoryId")) {
+      if (props.categoryList.length > 0) {
+        if (
+          props.categoryList.filter(
+            (i) => i.id == Number(searchParams.get("firstCategoryId"))
+          )[0].blog2SecondCategoryList!.length > 0
+        ) {
+          handleSecondCategoryClick(
+            Number(searchParams.get("secondCategoryId"))
           );
         }
       }
@@ -63,10 +71,6 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
-      {/* {props.blogCategoryList?.length == 0 &&
-        Array.from({ length: 10 }, (index) => index).map((_, index) => (
-          <Skeleton key={index} />
-        ))} */}
       {blog2Store.categoryList.map(
         (el) =>
           el.id == blog2Store.activeBlog2FirstCategoryId &&

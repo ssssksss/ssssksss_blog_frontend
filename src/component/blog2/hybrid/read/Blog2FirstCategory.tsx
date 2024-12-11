@@ -46,6 +46,13 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         }
       }
     });
+    console.log("Blog2FirstCategory.tsx 파일 : ",params.get("secondCategoryId"));
+    if (!params.get("secondCategoryId")) {
+      blog2Store.setBlog2List({
+        id: 0,
+        list: [],
+      });
+    }
     url.search = params.toString();
     window.history.pushState({}, "", url.toString());
   };
@@ -55,6 +62,10 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     if (!searchParams.get("firstCategoryId")) {
       if (props.categoryList.length > 0) {
         handleFirstCategoryClick(props.categoryList[0].id);
+      } 
+    }else if (searchParams.get("firstCategoryId")) {
+      if (props.categoryList.length > 0) {
+        handleFirstCategoryClick(Number(searchParams.get("firstCategoryId")));
       } 
     }
   }, []);

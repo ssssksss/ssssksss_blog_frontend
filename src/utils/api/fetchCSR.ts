@@ -1,5 +1,5 @@
-import {revalidateTag} from "next/cache";
-import {NextRequest, NextResponse} from "next/server";
+import { revalidateTag } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 
 interface IFetchCSR {
   req: NextRequest;
@@ -26,7 +26,6 @@ export const fetchCSR = async ({
 }: IFetchCSR): Promise<any> => {
   let accessToken = req.cookies.get("accessToken");
   const refreshToken = req.cookies.get("refreshToken");
-
   const res = await fetch(url, {
     method: req.method,
     headers: {
@@ -36,7 +35,6 @@ export const fetchCSR = async ({
     body: body ? JSON.stringify(body) : undefined,
     next: next,
   });
-
   if (res.status === 401 && refreshToken && retry > 0) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
