@@ -114,7 +114,7 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
         <div className="sticky left-[100%] top-[4.5rem] z-10 h-0 w-0">
           <button
             onClick={() => modalState.openModal()}
-            className="absolute right-0 top-0 z-20 h-[2.5rem] w-[2.5rem] bg-primary-20 default-outline"
+            className="absolute right-0 top-0 z-20 h-[2.5rem] w-[2.5rem] bg-primary-20 default-outline default-flex"
           >
             <FontAwesomeIcon icon={faBars} className="text-[2rem]" />
           </button>
