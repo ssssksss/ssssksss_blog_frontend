@@ -64,7 +64,20 @@ export async function GET(request: NextRequest) {
       response.cookies.set("accessToken", newAccessToken); // 헤더로 전달
     }
     return response;
-  } else {
+  }
+  else if (accessToken) {
+    result = await fetch(
+      `${process.env.BACKEND_URL}/api/blog2/list${url.search}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken?.value}`,
+        },
+      },
+    );
+  }
+  else {
     result = await fetch(
       `${process.env.BACKEND_URL}/api/blog2/list${url.search}`,
       {
