@@ -1,5 +1,6 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
+import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
@@ -53,7 +54,11 @@ const Blog2StructureSearchContentModal = (
   };
 
   return (
-    <ModalTemplate className={"h-full w-[calc(100vw-1rem)] max-w-[60rem]"}>
+    <ModalTemplate
+      className={
+        "h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem] pb-[1rem]"
+      }
+    >
       <LoadingSpinner loading={loading} />
       {props.closeButtonComponent}
       <div className="relative flex min-h-[4rem] w-full items-center py-2">
@@ -69,34 +74,49 @@ const Blog2StructureSearchContentModal = (
           className={
             "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2"
           }
-          onClick={() => blog2StructureSearchHandler()}>
+          onClick={() => blog2StructureSearchHandler()}
+        >
           검색
         </Button>
       </div>
-      <div className="mt-[2rem] h-full w-full whitespace-nowrap p-2 default-outline">
-        <ul className={EditorUlStyle}>
+      <div className={"flex w-full gap-x-4 pb-4"}>
+        검색어({blog2StructureContentList.length}) : {search}
+      </div>
+      <div className="w-full p-2 default-outline">
+        <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2StructureContentList?.map((i) => (
-              <li key={i.id} className={EditorLiStyle}>
+              <li
+                key={i.id}
+                className={`${EditorLiStyle} max-h-[16rem] overflow-y-scroll`}
+              >
+                <div className="sticky top-0 z-10">
+                  <div className={"absolute right-2 top-2 flex gap-x-2"}>
+                    <Button
+                      className={
+                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                      }
+                      onClick={() => props.addBlog2StructureContent(i)}
+                    >
+                      선택
+                    </Button>
+                  </div>
+                </div>
                 <h2
                   className={EditorTitleStyle}
-                  id={i.directory.replace(/\s+/g, "-").toLowerCase()}>
+                  id={i.directory.replace(/\s+/g, "-").toLowerCase()}
+                >
                   {i.directory}
                 </h2>
                 <MarkdownPreview content={i.content} />
-                <div className={"absolute right-2 top-2 flex gap-x-2"}>
-                  <Button
-                    className={
-                      "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
-                    }
-                    onClick={() => props.addBlog2StructureContent(i)}>
-                    선택
-                  </Button>
-                  {/* <Button className={"p-2 default-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2StructureContentHandler(i.id)}> 삭제 </Button> */}
-                </div>
               </li>
             ))}
           </>
+          {blog2StructureContentList.length == 0 && (
+            <div className={"w-full default-flex"}>
+              <LottieNotFound text={"아무런 내용이 없습니다."} />
+            </div>
+          )}
         </ul>
       </div>
     </ModalTemplate>

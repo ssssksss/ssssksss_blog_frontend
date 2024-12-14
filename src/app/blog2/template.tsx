@@ -1,5 +1,5 @@
 import Blog2FloatMenu from "@component/blog2/hybrid/Blog2FloatMenu";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 export default function Template({children}: {children: ReactNode}) {
   return (

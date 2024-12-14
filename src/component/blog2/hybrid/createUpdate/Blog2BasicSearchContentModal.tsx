@@ -61,7 +61,11 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
   };
 
   return (
-    <ModalTemplate className={"h-full w-[calc(100vw-1rem)] max-w-[60rem]"}>
+    <ModalTemplate
+      className={
+        "h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem] pb-[1rem]"
+      }
+    >
       {props.closeButtonComponent}
       <div className="relative flex min-h-[4rem] w-full items-center py-2">
         <Input
@@ -81,9 +85,11 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
           검색
         </Button>
       </div>
-      <div className={"w-full"}> 검색어 : {search} </div>
-      <div className="mt-[2rem] h-full w-full p-2 default-outline">
-        <ul className={`${EditorUlStyle} mt-0 gap-y-4`}>
+      <div className={"flex w-full gap-x-4 pb-4"}>
+          검색어({blog2BasicContentList.length}) : {search}
+      </div>
+      <div className="w-full p-2 default-outline">
+        <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2BasicContentList?.map((i) => (
               <li
@@ -91,6 +97,27 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                 className={`${EditorLiStyle} max-h-[16rem] overflow-y-scroll`}
                 // className={"relative outline outline-gray-80 outline-offset-[-.25rem] outline-[.5rem] rounded-[1rem] bg-white-80 p-[1rem] max-h-[16rem] overflow-y-scroll"}
               >
+                <div className="sticky top-0 z-10">
+                  <div className={"absolute right-2 top-2 flex gap-x-2"}>
+                    <Button
+                      className={
+                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                      }
+                      onClick={() => deleteBlog2BasicContentHandler(i.id)}
+                    >
+                      삭제
+                    </Button>
+                    <Button
+                      className={
+                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                      }
+                      onClick={() => props.addBlog2BasicContent(i)}
+                    >
+                      선택
+                    </Button>
+                    {/* <Button className={"p-2 default-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
+                  </div>
+                </div>
                 <h2
                   className={EditorTitleStyle}
                   id={i.title.replace(/\s+/g, "-").toLowerCase()}
@@ -98,25 +125,6 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                   {i.title}
                 </h2>
                 <MarkdownPreview content={i.content} />
-                <div className={"absolute right-2 top-2 flex gap-x-2"}>
-                  <Button
-                    className={
-                      "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
-                    }
-                    onClick={() => deleteBlog2BasicContentHandler(i.id)}
-                  >
-                    삭제
-                  </Button>
-                  <Button
-                    className={
-                      "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
-                    }
-                    onClick={() => props.addBlog2BasicContent(i)}
-                  >
-                    선택
-                  </Button>
-                  {/* <Button className={"p-2 default-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
-                </div>
               </li>
             ))}
             {blog2BasicContentList.length == 0 && (

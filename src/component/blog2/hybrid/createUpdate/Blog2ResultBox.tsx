@@ -120,7 +120,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                 )}
                 <div
                   className={
-                    "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1 bg-red-60"
+                    "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1 "
                   }
                 > <button
                     className="h-8 w-8"
