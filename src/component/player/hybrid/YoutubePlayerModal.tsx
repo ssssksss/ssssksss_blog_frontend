@@ -144,6 +144,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       );
     }
     inputRef.current!.value = "";
+    console.log("YoutubePlayerModal.tsx 파일 : 1");
     return {
       message: "음악 추가"
     };
@@ -288,11 +289,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       });
 
       if (!res.ok) {
-        toastifyStore.setToastify({
+        return {
           type: "error",
           message: "에러",
-        });
-        return;
+        };
       }
       const result: getYoutubePlaylistResponse = await res.json();
       playerStore.setPlayer({
@@ -311,9 +311,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   return (
     <ModalTemplate
-      className={
-        "h-[min(calc(100vh-1rem),800px)] w-[80vw] min-w-[22.5rem] bg-gradient"
-      }
+      className={"h-[calc(100vh-1rem)] w-[80vw] min-w-[22.5rem] bg-gradient"}
     >
       {props.closeButtonComponent}
       <div className="relative z-0 flex h-full w-full justify-end gap-2">
@@ -326,7 +324,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             )}
           </div>
         </div>
-        <div className="z-50 flex min-h-[3.75rem] w-full max-w-[37.5rem] flex-col bg-red-60 p-2">
+        <div className="z-50 flex h-[100%-8.5rem] max-h-[100%-8rem] w-full max-w-[37.5rem] flex-col p-2">
           <div className={"flex min-h-[3.75rem] w-full"}>
             <input
               ref={inputRef}
@@ -336,14 +334,14 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   : "유튜브 url을 입력하세요"
               }
               type={"text"}
-              className="mr-1 w-full rounded-[1rem] bg-white-80/60 pl-1"
+              className="mr-1 w-full rounded-[1rem] bg-white-100/90 pl-1"
               maxLength={!openPlaylist?.id ? 30 : 500}
             />
             <Button
-              className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-80/60"
+              className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-100/90"
               onClick={() =>
                 props.loadingWithHandler(
-                  openPlaylist == null ? createPlaylist() : createYoutubeUrl()
+                  openPlaylist == null ? createPlaylist : createYoutubeUrl,
                 )
               }
             >
@@ -351,13 +349,13 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             </Button>
           </div>
           <ul
-            className={`relative mt-2 flex max-h-[calc(100%-7.5rem)] w-full flex-col gap-y-1 pb-1 ${openPlaylist != null ? "pt-[4rem]" : "overflow-y-scroll scrollbar-hide"}`}
+            className={`relative mt-2 flex h-[calc(100%-8.5rem)] w-full flex-col gap-y-1 pb-1 ${openPlaylist != null ? "pt-[4.5rem]" : "overflow-y-scroll scrollbar-hide"}`}
           >
             {playerStore.playlist.map((i, index) => (
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-80/60 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
                 onClick={() => handlePlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
@@ -368,7 +366,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 </div>
                 <button
                   className="relative h-full w-[3.75rem] px-2 default-flex"
-                  onClick={() => deletePlaylist(i.id)}
+                  onClick={() =>
+                    props.loadingWithHandler(() => deletePlaylist(i.id))
+                  }
                 >
                   <Image
                     alt=""
@@ -392,7 +392,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                     ?.youtubeList.map((i, index) => (
                       <li
                         key={index}
-                        className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-80/60"}`}
+                        className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-100/90"}`}
                         onClick={() => handlePlayItemClick(i)}
                       >
                         <div className={"aspect-square h-full default-flex"}>
@@ -405,7 +405,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                           />
                         </div>
                         <div className="flex w-full flex-col gap-y-1 overflow-hidden pl-1">
-                          <div className="w-fit whitespace-nowrap hover:animate-marquee">
+                          <div className="w-fit whitespace-nowrap font-DNFBitBitv2 hover:animate-marquee">
                             {i.title || "재생할 수 없는 노래입니다."}
                           </div>
                           <div className="whitespace-nowrap text-sm text-black-40 hover:animate-marquee">
@@ -430,7 +430,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                             height={48}
                             onClick={(e) => {
                               e.stopPropagation();
-                              props.loadingWithHandler(deleteYoutube(i.id));
+                              props.loadingWithHandler(()=>deleteYoutube(i.id));
                             }}
                           />
                         </div>
@@ -442,7 +442,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
           </ul>
           <div
             className={
-              "mt-auto h-[3rem] w-full flex-shrink-0 rounded-[1rem] bg-white-80/60 py-1 sm:h-[4rem]"
+              "mt-auto h-[3rem] w-full flex-shrink-0 rounded-[1rem] bg-white-100/90 py-1 sm:h-[4rem]"
             }
           >
             {/* 버튼 5개 */}

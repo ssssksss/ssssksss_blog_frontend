@@ -1,12 +1,10 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import {UserSignupYup} from "@utils/validation/UserSignupYup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserSignupYup } from "@utils/validation/UserSignupYup";
 import Image from "next/image";
-import {useEffect} from "react";
-import {SubmitErrorHandler, useForm} from "react-hook-form";
+import { useEffect } from "react";
+import { SubmitErrorHandler, useForm } from "react-hook-form";
 import Button from "src/component/common/button/hybrid/Button";
 import Input from "src/component/common/input/Input";
-import useToastifyStore from "src/store/toastifyStore";
-import useAuthStore from "src/store/userStore";
 
 interface ISignupModal {
   changeAuthScreen: () => void;
@@ -23,8 +21,6 @@ interface ISignupFormData {
 }
 
 const SignupModal = (props: ISignupModal) => {
-  const authStore = useAuthStore();
-  const toastifyStore = useToastifyStore();
 
   const {register, handleSubmit, formState, watch, trigger} =
     useForm<ISignupFormData>({

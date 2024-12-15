@@ -3,6 +3,7 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
@@ -17,6 +18,7 @@ interface IBlog2StructureContentItem {
 }
 const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
   const modalState = useModalState();
+  const { loadingWithHandler } = useLoadingHandler();
   return (
     <div className="h-full w-full">
       <h2
@@ -76,8 +78,11 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
             "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
           }
           onClick={() =>
-            props.removeBlog2StructureContent(
-              props.data.blog2StructureContent.id,
+            loadingWithHandler(
+              () => 
+                props.removeBlog2StructureContent(
+                  props.data.blog2StructureContent.id,
+                )
             )
           }
         >

@@ -3,6 +3,7 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useLoadingHandler from "@hooks/useLoadingHandler";
 import { EditorLiStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
@@ -18,6 +19,7 @@ interface IBlog2BasicContentItem {
 const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
 
   const [isFold, setIsFold] = useState(false);
+  const { loadingWithHandler } = useLoadingHandler();
 
   return (
     <li
@@ -39,7 +41,7 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
         >
           <FontAwesomeIcon icon={faPenToSquare} style={{ width: "28px", height: "28px" }} />
         </ModalButton>
-        <Button className={"opacity-40 hover:opacity-100 p-1 rounded-2xl hover:bg-primary-20 w-[2.25rem] default-flex"} onClick={() => props.removeBlog2BasicContent(props.data.blog2BasicContent.id)}>
+        <Button className={"opacity-40 hover:opacity-100 p-1 rounded-2xl hover:bg-primary-20 w-[2.25rem] default-flex"} onClick={() => loadingWithHandler(()=>props.removeBlog2BasicContent(props.data.blog2BasicContent.id))}>
           <FontAwesomeIcon icon={faXmark} style={{ width: "28px", height: "28px" }} />
         </Button>
       </div>

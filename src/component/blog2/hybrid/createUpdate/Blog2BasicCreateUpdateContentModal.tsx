@@ -14,7 +14,6 @@ import {
   useForm
 } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import useToastifyStore from "src/store/toastifyStore";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
@@ -41,7 +40,6 @@ const Blog2BasicCreateUpdateContentModal = (
     IBlog2SecondCategoryList[]
   >([]);
   const modalState = useModalState(props.edit ? true : false);
-  const toastifyStore = useToastifyStore();
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
     mode: "onChange",

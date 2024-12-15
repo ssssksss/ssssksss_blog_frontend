@@ -56,7 +56,7 @@ const Blog2StructureSearchContentModal = (
   return (
     <ModalTemplate
       className={
-        "h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem] pb-[1rem]"
+        "h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem]"
       }
     >
       <LoadingSpinner loading={loading} />

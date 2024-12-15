@@ -6,6 +6,7 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
+import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
@@ -16,13 +17,12 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import useToastifyStore from "src/store/toastifyStore";
 import useLoading from "../../../../hooks/useLoading";
 
-interface IBlog2CreateUpdateHeaderModal {
+interface IBlog2CreateUpdateHeader {
   isEdit: boolean;
 }
-const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
+const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const modalState = useModalState();
   const modalState1 = useModalState();
   const modalState2 = useModalState();
@@ -30,6 +30,7 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
   const blog2Store = useBlog2Store();
   const formContext = useFormContext();
   const [title, setTitle] = useState(formContext.getValues("title") || "");
+  const { loadingWithHandler } = useLoadingHandler();
   const [description, setDescription] = useState(
     formContext.getValues("description") || "",
   );
@@ -47,7 +48,6 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
     id: formContext.getValues("firstCategoryId") || 0,
     name: formContext.getValues("firstCategoryName") || "",
   });
-  const toastifyStore = useToastifyStore();
   const [secondCategory, setSecondCategory] = useState({
     id: formContext.getValues("secondCategoryId") || 0,
     name: formContext.getValues("secondCategoryName") || "",
@@ -63,7 +63,6 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
 
   // 최종적으로 블로그 저장하는 API 핸들러
   const blog2CreateUpdateSubmitHandler = async () => {
-    startLoading();
     const formData = new FormData();
     formData.append("blog2Status", formContext.getValues("blog2Status"));
     if (!props.isEdit || formContext.getValues("isUpdateBlog2Header")) {
@@ -163,12 +162,10 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
         body: formData,
       });
       if (!response.ok) {
-        toastifyStore.setToastify({
+        return {
           type: "error",
           message: "블로그 생성에 실패",
-        });
-        stopLoading();
-        return;
+        };
       }
       const result: resBlog2Create = await response.json();
       if (
@@ -180,7 +177,6 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
           list: [result.data, ...blog2Store.blog2List.list],
         });
       }
-      stopLoading();
       router.replace(
         `/blog2?firstCategoryId=${formContext.getValues("firstCategoryId")}&secondCategoryId=${formContext.getValues("secondCategoryId")}`,
       );
@@ -197,15 +193,12 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
         },
       );
       if (!response.ok) {
-        toastifyStore.setToastify({
+        return {
           type: "error",
           message: "블로그 수정 실패",
-        });
-        stopLoading();
-        return;
+        };
       }
       if (response.ok) {
-        stopLoading();
         router.replace(
           `/blog2/${formContext.getValues("id")}?timestamp=${new Date()}`,
         );
@@ -295,7 +288,7 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
   return (
     <>
       <LoadingSpinner loading={loading} />
-      <div className="flex w-full justify-between mb-2">
+      <div className="mb-2 flex w-full justify-between">
         <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center">
           <Button
             className={
@@ -319,7 +312,9 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
             className={
               "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-outline default-flex"
             }
-            onClick={() => blog2CreateUpdateSubmitHandler()}
+            onClick={() =>
+              loadingWithHandler(() => blog2CreateUpdateSubmitHandler())
+            }
           >
             <SendHorizontal />
           </Button>
@@ -439,7 +434,7 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
               className={
                 "h-[3rem] w-full p-2 default-outline hover:bg-purple-20 disabled:bg-gray-60"
               }
-              onClick={() => handleSaveClick()}
+              onClick={() => loadingWithHandler(() => handleSaveClick())}
               disabled={
                 !(title && description && firstCategory.id && secondCategory.id)
               }
@@ -518,4 +513,4 @@ const Blog2CreateUpdateHeaderModal = (props: IBlog2CreateUpdateHeaderModal) => {
     </>
   );
 };
-export default Blog2CreateUpdateHeaderModal;
+export default Blog2CreateUpdateHeader;

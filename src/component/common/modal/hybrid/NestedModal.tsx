@@ -64,23 +64,28 @@ export const NestedModal = ({
   const childComponent = childrenArray.map((child, index) => {
     if (index === 0 && React.isValidElement(child)) {
       // child의 props를 변경하려면 React.cloneElement 사용
-      return React.cloneElement(child as React.ReactElement<{ closeModal: () => void; closeButtonComponent: JSX.Element}>, {
-        closeModal: modalState.closeModal,
-        closeButtonComponent: (
-          <button
-            onClick={() => modalState.closeModal()}
-            className="absolute top-[2rem] right-[2rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
-            style={{ zIndex: 200 }}
-          >
-            <Image
-              src={"/images/icons/ic-exit.svg"}
-              alt={"close-icon"}
-              width={48}
-              height={48}
-            />
-          </button>
-        ),
-      }
+      return React.cloneElement(
+        child as React.ReactElement<{
+          closeModal: () => void;
+          closeButtonComponent: JSX.Element;
+        }>,
+        {
+          closeModal: modalState.closeModal,
+          closeButtonComponent: (
+            <button
+              onClick={() => modalState.closeModal()}
+              className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
+              style={{zIndex: 200}}
+            >
+              <Image
+                src={"/images/icons/ic-exit.svg"}
+                alt={"close-icon"}
+                width={48}
+                height={48}
+              />
+            </button>
+          ),
+        },
       );
     }
     return child;
@@ -88,13 +93,13 @@ export const NestedModal = ({
   
   return createPortal(
     <div
-      className="fixed inset-0 flex h-full w-full items-center justify-center left-1/2 -translate-x-1/2"
-      style={{ zIndex: 100 }}
+      className="fixed inset-0 left-1/2 z-10 flex h-full w-full -translate-x-1/2 items-center justify-center"
+      style={{zIndex: "100"}}
     >
-      <div className="fixed h-full w-full bg-black-60/40"></div>
+      <div className="fixed h-full w-full cursor-pointer bg-black-60/40"></div>
       <div
         ref={ref}
-        className="-z-1 max-w-[75rem] w-auto relative h-auto my-2"
+        className="-z-1 relative flex h-auto w-auto max-w-[75rem] items-center"
       >
         {childComponent}
       </div>

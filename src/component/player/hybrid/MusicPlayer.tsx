@@ -1,8 +1,8 @@
-import {faPause} from "@fortawesome/free-solid-svg-icons/faPause";
-import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {timeFunction} from "@utils/timeFunction";
-import {useRef, useState} from "react";
+import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { timeFunction } from "@utils/timeFunction";
+import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import usePlayerStore from "src/store/playerStore";

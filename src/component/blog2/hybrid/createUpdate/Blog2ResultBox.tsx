@@ -4,6 +4,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import {
   EditorLiStyle,
@@ -13,7 +14,6 @@ import {
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
-import useToastifyStore from "src/store/toastifyStore";
 import Blog2ResultCreateUpdateModal from "./Blog2ResultCreateUpdateModal";
 
 interface IBlog2ResultBox {
@@ -21,8 +21,8 @@ interface IBlog2ResultBox {
 }
 const Blog2ResultBox = (props: IBlog2ResultBox) => {
   const blog2FormContext = useFormContext();
-  const toastifyStore = useToastifyStore();
   const modalState = useModalState();
+  const { loadingWithHandler } = useLoadingHandler();
 
   const addBlog2Result = (data: IBlog2Result) => {
     // 생성
@@ -30,10 +30,6 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
       ...blog2FormContext.getValues("blog2ResultList"),
       data,
     ]);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "추가되었습니다.",
-    });
   };
 
   const deleteBlog2Result = async (id: number) => {
@@ -45,11 +41,10 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
     });
 
     if (!response.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
         message: "삭제가 실패했습니다.",
-      });
-      return;
+      };
     }
     const temp: IBlog2Result[] = [];
     blog2FormContext.getValues("blog2ResultList").forEach((i: IBlog2Result) => {
@@ -66,10 +61,9 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
       }
     });
     blog2FormContext.setValue("blog2ResultList", [...temp]);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "제거되었습니다.",
-    });
+    return {
+      message: "삭제 성공",
+    };
   };
 
   const updateBlog2Result = (data: IBlog2Result) => {
@@ -80,10 +74,6 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
       );
     // 수정된 리스트를 다시 설정
     blog2FormContext.setValue("blog2ResultList", updatedList);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "수정되었습니다.",
-    });
   };
 
   return (
@@ -164,7 +154,11 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                     className={
                       "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
                     }
-                    onClick={() => deleteBlog2Result(i.id!)}
+                    onClick={() =>
+                      loadingWithHandler(
+                        () => deleteBlog2Result(i.id!)
+                      )
+                    }
                   >
                     <FontAwesomeIcon
                       icon={faXmark}

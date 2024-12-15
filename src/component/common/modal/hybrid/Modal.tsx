@@ -50,7 +50,7 @@ export const Modal = ({children, modalState}: ModalProps) => {
     });
     await flushSync(async () => {
       try {
-        const result: {type: string, message: string} = await handler(); // handler 실행
+        const result: { type: string, message: string } = await handler(); // handler 실행
         if (result?.message) {
           toastifyStore.setToastify(result);
         }
@@ -126,7 +126,7 @@ export const Modal = ({children, modalState}: ModalProps) => {
       <div className="fixed h-full w-full cursor-pointer bg-black-60/40"></div>
       <div
         ref={ref}
-        className="-z-1 relative my-2 flex h-auto w-auto max-w-[75rem] items-center">
+        className="-z-1 relative flex h-auto w-auto max-w-[75rem] items-center">
         {childComponent}
       </div>
     </div>,

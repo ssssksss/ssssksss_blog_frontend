@@ -30,10 +30,6 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
       },
     ]);
     blog2FormContext.setValue("isUpdateBlog2Structure", true);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "추가되었습니다.",
-    });
   };
 
   const removeBlog2StructureContent = (id: number) => {
@@ -48,10 +44,10 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
         id,
       ]);
     }
-    toastifyStore.setToastify({
-      type: "success",
-      message: "제거되었습니다.",
-    });
+    return {
+      type: "error",
+      message: "제거 성공",
+    };
   };
 
   const updateBlog2StructureContent = (data: IBlog2StructureContent) => {
@@ -64,10 +60,6 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
       );
     // 수정된 리스트를 다시 설정
     blog2FormContext.setValue("blog2StructureList", updatedList);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "수정되었습니다.",
-    });
   };
 
   return (

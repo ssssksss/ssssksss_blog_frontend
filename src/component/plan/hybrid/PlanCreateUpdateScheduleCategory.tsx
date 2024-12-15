@@ -3,7 +3,7 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/reactDataRange.css";
-import {useState} from "react";
+import { useState } from "react";
 import "react-date-range/dist/styles.css"; // 기본 스타일
 import "react-date-range/dist/theme/default.css"; // 기본 테마
 
