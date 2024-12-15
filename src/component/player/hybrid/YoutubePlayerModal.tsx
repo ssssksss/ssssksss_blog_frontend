@@ -32,17 +32,19 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
-        message: "에러",
-      });
-      return;
+        message: "플리 생성 실패"
+      };
     }
     const result: createYoutubePlaylistResponse = await res.json();
     playerStore.setPlayer({
       playlist: [...playerStore.playlist, result.data],
     });
     inputRef.current!.value = "";
+    return {
+      message: "플리 생성 성공",
+    };
   };
 
   const handlePlayItemClick = (item: IYoutube) => {
@@ -66,11 +68,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
-        message: "에러",
-      });
-      return;
+        message: "플리 제거 실패",
+      };
     }
     let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
       localStorage.getItem("currentYoutubePlaylist")!,
@@ -85,6 +86,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       playlist: playerStore.playlist.filter((i) => i.id != id),
     });
     setOpenPlaylist(null);
+    return {
+      message: "플리 삭제 성공"
+    };
   };
 
   // ==================================================================
@@ -110,11 +114,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
         message: "에러",
-      });
-      return;
+      };
     }
     const result: createYoutubeUrlResponse = await res.json();
     const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
@@ -141,6 +144,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       );
     }
     inputRef.current!.value = "";
+    return {
+      message: "음악 추가"
+    };
   };
 
   const deleteYoutube = async (id: number) => {
@@ -152,11 +158,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
         message: "에러",
-      });
-      return;
+      };
     }
     const temp = playerStore.playlist.map((i) => {
       if (i.id == openPlaylist?.id) {
@@ -189,6 +194,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         currentYoutubePlaylist: currentYoutubePlaylist,
       });
     }
+    return {
+      message: "삭제 성공"
+    };
   };
 
   const handlePlayBackwardClick = () => {
@@ -305,18 +313,20 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     <ModalTemplate
       className={
         "h-[min(calc(100vh-1rem),800px)] w-[80vw] min-w-[22.5rem] bg-gradient"
-      }>
+      }
+    >
       {props.closeButtonComponent}
       <div className="relative z-0 flex h-full w-full justify-end gap-2">
         <div className="absolute left-0 top-1/2 w-full max-w-[37.5rem] -translate-y-1/2 default-flex">
           <div
-            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -outline-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}>
+            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -outline-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}
+          >
             {playerStore.currentYoutube?.imageUrl && (
               <Image src={playerStore.currentYoutube.imageUrl} alt={""} fill />
             )}
           </div>
         </div>
-        <div className="z-50 flex min-h-[3.75rem] w-full max-w-[37.5rem] flex-col p-2">
+        <div className="z-50 flex min-h-[3.75rem] w-full max-w-[37.5rem] flex-col bg-red-60 p-2">
           <div className={"flex min-h-[3.75rem] w-full"}>
             <input
               ref={inputRef}
@@ -332,19 +342,24 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             <Button
               className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-80/60"
               onClick={() =>
-                openPlaylist == null ? createPlaylist() : createYoutubeUrl()
-              }>
+                props.loadingWithHandler(
+                  openPlaylist == null ? createPlaylist() : createYoutubeUrl()
+                )
+              }
+            >
               추가
             </Button>
           </div>
           <ul
-            className={`relative mt-2 flex max-h-[calc(100%-7.5rem)] w-full flex-col gap-y-1 pb-1 ${openPlaylist != null ? "pt-[4rem]" : "overflow-y-scroll scrollbar-hide"}`}>
+            className={`relative mt-2 flex max-h-[calc(100%-7.5rem)] w-full flex-col gap-y-1 pb-1 ${openPlaylist != null ? "pt-[4rem]" : "overflow-y-scroll scrollbar-hide"}`}
+          >
             {playerStore.playlist.map((i, index) => (
               <li
                 key={index}
                 id={i.id + ""}
                 className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-80/60 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
-                onClick={() => handlePlaylist(i)}>
+                onClick={() => handlePlaylist(i)}
+              >
                 <div className="flex w-full items-center justify-start pl-1">
                   {i.title}
                 </div>
@@ -353,7 +368,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 </div>
                 <button
                   className="relative h-full w-[3.75rem] px-2 default-flex"
-                  onClick={() => deletePlaylist(i.id)}>
+                  onClick={() => deletePlaylist(i.id)}
+                >
                   <Image
                     alt=""
                     src={"/images/icons/ic-delete-black.svg"}
@@ -369,14 +385,16 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 <div
                   className={
                     "flex h-full w-full animate-fadeUp flex-col gap-y-1 overflow-y-scroll rounded-[1rem] scrollbar-hide"
-                  }>
+                  }
+                >
                   {playerStore.playlist
                     .filter((i) => i.id == openPlaylist?.id)[0]
                     ?.youtubeList.map((i, index) => (
                       <li
                         key={index}
                         className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-80/60"}`}
-                        onClick={() => handlePlayItemClick(i)}>
+                        onClick={() => handlePlayItemClick(i)}
+                      >
                         <div className={"aspect-square h-full default-flex"}>
                           <Image
                             alt=""
@@ -412,7 +430,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                             height={48}
                             onClick={(e) => {
                               e.stopPropagation();
-                              deleteYoutube(i.id);
+                              props.loadingWithHandler(deleteYoutube(i.id));
                             }}
                           />
                         </div>
@@ -425,12 +443,14 @@ const YoutubePlayerModal = (props: IModalComponent) => {
           <div
             className={
               "mt-auto h-[3rem] w-full flex-shrink-0 rounded-[1rem] bg-white-80/60 py-1 sm:h-[4rem]"
-            }>
+            }
+          >
             {/* 버튼 5개 */}
             <div className="h-full w-full gap-x-4 default-flex">
               <button
                 onClick={() => handlePlaybackMode()}
-                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
+              >
                 {playerStore.isPlayRandom ? (
                   <div className={"relative h-[50%] w-full"}>
                     <Image
@@ -453,7 +473,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               </button>
               <button
                 onClick={() => handlePlayBackwardClick()}
-                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
+              >
                 <div className={"relative h-[50%] w-full"}>
                   <Image
                     alt=""
@@ -469,7 +490,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   playerStore.setPlayer({
                     youtubePlay: !playerStore.youtubePlay,
                   });
-                }}>
+                }}
+              >
                 {playerStore.youtubePlay ? (
                   <FontAwesomeIcon
                     icon={faPause}
@@ -484,7 +506,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               </button>
               <button
                 onClick={() => handlePlayForwardClick()}
-                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline">
+                className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
+              >
                 <div className={"relative h-[50%] w-full"}>
                   <Image
                     alt=""
@@ -496,7 +519,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               </button>
               <button
                 className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
-                onClick={() => handlePlayRepeat()}>
+                onClick={() => handlePlayRepeat()}
+              >
                 <div className={"relative h-[50%] w-full"}>
                   <Image
                     alt=""
@@ -509,7 +533,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   <div
                     className={
                       "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
-                    }>
+                    }
+                  >
                     X
                   </div>
                 )}
@@ -517,7 +542,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   <div
                     className={
                       "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
-                    }>
+                    }
+                  >
                     1
                   </div>
                 )}
@@ -525,7 +551,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   <div
                     className={
                       "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
-                    }>
+                    }
+                  >
                     all
                   </div>
                 )}

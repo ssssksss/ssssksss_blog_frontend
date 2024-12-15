@@ -1,6 +1,7 @@
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
 import useLoadingStore from "@store/loadingStore";
+import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal, flushSync } from "react-dom";
@@ -13,6 +14,7 @@ export const Modal = ({children, modalState}: ModalProps) => {
   const [documentBody, setDocumentBody] = useState<HTMLElement | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const loadingStore = useLoadingStore();
+  const toastifyStore = useToastifyStore();
   let flag = modalState.isOpen;
   usePreventBodyScroll(modalState.isOpen);
 
@@ -48,7 +50,10 @@ export const Modal = ({children, modalState}: ModalProps) => {
     });
     await flushSync(async () => {
       try {
-        await handler(); // handler 실행
+        const result: {type: string, message: string} = await handler(); // handler 실행
+        if (result?.message) {
+          toastifyStore.setToastify(result);
+        }
       } catch (error) {
         console.error("Error occurred:", error); // 에러 처리 (필요시)
       } finally {

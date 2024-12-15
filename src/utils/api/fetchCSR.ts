@@ -24,66 +24,77 @@ export const fetchCSR = async ({
   next,
   handleRevalidateTags,
 }: IFetchCSR): Promise<any> => {
-  let accessToken = req.cookies.get("accessToken");
-  const refreshToken = req.cookies.get("refreshToken");
-  const res = await fetch(url, {
-    method: req.method,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken?.value}`,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-    next: next,
-  });
-  if (res.status === 401 && refreshToken && retry > 0) {
-    const refreshResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
-      {
-        method: "GET",
-        headers: {
-          Cookie: `${refreshToken?.name}=${refreshToken?.value}`,
-        },
-        credentials: "include",
-      },
-    );
+  try {
 
-    if (refreshResponse.ok) {
-      const data = await refreshResponse.json();
-      accessToken = data.data;
-      // 쿠키를 응답 헤더에서 추출
-      const setCookieHeader = refreshResponse.headers.get("Set-Cookie");
-      if (setCookieHeader) {
-        const newRes = await fetch(url, {
-          method: req.method,
+    let accessToken = req.cookies.get("accessToken");
+    const refreshToken = req.cookies.get("refreshToken");
+    const res = await fetch(url, {
+      method: req.method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken?.value}`,
+      },
+      body: body ? JSON.stringify(body) : undefined,
+      next: next,
+    });
+    if (res.status === 401 && refreshToken && retry > 0) {
+      const refreshResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
+        {
+          method: "GET",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`, // 새 액세스 토큰 사용
+            Cookie: `${refreshToken?.name}=${refreshToken?.value}`,
           },
           credentials: "include",
-          body:
+        },
+      );
+      
+      if (refreshResponse.ok) {
+        const data = await refreshResponse.json();
+        accessToken = data.data;
+        // 쿠키를 응답 헤더에서 추출
+        const setCookieHeader = refreshResponse.headers.get("Set-Cookie");
+        if (setCookieHeader) {
+          const newRes = await fetch(url, {
+            method: req.method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`, // 새 액세스 토큰 사용
+            },
+            credentials: "include",
+            body:
             req.method !== "DELETE" && body ? JSON.stringify(body) : undefined,
-          cache: "no-store",
-        });
-
-        // Set-Cookie 헤더를 포함하여 새 응답 반환
-        const responseWithCookies = NextResponse.json(await newRes.json(), {
-          status: newRes.status,
-          headers: {
-            "Set-Cookie": setCookieHeader || "", // 쿠키 추가
-          },
-        });
-
-        return responseWithCookies; // 쿠키가 포함된 응답 반환
+            cache: "no-store",
+          });
+          
+          // Set-Cookie 헤더를 포함하여 새 응답 반환
+          const responseWithCookies = NextResponse.json(await newRes.json(), {
+            status: newRes.status,
+            headers: {
+              "Set-Cookie": setCookieHeader || "", // 쿠키 추가
+            },
+          });
+          
+          return responseWithCookies; // 쿠키가 포함된 응답 반환
+        }
+      } else {
+        return {
+          status: 403,
+          message: "권한 없음",
+        };
       }
-    } else {
-      throw new Error("Failed to refresh access token");
     }
-  }
-
-  if (handleRevalidateTags?.length) {
-    for (const tag of handleRevalidateTags) {
-      await revalidateTag(tag); // 비동기 호출
+    
+    if (handleRevalidateTags?.length) {
+      for (const tag of handleRevalidateTags) {
+        await revalidateTag(tag); // 비동기 호출
+      }
     }
+    return res;
+  } catch (error: any) {
+    return {
+      status: 500,
+      message: error.message
+    };
   }
-  return res;
 };

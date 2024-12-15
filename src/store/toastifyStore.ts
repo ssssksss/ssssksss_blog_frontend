@@ -34,7 +34,8 @@ const toastifyStore: StateCreator<ToastifyStoreState & ToastifyStoreActions> = (
     }),
   setToastify: (data) =>
     set(() => ({
-      ...data,
+      type: data.type || "success",
+      message: data.message,
     })),
 });
 

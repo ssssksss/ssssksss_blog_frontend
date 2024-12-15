@@ -13,7 +13,6 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import useToastifyStore from "src/store/toastifyStore";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
@@ -32,7 +31,6 @@ interface IBlog2StructureContentCreateUpdateModal extends IModalComponent {
 const Blog2StructureContentCreateUpdateModal = (
   props: IBlog2StructureContentCreateUpdateModal,
 ) => {
-  const toastifyStore = useToastifyStore();
   const [projectName, setProjectName] = useState("");
   const modalState = useModalState(props.edit ? true : false);
   const blog2ContentFormContext = useForm<IFormContext>({
@@ -44,7 +42,6 @@ const Blog2StructureContentCreateUpdateModal = (
       project: props.edit ? props.item?.project : "",
     },
   });
-  const {errors} = blog2ContentFormContext.formState;
   const [projectList, setProjectList] = useState<
     {value: string; name: string}[]
   >([]);
@@ -71,26 +68,30 @@ const Blog2StructureContentCreateUpdateModal = (
       formData: formData,
     });
     if (!response.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
-        message: props.edit
-          ? "수정이 실패했습니다."
-          : "결과 생성에 실패했습니다.",
-      });
-      return;
+        message: props.edit ? "수정 실패" : "생성 실패",
+      };
     }
     if (props.edit) {
       // 블로그 구조 수정 성공시
       const result: responseCreateUpdateBlog2StructureContent =
-        await response.json();
+      await response.json();
       props.updateBlog2StructureContent!(result.data.blog2StructureContent);
+      props.closeModal!();
+      return {
+        message: result.msg,
+      };
     } else {
       // 블로그 구조 생성 성공시
       const result: responseCreateUpdateBlog2StructureContent =
-           await response.json();
-         props.addBlog2StructureContent!(result.data.blog2StructureContent);
-    }
+      await response.json();
+      props.addBlog2StructureContent!(result.data.blog2StructureContent);
       props.closeModal!();
+      return {
+        message: result.msg,
+      };
+    }
 
   };
 

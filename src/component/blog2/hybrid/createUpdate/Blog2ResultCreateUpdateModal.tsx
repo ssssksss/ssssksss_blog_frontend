@@ -8,7 +8,6 @@ import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import useToastifyStore from "src/store/toastifyStore";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
@@ -28,7 +27,6 @@ interface IBlog2ResultCreateUpdateModal extends IModalComponent {
 }
 
 const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
-  const toastifyStore = useToastifyStore();
   const { id: blogId } = useParams();
   const modalState = useModalState(props.edit ? true : false);
   
@@ -103,31 +101,29 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
     });
   
     if (!response.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
-        message: props.edit
-          ? "수정이 실패했습니다."
-          : "결과 생성에 실패했습니다.",
-      });
-      return;
+        message: props.edit ? "수정 실패" : "생성 실패",
+      };
     }
-    try {
-
-      if (props.edit) {
-        // 블로그 결과 수정 성공시
-        const result: responseCreateUpdateBlog2Result = await response.json();
+    if (props.edit) {
+      // 블로그 결과 수정 성공시
+      const result: responseCreateUpdateBlog2Result = await response.json();
         props.updateBlog2Result!(result.data.blog2Result);
-      } else {
-        // 블로그 결과 생성 성공시
-        const result: responseCreateUpdateBlog2Result =
+        props.closeModal!();
+        return {
+          message: result.msg,
+        };
+    } else {
+      // 블로그 결과 생성 성공시
+      const result: responseCreateUpdateBlog2Result =
         await response.json();
         props.addBlog2Result!(result.data.blog2Result);
-      }
-      props.closeModal!();
-    } catch {
-      props.closeModal!();
+        props.closeModal!();
+        return {
+          message: result.msg,
+        };
     }
-
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {

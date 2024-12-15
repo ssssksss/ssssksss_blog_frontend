@@ -1,8 +1,8 @@
 "use client";
 
-import {useDragAndDropBlob} from "@hooks/useDragAndDropBlob";
+import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import Image from "next/image";
-import {useState} from "react";
+import { useState } from "react";
 
 interface IUseDragAndDropBlogTestComponent {}
 const UseDragAndDropBlogTestComponent = (
@@ -18,6 +18,7 @@ const UseDragAndDropBlogTestComponent = (
     useDragAndDropBlob({
       fakeImageUpload,
     });
+  
 
   return (
     <div className={"flex aspect-square w-[20rem] flex-col bg-red-20"}>

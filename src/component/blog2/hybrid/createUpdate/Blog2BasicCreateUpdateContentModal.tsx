@@ -115,26 +115,30 @@ const Blog2BasicCreateUpdateContentModal = (
     });
 
     if (!response.ok) {
-      toastifyStore.setToastify({
+      return {
         type: "error",
-        message: props.edit
-          ? "수정이 실패했습니다."
-          : "구조 생성에 실패했습니다.",
-      });
-      return;
+        message: props.edit ? "수정 실패" : "생성 실패",
+      };
     }
     if (props.edit) {
       // 블로그 기초 수정 성공시
       const result: responseCreateUpdateBlog2BasicContent =
-  await response.json();
-  props.updateBlog2BasicContent!(result.data.blog2BasicContent);
+      await response.json();
+      props.updateBlog2BasicContent!(result.data.blog2BasicContent);
+      props.closeModal!();
+      return {
+        message: result.msg,
+      };
     } else {
       // 블로그 기초 생성 성공시
       const result: responseCreateUpdateBlog2BasicContent =
-        await response.json();
+      await response.json();
       props.addBlog2BasicContent!(result.data.blog2BasicContent);
+      props.closeModal!();
+      return {
+        message: result.msg,
+      };
     }
-        props.closeModal!();
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
