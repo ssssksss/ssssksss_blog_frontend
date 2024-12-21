@@ -1,7 +1,4 @@
-import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
@@ -12,6 +9,8 @@ import {
 import { convertMarkdownToHtml } from "@utils/editor/MarkdownPreview";
 import React, { useCallback, useRef } from "react";
 import Blog2BasicContentViewItem from "./Blog2BasicContentViewItem";
+import Blog2ContentIndexBox from "./Blog2ContentIndexBox";
+import Blog2ContentIndexButton from "./Blog2ContentIndexButton";
 
 interface IBlog2BasicContentViewBox {
   data: IBlog2Basic[];
@@ -83,42 +82,13 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
   return (
     <div className="relative flex w-full flex-col rounded-[1rem] p-0">
       {modalState.isOpen && (
-        <div
-          ref={ref}
-          className="sticky left-[calc(100%-1rem)] top-[4.5rem] z-10 h-0 w-0 translate-x-1"
-        >
-          <ul className="absolute right-0 flex max-h-[calc(100vh-5rem)] w-[20rem] max-w-[50vw] flex-col gap-y-2 bg-gray-40 p-4 pt-12 default-outline min-[1900px]:left-[0.375rem]">
-            <AbsoluteCloseButton
-              className="right-[1rem] top-[1rem]"
-              onClick={() => modalState.closeModal()}
-            />
-            <div className="h-full overflow-y-scroll rounded-lg pb-[3rem] font-SDSamliphopangche_Outline text-[1.25rem] scrollbar-hide">
-              {props.data.map((i) => (
-                <div key={i.id}>
-                  <label className="relative flex items-center justify-start p-1 font-bold hover:bg-primary-20">
-                    <a
-                      className="w-full"
-                      href={`#${i.blog2BasicContent.title.replace(/\s+/g, "-").toLowerCase()}`}
-                    >
-                      {i.blog2BasicContent.title}
-                    </a>
-                  </label>
-                  {generateLink(i.blog2BasicContent.content)}
-                </div>
-              ))}
-            </div>
-          </ul>
-        </div>
+        <Blog2ContentIndexBox
+          data={props.data}
+          closeModal={() => modalState.closeModal()}
+        />
       )}
       {!modalState.isOpen && (
-        <div className="sticky left-[100%] top-[4.5rem] z-10 h-0 w-0">
-          <button
-            onClick={() => modalState.openModal()}
-            className="absolute right-0 top-0 z-20 h-[2.5rem] w-[2.5rem] bg-primary-20 default-outline default-flex"
-          >
-            <FontAwesomeIcon icon={faBars} className="text-[2rem]" />
-          </button>
-        </div>
+        <Blog2ContentIndexButton openModal={() => modalState.openModal()} />
       )}
       <ul className={EditorUlStyle}>
         {props.data.map((i) => (

@@ -1,7 +1,5 @@
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
@@ -10,6 +8,7 @@ import {
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useRef } from "react";
+import Blog2ContentIndexButton from "./Blog2ContentIndexButton";
 import Blog2StructureContentViewItem from "./Blog2StructureContentViewItem";
 import Blog2StructureIndexTree from "./Blog2StructureIndexTree";
 
@@ -93,10 +92,11 @@ const Blog2StructureContentViewBox = (props: IBlog2StructureContentViewBox) => {
       {modalState.isOpen && (
         <div
           ref={ref}
-          className="sticky left-[calc(100%-1rem)] top-[4.5rem] z-10 h-0 w-0 translate-x-1">
-          <ul className="absolute right-0 flex max-h-[calc(100vh-5rem)] w-[20rem] max-w-[50vw] flex-col gap-y-2 bg-white-80 p-4 pt-12 default-outline min-[1900px]:left-[0.375rem]">
+          className="sticky left-[100%] top-[4.5rem] z-10 h-0 w-0 translate-x-1"
+        >
+          <ul className="absolute right-[0.25rem] flex max-h-[calc(100vh-5rem)] w-[20rem] max-w-[50vw] flex-col gap-y-2 bg-gray-40 p-2 pt-[2.25rem] default-outline min-[1900px]:left-[0.375rem]">
             <AbsoluteCloseButton
-              className={"right-[1rem] top-[1rem]"}
+              className={"right-[0.25rem] top-[0.25rem]"}
               onClick={() => modalState.closeModal()}
             />
             <DirectoryTree paths={paths} />
@@ -104,15 +104,7 @@ const Blog2StructureContentViewBox = (props: IBlog2StructureContentViewBox) => {
         </div>
       )}
       {!modalState.isOpen && (
-        <div className="sticky left-[100%] top-[4.5rem] z-10 h-0 w-0">
-          <button
-            onClick={() => modalState.openModal()}
-            className={
-              "absolute right-0 top-0 z-20 h-[2.5rem] w-[2.5rem] bg-primary-20 default-outline"
-            }>
-            <FontAwesomeIcon icon={faBars} className="text-[2rem]" />
-          </button>
-        </div>
+        <Blog2ContentIndexButton openModal={()=>modalState.openModal()} />
       )}
 
       <ul className={EditorUlStyle}>

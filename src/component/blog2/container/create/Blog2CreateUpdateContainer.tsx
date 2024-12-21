@@ -48,17 +48,18 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   useEffect(() => {
     blog2Store.setBlog2CategoryList("categoryList" in props ? props.categoryList : props.data.categoryList);
     if ("isEdit" in props) {
-      blog2Store.setBlog2ActiveFirstCategoryId(
+      blog2Store.setBlog2ActiveFirstCategoryId( 
         props.data.blog2.firstCategoryId,
       );
       blog2Store.setBlog2ActiveSecondCategoryId(
         props.data.blog2SecondCategory.id,
+    
       );
     }
   }, []);
     
   return (
-    <FormProvider {...methods} >
+    <FormProvider {...methods} >f
       <Blog2CreateUpdateHeader isEdit={"isEdit" in props && props.isEdit} />
       <Blog2ContentBox isEdit={"isEdit" in props && props.isEdit} />
     </FormProvider>

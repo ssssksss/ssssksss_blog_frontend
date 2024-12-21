@@ -201,7 +201,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           </div>
         )}
       </div>
-      <div className={"flex h-auto w-full p-2 default-outline"}>
+      <div className={"flex h-auto w-full p-1 default-outline"}>
         {menu == "기초" && (
           <Blog2BasicContentViewBox data={props.data.blog2BasicList} />
         )}

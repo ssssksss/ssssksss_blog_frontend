@@ -2,6 +2,7 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useToggleState from "@hooks/useToggle";
 import { EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
 import Blog2BasicContentItem from "./Blog2BasicContentItem";
@@ -14,6 +15,7 @@ interface IBlog2BasicContentBox {
 const Blog2BasicContentBox = (props: IBlog2BasicContentBox) => {
   
   const blog2FormContext = useFormContext();
+  const toggleState = useToggleState();
 
   const addBlog2BasicContent = (data: IBlog2BasicContent) => {
     
@@ -24,6 +26,7 @@ const Blog2BasicContentBox = (props: IBlog2BasicContentBox) => {
       blog2BasicContent: data
     }]);
     blog2FormContext.setValue("isUpdateBlog2Basic", true);
+    toggleState.toggleHide();
   };
 
   const removeBlog2BasicContent = (id: number) => {
@@ -33,6 +36,7 @@ const Blog2BasicContentBox = (props: IBlog2BasicContentBox) => {
       blog2FormContext.setValue("isUpdateBlog2Basic", true);
       blog2FormContext.setValue("deleteBlog2BasicList", [...blog2FormContext.getValues("deleteBlog2BasicList"), id]);
     }
+    toggleState.toggleHide();
   };
 
   const updateBlog2BasicContent = (data: IBlog2BasicContent) => {
@@ -47,6 +51,7 @@ const Blog2BasicContentBox = (props: IBlog2BasicContentBox) => {
       );
     // 수정된 리스트를 다시 설정
     blog2FormContext.setValue("blog2BasicList", updatedList);
+    toggleState.toggleHide();
   };
 
   return (
