@@ -10,10 +10,8 @@ import useThrottle from "@hooks/useThrottle";
 import useLoadingStore from "@store/loadingStore";
 import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
-import { throttle } from "lodash";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import throttle from "lodash/throttle";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import AuthModal from "src/component/auth/hybrid/AuthModal";
 import Button from "src/component/common/button/hybrid/Button";
@@ -36,7 +34,28 @@ const Header = (props: IHeader) => {
   const [lastScrollY, setLastScrollY] = useState(200);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const loadingStore = useLoadingStore();
+  const pathname = usePathname();
 
+  const previousPathname = useRef(pathname);
+
+  // 페이지 이동시 공통적으로 처리할 로직
+  useEffect(() => {
+    if (previousPathname.current !== pathname) {
+      console.log(
+        `Page changed from ${previousPathname.current} to ${pathname}`,
+      );
+      previousPathname.current = pathname;
+      loadingStore.stopLoading();
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    toastifyStore.setToastify({
+      type: "success",
+      message: "환영합니다."
+    });
+  }, []);
+  
   useEffect(() => {
     const getInitUser = async () => {
       // fetchCSR(
@@ -75,6 +94,7 @@ const Header = (props: IHeader) => {
       ? JSON.parse(window.localStorage.getItem("currentYoutubePlaylist")!)
       : "";
     const playRepeatType = window.localStorage.getItem("playRepeatType");
+    const isPlay = window.localStorage.getItem("isPlay");
     const isPlayRandom = window.localStorage.getItem("isPlayRandom")
       ? true
       : false;
@@ -103,6 +123,7 @@ const Header = (props: IHeader) => {
       window.removeEventListener("scroll", throttledUpdateProgressBar);
     };
   }, [throttledUpdateProgressBar]);
+
 
   // 스크롤이 상단으로 가면 헤더가 보임
   const handleScroll = throttle((e: Event) => {
@@ -193,28 +214,18 @@ const Header = (props: IHeader) => {
           }>
           <SideBar />
           <div className="flex">
-            <div className={"relative h-full w-[2.75rem]"}>
-              <Link href={"/"} prefetch={false}>
-                <Image
-                  id={"logo"}
-                  src={"/images/logo/logo.png"}
-                  alt="logo"
-                  fill
-                  onClick={() => {
-                    navStore.setState({
-                      leftPath: "/",
-                    });
-                  }}
-                />
-              </Link>
-            </div>
             {!!userStore.id && (
               <div
-                className={"aspect-square w-[1.5rem] px-[.5rem]"}
+                className={"ml-[2.75rem] aspect-square w-[1.5rem] px-[.5rem] default-flex"}
                 onClick={() => {
                   playerStore.setPlayer({
                     youtubePlay: !playerStore.youtubePlay,
+                    isMuted: false
                   });
+                  window.localStorage.setItem(
+                    "isPlay",
+                    !playerStore.youtubePlay ? "true" : "false",
+                  );
                 }}>
                 {playerStore.youtubePlay ? (
                   <FontAwesomeIcon icon={faPause} />

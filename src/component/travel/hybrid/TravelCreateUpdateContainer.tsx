@@ -10,14 +10,17 @@ import "@styles/reactDataRange.css";
 import { addDays, differenceInDays, format, isSameDay } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Calendar, Info } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // 기본 스타일
 import "react-date-range/dist/theme/default.css"; // 기본 테마
 import PlanTravelKakaoMap from "./PlanTravelKakaoMap";
-import TravelCreateUpdateSchedule from "./TravelCreateUpdateSchedule";
 import TravelItemInfonModal from "./TravelItemInfonModal";
+
+const TravelCreateUpdateSchedule = dynamic(() => import("./TravelCreateUpdateSchedule"));
+
 
 export const travelContentTypeId: {[key: number]: string} = {
   12: "관광지",
@@ -35,8 +38,6 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
   const toastifyStore = useToastifyStore();
   const {loading, startLoading, stopLoading} = useLoading();
   const userStore = useUserStore();
-  const [phase, setPhase] = useState(1);
-  const [content, setContent] = useState("");
   const [isOpenCalendar, setIsOpenCalendar] = useState(true);
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -96,7 +97,6 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
     setGroup(newGroup);
   };
 
-  const createTravelItinerary = () => {};
 
   const selectCalender = () => {
     setIsOpenCalendar(false);

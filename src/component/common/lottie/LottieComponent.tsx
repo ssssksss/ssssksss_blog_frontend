@@ -1,14 +1,16 @@
 "use client";
 
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 
-const LottieComponent = (props: { lottieFile: any; className: string }) => {
+const Lottie = dynamic(() => import("lottie-react"));
+
+const LottieComponent = (props: {lottieFile: any; className: string}) => {
   return (
     <>
       <Lottie
         animationData={props.lottieFile}
         className={props.className}
-        style={{ padding: "0px" }}
+        style={{padding: "0px"}}
       />
     </>
   );

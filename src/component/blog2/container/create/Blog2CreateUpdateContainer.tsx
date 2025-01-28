@@ -59,7 +59,7 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   }, []);
     
   return (
-    <FormProvider {...methods} >f
+    <FormProvider {...methods} >
       <Blog2CreateUpdateHeader isEdit={"isEdit" in props && props.isEdit} />
       <Blog2ContentBox isEdit={"isEdit" in props && props.isEdit} />
     </FormProvider>

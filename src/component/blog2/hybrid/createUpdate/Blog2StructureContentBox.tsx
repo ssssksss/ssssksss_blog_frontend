@@ -7,59 +7,34 @@ import {
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
-import useToastifyStore from "src/store/toastifyStore";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
 import Blog2StructureContentItem from "./Blog2StructureContentItem";
 import Blog2StructureSearchContentModal from "./Blog2StructureSearchContentModal";
 
 interface IBlog2StructureContentBox {
-  isEdit?: boolean;
+  addBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  updateBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  removeBlog2Content: (type: "basic" | "structure", id: number) => void;
 }
 const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
   const blog2FormContext = useFormContext();
-  const toastifyStore = useToastifyStore();
 
   const addBlog2StructureContent = (data: IBlog2StructureContent) => {
-    // 생성
-    blog2FormContext.setValue("blog2StructureList", [
-      ...blog2FormContext.getValues("blog2StructureList"),
-      {
-        id: 0,
-        position: 0,
-        blog2StructureContent: data,
-      },
-    ]);
-    blog2FormContext.setValue("isUpdateBlog2Structure", true);
+    props.addBlog2Content(data, "structure");
   };
 
   const removeBlog2StructureContent = (id: number) => {
-    const temp = (
-      blog2FormContext.getValues("blog2StructureList") as IBlog2Structure[]
-    ).filter((i) => i.blog2StructureContent.id != id);
-    blog2FormContext.setValue("blog2StructureList", [...temp]);
-    if (props.isEdit) {
-      blog2FormContext.setValue("isUpdateBlog2Structure", true);
-      blog2FormContext.setValue("deleteBlog2StructureList", [
-        ...blog2FormContext.getValues("deleteBlog2StructureList"),
-        id,
-      ]);
-    }
-    return {
-      type: "error",
-      message: "제거 성공",
-    };
+    props.removeBlog2Content("basic", id);
   };
 
   const updateBlog2StructureContent = (data: IBlog2StructureContent) => {
-    const updatedList = blog2FormContext
-      .getValues("blog2StructureList")
-      .map((item: IBlog2Structure) =>
-        item.blog2StructureContent.id == data.id
-          ? {...item, blog2StructureContent: data}
-          : item,
-      );
-    // 수정된 리스트를 다시 설정
-    blog2FormContext.setValue("blog2StructureList", updatedList);
+    props.updateBlog2Content(data, "structure");
   };
 
   return (

@@ -1,14 +1,10 @@
 "use client";
 
-import {useEffect, useState} from "react";
-// import PlanHomeCalendar from "./PlanHomeCalendar";
-// import PlanHomeMemo from "./PlanHomeMemo";
-// import PlanHomeTodaySchedule from "./PlanHomeTodaySchedule";
-// import PlanHomeWeather from "./PlanHomeWeather";
 import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
 import usePlanStore from "@store/planStore";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const PlanHomeCalendar = dynamic(() => import("./PlanHomeCalendar"), {
   ssr: false,

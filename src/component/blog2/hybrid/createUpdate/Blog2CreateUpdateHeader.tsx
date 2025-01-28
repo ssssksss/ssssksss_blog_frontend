@@ -289,7 +289,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     <>
       <LoadingSpinner loading={loading} />
       <div className="mb-2 flex w-full justify-between">
-        <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center">
+        <div className="grid w-full grid-cols-[2.75rem_calc(100%-5.5em)_2.75rem] items-center">
           <Button
             className={
               "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-outline default-flex"

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
@@ -71,6 +72,7 @@
     "@emotion/babel-preset-css-prop": "^11.11.0",
     "@emotion/eslint-plugin": "^11.11.0",
     "@mdx-js/react": "^3.0.1",
+    "@next/bundle-analyzer": "^15.1.2",
     "@next/eslint-plugin-next": "^14.1.4",
     "@types/date-fns": "^2.6.0",
     "@types/highlight.js": "^9.12.4",
@@ -87,6 +89,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-twin": "^1.1.0",
     "chromatic": "^6.24.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.12.0",
     "eslint-config-next": "^14.2.4",
     "eslint-config-prettier": "^9.1.0",

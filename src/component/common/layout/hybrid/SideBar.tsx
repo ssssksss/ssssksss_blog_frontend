@@ -1,11 +1,12 @@
 import Button from "@component/common/button/hybrid/Button";
 import HamburgerMenu from "@component/common/button/hybrid/HamburgerMenu";
 import MusicPlayer from "@component/player/hybrid/MusicPlayer";
-import {default as useAuthStore} from "@store/userStore";
+import useLoadingStore from "@store/loadingStore";
+import { default as useAuthStore } from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import React, {MouseEvent, useEffect, useState} from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 
 interface LeftNavItem {
   icon: string;
@@ -61,24 +62,9 @@ const SideBar = () => {
   // const navStore = useNavStore();
   const [activeMenu, setActiveMenu] = useState("");
   const searchParams = useSearchParams();
-
-  // useEffect(() => {
-  //   setActiveMenu(window.location.pathname);
-
-  //   const sideBarActiveCheck = () => {
-  //     if (window.document.location.pathname === "/") {
-  //       navStore.setState({
-  //         leftPath: "/",
-  //       });
-  //     }
-  //   };
-  //   window.addEventListener("popstate", sideBarActiveCheck);
-
-  //   return () => {
-  //     window.removeEventListener("popstate", sideBarActiveCheck);
-  //   };
-  // }, []);
-
+  const loadingStore = useLoadingStore();
+  const pathname = usePathname();
+  const previousPathname = useRef(pathname);
   useEffect(() => {
     // 컴포넌트가 마운트될 때 현재 경로를 가져와서 상태에 저장
     setActiveMenu(window.location.pathname);
@@ -91,8 +77,9 @@ const SideBar = () => {
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
       <div
-        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-100 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20" : "hidden"} flex-col justify-start`}>
-        <nav className="flex h-full w-[22.5rem] flex-col">
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-100 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20" : "hidden"} flex-col justify-start`}
+      >
+        <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
           {LeftNavItems.filter(
             (i) =>
               i.options.isRequiredAuth == false ||
@@ -101,10 +88,10 @@ const SideBar = () => {
             <Link
               href={item.href}
               key={`sideBarItem${index}`}
-              prefetch={false}
-              className={"flex animate-fadeIn"}>
+              className={"flex animate-fadeIn"}
+            >
               <Button
-                className={`flex h-full w-full items-center rounded-none p-2 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white bg-primary-20" : "text-black bg-transparent"}`}
+                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none py-2 px-1 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
                 onClick={(e: MouseEvent) => {
                   if (
                     item.href ===
@@ -112,14 +99,17 @@ const SideBar = () => {
                   ) {
                     e.preventDefault();
                   }
-                  // navStore.setState({
-                  //   leftPath: item.href,
-                  // });
+                  if (previousPathname.current !== pathname) {
+                    loadingStore.startLoading();
+                  }
                   setIsNavbarOpen(false);
                   setActiveMenu(item.href.split("?")[0]);
                 }}
-                disabled={item.options.isRequiredAuth && !userStore.id}>
-                <div className="flex h-8 w-8 items-center justify-start">
+                disabled={item.options.isRequiredAuth && !userStore.id}
+              >
+                <div
+                  className={`h-16 w-16 default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] && "animate-updown"}`}
+                >
                   <Image
                     src={item.icon}
                     alt={item.label}
@@ -127,13 +117,17 @@ const SideBar = () => {
                     height={24}
                   />
                 </div>
-                <span className="ml-2">{item.label}</span>
+                <div
+                  className={`text-xs font-cookieRunRegular default-flex py-1 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white-40 default-outline px-2 bg-primary-80" : "text-black-100"}`}
+                >
+                  {item.label}
+                </div>
               </Button>
             </Link>
           ))}
           {userStore.id > 0 && (
-            <div className="absolute bottom-0 h-[5rem] w-full bg-gray-20">
-              <MusicPlayer isNavbarOpen={isNavbarOpen} />
+            <div className="absolute bottom-0 h-[5rem] w-[22.5rem] bg-gray-20">
+              <MusicPlayer />
             </div>
           )}
         </nav>

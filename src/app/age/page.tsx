@@ -1,9 +1,9 @@
-import UseDragAndDropBlogTestComponent from "@component/common/test/UseDragAndDropBlogTestComponent";
+// import UseDragAndDropBlogTestComponent from "@component/common/test/UseDragAndDropBlogTestComponent";
 
 export default async function page() {
   return (
     <div>
-      <UseDragAndDropBlogTestComponent />
+      {/* <UseDragAndDropBlogTestComponent /> */}
     </div>
   );
 }

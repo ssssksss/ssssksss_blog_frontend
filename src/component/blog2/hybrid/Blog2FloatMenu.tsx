@@ -6,6 +6,7 @@ import {
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useLoadingStore from "@store/loadingStore";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -17,6 +18,7 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
   const userStore = useUserStore();
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname(); // 현재 경로 가져오기
+  const loadingStore = useLoadingStore();
 
   useEffect(() => {
     const keyDownEventFunc = (e: KeyboardEvent) => {
@@ -50,6 +52,7 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
           <Link
             href={"/blog2/create"}
             className="flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
+            onClick={() => loadingStore.startLoading()}
           >
             <FontAwesomeIcon icon={faEdit} width={44} height={44} />
           </Link>

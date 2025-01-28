@@ -9,7 +9,7 @@ import { scheduleSort } from "@utils/function/scheduleSort";
 import { PlanCreateScheduleYup } from "@utils/validation/PlanScheduleYup";
 import { addHours, format, isSameDay, parse } from "date-fns";
 import { ko } from "date-fns/locale";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // 기본 스타일

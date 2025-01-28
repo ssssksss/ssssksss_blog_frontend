@@ -311,7 +311,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   return (
     <ModalTemplate
-      className={"h-[calc(100vh-1rem)] w-[80vw] min-w-[22.5rem] bg-gradient"}
+      className={"h-[calc(100vh-1rem)] w-[80vw] max-h-[60rem] min-w-[22.5rem] bg-gradient"}
     >
       {props.closeButtonComponent}
       <div className="relative z-0 flex h-full w-full justify-end gap-2">
@@ -325,7 +325,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
           </div>
         </div>
         <div className="z-50 flex h-[100%-8.5rem] max-h-[100%-8rem] w-full max-w-[37.5rem] flex-col p-2">
-          <div className={"flex min-h-[3.75rem] w-full"}>
+          {/* z-50을 지우게 되면 플레이리스트가 삭제되는 문제가 발생 */}
+          <div className={"flex min-h-[3.75rem] w-full z-50"}>
             <input
               ref={inputRef}
               placeholder={
@@ -355,7 +356,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0 -z-10") : "h-[4rem]"}`}
                 onClick={() => handlePlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
@@ -392,7 +393,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                     ?.youtubeList.map((i, index) => (
                       <li
                         key={index}
-                        className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-100/90"}`}
+                        className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out hover:bg-primary-60 ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-100/90"}`}
                         onClick={() => handlePlayItemClick(i)}
                       >
                         <div className={"aspect-square h-full default-flex"}>
@@ -490,6 +491,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                   playerStore.setPlayer({
                     youtubePlay: !playerStore.youtubePlay,
                   });
+                  window.localStorage.setItem(
+                    "isPlay",
+                    !playerStore.youtubePlay ? "true" : "false",
+                  );
                 }}
               >
                 {playerStore.youtubePlay ? (

@@ -17,52 +17,46 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
   const blog2Store = useBlog2Store();
 
   useEffect(() => {
-    if (blog2Store.activeBlog2SecondCategoryId) {
-      const fetchBlogList = async () => {
-        loadingState.startLoading();
-        try {
-          const url = new URL(window.location.href);
-          const response = await fetch(`/api/blog2/list${url.search}`, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          if (!response.ok) {
-            throw new Error("Failed to fetch blog list");
-          }
-          const result: responseBlog2List = await response.json();
-          const secondCategoryId = blog2Store.activeBlog2SecondCategoryId;
-          if (!isNaN(secondCategoryId)) {
+    try {
+      if (blog2Store.activeBlog2SecondCategoryId) {
+        const fetchBlogList = async () => {
+          loadingState.startLoading();
+          try {
+            const url = new URL(window.location.href);
+            const response = await fetch(`/api/blog2/list${url.search}`, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            if (!response.ok) {
+              throw new Error("Failed to fetch blog list");
+            }
+            const result: responseBlog2List = await response.json();
+            const secondCategoryId = blog2Store.activeBlog2SecondCategoryId;
+            if (!isNaN(secondCategoryId)) {
+              blog2Store.setBlog2List({
+                id: secondCategoryId,
+                list: result.data,
+              });
+            }
+          } catch {
             blog2Store.setBlog2List({
-              id: secondCategoryId,
-              list: result.data,
+              id: 0,
+              list: [],
             });
           }
-        } catch {
-          blog2Store.setBlog2List({
-            id: 0,
-            list: [],
-          });
-        } finally {
-          setTimeout(() => {
-            loadingState.stopLoading();
-          }, 100);
-        }
-      };
-      fetchBlogList();
-    } else {
-      blog2Store.setBlog2List({
-        id: 0,
-        list: [],
-      });
+        };
+        fetchBlogList();
+      } else {
+        blog2Store.setBlog2List({
+          id: 0,
+          list: [],
+        });
+      }
+    } finally {
+      loadingState.stopLoading();
     }
   }, [blog2Store.activeBlog2SecondCategoryId]);
-
-  useEffect(() => {
-    return () => {
-      loadingState.stopLoading();
-    };
-  }, []);
 
   return (
     <div className="mt-[.5rem] pb-[.5rem] flex w-full flex-col">

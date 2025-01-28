@@ -1,8 +1,6 @@
 "use client";
 
 import Button from "@component/common/button/hybrid/Button";
-import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -10,6 +8,20 @@ import { useState } from "react";
 const PlanScheduleMonthBox = dynamic(() => import("./PlanScheduleMonthBox"), {
   ssr: false,
 });
+
+const LottieAuthLock = dynamic(
+  () => import("@component/common/lottie/LottieAuthLock"),
+  {
+    ssr: false,
+  },
+);
+
+const LoadingSpinner = dynamic(
+  () => import("@component/common/spinner/LoadingSpinner"),
+  {
+    ssr: false,
+  },
+);
 
 interface IPlanScheduleMainBox {}
 const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {

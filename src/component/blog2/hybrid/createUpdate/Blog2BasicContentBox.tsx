@@ -2,7 +2,6 @@ import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useToggleState from "@hooks/useToggle";
 import { EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
 import Blog2BasicContentItem from "./Blog2BasicContentItem";
@@ -10,48 +9,35 @@ import Blog2BasicCreateUpdateContentModal from "./Blog2BasicCreateUpdateContentM
 import Blog2BasicSearchContentModal from "./Blog2BasicSearchContentModal";
 
 interface IBlog2BasicContentBox {
-  isEdit?: boolean;
+  addBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  updateBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  removeBlog2Content: (
+      type: "basic" | "structure",
+      id: number
+  ) => void;
 }
 const Blog2BasicContentBox = (props: IBlog2BasicContentBox) => {
   
   const blog2FormContext = useFormContext();
-  const toggleState = useToggleState();
 
   const addBlog2BasicContent = (data: IBlog2BasicContent) => {
-    
-    // 생성
-    blog2FormContext.setValue("blog2BasicList", [...blog2FormContext.getValues("blog2BasicList"), {
-      id: 0,
-      position: 0,
-      blog2BasicContent: data
-    }]);
-    blog2FormContext.setValue("isUpdateBlog2Basic", true);
-    toggleState.toggleHide();
+    props.addBlog2Content(data, "basic");  //   // 생성
   };
 
   const removeBlog2BasicContent = (id: number) => {
-    const temp = (blog2FormContext.getValues("blog2BasicList") as IBlog2Basic[]).filter((i) => i.blog2BasicContent.id != id);  
-    blog2FormContext.setValue("blog2BasicList", [...temp]);
-    if (props.isEdit) {
-      blog2FormContext.setValue("isUpdateBlog2Basic", true);
-      blog2FormContext.setValue("deleteBlog2BasicList", [...blog2FormContext.getValues("deleteBlog2BasicList"), id]);
-    }
-    toggleState.toggleHide();
+    props.removeBlog2Content(
+      "basic", id
+    );
   };
 
   const updateBlog2BasicContent = (data: IBlog2BasicContent) => {
-      
-    // id값이 일치하는 부분만 덜어낸다.
-    const updatedList = blog2FormContext
-      .getValues("blog2BasicList")  // 기존 리스트 가져오기
-      .map((item: IBlog2Basic) => 
-        item.blog2BasicContent.id == data.id  // id가 일치하는 항목 찾기
-          ? { ...item, blog2BasicContent: data }  // 일치하면 해당 항목 업데이트
-          : item  // 일치하지 않으면 기존 항목 유지
-      );
-    // 수정된 리스트를 다시 설정
-    blog2FormContext.setValue("blog2BasicList", updatedList);
-    toggleState.toggleHide();
+    props.updateBlog2Content(data, "basic");
   };
 
   return (

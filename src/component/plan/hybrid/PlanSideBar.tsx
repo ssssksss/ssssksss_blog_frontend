@@ -1,15 +1,15 @@
 "use client";
 
 import Button from "@component/common/button/hybrid/Button";
-import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import useLoading from "@hooks/useLoading";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useToggleState from "@hooks/useToggle";
+import useLoadingStore from "@store/loadingStore";
 import useUserStore from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface IPlanSideBar {}
 
@@ -31,9 +31,9 @@ const LeftNavItems = [
 const PlanSideBar = (props: IPlanSideBar) => {
   const toggleState = useToggleState();
   const userStore = useUserStore();
+  const loadingStore = useLoadingStore();
   const [activeMenu, setActiveMenu] = useState("");
   const searchParams = useSearchParams();
-  const {loading, startLoading, stopLoading} = useLoading();
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 현재 경로를 가져와서 상태에 저장
@@ -64,6 +64,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
               if (item.href == activeMenu) {
                 e.preventDefault();
               }
+              loadingStore.startLoading();
               setActiveMenu(item.href);
             }}
             disabled={item.options.isRequiredAuth && !userStore.id}>

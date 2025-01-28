@@ -9,7 +9,6 @@ import usePlayerStore from "src/store/playerStore";
 import YoutubePlayerModal from "./YoutubePlayerModal";
 
 interface IMusicPlayerProps {
-  isNavbarOpen: boolean;
 }
 
 const MusicPlayer = (props: IMusicPlayerProps) => {
@@ -21,7 +20,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     played: 0,
   });
 
-  const handleProgress = (state: {playedSeconds: number; played: number}) => {
+  const handleProgress = (state: { playedSeconds: number; played: number }) => {
     setPlayTime({
       playedSeconds: state.playedSeconds,
       played: state.played,
@@ -93,7 +92,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   };
 
   return (
-    <section className="grid w-full grid-rows-[3rem_2rem]">
+    <section className="grid w-full grid-rows-[3rem_2rem] gap-y-[0.25rem] px-[0.125rem]">
       {/* 플레이 바가 보이는 UI */}
       <button
         className={
@@ -103,8 +102,13 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
           playerStore.setPlayer({
             youtubePlay: !playerStore.youtubePlay,
           });
+          window.localStorage.setItem(
+            "isPlay",
+            !playerStore.youtubePlay ? "true" : "false",
+          );
         }}
-        disabled={!playerStore.currentYoutube.id}>
+        disabled={!playerStore.currentYoutube.id}
+      >
         <div className="h-full default-outline default-flex">
           {playerStore.youtubePlay ? (
             <FontAwesomeIcon icon={faPause} />
@@ -125,10 +129,13 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
                 ? playerStore.currentYoutube.youtubeUrl
                 : "https://www.youtube.com/watch?v=eyyAUFxlnGg"
             }
+            muted={playerStore.isMuted}
             ref={playerRef}
             playing={playerStore.youtubePlay}
             onProgress={handleProgress}
+            onReady={() => {}}
             onError={() => {
+              console.log("MusicPlayer.tsx 파일 : error1");
               ReactPlayerError();
             }}
             onEnded={() => ReactPlayerEnded()}
@@ -160,7 +167,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="h-full w-full bg-red-20 bg-transparent focus:outline-none disabled:bg-gray-40"
+            className="h-full w-[calc(100%-2.5rem)] bg-red-20 bg-transparent focus:outline-none disabled:bg-gray-40"
             disabled={!playerStore.currentYoutube.id}
           />
         </div>
@@ -168,9 +175,10 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
         buttonClassName={
-          "min-h-[2rem] w-full overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl bg-white-80"
+          "min-h-[2rem] w-[calc(100%-2.5rem)] overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl bg-white-80"
         }
-        modal={<YoutubePlayerModal />}>
+        modal={<YoutubePlayerModal />}
+      >
         <div className="pl-full animate-marquee whitespace-nowrap px-1 hover:animate-none">
           {playerStore.currentYoutube.title || "아무런 노래가 없습니다."}
         </div>
