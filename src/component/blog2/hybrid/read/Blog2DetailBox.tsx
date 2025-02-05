@@ -73,6 +73,41 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   };
 
   useEffect(() => {
+    const preElements = document.querySelectorAll(".click-to-copy");
+
+    preElements.forEach((pre) => {
+      const button = pre.querySelector("button"); // 버튼 요소를 명확히 선택
+      if (button) {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 방지
+          const code = pre.querySelector("code");
+          if (code) {
+            const textToCopy = code.textContent || "";
+            navigator.clipboard
+              .writeText(textToCopy)
+              .then(() => {
+                // alert("코드가 복사되었습니다!");
+                toastifyStore.setToastify({
+                  type: "success",
+                  message: "코드가 복사되었습니다."
+                });
+              })
+              .catch((err) => {
+                console.error("복사 실패:", err);
+              });
+          }
+        });
+      }
+    });
+
+    return () => {
+      preElements.forEach((pre) => {
+        pre.removeEventListener("click", () => {});
+      });
+    };
+  }, []);
+
+  useEffect(() => {
     blog2Store.setBlog2ActiveFirstCategoryId(props.data.blog2.firstCategoryId);
     blog2Store.setBlog2ActiveSecondCategoryId(props.data.blog2SecondCategory.id);
     const url = new URL(window.location.href);
