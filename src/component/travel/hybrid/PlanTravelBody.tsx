@@ -57,7 +57,7 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
         <Input
           ref={keywordRef}
           onChange={(e) => setKeyword(e.target.value)}
-          className="h-full w-full default-outline"
+          className="h-full w-full default-primary-outline"
           placeholder="키워드를 입력해주세요"
         />
         <button
@@ -68,7 +68,7 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
         </button>
       </div>
 
-      <ul className={"grid w-full flex-grow grid-cols-2 p-4 default-outline"}>
+      <ul className={"grid w-full flex-grow grid-cols-2 p-4 default-primary-outline"}>
         {data.map((i, index) => (
           <li
             key={i.contentid}
@@ -78,7 +78,7 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
               <h2 className="mb-4 text-xl font-bold">
                 {i?.title}
                 <Button
-                  className="default-outline"
+                  className="default-primary-outline"
                   onClick={() => setList([...list, i])}
                 >
                   추가

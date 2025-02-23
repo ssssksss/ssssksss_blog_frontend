@@ -2,9 +2,9 @@
 
 import Input from "@component/common/input/Input";
 import useToastifyStore from "@store/toastifyStore";
-import {SquareArrowLeft} from "lucide-react";
-import {useRouter} from "next/navigation";
-import {useEffect, useRef} from "react";
+import { SquareArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 interface IBoardCreateUpdateContainer {
   isEdit?: boolean;
@@ -90,24 +90,24 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
           <button
             onClick={() => createUpdateBoardHandler()}
-            className="h-full px-4 py-2 default-outline hover:bg-primary-80 hover:text-white-80">
+            className="h-full px-4 py-2 default-primary-outline hover:bg-primary-80 hover:text-white-80">
             {props.isEdit ? "수정 완료" : "등록 하기"}
           </button>
         </div>
         <button
           onClick={() => router.push("/board")}
-          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 default-outline hover:bg-primary-80 hover:text-white-80">
+          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 default-primary-outline hover:bg-primary-80 hover:text-white-80">
           <SquareArrowLeft />
         </button>
       </div>
       <Input
-        className="max-h-[4rem] w-full p-4 default-outline"
+        className="max-h-[4rem] w-full p-4 default-primary-outline"
         placeholder="제목을 입력하세요"
         ref={titleRef}
         defaultValue={props.result?.data.title || ""}
       />
       <textarea
-        className="h-full w-full flex-grow p-4 default-outline"
+        className="h-full w-full flex-grow p-4 default-primary-outline"
         placeholder="내용을 입력하세요"
         ref={contentRef}
         defaultValue={props.result?.data.content || ""}

@@ -1,15 +1,15 @@
 "use client";
 
 import Button from "@component/common/button/hybrid/Button";
-import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoading from "@hooks/useLoading";
 import useToggleState from "@hooks/useToggle";
 import useUserStore from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface ITravelSideBar {}
 
@@ -45,7 +45,7 @@ const TravelSideBar = (props: ITravelSideBar) => {
     <div
       className={`z-20 flex w-auto outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:top-[3.5rem] sm:h-[calc(100%-3.5rem)] sm:flex-col sm:py-2 sm:pt-10 ${toggleState.isHide ? "bg-white-100 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}>
       <button
-        className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-white-80 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} default-outline focus:default-outline`}
+        className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-white-80 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} default-primary-outline focus:default-primary-outline`}
         onClick={() => toggleState.toggleHide()}>
         <FontAwesomeIcon
           icon={faPlay}

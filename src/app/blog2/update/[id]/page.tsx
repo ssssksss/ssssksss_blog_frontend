@@ -1,4 +1,5 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
+import { fetchSSRWithAuthAndErrorProcess } from "@hooks/useFetchSSRHandler";
 import { cookies } from "next/headers";
 import Template from "../../template";
 
@@ -16,22 +17,13 @@ export async function generateMetadata({ params: { id } }: {params: { id: string
 
 async function getData(id: number) {
   const accessToken = cookies().get("accessToken");
-  // TODO: 쿠키가 만료된 경우 처리가 필요하다.
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/blog2/${id}?isEdit=true`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken?.value}`,
-      },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error();
-  }
-
+  const refreshToken = cookies().get("refreshToken");
+  const response = await fetchSSRWithAuthAndErrorProcess({
+    url: `${process.env.BACKEND_URL}/api/blog2/${id}?isEdit=true`,
+    method: "GET",
+    accessToken: accessToken?.value || "",
+    refreshToken: refreshToken?.value || "",
+  });
   return response.json() as Promise<any>;
 }
 

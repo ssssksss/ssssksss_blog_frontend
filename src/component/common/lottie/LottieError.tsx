@@ -19,7 +19,7 @@ const LottieError = (props: ILottieError) => {
         {props.text}
       </p>
       <button
-        className="p-2 default-outline"
+        className="p-2 default-primary-outline"
         onClick={() => {
           window.location.reload();
         }}>

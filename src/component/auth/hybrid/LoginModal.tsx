@@ -76,13 +76,13 @@ const LoginModal = (props: ILoginModal) => {
 
   return (
     <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base">
-      <header className="flex flex-col gap-2 self-stretch rounded-lg p-2">
+      <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">로그인</span>
       </header>
       <div className={"flex flex-col gap-6 pb-4"}>
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"email"}
           placeholder="이메일"
@@ -92,7 +92,7 @@ const LoginModal = (props: ILoginModal) => {
         />
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"password"}
           placeholder="패스워드"
@@ -106,7 +106,7 @@ const LoginModal = (props: ILoginModal) => {
           <span>아이디가 없으시다면?</span>
           <Button
             onClickCapture={() => props.changeAuthScreen()}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
           >
             회원가입
           </Button>

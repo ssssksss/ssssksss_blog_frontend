@@ -1,7 +1,7 @@
-import "@styles/global.css";
-import type {Metadata} from "next";
-import {Suspense} from "react";
+import type { Metadata } from "next";
+import { Suspense } from "react";
 import Header from "src/component/common/layout/hybrid/Header";
+import "./global.css";
 
 export const metadata: Metadata = {
   title: "가출한토토로의 사이트",
@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{children: React.ReactNode}>) {
-  // const { theme } = useTheme();
 
   return (
     <html lang="ko" className="">
@@ -50,7 +49,9 @@ export default function RootLayout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </head>
-      <body className={"flex min-h-full w-full flex-col items-center"}>
+      <body
+        className={"flex min-h-full w-full flex-col items-center"}
+      >
         <Suspense fallback={<div>Loading...</div>}>
           <Header />
         </Suspense>

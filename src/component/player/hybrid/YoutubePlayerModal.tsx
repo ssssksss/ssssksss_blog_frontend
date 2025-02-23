@@ -537,7 +537,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == null && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
                     }
                   >
                     X
@@ -546,7 +546,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == "one" && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
                     }
                   >
                     1
@@ -555,7 +555,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == "all" && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
                     }
                   >
                     all

@@ -98,7 +98,7 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
             <div className="absolute right-0 top-0 flex h-[2rem] w-[4rem] gap-x-2">
               <NestedModalButton
                 buttonClassName={
-                  "w-full default-flex relative default-outline hover:scale-[120%]"
+                  "w-full default-flex relative default-primary-outline hover:scale-[120%]"
                 }
                 modal={<PlanUpdateScheduleModal data={data} />}>
                 <Image
@@ -110,7 +110,7 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
               </NestedModalButton>
               <button
                 className={
-                  "relative w-full default-outline default-flex hover:scale-[120%]"
+                  "relative w-full default-primary-outline default-flex hover:scale-[120%]"
                 }
                 disabled={loading}
                 onClick={() => deleteScheduleCalendar()}>

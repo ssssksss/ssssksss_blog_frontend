@@ -20,7 +20,7 @@ const BlogDetailBox = (props: IBlogDetailBox) => {
       <div className="grid w-full grid-cols-[3.5rem_calc(100%-7rem)_3.5rem] items-center pb-2">
         <Button
           className={
-            "aspect-square min-h-[3rem] bg-primary-20 p-2 default-outline default-flex"
+            "aspect-square min-h-[3rem] bg-primary-20 p-2 default-primary-outline default-flex"
           }
           onClick={() => router.back()}
         >
@@ -37,7 +37,7 @@ const BlogDetailBox = (props: IBlogDetailBox) => {
         {userStore.role == "ROLE_ADMIN" && (
           <Button
             className={
-              "aspect-square min-h-[3rem] bg-primary-20 p-2 font-bold default-outline default-flex"
+              "aspect-square min-h-[3rem] bg-primary-20 p-2 font-bold default-primary-outline default-flex"
             }
             onClick={() => router.push(`/blog/update/${props.data.id}`)}
           >

@@ -127,7 +127,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
         <Button
           className={
-            "aspect-square h-[2rem] bg-primary-20 default-outline default-flex"
+            "aspect-square h-[2rem] bg-primary-20 default-primary-outline default-flex"
           }
           onClick={() =>
             router.push(
@@ -148,7 +148,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           <div className={"flex gap-x-2"}>
             <Button
               className={
-                "aspect-square h-[2rem] bg-primary-20 font-bold default-outline default-flex"
+                "aspect-square h-[2rem] bg-primary-20 font-bold default-primary-outline default-flex"
               }
               onClick={() => {
                 startLoading();
@@ -164,7 +164,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
             </Button>
             <ModalButton
               buttonClassName={
-                "aspect-square h-[2rem] bg-primary-20 font-bold default-outline default-flex"
+                "aspect-square h-[2rem] bg-primary-20 font-bold default-primary-outline default-flex"
               }
               modal={
                 <ConfirmModal
@@ -190,7 +190,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       </div>
       <div
         className={
-          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 default-outline"
+          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 default-primary-outline"
         }
       >
         {props.data.blog2BasicList.length > 0 && (
@@ -236,7 +236,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           </div>
         )}
       </div>
-      <div className={"flex h-auto w-full p-1 default-outline"}>
+      <div className={"flex h-auto w-full p-1 default-primary-outline"}>
         {menu == "기초" && (
           <Blog2BasicContentViewBox data={props.data.blog2BasicList} />
         )}

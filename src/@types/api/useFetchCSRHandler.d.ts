@@ -1,8 +1,8 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 declare interface IFetchCSRProps {
-  accessToken?: RequestCookie | undefined;
-  refreshToken?: RequestCookie | undefined;
+  accessToken?: RequestCookie | string | undefined;
+  refreshToken?: RequestCookie | string | undefined;
   url: string;
   method?: string;
   cache?: RequestCache;

@@ -6,12 +6,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
+import { handleResponseError } from "@utils/error/handleResponseError";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
 import { useEffect, useState } from "react";
 import {
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm
+    SubmitErrorHandler,
+    SubmitHandler,
+    useForm
 } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
@@ -118,6 +119,9 @@ const Blog2BasicCreateUpdateContentModal = (
         message: props.edit ? "수정 실패" : "생성 실패",
       };
     }
+    
+    handleResponseError(response);
+
     if (props.edit) {
       // 블로그 기초 수정 성공시
       const result: responseCreateUpdateBlog2BasicContent =
@@ -214,7 +218,7 @@ const Blog2BasicCreateUpdateContentModal = (
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-outline">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-primary-outline">
           <Dropdown
             options={blog2Store.categoryList.map((i) => {
               return {

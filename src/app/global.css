@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-}
 
 /* Global CSS Reset */
 
@@ -182,3 +180,4 @@ legend {
     font-weight: normal;
     font-style: normal;
 }
+

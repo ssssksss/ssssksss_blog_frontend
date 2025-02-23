@@ -2,10 +2,10 @@
 
 import Dropdown from "@component/common/dropdown/Dropdown";
 import Pagination from "@component/common/pagination/Pagination";
-import {format} from "date-fns";
+import { format } from "date-fns";
 import Link from "next/link";
-import {useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useRef, useState} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const sortData = [
   {
@@ -99,7 +99,7 @@ const BoardMain = (props: IBoardMain) => {
           <h1 className="text-2xl default-flex"> 게시판 </h1>
           <button
             onClick={() => router.push("board/create")}
-            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 default-outline">
+            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 default-primary-outline">
             생성하기
           </button>
         </div>
@@ -107,12 +107,12 @@ const BoardMain = (props: IBoardMain) => {
           <input
             type="search"
             placeholder={"검색어를 입력해주세요."}
-            className="h-[2.5rem] w-full px-2 py-1 text-sm default-outline"
+            className="h-[2.5rem] w-full px-2 py-1 text-sm default-primary-outline"
             ref={inputRef}
             maxLength={30}
           />
           <button
-            className="h-[2.5rem] w-[4rem] p-1 text-sm default-outline"
+            className="h-[2.5rem] w-[4rem] p-1 text-sm default-primary-outline"
             onClick={() => searchHandler()}>
             검색
           </button>
@@ -127,13 +127,13 @@ const BoardMain = (props: IBoardMain) => {
         <div className="flex h-[3.5rem] w-full items-center gap-x-2 pb-1">
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 결과 수:
-            <div className="h-full min-w-[4rem] p-1 default-outline default-flex">
+            <div className="h-full min-w-[4rem] p-1 default-primary-outline default-flex">
               {resultCount}
             </div>
           </div>
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 키워드 :
-            <div className="h-full min-w-[8rem] p-1 default-outline default-flex">
+            <div className="h-full min-w-[8rem] p-1 default-primary-outline default-flex">
               {keyword || ""}
             </div>
           </div>
@@ -142,7 +142,7 @@ const BoardMain = (props: IBoardMain) => {
       <div className={"flex-grow"}>
         <ul
           className={
-            "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 default-outline"
+            "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 default-primary-outline"
           }>
           <div className="mb-[.5rem] grid w-full grid-cols-[3rem_auto_6rem_6rem] gap-x-1 border-b-2 p-2 text-[20px]">
             <div className="font-bold text-primary-80 default-flex"> 번호 </div>
@@ -155,7 +155,7 @@ const BoardMain = (props: IBoardMain) => {
               href={`board/${i.id}`}
               key={i.id}
               className="grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto_6rem_6rem] items-center gap-x-1 gap-y-1 rounded-md px-2 hover:bg-primary-20">
-              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-outline default-flex">
+              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-primary-outline default-flex">
                 {i.id}
               </div>
               <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">

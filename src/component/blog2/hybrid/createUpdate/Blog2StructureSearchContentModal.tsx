@@ -6,9 +6,9 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import "@styles/customEditor.css";
 import {
-  EditorLiStyle,
-  EditorTitleStyle,
-  EditorUlStyle
+    EditorLiStyle,
+    EditorTitleStyle,
+    EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useState } from "react";
@@ -82,7 +82,7 @@ const Blog2StructureSearchContentModal = (
       <div className={"flex w-full gap-x-4 pb-4"}>
         검색어({blog2StructureContentList.length}) : {search}
       </div>
-      <div className="w-full p-2 default-outline">
+      <div className="w-full p-2 default-primary-outline">
         <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2StructureContentList?.map((i) => (
@@ -94,7 +94,7 @@ const Blog2StructureSearchContentModal = (
                   <div className={"absolute right-2 top-2 flex gap-x-2"}>
                     <Button
                       className={
-                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
                       }
                       onClick={() => props.addBlog2StructureContent(i)}
                     >

@@ -175,11 +175,11 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-outline">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-primary-outline">
           <Input
             type={"text"}
             register={blog2ContentFormContext.register("title")}
-            className={"flex h-[3rem] items-center px-2 default-outline"}
+            className={"flex h-[3rem] items-center px-2 default-primary-outline"}
             placeholder="제목 입력"
           />
         </div>

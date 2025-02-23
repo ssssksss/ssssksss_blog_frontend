@@ -4,9 +4,9 @@ import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import "@styles/customEditor.css";
 import {
-  EditorLiStyle,
-  EditorTitleStyle,
-  EditorUlStyle
+    EditorLiStyle,
+    EditorTitleStyle,
+    EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useRef, useState } from "react";
@@ -88,7 +88,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
       <div className={"flex w-full gap-x-4 pb-4"}>
           검색어({blog2BasicContentList.length}) : {search}
       </div>
-      <div className="w-full p-2 default-outline">
+      <div className="w-full p-2 default-primary-outline">
         <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2BasicContentList?.map((i) => (
@@ -101,7 +101,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                   <div className={"absolute right-2 top-2 flex gap-x-2"}>
                     <Button
                       className={
-                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
                       }
                       onClick={() => deleteBlog2BasicContentHandler(i.id)}
                     >
@@ -109,13 +109,13 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                     </Button>
                     <Button
                       className={
-                        "p-2 opacity-40 default-outline hover:bg-primary-20 hover:opacity-100"
+                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
                       }
                       onClick={() => props.addBlog2BasicContent(i)}
                     >
                       선택
                     </Button>
-                    {/* <Button className={"p-2 default-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
+                    {/* <Button className={"p-2 default-primary-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
                   </div>
                 </div>
                 <h2

@@ -82,13 +82,13 @@ const SignupModal = (props: ISignupModal) => {
 
   return (
     <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base">
-      <header className="flex flex-col gap-2 self-stretch rounded-lg p-2">
+      <header className="flex flex-col gap-2 self-stretch p-2">
         <span className="text-3xl">회원가입</span>
       </header>
       <div className="flex flex-col gap-6 pb-4">
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"email"}
           placeholder="이메일"
@@ -98,7 +98,7 @@ const SignupModal = (props: ISignupModal) => {
         />
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"nickname"}
           placeholder="닉네임"
@@ -108,7 +108,7 @@ const SignupModal = (props: ISignupModal) => {
         />
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"password"}
           placeholder="비밀번호"
@@ -118,7 +118,7 @@ const SignupModal = (props: ISignupModal) => {
         />
         <Input
           className={
-            "bg-gray-20 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
+            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
           }
           type={"passwordConfirm"}
           placeholder="비밀번호 확인"
@@ -132,43 +132,49 @@ const SignupModal = (props: ISignupModal) => {
           <span>아이디가 있다면?</span>
           <Button
             onClickCapture={props.changeAuthScreen}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
           >
             로그인
           </Button>
         </div>
         <div className="flex items-center justify-center gap-2">
           <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            w={"2.5rem"}
+            h={"2.5rem"}
             onClick={() => oauthLogin("kakao")}
           >
             <Image
               alt={""}
               src={"/images/logo/brand/ic-kakao.svg"}
-              width={40}
-              height={40}
+              width={36}
+              height={36}
             />
           </Button>
           <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            w={"2.5rem"}
+            h={"2.5rem"}
             onClick={() => oauthLogin("google")}
           >
             <Image
               alt={""}
               src={"/images/logo/brand/ic-google.svg"}
-              width={40}
-              height={40}
+              width={36}
+              height={36}
             />
           </Button>
           <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            w={"2.5rem"}
+            h={"2.5rem"}
             onClick={() => oauthLogin("naver")}
           >
             <Image
               alt={""}
               src={"/images/logo/brand/ic-naver.svg"}
-              width={40}
-              height={40}
+              width={36}
+              height={36}
             />
           </Button>
         </div>

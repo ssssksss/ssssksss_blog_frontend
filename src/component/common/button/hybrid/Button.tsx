@@ -65,7 +65,7 @@ const Button = ({
         minWidth: props.minW,
         minHeight: props.minH,
         width: props.w,
-        height: props.h,
+        height: props.h || props.w,
       }}
     >
       {children}

@@ -12,7 +12,6 @@ import Blog2BasicCreateUpdateContentModal from "./Blog2BasicCreateUpdateContentM
 
 interface IBlog2BasicContentItem {
     data: IBlog2Basic;
-    key: string | number;
     removeBlog2BasicContent: (id: number) => void;
     updateBlog2BasicContent: (data: IBlog2BasicContent) => void;
 }
@@ -23,7 +22,6 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
 
   return (
     <li
-      key={props.key}
       className={EditorLiStyle}
     >
       <h2 className={EditorTitleStyle}  id={props.data.blog2BasicContent.title.replace(/\s+/g, "-").toLowerCase()}>

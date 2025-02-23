@@ -1,12 +1,12 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useDragAndDropBlob} from "@hooks/useDragAndDropBlob";
-import {Blog2SecondCategoryCreateYup} from "@utils/validation/BlogCategoryYup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
+import { Blog2SecondCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
 import Image from "next/image";
-import {useSearchParams} from "next/navigation";
-import {useState} from "react";
-import {useForm} from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
 
@@ -77,7 +77,7 @@ const Blog2SecondCategoryCreateForm = (
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
-        className={"flex h-[3rem] items-center justify-center default-outline"}>
+        className={"flex h-[3rem] items-center justify-center default-primary-outline"}>
         {blog2Store.categoryList.map(
           (el) =>
             el.id == Number(searchParams.get("firstCategoryId")) && el.name,
@@ -89,7 +89,7 @@ const Blog2SecondCategoryCreateForm = (
         className="min-h-[3rem]"
       />
       <label
-        className={"relative h-[16rem] w-full cursor-pointer default-outline"}
+        className={"relative h-[16rem] w-full cursor-pointer default-primary-outline"}
         htmlFor={"imageUpload"}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
@@ -115,7 +115,7 @@ const Blog2SecondCategoryCreateForm = (
         onClick={handleSubmit(createSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] default-outline hover:bg-primary-20 disabled:bg-gray-60"
+          "h-[3rem] default-primary-outline hover:bg-primary-20 disabled:bg-gray-60"
         }>
         추가
       </Button>

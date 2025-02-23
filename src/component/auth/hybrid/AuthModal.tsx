@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, { useCallback, useState } from "react";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 /**
@@ -17,7 +17,7 @@ const AuthModal = (props: IModalComponent) => {
   return (
     <div
       className={
-        "bg-white relative h-full max-h-[28rem] w-[20rem] overflow-scroll rounded-b-2xl bg-white-100 scrollbar-hide"
+        "bg-white relative h-full max-h-[28rem] w-[20rem] overflow-scroll rounded-2xl bg-default-1 scrollbar-hide"
       }>
       {isLogin ? (
         <LoginModal

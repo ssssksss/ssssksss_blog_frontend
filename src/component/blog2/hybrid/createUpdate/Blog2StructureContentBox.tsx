@@ -3,8 +3,8 @@ import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagni
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  EditorLiStyle,
-  EditorUlStyle
+    EditorLiStyle,
+    EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
@@ -39,10 +39,10 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
 
   return (
     <div className={"relative flex w-full flex-col rounded-[1rem] p-0"}>
-      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 default-outline hover:opacity-100">
+      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 default-primary-outline hover:opacity-100">
         <ModalButton
           buttonClassName={
-            "default-outline px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "default-primary-outline px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
           }
           modal={
             <Blog2StructureContentCreateUpdateModal
@@ -58,7 +58,7 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
         </ModalButton>
         <ModalButton
           buttonClassName={
-            "default-outline px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "default-primary-outline px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
           }
           modal={
             <Blog2StructureSearchContentModal

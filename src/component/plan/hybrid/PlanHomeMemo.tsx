@@ -2,8 +2,8 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import useMemoStore from "@store/memoStore";
 import useToastifyStore from "@store/toastifyStore";
-import {ArrowDownLeft, DiamondPlus} from "lucide-react";
-import {useEffect, useState} from "react";
+import { ArrowDownLeft, DiamondPlus } from "lucide-react";
+import { useEffect, useState } from "react";
 import PlanMemoTextarea from "./PlanMemoTextarea";
 
 interface IPlanHomeMemmo {
@@ -72,7 +72,7 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
       <div
         className={`z-50 ${isHideAddMemo ? "hidden h-0 w-0" : "fixed h-[calc(100%-3.5rem)] w-[calc(100%-0.5rem)]"}`}>
         <div
-          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-full bg-white-100 p-2 shadow-2xl default-outline-nocolor"}`}>
+          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-full bg-white-100 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
           <textarea
             placeholder="새로운 메모작성"
             value={content} // Bind value to content state
@@ -99,7 +99,7 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
           <li
             key={i.id}
             style={{height: props.isActive ? "max(12rem, 25vh)" : "12rem"}}
-            className="min-w-[calc(50%-0.25rem)] overflow-y-scroll p-2 shadow-lg default-outline-nocolor">
+            className="min-w-[calc(50%-0.25rem)] overflow-y-scroll p-2 shadow-lg default-primary-outline-nocolor">
             <PlanMemoTextarea data={i} />
           </li>
         ))}

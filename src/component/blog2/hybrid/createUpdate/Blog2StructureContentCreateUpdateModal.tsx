@@ -8,10 +8,10 @@ import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
 import { useEffect, useState } from "react";
 import {
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm,
-  useFormContext,
+    SubmitErrorHandler,
+    SubmitHandler,
+    useForm,
+    useFormContext,
 } from "react-hook-form";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
@@ -146,13 +146,13 @@ const Blog2StructureContentCreateUpdateModal = (
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-outline">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-primary-outline">
           <div className={"grid w-full grid-cols-2"}>
             <Input
               type={"text"}
               // register={blog2ContentFormContext.register("project")}
               className={
-                "flex h-[3rem] min-h-12 w-full items-center px-2 default-outline"
+                "flex h-[3rem] min-h-12 w-full items-center px-2 default-primary-outline"
               }
               placeholder="프로젝트명 스네이크케이스를 이용해서 표기"
               value={projectName}
@@ -180,7 +180,7 @@ const Blog2StructureContentCreateUpdateModal = (
             type={"text"}
             register={blog2ContentFormContext.register("directory")}
             className={
-              "flex h-[3rem] min-h-12 items-center px-2 default-outline"
+              "flex h-[3rem] min-h-12 items-center px-2 default-primary-outline"
             }
             placeholder="경로의 시작은 /로 시작하지 않습니다. ex) src/..."
           />

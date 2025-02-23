@@ -109,7 +109,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
         }}
         disabled={!playerStore.currentYoutube.id}
       >
-        <div className="h-full default-outline default-flex">
+        <div className="h-full default-primary-outline default-flex">
           {playerStore.youtubePlay ? (
             <FontAwesomeIcon icon={faPause} />
           ) : (

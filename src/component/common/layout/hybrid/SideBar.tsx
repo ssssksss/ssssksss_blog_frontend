@@ -54,6 +54,12 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/board",
     options: {isRequiredAuth: false},
   },
+  {
+    icon: "/images/icons/ic-setting.svg",
+    label: "설정",
+    href: "/setting",
+    options: {isRequiredAuth: false},
+  },
 ];
 
 const SideBar = () => {
@@ -77,7 +83,7 @@ const SideBar = () => {
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
       <div
-        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-100 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20" : "hidden"} flex-col justify-start`}
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-60 dark:bg-black-40 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80" : "hidden"} flex-col justify-start`}
       >
         <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
           {LeftNavItems.filter(
@@ -91,7 +97,7 @@ const SideBar = () => {
               className={"flex animate-fadeIn"}
             >
               <Button
-                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none py-2 px-1 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
+                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none px-1 py-2 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
                 onClick={(e: MouseEvent) => {
                   if (
                     item.href ===
@@ -118,7 +124,7 @@ const SideBar = () => {
                   />
                 </div>
                 <div
-                  className={`text-xs font-cookieRunRegular default-flex py-1 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white-40 default-outline px-2 bg-primary-80" : "text-black-100"}`}
+                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "default-primary-outline bg-primary-80 px-2 text-white-40" : "text-black-100"}`}
                 >
                   {item.label}
                 </div>

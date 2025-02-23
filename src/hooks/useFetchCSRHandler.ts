@@ -2,6 +2,8 @@ import useToastifyStore, { useToastifyStoreType } from "src/store/toastifyStore"
 import useAuthStore, { useUserStoreType } from "src/store/userStore";
 import { IFetchCSRProps } from "../@types/api/useFetchCSRHandler";
 
+
+
 let errorFlag = false;
 // 추가 작업을 위한 고차 함수
 function withPostFetchAction(
@@ -99,3 +101,83 @@ export function useFetchCSRHandler() {
 
   return {fetchCSR, toastifyStore, userStore};
 }
+
+
+// 결과가 제대로 성공했을 경우 타입
+interface ResponseData {
+  status: number;
+  statusText: string;
+  headers: {
+    vary: string;
+    "x-content-type-options": string;
+    "x-xss-protection": string;
+    "cache-control": string;
+    pragma: string;
+    expires: string;
+    "x-frame-options": string;
+    "content-type": string;
+    "transfer-encoding": string;
+    date: string;
+    "keep-alive": string;
+    connection: string;
+  };
+  body: ReadableStream;
+  bodyUsed: boolean;
+  ok: boolean;
+  redirected: boolean;
+  type: string;
+  url: string;
+}
+
+
+export const baseFetchHandler1 = async ({
+  accessToken,
+  refreshToken,
+  url,
+  cache,
+  contentType,
+  next,
+  bodyData,
+  isRefreshNeeded = true,
+  method = "GET",
+  retries = 1,
+  credentials = false,
+  errorStatusCodeAndHandler = {},
+}: IFetchCSRProps): Promise<any> => {
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": contentType || "application/json",
+        ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
+        ...(credentials ? {"Access-Control-Allow-Origin": "*"} : {}),
+      },
+      credentials: credentials ? "include" : "omit",
+      body: bodyData ? JSON.stringify(bodyData) : null,
+      cache: cache || "no-store",
+    });
+    if (response.status === 401 && isRefreshNeeded && retries > 0) {
+      const response1 = await fetch("/api/user/accessToken");
+      const result = await response1.json();
+
+      return await baseFetchHandler1({
+        accessToken: result.data,
+        refreshToken,
+        url,
+        cache,
+        contentType,
+        next,
+        bodyData,
+        isRefreshNeeded,
+        method,
+        retries: retries - 1,
+        credentials: true,
+      });
+    }
+    
+    return response;
+  } catch (error) {
+    errorFlag = true;
+    return error;
+  }
+};

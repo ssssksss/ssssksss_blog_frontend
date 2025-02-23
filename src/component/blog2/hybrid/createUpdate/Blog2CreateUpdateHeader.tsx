@@ -292,7 +292,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         <div className="grid w-full grid-cols-[2.75rem_calc(100%-5.5em)_2.75rem] items-center">
           <Button
             className={
-              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-outline default-flex"
+              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-primary-outline default-flex"
             }
             onClick={() => router.back()}
           >
@@ -310,7 +310,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
           </div>
           <Button
             className={
-              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-outline default-flex"
+              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-primary-outline default-flex"
             }
             onClick={() =>
               loadingWithHandler(() => blog2CreateUpdateSubmitHandler())
@@ -321,7 +321,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         </div>
       </div>
       <Button
-        className={"w-full p-2 default-outline hover:bg-primary-20"}
+        className={"w-full p-2 default-primary-outline hover:bg-primary-20"}
         onClick={() => modalState.openModal()}
       >
         {formContext.getValues("title") ? (
@@ -357,7 +357,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className={
-                "flex items-center p-2 text-[1.5rem] font-bold default-outline"
+                "flex items-center p-2 text-[1.5rem] font-bold default-primary-outline"
               }
               placeholder={"제목"}
             />
@@ -365,13 +365,13 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className={
-                "flex items-center p-2 text-[1.25rem] text-black-40 default-outline"
+                "flex items-center p-2 text-[1.25rem] text-black-40 default-primary-outline"
               }
               placeholder={"설명"}
             />
             <Button
               onClick={() => modalState1.openModal()}
-              className={"flex items-center p-2 default-outline"}
+              className={"flex items-center p-2 default-primary-outline"}
             >
               {firstCategory.name || "1번째 카테고리"}
             </Button>
@@ -379,14 +379,14 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               onClick={() => modalState2.openModal()}
               disabled={firstCategory.id < 1}
               className={
-                "flex items-center p-2 default-outline disabled:bg-gray-40"
+                "flex items-center p-2 default-primary-outline disabled:bg-gray-40"
               }
             >
               {secondCategory.name || "2번째 카테고리"}
             </Button>
             <label
               className={
-                "relative h-[16rem] w-full cursor-pointer default-outline"
+                "relative h-[16rem] w-full cursor-pointer default-primary-outline"
               }
               htmlFor={"imageUpload"}
               // onDragEnter={onDragEnter}
@@ -410,7 +410,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                 onChange={onDropOrInputEvent}
               /> */}
             </label>
-            <div className="flex h-[3rem] default-outline">
+            <div className="flex h-[3rem] default-primary-outline">
               <Button
                 className={`h-full w-full default-flex ${blog2Status == "PUBLIC" && "rounded-l-[1rem] bg-primary-20"}`}
                 onClick={() => handleBlog2Status("PUBLIC")}
@@ -432,7 +432,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </div>
             <Button
               className={
-                "h-[3rem] w-full p-2 default-outline hover:bg-purple-20 disabled:bg-gray-60"
+                "h-[3rem] w-full p-2 default-primary-outline hover:bg-purple-20 disabled:bg-gray-60"
               }
               onClick={() => loadingWithHandler(() => handleSaveClick())}
               disabled={
@@ -462,7 +462,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                           })
                         }
                         key={i.id}
-                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${firstCategory.id == i.id && "bg-primary-20"}`}
+                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-primary-outline ${firstCategory.id == i.id && "bg-primary-20"}`}
                       >
                         {i.name}
                       </Button>
@@ -495,7 +495,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                               })
                             }
                             key={j.id}
-                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-outline ${secondCategory.id == j.id && "bg-primary-20"}`}
+                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-primary-outline ${secondCategory.id == j.id && "bg-primary-20"}`}
                           >
                             {j.name}
                           </Button>

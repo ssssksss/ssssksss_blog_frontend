@@ -92,7 +92,7 @@ const PlanCreateUpdateScheduleCategory = (
         <h2 className="w-full rounded-[1rem] px-1 text-center text-[1.2rem] font-bold">
           {props.data?.id ? "카테고리 수정" : "카테고리 생성"}
         </h2>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             카테고리
           </div>
@@ -105,7 +105,7 @@ const PlanCreateUpdateScheduleCategory = (
             placeholder="카테고리 이름 작성"
           />
         </div>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             카테고리 색상 선택
           </div>

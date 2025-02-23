@@ -1,5 +1,5 @@
-import {ChangeEvent, forwardRef, MouseEventHandler} from "react";
-import {UseFormRegisterReturn} from "react-hook-form";
+import { ChangeEvent, forwardRef, MouseEventHandler } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInput {
   type?: string;
@@ -61,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, IInput>(
         placeholder={placeholder}
         style={style}
         onClick={onClick || (() => "")}
-        className={`h-full rounded-xl p-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 ${className} `}
+        className={`dark:placeholder-primary-contrast h-full rounded-xl p-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 ${className} `}
         onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter" && onKeyPressAction) {
             onKeyPressAction(e);

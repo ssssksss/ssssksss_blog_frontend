@@ -150,7 +150,7 @@ const PlanCreateScheduleModal = (props: any) => {
       {props.closeButtonComponent}
       <div className={"flex w-full flex-col gap-y-2"}>
         <h2 className={"text-[1.5rem] font-bold default-flex"}> 일정 생성 </h2>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             카테고리
           </div>
@@ -165,7 +165,7 @@ const PlanCreateScheduleModal = (props: any) => {
             ))}
           </div>
         </div>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="flex items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             기간
             <div className={"flex justify-center text-[1rem]"}>
@@ -235,7 +235,7 @@ const PlanCreateScheduleModal = (props: any) => {
             </div>
           </div>
         </div>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             제목
           </div>
@@ -249,7 +249,7 @@ const PlanCreateScheduleModal = (props: any) => {
             placeholder="제목"
           />
         </div>
-        <div className="min-h-[4rem] flex-shrink-0 p-2 default-outline">
+        <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             내용
           </div>

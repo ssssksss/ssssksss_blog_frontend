@@ -16,7 +16,7 @@ import {
 export default function Home() {
 
   return (
-    <div className="min-h-screen bg-black-100 p-8 text-white-80">
+    <div className="min-h-screen p-8 text-white-80 bg-black-60">
       <div
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
@@ -197,22 +197,35 @@ export default function Home() {
             {/* 이메일 */}
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
-                <h3 className="w-full default-flex text-xl font-semibold"> 이메일 </h3>
+                <h3 className="w-full text-xl font-semibold default-flex">
+                  {" "}
+                  이메일{" "}
+                </h3>
                 <div className="default-flex"> ssssksss@naver.com </div>
               </div>
             </div>
             {/* 학업 */}
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
-                <h3 className="w-full default-flex text-xl font-semibold"> 학업 </h3>
-                <div className="default-flex flex-col"> <span> 서울과학기술대학교 </span> <span> 기계시스템디자인 </span> </div>
+                <h3 className="w-full text-xl font-semibold default-flex">
+                  {" "}
+                  학업{" "}
+                </h3>
+                <div className="flex-col default-flex">
+                  {" "}
+                  <span> 서울과학기술대학교 </span>{" "}
+                  <span> 기계시스템디자인 </span>{" "}
+                </div>
               </div>
             </div>
             {/* 자격증 */}
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
-                <h3 className="w-full default-flex text-xl font-semibold"> 자격증 </h3>
-                <div className="default-flex flex-col"> 정보처리기사 </div>
+                <h3 className="w-full text-xl font-semibold default-flex">
+                  {" "}
+                  자격증{" "}
+                </h3>
+                <div className="flex-col default-flex"> 정보처리기사 </div>
               </div>
             </div>
           </div>

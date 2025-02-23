@@ -2,8 +2,8 @@
 
 import LottieError from "@component/common/lottie/LottieError";
 import useToastifyStore from "@store/toastifyStore";
-import {Metadata} from "next";
-import {useEffect} from "react";
+import { Metadata } from "next";
+import { useEffect } from "react";
 
 export const metadata: Metadata = {
   title: "에러",
@@ -18,6 +18,10 @@ interface Props {
 const Error = ({error, reset}: Props) => {
   const toastifyStore = useToastifyStore();
   useEffect(() => {
+    try {
+      JSON.parse(error.message);
+    } catch (e) {
+    }
     toastifyStore.setToastify({
       type: "error",
       message: error.message,

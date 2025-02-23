@@ -1,6 +1,7 @@
 "use client";
 
 import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
+import DarkmodeToggleButton from "@component/common/button/hybrid/DarkmodeToggleButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
@@ -10,6 +11,7 @@ import useThrottle from "@hooks/useThrottle";
 import useLoadingStore from "@store/loadingStore";
 import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
+import { useThemeStore } from "@store/useThemeStore";
 import throttle from "lodash/throttle";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -19,13 +21,14 @@ import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import useNavStore from "src/store/navStore";
 import usePlayerStore from "src/store/playerStore";
 import SideBar from "./SideBar";
-
+const themes = ["light", "dark", "blue", "green"];
 interface IHeader {}
 const Header = (props: IHeader) => {
   const playerStore = usePlayerStore();
   const planStore = usePlanStore();
   const navStore = useNavStore();
   const memoStore = useMemoStore();
+  const themeStore = useThemeStore();
   const [scrollWidth, setScrollWidth] = useState(0);
   const router = useRouter();
   const {toastifyStore, userStore, fetchCSR} = useFetchCSRHandler();
@@ -35,15 +38,14 @@ const Header = (props: IHeader) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const loadingStore = useLoadingStore();
   const pathname = usePathname();
-
   const previousPathname = useRef(pathname);
 
   // 페이지 이동시 공통적으로 처리할 로직
   useEffect(() => {
     if (previousPathname.current !== pathname) {
-      console.log(
-        `Page changed from ${previousPathname.current} to ${pathname}`,
-      );
+      // console.log(
+      //   `Page changed from ${previousPathname.current} to ${pathname}`,
+      // );
       previousPathname.current = pathname;
       loadingStore.stopLoading();
     }
@@ -53,7 +55,10 @@ const Header = (props: IHeader) => {
     toastifyStore.setToastify({
       type: "success",
       message: "환영합니다."
-    });
+    }); 
+    themeStore.setTheme1(localStorage.getItem("theme1") || "dark");
+    themeStore.setTheme2(localStorage.getItem("theme2") || "dark");
+    themeStore.setTheme3(localStorage.getItem("theme3") || "dark");
   }, []);
   
   useEffect(() => {
@@ -196,7 +201,7 @@ const Header = (props: IHeader) => {
 
   return (
     // 헤더 3.5rem = progreebar .5rem + header 3rem
-    <div className="relative min-h-[3.5rem] w-full">
+    <div className="relative min-h-[3.5rem] w-full bg-primary-60">
       <ReactToastifyComponents />
       <LoadingSpinner loading={loadingStore.loading} />
       <div
@@ -204,29 +209,35 @@ const Header = (props: IHeader) => {
         className={
           "fixed left-0 top-0 z-[100] h-[0.5rem] bg-gradient-purple-40-blue-40-70deg"
         }
-        style={{width: `${scrollWidth}%`}}></div>
+        style={{width: `${scrollWidth}%`}}
+      ></div>
       <header
         ref={headerRef}
-        className={`fixed z-50 h-[3rem] w-full bg-white-80 ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        className={`bg-default-1 fixed z-50 h-[3rem] w-full ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "opacity-0"}`}
+      >
         <section
           className={
             "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60"
-          }>
+          }
+        >
           <SideBar />
           <div className="flex">
             {!!userStore.id && (
               <div
-                className={"ml-[2.75rem] aspect-square w-[1.5rem] px-[.5rem] default-flex"}
+                className={
+                  "ml-[2.75rem] aspect-square w-[1.5rem] px-[.5rem] default-flex"
+                }
                 onClick={() => {
                   playerStore.setPlayer({
                     youtubePlay: !playerStore.youtubePlay,
-                    isMuted: false
+                    isMuted: false,
                   });
                   window.localStorage.setItem(
                     "isPlay",
                     !playerStore.youtubePlay ? "true" : "false",
                   );
-                }}>
+                }}
+              >
                 {playerStore.youtubePlay ? (
                   <FontAwesomeIcon icon={faPause} />
                 ) : (
@@ -236,21 +247,27 @@ const Header = (props: IHeader) => {
             )}
           </div>
           <div className={"flex"}>
+            <DarkmodeToggleButton />
             {userStore.id == 0 ? (
               <div
                 className={
-                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 default-outline"
-                }></div>
+                  "default-primary-outline h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2"
+                }
+              ></div>
             ) : userStore.id > 0 ? (
               <Button
                 onClick={() => signOutHandler()}
-                className={"p-2 default-outline"}>
+                className={"default-primary-outline p-2"}
+              >
                 로그아웃
               </Button>
             ) : (
               <ModalButton
                 modal={<AuthModal />}
-                buttonClassName={"p-2 default-outline hover:bg-primary-20"}>
+                buttonClassName={
+                  "p-2 default-primary-outline hover:bg-primary-20"
+                }
+              >
                 Sign In / Sign up
               </ModalButton>
             )}

@@ -33,15 +33,15 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
     )
     .replace(
       /^# (.*$)/gim,
-      "<h1 class=\"text-[1.25rem] text-primary-80 font-DNFBitBitv2 default-outline shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
+      "<h1 class=\"text-[1.25rem] text-primary-80 font-DNFBitBitv2 default-primary-outline shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
     )
     .replace(
       /^## (.*$)/gim,
-      "<h2 class=\"text-[1.125rem] text-secondary-80 font-bold font-DNFBitBitv2 default-outline-nocolor shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
+      "<h2 class=\"text-[1.125rem] text-secondary-80 font-bold font-DNFBitBitv2 default-primary-outline-nocolor shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
     )
     .replace(
       /^### (.*$)/gim,
-      "<h3 class=\"text-[1rem] text-third-80 font-DNFBitBitv2  default-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
+      "<h3 class=\"text-[1rem] text-third-80 font-DNFBitBitv2  default-primary-outline-nocolor shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
     )
     // .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
     // .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
@@ -64,7 +64,7 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
           lang,
         );
         highlightedCode = highlightedCode.trim();
-        return `<pre class=\"click-to-copy relative text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-20 default-outline break-all\"><button class=\"absolute hover:scale-105 top-2 right-2\"><svg fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"  class=\"w-5 h-5 text-white\" viewBox=\"0 0 448 512\"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d=\"M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z\"/></svg></button><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code>
+        return `<pre class=\"click-to-copy relative text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-20 default-primary-outline break-all\"><button class=\"absolute hover:scale-105 top-2 right-2\"><svg fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"  class=\"w-5 h-5 text-white\" viewBox=\"0 0 448 512\"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d=\"M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z\"/></svg></button><code class=\"text-[12px] whitespace-pre-wrap leading-3\">${highlightedCode}</code>
         </pre>`;
       },
     )
