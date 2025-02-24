@@ -18,15 +18,12 @@ import { useEffect, useRef, useState } from "react";
 import AuthModal from "src/component/auth/hybrid/AuthModal";
 import Button from "src/component/common/button/hybrid/Button";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
-import useNavStore from "src/store/navStore";
 import usePlayerStore from "src/store/playerStore";
 import SideBar from "./SideBar";
-const themes = ["light", "dark", "blue", "green"];
 interface IHeader {}
 const Header = (props: IHeader) => {
   const playerStore = usePlayerStore();
   const planStore = usePlanStore();
-  const navStore = useNavStore();
   const memoStore = useMemoStore();
   const themeStore = useThemeStore();
   const [scrollWidth, setScrollWidth] = useState(0);
@@ -59,6 +56,10 @@ const Header = (props: IHeader) => {
     themeStore.setTheme1(localStorage.getItem("theme1") || "dark");
     themeStore.setTheme2(localStorage.getItem("theme2") || "dark");
     themeStore.setTheme3(localStorage.getItem("theme3") || "dark");
+
+    if (localStorage.getItem("isDarkMode") == "false") {
+      themeStore.toggleDarkMode();
+    }
   }, []);
   
   useEffect(() => {
