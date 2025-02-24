@@ -10,9 +10,9 @@ import { handleResponseError } from "@utils/error/handleResponseError";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
 import { useEffect, useState } from "react";
 import {
-    SubmitErrorHandler,
-    SubmitHandler,
-    useForm
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm
 } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";

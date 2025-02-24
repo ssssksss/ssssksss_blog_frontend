@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import {
-    EditorLiStyle,
-    EditorTitleStyle,
-    EditorUlStyle
+  EditorLiStyle,
+  EditorTitleStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";

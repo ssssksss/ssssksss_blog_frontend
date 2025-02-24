@@ -4,8 +4,8 @@ import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import "@styles/customEditor.css";
 import {
-    EditorLiStyle,
-    EditorUlStyle
+  EditorLiStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useRef } from "react";
 import Blog2ContentIndexButton from "./Blog2ContentIndexButton";

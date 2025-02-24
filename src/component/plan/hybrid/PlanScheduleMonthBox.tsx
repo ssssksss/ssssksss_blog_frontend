@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import PlanCalendarItem from "./PlanCalendarItem";
 import PlanCalendarItemInfoModal from "./PlanCalendarItemInfoModal";
 import {
-    default as PlanCreateSchedule,
-    default as PlanCreateScheduleModal,
+  default as PlanCreateSchedule,
+  default as PlanCreateScheduleModal,
 } from "./PlanCreateScheduleModal";
 import PlanScheduleCategoryModal from "./PlanScheduleCategoryModal";
 

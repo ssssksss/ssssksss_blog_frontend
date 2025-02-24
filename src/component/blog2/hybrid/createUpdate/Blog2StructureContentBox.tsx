@@ -3,8 +3,8 @@ import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagni
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    EditorLiStyle,
-    EditorUlStyle
+  EditorLiStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";

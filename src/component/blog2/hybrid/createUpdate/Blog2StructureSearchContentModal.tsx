@@ -6,9 +6,9 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import "@styles/customEditor.css";
 import {
-    EditorLiStyle,
-    EditorTitleStyle,
-    EditorUlStyle
+  EditorLiStyle,
+  EditorTitleStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useState } from "react";

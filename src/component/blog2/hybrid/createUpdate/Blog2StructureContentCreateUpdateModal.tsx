@@ -8,10 +8,10 @@ import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
 import { useEffect, useState } from "react";
 import {
-    SubmitErrorHandler,
-    SubmitHandler,
-    useForm,
-    useFormContext,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+  useFormContext,
 } from "react-hook-form";
 import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
