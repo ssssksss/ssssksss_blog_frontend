@@ -385,7 +385,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               openPlaylist != null && (
                 <div
                   className={
-                    "flex h-full w-full animate-fadeUp flex-col gap-y-1 overflow-y-scroll rounded-[1rem] scrollbar-hide"
+                    "flex h-full w-full animate-fadeUp flex-col gap-y-1 overflow-y-scroll rounded-[1rem]"
                   }
                 >
                   {playerStore.playlist

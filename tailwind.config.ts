@@ -628,13 +628,13 @@ const config: Config = {
         },
       }),
       addUtilities({
-        ".scrollbar-hide": {
-          "-ms-overflow-style": "none" /* IE and Edge */,
-          "scrollbar-width": "none" /* Firefox */,
-          "&::-webkit-scrollbar": {
-            display: "none" /* Chrome, Safari, and Opera */,
-          },
-        },
+        // ".scrollbar-hide": {
+        //   "-ms-overflow-style": "none" /* IE and Edge */,
+        //   "scrollbar-width": "none" /* Firefox */,
+        //   "&::-webkit-scrollbar": {
+        //     display: "none" /* Chrome, Safari, and Opera */,
+        //   },
+        // },
         ".default-primary-outline": {
           outline: "0.0625rem solid var(--primary-color-60)",
           "outline-offset": "-0.0625rem",

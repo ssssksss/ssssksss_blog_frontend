@@ -92,7 +92,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   };
 
   return (
-    <section className="grid w-full grid-rows-[3rem_2rem] px-[0.125rem] bg-default-1">
+    <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
       <button
         className={
@@ -116,7 +116,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             <FontAwesomeIcon icon={faPlay} />
           )}
         </div>
-        <div className="flex h-full w-full flex-col justify-between px-1">
+        <div className="flex h-full w-[17rem] flex-col justify-between px-1">
           <span className={"text-start text-[1rem]"}>
             {timeFunction.secToTime(playTime.playedSeconds)} [
             {Math.floor(playTime.played * 100)}%]
@@ -167,7 +167,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="h-full w-[calc(100%-2.5rem)] bg-red-20 bg-transparent focus:outline-none disabled:bg-gray-40"
+            className="h-full w-full bg-red-20 bg-transparent focus:outline-none disabled:bg-gray-40"
             disabled={!playerStore.currentYoutube.id}
           />
         </div>
@@ -175,7 +175,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
         buttonClassName={
-          "min-h-[2rem] w-[calc(100%-2.5rem)] overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl"
+          "min-h-[2rem] w-full overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl"
         }
         modal={<YoutubePlayerModal />}
       >

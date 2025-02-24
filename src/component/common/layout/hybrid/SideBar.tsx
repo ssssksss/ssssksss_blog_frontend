@@ -97,7 +97,7 @@ const SideBar = () => {
               className={"flex animate-fadeIn"}
             >
               <Button
-                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none px-1 py-2 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
+                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none py-2 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
                 onClick={(e: MouseEvent) => {
                   if (
                     item.href ===
@@ -132,7 +132,7 @@ const SideBar = () => {
             </Link>
           ))}
           {userStore.id > 0 && (
-            <div className="absolute bottom-0 h-[5rem] w-[22.5rem] bg-gray-20">
+            <div className="absolute bottom-0 h-[5rem] w-[20rem] bg-gray-20">
               <MusicPlayer />
             </div>
           )}
