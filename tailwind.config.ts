@@ -331,7 +331,7 @@ const config: Config = {
             "--third-color-40": `${theme("colors.black.40")}`,
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
-            "--bg-default-1": `${theme("colors.black.40")}`,
+            "--bg-default-1": `${theme("colors.black.20")}`,
           },
         },
         "@media (prefers-color-scheme: light)": {
@@ -623,7 +623,7 @@ const config: Config = {
             "--third-color-40": `${theme("colors.black.40")}`,
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
-            "--bg-default-1": `${theme("colors.black.40")}`,
+            "--bg-default-1": `${theme("colors.black.20")}`,
           },
         },
       }),

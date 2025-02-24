@@ -83,7 +83,7 @@ const SideBar = () => {
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
       <div
-        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-white-60 dark:bg-black-40 ${isNavbarOpen ? "flex outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80" : "hidden"} flex-col justify-start`}
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-default-1 ${isNavbarOpen ? "flex border-t-8 border-r-8 border-primary-80" : "hidden"} flex-col justify-start`}
       >
         <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
           {LeftNavItems.filter(

@@ -217,7 +217,7 @@ const Header = (props: IHeader) => {
       >
         <section
           className={
-            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60"
+            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1 "
           }
         >
           <SideBar />

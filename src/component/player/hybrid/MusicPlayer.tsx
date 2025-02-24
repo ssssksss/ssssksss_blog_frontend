@@ -92,7 +92,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   };
 
   return (
-    <section className="grid w-full grid-rows-[3rem_2rem] gap-y-[0.25rem] px-[0.125rem]">
+    <section className="grid w-full grid-rows-[3rem_2rem] px-[0.125rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
       <button
         className={
@@ -175,7 +175,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
         buttonClassName={
-          "min-h-[2rem] w-[calc(100%-2.5rem)] overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl bg-white-80"
+          "min-h-[2rem] w-[calc(100%-2.5rem)] overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl"
         }
         modal={<YoutubePlayerModal />}
       >
