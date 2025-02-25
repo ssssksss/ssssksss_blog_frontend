@@ -14,10 +14,10 @@ interface ThemeState {
 }
 
 export const useThemeStore = create<ThemeState>((set) => ({
-  theme1: "dark", // 기본값 (다크 모드)
-  theme2: "dark", // 기본값 (다크 모드)
-  theme3: "dark", // 기본값 (다크 모드)
-  isDarkMode: true, // 기본값 (다크 모드)
+  theme1: "purple",
+  theme2: "blue",
+  theme3: "green",
+  isDarkMode: true,
   setTheme1: (theme) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("theme1", theme); // 로컬스토리지에 저장

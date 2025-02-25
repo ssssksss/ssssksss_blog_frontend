@@ -53,9 +53,9 @@ const Header = (props: IHeader) => {
       type: "success",
       message: "환영합니다."
     }); 
-    themeStore.setTheme1(localStorage.getItem("theme1") || "dark");
-    themeStore.setTheme2(localStorage.getItem("theme2") || "dark");
-    themeStore.setTheme3(localStorage.getItem("theme3") || "dark");
+    themeStore.setTheme1(localStorage.getItem("theme1") || "purple");
+    themeStore.setTheme2(localStorage.getItem("theme2") || "blue");
+    themeStore.setTheme3(localStorage.getItem("theme3") || "green");
 
     if (localStorage.getItem("isDarkMode") == "false") {
       themeStore.toggleDarkMode();
