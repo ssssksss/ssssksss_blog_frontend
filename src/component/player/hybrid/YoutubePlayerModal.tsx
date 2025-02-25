@@ -57,7 +57,6 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       "currentYoutubePlaylist",
       JSON.stringify(openPlaylist),
     );
-    // 새로운 음악을 클릭하면 처음부터 시작되게 수정
     playerStore.setPlayer({
       playedSeconds: 0,
       progressRatio: 0
@@ -85,6 +84,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       if (currentYoutubePlaylist.id == id) {
         localStorage.removeItem("currentYoutubePlaylist");
         localStorage.removeItem("currentYoutube");
+        playerStore.setPlayer({
+          progressRatio: 0,
+          playedSeconds: 0,
+        });
       }
     }
     playerStore.setPlayer({
@@ -149,7 +152,6 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       );
     }
     inputRef.current!.value = "";
-    console.log("YoutubePlayerModal.tsx 파일 : 1");
     return {
       message: "음악 추가"
     };
@@ -198,6 +200,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       playerStore.removeCurrentYoutube();
       playerStore.setPlayer({
         currentYoutubePlaylist: currentYoutubePlaylist,
+        playedSeconds: 0,
+        progressRatio: 0,
       });
     }
     return {
@@ -216,6 +220,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         // store
         playerStore.setPlayer({
           currentYoutube: newCurrentYoutube,
+          playedSeconds: 0,
+          progressRatio: 0,
         });
         // localStorage
         window.localStorage.setItem(
@@ -239,6 +245,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         // store
         playerStore.setPlayer({
           currentYoutube: newCurrentYoutube,
+          playedSeconds: 0,
+          progressRatio: 0,
         });
         // localStorage
         window.localStorage.setItem(

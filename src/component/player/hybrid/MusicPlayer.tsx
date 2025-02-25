@@ -51,6 +51,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
         let num = Math.floor(Math.random() * max);
         playerStore.setPlayer({
           currentYoutube: playerStore.currentYoutubePlaylist.youtubeList[num],
+          playedSeconds: 0,
+          progressRatio: 0,
         });
         window.localStorage.setItem(
           "currentYoutube",
@@ -84,6 +86,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
       }
       playerRef.current!.seekTo(0);
     }
+    localStorage.setItem("progressRatio", "0");
+    localStorage.setItem("playSeconds", "0");
   };
 
   useEffect(() => {
