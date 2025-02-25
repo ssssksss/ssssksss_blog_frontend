@@ -2,7 +2,7 @@ import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { timeFunction } from "@utils/timeFunction";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import usePlayerStore from "src/store/playerStore";
@@ -91,6 +91,22 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     }
   };
 
+  useEffect(() => {
+  // ✅ 새로고침 시 재생 시간 저장
+    const handleBeforeUnload = () => {
+      const storedPlayedSeconds = playTime.playedSeconds;
+      const storedPlayed = playTime.played;
+      localStorage.setItem("playedSeconds", String(storedPlayedSeconds));
+      localStorage.setItem("played", String(storedPlayed));
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [playTime.played]);
+
   return (
     <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
@@ -133,7 +149,12 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             ref={playerRef}
             playing={playerStore.youtubePlay}
             onProgress={handleProgress}
-            onReady={() => {}}
+            onReady={() => {
+              const storedPlayed = parseFloat(
+                localStorage.getItem("played") || "0",
+              );
+              playerRef.current?.seekTo(storedPlayed, "fraction");
+            }}
             onError={() => {
               console.log("MusicPlayer.tsx 파일 : error1");
               ReactPlayerError();
@@ -147,22 +168,28 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             step="0.001"
             value={playTime.played}
             onChange={(e) =>
+            {
               setPlayTime((prev) => ({
                 playedSeconds: prev.playedSeconds,
                 played: parseFloat(e.target.value),
-              }))
+              }));
+            }
             }
             onMouseUp={(e) =>
+            {
               playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
                 "fraction",
-              )
+              );
+            }
             }
             onTouchEnd={(e) =>
+            {
               playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
                 "fraction",
-              )
+              );
+            }
             }
             onClick={(e) => {
               e.stopPropagation();
