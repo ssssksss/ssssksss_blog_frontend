@@ -354,8 +354,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             <Button
               className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-100/90"
               onClick={() =>
-                props.loadingWithHandler(
-                  openPlaylist == null ? createPlaylist : createYoutubeUrl,
+                props.loadingWithHandler(()=>
+                  openPlaylist == null ? createPlaylist() : createYoutubeUrl(),
                 )
               }
             >
