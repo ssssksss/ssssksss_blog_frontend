@@ -2,7 +2,7 @@ import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { timeFunction } from "@utils/timeFunction";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import usePlayerStore from "src/store/playerStore";
@@ -15,15 +15,10 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
   const playerRef = useRef<ReactPlayer | null>(null);
 
-  const [playTime, setPlayTime] = useState({
-    playedSeconds: 0,
-    played: 0,
-  });
-
   const handleProgress = (state: { playedSeconds: number; played: number }) => {
-    setPlayTime({
+    playerStore.setPlayer({
+      progressRatio: state.played,
       playedSeconds: state.playedSeconds,
-      played: state.played,
     });
   };
 
@@ -94,10 +89,10 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   useEffect(() => {
   // ✅ 새로고침 시 재생 시간 저장
     const handleBeforeUnload = () => {
-      const storedPlayedSeconds = playTime.playedSeconds;
-      const storedPlayed = playTime.played;
+      const storedPlayedSeconds = playerStore.playedSeconds;
+      const storedProgressRatio = playerStore.progressRatio;
       localStorage.setItem("playedSeconds", String(storedPlayedSeconds));
-      localStorage.setItem("played", String(storedPlayed));
+      localStorage.setItem("progressRatio", String(storedProgressRatio));
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -105,7 +100,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [playTime.played]);
+  }, [playerStore.progressRatio]);
 
   return (
     <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
@@ -134,8 +129,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
         </div>
         <div className="flex h-full w-[17rem] flex-col justify-between px-1">
           <span className={"text-start text-[1rem]"}>
-            {timeFunction.secToTime(playTime.playedSeconds)} [
-            {Math.floor(playTime.played * 100)}%]
+            {timeFunction.secToTime(playerStore.playedSeconds)} [
+            {Math.floor(playerStore.progressRatio * 100)}%]
           </span>
           <ReactPlayer
             width="0rem"
@@ -151,7 +146,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             onProgress={handleProgress}
             onReady={() => {
               const storedPlayed = parseFloat(
-                localStorage.getItem("played") || "0",
+                localStorage.getItem("progressRatio") || "0",
               );
               playerRef.current?.seekTo(storedPlayed, "fraction");
             }}
@@ -166,13 +161,12 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             min="0"
             max="1"
             step="0.001"
-            value={playTime.played}
+            value={playerStore.progressRatio}
             onChange={(e) =>
             {
-              setPlayTime((prev) => ({
-                playedSeconds: prev.playedSeconds,
-                played: parseFloat(e.target.value),
-              }));
+              playerStore.setPlayer({
+                progressRatio: parseFloat(e.target.value),
+              });
             }
             }
             onMouseUp={(e) =>

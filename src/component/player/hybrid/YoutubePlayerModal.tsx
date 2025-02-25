@@ -57,6 +57,11 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       "currentYoutubePlaylist",
       JSON.stringify(openPlaylist),
     );
+    // 새로운 음악을 클릭하면 처음부터 시작되게 수정
+    playerStore.setPlayer({
+      playedSeconds: 0,
+      progressRatio: 0
+    });
   };
 
   const deletePlaylist = async (id: number) => {

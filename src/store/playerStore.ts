@@ -12,6 +12,8 @@ interface playerStoreState {
   playRepeatType: string | null;
   isPlayRandom: boolean;
   isMuted: boolean;
+  progressRatio: number;
+  playedSeconds: number;
 }
 
 // 2. 액션 인터페이스 정의
@@ -41,6 +43,8 @@ const initialState: playerStoreState = {
   youtubePlay: false,
   isFetchYoutubePlaylist: false, // 한번 서버에 요청을 하면 이후에 모달창을 열 경우 요청을 보내지 않음
   isMuted: false,
+  progressRatio: 0,
+  playedSeconds: 0,
 };
 
 // 4. 상태 및 액션 생성
