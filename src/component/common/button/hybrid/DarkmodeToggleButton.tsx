@@ -9,7 +9,7 @@ const DarkmodeToggleButton = () => {
   return (
     <div className="flex justify-center items-center gap-4 px-4">
       <button
-        onClick={() => themeStore.toggleDarkMode()}
+        onClick={() => themeStore.setDarkMode(!themeStore.isDarkMode)}
         className="relative flex h-8 w-16 items-center rounded-full bg-gray-300 p-1 transition-all duration-300 ease-in-out dark:bg-gray-700"
         aria-label="Toggle dark mode"
       >

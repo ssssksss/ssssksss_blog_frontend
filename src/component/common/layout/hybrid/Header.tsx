@@ -57,8 +57,8 @@ const Header = (props: IHeader) => {
     themeStore.setTheme2(localStorage.getItem("theme2") || "blue");
     themeStore.setTheme3(localStorage.getItem("theme3") || "green");
 
-    if (localStorage.getItem("isDarkMode") == "false") {
-      themeStore.toggleDarkMode();
+    if (localStorage.getItem("isDarkMode") == "true") {
+      themeStore.setDarkMode(true);
     }
   }, []);
   

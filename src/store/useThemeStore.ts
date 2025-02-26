@@ -10,14 +10,14 @@ interface ThemeState {
   setTheme1: (theme: string) => void;
   setTheme2: (theme: string) => void;
   setTheme3: (theme: string) => void;
-  toggleDarkMode: () => void; // 다크 모드 토글 함수
+  setDarkMode: (darkMode: boolean) => void; // 다크 모드 토글 함수
 }
 
 export const useThemeStore = create<ThemeState>((set) => ({
   theme1: "purple",
   theme2: "blue",
   theme3: "green",
-  isDarkMode: true,
+  isDarkMode: false,
   setTheme1: (theme) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("theme1", theme); // 로컬스토리지에 저장
@@ -39,19 +39,15 @@ export const useThemeStore = create<ThemeState>((set) => ({
     }
     set({theme3: theme});
   },
-  toggleDarkMode: () => {
-    set((state) => {
-      const newIsDarkMode = !state.isDarkMode;
-      if (typeof window !== "undefined") {
-        if (newIsDarkMode) {
-          document.documentElement.classList.add("dark"); // 다크 모드 활성화
-          localStorage.setItem("isDarkMode", "true"); // 로컬스토리지에 저장
-        } else {
-          document.documentElement.classList.remove("dark"); // 다크 모드 비활성화
-          localStorage.setItem("isDarkMode", "false"); // 로컬스토리지에 저장
-        }
-      }
-      return {isDarkMode: newIsDarkMode};
-    });
+  setDarkMode: (darkMode) => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark"); // 다크 모드 활성화
+      localStorage.setItem("isDarkMode", "true"); // 로컬스토리지에 저장
+      set({ isDarkMode: true });
+    } else {
+      document.documentElement.classList.remove("dark"); // 다크 모드 비활성화
+      localStorage.setItem("isDarkMode", "false"); // 로컬스토리지에 저장
+      set({ isDarkMode: false });
+    }
   },
 }));
