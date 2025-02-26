@@ -15,6 +15,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
   const playerRef = useRef<ReactPlayer | null>(null);
 
+  // 플레이어 작동시 약 1초마다 실행되는 함수
   const handleProgress = (state: { playedSeconds: number; played: number }) => {
     playerStore.setPlayer({
       progressRatio: state.played,
@@ -22,6 +23,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     });
   };
 
+  // 플레이어 실행시 실패할 경우 실행되는 함수
   const ReactPlayerError = () => {
     const playlist = playerStore.playlist.map((i) => {
       if (i.id == playerStore.currentYoutubePlaylist.id) {
@@ -41,6 +43,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     playerStore.removeCurrentYoutube();
   };
 
+  // 플레이어의 컨텐츠가 작동이 완료된 후에 실행되는 함수
   const ReactPlayerEnded = () => {
     if (playerStore.playRepeatType == "one") {
       playerRef.current!.seekTo(0);
@@ -90,8 +93,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     localStorage.setItem("playSeconds", "0");
   };
 
-  useEffect(() => {
   // ✅ 새로고침 시 재생 시간 저장
+  useEffect(() => {
     const handleBeforeUnload = () => {
       const storedPlayedSeconds = playerStore.playedSeconds;
       const storedProgressRatio = playerStore.progressRatio;
