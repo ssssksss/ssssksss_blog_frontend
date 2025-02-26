@@ -1,5 +1,5 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
-import { fetchSSRWithAuthAndErrorProcess } from "@hooks/useFetchSSRHandler";
+import { fetchSSRWithAuthAndErrorProcess } from "@utils/api/fetchSSRWithAuthAndErrorProcess";
 import { cookies } from "next/headers";
 import Template from "../../template";
 
