@@ -20,7 +20,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
   ); // 화면에 보이는 플레이리스트
   const toastifyStore = useToastifyStore();
 
-  const handlePlaylist = (item: IYoutubePlaylist) => {
+  const selectPlaylist = (item: IYoutubePlaylist) => {
     setOpenPlaylist((prev) => (prev != null ? null : item));
   };
 
@@ -47,7 +47,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     };
   };
 
-  const handlePlayItemClick = (item: IYoutube) => {
+  const selectMediaItem = (item: IYoutube) => {
     playerStore.setPlayer({
       currentYoutube: item,
       currentYoutubePlaylist: openPlaylist!,
@@ -370,7 +370,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 key={index}
                 id={i.id + ""}
                 className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0 -z-10") : "h-[4rem]"}`}
-                onClick={() => handlePlaylist(i)}
+                onClick={() => selectPlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
                   {i.title}
@@ -407,7 +407,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                       <li
                         key={index}
                         className={`flex h-[5rem] w-full flex-shrink-0 cursor-pointer items-center duration-1000 ease-in-out hover:bg-primary-60 ${playerStore.currentYoutube?.id == i.id ? "bg-gradient-purple-40-blue-40-70deg" : i.title == "" ? "bg-red-20" : "bg-white-100/90"}`}
-                        onClick={() => handlePlayItemClick(i)}
+                        onClick={() => selectMediaItem(i)}
                       >
                         <div className={"aspect-square h-full default-flex"}>
                           <Image

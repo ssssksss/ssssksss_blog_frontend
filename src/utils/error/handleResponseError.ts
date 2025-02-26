@@ -11,7 +11,7 @@ export const handleResponseError = async (response: Response) => {
   if (!response?.ok) {
     const result = await response.json();
     if (result?.msg) {
-      // 예상 가능한 에러
+      // 예상 가능한 에외처리
       throw new Error(
         JSON.stringify({
           code: result.statusCode, // BE서버상태코드
@@ -19,11 +19,11 @@ export const handleResponseError = async (response: Response) => {
         }),
       );
     } else {
-      // BE에서 예외, 예상치 못한 에러
+      // 예상치 못한 에러
       throw new Error(
         JSON.stringify({
-          code: result.status, // BE에서 예외로 처리
-          message: result?.message || result?.error, // BE에서 예외로 처리
+          code: result.status, 
+          message: result?.message || result?.error,
         }),
       );
     }
