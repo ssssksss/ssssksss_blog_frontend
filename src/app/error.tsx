@@ -29,7 +29,7 @@ const Error = ({error, reset}: Props) => {
   }, [error]);
 
   return (
-    <div className="relative flex h-full w-full flex-col">
+    <div className="relative flex h-full w-full flex-col bg-default-1">
       <LottieError
         text={error.message || "에러가 발생했습니다."}
         reset={reset}></LottieError>

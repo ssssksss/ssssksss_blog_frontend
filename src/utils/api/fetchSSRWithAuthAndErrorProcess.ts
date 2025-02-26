@@ -73,6 +73,11 @@ export const fetchSSRWithAuthAndErrorProcess = async ({
     await handleResponseError(response);
     return response;
   } catch (error) {
-    return error;
+    throw new Error(
+      JSON.stringify({
+        code: 500,
+        message: "서버 오류",
+      }),
+    );
   }
 };

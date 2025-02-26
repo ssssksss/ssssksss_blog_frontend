@@ -15,14 +15,16 @@ const LottieError = (props: ILottieError) => {
         lottieFile={LottieFile}
         className="w-full max-w-[16rem]"
       />
-      <p className="absolute bottom-1/2 left-1/2 flex w-full -translate-x-1/2 translate-y-[6.375rem] justify-center">
-        {props.text}
+      <p className="absolute bottom-1/2 left-1/2 flex w-full gap-x-1 -translate-x-1/2 translate-y-[6.375rem] justify-center">
+        <span> {JSON.parse(props.text as string).code} </span>
+        <span> {JSON.parse(props.text as string).message} </span>
       </p>
       <button
         className="p-2 default-primary-outline"
         onClick={() => {
           window.location.reload();
-        }}>
+        }}
+      >
         다시 시도하기
       </button>
     </div>
