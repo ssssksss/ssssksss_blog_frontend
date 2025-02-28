@@ -1,3 +1,4 @@
+"use server";
 import { handleResponseError } from "@utils/error/handleResponseError";
 
 interface IFetchSSRProps {
@@ -5,7 +6,6 @@ interface IFetchSSRProps {
   refreshToken?: string | undefined;
   url: string;
   method?: string;
-  cache?: RequestCache;
   contentType?: string;
   next?: NextFetchRequestConfig | undefined;
   retries?: number;
@@ -23,14 +23,13 @@ export const fetchSSRWithAuthAndErrorProcess = async ({
   accessToken,
   refreshToken,
   url,
-  cache,
   contentType,
   next,
   bodyData,
   isRefreshNeeded = true,
   method = "GET",
   retries = 1,
-  credentials = false,
+  credentials,
   errorStatusCodeAndHandler = {},
 }: IFetchSSRProps): Promise<any> => {
   try {
@@ -38,12 +37,12 @@ export const fetchSSRWithAuthAndErrorProcess = async ({
       method,
       headers: {
         "Content-Type": contentType || "application/json",
-        ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
-        ...(credentials ? {"Access-Control-Allow-Origin": "*"} : {}),
+        ...(accessToken && {Authorization: `Bearer ${accessToken}`}),
+        ...(credentials && {"Access-Control-Allow-Origin": "*"}),
       },
       credentials: credentials ? "include" : "omit",
       body: bodyData ? JSON.stringify(bodyData) : null,
-      cache: cache || "no-store",
+      next: next,
     });
     if (response.status === 401 && isRefreshNeeded && retries > 0) {
       const response1 = await fetch(
@@ -60,7 +59,6 @@ export const fetchSSRWithAuthAndErrorProcess = async ({
         accessToken: result.data,
         refreshToken,
         url,
-        cache,
         contentType,
         next,
         bodyData,
@@ -83,9 +81,7 @@ export const fetchSSRWithAuthAndErrorProcess = async ({
         code = _error.code ?? 500;
         message = _error.message ?? "서버 에러 메시지";
       }
-    } catch (parseError) {
-    }
-
+    } catch (parseError) {}
     throw new Error(
       JSON.stringify({
         code: code,
