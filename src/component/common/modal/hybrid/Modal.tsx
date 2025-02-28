@@ -56,6 +56,10 @@ export const Modal = ({children, modalState}: ModalProps) => {
         }
       } catch (error) {
         console.error("Error occurred:", error); // 에러 처리 (필요시)
+        toastifyStore.setToastify({
+          type: "error",
+          message: "예상치 못한 에러"
+        });
       } finally {
         loadingStore.stopLoading(); // 항상 실행
       }

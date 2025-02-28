@@ -6,8 +6,10 @@ interface IFetchCSR {
   url: string;
   body?: Record<string, any>;
   retry?: number;
+  contentType?: string;
   next?: NextFetchRequestConfig;
   handleRevalidateTags?: string[];
+  credentials?: boolean;
 }
 
 interface ResponseData {
@@ -20,19 +22,21 @@ export const fetchCSR = async ({
   req,
   url,
   body,
+  contentType,
+  credentials = false,
   retry = 1,
   next,
   handleRevalidateTags,
 }: IFetchCSR): Promise<any> => {
   try {
-
     let accessToken = req.cookies.get("accessToken");
     const refreshToken = req.cookies.get("refreshToken");
     const res = await fetch(url, {
       method: req.method,
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken?.value}`,
+        "Content-Type": contentType || "application/json",
+        ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
+        ...(credentials ? {"Access-Control-Allow-Origin": "*"} : {}),
       },
       body: body ? JSON.stringify(body) : undefined,
       next: next,
@@ -48,7 +52,7 @@ export const fetchCSR = async ({
           credentials: "include",
         },
       );
-      
+
       if (refreshResponse.ok) {
         const data = await refreshResponse.json();
         accessToken = data.data;
@@ -63,10 +67,12 @@ export const fetchCSR = async ({
             },
             credentials: "include",
             body:
-            req.method !== "DELETE" && body ? JSON.stringify(body) : undefined,
+              req.method !== "DELETE" && body
+                ? JSON.stringify(body)
+                : undefined,
             cache: "no-store",
           });
-          
+
           // Set-Cookie 헤더를 포함하여 새 응답 반환
           const responseWithCookies = NextResponse.json(await newRes.json(), {
             status: newRes.status,
@@ -74,7 +80,7 @@ export const fetchCSR = async ({
               "Set-Cookie": setCookieHeader || "", // 쿠키 추가
             },
           });
-          
+
           return responseWithCookies; // 쿠키가 포함된 응답 반환
         }
       } else {
@@ -84,7 +90,7 @@ export const fetchCSR = async ({
         };
       }
     }
-    
+
     if (handleRevalidateTags?.length) {
       for (const tag of handleRevalidateTags) {
         await revalidateTag(tag); // 비동기 호출
@@ -94,7 +100,7 @@ export const fetchCSR = async ({
   } catch (error: any) {
     return {
       status: 500,
-      message: error.message
+      message: error.message,
     };
   }
 };

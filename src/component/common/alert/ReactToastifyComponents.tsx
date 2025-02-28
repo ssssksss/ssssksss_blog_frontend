@@ -1,5 +1,5 @@
-import {useEffect, useRef} from "react";
-import {ToastContainer, toast} from "react-toastify";
+import { useEffect, useRef } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useToastifyStore from "src/store/toastifyStore";
 
@@ -56,7 +56,7 @@ const ReactToastifyComponents = () => {
       // theme={"colored"}
       // className={"translate-y-[4rem]"}
       bodyClassName={() =>
-        "pl-4 py-4 text-white-60 translate-y-24 text-lg outline outline-black-60 flex items-center rounded-[2rem] fillAnimation animate-fill shadow-2xl"
+        "px-4 py-4 text-white-60 ml-auto w-fit text-lg outline outline-black-60 flex items-center rounded-[2rem] fillAnimation animate-fill shadow-2xl"
       }
       toastClassName={() => ""}
     />

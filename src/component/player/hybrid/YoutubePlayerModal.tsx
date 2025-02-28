@@ -28,13 +28,21 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     const title = inputRef.current?.value;
     const res = await fetch("/api/youtube/playlist", {
       method: "POST",
-      body: JSON.stringify({playlistTitle: title}),
+      body: JSON.stringify({ playlistTitle: title }),
     });
 
-    if (!res.ok) {
+    if (res.status == 500) {
       return {
         type: "error",
-        message: "플리 생성 실패"
+        message: "플리 생성 실패",
+      };
+    }
+
+    if (!res.ok) {
+      const result = await res.json();
+      return {
+        type: "error",
+        message: result.msg,
       };
     }
     const result: createYoutubePlaylistResponse = await res.json();
@@ -43,7 +51,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
     inputRef.current!.value = "";
     return {
-      message: "플리 생성 성공",
+      message: result.msg,
     };
   };
 
@@ -72,9 +80,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
+      const result = await res.json();
       return {
         type: "error",
-        message: "플리 제거 실패",
+        message: result.msg,
       };
     }
     let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
@@ -122,9 +131,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
+      const result = await res.json();
       return {
         type: "error",
-        message: "에러",
+        message: result.msg,
       };
     }
     const result: createYoutubeUrlResponse = await res.json();
@@ -166,9 +176,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     });
 
     if (!res.ok) {
+      const result = await res.json();
       return {
         type: "error",
-        message: "에러",
+        message: result.msg,
       };
     }
     const temp = playerStore.playlist.map((i) => {
@@ -302,9 +313,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       });
 
       if (!res.ok) {
+        const result = await res.json();
         return {
           type: "error",
-          message: "에러",
+          message: result.msg,
         };
       }
       const result: getYoutubePlaylistResponse = await res.json();
