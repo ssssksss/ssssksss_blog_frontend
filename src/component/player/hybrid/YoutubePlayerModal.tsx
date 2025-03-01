@@ -22,6 +22,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   const selectPlaylist = (item: IYoutubePlaylist) => {
     setOpenPlaylist((prev) => (prev != null ? null : item));
+    inputRef.current!.value = ""; // input 값을 초기화
   };
 
   const createPlaylist = async () => {
@@ -98,6 +99,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
           playedSeconds: 0,
         });
       }
+    }
+    if (openPlaylist != null) {
+      inputRef.current!.value = "";
     }
     playerStore.setPlayer({
       playlist: playerStore.playlist.filter((i) => i.id != id),
