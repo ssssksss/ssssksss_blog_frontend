@@ -29,8 +29,8 @@ const Header = (props: IHeader) => {
   const [scrollWidth, setScrollWidth] = useState(0);
   const router = useRouter();
   const {toastifyStore, userStore, fetchCSR} = useFetchCSRHandler();
-  const [isHidden, setIsHidden] = useState(true); // 헤더 감추기 상태
-  const [isVisible, setIsVisible] = useState(false); // 마우스 상단에 있을 때 헤더 보이기
+  const [isHidden, setIsHidden] = useState(false); // 헤더 감추기 상태
+  const [isVisible, setIsVisible] = useState(true); // 마우스 상단에 있을 때 헤더 보이기
   const [lastScrollY, setLastScrollY] = useState(200);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const loadingStore = useLoadingStore();
@@ -124,6 +124,7 @@ const Header = (props: IHeader) => {
   }, 20);
 
   useEffect(() => {
+    throttledUpdateProgressBar();
     window.addEventListener("scroll", throttledUpdateProgressBar);
     return () => {
       window.removeEventListener("scroll", throttledUpdateProgressBar);
@@ -202,23 +203,24 @@ const Header = (props: IHeader) => {
 
   return (
     // 헤더 3.5rem = progreebar .5rem + header 3rem
-    <div className="relative min-h-[3.5rem] w-full bg-primary-60">
+    <div className="relative min-h-[3.5rem] w-full">
       <ReactToastifyComponents />
       <LoadingSpinner loading={loadingStore.loading} />
-      <div
-        id="progressBar"
-        className={
-          "fixed left-0 top-0 z-[100] h-[0.5rem] bg-gradient-purple-40-blue-40-70deg"
-        }
-        style={{width: `${scrollWidth}%`}}
-      ></div>
+      {/* header태그와 배경색은 동일 */}
+      <div className={`fixed left-0 top-0 z-[100] h-[0.5rem] w-full ${isVisible && "bg-default-1"}`}>
+        <div
+          id="progressBar"
+          className={"h-full w-full bg-gradient-purple-40-blue-40-70deg"}
+          style={{width: `${scrollWidth}%`}}
+        ></div>
+      </div>
       <header
         ref={headerRef}
-        className={`bg-default-1 fixed z-50 h-[3rem] w-full ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "opacity-0"}`}
+        className={`fixed z-50 h-[3rem] w-full bg-default-1 ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "-z-30 opacity-0"}`}
       >
         <section
           className={
-            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1 "
+            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1"
           }
         >
           <SideBar />
@@ -252,13 +254,13 @@ const Header = (props: IHeader) => {
             {userStore.id == 0 ? (
               <div
                 className={
-                  "default-primary-outline h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2"
+                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 default-primary-outline"
                 }
               ></div>
             ) : userStore.id > 0 ? (
               <Button
                 onClick={() => signOutHandler()}
-                className={"default-primary-outline p-2"}
+                className={"p-2 default-primary-outline"}
               >
                 로그아웃
               </Button>
