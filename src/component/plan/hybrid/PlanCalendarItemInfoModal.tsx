@@ -75,6 +75,9 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
     planStore.setMaxLayer(t.maxLayer);
     planStore.setScheduleList(tempList);
     stopLoading();
+    toastifyStore.setToastify({
+      message: "일정이 삭제되었습니다."
+    });
     props.closeModal!();
   };
 
