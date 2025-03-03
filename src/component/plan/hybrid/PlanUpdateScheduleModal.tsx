@@ -149,6 +149,9 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     planStore.setCalendar(days);
     planStore.setMaxLayer(t.maxLayer);
     planStore.setScheduleList(tempList);
+    toastifyStore.setToastify({
+      message: "일정이 수정되었습니다."
+    });
     props.closeModal!();
   };
 

@@ -143,6 +143,9 @@ const PlanCreateScheduleModal = (props: any) => {
     planStore.setCalendar(days);
     planStore.setMaxLayer(t.maxLayer);
     planStore.setScheduleList(tempList);
+    toastifyStore.setToastify({
+      message: "일정이 추가되었습니다.",
+    });
     props.closeModal();
   };
 
