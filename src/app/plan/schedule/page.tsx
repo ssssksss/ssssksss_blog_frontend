@@ -11,7 +11,7 @@ interface IPage {}
 
 const Page = (props: IPage) => {
   return (
-    <div className={"h-full w-full pb-[1rem] sm:p-[0_0_1rem_3.75rem]"}>
+    <div className={"h-full w-full pb-[1rem] sm:p-[0_0_1rem_3.75rem] bg-default-1"}>
       <PlanScheduleMainBox />
     </div>
   );
