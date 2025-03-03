@@ -12,6 +12,7 @@ import { PlanCreateScheduleYup } from "@utils/validation/PlanScheduleYup";
 import { addHours, format, isSameDay, parse } from "date-fns";
 import { ko } from "date-fns/locale";
 import debounce from "lodash/debounce";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // 기본 스타일
@@ -22,6 +23,7 @@ const PlanCreateScheduleModal = (props: any) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [selectCategoryId, setSelectCategoryId] = useState(0);
+  const [isFoldCalendar, setIsFoldCalendar] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
   const toastifyStore = useToastifyStore();
@@ -179,11 +181,26 @@ const PlanCreateScheduleModal = (props: any) => {
               )}
               )
             </div>
+            <button onClick={() => setIsFoldCalendar((prev) => !prev)}>
+              {isFoldCalendar ? (
+                <Image
+                  alt="ic"
+                  src={"/images/icons/ic-minimize.svg"}
+                  width={22}
+                  height={22}
+                />
+              ) : (
+                <Image
+                  alt="ic"
+                  src={"/images/icons/ic-maximize.svg"}
+                  width={22}
+                  height={22}
+                />
+              )}
+            </button>
           </div>
           <div
-            className={
-              "dynamic-opacity mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 bg-gray-20 default-primary-outline"
-            }
+            className={`dynamic-opacity mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "default-primary-outline"}`}
           >
             <div className="relative">
               <DateRangePicker
@@ -266,7 +283,7 @@ const PlanCreateScheduleModal = (props: any) => {
               setValue("content", e.target.value, {shouldValidate: true})
             }
             className={
-              "mt-[1rem] min-h-[10rem] w-full resize-none rounded-[1rem] p-1 px-1"
+              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] bg-gray-20 p-1 px-1"
             }
             placeholder="내용"
           />
@@ -274,9 +291,7 @@ const PlanCreateScheduleModal = (props: any) => {
         <div className="h-[3rem] default-flex">
           <BasicButton
             theme={1}
-            className={
-              "rounded-[1rem] px-8 py-2 disabled:cursor-not-allowed disabled:bg-black-40"
-            }
+            className={"px-8 py-2"}
             disabled={!formState.isValid}
             onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           >

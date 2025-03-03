@@ -1,4 +1,5 @@
-import Button from "@component/common/button/hybrid/Button";
+import BasicButton from "@component/common/button/hybrid/BasicButton";
+import BasicInput from "@component/common/input/BasicInput";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
@@ -96,7 +97,7 @@ const PlanCreateUpdateScheduleCategory = (
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             카테고리
           </div>
-          <input
+          <BasicInput
             className={
               "mt-[1rem] h-[2rem] w-full rounded-[1rem] bg-gray-20 px-1"
             }
@@ -152,21 +153,22 @@ const PlanCreateUpdateScheduleCategory = (
               <button
                 key={i}
                 onClick={() => setColor(i)}
-                className={`h-10 w-10 flex-shrink-0 rounded-[2.5rem] ${i} ${i == color && "outline outline-offset-1 focus:outline"}`}></button>
+                className={`h-10 w-10 flex-shrink-0 rounded-[2.5rem] hover:outline ${i} ${i == color && "outline outline-offset-1 focus:outline"}`}></button>
             ))}
           </div>
         </div>
         <div className="h-[3rem] default-flex">
-          <Button
+          <BasicButton
             onClick={() =>
               submitCreateUpdatePlanScheduleCategory(props.data?.id)
             }
             disabled={!color || !name}
+            theme={1}
             className={
-              "w-full rounded-[1rem] bg-primary-20 py-2 disabled:bg-gray-60"
+              "w-full py-2"
             }>
             {props.data?.id ? "카테고리 수정하기" : "카테고리 생성하기"}
-          </Button>
+          </BasicButton>
         </div>
       </div>
     </ModalTemplate>
