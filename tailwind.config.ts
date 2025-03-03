@@ -332,11 +332,15 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
+            "--dynamic-opacity": "0.6",
           },
         },
         "@media (prefers-color-scheme: light)": {
           ":root": {
             "--bg-default-1": `${theme("colors.white.40")}`,
+            "--bg-glassmorphism": "rgba(255, 255, 255, 0.2)",
+            "--dynamic-opacity": "0.8",
           },
           "[data-theme1=\"red\"]": {
             "--primary-color-100": `${theme("colors.red.100")}`,
@@ -624,6 +628,8 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
+            "--dynamic-opacity": "0.6",
           },
         },
       }),
@@ -671,6 +677,10 @@ const config: Config = {
           background: `${theme("colors.third.80")}`,
           color: `${theme("colors.third.text")}`,
         },
+        ".dynamic-opacity": {
+          // opacity: "var(--dynamic-opacity)",
+          "mix-blend-mode": "multiply",
+        },
         ".default-outline-nocolor": {
           outline: "0.0625rem solid",
           "outline-offset": "-0.0625rem",
@@ -694,7 +704,7 @@ const config: Config = {
         ".glassmorphism": {
           "backdrop-filter": "blur(24px) saturate(180%)",
           "-webkit-backdrop-filter": "blur(24px) saturate(180%)",
-          "background-color": "rgba(255, 255, 255, 0.8)",
+          "background-color": "var(--bg-glassmorphism)",
           "box-shadow": "0 4px 20px rgba(0, 0, 0, 0.1)",
           "will-change": "backdrop-filter, transform",
         },
