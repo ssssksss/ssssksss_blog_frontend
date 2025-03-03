@@ -643,17 +643,14 @@ const config: Config = {
         // },
         ".default-primary-outline": {
           outline: "0.0625rem solid var(--primary-color-60)",
-          "outline-offset": "-0.0625rem",
           "border-radius": "1rem",
         },
         ".default-secondary-outline": {
           outline: "0.0625rem solid var(--secondary-color-60)",
-          "outline-offset": "-0.0625rem",
           "border-radius": "1rem",
         },
         ".default-third-outline": {
           outline: "0.0625rem solid var(--third-color-60)",
-          "outline-offset": "-0.0625rem",
           "border-radius": "1rem",
         },
         ".primary-outline": {
@@ -667,15 +664,15 @@ const config: Config = {
         },
         ".primary-set": {
           background: `${theme("colors.primary.80")}`,
-          color: `${theme("colors.primary.text")}`,
+          color: `${theme("colors.primary.contrast")}`,
         },
         ".secondary-set": {
           background: `${theme("colors.secondary.80")}`,
-          color: `${theme("colors.secondary.text")}`,
+          color: `${theme("colors.secondary.contrast")}`,
         },
         ".third-set": {
           background: `${theme("colors.third.80")}`,
-          color: `${theme("colors.third.text")}`,
+          color: `${theme("colors.third.contrast")}`,
         },
         ".dynamic-opacity": {
           // opacity: "var(--dynamic-opacity)",
