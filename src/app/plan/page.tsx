@@ -46,7 +46,7 @@ const Page = async (props: IPage) => {
   return (
     <div
       className={
-        "h-[calc(100%-3rem)] w-full p-0 sm:h-full sm:p-[0_0_0_3.75rem]"
+        "h-[calc(100%-3rem)] w-full p-0 sm:h-full sm:p-[0_0_0_3.75rem] bg-default-1"
       }
     >
       <PlanHomeDashBoard data={result.data} />
