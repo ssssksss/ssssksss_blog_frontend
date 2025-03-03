@@ -15,7 +15,7 @@ const PlanCalendarItem = (props: IPlanCalendarItem) => {
   return (
     <div className="w-full h-full outline outline-2 outline-offset-[-2px] outline-gray-60">
       <div className={"justify-start flex px-1 pt-1 "}>
-        <span className={`${props.state ? "text-gray-80" : format(new Date(), "yyyy-MM-dd") == props.date ? "text-primary-100" : ""}`}> {props.day} </span> 
+        <span className={`${props.state ? "text-black-40" : format(new Date(), "yyyy-MM-dd") == props.date ? "primary-set rounded-md px-1" : "text-black-80"}`}> {props.day} </span> 
       </div>
       <div className={"relative gap-y-1 pb-2 h-auto min-h-[4rem] w-full grid"} style={{ gridTemplateRows: props.maxLayer ? `repeat(${props.maxLayer + 1}, 1fr)` : "auto" }}>
         {props.data?.length ? (

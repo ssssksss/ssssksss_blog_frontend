@@ -50,24 +50,28 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
         <Button
           onClick={() => setDateType("year")}
           disabled={true}
-          className={`h-full w-full rounded-l-[1rem] outline outline-[0.0625rem] outline-primary-60 disabled:bg-gray-80 ${dateType == "year" && "bg-primary-20"}`}>
+          className={`h-full w-full default-primary-outline disabled:bg-gray-80 ${dateType == "year" && "primary-set"} hover:cursor-not-allowed`}
+        >
           연
         </Button>
         <Button
           onClick={() => setDateType("month")}
-          className={`h-full w-full outline outline-[0.0625rem] outline-primary-60 ${dateType == "month" && "bg-primary-20"}`}>
+          className={`h-full w-full default-primary-outline ${dateType == "month" && "primary-set"}`}
+        >
           월
         </Button>
         <Button
           disabled={true}
           onClick={() => setDateType("week")}
-          className={`h-full w-full outline outline-[0.0625rem] outline-primary-60 disabled:bg-gray-80 ${dateType == "week" && "bg-primary-20"}`}>
+          className={`h-full w-full default-primary-outline disabled:bg-gray-80 ${dateType == "week" && "primary-set"} hover:cursor-not-allowed`}
+        >
           주
         </Button>
         <Button
           onClick={() => setDateType("day")}
           disabled={true}
-          className={`h-full w-full rounded-r-[1rem] outline outline-[0.0625rem] outline-primary-60 disabled:bg-gray-80 ${dateType == "day" && "bg-primary-20"}`}>
+          className={`h-full w-full default-primary-outline disabled:bg-gray-80 ${dateType == "day" && "primary-set"} hover:cursor-not-allowed`}
+        >
           일
         </Button>
       </div>

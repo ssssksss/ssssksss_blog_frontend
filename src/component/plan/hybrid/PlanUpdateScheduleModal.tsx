@@ -1,5 +1,7 @@
-import Button from "@component/common/button/hybrid/Button";
+import BasicButton from "@component/common/button/hybrid/BasicButton";
+import BasicInput from "@component/common/input/BasicInput";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import BasicTextarea from "@component/common/textarea/BasicTextarea";
 import { yupResolver } from "@hookform/resolvers/yup";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
@@ -9,6 +11,7 @@ import { PlanUpdateScheduleYup } from "@utils/validation/PlanScheduleYup";
 import { addHours, format, isSameDay, parse } from "date-fns";
 import { ko } from "date-fns/locale";
 import debounce from "lodash/debounce";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import { useForm } from "react-hook-form";
@@ -22,6 +25,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
   const [selectCategoryId, setSelectCategoryId] = useState(
     props.data.scheduleCategoryId,
   );
+  const [isFoldCalendar, setIsFoldCalendar] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
   const toastifyStore = useToastifyStore();
@@ -164,7 +168,8 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
               <button
                 key={i.name}
                 onClick={() => selectCalendarCategory(i)}
-                className={`${i.backgroundColor} h-[2rem] rounded-[1rem] p-2 default-flex ${selectCategoryId == i.id && "animate-updown"}`}>
+                className={`${i.backgroundColor} h-[2rem] rounded-[1rem] p-2 default-flex ${selectCategoryId == i.id && "animate-updown"}`}
+              >
                 {i.name}
               </button>
             ))}
@@ -181,9 +186,27 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
               )}
               )
             </div>
+            <button onClick={() => setIsFoldCalendar((prev) => !prev)}>
+              {isFoldCalendar ? (
+                <Image
+                  alt="ic"
+                  src={"/images/icons/ic-minimize.svg"}
+                  width={22}
+                  height={22}
+                />
+              ) : (
+                <Image
+                  alt="ic"
+                  src={"/images/icons/ic-maximize.svg"}
+                  width={22}
+                  height={22}
+                />
+              )}
+            </button>
           </div>
           <div
-            className={"mt-[1rem] flex flex-col items-center gap-[1.875rem]"}>
+            className={`dynamic-opacity mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "default-primary-outline"}`}
+          >
             <div className="relative">
               <DateRangePicker
                 onChange={(rangesByKey: RangeKeyDict) => {
@@ -228,13 +251,15 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
               <div
                 className={
                   "absolute left-[50%] top-6 translate-x-[-50%] font-semibold min-[880px]:left-[25%]"
-                }>
+                }
+              >
                 {year}.{month}
               </div>
               <div
                 className={
                   "absolute left-[50%] top-[calc(50%+46px)] translate-x-[-50%] font-semibold min-[880px]:left-[75%] min-[880px]:top-6"
-                }>
+                }
+              >
                 {year + Math.floor((month + 1) / 12)}.{(month % 12) + 1}
               </div>
             </div>
@@ -244,7 +269,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             제목
           </div>
-          <input
+          <BasicInput
             onChange={(e) =>
               setValue("title", e.target.value, {shouldValidate: true})
             }
@@ -259,26 +284,28 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
           <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
             내용
           </div>
-          <textarea
+          <BasicTextarea
             onChange={(e) =>
               setValue("content", e.target.value, {shouldValidate: true})
             }
             defaultValue={props.data.content}
             className={
-              "mt-[1rem] min-h-[10rem] w-full resize-none rounded-[1rem] bg-gray-20 p-1 px-1"
+              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] bg-gray-20 p-1 px-1"
             }
             placeholder="내용"
           />
         </div>
         <div className="h-[3rem] default-flex">
-          <Button
+          <BasicButton
+            theme={1}
             className={
               "rounded-[1rem] bg-primary-20 px-8 py-2 disabled:bg-gray-60"
             }
             disabled={!formState.isValid}
-            onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}>
+            onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          >
             일정 수정하기
-          </Button>
+          </BasicButton>
         </div>
       </div>
     </ModalTemplate>
