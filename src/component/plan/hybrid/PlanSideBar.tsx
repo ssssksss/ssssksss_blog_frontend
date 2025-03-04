@@ -42,9 +42,9 @@ const PlanSideBar = (props: IPlanSideBar) => {
 
   return (
     <div
-      className={`z-20 flex w-auto outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:top-[3.5rem] sm:h-[calc(100%-3.5rem)] sm:flex-col sm:py-2 sm:pt-10 ${toggleState.isHide ? "bg-default-1 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}>
+      className={`z-20 flex w-auto outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60 transition-all duration-[800ms] min-[1300px]:fixed min-[1300px]:left-0 min-[1300px]:top-[3.5rem] min-[1300px]:h-[calc(100%-3.5rem)] min-[1300px]:flex-col min-[1300px]:py-2 min-[1300px]:pt-10 ${toggleState.isHide ? "bg-default-1 min-[1300px]:w-[3rem]" : "animate-fill glassmorphism min-[1300px]:w-[22.5rem]"}`}>
       <button
-        className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-white-80 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} default-primary-outline focus:default-primary-outline`}
+        className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-white-80 transition-all duration-[800ms] min-[1300px]:absolute min-[1300px]:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} default-primary-outline focus:default-primary-outline`}
         onClick={() => toggleState.toggleHide()}>
         <FontAwesomeIcon
           icon={faPlay}
@@ -69,7 +69,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
             }}
             disabled={item.options.isRequiredAuth && !userStore.id}>
             <div
-              className={`flex h-full w-full items-center p-2 ${activeMenu === item.href ? "sm:animate-updown" : ""}`}>
+              className={`flex h-full w-full items-center p-2 ${activeMenu === item.href ? "min-[1300px]:animate-updown" : ""}`}>
               <div className={"h-8 w-8 default-flex"}>
                 <Image
                   src={item.icon}
@@ -79,7 +79,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
                 />
               </div>
               <span
-                className={`${toggleState.isHide ? "hidden" : "left-12 ml-2 hidden animate-rotateFadeIn justify-start sm:absolute sm:flex"}`}>
+                className={`${toggleState.isHide ? "hidden" : "left-12 ml-2 hidden animate-rotateFadeIn justify-start min-[1300px]:absolute min-[1300px]:flex"}`}>
                 {item.label}
               </span>
             </div>

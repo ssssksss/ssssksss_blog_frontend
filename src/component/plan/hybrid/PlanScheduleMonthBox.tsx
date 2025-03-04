@@ -115,7 +115,7 @@ const PlanScheduleMonthBox = () => {
   return (
     <div
       className={
-        "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-offset-[-0.0625rem] outline-primary-20"
+        "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline -outline-offset-[0.0625rem] outline-primary-20"
       }
     >
       <LoadingSpinner loading={loading} />

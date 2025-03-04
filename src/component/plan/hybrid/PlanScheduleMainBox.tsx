@@ -45,7 +45,7 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   }
 
   return (
-    <div className={"flex h-full w-full flex-col pt-2 max-[440px]:text-xs"}>
+    <div className={"flex h-full w-full flex-col pt-2 px-1 max-[440px]:text-xs"}>
       <div className="flex h-[2rem] flex-shrink-0">
         <Button
           onClick={() => setDateType("year")}
