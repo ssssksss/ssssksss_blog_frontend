@@ -20,8 +20,10 @@ interface IPlanUpdateScheduleModal extends INestedModalComponent {
   data: IPlanScheduleObject | IPlanSchedule;
 }
 const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(+props.data.scheduleStartDate.substring(0,4));
+  const [month, setMonth] = useState(
+    +props.data.scheduleStartDate.substring(5, 7),
+  );
   const [selectCategoryId, setSelectCategoryId] = useState(
     props.data.scheduleCategoryId,
   );
