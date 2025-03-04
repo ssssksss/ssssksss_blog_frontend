@@ -65,7 +65,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
         } gap-y-2 overflow-hidden transition-transform duration-500`}
       >
         <article
-          className={`dynamic-opacity h-full w-full overflow-y-scroll rounded-[1rem] bg-red-20 ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
+          className={`h-full max-h-[600px] w-full overflow-y-scroll rounded-[1rem] bg-red-20 dynamic-opacity ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -86,7 +86,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
         </article>
 
         <article
-          className={`dynamic-opacity h-full w-full overflow-y-scroll rounded-[1rem] bg-green-20 ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
+          className={`h-full max-h-[400px] w-full overflow-y-scroll rounded-[1rem] bg-green-20 dynamic-opacity ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -117,7 +117,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
         } gap-y-2 overflow-hidden`}
       >
         <article
-          className={`dynamic-opacity relative h-full w-full overflow-y-scroll rounded-[1rem] bg-blue-20 ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
+          className={`relative h-full max-h-[400px] w-full overflow-y-scroll rounded-[1rem] bg-blue-20 dynamic-opacity ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -140,7 +140,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
         </article>
 
         <article
-          className={`dynamic-opacity h-full w-full overflow-y-scroll rounded-[1rem] bg-yellow-20 ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
+          className={`h-full max-h-[600px] w-full overflow-y-scroll rounded-[1rem] bg-yellow-20 dynamic-opacity ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
