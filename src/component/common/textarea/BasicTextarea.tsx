@@ -1,14 +1,24 @@
 import React from "react";
 
-type BasicTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-
-const BasicTextarea: React.FC<BasicTextareaProps> = ({className, ...props}) => {
-  return (
-    <textarea
-      className={`dynamic-opacity bg-default-1 bg-gray-40 ${className}`}
-      {...props}
-    />
-  );
+type BasicTextareaProps = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  "className"
+> & {
+  className?: string;
 };
+
+const BasicTextarea = React.forwardRef<HTMLTextAreaElement, BasicTextareaProps>(
+  ({className, ...props}, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        className={`bg-default-1 ${className ?? ""}`}
+        {...props}
+      />
+    );
+  },
+);
+
+BasicTextarea.displayName = "BasicTextarea";
 
 export default BasicTextarea;

@@ -19,8 +19,9 @@ const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
   return (
     <ModalTemplate
       className={
-        "flex w-[calc(100vw-2rem)] max-w-[37.5rem] flex-col overflow-y-scroll rounded-b-[1rem] bg-white-100 px-[2.75rem] pb-8 pt-[3rem]"
-      }>
+        "flex w-[calc(100vw-2rem)] max-w-[33.5rem] flex-col overflow-y-scroll rounded-b-[1rem] bg-default-1 px-[2.75rem] pb-8 pt-[3rem]"
+      }
+    >
       {props.closeButtonComponent}
       <div className="flex w-full gap-4">
         {buttons.map((btn) => (
@@ -28,9 +29,10 @@ const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
             key={btn.value}
             className={`h-[3rem] w-full ${
               menu === btn.value &&
-              "bg-primary-20 text-lg font-bold text-black-80"
-            } rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20`}
-            onClick={() => setMenu(btn.value)}>
+              "primary-set text-lg font-bold text-black-80"
+            } rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline`}
+            onClick={() => setMenu(btn.value)}
+          >
             {btn.label}
           </Button>
         ))}

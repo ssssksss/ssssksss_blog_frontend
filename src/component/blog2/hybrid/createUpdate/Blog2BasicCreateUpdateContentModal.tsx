@@ -218,7 +218,7 @@ const Blog2BasicCreateUpdateContentModal = (
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-primary-outline">
+        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4 primary-outline z-10">
           <Dropdown
             options={blog2Store.categoryList.map((i) => {
               return {
@@ -234,7 +234,7 @@ const Blog2BasicCreateUpdateContentModal = (
             defaultValue={props.item?.blog2FirstCategoryId || 0}
             dropdownHandler={handleClickFirstCategory}
             placeholder={"카테고리1"}
-            containerClassName={"min-h-12 bg-white-80"}
+            containerClassName={"min-h-12 bg-default-1"}
           />
           <Dropdown
             options={secondCategoryList.map((i) => {
@@ -255,7 +255,7 @@ const Blog2BasicCreateUpdateContentModal = (
               !blog2ContentFormContext.getValues("firstCategoryId") ||
               secondCategoryList.length < 1
             }
-            containerClassName={"min-h-12 bg-white-80"}
+            containerClassName={"min-h-12 bg-default-1"}
           />
           <Input
             type={"text"}

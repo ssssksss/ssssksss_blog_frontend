@@ -4,6 +4,7 @@ import { useState } from "react";
 import useBlog2Store from "src/store/blog2Store";
 import Blog2FirstCategoryCreateForm from "./Blog2FirstCategoryCreateForm";
 
+// TODO : 블로그 카테고리 수정 및 삭제 추가 필요
 const buttons = [
   { label: "추가", value: "add" },
   { label: "수정", value: "update" },
@@ -15,7 +16,7 @@ const Blog2FirstCategoryModal = (props: IModalComponent) => {
   const blogCategoryStore = useBlog2Store();
 
   return (
-    <ModalTemplate className="w-[calc(100vw-2rem)] max-w-[37.5rem] max-h-[40rem]">
+    <ModalTemplate className="w-[calc(100vw-2rem)] max-w-[33.5rem] max-h-[40rem]">
       {props.closeButtonComponent}
       {/* <div
         className={
@@ -29,7 +30,7 @@ const Blog2FirstCategoryModal = (props: IModalComponent) => {
             className={`w-full h-[3rem] ${
               menu === btn.value &&
             "bg-primary-20 text-black-80 font-bold text-lg"
-            } outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem]`}
+            } outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline rounded-[1rem] ${btn.value == "add" || "hover:cursor-not-allowed bg-black-80"}`}
             onClick={() => setMenu(btn.value)}
           >
             {btn.label}

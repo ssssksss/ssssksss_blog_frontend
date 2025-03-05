@@ -50,12 +50,12 @@ export default function RootLayout({
         <meta property="og:image:height" content="630" />
       </head>
       <body
-        className={"flex min-h-full w-full flex-col items-center"}
+        className={"flex min-h-full w-full flex-col items-center bg-default-1"}
       >
         <Suspense fallback={<div>Loading...</div>}>
           <Header />
         </Suspense>
-        <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem] bg-default-1"}>
+        <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem]"}>
           {children}
         </main>
         {/* <main className={"w-full h-full max-w-[75rem] overflow-y-scroll scrollbar-hide"}>{children}</main> */}

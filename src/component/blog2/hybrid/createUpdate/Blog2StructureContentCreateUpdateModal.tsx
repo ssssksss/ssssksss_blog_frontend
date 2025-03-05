@@ -135,26 +135,28 @@ const Blog2StructureContentCreateUpdateModal = (
       {props.closeButtonComponent}
       <Blog2SubCreateUpdateHeader
         type={"structure"}
-        saveHandler={()=>props.loadingWithHandler(
-          blog2ContentFormContext.handleSubmit(
-            handleSubmitClick,
-            onClickErrorSubmit,
-          ),
-        )}
+        saveHandler={() =>
+          props.loadingWithHandler(
+            blog2ContentFormContext.handleSubmit(
+              handleSubmitClick,
+              onClickErrorSubmit,
+            ),
+          )
+        }
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-white-100 p-4 default-primary-outline">
-          <div className={"grid w-full grid-cols-2"}>
+        <div className="absolute left-[1rem] top-[8rem] z-10 flex w-[calc(100%-2rem)] flex-col gap-y-2 bg-default-1 p-4 primary-outline">
+          <div
+            className={`grid w-full ${projectList?.length > 0 ? "grid-cols-2" : "grid-cols-1"}`}
+          >
             <Input
               type={"text"}
               // register={blog2ContentFormContext.register("project")}
-              className={
-                "flex h-[3rem] min-h-12 w-full items-center px-2 default-primary-outline"
-              }
-              placeholder="프로젝트명 스네이크케이스를 이용해서 표기"
+              className={"flex h-[3rem] min-h-12 w-full items-center px-2"}
+              placeholder="프로젝트명 스네이크케이스(_)를 이용해서 표기"
               value={projectName}
               onChange={(e) => {
                 setProjectName(e.target.value);
@@ -163,24 +165,26 @@ const Blog2StructureContentCreateUpdateModal = (
                 });
               }}
             />
-            <Dropdown
-              options={projectList}
-              value=""
-              defaultValue=""
-              containerClassName={"min-h-12 bg-white-80"}
-              dropdownHandler={(value) => {
-                setProjectName(value);
-                blog2ContentFormContext.setValue("project", value, {
-                  shouldValidate: true,
-                });
-              }}
-            />
+            {projectList?.length > 0 && (
+              <Dropdown
+                options={projectList}
+                value={projectList.filter(i=> i.name == projectName).length > 0 ? projectName : ""}
+                defaultValue=""
+                containerClassName={"min-h-12 bg-default-1 "}
+                dropdownHandler={(value) => {
+                  setProjectName(value);
+                  blog2ContentFormContext.setValue("project", value, {
+                    shouldValidate: true,
+                  });
+                }}
+              />
+            )}
           </div>
           <Input
             type={"text"}
             register={blog2ContentFormContext.register("directory")}
             className={
-              "flex h-[3rem] min-h-12 items-center px-2 default-primary-outline"
+              "flex h-[3rem] min-h-12 items-center px-2"
             }
             placeholder="경로의 시작은 /로 시작하지 않습니다. ex) src/..."
           />

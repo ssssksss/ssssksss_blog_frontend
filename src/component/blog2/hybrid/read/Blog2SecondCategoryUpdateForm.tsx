@@ -107,7 +107,10 @@ const Blog2SecondCategoryUpdateForm = (
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
-        className={"flex h-[3rem] items-center justify-center default-primary-outline"}>
+        className={
+          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+        }
+      >
         {blog2Store.categoryList.map(
           (el) =>
             el.id == Number(searchParams.get("firstCategoryId")) && el.name,
@@ -141,12 +144,13 @@ const Blog2SecondCategoryUpdateForm = (
         }}
       />
       <label
-        className={`relative z-50 h-[16rem] w-full rounded-2xl default-primary-outline ${imageUrl && "cursor-pointer"}`}
+        className={`relative z-50 h-[16rem] w-full primary-outline ${imageUrl && "cursor-pointer"}`}
         htmlFor={"imageUpload"}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
-        onDrop={onDropOrInputEvent}>
+        onDrop={onDropOrInputEvent}
+      >
         {imageUrl && (
           <Image
             src={imageUrl}
@@ -164,12 +168,14 @@ const Blog2SecondCategoryUpdateForm = (
         onChange={onDropOrInputEvent}
         disabled={!imageUrl}
       />
+      {/* TODO : 다시 처음 값으로 돌아올 경우 유효하지 않게 수정 */}
       <Button
         onClick={handleSubmit(updateSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] default-primary-outline hover:bg-primary-20 disabled:bg-gray-60"
-        }>
+          "h-[3rem] rounded-2xl primary-outline primary-set hover:bg-primary-20 disabled:bg-gray-60"
+        }
+      >
         추가
       </Button>
     </div>

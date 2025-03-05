@@ -295,7 +295,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
             }
             defaultValue={props.data.content}
             className={
-              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] bg-gray-20 p-1 px-1"
+              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] primary-outline p-1 px-1"
             }
             placeholder="내용"
           />

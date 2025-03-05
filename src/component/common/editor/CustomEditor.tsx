@@ -5,6 +5,7 @@ import "@styles/customEditor.css";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { convertToObjectUrl } from "@utils/function/convertToObjectUrl";
 import { ClipboardEvent, useEffect, useRef, useState } from "react";
+import BasicTextarea from "../textarea/BasicTextarea";
 
 interface ICustomEditor {
   handleContentChange: (content: string) => void;
@@ -111,7 +112,7 @@ const CustomEditor = (props: ICustomEditor) => {
         >
           내용작성
         </h3>
-        <textarea
+        <BasicTextarea
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={

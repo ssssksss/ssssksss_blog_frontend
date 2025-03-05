@@ -164,7 +164,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
             )}
             <h2> 일정 목록 </h2>
             <button
-              className="absolute right-1 top-1/2 -translate-y-1/2 bg-white-100 px-2 py-1 shadow-2xl default-primary-outline disabled:bg-gray-60"
+              className="absolute right-1 top-1/2 -translate-y-1/2 bg-default-1 px-2 py-1 shadow-2xl default-primary-outline disabled:bg-gray-60"
               disabled={group == undefined}
             >
                 일정 등록

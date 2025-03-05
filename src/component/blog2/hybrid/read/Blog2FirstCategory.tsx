@@ -78,9 +78,9 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     >
       {blog2Store.categoryList?.map((el) => (
         <Button
-          className={`px-4 py-2 h-[3rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem] ${
+          className={`px-4 py-2 h-[3rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 rounded-[1rem] ${
             el.id == blog2Store.activeBlog2FirstCategoryId &&
-            "bg-primary-20"
+            "primary-set"
           }`}
           key={el.id}
           onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
@@ -101,7 +101,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         >
           <div
             className={
-              "w-[2.4rem] aspect-square  flex items-center justify-center outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem]"
+              "w-[2.4rem] aspect-square  flex items-center justify-center outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 rounded-[1rem]"
             }
           >
             <FontAwesomeIcon icon={faGear} />

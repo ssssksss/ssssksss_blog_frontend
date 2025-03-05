@@ -2,6 +2,7 @@ import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
@@ -22,9 +23,14 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     IBlog2BasicContent[]
   >([]);
   const searchRef = useRef<HTMLInputElement>(null);
+  const toastifyStore = useToastifyStore();
 
   // 블로그 기초 글 검색 api
   const blog2BasicSearchHandler = async () => {
+    // 검색결과가 동일하다면 요청을 보내지 않는다.
+    if (searchRef.current!.value == search) {
+      return;
+    }
     const response = await fetch(
       `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`,
       {
@@ -39,6 +45,9 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
       const result: responseSearchBlog2BasicContentList = await response.json();
       setBlog2BasicContentList(result.data.blog2BasicList.content);
       setSearch(searchRef.current!.value);
+      toastifyStore.setToastify({
+        message: `${result.data.blog2BasicList.content.length}개의 검색 결과`,
+      });
     } else if (!response.ok) {
       setBlog2BasicContentList([]);
     }
@@ -78,7 +87,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
         />
         <Button
           className={
-            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2"
+            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 primary-outline px-4 py-2"
           }
           onClick={() => blog2BasicSearchHandler()}
         >

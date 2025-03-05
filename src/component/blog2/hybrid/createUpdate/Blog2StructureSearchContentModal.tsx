@@ -4,6 +4,7 @@ import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
+import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
@@ -25,7 +26,8 @@ const Blog2StructureSearchContentModal = (
   const [blog2StructureContentList, setBlog2StructureContentList] = useState<
     IBlog2StructureContent[]
   >([]);
-  const {loading, startLoading, stopLoading} = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
+  const toastifyStore = useToastifyStore();
 
   // 블로그 기초 글 검색 api
   const blog2StructureSearchHandler = async () => {
@@ -46,6 +48,9 @@ const Blog2StructureSearchContentModal = (
       setBlog2StructureContentList(
         result.data.blog2StructureContentList.content,
       );
+      toastifyStore.setToastify({
+        message: `${result.data.blog2StructureContentList.content.length}개의 검색 결과`,
+      });
       stopLoading();
     } else if (!response.ok) {
       setBlog2StructureContentList([]);
@@ -55,9 +60,7 @@ const Blog2StructureSearchContentModal = (
 
   return (
     <ModalTemplate
-      className={
-        "h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem]"
-      }
+      className={"h-[calc(100vh-1rem)] w-[calc(100vw-1rem)] max-w-[60rem]"}
     >
       <LoadingSpinner loading={loading} />
       {props.closeButtonComponent}
@@ -65,14 +68,14 @@ const Blog2StructureSearchContentModal = (
         <Input
           type={"text"}
           className={"h-[4rem] w-full outline-none"}
-          placeholder={"블로그 파일 디렉토리를 입력해주세요"}
+          placeholder={"블로그 파일 디렉토리를 입력해주세요, /로 시작x"}
           maxLength={50}
           onKeyPressAction={(e) => blog2StructureSearchHandler()}
           onChange={(e) => setSearch(e.target.value)}
         />
         <Button
           className={
-            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2"
+            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2 primary-outline"
           }
           onClick={() => blog2StructureSearchHandler()}
         >

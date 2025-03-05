@@ -81,7 +81,7 @@ const Blog2SecondCategoryDeleteForm = (
       .blog2SecondCategoryList?.forEach((j) => {
         if (j.id == id) {
           setImageUrl(AWSS3Prefix + "" + j.thumbnailImageUrl);
-          setValue("deleteSecondCategoryId", id);
+          setValue("deleteSecondCategoryId", id, {shouldValidate: true});
         }
       });
   };
@@ -89,7 +89,9 @@ const Blog2SecondCategoryDeleteForm = (
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
-        className={"flex h-[3rem] items-center justify-center default-primary-outline"}
+        className={
+          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+        }
       >
         {blog2Store.categoryList.map(
           (el) =>
@@ -113,7 +115,7 @@ const Blog2SecondCategoryDeleteForm = (
         OptionContainerMaxH="max-h-[22rem]"
       />
       <label
-        className={"relative z-50 h-[16rem] w-full rounded-2xl default-primary-outline"}
+        className={"relative z-50 h-[16rem] w-full primary-outline"}
         htmlFor={"imageUpload"}
       >
         {imageUrl && (
@@ -125,11 +127,12 @@ const Blog2SecondCategoryDeleteForm = (
           />
         )}
       </label>
+      {/* TODO : confirm 버튼으로 변경 필요 */}
       <Button
         onClick={handleSubmit(deleteSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] default-primary-outline hover:bg-primary-20 disabled:bg-gray-60"
+          "h-[3rem] rounded-2xl primary-outline primary-set hover:bg-primary-20 disabled:bg-gray-60"
         }
       >
         삭제

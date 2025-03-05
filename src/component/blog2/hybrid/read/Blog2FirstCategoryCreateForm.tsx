@@ -51,7 +51,7 @@ const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
       <Button
         onClick={handleSubmit(createFirstCategoryHandler)}
         disabled={!formState.isValid}
-        className={"mt-[1rem] h-[3rem] hover:bg-primary-20 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem]"}      
+        className={"mt-[1rem] h-[3rem] hover:bg-primary-20 outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline rounded-[1rem]"}      
       >
         추가
       </Button>

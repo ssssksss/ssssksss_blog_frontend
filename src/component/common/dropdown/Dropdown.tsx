@@ -44,7 +44,7 @@ export default function Dropdown<T>(props: IDropdown<T>) {
       ref={ref}>
       <button
         onClick={toggleDropdown}
-        className={`-z-1 flex h-full w-full items-center justify-center gap-x-2 text-sm default-primary-outline ${props.containerClassName} font-medium text-gray-700`}>
+        className={`-z-1 flex h-full w-full items-center justify-center gap-x-2 text-sm primary-outline ${props.containerClassName} font-medium text-gray-700 ${selectedOption && "primary-set"}`}>
         <div className={"min-w-fit"}>
           {/* {props.options.filter((i) => i.value == selectedOption)[0].name} */}
           {selectedOptionObject ? selectedOptionObject.name : props.placeholder}
@@ -63,7 +63,7 @@ export default function Dropdown<T>(props: IDropdown<T>) {
       </button>
       {modalState.isOpen && (
         <ul
-          className={`absolute z-[80] overflow-y-scroll bg-white-100 scrollbar-hide default-primary-outline ${props.elementClassName} bg-white/95 text-gray1 flex flex-col items-center gap-1 shadow transition duration-200 ease-out ${props.OptionContainerMaxH}`}
+          className={`absolute z-[80] overflow-y-scroll bg-default-1 scrollbar-hide primary-outline ${props.elementClassName} bg-white/95 text-gray1 flex flex-col items-center gap-1 shadow transition duration-200 ease-out ${props.OptionContainerMaxH}`}
           style={{
             top: ref.current?.clientHeight + "px",
             width: ref.current?.clientWidth,
@@ -76,8 +76,8 @@ export default function Dropdown<T>(props: IDropdown<T>) {
                 handleOptionClick(i.value);
               }}
               style={{minHeight: ref.current?.clientHeight}}
-              className={`flex w-full items-center justify-center text-sm hover:bg-primary-20 ${
-                selectedOption === i.value ? "bg-white" : ""
+              className={`flex w-full items-center justify-center text-sm hover:bg-primary-40 ${
+                selectedOption === i.value ? "primary-set": ""
               }`}
               role="menuitem">
               {i.name}

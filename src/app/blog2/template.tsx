@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 
 export default function Template({children}: {children: ReactNode}) {
   return (
-    <main className="h-full w-full p-1">
+    <div className="h-auto w-full p-1">
       {children}
       <Blog2FloatMenu />
-    </main>
+    </div>
   );
 }

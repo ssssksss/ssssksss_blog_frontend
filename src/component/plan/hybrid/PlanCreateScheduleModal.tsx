@@ -203,7 +203,7 @@ const PlanCreateScheduleModal = (props: any) => {
             </button>
           </div>
           <div
-            className={`dynamic-opacity mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "default-primary-outline"}`}
+            className={`mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "default-primary-outline"}`}
           >
             <div className="relative">
               <DateRangePicker
@@ -272,7 +272,7 @@ const PlanCreateScheduleModal = (props: any) => {
               setValue("title", e.target.value, {shouldValidate: true})
             }
             className={
-              "mt-[1rem] h-[2rem] w-full rounded-[1rem] bg-gray-20 px-1"
+              "mt-[1rem] h-[2rem] w-full rounded-[1rem] px-1"
             }
             placeholder="제목"
           />
@@ -286,7 +286,7 @@ const PlanCreateScheduleModal = (props: any) => {
               setValue("content", e.target.value, {shouldValidate: true})
             }
             className={
-              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] bg-gray-20 p-1 px-1"
+              "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] p-1 px-1 primary-outline"
             }
             placeholder="내용"
           />

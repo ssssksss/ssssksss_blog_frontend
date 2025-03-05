@@ -67,7 +67,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   return (
     <div
       className={
-        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap rounded-[1rem] outline-primary-20 scrollbar-hide"
+        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap rounded-[1rem] outline-primary-80 scrollbar-hide"
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
@@ -76,9 +76,9 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
           el.id == blog2Store.activeBlog2FirstCategoryId &&
           el.blog2SecondCategoryList?.map((el2) => (
             <Button
-              className={`h-[3rem] rounded-[1rem] px-4 py-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 ${
+              className={`h-[3rem] rounded-[1rem] px-4 py-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 ${
                 el2.id == blog2Store.activeBlog2SecondCategoryId &&
-                "bg-primary-20"
+                "primary-set"
               }`}
               key={el2.id}
               onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
@@ -99,7 +99,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
             <ModalButton modal={<Blog2SecondCategoryModal />}>
               <div
                 className={
-                  "flex aspect-square w-[2.4rem] items-center justify-center rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+                  "flex aspect-square w-[2.4rem] items-center justify-center rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80"
                 }
               >
                 <FontAwesomeIcon icon={faGear} />

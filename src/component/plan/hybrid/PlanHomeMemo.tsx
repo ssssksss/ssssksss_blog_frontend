@@ -72,7 +72,7 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
       <div
         className={`z-50 ${isHideAddMemo ? "hidden h-0 w-0" : "fixed h-[calc(100%-3.5rem)] w-[calc(100%-0.5rem)]"}`}>
         <div
-          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-full bg-white-100 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
+          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-full bg-default-1 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
           <textarea
             placeholder="새로운 메모작성"
             value={content} // Bind value to content state

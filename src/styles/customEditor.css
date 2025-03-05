@@ -7,6 +7,15 @@
   outline-offset: -1px;
   padding: 1rem;
   object-fit: contain;
+  @media (prefers-color-scheme: dark): {
+    /* 이미지를 다크모드에서 더 어둡게 하려면 사용 */
+    /* filter: brightness(0.8); */
+  }
+}
+
+.dark #preview img {
+  /* 이미지를 다크모드에서 더 어둡게 하려면 사용 */
+  /* filter: brightness(0.8); */
 }
 
 #preview li {

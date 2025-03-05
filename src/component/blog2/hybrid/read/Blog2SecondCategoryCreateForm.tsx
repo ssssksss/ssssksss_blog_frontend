@@ -7,9 +7,9 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
-
 interface IBlog2SecondCategoryCreateForm {
   closeModal?: () => void;
 }
@@ -77,7 +77,10 @@ const Blog2SecondCategoryCreateForm = (
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
-        className={"flex h-[3rem] items-center justify-center default-primary-outline"}>
+        className={
+          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+        }
+      >
         {blog2Store.categoryList.map(
           (el) =>
             el.id == Number(searchParams.get("firstCategoryId")) && el.name,
@@ -89,19 +92,27 @@ const Blog2SecondCategoryCreateForm = (
         className="min-h-[3rem]"
       />
       <label
-        className={"relative h-[16rem] w-full cursor-pointer default-primary-outline"}
+        className={
+          "relative h-[16rem] w-full cursor-pointer primary-outline"
+        }
         htmlFor={"imageUpload"}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
-        onDrop={onDropOrInputEvent}>
-        {imageUrl && (
+        onDrop={onDropOrInputEvent}
+      >
+        {imageUrl ? (
           <Image
             src={imageUrl}
             alt={"image"}
             layout="fill"
             className="rounded-[1rem]"
           />
+        ) : (
+          <div className="h-full w-full flex-col default-flex">
+            <CiImageOn size={72} />
+            <span> Drag and drop an image or click to upload </span>
+          </div>
         )}
         <Input
           id="imageUpload"
@@ -115,8 +126,9 @@ const Blog2SecondCategoryCreateForm = (
         onClick={handleSubmit(createSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] default-primary-outline hover:bg-primary-20 disabled:bg-gray-60"
-        }>
+          "mt-[1rem] h-[3rem] rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline hover:bg-primary-20"
+        }
+      >
         추가
       </Button>
     </div>

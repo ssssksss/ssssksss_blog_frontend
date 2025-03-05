@@ -66,6 +66,7 @@ const config: Config = {
       colors: {
         default: {
           1: "var(--bg-default-1)",
+          2: "var(--bg-default-2)",
         },
         primary: {
           100: "var(--primary-color-100)",
@@ -332,6 +333,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-default-2": `${theme("colors.gray.80")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
@@ -339,6 +341,7 @@ const config: Config = {
         "@media (prefers-color-scheme: light)": {
           ":root": {
             "--bg-default-1": `${theme("colors.white.40")}`,
+            "--bg-default-2": `${theme("colors.gray.40")}`,
             "--bg-glassmorphism": "rgba(255, 255, 255, 0.2)",
             "--dynamic-opacity": "0.8",
           },
@@ -607,7 +610,6 @@ const config: Config = {
             "--third-color-20": `${theme("colors.white.20")}`,
             "--third-color-contrast": `${theme("colors.white.contrast")}`,
           },
-
           ".dark": {
             "--primary-color-100": `${theme("colors.black.100")}`,
             "--primary-color-80": `${theme("colors.black.80")}`,
@@ -615,12 +617,12 @@ const config: Config = {
             "--primary-color-40": `${theme("colors.black.40")}`,
             "--primary-color-20": `${theme("colors.black.20")}`,
             "--primary-color-contrast": `${theme("colors.black.contrast")}`,
-            "--secondary-color-100": `${theme("colors.gray.100")}`,
-            "--secondary-color-80": `${theme("colors.gray.80")}`,
-            "--secondary-color-60": `${theme("colors.gray.60")}`,
-            "--secondary-color-40": `${theme("colors.gray.40")}`,
-            "--secondary-color-20": `${theme("colors.gray.20")}`,
-            "--secondary-color-contrast": `${theme("colors.gray.contrast")}`,
+            "--secondary-color-100": `${theme("colors.black.100")}`,
+            "--secondary-color-80": `${theme("colors.black.80")}`,
+            "--secondary-color-60": `${theme("colors.black.60")}`,
+            "--secondary-color-40": `${theme("colors.black.40")}`,
+            "--secondary-color-20": `${theme("colors.black.20")}`,
+            "--secondary-color-contrast": `${theme("colors.black.contrast")}`,
             "--third-color-100": `${theme("colors.black.100")}`,
             "--third-color-80": `${theme("colors.black.80")}`,
             "--third-color-60": `${theme("colors.black.60")}`,
@@ -628,6 +630,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-default-2": `${theme("colors.gray.80")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
@@ -642,25 +645,25 @@ const config: Config = {
         //   },
         // },
         ".default-primary-outline": {
-          outline: "0.0625rem solid var(--primary-color-60)",
+          outline: "0.0625rem solid var(--primary-color-80)",
           "border-radius": "1rem",
         },
         ".default-secondary-outline": {
-          outline: "0.0625rem solid var(--secondary-color-60)",
+          outline: "0.0625rem solid var(--secondary-color-80)",
           "border-radius": "1rem",
         },
         ".default-third-outline": {
-          outline: "0.0625rem solid var(--third-color-60)",
+          outline: "0.0625rem solid var(--third-color-80)",
           "border-radius": "1rem",
         },
         ".primary-outline": {
-          outline: "0.0625rem solid var(--primary-color-60)",
+          outline: "0.0625rem solid var(--primary-color-80)",
         },
         ".secondary-outline": {
-          outline: "0.0625rem solid var(--secondary-color-60)",
+          outline: "0.0625rem solid var(--secondary-color-80)",
         },
         ".third-outline": {
-          outline: "0.0625rem solid var(--third-color-60)",
+          outline: "0.0625rem solid var(--third-color-80)",
         },
         ".primary-set": {
           background: `${theme("colors.primary.80")}`,

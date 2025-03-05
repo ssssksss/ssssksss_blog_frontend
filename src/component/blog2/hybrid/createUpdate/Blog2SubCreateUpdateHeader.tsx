@@ -17,7 +17,7 @@ const Blog2SubCreateUpdateHeader = (props: IBlog2SubCreateUpdateHeader) => {
   return (
     <div
       className={
-        "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] relative gap-x-2 py-2 font-bold default-primary-outline default-flex"
+        "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] relative gap-x-2 py-2 font-bold primary-outline default-flex"
       }
     >
       {props.type == "basic" && (
