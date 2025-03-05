@@ -88,7 +88,6 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
               .then(() => {
                 // alert("코드가 복사되었습니다!");
                 toastifyStore.setToastify({
-                  type: "success",
                   message: "코드가 복사되었습니다."
                 });
               })
@@ -105,7 +104,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         pre.removeEventListener("click", () => {});
       });
     };
-  }, []);
+  }, [menu]);
 
   useEffect(() => {
     blog2Store.setBlog2ActiveFirstCategoryId(props.data.blog2.firstCategoryId);
