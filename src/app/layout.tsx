@@ -55,7 +55,7 @@ export default function RootLayout({
         <Suspense fallback={<div>Loading...</div>}>
           <Header />
         </Suspense>
-        <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem]"}>
+        <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem] bg-default-1"}>
           {children}
         </main>
         {/* <main className={"w-full h-full max-w-[75rem] overflow-y-scroll scrollbar-hide"}>{children}</main> */}
