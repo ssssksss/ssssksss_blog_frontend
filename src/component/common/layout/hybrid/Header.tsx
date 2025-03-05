@@ -218,6 +218,7 @@ const Header = (props: IHeader) => {
         ref={headerRef}
         className={`fixed z-50 h-[3rem] w-full bg-default-1 ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "-z-30 opacity-0"}`}
       >
+        <div className="w-full bg-primary-100 h-[0.25rem] absolute -bottom-[0.25rem]">  </div>
         <section
           className={
             "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1"
