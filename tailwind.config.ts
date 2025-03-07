@@ -709,7 +709,7 @@ const config: Config = {
           "will-change": "backdrop-filter, transform",
         },
         ".bg-gradient": {
-          background: `linear-gradient(to right, ${theme("colors.primary.40")} 0%, ${theme("colors.secondary.40")} 100%)`,
+          background: `linear-gradient(to right, ${theme("colors.primary.60")} 0%, ${theme("colors.secondary.60")} 100%)`,
         },
         ".animate-paused": {
           "animation-play-state": "paused",

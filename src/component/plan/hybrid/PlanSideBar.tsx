@@ -59,7 +59,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
           key={`sideBarItem${index}`}
           className={`flex animate-fadeIn ${toggleState.isHide ? "hover:bg-primary-20" : "relative hover:bg-secondary-20"}`}>
           <Button
-            className={`flex h-full w-full items-center justify-start rounded-none outline-none ${activeMenu === item.href ? "text-white bg-gradient" : "text-black bg-transparent"}`}
+            className={`flex h-full w-full items-center justify-start rounded-none outline-none ${activeMenu === item.href ? "text-white bg-gradient" : "text-black bg-transparent hover:bg-secondary-40"}`}
             onClick={(e) => {
               if (item.href == activeMenu) {
                 e.preventDefault();
