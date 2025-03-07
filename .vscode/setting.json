@@ -3,6 +3,7 @@
   "eslint.enable": true,
   "editor.formatOnSave": false,
   "javascript.validate.enable": false,
+  "prettier.jsxBracketSameLine": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
