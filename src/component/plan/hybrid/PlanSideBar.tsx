@@ -42,7 +42,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
 
   return (
     <div
-      className={`z-20 flex w-auto outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-60 transition-all duration-[800ms] min-[1300px]:fixed min-[1300px]:left-0 min-[1300px]:top-[3.5rem] min-[1300px]:h-[calc(100%-3.5rem)] min-[1300px]:flex-col min-[1300px]:py-2 min-[1300px]:pt-10 ${toggleState.isHide ? "bg-default-1 min-[1300px]:w-[3rem]" : "animate-fill glassmorphism min-[1300px]:w-[22.5rem]"}`}>
+      className={`z-20 flex w-auto outline outline-[0.0625rem] outline-primary-60 transition-all duration-[800ms] min-[1300px]:fixed min-[1300px]:left-0 min-[1300px]:top-[3.5rem] min-[1300px]:h-[calc(100%-3.5rem)] min-[1300px]:flex-col min-[1300px]:py-2 min-[1300px]:pt-10 ${toggleState.isHide ? "bg-default-1 min-[1300px]:w-[3rem]" : "animate-fill glassmorphism min-[1300px]:w-[22.5rem]"}`}>
       <button
         className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-white-80 transition-all duration-[800ms] min-[1300px]:absolute min-[1300px]:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} default-primary-outline focus:default-primary-outline`}
         onClick={() => toggleState.toggleHide()}>
@@ -59,7 +59,7 @@ const PlanSideBar = (props: IPlanSideBar) => {
           key={`sideBarItem${index}`}
           className={`flex animate-fadeIn ${toggleState.isHide ? "hover:bg-primary-20" : "relative hover:bg-secondary-20"}`}>
           <Button
-            className={`flex h-full w-[calc(100%-0.0625rem)] items-center justify-start rounded-none outline-none ${activeMenu === item.href ? "text-white bg-gradient" : "text-black bg-transparent"}`}
+            className={`flex h-full w-full items-center justify-start rounded-none outline-none ${activeMenu === item.href ? "text-white bg-gradient" : "text-black bg-transparent"}`}
             onClick={(e) => {
               if (item.href == activeMenu) {
                 e.preventDefault();
