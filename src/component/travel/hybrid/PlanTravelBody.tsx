@@ -2,6 +2,7 @@
 
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
+import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -34,6 +35,7 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
   const [keyword, setKeyword] = useState("");
   const [list, setList] = useState<Test[]>([]);
   const keywordRef = useRef<HTMLInputElement>(null);
+  const toastifyStore = useToastifyStore();
   const fetchTouristInfo = async () => {
     try {
       const response = await fetch(
@@ -45,8 +47,14 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
       const data = await response.json();
       const items = data.response.body.items.item;
       setData(items);
+      toastifyStore.setToastify({
+        message: "검색 되었습니다."
+      });
     } catch (error) {
-      console.error("API 요청 오류:", error);
+      toastifyStore.setToastify({
+        type: "error",
+        message: "검색 실패.",
+      });
     }
   };
 
