@@ -44,13 +44,7 @@ async function getData() {
 const Page = async (props: IPage) => {
   const result: ResReadPlanScheduleList = await getData();
   return (
-    <div
-      className={
-        "h-[calc(100%-3rem)] w-full p-0 sm:h-full"
-      }
-    >
-      <PlanHomeDashBoard data={result.data} />
-    </div>
+    <PlanHomeDashBoard data={result.data} />
   );
 };
 export default Page;
