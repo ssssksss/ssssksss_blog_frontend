@@ -67,6 +67,12 @@ const config: Config = {
         default: {
           1: "var(--bg-default-1)",
           2: "var(--bg-default-2)",
+          "text-contrast-1": "var(--bg-text-contrast-1)",
+          "text-contrast-2": "var(--bg-text-contrast-2)",
+        },
+        contrast: {
+          1: "var(--bg-text-contrast-1)",
+          2: "var(--bg-text-contrast-2)",
         },
         primary: {
           100: "var(--primary-color-100)",
@@ -310,7 +316,10 @@ const config: Config = {
   },
   plugins: [
     require("tailwind-scrollbar-hide"),
-    function ({addUtilities, theme, addBase}: PluginAPI) {
+    function ({ addUtilities, theme, addBase }: PluginAPI) {
+      // border, outline은 100
+      // 배경은 40
+      // 버튼색상 80
       addBase({
         "@media (prefers-color-scheme: dark)": {
           ":root": {
@@ -332,8 +341,10 @@ const config: Config = {
             "--third-color-40": `${theme("colors.black.40")}`,
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
-            "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-default-1": `${theme("colors.black.40")}`,
             "--bg-default-2": `${theme("colors.gray.80")}`,
+            "--bg-text-contrast-1": `${theme("colors.black.80")}`,
+            "--bg-text-contrast-2": `${theme("colors.black.80")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
@@ -342,6 +353,8 @@ const config: Config = {
           ":root": {
             "--bg-default-1": `${theme("colors.white.40")}`,
             "--bg-default-2": `${theme("colors.gray.40")}`,
+            "--bg-text-contrast-1": `${theme("colors.black.80")}`,
+            "--bg-text-contrast-2": `${theme("colors.black.80")}`,
             "--bg-glassmorphism": "rgba(255, 255, 255, 0.2)",
             "--dynamic-opacity": "0.8",
           },
@@ -629,8 +642,10 @@ const config: Config = {
             "--third-color-40": `${theme("colors.black.40")}`,
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
-            "--bg-default-1": `${theme("colors.black.20")}`,
+            "--bg-default-1": `${theme("colors.black.40")}`,
             "--bg-default-2": `${theme("colors.gray.80")}`,
+            "--bg-text-contrast-1": `${theme("colors.black.80")}`,
+            "--bg-text-contrast-2": `${theme("colors.black.80")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
@@ -668,10 +683,12 @@ const config: Config = {
         ".primary-set": {
           background: `${theme("colors.primary.80")}`,
           color: `${theme("colors.primary.contrast")}`,
+          "outline-color": `${theme("colors.primary.contrast")}`,
         },
         ".secondary-set": {
           background: `${theme("colors.secondary.80")}`,
           color: `${theme("colors.secondary.contrast")}`,
+          "outline-color": `${theme("colors.secondary.contrast")}`,
         },
         ".third-set": {
           background: `${theme("colors.third.80")}`,
