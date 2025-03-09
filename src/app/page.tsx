@@ -198,8 +198,7 @@ export default function Home() {
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
-                  {" "}
-                  이메일{" "}
+                  이메일
                 </h3>
                 <div className="default-flex"> ssssksss@naver.com </div>
               </div>
@@ -208,13 +207,12 @@ export default function Home() {
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
-                  {" "}
-                  학업{" "}
+                  학업
                 </h3>
                 <div className="flex-col default-flex">
-                  {" "}
-                  <span> 서울과학기술대학교 </span>{" "}
-                  <span> 기계시스템디자인 </span>{" "}
+                  
+                  <span> 서울과학기술대학교 </span>
+                  <span> 기계시스템디자인 </span>
                 </div>
               </div>
             </div>
@@ -222,8 +220,8 @@ export default function Home() {
             <div className="rounded-lg bg-black-80 p-6 text-white-60 transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
-                  {" "}
-                  자격증{" "}
+                  
+                  자격증
                 </h3>
                 <div className="flex-col default-flex"> 정보처리기사 </div>
               </div>
