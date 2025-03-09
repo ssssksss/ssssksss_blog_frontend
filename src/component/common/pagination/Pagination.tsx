@@ -23,22 +23,24 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
       <button
         className={`rounded-md px-3 py-2 ${
           currentPage === 1
-            ? "cursor-not-allowed bg-gray-200 text-gray-400"
-            : "bg-white hover:bg-gray-100"
+            ? "invisible cursor-not-allowed"
+            : "primary-outline hover:primary-set"
         }`}
         onClick={() => pageHandler(1)}
-        disabled={currentPage === 1}>
+        disabled={currentPage === 1}
+      >
         <ChevronsLeft size={16} />
       </button>
 
       <button
         className={`rounded-md px-3 py-2 ${
           currentPage === 1
-            ? "cursor-not-allowed bg-gray-200 text-gray-400"
-            : "bg-white hover:bg-gray-100"
+            ? "invisible cursor-not-allowed"
+            : "primary-outline hover:primary-set"
         }`}
         onClick={() => pageHandler(currentPage - 1)}
-        disabled={currentPage === 1}>
+        disabled={currentPage === 1}
+      >
         <ChevronLeft size={16} />
       </button>
 
@@ -47,10 +49,11 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
           key={page}
           className={`min-w-[2.5rem] rounded-md px-3 py-2 ${
             page === currentPage
-              ? "bg-primary-80 text-white-60"
-              : "bg-white hover:bg-gray-100"
+              ? "primary-set"
+              : "primary-outline hover:primary-set"
           }`}
-          onClick={() => pageHandler(page)}>
+          onClick={() => pageHandler(page)}
+        >
           {page}
         </button>
       ))}
@@ -58,22 +61,24 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
       <button
         className={`rounded-md px-3 py-2 ${
           currentPage === totalPages
-            ? "cursor-not-allowed bg-gray-200 text-gray-400"
-            : "bg-white hover:bg-gray-100"
+            ? "invisible cursor-not-allowed"
+            : "primary-outline hover:primary-set"
         }`}
         onClick={() => pageHandler(currentPage + 1)}
-        disabled={currentPage === totalPages}>
+        disabled={currentPage === totalPages}
+      >
         <ChevronRight size={16} />
       </button>
 
       <button
         className={`rounded-md px-3 py-2 ${
           currentPage === totalPages
-            ? "cursor-not-allowed bg-gray-200 text-gray-400"
-            : "bg-white hover:bg-gray-100"
+            ? "invisible cursor-not-allowed"
+            : "primary-outline hover:primary-set"
         }`}
         onClick={() => pageHandler(totalPages)}
-        disabled={currentPage === totalPages}>
+        disabled={currentPage === totalPages}
+      >
         <ChevronsRight size={16} />
       </button>
     </div>
