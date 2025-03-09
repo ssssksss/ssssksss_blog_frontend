@@ -1,6 +1,7 @@
 "use client";
 
 import Dropdown from "@component/common/dropdown/Dropdown";
+import BasicInput from "@component/common/input/BasicInput";
 import Pagination from "@component/common/pagination/Pagination";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -8,31 +9,42 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const sortData = [
-  {
-    value: "latest",
-    name: "최신순",
-  },
-  {
-    value: "views",
-    name: "조회순",
-  },
-  {
-    value: "likes",
-    name: "좋아요순",
-  },
+  {value: "latest", name: "최신순"},
+  {value: "views", name: "조회순"},
+  {value: "likes", name: "좋아요순"},
 ];
 
-interface IBoardMain {}
-const BoardMain = (props: IBoardMain) => {
+interface IBoard {
+  id: number;
+  title: string;
+  createdAt: string;
+  views: number;
+}
+
+interface IBoardMainProps {
+  initialData: {
+    data: IBoard[];
+    totalElements: number;
+    page: number;
+  };
+}
+
+const BoardMain = ({ initialData }: IBoardMainProps) => {
   const searchParams = useSearchParams();
-  const [boardList, setBoardList] = useState<IBoard[]>([]);
-  const [sort, setSort] = useState<string>("최신순");
-  const [keyword, setKeyword] = useState<string>("");
+  const [boardList, setBoardList] = useState<IBoard[]>(initialData.data);
+  const [sort, setSort] = useState<string>(searchParams.get("sort") || "latest");
+  const [keyword, setKeyword] = useState<string>(
+    searchParams.get("keyword") || "",
+  );
   const inputRef = useRef<HTMLInputElement>(null);
-  const [resultCount, setResultCount] = useState(0);
-  const [page, setPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(1);
+  const [resultCount, setResultCount] = useState(initialData.totalElements);
+  const [page, setPage] = useState(
+    searchParams.get("page") ? +searchParams.get("page")! : 1,
+  );
+  const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const router = useRouter();
+  const hasFetched = useRef(false);
+
 
   const pageHandler = (page: number) => {
     setPage(page);
@@ -52,11 +64,14 @@ const BoardMain = (props: IBoardMain) => {
     url.search = params.toString();
     window.history.pushState({}, "", url.toString());
   };
-
+  
+  
   const searchHandler = () => {
     setKeyword(inputRef.current?.value || "");
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
+    params.set("page", "1");
+    setPage(1);
 
     if (inputRef.current?.value) {
       params.set("keyword", inputRef.current?.value);
@@ -67,44 +82,46 @@ const BoardMain = (props: IBoardMain) => {
     window.history.pushState({}, "", url.toString());
   };
 
-  useEffect(() => {
+  const fetchBoardList = async () => {
     const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    setSort(params.get("sort") || sortData[0].value);
-    setKeyword(params.get("keyword") || "");
-    setPage(Number(params.get("page")) || 1);
-  }, []);
+    const response = await fetch(
+      `/api/board/list${decodeURIComponent(url.search)}`,
+    );
+    if (!response.ok) return;
+    const result = await response.json();
+    setBoardList(result.data.content);
+    setResultCount(result.data.totalElements);
+    setTotalElements(result.data.totalElements);
+  };
+  
 
   useEffect(() => {
-    const temp = async () => {
-      const url = new URL(window.location.href);
-      const response = await fetch(
-        `/api/board/list${decodeURIComponent(url.search)}`,
-      );
-      if (!response.ok) {
-        return;
-      }
-      const result: IResponseReadBoardList = await response.json();
-      setBoardList(result.data.content);
-      setResultCount(result.data.totalElements);
-      setTotalElements(result.data.totalElements);
-    };
-    temp();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      inputRef.current!.value = searchParams.get("keyword") || "";
+      return; // 첫 번째 요청 방지
+    }
+    fetchBoardList();
   }, [searchParams]);
 
   return (
-    <div className={"m-auto flex w-full flex-col"}>
+    <div
+      className={
+        "m-auto flex w-full flex-col rounded-2xl px-2 py-4 primary-outline"
+      }
+    >
       <div className="flex w-full flex-col gap-y-2 text-sm">
         <div className="relative w-full">
           <h1 className="text-2xl default-flex"> 게시판 </h1>
           <button
             onClick={() => router.push("board/create")}
-            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 default-primary-outline">
+            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 default-primary-outline hover:primary-set"
+          >
             생성하기
           </button>
         </div>
         <div className={"flex w-full gap-x-2 py-2"}>
-          <input
+          <BasicInput
             type="search"
             placeholder={"검색어를 입력해주세요."}
             className="h-[2.5rem] w-full px-2 py-1 text-sm default-primary-outline"
@@ -113,7 +130,8 @@ const BoardMain = (props: IBoardMain) => {
           />
           <button
             className="h-[2.5rem] w-[4rem] p-1 text-sm default-primary-outline"
-            onClick={() => searchHandler()}>
+            onClick={() => searchHandler()}
+          >
             검색
           </button>
           <Dropdown
@@ -143,8 +161,9 @@ const BoardMain = (props: IBoardMain) => {
         <ul
           className={
             "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 default-primary-outline"
-          }>
-          <div className="mb-[.5rem] grid w-full grid-cols-[3rem_auto_6rem_6rem] gap-x-1 border-b-2 p-2 text-[20px]">
+          }
+        >
+          <div className="mb-[.5rem] grid w-full grid-cols-[3rem_auto_6rem_6rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px]">
             <div className="font-bold text-primary-80 default-flex"> 번호 </div>
             <div className="font-bold text-primary-80 default-flex"> 제목 </div>
             <div className="font-bold text-primary-80 default-flex"> 날짜 </div>
@@ -154,8 +173,9 @@ const BoardMain = (props: IBoardMain) => {
             <Link
               href={`board/${i.id}`}
               key={i.id}
-              className="grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto_6rem_6rem] items-center gap-x-1 gap-y-1 rounded-md px-2 hover:bg-primary-20">
-              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-primary-outline default-flex">
+              className="grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto_6rem_6rem] items-center gap-x-1 gap-y-1 rounded-md px-2 hover:primary-set group"
+            >
+              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex default-primary-outline group-hover:primary-set">
                 {i.id}
               </div>
               <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">
