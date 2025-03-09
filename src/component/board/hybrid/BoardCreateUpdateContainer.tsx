@@ -1,6 +1,8 @@
 "use client";
 
+import BasicButton from "@component/common/button/hybrid/BasicButton";
 import Input from "@component/common/input/Input";
+import BasicTextarea from "@component/common/textarea/BasicTextarea";
 import useToastifyStore from "@store/toastifyStore";
 import { SquareArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -88,11 +90,11 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
       <div className="relative w-full default-flex">
         <h1 className="text-2xl"> 게시판 {props.isEdit ? "수정" : "생성"} </h1>
         <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
-          <button
+          <BasicButton
             onClick={() => createUpdateBoardHandler()}
-            className="h-full px-4 py-2 default-primary-outline hover:bg-primary-80 hover:text-white-80">
+            className="h-full px-4 py-2 primary-outline hover:primary-set rounded-2xl">
             {props.isEdit ? "수정 완료" : "등록 하기"}
-          </button>
+          </BasicButton>
         </div>
         <button
           onClick={() => router.push("/board")}
@@ -106,7 +108,7 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         ref={titleRef}
         defaultValue={props.result?.data.title || ""}
       />
-      <textarea
+      <BasicTextarea
         className="h-full w-full flex-grow p-4 default-primary-outline"
         placeholder="내용을 입력하세요"
         ref={contentRef}
