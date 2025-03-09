@@ -24,7 +24,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         className={`rounded-md px-3 py-2 ${
           currentPage === 1
             ? "invisible cursor-not-allowed"
-            : "primary-outline hover:primary-set"
+            : "primary-border hover:primary-set"
         }`}
         onClick={() => pageHandler(1)}
         disabled={currentPage === 1}
@@ -36,7 +36,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         className={`rounded-md px-3 py-2 ${
           currentPage === 1
             ? "invisible cursor-not-allowed"
-            : "primary-outline hover:primary-set"
+            : "primary-border hover:primary-set"
         }`}
         onClick={() => pageHandler(currentPage - 1)}
         disabled={currentPage === 1}
@@ -50,7 +50,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
           className={`min-w-[2.5rem] rounded-md px-3 py-2 ${
             page === currentPage
               ? "primary-set"
-              : "primary-outline hover:primary-set"
+              : "primary-border hover:primary-set"
           }`}
           onClick={() => pageHandler(page)}
         >
@@ -62,7 +62,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         className={`rounded-md px-3 py-2 ${
           currentPage === totalPages
             ? "invisible cursor-not-allowed"
-            : "primary-outline hover:primary-set"
+            : "primary-border hover:primary-set"
         }`}
         onClick={() => pageHandler(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -74,7 +74,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         className={`rounded-md px-3 py-2 ${
           currentPage === totalPages
             ? "invisible cursor-not-allowed"
-            : "primary-outline hover:primary-set"
+            : "primary-border hover:primary-set"
         }`}
         onClick={() => pageHandler(totalPages)}
         disabled={currentPage === totalPages}

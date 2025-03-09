@@ -124,7 +124,7 @@ const SideBar = () => {
                   />
                 </div>
                 <div
-                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "default-primary-outline bg-primary-80 px-2 text-white-40" : "text-black-100"}`}
+                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "primary-border-radius bg-primary-80 px-2 text-white-40" : "text-black-100"}`}
                 >
                   {item.label}
                 </div>

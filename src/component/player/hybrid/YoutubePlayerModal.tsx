@@ -346,7 +346,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       <div className="relative z-0 flex h-full w-full justify-end gap-2">
         <div className="absolute left-0 top-1/2 w-full max-w-[37.5rem] -translate-y-1/2 default-flex">
           <div
-            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -outline-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}
+            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -border-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}
           >
             {playerStore.currentYoutube?.imageUrl && (
               <Image src={playerStore.currentYoutube.imageUrl} alt={""} fill />
@@ -385,7 +385,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-outlineBlink outline" : "h-0 translate-y-[-10vh] opacity-0 -z-10") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-borderBlink outline" : "h-0 translate-y-[-10vh] opacity-0 -z-10") : "h-[4rem]"}`}
                 onClick={() => selectPlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
@@ -566,7 +566,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == null && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] primary-border-radius"
                     }
                   >
                     X
@@ -575,7 +575,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == "one" && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] primary-border-radius"
                     }
                   >
                     1
@@ -584,7 +584,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 {playerStore.playRepeatType == "all" && (
                   <div
                     className={
-                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] default-primary-outline"
+                      "absolute bottom-[-2px] right-[-2px] h-4 w-4 text-[0.75rem] primary-border-radius"
                     }
                   >
                     all

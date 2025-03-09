@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@component/common/button/hybrid/Button";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const blog2Store = useBlog2Store();
   const searchParams = useSearchParams();
 
+  // 카테고리 중 버튼을 클릭하게 되면 버튼이 브라우저의 중앙으로 위치하게 해준다.
   const onClickAdjustHorizontalScroll = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
     handler: () => void,
@@ -31,6 +32,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     }
   };
 
+  // 첫번째 카테고리 클릭시 2번째 카테고리 목록을 불러온다.
   const handleFirstCategoryClick = (id: number) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -72,16 +74,14 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   return (
     <div
       className={
-        "items-center flex gap-[.5rem] overflow-x-scroll overflow-hidden whitespace-nowrap scrollbar-hide rounded-[1rem] min-h-[3.5rem] "
+        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap scrollbar-hide"
       }
       ref={blogFirstCategoryVerticalScrollRef}
     >
       {blog2Store.categoryList?.map((el) => (
-        <Button
-          className={`px-4 py-2 h-[3rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 rounded-[1rem] ${
-            el.id == blog2Store.activeBlog2FirstCategoryId &&
-            "primary-set"
-          }`}
+        <ThemeActiveButton1
+          className={"h-[3rem] px-4 py-2"}
+          isActive={el.id == blog2Store.activeBlog2FirstCategoryId}
           key={el.id}
           onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
             onClickAdjustHorizontalScroll(
@@ -92,16 +92,14 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
           }
         >
           {el.name}
-        </Button>
+        </ThemeActiveButton1>
       ))}
 
       {userStore.role == "ROLE_ADMIN" && (
-        <ModalButton
-          modal={<Blog2FirstCategoryModal />}
-        >
+        <ModalButton modal={<Blog2FirstCategoryModal />}>
           <div
             className={
-              "w-[2.4rem] aspect-square  flex items-center justify-center outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 rounded-[1rem]"
+              "primary-border-radius flex aspect-square w-[2.4rem] items-center justify-center hover:bg-primary-20"
             }
           >
             <FontAwesomeIcon icon={faGear} />

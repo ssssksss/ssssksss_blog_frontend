@@ -107,7 +107,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
   return (
     <div
       className={
-        "m-auto flex w-full flex-col rounded-2xl px-2 py-4 primary-outline"
+        "m-auto flex w-full flex-col rounded-2xl px-2 py-4 primary-border"
       }
     >
       <div className="flex w-full flex-col gap-y-2 text-sm">
@@ -115,7 +115,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
           <h1 className="text-2xl default-flex"> 게시판 </h1>
           <button
             onClick={() => router.push("board/create")}
-            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 default-primary-outline hover:primary-set"
+            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 primary-border-radius hover:primary-set"
           >
             생성하기
           </button>
@@ -124,12 +124,12 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
           <BasicInput
             type="search"
             placeholder={"검색어를 입력해주세요."}
-            className="h-[2.5rem] w-full px-2 py-1 text-sm default-primary-outline"
+            className="h-[2.5rem] w-full px-2 py-1 text-sm primary-border-radius"
             ref={inputRef}
             maxLength={30}
           />
           <button
-            className="h-[2.5rem] w-[4rem] p-1 text-sm default-primary-outline"
+            className="h-[2.5rem] w-[4rem] p-1 text-sm primary-border-radius"
             onClick={() => searchHandler()}
           >
             검색
@@ -145,13 +145,13 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
         <div className="flex h-[3.5rem] w-full items-center gap-x-2 pb-1">
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 결과 수:
-            <div className="h-full min-w-[4rem] p-1 default-primary-outline default-flex">
+            <div className="h-full min-w-[4rem] p-1 primary-border-radius default-flex">
               {resultCount}
             </div>
           </div>
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 키워드 :
-            <div className="h-full min-w-[8rem] p-1 default-primary-outline default-flex">
+            <div className="h-full min-w-[8rem] p-1 primary-border-radius default-flex">
               {keyword || ""}
             </div>
           </div>
@@ -160,7 +160,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
       <div className={"flex-grow"}>
         <ul
           className={
-            "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 default-primary-outline"
+            "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 primary-border-radius"
           }
         >
           <div className="mb-[.5rem] grid w-full grid-cols-[3rem_auto_6rem_6rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px]">
@@ -175,7 +175,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
               key={i.id}
               className="grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto_6rem_6rem] items-center gap-x-1 gap-y-1 rounded-md px-2 hover:primary-set group"
             >
-              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex default-primary-outline group-hover:primary-set">
+              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex primary-border-radius group-hover:primary-set">
                 {i.id}
               </div>
               <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">

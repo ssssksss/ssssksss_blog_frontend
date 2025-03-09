@@ -1,6 +1,7 @@
-import Button from "@component/common/button/hybrid/Button";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import Input from "@component/common/input/Input";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import { Blog2SecondCategoryUpdateYup } from "@utils/validation/BlogCategoryYup";
@@ -9,6 +10,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
 
@@ -108,7 +110,7 @@ const Blog2SecondCategoryUpdateForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+          "primary-border flex h-[3rem] items-center justify-center primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -129,11 +131,11 @@ const Blog2SecondCategoryUpdateForm = (
         value={0}
         defaultValue={0}
         dropdownHandler={dropdownHandler}
-        containerClassName="min-h-[3rem]"
+        containerClassName="min-h-[3rem] rounded-2xl"
       />
-      <Input
+      <ThemeInput1
         placeholder="변경할 2번째 카테고리 이름"
-        className="min-h-[3rem]"
+        className={`min-h-[3rem] ${imageUrl || "cursor-not-allowed"}`}
         value={updateCategoryName}
         disabled={!imageUrl}
         onChange={(e) => {
@@ -144,20 +146,25 @@ const Blog2SecondCategoryUpdateForm = (
         }}
       />
       <label
-        className={`relative z-50 h-[16rem] w-full primary-outline ${imageUrl && "cursor-pointer"}`}
+        className={`primary-border relative z-50 h-[16rem] w-full rounded-2xl ${imageUrl ? "cursor-pointer" : "cursor-not-allowed"}`}
         htmlFor={"imageUpload"}
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDragOver={onDragOver}
-        onDrop={onDropOrInputEvent}
+        onDragEnter={imageUrl ? undefined : onDragEnter}
+        onDragLeave={imageUrl ? undefined : onDragLeave}
+        onDragOver={imageUrl ? undefined : onDragOver}
+        onDrop={imageUrl ? undefined : onDropOrInputEvent}
       >
-        {imageUrl && (
+        {imageUrl ? (
           <Image
             src={imageUrl}
             alt={"image"}
             layout="fill"
             className="rounded-[1rem] p-1"
           />
+        ) : (
+          <div className="h-full w-full flex-col default-flex">
+            <CiImageOn size={72} />
+            <span> 카테고리를 먼저 선택 이후에 이미지를 넣으세요 </span>
+          </div>
         )}
       </label>
       <Input
@@ -169,15 +176,15 @@ const Blog2SecondCategoryUpdateForm = (
         disabled={!imageUrl}
       />
       {/* TODO : 다시 처음 값으로 돌아올 경우 유효하지 않게 수정 */}
-      <Button
+      <ThemeButton1
         onClick={handleSubmit(updateSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] rounded-2xl primary-outline primary-set hover:bg-primary-20 disabled:bg-gray-60"
+          "h-[3rem]"
         }
       >
         추가
-      </Button>
+      </ThemeButton1>
     </div>
   );
 };

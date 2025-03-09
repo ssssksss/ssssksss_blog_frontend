@@ -255,13 +255,13 @@ const Header = (props: IHeader) => {
             {userStore.id == 0 ? (
               <div
                 className={
-                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 default-primary-outline"
+                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 primary-border-radius"
                 }
               ></div>
             ) : userStore.id > 0 ? (
               <Button
                 onClick={() => signOutHandler()}
-                className={"p-2 default-primary-outline"}
+                className={"p-2 primary-border-radius"}
               >
                 로그아웃
               </Button>
@@ -269,7 +269,7 @@ const Header = (props: IHeader) => {
               <ModalButton
                 modal={<AuthModal />}
                 buttonClassName={
-                  "p-2 default-primary-outline hover:bg-primary-20"
+                  "p-2 primary-border-radius hover:bg-primary-20"
                 }
               >
                 Sign In / Sign up

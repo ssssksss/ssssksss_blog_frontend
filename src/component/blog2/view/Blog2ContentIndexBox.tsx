@@ -65,14 +65,12 @@ const Blog2ContentIndexBox = (props: IBlog2ContentIndexBox) => {
       ref={ref}
       className="sticky left-[100%] top-[4.5rem] z-10 h-0 w-0 translate-x-1"
     >
-      <ul className="absolute right-[0.25rem] flex max-h-[calc(100vh-5rem)] w-[20rem] max-w-[50vw] flex-col gap-y-2 bg-gray-40 p-2 pt-[2.25rem] default-primary-outline min-[1900px]:left-[0.375rem]">
+      <ul className="primary-border-radius absolute right-[0.25rem] flex max-h-[calc(100vh-5rem)] w-[20rem] max-w-[50vw] flex-col gap-y-2 bg-default-1 p-2 pt-[2.25rem] min-[1900px]:left-[0.375rem]">
         <AbsoluteCloseButton
           className={"right-[0.25rem] top-[0.25rem]"}
           onClick={() => props.closeModal()}
         />
-        <div
-          className="overflow-y-scroll rounded-lg bg-white-80"
-        >
+        <div className="overflow-y-scroll rounded-lg bg-default-2">
           {props.data.map((i) => {
             const title = "content" in i ? i.title : i.blog2BasicContent.title;
             const content =
@@ -84,6 +82,11 @@ const Blog2ContentIndexBox = (props: IBlog2ContentIndexBox) => {
                   <a
                     className="w-full"
                     href={`#${title.replace(/\s+/g, "-").toLowerCase()}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const id = title.replace(/\s+/g, "-").toLowerCase();
+                      history.replaceState(null, "", `#${id}`);
+                    }}
                   >
                     {title}
                   </a>

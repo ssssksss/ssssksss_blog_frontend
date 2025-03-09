@@ -73,7 +73,7 @@ const Blog2ListBox = (props: IBlog2ListBox) => {
           >
             <li
               className={
-                "grid h-[6rem] w-full max-w-full animate-fadeIn grid-cols-[4rem_calc(100%-10rem)_6rem] gap-x-1 p-2 default-primary-outline hover:animate-fill hover:animate--duration-1 hover:fillAnimation"
+                "grid h-[6rem] w-full max-w-full animate-fadeIn grid-cols-[4rem_calc(100%-10rem)_6rem] gap-x-1 p-2 primary-border-radius hover:animate-fill hover:animate--duration-1 hover:fillAnimation"
               }>
               <div className="relative default-flex">
                 <Image

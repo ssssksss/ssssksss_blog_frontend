@@ -1,5 +1,5 @@
-import Button from "@component/common/button/hybrid/Button";
-import Input from "@component/common/input/Input";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import useToastifyStore from "@store/toastifyStore";
@@ -77,27 +77,26 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     >
       {props.closeButtonComponent}
       <div className="relative flex min-h-[4rem] w-full items-center py-2">
-        <Input
+        {/* TODO : onKeyPressAction 쓸 수 있게 컴포넌트 수정 */}
+        <ThemeInput1
           type={"text"}
           className={"h-[4rem] w-full outline-none"}
           placeholder={"블로그 기초 검색어를 입력해주세요"}
           maxLength={50}
-          onKeyPressAction={(e) => blog2BasicSearchHandler()}
+          // onKeyPressAction={(e) => blog2BasicSearchHandler()}
           ref={searchRef}
         />
-        <Button
-          className={
-            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 primary-outline px-4 py-2"
-          }
+        <ThemeButton1
+          className={"absolute right-1 top-1/2 -translate-y-1/2 px-4 py-2"}
           onClick={() => blog2BasicSearchHandler()}
         >
           검색
-        </Button>
+        </ThemeButton1>
       </div>
       <div className={"flex w-full gap-x-4 pb-4"}>
-          검색어({blog2BasicContentList.length}) : {search}
+        검색어({blog2BasicContentList.length}) : {search}
       </div>
-      <div className="w-full p-2 default-primary-outline">
+      <div className="primary-border-radius w-full p-2">
         <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2BasicContentList?.map((i) => (
@@ -108,23 +107,21 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
               >
                 <div className="sticky top-0 z-10">
                   <div className={"absolute right-2 top-2 flex gap-x-2"}>
-                    <Button
-                      className={
-                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
-                      }
+                    {/* TODO : confirm으로 바꾸기 */}
+                    <ThemeButton1
+                      className={"p-2 opacity-40 hover:opacity-100"}
                       onClick={() => deleteBlog2BasicContentHandler(i.id)}
-                    >
+                      >
                       삭제
-                    </Button>
-                    <Button
-                      className={
-                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
-                      }
+                    </ThemeButton1>
+                    {/* TODO : 선택하고 나서 모달을 닫을지 고민 그리고 닫힌후 바로 렌더링 되는지 확인 */}
+                    <ThemeButton1
+                      className={"p-2 opacity-40 hover:opacity-100"}
                       onClick={() => props.addBlog2BasicContent(i)}
                     >
                       선택
-                    </Button>
-                    {/* <Button className={"p-2 default-primary-outline opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
+                    </ThemeButton1>
+                    {/* <Button className={"p-2 primary-border-radius opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
                   </div>
                 </div>
                 <h2

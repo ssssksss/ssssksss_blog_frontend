@@ -1,5 +1,5 @@
-import Button from "@component/common/button/hybrid/Button";
-import Input from "@component/common/input/Input";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useBlog2Store from "@store/blog2Store";
 import { Blog2FirstCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
@@ -43,18 +43,20 @@ const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
   };
 
   return (
-    <div className={"w-full flex flex-col py-4"}>
-      <Input
+    <div className={"flex w-full flex-col py-4"}>
+      <ThemeInput1
         placeholder="이름"
         register={register("createFirstCategoryName")}
       />
-      <Button
+      <ThemeButton1
         onClick={handleSubmit(createFirstCategoryHandler)}
         disabled={!formState.isValid}
-        className={"mt-[1rem] h-[3rem] hover:bg-primary-20 outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline rounded-[1rem]"}      
+        className={
+          "mt-[1rem] h-[3rem]"
+        }
       >
-        추가
-      </Button>
+        카테고리 1 추가하기
+      </ThemeButton1>
     </div>
   );
 };

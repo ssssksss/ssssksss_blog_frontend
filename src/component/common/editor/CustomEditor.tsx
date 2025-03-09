@@ -100,7 +100,7 @@ const CustomEditor = (props: ICustomEditor) => {
 
   return (
     <div
-      className={`grid h-[calc(100vh-10rem)] w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
+      className={`grid h-[calc(100vh-10rem)] pt-1 w-full max-w-[75rem] gap-x-2 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
     >
       {/* 내용작성 */}
       <article

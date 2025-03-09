@@ -7,9 +7,9 @@ import useLoading from "@hooks/useLoading";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import {
-  EditorLiStyle,
-  EditorTitleStyle,
-  EditorUlStyle
+    EditorLiStyle,
+    EditorTitleStyle,
+    EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useState } from "react";
@@ -75,7 +75,7 @@ const Blog2StructureSearchContentModal = (
         />
         <Button
           className={
-            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2 primary-outline"
+            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2 primary-border"
           }
           onClick={() => blog2StructureSearchHandler()}
         >
@@ -85,7 +85,7 @@ const Blog2StructureSearchContentModal = (
       <div className={"flex w-full gap-x-4 pb-4"}>
         검색어({blog2StructureContentList.length}) : {search}
       </div>
-      <div className="w-full p-2 default-primary-outline">
+      <div className="w-full p-2 primary-border-radius">
         <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2StructureContentList?.map((i) => (
@@ -97,7 +97,7 @@ const Blog2StructureSearchContentModal = (
                   <div className={"absolute right-2 top-2 flex gap-x-2"}>
                     <Button
                       className={
-                        "p-2 opacity-40 default-primary-outline hover:bg-primary-20 hover:opacity-100"
+                        "p-2 opacity-40 primary-border-radius hover:bg-primary-20 hover:opacity-100"
                       }
                       onClick={() => props.addBlog2StructureContent(i)}
                     >

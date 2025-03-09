@@ -162,7 +162,7 @@ const Blog2ContentBox = (props: IBlog2ContentBox) => {
     <section className={"flex h-full w-full flex-col gap-y-2 mt-[.5rem]"}>
       <div
         className={
-          "flex h-[2.75rem] min-h-[2.75rem] w-full default-primary-outline"
+          "flex h-[2.75rem] min-h-[2.75rem] w-full primary-border-radius"
         }
       >
         {[
@@ -199,7 +199,7 @@ const Blog2ContentBox = (props: IBlog2ContentBox) => {
             </Button>
           ))}
       </div>
-      <div className={"flex h-full w-full p-2 default-primary-outline"}>
+      <div className={"flex h-full w-full p-2 primary-border-radius"}>
         {menu == "기초" && (
           <Blog2BasicContentBox
             addBlog2Content={addBlog2Content}

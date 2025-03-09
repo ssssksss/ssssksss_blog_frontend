@@ -20,7 +20,7 @@ const LottieError = (props: ILottieError) => {
         <span> {JSON.parse(props.text as string).message} </span>
       </p>
       <button
-        className="p-2 default-primary-outline"
+        className="p-2 primary-border-radius"
         onClick={() => {
           window.location.reload();
         }}

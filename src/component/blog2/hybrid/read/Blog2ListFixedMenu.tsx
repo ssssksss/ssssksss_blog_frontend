@@ -44,7 +44,7 @@ const Blog2ListFixedMenu = (props: IBlog2ListFixedMenu) => {
         "fixed h-0 left-[calc(100%-2.75rem)] top-[25%] opacity-60 hover:opacity-100 cursor-pointer"
       }
     >
-      <div className="flex flex-col outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20">
+      <div className="flex flex-col outline-primary-20">
         {userStore.role == "ROLE_ADMIN" && (
           <Link
             href={"/blog2/create"}

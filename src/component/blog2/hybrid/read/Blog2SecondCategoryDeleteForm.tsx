@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
 import useToastifyStore from "src/store/toastifyStore";
 
@@ -90,7 +91,7 @@ const Blog2SecondCategoryDeleteForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+          "flex h-[3rem] items-center justify-center primary-border primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -111,20 +112,25 @@ const Blog2SecondCategoryDeleteForm = (
         value={0}
         defaultValue={0}
         dropdownHandler={dropdownHandler}
-        containerClassName="min-h-[3rem]"
+        containerClassName="min-h-[3rem] rounded-2xl"
         OptionContainerMaxH="max-h-[22rem]"
       />
       <label
-        className={"relative z-50 h-[16rem] w-full primary-outline"}
+        className={"relative z-50 h-[16rem] w-full primary-border-radius"}
         htmlFor={"imageUpload"}
       >
-        {imageUrl && (
+        {imageUrl ? (
           <Image
             src={imageUrl}
             alt={"image"}
             layout="fill"
             className="rounded-[1rem] p-1"
           />
+        ) : (
+          <div className="h-full w-full flex-col default-flex">
+            <CiImageOn size={72} />
+            <span> 카테고리를 선택하세요 </span>
+          </div>
         )}
       </label>
       {/* TODO : confirm 버튼으로 변경 필요 */}
@@ -132,7 +138,7 @@ const Blog2SecondCategoryDeleteForm = (
         onClick={handleSubmit(deleteSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "h-[3rem] rounded-2xl primary-outline primary-set hover:bg-primary-20 disabled:bg-gray-60"
+          "h-[3rem] rounded-2xl primary-border primary-set hover:bg-primary-20 disabled:bg-gray-60"
         }
       >
         삭제

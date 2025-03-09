@@ -1,6 +1,6 @@
 import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
-import Input from "@component/common/input/Input";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useModalState from "@hooks/useModalState";
@@ -13,7 +13,7 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
+import Blog2SubCreateUpdateHeaderView from "../../view/Blog2SubCreateUpdateHeaderView";
 
 interface IFormContext {
   directory: string;
@@ -133,7 +133,7 @@ const Blog2StructureContentCreateUpdateModal = (
       }
     >
       {props.closeButtonComponent}
-      <Blog2SubCreateUpdateHeader
+      <Blog2SubCreateUpdateHeaderView
         type={"structure"}
         saveHandler={() =>
           props.loadingWithHandler(
@@ -148,11 +148,11 @@ const Blog2StructureContentCreateUpdateModal = (
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] z-10 flex w-[calc(100%-2rem)] flex-col gap-y-2 bg-default-1 p-4 primary-outline">
+        <div className="absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] flex-col gap-y-2 bg-default-1 p-4 primary-border">
           <div
             className={`grid w-full ${projectList?.length > 0 ? "grid-cols-2" : "grid-cols-1"}`}
           >
-            <Input
+            <ThemeInput1
               type={"text"}
               // register={blog2ContentFormContext.register("project")}
               className={"flex h-[3rem] min-h-12 w-full items-center px-2"}
@@ -180,7 +180,7 @@ const Blog2StructureContentCreateUpdateModal = (
               />
             )}
           </div>
-          <Input
+          <ThemeInput1
             type={"text"}
             register={blog2ContentFormContext.register("directory")}
             className={

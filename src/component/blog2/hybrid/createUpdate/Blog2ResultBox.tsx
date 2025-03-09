@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import {
-  EditorLiStyle,
-  EditorTitleStyle,
-  EditorUlStyle
+    EditorLiStyle,
+    EditorTitleStyle,
+    EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import Image from "next/image";
@@ -78,10 +78,10 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
 
   return (
     <div className={"relative flex w-full flex-col rounded-[1rem] p-0"}>
-      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 default-primary-outline hover:opacity-100">
+      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 primary-border-radius hover:opacity-100">
         <ModalButton
           buttonClassName={
-            "default-primary-outline px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "primary-border-radius px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
           }
           modal={
             <Blog2ResultCreateUpdateModal

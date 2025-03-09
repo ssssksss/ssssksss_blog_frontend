@@ -43,15 +43,15 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
   return (
     <div
       className={
-        "fixed bottom-[10rem] left-[calc(100%-2.75rem)] z-50 h-0 cursor-pointer opacity-60 hover:opacity-100 max-[440px]:left-[calc(100%-2rem)]"
+        "fixed bottom-[10rem] left-[min(calc(100%-3.375rem),1800px)] z-50 h-0 cursor-pointer opacity-60 hover:opacity-100 max-[440px]:left-[calc(100%-2rem)]"
       }
       ref={menuRef}
     >
-      <div className="flex flex-col rounded-[.25rem] bg-third-20 outline outline-[0.3125rem] outline-offset-[-0.0625rem] outline-secondary-80">
+      <div className="secondary-border-radius flex flex-col !border-[0.3125rem] bg-default-1">
         {userStore.role == "ROLE_ADMIN" && !pathname?.includes("blog2/") && (
           <Link
             href={"/blog2/create"}
-            className="flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
             onClick={() => loadingStore.startLoading()}
           >
             <FontAwesomeIcon icon={faEdit} width={44} height={44} />
@@ -59,12 +59,12 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
         )}
         <button
           onClick={() => window.scrollTo(0, 0)}
-          className="relative flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
+          className="relative flex h-11 w-11 items-center justify-center rounded-2xl hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
         >
           <FontAwesomeIcon icon={faArrowUp} width={14} height={14} />
         </button>
         <button
-          className="relative flex h-11 w-11 items-center justify-center hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
+          className="relative flex h-11 w-11 items-center justify-center rounded-2xl hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
           onClick={() => window.scrollTo(0, window.document.body.scrollHeight)}
         >
           <FontAwesomeIcon icon={faArrowDown} width={14} height={14} />

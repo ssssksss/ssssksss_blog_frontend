@@ -342,9 +342,11 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.40")}`,
-            "--bg-default-2": `${theme("colors.gray.80")}`,
+            "--bg-default-2": `${theme("colors.gray.40")}`,
+            "--bg-disabled": `${theme("colors.black.60")}`,
             "--bg-text-contrast-1": `${theme("colors.black.80")}`,
             "--bg-text-contrast-2": `${theme("colors.black.80")}`,
+            "--bg-text-disabled": `${theme("colors.white.20")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
@@ -353,12 +355,14 @@ const config: Config = {
           ":root": {
             "--bg-default-1": `${theme("colors.white.40")}`,
             "--bg-default-2": `${theme("colors.gray.40")}`,
+            "--bg-disabled": `${theme("colors.gray.60")}`,
             "--bg-text-contrast-1": `${theme("colors.black.80")}`,
             "--bg-text-contrast-2": `${theme("colors.black.80")}`,
+            "--bg-text-disabled": `${theme("colors.black.80")}`,
             "--bg-glassmorphism": "rgba(255, 255, 255, 0.2)",
             "--dynamic-opacity": "0.8",
           },
-          "[data-theme1=\"red\"]": {
+          '[data-theme1="red"]': {
             "--primary-color-100": `${theme("colors.red.100")}`,
             "--primary-color-80": `${theme("colors.red.80")}`,
             "--primary-color-60": `${theme("colors.red.60")}`,
@@ -366,7 +370,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.red.20")}`,
             "--primary-color-contrast": `${theme("colors.red.contrast")}`,
           },
-          "[data-theme1=\"orange\"]": {
+          '[data-theme1="orange"]': {
             "--primary-color-100": `${theme("colors.orange.100")}`,
             "--primary-color-80": `${theme("colors.orange.80")}`,
             "--primary-color-60": `${theme("colors.orange.60")}`,
@@ -374,7 +378,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.orange.20")}`,
             "--primary-color-contrast": `${theme("colors.orange.contrast")}`,
           },
-          "[data-theme1=\"yellow\"]": {
+          '[data-theme1="yellow"]': {
             "--primary-color-100": `${theme("colors.yellow.100")}`,
             "--primary-color-80": `${theme("colors.yellow.80")}`,
             "--primary-color-60": `${theme("colors.yellow.60")}`,
@@ -382,7 +386,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.yellow.20")}`,
             "--primary-color-contrast": `${theme("colors.yellow.contrast")}`,
           },
-          "[data-theme1=\"green\"]": {
+          '[data-theme1="green"]': {
             "--primary-color-100": `${theme("colors.green.100")}`,
             "--primary-color-80": `${theme("colors.green.80")}`,
             "--primary-color-60": `${theme("colors.green.60")}`,
@@ -390,7 +394,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.green.20")}`,
             "--primary-color-contrast": `${theme("colors.green.contrast")}`,
           },
-          "[data-theme1=\"skyblue\"]": {
+          '[data-theme1="skyblue"]': {
             "--primary-color-100": `${theme("colors.sky.100")}`,
             "--primary-color-80": `${theme("colors.sky.80")}`,
             "--primary-color-60": `${theme("colors.sky.60")}`,
@@ -398,7 +402,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.sky.20")}`,
             "--primary-color-contrast": `${theme("colors.sky.contrast")}`,
           },
-          "[data-theme1=\"blue\"]": {
+          '[data-theme1="blue"]': {
             "--primary-color-100": `${theme("colors.blue.100")}`,
             "--primary-color-80": `${theme("colors.blue.80")}`,
             "--primary-color-60": `${theme("colors.blue.60")}`,
@@ -406,7 +410,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.blue.20")}`,
             "--primary-color-contrast": `${theme("colors.blue.contrast")}`,
           },
-          "[data-theme1=\"purple\"]": {
+          '[data-theme1="purple"]': {
             "--primary-color-100": `${theme("colors.purple.100")}`,
             "--primary-color-80": `${theme("colors.purple.80")}`,
             "--primary-color-60": `${theme("colors.purple.60")}`,
@@ -414,7 +418,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.purple.20")}`,
             "--primary-color-contrast": `${theme("colors.purple.contrast")}`,
           },
-          "[data-theme1=\"pink\"]": {
+          '[data-theme1="pink"]': {
             "--primary-color-100": `${theme("colors.pink.100")}`,
             "--primary-color-80": `${theme("colors.pink.80")}`,
             "--primary-color-60": `${theme("colors.pink.60")}`,
@@ -422,7 +426,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.pink.20")}`,
             "--primary-color-contrast": `${theme("colors.pink.contrast")}`,
           },
-          "[data-theme1=\"black\"]": {
+          '[data-theme1="black"]': {
             "--primary-color-100": `${theme("colors.black.100")}`,
             "--primary-color-80": `${theme("colors.black.80")}`,
             "--primary-color-60": `${theme("colors.black.60")}`,
@@ -430,7 +434,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.black.20")}`,
             "--primary-color-contrast": `${theme("colors.black.contrast")}`,
           },
-          "[data-theme1=\"gray\"]": {
+          '[data-theme1="gray"]': {
             "--primary-color-100": `${theme("colors.gray.100")}`,
             "--primary-color-80": `${theme("colors.gray.80")}`,
             "--primary-color-60": `${theme("colors.gray.60")}`,
@@ -438,7 +442,7 @@ const config: Config = {
             "--primary-color-20": `${theme("colors.gray.20")}`,
             "--primary-color-contrast": `${theme("colors.gray.contrast")}`,
           },
-          "[data-theme1=\"white\"]": {
+          '[data-theme1="white"]': {
             "--primary-color-100": `${theme("colors.white.100")}`,
             "--primary-color-80": `${theme("colors.white.80")}`,
             "--primary-color-60": `${theme("colors.white.60")}`,
@@ -447,7 +451,7 @@ const config: Config = {
             "--primary-color-contrast": `${theme("colors.white.contrast")}`,
           },
 
-          "[data-theme2=\"red\"]": {
+          '[data-theme2="red"]': {
             "--secondary-color-100": `${theme("colors.red.100")}`,
             "--secondary-color-80": `${theme("colors.red.80")}`,
             "--secondary-color-60": `${theme("colors.red.60")}`,
@@ -455,7 +459,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.red.20")}`,
             "--secondary-color-contrast": `${theme("colors.red.contrast")}`,
           },
-          "[data-theme2=\"orange\"]": {
+          '[data-theme2="orange"]': {
             "--secondary-color-100": `${theme("colors.orange.100")}`,
             "--secondary-color-80": `${theme("colors.orange.80")}`,
             "--secondary-color-60": `${theme("colors.orange.60")}`,
@@ -463,7 +467,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.orange.20")}`,
             "--secondary-color-contrast": `${theme("colors.orange.contrast")}`,
           },
-          "[data-theme2=\"yellow\"]": {
+          '[data-theme2="yellow"]': {
             "--secondary-color-100": `${theme("colors.yellow.100")}`,
             "--secondary-color-80": `${theme("colors.yellow.80")}`,
             "--secondary-color-60": `${theme("colors.yellow.60")}`,
@@ -471,7 +475,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.yellow.20")}`,
             "--secondary-color-contrast": `${theme("colors.yellow.contrast")}`,
           },
-          "[data-theme2=\"green\"]": {
+          '[data-theme2="green"]': {
             "--secondary-color-100": `${theme("colors.green.100")}`,
             "--secondary-color-80": `${theme("colors.green.80")}`,
             "--secondary-color-60": `${theme("colors.green.60")}`,
@@ -479,7 +483,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.green.20")}`,
             "--secondary-color-contrast": `${theme("colors.green.contrast")}`,
           },
-          "[data-theme2=\"skyblue\"]": {
+          '[data-theme2="skyblue"]': {
             "--secondary-color-100": `${theme("colors.sky.100")}`,
             "--secondary-color-80": `${theme("colors.sky.80")}`,
             "--secondary-color-60": `${theme("colors.sky.60")}`,
@@ -487,7 +491,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.sky.20")}`,
             "--secondary-color-contrast": `${theme("colors.sky.contrast")}`,
           },
-          "[data-theme2=\"blue\"]": {
+          '[data-theme2="blue"]': {
             "--secondary-color-100": `${theme("colors.blue.100")}`,
             "--secondary-color-80": `${theme("colors.blue.80")}`,
             "--secondary-color-60": `${theme("colors.blue.60")}`,
@@ -495,7 +499,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.blue.20")}`,
             "--secondary-color-contrast": `${theme("colors.blue.contrast")}`,
           },
-          "[data-theme2=\"purple\"]": {
+          '[data-theme2="purple"]': {
             "--secondary-color-100": `${theme("colors.purple.100")}`,
             "--secondary-color-80": `${theme("colors.purple.80")}`,
             "--secondary-color-60": `${theme("colors.purple.60")}`,
@@ -503,7 +507,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.purple.20")}`,
             "--secondary-color-contrast": `${theme("colors.purple.contrast")}`,
           },
-          "[data-theme2=\"pink\"]": {
+          '[data-theme2="pink"]': {
             "--secondary-color-100": `${theme("colors.pink.100")}`,
             "--secondary-color-80": `${theme("colors.pink.80")}`,
             "--secondary-color-60": `${theme("colors.pink.60")}`,
@@ -511,7 +515,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.pink.20")}`,
             "--secondary-color-contrast": `${theme("colors.pink.contrast")}`,
           },
-          "[data-theme2=\"black\"]": {
+          '[data-theme2="black"]': {
             "--secondary-color-100": `${theme("colors.black.100")}`,
             "--secondary-color-80": `${theme("colors.black.80")}`,
             "--secondary-color-60": `${theme("colors.black.60")}`,
@@ -519,7 +523,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.black.20")}`,
             "--secondary-color-contrast": `${theme("colors.black.contrast")}`,
           },
-          "[data-theme2=\"gray\"]": {
+          '[data-theme2="gray"]': {
             "--secondary-color-100": `${theme("colors.gray.100")}`,
             "--secondary-color-80": `${theme("colors.gray.80")}`,
             "--secondary-color-60": `${theme("colors.gray.60")}`,
@@ -527,7 +531,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.gray.20")}`,
             "--secondary-color-contrast": `${theme("colors.gray.contrast")}`,
           },
-          "[data-theme2=\"white\"]": {
+          '[data-theme2="white"]': {
             "--secondary-color-100": `${theme("colors.white.100")}`,
             "--secondary-color-80": `${theme("colors.white.80")}`,
             "--secondary-color-60": `${theme("colors.white.60")}`,
@@ -535,7 +539,7 @@ const config: Config = {
             "--secondary-color-20": `${theme("colors.white.20")}`,
             "--secondary-color-contrast": `${theme("colors.white.contrast")}`,
           },
-          "[data-theme3=\"red\"]": {
+          '[data-theme3="red"]': {
             "--third-color-100": `${theme("colors.red.100")}`,
             "--third-color-80": `${theme("colors.red.80")}`,
             "--third-color-60": `${theme("colors.red.60")}`,
@@ -543,7 +547,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.red.20")}`,
             "--third-color-contrast": `${theme("colors.red.contrast")}`,
           },
-          "[data-theme3=\"orange\"]": {
+          '[data-theme3="orange"]': {
             "--third-color-100": `${theme("colors.orange.100")}`,
             "--third-color-80": `${theme("colors.orange.80")}`,
             "--third-color-60": `${theme("colors.orange.60")}`,
@@ -551,7 +555,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.orange.20")}`,
             "--third-color-contrast": `${theme("colors.orange.contrast")}`,
           },
-          "[data-theme3=\"yellow\"]": {
+          '[data-theme3="yellow"]': {
             "--third-color-100": `${theme("colors.yellow.100")}`,
             "--third-color-80": `${theme("colors.yellow.80")}`,
             "--third-color-60": `${theme("colors.yellow.60")}`,
@@ -559,7 +563,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.yellow.20")}`,
             "--third-color-contrast": `${theme("colors.yellow.contrast")}`,
           },
-          "[data-theme3=\"green\"]": {
+          '[data-theme3="green"]': {
             "--third-color-100": `${theme("colors.green.100")}`,
             "--third-color-80": `${theme("colors.green.80")}`,
             "--third-color-60": `${theme("colors.green.60")}`,
@@ -567,7 +571,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.green.20")}`,
             "--third-color-contrast": `${theme("colors.green.contrast")}`,
           },
-          "[data-theme3=\"skyblue\"]": {
+          '[data-theme3="skyblue"]': {
             "--third-color-100": `${theme("colors.sky.100")}`,
             "--third-color-80": `${theme("colors.sky.80")}`,
             "--third-color-60": `${theme("colors.sky.60")}`,
@@ -575,7 +579,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.sky.20")}`,
             "--third-color-contrast": `${theme("colors.sky.contrast")}`,
           },
-          "[data-theme3=\"blue\"]": {
+          '[data-theme3="blue"]': {
             "--third-color-100": `${theme("colors.blue.100")}`,
             "--third-color-80": `${theme("colors.blue.80")}`,
             "--third-color-60": `${theme("colors.blue.60")}`,
@@ -583,7 +587,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.blue.20")}`,
             "--third-color-contrast": `${theme("colors.blue.contrast")}`,
           },
-          "[data-theme3=\"purple\"]": {
+          '[data-theme3="purple"]': {
             "--third-color-100": `${theme("colors.purple.100")}`,
             "--third-color-80": `${theme("colors.purple.80")}`,
             "--third-color-60": `${theme("colors.purple.60")}`,
@@ -591,7 +595,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.purple.20")}`,
             "--third-color-contrast": `${theme("colors.purple.contrast")}`,
           },
-          "[data-theme3=\"pink\"]": {
+          '[data-theme3="pink"]': {
             "--third-color-100": `${theme("colors.pink.100")}`,
             "--third-color-80": `${theme("colors.pink.80")}`,
             "--third-color-60": `${theme("colors.pink.60")}`,
@@ -599,7 +603,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.pink.20")}`,
             "--third-color-contrast": `${theme("colors.pink.contrast")}`,
           },
-          "[data-theme3=\"black\"]": {
+          '[data-theme3="black"]': {
             "--third-color-100": `${theme("colors.gray.100")}`,
             "--third-color-80": `${theme("colors.gray.80")}`,
             "--third-color-60": `${theme("colors.gray.60")}`,
@@ -607,7 +611,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.gray.20")}`,
             "--third-color-contrast": `${theme("colors.gray.contrast")}`,
           },
-          "[data-theme3=\"gray\"]": {
+          '[data-theme3="gray"]': {
             "--third-color-100": `${theme("colors.gray.100")}`,
             "--third-color-80": `${theme("colors.gray.80")}`,
             "--third-color-60": `${theme("colors.gray.60")}`,
@@ -615,7 +619,7 @@ const config: Config = {
             "--third-color-20": `${theme("colors.gray.20")}`,
             "--third-color-contrast": `${theme("colors.gray.contrast")}`,
           },
-          "[data-theme3=\"white\"]": {
+          '[data-theme3="white"]': {
             "--third-color-100": `${theme("colors.white.100")}`,
             "--third-color-80": `${theme("colors.white.80")}`,
             "--third-color-60": `${theme("colors.white.60")}`,
@@ -643,103 +647,115 @@ const config: Config = {
             "--third-color-20": `${theme("colors.black.20")}`,
             "--third-color-contrast": `${theme("colors.black.contrast")}`,
             "--bg-default-1": `${theme("colors.black.40")}`,
-            "--bg-default-2": `${theme("colors.gray.80")}`,
+            "--bg-default-2": `${theme("colors.gray.40")}`,
+            "--bg-disabled": `${theme("colors.black.60")}`,
             "--bg-text-contrast-1": `${theme("colors.black.80")}`,
             "--bg-text-contrast-2": `${theme("colors.black.80")}`,
+            "--bg-text-disabled": `${theme("colors.white.20")}`,
             "--bg-glassmorphism": "rgba(0, 0, 0, 0.1)",
             "--dynamic-opacity": "0.6",
           },
         },
       }),
-      addUtilities({
-        // ".scrollbar-hide": {
-        //   "-ms-overflow-style": "none" /* IE and Edge */,
-        //   "scrollbar-width": "none" /* Firefox */,
-        //   "&::-webkit-scrollbar": {
-        //     display: "none" /* Chrome, Safari, and Opera */,
-        //   },
-        // },
-        ".default-primary-outline": {
-          outline: "0.0625rem solid var(--primary-color-80)",
-          "border-radius": "1rem",
-        },
-        ".default-secondary-outline": {
-          outline: "0.0625rem solid var(--secondary-color-80)",
-          "border-radius": "1rem",
-        },
-        ".default-third-outline": {
-          outline: "0.0625rem solid var(--third-color-80)",
-          "border-radius": "1rem",
-        },
-        ".primary-outline": {
-          outline: "0.0625rem solid var(--primary-color-80)",
-        },
-        ".secondary-outline": {
-          outline: "0.0625rem solid var(--secondary-color-80)",
-        },
-        ".third-outline": {
-          outline: "0.0625rem solid var(--third-color-80)",
-        },
-        ".primary-set": {
-          background: `${theme("colors.primary.80")}`,
-          color: `${theme("colors.primary.contrast")}`,
-          "outline-color": `${theme("colors.primary.contrast")}`,
-        },
-        ".secondary-set": {
-          background: `${theme("colors.secondary.80")}`,
-          color: `${theme("colors.secondary.contrast")}`,
-          "outline-color": `${theme("colors.secondary.contrast")}`,
-        },
-        ".third-set": {
-          background: `${theme("colors.third.80")}`,
-          color: `${theme("colors.third.contrast")}`,
-        },
-        ".dynamic-opacity": {
-          // opacity: "var(--dynamic-opacity)",
-          "mix-blend-mode": "multiply",
-        },
-        ".default-outline-nocolor": {
-          outline: "0.0625rem solid",
-          "outline-offset": "-0.0625rem",
-          "border-radius": "1rem",
-        },
-        ".default-flex": {
-          display: "flex",
-          "justify-content": "center",
-          "align-items": "center",
-        },
-        ".text-gradient": {
-          background: "linear-gradient(to right, #C193EC 0%, #7D91FF 100%)",
-          "-webkit-background-clip": "text",
-          "-webkit-text-fill-color": "transparent",
-        },
-        ".text-gradient1": {
-          background: "linear-gradient(70deg, #f2709c 0%, #ff9472 100%)",
-          "-webkit-background-clip": "text",
-          "-webkit-text-fill-color": "transparent",
-        },
-        ".glassmorphism": {
-          "backdrop-filter": "blur(24px) saturate(180%)",
-          "-webkit-backdrop-filter": "blur(24px) saturate(180%)",
-          "background-color": "var(--bg-glassmorphism)",
-          "box-shadow": "0 4px 20px rgba(0, 0, 0, 0.1)",
-          "will-change": "backdrop-filter, transform",
-        },
-        ".bg-gradient": {
-          background: `linear-gradient(to right, ${theme("colors.primary.60")} 0%, ${theme("colors.secondary.60")} 100%)`,
-        },
-        ".animate-paused": {
-          "animation-play-state": "paused",
-        },
-        ".animate--duration-1": {
-          "animate--duration": "1s",
-        },
-        ".fillAnimation": {
-          background:
+        addUtilities({
+          // ".scrollbar-hide": {
+          //   "-ms-overflow-style": "none" /* IE and Edge */,
+          //   "scrollbar-width": "none" /* Firefox */,
+          //   "&::-webkit-scrollbar": {
+          //     display: "none" /* Chrome, Safari, and Opera */,
+          //   },
+          // },
+          ".primary-border-radius": {
+            "border-width": "0.0625rem", // 기존 두께
+            "border-style": "solid",
+            "border-color": "var(--primary-color-80)",
+            "border-radius": "1rem",
+          },
+          ".secondary-border-radius": {
+            "border-width": "0.0625rem", // 기존 두께
+            "border-style": "solid",
+            "border-color": "var(--secondary-color-80)",
+            "border-radius": "1rem",
+          },
+          ".third-border-radius": {
+            "border-width": "0.0625rem", // 기존 두께
+            "border-style": "solid",
+            "border-color": "var(--third-color-80)",
+            "border-radius": "1rem",
+          },
+          ".primary-border": {
+            border: "0.0625rem solid var(--primary-color-80)",
+          },
+          ".secondary-border": {
+            border: "0.0625rem solid var(--secondary-color-80)",
+          },
+          ".third-border": {
+            border: "0.0625rem solid var(--third-color-80)",
+          },
+          ".primary-set": {
+            background: `${theme("colors.primary.80")}`,
+            color: `${theme("colors.primary.contrast")}`,
+            "outline-color": `${theme("colors.primary.contrast")}`,
+          },
+          ".secondary-set": {
+            background: `${theme("colors.secondary.80")}`,
+            color: `${theme("colors.secondary.contrast")}`,
+            "outline-color": `${theme("colors.secondary.contrast")}`,
+          },
+          ".third-set": {
+            background: `${theme("colors.third.80")}`,
+            color: `${theme("colors.third.contrast")}`,
+          },
+          ".disabled-set": {
+            background: "var(--bg-disabled)",
+            color: "var(--bg-text-disabled)",
+          },
+          ".dynamic-opacity": {
+            // opacity: "var(--dynamic-opacity)",
+            "mix-blend-mode": "multiply",
+          },
+          ".default-outline-nocolor": {
+            outline: "0.0625rem solid",
+            "outline-offset": "-0.0625rem",
+            "border-radius": "1rem",
+          },
+          ".default-flex": {
+            display: "flex",
+            "justify-content": "center",
+            "align-items": "center",
+          },
+          ".text-gradient": {
+            background: "linear-gradient(to right, #C193EC 0%, #7D91FF 100%)",
+            "-webkit-background-clip": "text",
+            "-webkit-text-fill-color": "transparent",
+          },
+          ".text-gradient1": {
+            background: "linear-gradient(70deg, #f2709c 0%, #ff9472 100%)",
+            "-webkit-background-clip": "text",
+            "-webkit-text-fill-color": "transparent",
+          },
+          ".glassmorphism": {
+            "backdrop-filter": "blur(24px) saturate(180%)",
+            "-webkit-backdrop-filter": "blur(24px) saturate(180%)",
+            "background-color": "var(--bg-glassmorphism)",
+            "box-shadow": "0 4px 20px rgba(0, 0, 0, 0.1)",
+            "will-change": "backdrop-filter, transform",
+          },
+          ".bg-gradient": {
+            background: `linear-gradient(to right, ${theme("colors.primary.60")} 0%, ${theme("colors.secondary.60")} 100%)`,
+          },
+          ".animate-paused": {
+            "animation-play-state": "paused",
+          },
+          ".animate--duration-1": {
+            "animate--duration": "1s",
+          },
+          ".fillAnimation": {
+            background:
               "linear-gradient(70deg, #C193EC 0%, #7D91FF 50%, #C193EC 100%)",
-          backgroundSize: "200% 100%",
-        },
-      });
+            backgroundSize: "200% 100%",
+          },
+        });
     },
   ],
 };

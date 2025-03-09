@@ -3,6 +3,7 @@
 import Blog2BasicContentViewBox from "@component/blog2/view/Blog2BasicContentViewBox";
 import Blog2ResultContentViewBox from "@component/blog2/view/Blog2ResultContentViewBox";
 import Button from "@component/common/button/hybrid/Button";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
@@ -23,21 +24,13 @@ interface IBlog2DetailBox {
   data: responseReadBlog2;
 }
 const Blog2DetailBox = (props: IBlog2DetailBox) => {
-  const [menu, setMenu] = useState(
-    props.data.blog2ResultList.length > 0
-      ? "결과"
-      : props.data.blog2StructureList.length > 0
-        ? "구조"
-        : props.data.blog2BasicList.length > 0
-          ? "기초"
-          : "",
-  );
+  const [menu, setMenu] = useState("");
   const router = useRouter();
   const userStore = useUserStore();
   const toastifyStore = useToastifyStore();
   const modalState = useModalState();
   const blog2Store = useBlog2Store();
-  const {loading, startLoading, stopLoading} = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
   const deleteBlog2Handler = async () => {
     startLoading();
     // 삭제 API
@@ -107,16 +100,38 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   }, [menu]);
 
   useEffect(() => {
-    blog2Store.setBlog2ActiveFirstCategoryId(props.data.blog2.firstCategoryId);
-    blog2Store.setBlog2ActiveSecondCategoryId(props.data.blog2SecondCategory.id);
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
+    let isMenuInURL = params.get("menu") &&
+      ["기초", "구조", "결과"].includes(params.get("menu") as string);
+    let _menu = "";
+    if (props.data.blog2ResultList.length > 0) {
+      _menu = "결과";
+    } else if (props.data.blog2StructureList.length > 0) {
+      _menu = "구조";
+    } else if (props.data.blog2BasicList.length > 0) {
+      _menu = "기초";
+    }
+    setMenu(isMenuInURL ? params.get("menu")! : _menu);
+      
+    blog2Store.setBlog2ActiveFirstCategoryId(props.data.blog2.firstCategoryId);
+    blog2Store.setBlog2ActiveSecondCategoryId(props.data.blog2SecondCategory.id);
     if (params.get("timestamp")) {
       params.delete("timestamp");
       url.search = params.toString();
-      window.history.replaceState({}, "", url.toString());
     }
+    if (!isMenuInURL && _menu !== "") {
+      params.set("menu", _menu);
+      url.search = params.toString();
+    }
+    window.history.replaceState({}, "", url.toString());
   }, []);
+
+  const menuItems = [
+    {key: "기초", list: props.data.blog2BasicList},
+    {key: "구조", list: props.data.blog2StructureList},
+    {key: "결과", list: props.data.blog2ResultList},
+  ];
 
   return (
     <section
@@ -126,7 +141,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
         <Button
           className={
-            "aspect-square h-[2rem] bg-primary-20 default-primary-outline default-flex"
+            "primary-border-radius aspect-square h-[2rem] bg-primary-20 default-flex"
           }
           onClick={() =>
             router.push(
@@ -147,7 +162,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           <div className={"flex gap-x-2"}>
             <Button
               className={
-                "aspect-square h-[2rem] bg-primary-20 font-bold default-primary-outline default-flex"
+                "primary-border-radius aspect-square h-[2rem] bg-primary-20 font-bold default-flex"
               }
               onClick={() => {
                 startLoading();
@@ -163,7 +178,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
             </Button>
             <ModalButton
               buttonClassName={
-                "aspect-square h-[2rem] bg-primary-20 font-bold default-primary-outline default-flex"
+                "aspect-square h-[2rem] bg-primary-20 font-bold primary-border-radius default-flex"
               }
               modal={
                 <ConfirmModal
@@ -189,41 +204,23 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       </div>
       <div
         className={
-          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 default-primary-outline"
+          "primary-border-radius flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2"
         }
       >
-        {props.data.blog2BasicList.length > 0 && (
-          <Button
-            onClick={() => setMenu("기초")}
-            className={`h-auto w-full rounded-2xl ${menu == "기초" && "bg-primary-60 animate-rotateFadeIn"}`}
-          >
-            기초
-            <span className="pl-1 text-black-40">
-              {props.data.blog2BasicList.length || 0}
-            </span>
-          </Button>
-        )}
-        {props.data.blog2StructureList.length > 0 && (
-          <Button
-            onClick={() => setMenu("구조")}
-            className={`h-auto w-full rounded-2xl ${menu == "구조" && "bg-primary-60 animate-rotateFadeIn"}`}
-          >
-            구조
-            <span className="pl-1 text-black-40">
-              {props.data.blog2StructureList.length || 0}
-            </span>
-          </Button>
-        )}
-        {props.data.blog2ResultList.length > 0 && (
-          <Button
-            onClick={() => setMenu("결과")}
-            className={`h-auto w-full rounded-2xl ${menu == "결과" && "bg-primary-60 animate-rotateFadeIn"}`}
-          >
-            결과
-            <span className="pl-1 text-black-40">
-              {props.data.blog2ResultList.length || 0}
-            </span>
-          </Button>
+        {menuItems.map(({key, list}) =>
+          list.length > 0 ? (
+            <ThemeActiveButton1
+              key={key}
+              isActive={menu === key}
+              onClick={() => {
+                setMenu(key);
+              }}
+              className="h-auto w-full animate-rotateFadeIn"
+            >
+              {key}
+              <span className="pl-1">{list.length}</span>
+            </ThemeActiveButton1>
+          ) : null,
         )}
         {menu == "" && (
           <div
@@ -235,14 +232,13 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           </div>
         )}
       </div>
-      <div className={"flex h-auto w-full p-1 default-primary-outline"}>
+      <div className={"primary-border-radius flex h-auto w-full p-1"}>
         {menu == "기초" && (
           <Blog2BasicContentViewBox data={props.data.blog2BasicList} />
         )}
         {menu == "구조" && (
           <Blog2StructureContentViewBox data={props.data.blog2StructureList} />
         )}
-
         {menu == "결과" && (
           <Blog2ResultContentViewBox data={props.data.blog2ResultList} />
         )}

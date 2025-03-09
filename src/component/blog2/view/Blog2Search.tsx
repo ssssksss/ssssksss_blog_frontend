@@ -5,7 +5,7 @@ const Blog2Search = (props: IBlog2Search) => {
   return (
     <section>
       <article className={"relative h-12 w-full"}>
-        <div className="relative flex w-full items-center rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20">
+        <div className="relative flex w-full items-center rounded-[1rem] outline-primary-20">
           <Input
             type={"search"}
             placeholder="검색어를 입력해주세요"

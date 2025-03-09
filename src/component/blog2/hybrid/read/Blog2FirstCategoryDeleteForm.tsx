@@ -1,9 +1,9 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import useBlog2Store from "@store/blog2Store";
-import {Blog2FirstCategoryCreateYup} from "@utils/validation/BlogCategoryYup";
-import {useForm} from "react-hook-form";
+import { Blog2FirstCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
+import { useForm } from "react-hook-form";
 
 interface IBlog2FirstCategoryDeleteForm {}
 const Blog2FirstCategoryDeleteForm = (props: IBlog2FirstCategoryDeleteForm) => {
@@ -49,7 +49,7 @@ const Blog2FirstCategoryDeleteForm = (props: IBlog2FirstCategoryDeleteForm) => {
         onClick={handleSubmit(createFirstCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "mt-[1rem] h-[3rem] rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+          "mt-[1rem] h-[3rem] rounded-[1rem] outline-primary-20 hover:bg-primary-20"
         }>
         추가
       </Button>

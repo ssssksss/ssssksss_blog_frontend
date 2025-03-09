@@ -45,11 +45,11 @@ const BlogListBox = (props: IBlogListBox) => {
 
   if (loadingState.loading) {
     return (
-      <div className={"w-full flex flex-col default-primary-outline px-2 py-2 mt-[.5rem]"}>
+      <div className={"w-full flex flex-col primary-border-radius px-2 py-2 mt-[.5rem]"}>
         <ul className="flex flex-col gap-y-2">
           {
             [...Array(10)].map((_, i) =>
-              <div key={i} className="animate-pulseSkeleton grid grid-cols-[6rem_auto_6rem] default-primary-outline  h-[6rem] gap-x-1 p-2">
+              <div key={i} className="animate-pulseSkeleton grid grid-cols-[6rem_auto_6rem] primary-border-radius  h-[6rem] gap-x-1 p-2">
                 {/* 이미지 스켈레톤 */}
                 <div className="default-flex relative bg-gray-300 rounded-md h-full w-full">
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -85,7 +85,7 @@ const BlogListBox = (props: IBlogListBox) => {
       <ul className="flex flex-col gap-y-2 max-w-full">
         {blogList?.map((blog) => (
           <Link href={`/blog/${blog.id}`} key={blog.id} className="block w-full ">
-            <li className="max-w-full w-full grid grid-cols-[4rem_calc(100%-10rem)_6rem] default-primary-outline h-[6rem] gap-x-1 p-2 hover:bg-third-20">
+            <li className="max-w-full w-full grid grid-cols-[4rem_calc(100%-10rem)_6rem] primary-border-radius h-[6rem] gap-x-1 p-2 hover:bg-third-20">
               <div className="default-flex relative">
                 <Image
                   src={`${AWSS3Prefix}${blog.blogSecondCategory.thumbnailImageUrl}`}

@@ -1,4 +1,4 @@
-import Button from "@component/common/button/hybrid/Button";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { useState } from "react";
 import useBlog2Store from "src/store/blog2Store";
@@ -7,8 +7,8 @@ import Blog2FirstCategoryCreateForm from "./Blog2FirstCategoryCreateForm";
 // TODO : 블로그 카테고리 수정 및 삭제 추가 필요
 const buttons = [
   { label: "추가", value: "add" },
-  { label: "수정", value: "update" },
-  { label: "삭제", value: "delete" },
+  // { label: "수정", value: "update" },
+  // { label: "삭제", value: "delete" },
 ];
 
 const Blog2FirstCategoryModal = (props: IModalComponent) => {
@@ -16,33 +16,26 @@ const Blog2FirstCategoryModal = (props: IModalComponent) => {
   const blogCategoryStore = useBlog2Store();
 
   return (
-    <ModalTemplate className="w-[calc(100vw-2rem)] max-w-[33.5rem] max-h-[40rem]">
+    <ModalTemplate className="max-h-[40rem] w-[calc(100vw-2rem)] max-w-[33.5rem]">
       {props.closeButtonComponent}
-      {/* <div
-        className={
-          "w-[calc(100vw-2rem)] max-w-[37.5rem] max-h-[40rem] h-full flex flex-col bg-red-20 rounded-b-[1rem] pt-[3rem] px-[2.75rem]"
-        }
-      > */}
-      <div className="flex gap-4 w-full">
+      {/* TODO : 수정과 삭제 기능 추가 필요 */}
+      <div className="flex w-full gap-4">
         {buttons.map((btn) => (
-          <Button
+          <ThemeButton1
             key={btn.value}
-            className={`w-full h-[3rem] ${
+            className={`h-[3rem] w-full ${
               menu === btn.value &&
-            "bg-primary-20 text-black-80 font-bold text-lg"
-            } outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline rounded-[1rem] ${btn.value == "add" || "hover:cursor-not-allowed bg-black-80"}`}
+              "text-lg font-bold primary-set hover:bg-primary-20"
+            } primary-border-radius`}
             onClick={() => setMenu(btn.value)}
           >
             {btn.label}
-          </Button>
+          </ThemeButton1>
         ))}
       </div>
       <div className="mt-[1rem] w-full">
-        {
-          menu == "add" && <Blog2FirstCategoryCreateForm />
-        }
+        {menu == "add" && <Blog2FirstCategoryCreateForm />}
       </div>
-      {/* </div> */}
     </ModalTemplate>
   );
 };

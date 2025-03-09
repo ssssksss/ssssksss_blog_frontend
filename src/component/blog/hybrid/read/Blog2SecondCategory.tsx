@@ -3,10 +3,10 @@
 import Blog2SecondCategoryModal from "@component/blog2/hybrid/read/Blog2SecondCategoryModal";
 import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import {faGear} from "@fortawesome/free-solid-svg-icons/faGear";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useSearchParams} from "next/navigation";
-import {useEffect, useRef} from "react";
+import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 import useBlog2Store from "src/store/blog2Store";
 import useUserStore from "src/store/userStore";
 
@@ -67,7 +67,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
           el.id == Number(searchParams.get("firstCategoryId")) &&
           el.blog2SecondCategoryList?.map((el2) => (
             <Button
-              className={`h-[3rem] rounded-[1rem] px-4 py-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 ${
+              className={`h-[3rem] rounded-[1rem] px-4 py-2 outline-primary-20 ${
                 el2.id == (searchParams.get("secondCategoryId") || 0) &&
                 "bg-primary-20"
               }`}
@@ -88,7 +88,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         <>
           {searchParams.get("firstCategoryId") && (
             <ModalButton modal={<Blog2SecondCategoryModal />}>
-              <div className="flex aspect-square w-[2.4rem] items-center justify-center rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20">
+              <div className="flex aspect-square w-[2.4rem] items-center justify-center rounded-[1rem] outline-primary-20">
                 <FontAwesomeIcon icon={faGear} />
               </div>
             </ModalButton>

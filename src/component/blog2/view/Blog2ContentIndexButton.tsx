@@ -11,7 +11,7 @@ const Blog2ContentIndexButton = (props: IBlog2ContentIndexButton) => {
       <button
         onClick={() => props.openModal()}
         className={
-          "absolute right-[0rem] top-0 z-20 flex h-[2.5rem] w-[2.5rem] bg-primary-20 default-primary-outline default-flex"
+          "absolute right-[0rem] top-0 z-20 flex h-[2.5rem] w-[2.5rem] bg-primary-20 primary-border-radius default-flex"
         }
       >
         <FontAwesomeIcon icon={faBars} className="text-[2rem] w-[28px] h-[32px]" />

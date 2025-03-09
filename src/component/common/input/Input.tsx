@@ -61,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, IInput>(
         placeholder={placeholder}
         style={style}
         onClick={onClick || (() => "")}
-        className={`bg-default-1 h-full p-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline ${className} `}
+        className={`bg-default-1 h-full p-2 primary-border ${className} `}
         onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter" && onKeyPressAction) {
             onKeyPressAction(e);

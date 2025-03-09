@@ -106,14 +106,14 @@ const LoginModal = (props: ILoginModal) => {
           <span>아이디가 없으시다면?</span>
           <Button
             onClickCapture={() => props.changeAuthScreen()}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             회원가입
           </Button>
         </div>
         <div className="flex items-center justify-center gap-2">
           {/* <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline-primary-20"
             onClick={() => {
               oauthLogin("kakao");
             }}>
@@ -125,7 +125,7 @@ const LoginModal = (props: ILoginModal) => {
             />
           </Button> */}
           {/* <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline-primary-20"
             onClick={() => {
               oauthLogin("google");
             }}>
@@ -137,7 +137,7 @@ const LoginModal = (props: ILoginModal) => {
             />
           </Button> */}
           {/* <Button
-            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20"
+            className="relative max-w-fit overflow-hidden rounded-[.5rem] outline-primary-20"
             onClick={() => {
               oauthLogin("naver");
             }}>
@@ -150,7 +150,7 @@ const LoginModal = (props: ILoginModal) => {
           </Button> */}
         </div>
         <Button
-          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline-primary-20 hover:bg-primary-20"
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >

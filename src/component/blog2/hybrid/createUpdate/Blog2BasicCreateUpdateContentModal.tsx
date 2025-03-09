@@ -1,6 +1,6 @@
 import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
-import Input from "@component/common/input/Input";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useModalState from "@hooks/useModalState";
@@ -15,7 +15,7 @@ import {
   useForm
 } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
+import Blog2SubCreateUpdateHeaderView from "../../view/Blog2SubCreateUpdateHeaderView";
 
 interface IFormContext {
   title: string;
@@ -205,20 +205,22 @@ const Blog2BasicCreateUpdateContentModal = (
       }
     >
       {props.closeButtonComponent}
-      <Blog2SubCreateUpdateHeader
+      <Blog2SubCreateUpdateHeaderView
         type={"basic"}
-        saveHandler={()=>props.loadingWithHandler(
-          blog2ContentFormContext.handleSubmit(
-            handleSubmitClick,
-            onClickErrorSubmit,
+        saveHandler={() =>
+          props.loadingWithHandler(
+            blog2ContentFormContext.handleSubmit(
+              handleSubmitClick,
+              onClickErrorSubmit,
+            ),
           )
-        )}
+        }
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4 primary-outline z-10">
+        <div className="primary-border absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4">
           <Dropdown
             options={blog2Store.categoryList.map((i) => {
               return {
@@ -234,7 +236,7 @@ const Blog2BasicCreateUpdateContentModal = (
             defaultValue={props.item?.blog2FirstCategoryId || 0}
             dropdownHandler={handleClickFirstCategory}
             placeholder={"카테고리1"}
-            containerClassName={"min-h-12 bg-default-1"}
+            containerClassName={"min-h-12 bg-default-1 rounded-2xl"}
           />
           <Dropdown
             options={secondCategoryList.map((i) => {
@@ -255,9 +257,9 @@ const Blog2BasicCreateUpdateContentModal = (
               !blog2ContentFormContext.getValues("firstCategoryId") ||
               secondCategoryList.length < 1
             }
-            containerClassName={"min-h-12 bg-default-1"}
+            containerClassName={"min-h-12 bg-default-1 rounded-2xl"}
           />
-          <Input
+          <ThemeInput1
             type={"text"}
             register={blog2ContentFormContext.register("title")}
             className={EditorCreateUpdateTitleStyle}

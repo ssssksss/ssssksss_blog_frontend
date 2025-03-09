@@ -115,7 +115,7 @@ const PlanScheduleMonthBox = () => {
   return (
     <div
       className={
-        "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline -outline-offset-[0.0625rem] outline-primary-20"
+        "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline -border-offset-[0.0625rem] outline-primary-20"
       }
     >
       <LoadingSpinner loading={loading} />
@@ -123,7 +123,7 @@ const PlanScheduleMonthBox = () => {
         <ModalButton
           modal={<PlanCreateScheduleModal />}
           buttonClassName={
-            "hover:bg-gradient default-primary-outline px-2 py-[0.125rem] flex items-center gap-x-1"
+            "hover:bg-gradient primary-border-radius px-2 py-[0.125rem] flex items-center gap-x-1"
           }
         >
           <div className={"relative h-6 w-6 default-flex"}>
@@ -134,7 +134,7 @@ const PlanScheduleMonthBox = () => {
         <NestedModalButton
           modal={<PlanScheduleCategoryModal />}
           buttonClassName={
-            "hover:bg-gradient default-primary-outline px-2 py-[0.125rem]"
+            "hover:bg-gradient primary-border-radius px-2 py-[0.125rem]"
           }
         >
           <div className={"relative h-4 w-4 default-flex"}>
@@ -146,7 +146,7 @@ const PlanScheduleMonthBox = () => {
         <div className="mb-4 flex items-center justify-center gap-x-2">
           <Button
             onClick={prevMonth}
-            className={"aspect-square w-[1.5rem] default-primary-outline"}
+            className={"aspect-square w-[1.5rem] primary-border-radius"}
           >
             {"<"}
           </Button>
@@ -158,7 +158,7 @@ const PlanScheduleMonthBox = () => {
           </h2>
           <Button
             onClick={nextMonth}
-            className={"aspect-square w-[1.5rem] default-primary-outline"}
+            className={"aspect-square w-[1.5rem] primary-border-radius"}
           >
             {">"}
           </Button>
@@ -167,7 +167,7 @@ const PlanScheduleMonthBox = () => {
           {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
             <div
               key={day}
-              className="min-h-[2rem] text-center font-bold default-primary-outline default-flex"
+              className="min-h-[2rem] text-center font-bold primary-border-radius default-flex"
             >
               {day}
             </div>
@@ -189,11 +189,11 @@ const PlanScheduleMonthBox = () => {
           ))}
         </ModalButton>
       </div>
-      <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 default-primary-outline">
+      <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 primary-border-radius">
         {planStore.scheduleList.map((i) => (
           <NestedModalButton
             key={i.id}
-            buttonClassName={"flex w-full flex-col gap-y-2 p-2 default-primary-outline"}
+            buttonClassName={"flex w-full flex-col gap-y-2 p-2 primary-border-radius"}
             modal={<PlanCalendarItemInfoModal data={i} />}
           >
             <div className="w-full flex justify-between ">

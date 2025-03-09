@@ -1,4 +1,4 @@
-import Button from "@component/common/button/hybrid/Button";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { useState } from "react";
 import Blog2SecondCategoryCreateForm from "./Blog2SecondCategoryCreateForm";
@@ -25,16 +25,14 @@ const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
       {props.closeButtonComponent}
       <div className="flex w-full gap-4">
         {buttons.map((btn) => (
-          <Button
+          <ThemeActiveButton1
             key={btn.value}
-            className={`h-[3rem] w-full ${
-              menu === btn.value &&
-              "primary-set text-lg font-bold text-black-80"
-            } rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline`}
+            isActive={menu === btn.value}
+            className={"h-[3rem] w-full"}
             onClick={() => setMenu(btn.value)}
           >
             {btn.label}
-          </Button>
+          </ThemeActiveButton1>
         ))}
       </div>
       <div className="mt-[1rem] w-full">

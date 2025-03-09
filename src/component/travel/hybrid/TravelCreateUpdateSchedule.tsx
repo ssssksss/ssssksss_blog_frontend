@@ -48,7 +48,7 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
   return (
     <section
       className={
-        "flex h-full w-full flex-col default-primary-outline pt-2 px-2"
+        "flex h-full w-full flex-col primary-border-radius pt-2 px-2"
       }
     >
       <LoadingSpinner loading={loading} />
@@ -56,13 +56,13 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
         <Input
           ref={keywordRef}
           onChange={(e) => setKeyword(e.target.value)}
-          className="h-full w-full default-primary-outline"
+          className="h-full w-full primary-border-radius"
           placeholder="키워드를 입력해주세요"
           onKeyPressAction={() => fetchTouristInfo()}
         />
         <button
           onClick={() => fetchTouristInfo()}
-          className="h-full min-w-12 px-2 py-2 default-primary-outline default-flex"
+          className="h-full min-w-12 px-2 py-2 primary-border-radius default-flex"
         >
           버튼
         </button>
@@ -77,10 +77,10 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
           {data?.map((i, index) => (
             <li
               key={i.contentid}
-              className="relative h-[20rem] w-full overflow-hidden rounded-2xl shadow-md default-primary-outline"
+              className="relative h-[20rem] w-full overflow-hidden rounded-2xl shadow-md primary-border-radius"
             >
               <Button
-                className="h-full w-full p-2 default-primary-outline"
+                className="h-full w-full p-2 primary-border-radius"
                 onClick={() => {
                   props.addTravelLocation(i);
                 }}

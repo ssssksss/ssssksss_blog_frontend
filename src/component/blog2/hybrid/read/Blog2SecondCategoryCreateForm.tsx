@@ -1,5 +1,6 @@
-import Button from "@component/common/button/hybrid/Button";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import Input from "@component/common/input/Input";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import { Blog2SecondCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
@@ -31,6 +32,7 @@ const Blog2SecondCategoryCreateForm = (
       },
     });
 
+  // 2번쨰 카테고리 생성 API 요청 작업
   const createSecondCategoryHandler = async (
     data: Blog2SecondCategoryCreateForm,
   ) => {
@@ -66,6 +68,7 @@ const Blog2SecondCategoryCreateForm = (
     }
   };
 
+  // 이미지 업로드가 아닌 미리보기로 처리 후 API 요청할 때 업로드 처리 방식
   const fakeImageUpload = ({file, url}: {file: File; url: string}) => {
     setImageUrl(url);
     setValue("createSecondCategoryImageFile", file, {shouldValidate: true});
@@ -78,7 +81,7 @@ const Blog2SecondCategoryCreateForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-outline primary-set"
+          "primary-border flex h-[3rem] items-center justify-center primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -86,15 +89,13 @@ const Blog2SecondCategoryCreateForm = (
             el.id == Number(searchParams.get("firstCategoryId")) && el.name,
         )}
       </div>
-      <Input
+      <ThemeInput1
         placeholder="2번째 카테고리 이름"
         register={register("createSecondCategoryName")}
         className="min-h-[3rem]"
       />
       <label
-        className={
-          "relative h-[16rem] w-full cursor-pointer primary-outline"
-        }
+        className={`primary-border-radius relative h-[16rem] w-full cursor-pointer ${isDragging && "bg-primary-20"}`}
         htmlFor={"imageUpload"}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
@@ -103,7 +104,7 @@ const Blog2SecondCategoryCreateForm = (
       >
         {imageUrl ? (
           <Image
-            src={imageUrl}
+            src={imageUrl} 
             alt={"image"}
             layout="fill"
             className="rounded-[1rem]"
@@ -122,15 +123,16 @@ const Blog2SecondCategoryCreateForm = (
           onChange={onDropOrInputEvent}
         />
       </label>
-      <Button
+      {/* TODO : 유효성 처리가 제대로 안되는 것 같다. */}
+      <ThemeButton1
         onClick={handleSubmit(createSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={
-          "mt-[1rem] h-[3rem] rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] primary-outline hover:bg-primary-20"
+          "mt-[1rem] h-[3rem]"
         }
       >
-        추가
-      </Button>
+        2번째 카테고리 추가하기
+      </ThemeButton1>
     </div>
   );
 };

@@ -157,20 +157,20 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
             {!isOpenCalendar && (
               <button
                 onClick={() => setIsOpenCalendar(true)}
-                className="absolute left-1 top-1/2 -translate-y-1/2 px-2 py-1 shadow-2xl default-primary-outline"
+                className="absolute left-1 top-1/2 -translate-y-1/2 px-2 py-1 shadow-2xl primary-border-radius"
               >
                 <Calendar />
               </button>
             )}
             <h2> 일정 목록 </h2>
             <button
-              className="absolute right-1 top-1/2 -translate-y-1/2 bg-default-1 px-2 py-1 shadow-2xl default-primary-outline disabled:bg-gray-60"
+              className="absolute right-1 top-1/2 -translate-y-1/2 bg-default-1 px-2 py-1 shadow-2xl primary-border-radius disabled:bg-gray-60"
               disabled={group == undefined}
             >
                 일정 등록
             </button>
           </div>
-          <div className="h-full p-2 default-primary-outline">
+          <div className="h-full p-2 primary-border-radius">
             {isOpenCalendar ? (
               <div className="relative h-full w-full default-flex">
                 <div className={"flex flex-col items-center gap-[1.875rem]"}>
@@ -227,7 +227,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                   className="absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center"
                   onClick={() => selectCalender()}
                 >
-                  <div className="w-[20rem] gap-x-2 px-4 py-2 default-primary-outline default-flex">
+                  <div className="w-[20rem] gap-x-2 px-4 py-2 primary-border-radius default-flex">
                     <span>
                       {format(calendarDate[0].startDate, "yyyy-MM-dd")}
                     </span>
@@ -247,7 +247,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                   {group?.map((i, index) => (
                     <button
                       key={index}
-                      className={`w-full default-primary-outline ${activeGroup == index && "bg-primary-20"}`}
+                      className={`w-full primary-border-radius ${activeGroup == index && "bg-primary-20"}`}
                       onClick={() => setActiveGroup(index)}
                     >
                       <div className="w-full p-2">
@@ -262,13 +262,13 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                     </button>
                   ))}
                 </ul>
-                <ul className="flex h-full flex-col gap-y-2 overflow-y-scroll p-2 default-primary-outline">
+                <ul className="flex h-full flex-col gap-y-2 overflow-y-scroll p-2 primary-border-radius">
                   {group
                     ?.filter((_, index) => index == activeGroup)[0]
                     ?.place.map((i, index) => (
                       <li
                         key={index}
-                        className={"flex w-full p-2 default-primary-outline"}
+                        className={"flex w-full p-2 primary-border-radius"}
                       >
                         <div className="relative mx-auto aspect-square w-[5rem]">
                           <Image

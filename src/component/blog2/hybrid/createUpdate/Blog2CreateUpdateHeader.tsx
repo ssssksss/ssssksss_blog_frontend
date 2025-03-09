@@ -1,6 +1,8 @@
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import Button from "@component/common/button/hybrid/Button";
-import Input from "@component/common/input/Input";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
@@ -292,7 +294,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         <div className="grid w-full grid-cols-[2.75rem_calc(100%-5.5em)_2.75rem] items-center">
           <Button
             className={
-              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-primary-outline default-flex"
+              "primary-border-radius aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-flex"
             }
             onClick={() => router.back()}
           >
@@ -310,7 +312,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
           </div>
           <Button
             className={
-              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-primary-outline default-flex"
+              "primary-border-radius aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-flex"
             }
             onClick={() =>
               loadingWithHandler(() => blog2CreateUpdateSubmitHandler())
@@ -321,7 +323,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         </div>
       </div>
       <Button
-        className={"w-full p-2 default-primary-outline hover:bg-primary-20"}
+        className={"primary-border-radius w-full p-2 hover:bg-primary-20"}
         onClick={() => modalState.openModal()}
       >
         {formContext.getValues("title") ? (
@@ -343,6 +345,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         )}
       </Button>
       {/* 블로그의 제목, 설명, 카테고리 등을 선택하는 모달화면 */}
+      {/* TODO : 이거 모달 컴포넌트로 처리 안되나?? */}
       {modalState.isOpen && (
         <div
           className={
@@ -351,42 +354,38 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         >
           <div
             ref={ref}
-            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[3rem_3rem_3rem_3rem_18rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-white-80 px-[2.25rem] pb-[1.75rem] pt-[5rem] scrollbar-hide"
+            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[3rem_3rem_3rem_3rem_18rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-default-1 px-[2.25rem] pb-[1.75rem] pt-[5rem] scrollbar-hide"
           >
-            <Input
+            <ThemeInput1
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className={
-                "flex items-center p-2 text-[1.5rem] font-bold default-primary-outline"
-              }
+              className={"flex items-center p-2 text-[1.5rem] font-bold"}
               placeholder={"제목"}
             />
-            <Input
+            <ThemeInput1
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={
-                "flex items-center p-2 text-[1.25rem] text-black-40 default-primary-outline"
-              }
+              className={"flex items-center p-2 text-[1.25rem]"}
               placeholder={"설명"}
             />
-            <Button
+            <ThemeActiveButton1
+              isActive={firstCategory.name}
               onClick={() => modalState1.openModal()}
-              className={"flex items-center p-2 default-primary-outline"}
+              className={"flex items-center p-2"}
             >
               {firstCategory.name || "1번째 카테고리"}
-            </Button>
-            <Button
+            </ThemeActiveButton1>
+            <ThemeActiveButton1
+              isActive={secondCategory.name}
               onClick={() => modalState2.openModal()}
               disabled={firstCategory.id < 1}
-              className={
-                "flex items-center p-2 default-primary-outline disabled:bg-gray-40"
-              }
+              className={"flex items-center p-2"}
             >
               {secondCategory.name || "2번째 카테고리"}
-            </Button>
+            </ThemeActiveButton1>
             <label
               className={
-                "relative h-[16rem] w-full cursor-pointer default-primary-outline"
+                "primary-border-radius relative h-[16rem] w-full cursor-pointer"
               }
               htmlFor={"imageUpload"}
               // onDragEnter={onDragEnter}
@@ -410,29 +409,32 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                 onChange={onDropOrInputEvent}
               /> */}
             </label>
-            <div className="flex h-[3rem] default-primary-outline">
-              <Button
-                className={`h-full w-full default-flex ${blog2Status == "PUBLIC" && "rounded-l-[1rem] bg-primary-20"}`}
+            <div className="primary-border-radius flex h-[3rem]">
+              <ThemeActiveButton1
+                isActive={blog2Status == "PUBLIC"}
+                className={`h-full w-full rounded-none rounded-l-2xl`}
                 onClick={() => handleBlog2Status("PUBLIC")}
               >
                 PUBLIC
-              </Button>
-              <Button
-                className={`h-full w-full default-flex ${blog2Status == "HIDE" && "bg-primary-20"}`}
+              </ThemeActiveButton1>
+              <ThemeActiveButton1
+                isActive={blog2Status == "HIDE"}
+                className={`h-full w-full rounded-none`}
                 onClick={() => handleBlog2Status("HIDE")}
               >
                 HIDE
-              </Button>
-              <Button
-                className={`h-full w-full default-flex ${blog2Status == "DEVELOP" && "rounded-r-[1rem] bg-primary-20"}`}
+              </ThemeActiveButton1>
+              <ThemeActiveButton1
+                isActive={blog2Status == "DEVELOP"}
+                className={`h-full w-full rounded-none rounded-r-2xl`}
                 onClick={() => handleBlog2Status("DEVELOP")}
               >
                 DEVELOP
-              </Button>
+              </ThemeActiveButton1>
             </div>
-            <Button
+            <ThemeButton1
               className={
-                "h-[3rem] w-full p-2 default-primary-outline hover:bg-purple-20 disabled:bg-gray-60"
+                "h-[3rem] w-full p-2"
               }
               onClick={() => loadingWithHandler(() => handleSaveClick())}
               disabled={
@@ -440,7 +442,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               }
             >
               저장
-            </Button>
+            </ThemeButton1>
             {!modalState1.isOpen && !modalState2.isOpen && (
               <AbsoluteCloseButton onClick={() => modalState.closeModal()} />
             )}
@@ -462,7 +464,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                           })
                         }
                         key={i.id}
-                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-primary-outline ${firstCategory.id == i.id && "bg-primary-20"}`}
+                        className={`primary-border-radius h-[3rem] min-w-[3rem] bg-primary-20 p-2 ${firstCategory.id == i.id && "bg-primary-20"}`}
                       >
                         {i.name}
                       </Button>
@@ -495,7 +497,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                               })
                             }
                             key={j.id}
-                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 default-primary-outline ${secondCategory.id == j.id && "bg-primary-20"}`}
+                            className={`primary-border-radius h-[3rem] min-w-[3rem] bg-primary-20 p-2 ${secondCategory.id == j.id && "bg-primary-20"}`}
                           >
                             {j.name}
                           </Button>

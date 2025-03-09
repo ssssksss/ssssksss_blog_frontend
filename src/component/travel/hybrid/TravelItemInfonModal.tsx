@@ -47,10 +47,10 @@ const TravelItemInfonModal = (props: ITravelItemInfonModal) => {
   return (
     <ModalTemplate className={"h-[calc(100vh-1rem)] max-h-[800px] w-[calc(100vw-1rem)] max-w-[600px] animate-fadeUp"}>
       {props.closeButtonComponent}
-      <h2 className={"w-full py-2 text-2xl default-primary-outline default-flex"}>
+      <h2 className={"w-full py-2 text-2xl primary-border-radius default-flex"}>
         {props.data.title}
       </h2>
-      <div className="mt-2 w-full p-2 default-primary-outline default-flex">
+      <div className="mt-2 w-full p-2 primary-border-radius default-flex">
         <div className="relative aspect-square w-[14rem]">
           <Image
             alt=""

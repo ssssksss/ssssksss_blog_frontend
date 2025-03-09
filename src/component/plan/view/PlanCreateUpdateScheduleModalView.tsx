@@ -55,7 +55,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
       <h2 className={"text-[1.5rem] font-bold default-flex"}>
         일정 {props.isEdit ? "수정" : "생성"}
       </h2>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
+      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           카테고리
         </div>
@@ -71,7 +71,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           ))}
         </div>
       </div>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
+      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           기간
           <div className={"flex justify-center text-[1rem]"}>
@@ -101,7 +101,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           </button>
         </div>
         <div
-          className={`mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "default-primary-outline"}`}
+          className={`mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "primary-border-radius"}`}
         >
           <div className="relative">
             <DateRangePicker
@@ -139,7 +139,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           </div>
         </div>
       </div>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
+      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 제목 </span>
           <span className="text-sm">{getValues("title").length} / 30</span>
@@ -154,7 +154,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           placeholder="제목"
         />
       </div>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 default-primary-outline">
+      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 내용 </span>
           <span className="text-sm">{getValues("content").length} / 255</span>
@@ -165,7 +165,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           }
           defaultValue={props.data?.content}
           className={
-            "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] p-1 px-1 primary-outline"
+            "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] p-1 px-1 primary-border"
           }
           maxLength={255}
           placeholder="내용"

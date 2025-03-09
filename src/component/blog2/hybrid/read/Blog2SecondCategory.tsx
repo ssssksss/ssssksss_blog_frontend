@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@component/common/button/hybrid/Button";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const blog2Store = useBlog2Store();
   const searchParams = useSearchParams();
 
+  // 카테고리 중 버튼을 클릭하게 되면 버튼이 브라우저의 중앙으로 위치하게 해준다.
   const onClickAdjustHorizontalScroll = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
     handler: () => void,
@@ -30,6 +31,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     }
   };
 
+  // 2번째 주소 변경 및 카테고리 목록을 불러온다.
   const handleSecondCategoryClick = (id: number) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -49,15 +51,15 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
           );
         }
       }
-    }else if (searchParams.get("firstCategoryId")) {
+    } else if (searchParams.get("firstCategoryId")) {
       if (props.categoryList.length > 0) {
         if (
           props.categoryList.filter(
-            (i) => i.id == Number(searchParams.get("firstCategoryId"))
+            (i) => i.id == Number(searchParams.get("firstCategoryId")),
           )[0].blog2SecondCategoryList!.length > 0
         ) {
           handleSecondCategoryClick(
-            Number(searchParams.get("secondCategoryId"))
+            Number(searchParams.get("secondCategoryId")),
           );
         }
       }
@@ -67,7 +69,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   return (
     <div
       className={
-        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap rounded-[1rem] outline-primary-80 scrollbar-hide"
+        "flex min-h-[3.5rem] items-center gap-[.5rem] overflow-hidden overflow-x-scroll whitespace-nowrap scrollbar-hide"
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
@@ -75,11 +77,9 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         (el) =>
           el.id == blog2Store.activeBlog2FirstCategoryId &&
           el.blog2SecondCategoryList?.map((el2) => (
-            <Button
-              className={`h-[3rem] rounded-[1rem] px-4 py-2 outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80 ${
-                el2.id == blog2Store.activeBlog2SecondCategoryId &&
-                "primary-set"
-              }`}
+            <ThemeActiveButton1
+              className={"h-[3rem] px-4 py-2"}
+              isActive={el2.id == blog2Store.activeBlog2SecondCategoryId}
               key={el2.id}
               onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
                 onClickAdjustHorizontalScroll(
@@ -90,7 +90,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
               }
             >
               {el2.name}
-            </Button>
+            </ThemeActiveButton1>
           )),
       )}
       {userStore.role == "ROLE_ADMIN" && (
@@ -99,7 +99,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
             <ModalButton modal={<Blog2SecondCategoryModal />}>
               <div
                 className={
-                  "flex aspect-square w-[2.4rem] items-center justify-center rounded-[1rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-80"
+                  "primary-border-radius flex aspect-square w-[2.4rem] items-center justify-center hover:bg-primary-20"
                 }
               >
                 <FontAwesomeIcon icon={faGear} />

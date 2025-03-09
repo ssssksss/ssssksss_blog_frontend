@@ -48,7 +48,7 @@ const PlanScheduleCategoryModal = (props: any) => {
       {props.closeButtonComponent}
       {/* 목록 */}
       <div className={"flex w-full flex-col gap-y-2"}>
-        <div className="w-full flex-shrink-0 gap-y-1 p-2 default-primary-outline">
+        <div className="w-full flex-shrink-0 gap-y-1 p-2 primary-border-radius">
           <div className="relative mb-1 w-full rounded-[1rem] bg-primary-20 px-1 text-center text-[1.2rem] font-bold">
             카테고리
             <NestedModalButton

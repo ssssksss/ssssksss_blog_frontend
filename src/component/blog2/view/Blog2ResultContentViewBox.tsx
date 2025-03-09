@@ -1,5 +1,6 @@
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import useModalState from "@hooks/useModalState";
+import { useScrollToHash } from "@hooks/useScrollToHash";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
@@ -14,6 +15,7 @@ interface IBlog2ResultContentViewBox {
 }
 const Blog2ResultContentViewBox = (props: IBlog2ResultContentViewBox) => {
   const modalState = useModalState();
+    useScrollToHash();
 
   if (props.data.length == 0) {
     return (

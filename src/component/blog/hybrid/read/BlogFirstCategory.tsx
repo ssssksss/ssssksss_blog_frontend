@@ -57,7 +57,7 @@ const BlogFirstCategory = (props: {categoryList: IBlogFirstCategory[]}) => {
         ))} */}
       {blogStore.categoryList?.map((el) => (
         <Button
-          className={`px-4 py-2 h-[3rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem] ${
+          className={`px-4 py-2 h-[3rem] outline-primary-20 rounded-[1rem] ${
             el.id == (searchParams.get("firstCategoryId") || 0) &&
             "bg-primary-20"
           }`}
@@ -84,7 +84,7 @@ const BlogFirstCategory = (props: {categoryList: IBlogFirstCategory[]}) => {
         >
           <div
             className={
-              "w-[2.4rem] aspect-square  flex items-center justify-center outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 rounded-[1rem]"
+              "w-[2.4rem] aspect-square  flex items-center justify-center outline-primary-20 rounded-[1rem]"
             }
           >
             <FontAwesomeIcon icon={faGear} />

@@ -132,14 +132,14 @@ const SignupModal = (props: ISignupModal) => {
           <span>아이디가 있다면?</span>
           <Button
             onClickCapture={props.changeAuthScreen}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             로그인
           </Button>
         </div>
         <div className="flex items-center justify-center gap-2">
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("kakao")}
@@ -152,7 +152,7 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("google")}
@@ -165,7 +165,7 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("naver")}
@@ -179,7 +179,7 @@ const SignupModal = (props: ISignupModal) => {
           </Button>
         </div>
         <Button
-          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline outline-[0.0625rem] outline-offset-[-0.0625rem] outline-primary-20 hover:bg-primary-20"
+          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline-primary-20 hover:bg-primary-20"
           // onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >

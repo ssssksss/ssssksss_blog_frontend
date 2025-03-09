@@ -1,6 +1,7 @@
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
+import { useScrollToHash } from "@hooks/useScrollToHash";
 import "@styles/customEditor.css";
 import {
   EditorLiStyle,
@@ -19,6 +20,7 @@ interface IBlog2BasicContentViewBox {
 const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
   const modalState = useModalState();
   const ref = useRef<HTMLDivElement>(null);
+  useScrollToHash();
 
   const handleLinkClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {

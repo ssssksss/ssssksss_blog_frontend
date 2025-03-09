@@ -92,24 +92,24 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
           <BasicButton
             onClick={() => createUpdateBoardHandler()}
-            className="h-full px-4 py-2 primary-outline hover:primary-set rounded-2xl">
+            className="h-full px-4 py-2 primary-border hover:primary-set rounded-2xl">
             {props.isEdit ? "수정 완료" : "등록 하기"}
           </BasicButton>
         </div>
         <button
           onClick={() => router.push("/board")}
-          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 default-primary-outline hover:bg-primary-80 hover:text-white-80">
+          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80">
           <SquareArrowLeft />
         </button>
       </div>
       <Input
-        className="max-h-[4rem] w-full p-4 default-primary-outline"
+        className="max-h-[4rem] w-full p-4 primary-border-radius"
         placeholder="제목을 입력하세요"
         ref={titleRef}
         defaultValue={props.result?.data.title || ""}
       />
       <BasicTextarea
-        className="h-full w-full flex-grow p-4 default-primary-outline"
+        className="h-full w-full flex-grow p-4 primary-border-radius"
         placeholder="내용을 입력하세요"
         ref={contentRef}
         defaultValue={props.result?.data.content || ""}

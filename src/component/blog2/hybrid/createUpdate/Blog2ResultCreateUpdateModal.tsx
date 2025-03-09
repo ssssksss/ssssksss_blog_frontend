@@ -1,5 +1,6 @@
+import Blog2SubCreateUpdateHeaderView from "@component/blog2/view/Blog2SubCreateUpdateHeaderView";
 import CustomEditor from "@component/common/editor/CustomEditor";
-import Input from "@component/common/input/Input";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useModalState from "@hooks/useModalState";
@@ -8,7 +9,6 @@ import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import Blog2SubCreateUpdateHeader from "./Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
   id: number;
@@ -160,7 +160,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       }
     >
       {props.closeButtonComponent}
-      <Blog2SubCreateUpdateHeader
+      <Blog2SubCreateUpdateHeaderView
         type={"result"}
         saveHandler={() =>
           props.loadingWithHandler(
@@ -175,11 +175,11 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="absolute left-[1rem] top-[8rem] flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4 default-primary-outline">
-          <Input
+        <div className="primary-border absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4">
+          <ThemeInput1
             type={"text"}
             register={blog2ContentFormContext.register("title")}
-            className={"flex h-[3rem] items-center px-2 default-primary-outline"}
+            className={"primary-border-radius flex h-[3rem] items-center px-2"}
             placeholder="제목 입력"
           />
         </div>
