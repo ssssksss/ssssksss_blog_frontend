@@ -1,10 +1,11 @@
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserSignupYup } from "@utils/validation/UserSignupYup";
 import Image from "next/image";
 import { useEffect } from "react";
 import { SubmitErrorHandler, useForm } from "react-hook-form";
 import Button from "src/component/common/button/hybrid/Button";
-import Input from "src/component/common/input/Input";
 
 interface ISignupModal {
   changeAuthScreen: () => void;
@@ -81,65 +82,53 @@ const SignupModal = (props: ISignupModal) => {
   }, [watch("password")]);
 
   return (
-    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base">
-      <header className="flex flex-col gap-2 self-stretch p-2">
+    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base w-full">
+      <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">회원가입</span>
       </header>
       <div className="flex flex-col gap-6 pb-4">
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        <ThemeInput1
           type={"email"}
           placeholder="이메일"
           register={register("email")}
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.email?.message}
+          // errorMessage={errors.email?.message}
         />
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        <ThemeInput1
           type={"nickname"}
           placeholder="닉네임"
           register={register("nickname")}
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.nickname?.message}
+          // errorMessage={errors.nickname?.message}
         />
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        <ThemeInput1
           type={"password"}
           placeholder="비밀번호"
           register={register("password")}
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.password?.message}
+          // errorMessage={errors.password?.message}
         />
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        <ThemeInput1
           type={"passwordConfirm"}
           placeholder="비밀번호 확인"
           register={register("passwordConfirm")}
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.passwordConfirm?.message}
+          // errorMessage={errors.passwordConfirm?.message}
         />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-center gap-2">
           <span>아이디가 있다면?</span>
-          <Button
+          <ThemeButton1
             onClickCapture={props.changeAuthScreen}
             className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             로그인
-          </Button>
+          </ThemeButton1>
         </div>
         <div className="flex items-center justify-center gap-2">
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="relative overflow-hidden rounded-[.5rem] outline-primary-20 default-flex hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("kakao")}
@@ -152,7 +141,7 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="relative overflow-hidden rounded-[.5rem] outline-primary-20 default-flex hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("google")}
@@ -165,7 +154,7 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
           <Button
-            className="default-flex relative overflow-hidden rounded-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="relative overflow-hidden rounded-[.5rem] outline-primary-20 default-flex hover:bg-primary-20"
             w={"2.5rem"}
             h={"2.5rem"}
             onClick={() => oauthLogin("naver")}
@@ -178,13 +167,13 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
         </div>
-        <Button
-          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline-primary-20 hover:bg-primary-20"
+        <ThemeButton1
+          className="h-[2.4rem] w-full p-[.5rem]"
           // onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >
           회원가입
-        </Button>
+        </ThemeButton1>
       </div>
     </div>
   );

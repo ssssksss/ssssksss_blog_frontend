@@ -18,4 +18,6 @@ const ThemeInput1 = forwardRef<
   );
 });
 
+ThemeInput1.displayName = "ThemeInput1";
+
 export default ThemeInput1;

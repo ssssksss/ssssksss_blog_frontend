@@ -1,3 +1,4 @@
+import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import React, { useCallback, useState } from "react";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
@@ -15,10 +16,8 @@ const AuthModal = (props: IModalComponent) => {
   }, []);
 
   return (
-    <div
-      className={
-        "bg-white relative h-full max-h-[28rem] w-[20rem] overflow-scroll rounded-2xl bg-default-1 scrollbar-hide"
-      }>
+    <ModalTemplate>
+      {props.closeButtonComponent}
       {isLogin ? (
         <LoginModal
           changeAuthScreen={changeAuthScreen}
@@ -30,7 +29,7 @@ const AuthModal = (props: IModalComponent) => {
           closeModal={() => props.closeModal && props.closeModal()}
         />
       )}
-    </div>
+    </ModalTemplate>
   );
 };
 export default React.memo(AuthModal);

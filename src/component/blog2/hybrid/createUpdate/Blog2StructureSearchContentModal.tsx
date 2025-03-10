@@ -1,5 +1,6 @@
 import Button from "@component/common/button/hybrid/Button";
-import Input from "@component/common/input/Input";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
@@ -7,9 +8,9 @@ import useLoading from "@hooks/useLoading";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import {
-    EditorLiStyle,
-    EditorTitleStyle,
-    EditorUlStyle
+  EditorLiStyle,
+  EditorTitleStyle,
+  EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { useState } from "react";
@@ -65,22 +66,22 @@ const Blog2StructureSearchContentModal = (
       <LoadingSpinner loading={loading} />
       {props.closeButtonComponent}
       <div className="relative flex min-h-[4rem] w-full items-center py-2">
-        <Input
+        <ThemeInput1
           type={"text"}
-          className={"h-[4rem] w-full outline-none"}
+          className={"h-[3rem] w-full"}
           placeholder={"블로그 파일 디렉토리를 입력해주세요, /로 시작x"}
           maxLength={50}
-          onKeyPressAction={(e) => blog2StructureSearchHandler()}
+          // onKeyPressAction={(e) => blog2StructureSearchHandler()}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button
+        <ThemeButton1
           className={
-            "absolute right-1 top-1/2 -translate-y-1/2 rounded-[.5rem] bg-primary-20 px-4 py-2 primary-border"
+            "absolute right-1 top-1/2 -translate-y-1/2 px-4 py-2"
           }
           onClick={() => blog2StructureSearchHandler()}
         >
           검색
-        </Button>
+        </ThemeButton1>
       </div>
       <div className={"flex w-full gap-x-4 pb-4"}>
         검색어({blog2StructureContentList.length}) : {search}

@@ -29,7 +29,7 @@ const Blog2SubCreateUpdateHeaderView = (
       )}
       <ThemeActiveButton1
         isActive={!props.modalState.isOpen}
-        className={`p-2 default-flex`}
+        className={"p-2 default-flex"}
         onClick={() =>
           props.modalState.isOpen
             ? props.modalState.closeModal()

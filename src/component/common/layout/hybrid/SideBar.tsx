@@ -56,6 +56,12 @@ const LeftNavItems: LeftNavItem[] = [
   },
   {
     icon: "/images/icons/ic-setting.svg",
+    label: "디자인",
+    href: "/design",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-setting.svg",
     label: "설정",
     href: "/setting",
     options: {isRequiredAuth: false},

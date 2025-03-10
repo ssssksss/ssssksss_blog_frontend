@@ -19,7 +19,7 @@ const BasicInput = React.forwardRef<HTMLInputElement, BasicInputProps>(
             props.onChange(e);
           }
         }}
-        className={`placeholder:text-contrast-1 bg-default-1 p-2 focus:outline-none disabled:placeholder:text-primary-contrast disabled:bg-black-60 ${className}`}
+        className={`bg-default-1 p-2 placeholder:text-contrast-1 focus:outline-none disabled:bg-black-60 disabled:placeholder:text-primary-contrast ${className || ""}`}
         {...register}
         {...props}
       />

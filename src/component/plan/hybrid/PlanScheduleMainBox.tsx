@@ -4,10 +4,8 @@ import Button from "@component/common/button/hybrid/Button";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-
-const PlanScheduleMonthBox = dynamic(() => import("./PlanScheduleMonthBox"), {
-  ssr: false,
-});
+import Loading from "src/app/loading";
+import PlanScheduleMonthBox from "./PlanScheduleMonthBox";
 
 const LottieAuthLock = dynamic(
   () => import("@component/common/lottie/LottieAuthLock"),
@@ -29,16 +27,12 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   const userStore = useUserStore();
 
   if (userStore.id == 0) {
-    return (
-      <div className="min-h-full w-full default-flex">
-        <LoadingSpinner loading={true} />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (userStore.id < 1) {
     return (
-      <div className="min-h-full w-full default-flex">
+      <div className="h-full w-full default-flex">
         <LottieAuthLock text={"로그인이 필요합니다."} />
       </div>
     );

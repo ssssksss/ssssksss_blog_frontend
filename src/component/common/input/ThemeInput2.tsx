@@ -17,4 +17,6 @@ const ThemeInput2 = ({
   );
 };
 
+ThemeInput2.displayName = "ThemeInput2";
+
 export default ThemeInput2;

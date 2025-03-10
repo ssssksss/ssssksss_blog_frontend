@@ -17,4 +17,6 @@ const ThemeInput3 = ({
   );
 };
 
+ThemeInput3.displayName = "ThemeInput3";
+
 export default ThemeInput3;

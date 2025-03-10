@@ -15,7 +15,7 @@ interface IBlog2ResultContentViewBox {
 }
 const Blog2ResultContentViewBox = (props: IBlog2ResultContentViewBox) => {
   const modalState = useModalState();
-    useScrollToHash();
+  useScrollToHash();
 
   if (props.data.length == 0) {
     return (

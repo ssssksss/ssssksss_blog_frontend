@@ -1,3 +1,4 @@
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,9 +113,9 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   return (
     <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
-      <button
+      <ThemeButton1
         className={
-          "grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto] items-center transition-all duration-300 hover:bg-primary-20 disabled:cursor-not-allowed disabled:bg-gray-80"
+          "grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto] items-center transition-all duration-300"
         }
         onClick={() => {
           playerStore.setPlayer({
@@ -134,7 +135,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             <FontAwesomeIcon icon={faPlay} />
           )}
         </div>
-        <div className="flex h-full w-[17rem] flex-col justify-between px-1">
+        <div className="flex h-full flex-col justify-between px-1">
           <span className={"text-start text-[1rem]"}>
             {timeFunction.secToTime(playerStore.playedSeconds)} [
             {Math.floor(playerStore.progressRatio * 100)}%]
@@ -199,11 +200,11 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             disabled={!playerStore.currentYoutube.id}
           />
         </div>
-      </button>
+      </ThemeButton1>
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
         buttonClassName={
-          "min-h-[2rem] w-full overflow-hidden whitespace-nowrap box-border outline outline-2 outline-offset-[-2px] outline-black-40 rounded-xl"
+          "min-h-[2rem] w-full overflow-hidden whitespace-nowrap box-border primary-border-radius"
         }
         modal={<YoutubePlayerModal />}
       >

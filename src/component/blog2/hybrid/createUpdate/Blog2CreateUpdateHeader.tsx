@@ -412,21 +412,21 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             <div className="primary-border-radius flex h-[3rem]">
               <ThemeActiveButton1
                 isActive={blog2Status == "PUBLIC"}
-                className={`h-full w-full rounded-none rounded-l-2xl`}
+                className={"h-full w-full rounded-none rounded-l-2xl"}
                 onClick={() => handleBlog2Status("PUBLIC")}
               >
                 PUBLIC
               </ThemeActiveButton1>
               <ThemeActiveButton1
                 isActive={blog2Status == "HIDE"}
-                className={`h-full w-full rounded-none`}
+                className={"h-full w-full rounded-none"}
                 onClick={() => handleBlog2Status("HIDE")}
               >
                 HIDE
               </ThemeActiveButton1>
               <ThemeActiveButton1
                 isActive={blog2Status == "DEVELOP"}
-                className={`h-full w-full rounded-none rounded-r-2xl`}
+                className={"h-full w-full rounded-none rounded-r-2xl"}
                 onClick={() => handleBlog2Status("DEVELOP")}
               >
                 DEVELOP

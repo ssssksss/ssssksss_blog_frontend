@@ -111,7 +111,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                     <ThemeButton1
                       className={"p-2 opacity-40 hover:opacity-100"}
                       onClick={() => deleteBlog2BasicContentHandler(i.id)}
-                      >
+                    >
                       삭제
                     </ThemeButton1>
                     {/* TODO : 선택하고 나서 모달을 닫을지 고민 그리고 닫힌후 바로 렌더링 되는지 확인 */}

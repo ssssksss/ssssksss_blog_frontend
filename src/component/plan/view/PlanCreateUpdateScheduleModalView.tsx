@@ -1,4 +1,4 @@
-import BasicButton from "@component/common/button/hybrid/BasicButton";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import BasicInput from "@component/common/input/BasicInput";
 import BasicTextarea from "@component/common/textarea/BasicTextarea";
 import { format } from "date-fns";
@@ -172,8 +172,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
         />
       </div>
       <div className="h-[3rem] default-flex">
-        <BasicButton
-          theme={1}
+        <ThemeButton1
           className={"px-8 py-2"}
           disabled={!formState.isValid}
           onClick={handleSubmit(
@@ -182,7 +181,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           )}
         >
           일정 {props.isEdit ? "수정하기" : "생성하기"}
-        </BasicButton>
+        </ThemeButton1>
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 "use client";
 
+import ThemeButton1 from "@component/common/button/ThemeButton1";
+import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFetchCSRHandler } from "@hooks/useFetchCSRHandler";
 import { UserLoginYup } from "@utils/validation/UserLoginYup";
 import { useForm } from "react-hook-form";
-import Button from "src/component/common/button/hybrid/Button";
-import Input from "src/component/common/input/Input";
 
 interface ILoginModal {
   changeAuthScreen: () => void;
@@ -60,7 +60,7 @@ const LoginModal = (props: ILoginModal) => {
   //     // TODO 제대로 들어가는지 확인 필요
   //     userStore.setUser({
   //       ...response.data.data.user,
-  //     });
+  //     });ㄹ
   //     props.closeModal();
   //   });
   // };
@@ -75,41 +75,36 @@ const LoginModal = (props: ILoginModal) => {
   // }, []);
 
   return (
-    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base">
+    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base w-full">
       <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">로그인</span>
       </header>
       <div className={"flex flex-col gap-6 pb-4"}>
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        {/* TODO : 에러 메시지 보이는 컴포넌트 작업도 추가하기 */}
+        <ThemeInput1
           type={"email"}
           placeholder="이메일"
           register={register("email")}
-          onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.email?.message}
+          // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          // errorMessage={errors.email?.message}
         />
-        <Input
-          className={
-            "bg-default-1 pl-2 focus:bg-primary-20 focus:outline focus:outline-black-80"
-          }
+        <ThemeInput1
           type={"password"}
           placeholder="패스워드"
           register={register("password")}
-          onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
-          errorMessage={errors.password?.message}
+          // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          // errorMessage={errors.password?.message}
         />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-center gap-2">
           <span>아이디가 없으시다면?</span>
-          <Button
+          <ThemeButton1
             onClickCapture={() => props.changeAuthScreen()}
             className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             회원가입
-          </Button>
+          </ThemeButton1>
         </div>
         <div className="flex items-center justify-center gap-2">
           {/* <Button
@@ -149,13 +144,13 @@ const LoginModal = (props: ILoginModal) => {
             />
           </Button> */}
         </div>
-        <Button
-          className="h-[2.4rem] w-full rounded-[1rem] p-[.5rem] outline-primary-20 hover:bg-primary-20"
+        <ThemeButton1
+          className="h-[2.4rem] w-full p-[.5rem]"
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >
           로그인
-        </Button>
+        </ThemeButton1>
       </div>
     </div>
   );
