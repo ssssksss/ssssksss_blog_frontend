@@ -14,6 +14,9 @@ async function getData() {
   const response = await fetchSSRWithAuthAndErrorProcess({
     url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
     method: "GET",
+    next: {
+      revalidate: 10,
+    },
   });
 
   return response.json();
