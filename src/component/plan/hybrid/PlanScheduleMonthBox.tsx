@@ -23,6 +23,7 @@ const PlanScheduleMonthBox = () => {
   const planStore = usePlanStore();
   const {loading, startLoading, stopLoading} = useLoading(true);
 
+
   const prevMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
@@ -115,7 +116,7 @@ const PlanScheduleMonthBox = () => {
   return (
     <div
       className={
-        "mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline -border-offset-[0.0625rem] outline-primary-20"
+        "-border-offset-[0.0625rem] mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-primary-20"
       }
     >
       <LoadingSpinner loading={loading} />
@@ -142,7 +143,8 @@ const PlanScheduleMonthBox = () => {
           </div>
         </NestedModalButton>
       </div>
-      <div className="mx-auto mt-2 w-full">
+      {/* 월간 달력 UI */}
+      <section className="mx-auto mt-2 w-full">
         <div className="mb-4 flex items-center justify-center gap-x-2">
           <Button
             onClick={prevMonth}
@@ -179,7 +181,7 @@ const PlanScheduleMonthBox = () => {
         >
           {planStore.calendar.map((i, index) => (
             <PlanCalendarItem
-              key={i.key}
+              key={format(new Date(i.year, i.month - 1, i.day), "yyyy-MM-dd")}
               state={i.state}
               date={format(new Date(i.year, i.month - 1, i.day), "yyyy-MM-dd")}
               day={i.day}
@@ -188,15 +190,18 @@ const PlanScheduleMonthBox = () => {
             />
           ))}
         </ModalButton>
-      </div>
+      </section>
+      {/* 하단에 일정 목록 보여주는 UI */}
       <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 primary-border-radius">
         {planStore.scheduleList.map((i) => (
           <NestedModalButton
             key={i.id}
-            buttonClassName={"flex w-full flex-col gap-y-2 p-2 primary-border-radius"}
+            buttonClassName={
+              "flex w-full flex-col gap-y-2 p-2 primary-border-radius"
+            }
             modal={<PlanCalendarItemInfoModal data={i} />}
           >
-            <div className="w-full flex justify-between ">
+            <div className="flex w-full justify-between">
               <span className="text-sm text-black-80">
                 {format(i.scheduleStartDate, "yyyy-MM-dd")} ~
                 {format(i.scheduleEndDate, "yyyy-MM-dd")}
@@ -207,7 +212,7 @@ const PlanScheduleMonthBox = () => {
                 {i.scheduleCategoryName}
               </span>
             </div>
-            <p className="w-full text-start overflow-hidden text-ellipsis whitespace-nowrap">
+            <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-start">
               {i.title}
             </p>
           </NestedModalButton>
