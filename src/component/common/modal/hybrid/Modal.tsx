@@ -55,7 +55,6 @@ export const Modal = ({children, modalState}: ModalProps) => {
           toastifyStore.setToastify(result);
         }
       } catch (error) {
-        console.error("Error occurred:", error); // 에러 처리 (필요시)
         toastifyStore.setToastify({
           type: "error",
           message: "예상치 못한 에러"
