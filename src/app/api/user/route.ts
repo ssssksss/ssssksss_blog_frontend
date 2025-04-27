@@ -1,22 +1,35 @@
-import { fetchCSR } from "@utils/api/fetchCSR";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  return await fetchCSR({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
+  const accessToken = request.cookies.get("accessToken");
+  const refreshToken = request.cookies.get("refreshToken");
+  // 토큰이 없다면 요청을 보낼 필요없다고 판단
+  if (!accessToken && !refreshToken) {
+    return NextResponse.json(
+      {
+        statusCode: 401,
+        message: "",
+        data: null,
+      },
+      {status: 401},
+    );
+  }
+  return await fetchApiRoutes({
+    url: `${process.env.BACKEND_URL}/api/user`,
     req: request,
+    isFallbackToErrorPage: false,
   });
 }
 
 // 로그인 용도
 export async function PUT(request: NextRequest) {
   const data = await request.json();
-  return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`, {
+  return await fetch(`${process.env.BACKEND_URL}/api/user`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
-    credentials: "include",
     body: JSON.stringify(data),
   });
 }

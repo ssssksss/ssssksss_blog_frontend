@@ -16,7 +16,7 @@ const LottieError = (props: ILottieError) => {
         className="w-full max-w-[16rem]"
       />
       <p className="absolute bottom-1/2 left-1/2 flex w-full gap-x-1 -translate-x-1/2 translate-y-[6.375rem] justify-center">
-        <span> {JSON.parse(props.text as string).code} </span>
+        {/* <span> {JSON.parse(props.text as string).code} </span> */}
         <span> {JSON.parse(props.text as string).message} </span>
       </p>
       <button

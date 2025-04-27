@@ -1,37 +1,36 @@
+
 interface IFetchMultipartRetry {
   url: string; // /api경로 와 같이 /로 시작할것
   method?: string;
   formData?: FormData;
+  handleRevalidateTags?: string[];
 }
 
 export const fetchMultipartRetry = async ({
   url,
   method,
   formData,
+  handleRevalidateTags,
 }: IFetchMultipartRetry) => {
   const res = await fetch("/api/auth/cookies");
   const cookies = await res.json();
-  let response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
-    {
+  let response;
+  if (cookies?.accessToken) {
+    response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`, {
       method: method || "GET",
       headers: {
         Authorization: `Bearer ${cookies?.accessToken}`,
       },
       body: formData,
-    },
-  );
-  if (response.status == 401) {
-    const refreshResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
-      {
-        method: "GET",
-        headers: {
-          Cookie: `${cookies?.refreshToken?.name}=${cookies?.refreshToken?.value}`,
-        },
-        credentials: "include",
+    });
+  } else {
+    const refreshResponse = await fetch("/api/user/accessToken", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      credentials: "include",
+    });
     if (refreshResponse.ok) {
       const data = await refreshResponse.json();
       const newAccessToken = data.data;
@@ -40,12 +39,19 @@ export const fetchMultipartRetry = async ({
         headers: {
           Authorization: `Bearer ${newAccessToken}`, // 새 액세스 토큰 사용
         },
-        credentials: "include",
+        // credentials: "include",
         body: formData,
       });
     } else {
       throw new Error("Failed to refresh access token");
     }
+  }
+  if (handleRevalidateTags?.length) {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      body: JSON.stringify({tags: handleRevalidateTags}),
+      headers: {"Content-Type": "application/json"},
+    });
   }
 
   return response;

@@ -16,7 +16,6 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const blog2Store = useBlog2Store();
   const searchParams = useSearchParams();
 
-
   // 카테고리 중 버튼을 클릭하게 되면 버튼이 브라우저의 중앙으로 위치하게 해준다.
   const onClickAdjustHorizontalScroll = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,

@@ -1,5 +1,5 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
-import { fetchSSRWithAuthAndErrorProcess } from "@utils/api/fetchSSRWithAuthAndErrorProcess";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { cookies } from "next/headers";
 import Template from "../../template";
 
@@ -18,14 +18,14 @@ export async function generateMetadata({ params: { id } }: {params: { id: string
 async function getData(id: number) {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
-  const response = await fetchSSRWithAuthAndErrorProcess({
+  const response = await fetchApiRoutes({
     url: `${process.env.BACKEND_URL}/api/blog2/${id}?isEdit=true`,
-    method: "GET",
-    accessToken: accessToken?.value || "",
-    refreshToken: refreshToken?.value || "",
+    accessToken: accessToken,
+    refreshToken: refreshToken,
   });
-  return response.json() as Promise<any>;
+  return response.json();
 }
+
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const pageId = Number(id);

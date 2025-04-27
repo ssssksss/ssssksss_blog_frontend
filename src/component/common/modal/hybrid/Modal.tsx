@@ -23,10 +23,7 @@ export const Modal = ({children, modalState}: ModalProps) => {
   }, []);
 
   useOutsideClick(ref, () => {
-    if (history.state.isModal) {
-      window.history.back();
-    }
-    modalState.closeModal();
+    modalState.closeModalAfterSuccess();
   });
 
   const handlePopState = () => {
@@ -91,12 +88,14 @@ export const Modal = ({children, modalState}: ModalProps) => {
       return React.cloneElement(
         child as React.ReactElement<{
           closeModal: () => void;
+          closeModalAfterSuccess: () => void;
           closeButtonComponent: JSX.Element;
           loadingWithHandler: any;
         }>,
         {
           closeModal: modalState.closeModal,
-          loadingWithHandler: (handler: any)=>loadingWithHandler(handler),
+          closeModalAfterSuccess: modalState.closeModalAfterSuccess,
+          loadingWithHandler: (handler: any) => loadingWithHandler(handler),
           closeButtonComponent: (
             <button
               onClick={(e) => {
@@ -107,7 +106,8 @@ export const Modal = ({children, modalState}: ModalProps) => {
                 modalState.closeModal();
               }}
               className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
-              style={{zIndex: 200}}>
+              style={{zIndex: 200}}
+            >
               <Image
                 src={"/images/icons/ic-exit.svg"}
                 alt={"close-icon"}

@@ -1,5 +1,5 @@
 import BoardMain from "@component/board/hybrid/BoardMain";
-import { fetchSSRWithAuthAndErrorProcess } from "@utils/api/fetchSSRWithAuthAndErrorProcess";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 
@@ -15,11 +15,10 @@ async function getData(searchParams: URLSearchParams) {
   const refreshToken = cookies().get("refreshToken");
   const queryString = new URLSearchParams(searchParams).toString();
 
-  const response = await fetchSSRWithAuthAndErrorProcess({
+  const response = await fetchApiRoutes({
     url: `${process.env.BACKEND_URL}/api/board/list?${queryString}`,
-    method: "GET",
-    accessToken: accessToken?.value || "",
-    refreshToken: refreshToken?.value || "",
+    accessToken: accessToken,
+    refreshToken: refreshToken,
     next: {revalidate: 60},
   });
 

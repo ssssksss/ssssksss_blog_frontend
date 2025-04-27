@@ -13,7 +13,7 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import Blog2SubCreateUpdateHeaderView from "../../view/Blog2SubCreateUpdateHeaderView";
+import Blog2SubCreateUpdateHeaderView from "../../../view/common/Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
   directory: string;
@@ -78,7 +78,7 @@ const Blog2StructureContentCreateUpdateModal = (
       const result: responseCreateUpdateBlog2StructureContent =
       await response.json();
       props.updateBlog2StructureContent!(result.data.blog2StructureContent);
-      props.closeModal!();
+      props.closeModalAfterSuccess!();
       return {
         message: result.msg,
       };
@@ -87,7 +87,7 @@ const Blog2StructureContentCreateUpdateModal = (
       const result: responseCreateUpdateBlog2StructureContent =
       await response.json();
       props.addBlog2StructureContent!(result.data.blog2StructureContent);
-      props.closeModal!();
+      props.closeModalAfterSuccess!();
       return {
         message: result.msg,
       };

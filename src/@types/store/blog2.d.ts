@@ -32,7 +32,7 @@ declare interface responseUpdateBlog2SecondCategory {
   data: ISecondCategory;
 }
 
-interface ISecondCategory {
+declare interface ISecondCategory {
   blogCount: number;
   id: number;
   name: string;
@@ -211,4 +211,24 @@ interface Pageable {
   pageNumber: number;
   paged: boolean;
   unpaged: boolean;
+}
+
+// 블로그 기초 섹션 관련 [Blog2BasicContentContainer.tsx]
+declare interface IBlog2BasicContentContainer {
+  addBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  updateBlog2Content: (
+    data: IBlog2BasicContent | IBlog2StructureContent,
+    type: "basic" | "structure",
+  ) => void;
+  removeBlog2Content: (type: "basic" | "structure", id: number) => void;
+}
+
+declare interface IBlog2BasicCreateUpdateContentModal extends IModalComponent {
+  edit?: boolean;
+  blog2BasicContentItem?: IBlog2BasicContent;
+  updateBlog2BasicContent?: (data: IBlog2BasicContent) => void;
+  addBlog2BasicContent?: (data: IBlog2BasicContent) => void;
 }

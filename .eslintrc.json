@@ -14,5 +14,8 @@
     ],
     "no-tabs": "off",
     "max-len": "off"
-  }
+  },
+  "ignorePatterns": [
+    "src/plugin/**"
+  ]
 }

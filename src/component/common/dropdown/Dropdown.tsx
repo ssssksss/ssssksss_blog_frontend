@@ -41,10 +41,12 @@ export default function Dropdown<T>(props: IDropdown<T>) {
   return (
     <div
       className={`relative flex h-full flex-shrink-0 items-center ${props.borderClassName}`}
-      ref={ref}>
+      ref={ref}
+    >
       <button
         onClick={toggleDropdown}
-        className={`-z-1 flex h-full w-full items-center justify-center gap-x-2 text-sm primary-border ${props.containerClassName} font-medium text-gray-700 ${selectedOption && "primary-set"}`}>
+        className={`-z-1 flex h-full w-full items-center justify-center gap-x-2 text-sm primary-border ${props.containerClassName} font-medium text-gray-700 ${selectedOption && "primary-set"}`}
+      >
         <div className={"min-w-fit"}>
           {/* {props.options.filter((i) => i.value == selectedOption)[0].name} */}
           {selectedOptionObject ? selectedOptionObject.name : props.placeholder}
@@ -53,7 +55,8 @@ export default function Dropdown<T>(props: IDropdown<T>) {
           className={`20 h-5 w-5 ${modalState.isOpen ? "rotate-180" : "rotate-0"}`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
-          fill="currentColor">
+          fill="currentColor"
+        >
           <path
             fillRule="evenodd"
             d="M5.292 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -67,7 +70,8 @@ export default function Dropdown<T>(props: IDropdown<T>) {
           style={{
             top: ref.current?.clientHeight + "px",
             width: ref.current?.clientWidth,
-          }}>
+          }}
+        >
           {props.options.map((i) => (
             <li
               key={i.name}
@@ -76,10 +80,11 @@ export default function Dropdown<T>(props: IDropdown<T>) {
                 handleOptionClick(i.value);
               }}
               style={{minHeight: ref.current?.clientHeight}}
-              className={`flex w-full items-center justify-center text-sm hover:bg-primary-40 ${
-                selectedOption === i.value ? "primary-set": ""
+              className={`flex w-full items-center justify-center text-sm hover:bg-primary-20 ${
+                selectedOption === i.value ? "primary-set" : ""
               }`}
-              role="menuitem">
+              role="menuitem"
+            >
               {i.name}
             </li>
           ))}

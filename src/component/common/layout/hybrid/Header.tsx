@@ -3,190 +3,46 @@
 import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
 import DarkmodeToggleButton from "@component/common/button/hybrid/DarkmodeToggleButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
-import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFetchCSRHandler } from "@hooks/useFetchCSRHandler";
-import useThrottle from "@hooks/useThrottle";
+import AuthButton from "@component/header/view/AuthButtonView";
+import ProgressBarView from "@component/header/view/ProgressBarView";
+import YoutubePlayIconView from "@component/player/view/YoutubePlayIconView";
+import { useInitGetUser } from "@hooks/useInitGetUser";
+import { useInitTheme } from "@hooks/useInitTheme";
+import useInitYoutubePlayer from "@hooks/useInitYoutubePlayer";
+import { useScrollHeader } from "@hooks/useScrollHeader";
 import useLoadingStore from "@store/loadingStore";
 import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
-import { useThemeStore } from "@store/useThemeStore";
-import throttle from "lodash/throttle";
+import useToastifyStore from "@store/toastifyStore";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import AuthModal from "src/component/auth/hybrid/AuthModal";
-import Button from "src/component/common/button/hybrid/Button";
-import ModalButton from "src/component/common/modal/hybrid/ModalButton";
-import usePlayerStore from "src/store/playerStore";
+import { useEffect, useRef } from "react";
 import SideBar from "./SideBar";
 interface IHeader {}
 const Header = (props: IHeader) => {
-  const playerStore = usePlayerStore();
-  const planStore = usePlanStore();
-  const memoStore = useMemoStore();
-  const themeStore = useThemeStore();
-  const [scrollWidth, setScrollWidth] = useState(0);
   const router = useRouter();
-  const {toastifyStore, userStore, fetchCSR} = useFetchCSRHandler();
-  const [isHidden, setIsHidden] = useState(false); // 헤더 감추기 상태
-  const [isVisible, setIsVisible] = useState(true); // 마우스 상단에 있을 때 헤더 보이기
-  const [lastScrollY, setLastScrollY] = useState(200);
-  const headerRef = useRef<HTMLDivElement | null>(null);
   const loadingStore = useLoadingStore();
   const pathname = usePathname();
   const previousPathname = useRef(pathname);
-
+  const {isHidden, isVisible, headerRef} = useScrollHeader(); // 스크롤 위치와 마우스의 위치에 따라 헤더를 감추고 보여주는 hook
+  const {playerStore} = useInitYoutubePlayer();
+  useInitTheme(); // 초기에 theme 관련 설정을 해주는 hook
+  const planStore = usePlanStore();
+  const memoStore = useMemoStore();
+  const toastifyStore = useToastifyStore();
+  const { userStore } = useInitGetUser(); // 유저정보 조회 API
+  
   // 페이지 이동시 공통적으로 처리할 로직
   useEffect(() => {
     if (previousPathname.current !== pathname) {
-      // console.log(
-      //   `Page changed from ${previousPathname.current} to ${pathname}`,
-      // );
       previousPathname.current = pathname;
       loadingStore.stopLoading();
     }
   }, [pathname]);
 
-  useEffect(() => {
-    toastifyStore.setToastify({
-      type: "success",
-      message: "환영합니다."
-    }); 
-    themeStore.setTheme1(localStorage.getItem("theme1") || "purple");
-    themeStore.setTheme2(localStorage.getItem("theme2") || "blue");
-    themeStore.setTheme3(localStorage.getItem("theme3") || "green");
-
-    if (localStorage.getItem("isDarkMode") == "true") {
-      themeStore.setDarkMode(true);
-    }
-  }, []);
-  
-  useEffect(() => {
-    const getInitUser = async () => {
-      // fetchCSR(
-      //   await UserAPI.initGetUser(),
-      //   (response) => {
-      //     userStore.setUser({
-      //       ...response.data.user,
-      //     });
-      //   },
-      //   (error) => {
-      //     userStore.setUser({
-      //       id: -1,
-      //     });
-      //   },
-      // );
-      const response = await fetch("/api/user");
-      if (!response.ok) {
-        userStore.setUser({
-          id: -1,
-        });
-        return;
-      }
-      const result: IResponseUser = await response.json();
-      userStore.setUser({
-        ...result.data,
-      });
-    };
-    getInitUser();
-
-    const currentYoutube = window.localStorage.getItem("currentYoutube")
-      ? JSON.parse(window.localStorage.getItem("currentYoutube")!)
-      : "";
-    const currentYoutubePlaylist = window.localStorage.getItem(
-      "currentYoutubePlaylist",
-    )
-      ? JSON.parse(window.localStorage.getItem("currentYoutubePlaylist")!)
-      : "";
-    const playRepeatType = window.localStorage.getItem("playRepeatType");
-    const isPlay = window.localStorage.getItem("isPlay");
-    const isPlayRandom = window.localStorage.getItem("isPlayRandom")
-      ? true
-      : false;
-
-    // 유튜브 제목 로컬스토리지에서 꺼내오기
-    playerStore.setPlayer({
-      currentYoutube,
-      currentYoutubePlaylist,
-      playRepeatType,
-      isPlayRandom,
-    });
-  }, []);
-
-  const throttledUpdateProgressBar = useThrottle(() => {
-    const winScroll = document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    setScrollWidth(scrolled);
-  }, 20);
-
-  useEffect(() => {
-    throttledUpdateProgressBar();
-    window.addEventListener("scroll", throttledUpdateProgressBar);
-    return () => {
-      window.removeEventListener("scroll", throttledUpdateProgressBar);
-    };
-  }, [throttledUpdateProgressBar]);
-
-
-  // 스크롤이 상단으로 가면 헤더가 보임
-  const handleScroll = throttle((e: Event) => {
-    if (window.scrollY > 300) {
-      if (headerRef.current!.contains(e.target as Node)) {
-        return;
-      }
-      setIsVisible(false);
-      setIsHidden(true);
-    } else {
-      setIsHidden(false);
-      setIsVisible(true);
-    }
-    setLastScrollY(window.scrollY);
-  }, 50);
-
-  // 마우스가 상단에 가면 헤더창이 보임
-  const handleMouseMove = throttle((e: MouseEvent) => {
-    if (window.scrollY < 80) {
-      setIsHidden(false);
-      setIsVisible(true);
-    } else {
-      if (e.clientY < 70) {
-        setIsVisible(true);
-        setIsHidden(false);
-      } else {
-        if (headerRef.current!.contains(e.target as Node)) {
-          return;
-        }
-        setIsVisible(false);
-      }
-    }
-  }, 50);
-
-  useEffect(() => {
-    const scrollContainer = headerRef.current;
-    if (scrollContainer) {
-      window.addEventListener("scroll", handleScroll);
-    }
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      if (scrollContainer) {
-        window.removeEventListener("scroll", handleScroll);
-      }
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [lastScrollY, handleScroll, handleMouseMove]);
-
   //* 로그아웃 함수
   const signOutHandler = async () => {
     const response = await fetch("/api/user", {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
     if (response.ok) {
@@ -207,77 +63,61 @@ const Header = (props: IHeader) => {
       <ReactToastifyComponents />
       <LoadingSpinner loading={loadingStore.loading} />
       {/* header태그와 배경색은 동일 */}
-      <div className={`fixed left-0 top-0 z-[100] h-[0.5rem] w-full ${isVisible && "bg-default-1"}`}>
-        <div
-          id="progressBar"
-          className={"h-full w-full bg-gradient-purple-40-blue-40-70deg"}
-          style={{width: `${scrollWidth}%`}}
-        ></div>
-      </div>
-      <header
-        ref={headerRef}
-        className={`fixed z-50 h-[3rem] w-full bg-default-1 ${isHidden ? "-translate-y-full" : "translate-y-2"} ${isVisible ? "opacity-100" : "-z-30 opacity-0"}`}
-      >
-        <div className="w-full bg-primary-100 h-[0.25rem] absolute -bottom-[0.25rem]">  </div>
-        <section
-          className={
-            "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1"
-          }
+      <ProgressBarView />
+      {!!userStore.id ? (
+        <header
+          ref={headerRef}
+          className={`fixed z-50 h-[3.5rem] w-full bg-default-1 pt-2 ${isHidden ? "-translate-y-full" : "translate-y-0"} ${isVisible ? "opacity-100" : "-z-30 opacity-0"}`}
         >
-          <SideBar />
-          <div className="flex">
-            {!!userStore.id && (
-              <div
-                className={
-                  "ml-[2.75rem] aspect-square w-[1.5rem] px-[.5rem] default-flex"
-                }
-                onClick={() => {
-                  playerStore.setPlayer({
-                    youtubePlay: !playerStore.youtubePlay,
-                    isMuted: false,
-                  });
-                  window.localStorage.setItem(
-                    "isPlay",
-                    !playerStore.youtubePlay ? "true" : "false",
-                  );
-                }}
-              >
-                {playerStore.youtubePlay ? (
-                  <FontAwesomeIcon icon={faPause} />
-                ) : (
-                  <FontAwesomeIcon icon={faPlay} />
-                )}
-              </div>
-            )}
-          </div>
-          <div className={"flex"}>
-            <DarkmodeToggleButton />
-            {userStore.id == 0 ? (
-              <div
-                className={
-                  "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 primary-border-radius"
-                }
-              ></div>
-            ) : userStore.id > 0 ? (
-              <Button
-                onClick={() => signOutHandler()}
-                className={"p-2 primary-border-radius"}
-              >
-                로그아웃
-              </Button>
-            ) : (
-              <ModalButton
-                modal={<AuthModal />}
-                buttonClassName={
-                  "p-2 primary-border-radius hover:bg-primary-20"
-                }
-              >
-                Sign In / Sign up
-              </ModalButton>
-            )}
-          </div>
-        </section>
-      </header>
+          <div className="absolute -bottom-[0.25rem] h-[0.25rem] w-full bg-primary-100"></div>
+          <section
+            className={
+              "relative flex h-full w-full items-center justify-between rounded-[.25rem] pr-1"
+            }
+          >
+            <SideBar />
+            <div className="flex">
+              {userStore.id > 0 && (
+                <button
+                  className={
+                    "ml-[3.25rem] aspect-square w-[2.5rem] default-flex"
+                  }
+                  onClick={() => {
+                    playerStore.setPlayer({
+                      youtubePlay: !playerStore.youtubePlay,
+                      isMuted: false,
+                    });
+                    window.localStorage.setItem(
+                      "isPlay",
+                      !playerStore.youtubePlay ? "true" : "false",
+                    );
+                  }}
+                >
+                  <YoutubePlayIconView youtubePlay={playerStore.youtubePlay} />
+                </button>
+              )}
+            </div>
+            <div className={"flex"}>
+              {!!userStore.id ? (
+                <DarkmodeToggleButton />
+              ) : (
+                <div className="flex items-center justify-center gap-4 px-3">
+                  <div className="relative flex h-8 w-16 animate-pulseSkeleton items-center rounded-full primary-border-radius"></div>
+                </div>
+              )}
+              <AuthButton
+                signOutHandler={signOutHandler}
+                userId={userStore.id}
+              />
+            </div>
+          </section>
+        </header>
+      ) : (
+        <div
+          className={"fixed z-50 h-[3.5rem] w-full pt-2 animate-pulseSkeleton"}
+        >
+        </div>
+      )}
     </div>
   );
 };

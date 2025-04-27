@@ -2,6 +2,7 @@
 
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -36,26 +37,14 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
   const [list, setList] = useState<Test[]>([]);
   const keywordRef = useRef<HTMLInputElement>(null);
   const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
   const fetchTouristInfo = async () => {
-    try {
-      const response = await fetch(
-        `/api/publicAPI/B551011/KorService1/searchKeyword11?keyword=${keyword}`,
-      );
-      if (!response.ok) {
-        throw new Error("API 요청 실패: " + response.statusText);
-      }
-      const data = await response.json();
-      const items = data.response.body.items.item;
-      setData(items);
-      toastifyStore.setToastify({
-        message: "검색 되었습니다."
-      });
-    } catch (error) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "검색 실패.",
-      });
-    }
+    const data = await fetchCSR.requestWithHandler({
+      url: `/api/publicAPI/B551011/KorService1/searchKeyword11?keyword=${keyword}`,
+    });
+    if (data == undefined) return;
+    const items = data.response.body.items.item;
+    setData(items);
   };
 
   return (

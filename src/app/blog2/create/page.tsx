@@ -1,4 +1,5 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { Metadata } from "next";
 import Template from "../template";
 
@@ -6,18 +7,16 @@ export const metadata: Metadata = {
   title: "가출한토토로의 블로그 작성",
   description: "블로그 작성",
 };
-
+// API 요청시 문제가 발생하면 error.tsx로 이동
 async function getData() {
-  const res = await fetch(
-    `${process.env.BACKEND_URL}/api/blog2/category/list`,
-    {
-      cache: "no-store",
+  const res = await fetchApiRoutes({
+    url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
+    next: {
+      revalidate: 3600,
+      tags: ["blog2CategoryList"],
     },
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+    isAuth: false,
+  });
 
   return res.json();
 }

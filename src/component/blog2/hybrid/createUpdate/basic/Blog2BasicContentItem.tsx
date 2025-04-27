@@ -33,12 +33,16 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
       {/* 수정 버튼과 닫기 제거 버튼 */}
       <div className={"absolute right-2 top-2 flex h-[2rem] items-center"}>
         <Button className={"relative w-[2.25rem] rounded-2xl p-1 aspect-square default-flex"} onClick={()=>setIsFold(prev=>!prev)}> {isFold ? <Image alt="ic" src={"/images/icons/ic-maximize.svg"} width={28} height={28} /> : <Image alt="ic" src={"/images/icons/ic-minimize.svg"} width={28} height={28}/>} </Button>
+        
+        {/* basic 글을 수정하는 버튼 */}
         <ModalButton
           buttonClassName={"font-bold rounded-2xl p-1 hover:bg-primary-20 w-[2.25rem] default-flex"}
-          modal={<Blog2BasicCreateUpdateContentModal edit={true} item={props.data.blog2BasicContent} updateBlog2BasicContent={props.updateBlog2BasicContent} />}
+          modal={<Blog2BasicCreateUpdateContentModal edit={true} blog2BasicContentItem={props.data.blog2BasicContent} updateBlog2BasicContent={props.updateBlog2BasicContent} />}
         >
           <FontAwesomeIcon icon={faPenToSquare} style={{ width: "28px", height: "28px" }} />
         </ModalButton>
+
+        {/* basic 글을 전체글에서 빼는 버튼(삭제는 아님) */}
         <Button className={"opacity-40 hover:opacity-100 p-1 rounded-2xl hover:bg-primary-20 w-[2.25rem] default-flex"} onClick={() => loadingWithHandler(()=>props.removeBlog2BasicContent(props.data.blog2BasicContent.id))}>
           <FontAwesomeIcon icon={faXmark} style={{ width: "28px", height: "28px" }} />
         </Button>

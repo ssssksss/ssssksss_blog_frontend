@@ -3,7 +3,8 @@
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFetchCSRHandler } from "@hooks/useFetchCSRHandler";
+import useFetchCSR from "@hooks/useFetchCSR";
+import useUserStore from "@store/userStore";
 import { UserLoginYup } from "@utils/validation/UserLoginYup";
 import { useForm } from "react-hook-form";
 
@@ -13,8 +14,8 @@ interface ILoginModal {
 }
 
 const LoginModal = (props: ILoginModal) => {
-  const {fetchCSR, userStore} = useFetchCSRHandler();
-
+  const userStore = useUserStore();
+  const fetchCSR = useFetchCSR();
   const {register, handleSubmit, formState} = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: "onChange",
@@ -23,26 +24,21 @@ const LoginModal = (props: ILoginModal) => {
       email: "test@naver.com",
     },
   });
-  const {errors} = formState;
   const onClickSubmit = async (data: {email: string; password: string}) => {
-    const response = await fetch("/api/user", {
+    const result = await fetchCSR.requestWithHandler({
+      url: "/api/user",
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+      body: {
         email: data.email,
         password: data.password,
-      }),
+      },
     });
-    if (!response.ok) {
-      return;
+    if (result != undefined) {
+      userStore.setUser({
+        ...result,
+      });
+      props.closeModal();
     }
-    const result = await response.json();
-    userStore.setUser({
-      ...result.data,
-    });
-    props.closeModal();
   };
 
   const onClickErrorSubmit = () => {

@@ -33,15 +33,18 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
     )
     .replace(
       /^# (.*$)/gim,
-      "<h1 class=\"text-[1.25rem] primary-set font-DNFBitBitv2 primary-border-radius shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\"># $1</h1>",
+      (_, title) =>
+        `<h1 class="text-[2rem] primary-set font-DNFBitBitv2 primary-border-radius shadow-md py-1 px-2 w-fit" data-index="true" id="${slugify(title)}"># ${title}</h1>`,
     )
     .replace(
       /^## (.*$)/gim,
-      "<h2 class=\"text-[1.125rem] secondary-set font-bold font-DNFBitBitv2 secondary-border-radius shadow-md py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">## $1</h2>",
+      (_, title) =>
+        `<h2 class="text-[1.5rem] secondary-set font-bold font-DNFBitBitv2 secondary-border-radius shadow-md py-1 px-2 w-fit" data-index="true" id="${slugify(title)}">## ${title}</h2>`,
     )
     .replace(
       /^### (.*$)/gim,
-      "<h3 class=\"text-[1rem]  font-DNFBitBitv2  third-border-radius shadow-md  py-1 px-2 w-fit\" id=\"$1\" data-index=\"true\">### $1</h3>",
+      (_, title) =>
+        `<h3 class="text-[1rem] font-DNFBitBitv2 third-border-radius shadow-md py-1 px-2 w-fit" data-index="true" id="${slugify(title)}">### ${title}</h3>`,
     )
     // .replace(/\*\*(.*?)\*\*/g, "<strong class=\"font-bold\">$1</strong>")
     // .replace(/\*(.*?)\*/g, "<em class=\"italic\">$1</em>")
@@ -89,6 +92,14 @@ const highlightSyntax = (code: string, language: string): string => {
   // Fallback for unsupported languages
   return hljs.highlightAuto(code).value;
 };
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\-ㄱ-ㅎㅏ-ㅣ가-힣\s]/g, "") // 특수문자 제거 (한글 포함 허용)
+    .replace(/\s+/g, "-"); // 공백은 하이픈으로
+}
 
 
 /**

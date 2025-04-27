@@ -8,6 +8,7 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
@@ -19,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import useLoading from "../../../../hooks/useLoading";
+import useLoading from "../../../../../hooks/useLoading";
 
 interface IBlog2CreateUpdateHeader {
   isEdit: boolean;
@@ -33,6 +34,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const formContext = useFormContext();
   const [title, setTitle] = useState(formContext.getValues("title") || "");
   const { loadingWithHandler } = useLoadingHandler();
+  const fetchCSR = useFetchCSR();
   const [description, setDescription] = useState(
     formContext.getValues("description") || "",
   );
@@ -79,9 +81,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         formContext.getValues("secondCategoryId"),
       );
     }
-
     // ? [1] 기초 내용
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2Basic")) {
+    if (!props.isEdit || formContext.getValues("isUpdateBlog2BasicList")) {
       // 불필요한 데이터는 요청을 보내지 않는다. 그래서 id 값만을 보낸다.
       const _blog2BasicList = formContext
         .getValues("blog2BasicList")
@@ -108,7 +109,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       }
     }
     // ? [2] 구조
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2Structure")) {
+    if (!props.isEdit || formContext.getValues("isUpdateBlog2StructureList")) {
       const _blog2StructureList = formContext
         .getValues("blog2StructureList")
         .map((i: IBlog2Structure) => {
@@ -138,7 +139,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     }
     // ? [3] 결과
 
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2Result")) {
+    if (!props.isEdit || formContext.getValues("isUpdateBlog2ResultList")) {
       const _blog2ResultList = formContext.getValues("blog2ResultList");
       if (_blog2ResultList.length > 0) {
         formData.append(
@@ -159,52 +160,44 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
 
     // * 블로그 생성 API
     if (!props.isEdit) {
-      const response = await fetch("/api/blog2", {
+      const result = await fetchCSR.requestWithHandler({
+        url: "/api/blog2",
         method: "POST",
-        body: formData,
+        formData: formData,
+        showSuccessToast: true
       });
-      if (!response.ok) {
-        return {
-          type: "error",
-          message: "블로그 생성에 실패",
-        };
-      }
-      const result: resBlog2Create = await response.json();
+      if (result == undefined) return;
       if (
         blog2Store.blog2List.blog2SecondCategoryId ==
         formContext.getValues("secondCategoryId")
       ) {
         blog2Store.setBlog2List({
           id: blog2Store.blog2List.blog2SecondCategoryId,
-          list: [result.data, ...blog2Store.blog2List.list],
+          list: [result, ...blog2Store.blog2List.list],
         });
       }
       router.replace(
         `/blog2?firstCategoryId=${formContext.getValues("firstCategoryId")}&secondCategoryId=${formContext.getValues("secondCategoryId")}`,
       );
+      router.refresh();
     }
 
     // * 블로그 수정 API
     if (props.isEdit) {
       formData.append("id", formContext.getValues("id"));
-      const response = await fetch(
-        `/api/blog2?id=${formContext.getValues("id")}`,
-        {
-          method: "PUT",
-          body: formData,
-        },
+      const blog2Id = formContext.getValues("id");
+      const result = await fetchCSR.requestWithHandler({
+        url: `/api/blog2?id=${blog2Id}`,
+        method: "PUT",
+        formData: formData,
+        showSuccessToast: true
+      });
+      if (result == undefined) return;
+      router.replace(
+        // `/blog2/${formContext.getValues("id")}?timestamp=${new Date()}`,
+        `/blog2/${formContext.getValues("id")}`,
       );
-      if (!response.ok) {
-        return {
-          type: "error",
-          message: "블로그 수정 실패",
-        };
-      }
-      if (response.ok) {
-        router.replace(
-          `/blog2/${formContext.getValues("id")}?timestamp=${new Date()}`,
-        );
-      }
+      router.refresh();
     }
   };
 

@@ -1,4 +1,4 @@
-import Blog2SubCreateUpdateHeaderView from "@component/blog2/view/Blog2SubCreateUpdateHeaderView";
+import Blog2SubCreateUpdateHeaderView from "@component/blog2/view/common/Blog2SubCreateUpdateHeader";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
@@ -109,20 +109,20 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
     if (props.edit) {
       // 블로그 결과 수정 성공시
       const result: responseCreateUpdateBlog2Result = await response.json();
-        props.updateBlog2Result!(result.data.blog2Result);
-        props.closeModal!();
-        return {
-          message: result.msg,
-        };
+      props.updateBlog2Result!(result.data.blog2Result);
+      props.closeModalAfterSuccess!();
+      return {
+        message: result.msg,
+      };
     } else {
       // 블로그 결과 생성 성공시
       const result: responseCreateUpdateBlog2Result =
         await response.json();
-        props.addBlog2Result!(result.data.blog2Result);
-        props.closeModal!();
-        return {
-          message: result.msg,
-        };
+      props.addBlog2Result!(result.data.blog2Result);
+      props.closeModalAfterSuccess!();
+      return {
+        message: result.msg,
+      };
     }
   };
 

@@ -13,10 +13,10 @@ import {
   Terminal,
 } from "lucide-react";
 
-export default function Home() {
 
+export default async function Home() {
   return (
-    <div className="min-h-screen p-8 text-white-80 bg-black-60">
+    <div className="min-h-screen p-8 text-contrast-1 bg-default-1">
       <div
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
@@ -40,11 +40,8 @@ export default function Home() {
 
         <div className="space-y-6 text-center">
           <h1 className="mb-4 text-5xl font-bold">Frontend Developer</h1>
-          <p className="text-xl text-gray-400">
-            다양한 시도를 해보면서 경험을 쌓아가고 있습니다.
-          </p>
-          <p className="text-xl text-gray-400">
-            현재는 React Native 공부하면서 솔리투어 작업 중
+          <p className="text-xl ">
+            개인 프로젝트 정리 중
           </p>
           <div className="flex justify-center gap-4">
             <a

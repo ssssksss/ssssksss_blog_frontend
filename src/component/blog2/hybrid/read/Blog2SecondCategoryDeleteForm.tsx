@@ -1,6 +1,7 @@
 import Button from "@component/common/button/hybrid/Button";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import { Blog2SecondCategoryDeleteYup } from "@utils/validation/BlogCategoryYup";
 import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
@@ -9,7 +10,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
-import useToastifyStore from "src/store/toastifyStore";
 
 interface IBlog2SecondCategoryDeleteForm {
   closeModal: () => void;
@@ -20,8 +20,8 @@ const Blog2SecondCategoryDeleteForm = (
   const [imageUrl, setImageUrl] = useState<string>("");
   const searchParams = useSearchParams();
   const blog2Store = useBlog2Store();
-  const toastifyStore = useToastifyStore();
   const router = useRouter();
+  const fetchCSR = useFetchCSR();
 
   const {register, handleSubmit, formState, watch, getValues, setValue} =
     useForm<Blog2SecondCategoryDeleteForm>({
@@ -35,45 +35,38 @@ const Blog2SecondCategoryDeleteForm = (
 
   const deleteSecondCategoryHandler = async () => {
 
-    const response = await fetch(`/api/blog2/second/category?deleteSecondCategoryId=${getValues("deleteSecondCategoryId")}`, {
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/blog2/category/second?deleteSecondCategoryId=${getValues("deleteSecondCategoryId")}`,
       method: "DELETE",
+      handleRevalidateTags: ["blog2CategoryList"],
+      showSuccessToast: true,
     });
+    if (result == undefined) return;
 
-    if (response.ok) {
-      // 카테고리2 리스트에서 삭제한 카테고리2 id를 찾아서 제거
-      const temp = blog2Store.categoryList.map((i) => {
-        if (i.id == +searchParams.get("firstCategoryId")!) {
-          i.blog2SecondCategoryList = i.blog2SecondCategoryList?.filter(
-            (j) => j.id != getValues("deleteSecondCategoryId"),
-          );
-        }
-        return i;
-      });
-      toastifyStore.setToastify({
-        type: "success",
-        message: "2번째 카테고리를 삭제했습니다.",
-      });
-      blog2Store.setBlog2CategoryList(temp);
-      // 만일 삭제한 카테고리2가 현재 화면에 보이는 카테고리와 동일하다면 보이지 않게 처리한다.
-      if (
-        +searchParams.get("secondCategoryId")! ==
-        getValues("deleteSecondCategoryId")
-      ) {
-        // 모달창이 열린 상태에서 router를 이용할 경우에는 아래와 같이 처리
-        if (history.state.isModal) {
-          router.back();
-          router.replace(
-            `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
-          );
-        }
+    // 카테고리2 리스트에서 삭제한 카테고리2 id를 찾아서 제거
+    const temp = blog2Store.categoryList.map((i) => {
+      if (i.id == +searchParams.get("firstCategoryId")!) {
+        i.blog2SecondCategoryList = i.blog2SecondCategoryList?.filter(
+          (j) => j.id != getValues("deleteSecondCategoryId"),
+        );
       }
-      props.closeModal()!;
-    } else {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "2번째 카테고리를 삭제 실패",
-      });
+      return i;
+    });
+    blog2Store.setBlog2CategoryList(temp);
+    // 만일 삭제한 카테고리2가 현재 화면에 보이는 카테고리와 동일하다면 보이지 않게 처리한다.
+    if (
+      +searchParams.get("secondCategoryId")! ==
+        getValues("deleteSecondCategoryId")
+    ) {
+      // 모달창이 열린 상태에서 router를 이용할 경우에는 아래와 같이 처리
+      if (history.state.isModal) {
+        router.back();
+        router.replace(
+          `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
+        );
+      }
     }
+    props.closeModal()!;
   };
 
   const dropdownHandler = (id: number) => {

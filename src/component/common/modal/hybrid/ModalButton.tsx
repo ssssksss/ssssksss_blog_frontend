@@ -1,6 +1,6 @@
 import useModalState from "@hooks/useModalState";
-import React, {MouseEventHandler, ReactNode} from "react";
-import {Modal} from "./Modal";
+import React, { MouseEventHandler, ReactNode } from "react";
+import { Modal } from "./Modal";
 
 export interface IButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;

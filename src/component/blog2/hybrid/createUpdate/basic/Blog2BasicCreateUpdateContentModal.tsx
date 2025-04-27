@@ -1,21 +1,17 @@
-import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
-import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useModalState from "@hooks/useModalState";
 import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
-import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
-import { handleResponseError } from "@utils/error/handleResponseError";
+import clog from "@utils/logger/logger";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
-import { useEffect, useState } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
   useForm
 } from "react-hook-form";
-import useBlog2Store from "src/store/blog2Store";
-import Blog2SubCreateUpdateHeaderView from "../../view/Blog2SubCreateUpdateHeaderView";
+import Blog2SubCreateUpdateHeader from "../../../view/common/Blog2SubCreateUpdateHeader";
+import Blog2BasicCreateUpdateCategoryAndTitleForm from "./Blog2BasicCreateUpdateCategoryAndTitleForm";
 
 interface IFormContext {
   title: string;
@@ -26,40 +22,31 @@ interface IFormContext {
   deleteImageBucketDirectory?: string[];
 }
 
-interface IBlog2BasicCreateUpdateContentModal extends IModalComponent {
-  edit?: boolean;
-  item?: IBlog2BasicContent;
-  updateBlog2BasicContent?: (data: IBlog2BasicContent) => void;
-  addBlog2BasicContent?: (data: IBlog2BasicContent) => void;
-}
-
 const Blog2BasicCreateUpdateContentModal = (
   props: IBlog2BasicCreateUpdateContentModal,
 ) => {
-  const blog2Store = useBlog2Store();
-  const [secondCategoryList, setSecondCategoryList] = useState<
-    IBlog2SecondCategoryList[]
-  >([]);
+
   const modalState = useModalState(props.edit ? true : false);
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
     mode: "onChange",
     defaultValues: {
-      title: props.edit ? props.item?.title : "",
-      content: props.edit ? props.item?.content : "",
-      firstCategoryId: props.edit ? props.item?.blog2FirstCategoryId : 0,
-      secondCategoryId: props.edit ? props.item?.blog2SecondCategoryId : 0,
+      title: props.edit ? props.blog2BasicContentItem?.title : "",
+      content: props.edit ? props.blog2BasicContentItem?.content : "",
+      firstCategoryId: props.edit ? props.blog2BasicContentItem?.blog2FirstCategoryId : 0,
+      secondCategoryId: props.edit ? props.blog2BasicContentItem?.blog2SecondCategoryId : 0,
       blobImageList: [],
     },
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
+    clog.info(`블로그 기초 글 ${props.edit ? "수정 시작" : "생성 시작"}`);
     const imageUrlList: string[] = [];
     const imageFileList: File[] = [];
     const deleteImageBucketDirectory: string[] = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
     const formData = new FormData();
 
-    // 미리보기 이미지에서 실제 이미지로 저장하기 위해서 이미지들의 경로를 탐색
+    // 미리보기 이미지들 중에 내용에 남아있는 미리보기 이미지들의 경로를 탐색
     blog2ContentFormContext.getValues("blobImageList").map((i) => {
       if (blog2ContentFormContext.getValues("content").search(i.url) != -1) {
         imageUrlList.push(i.url);
@@ -73,7 +60,7 @@ const Blog2BasicCreateUpdateContentModal = (
         /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
       let matches;
       const prevBlog2ContentImageList = [];
-      while ((matches = regex.exec(props.item!.content)) !== null) {
+      while ((matches = regex.exec(props.blog2BasicContentItem!.content)) !== null) {
         prevBlog2ContentImageList.push(matches[1]);
       }
 
@@ -88,7 +75,7 @@ const Blog2BasicCreateUpdateContentModal = (
 
     // API 공통 작업
     if (props.edit) {
-      formData.append("id", props.item!.id + "");
+      formData.append("id", props.blog2BasicContentItem!.id + "");
     }
     formData.append("title", blog2ContentFormContext.getValues("title"));
     formData.append("content", blog2ContentFormContext.getValues("content"));
@@ -107,12 +94,15 @@ const Blog2BasicCreateUpdateContentModal = (
       formData.append("imageFileList", i);
     });
 
+    clog.info("API 요청");
     const response: Response = await fetchMultipartRetry({
       url: "/api/blog2/basic",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
     });
+    clog.info(`API 응답 ${response.status}`);
 
+    // 모달 컴포넌트로 감싸져 있어서 자동으로 toast 메시지 출력
     if (!response.ok) {
       return {
         type: "error",
@@ -120,14 +110,12 @@ const Blog2BasicCreateUpdateContentModal = (
       };
     }
     
-    handleResponseError(response);
-
     if (props.edit) {
       // 블로그 기초 수정 성공시
       const result: responseCreateUpdateBlog2BasicContent =
       await response.json();
       props.updateBlog2BasicContent!(result.data.blog2BasicContent);
-      props.closeModal!();
+      props.closeModalAfterSuccess!();
       return {
         message: result.msg,
       };
@@ -136,7 +124,7 @@ const Blog2BasicCreateUpdateContentModal = (
       const result: responseCreateUpdateBlog2BasicContent =
       await response.json();
       props.addBlog2BasicContent!(result.data.blog2BasicContent);
-      props.closeModal!();
+      props.closeModalAfterSuccess!();
       return {
         message: result.msg,
       };
@@ -145,23 +133,6 @@ const Blog2BasicCreateUpdateContentModal = (
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
     alert("잘못 입력된 값이 존재합니다.");
-  };
-  const handleClickFirstCategory = (value: number) => {
-    blog2ContentFormContext.setValue("firstCategoryId", value);
-    blog2Store.categoryList.map((i) => {
-      if (i.id == value) {
-        setSecondCategoryList([]);
-        if (i.blog2SecondCategoryList?.length) {
-          setSecondCategoryList(i.blog2SecondCategoryList);
-        }
-      }
-    });
-  };
-  const handleClickSecondCategory = (value: number) => {
-    blog2ContentFormContext.setValue("secondCategoryId", value, {
-      shouldValidate: true,
-    });
-    blog2ContentFormContext.watch();
   };
 
   const handleContentChange = (value: string) => {
@@ -178,26 +149,6 @@ const Blog2BasicCreateUpdateContentModal = (
     );
   };
 
-  useEffect(() => {
-    if (props.edit) {
-      blog2ContentFormContext.setValue("title", props.item!.title);
-      blog2ContentFormContext.setValue("content", props.item!.content);
-      blog2ContentFormContext.setValue(
-        "firstCategoryId",
-        props.item!.blog2FirstCategoryId,
-      );
-      blog2ContentFormContext.setValue(
-        "secondCategoryId",
-        props.item!.blog2SecondCategoryId,
-      );
-      const firstCategory = blog2Store.categoryList.filter(
-        (i) => i.id == props.item!.blog2FirstCategoryId,
-      )[0];
-      setSecondCategoryList(firstCategory.blog2SecondCategoryList!);
-      blog2ContentFormContext.watch();
-    }
-  }, []);
-
   return (
     <ModalTemplate
       className={
@@ -205,7 +156,7 @@ const Blog2BasicCreateUpdateContentModal = (
       }
     >
       {props.closeButtonComponent}
-      <Blog2SubCreateUpdateHeaderView
+      <Blog2SubCreateUpdateHeader
         type={"basic"}
         saveHandler={() =>
           props.loadingWithHandler(
@@ -220,55 +171,14 @@ const Blog2BasicCreateUpdateContentModal = (
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="primary-border absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4">
-          <Dropdown
-            options={blog2Store.categoryList.map((i) => {
-              return {
-                value: i.id,
-                name: i.name,
-              };
-            })}
-            value={
-              blog2ContentFormContext.getValues("firstCategoryId") ||
-              props.item?.blog2FirstCategoryId ||
-              0
-            }
-            defaultValue={props.item?.blog2FirstCategoryId || 0}
-            dropdownHandler={handleClickFirstCategory}
-            placeholder={"카테고리1"}
-            containerClassName={"min-h-12 bg-default-1 rounded-2xl"}
-          />
-          <Dropdown
-            options={secondCategoryList.map((i) => {
-              return {
-                value: i.id,
-                name: i.name,
-              };
-            })}
-            value={
-              blog2ContentFormContext.getValues("secondCategoryId") ||
-              props.item?.blog2SecondCategoryId ||
-              0
-            }
-            defaultValue={props.item?.blog2SecondCategoryId || 0}
-            dropdownHandler={handleClickSecondCategory}
-            placeholder={"카테고리2"}
-            disabled={
-              !blog2ContentFormContext.getValues("firstCategoryId") ||
-              secondCategoryList.length < 1
-            }
-            containerClassName={"min-h-12 bg-default-1 rounded-2xl"}
-          />
-          <ThemeInput1
-            type={"text"}
-            register={blog2ContentFormContext.register("title")}
-            className={EditorCreateUpdateTitleStyle}
-            placeholder="제목"
-          />
-        </div>
+        <Blog2BasicCreateUpdateCategoryAndTitleForm
+          formContext={blog2ContentFormContext}
+          isEdit={props.edit}
+          blog2BasicContentItem={props.blog2BasicContentItem}
+        />
       )}
       <CustomEditor
-        defaultValue={props.edit ? props.item!.content : ""}
+        defaultValue={props.edit ? props.blog2BasicContentItem!.content : ""}
         handleContentChange={handleContentChange}
         handleFileChange={handleFileChange}
       />

@@ -1,12 +1,12 @@
 "use client";
 
-import Blog2CreateUpdateHeader from "@component/blog2/hybrid/createUpdate/Blog2CreateUpdateHeader";
+import Blog2CreateUpdateHeader from "@component/blog2/hybrid/createUpdate/common/Blog2CreateUpdateHeader";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Blog2CreateYup } from "@utils/validation/Blog2Yup";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import Blog2ContentBox from "../../hybrid/createUpdate/Blog2ContentBox";
+import Blog2CreateUpdateBody from "../../hybrid/createUpdate/common/Blog2CreateUpdateBody";
 
 interface IBlog2CreateContainer {
   categoryList: IBlog2FirstCategory[];
@@ -35,9 +35,9 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
       blog2StructureList: "isEdit" in props ? props.data.blog2StructureList : [],
       blog2ResultList: "isEdit" in props ? props.data.blog2ResultList : [],
       isUpdateBlog2Header: false, // 블로그 헤더가 수정이 되었다면 수정이 되었다는 표시로 백엔드에 넘겨주는 용도
-      isUpdateBlog2Basic: false,
-      isUpdateBlog2Structure: false,
-      isUpdateBlog2Result: false,
+      isUpdateBlog2BasicList: false,
+      isUpdateBlog2StructureList: false,
+      isUpdateBlog2ResultList: false,
       deleteBlog2BasicList: [],
       deleteBlog2StructureList: [],
       deleteBlog2ResultList: [],
@@ -59,9 +59,9 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   }, []);
     
   return (
-    <FormProvider {...methods} >
+    <FormProvider {...methods}>
       <Blog2CreateUpdateHeader isEdit={"isEdit" in props && props.isEdit} />
-      <Blog2ContentBox isEdit={"isEdit" in props && props.isEdit} />
+      <Blog2CreateUpdateBody isEdit={"isEdit" in props && props.isEdit} />
     </FormProvider>
   );
 };

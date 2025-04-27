@@ -52,7 +52,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
         temp.push(i);
       } else {
         if (props.isEdit) {
-          blog2FormContext.setValue("isUpdateBlog2Result", true);
+          blog2FormContext.setValue("isUpdateBlog2ResultList", true);
           blog2FormContext.setValue("deleteBlog2ResultList", [
             ...blog2FormContext.getValues("deleteBlog2ResultList"),
             id,
@@ -96,6 +96,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
           />
         </ModalButton>
       </article>
+      {/* TODO : Blog2ResultContentItem 만들어서 처리할 것 */}
       <ul className={EditorUlStyle}>
         <>
           {blog2FormContext
@@ -105,16 +106,19 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                 <h2 className={EditorTitleStyle} id={i.title}>
                   {i.title}
                 </h2>
-                {modalState.isOpen && (
-                  <MarkdownPreview content={i.content} />
-                )}
+                {modalState.isOpen && <MarkdownPreview content={i.content} />}
                 <div
                   className={
-                    "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1 "
+                    "absolute right-2 top-2 flex h-[2rem] items-center gap-x-1"
                   }
-                > <button
+                >
+                  <button
                     className="h-8 w-8"
-                    onClick={() => modalState.isOpen ? modalState.closeModal() : modalState.openModal()}
+                    onClick={() =>
+                      modalState.isOpen
+                        ? modalState.closeModal()
+                        : modalState.openModal()
+                    }
                   >
                     {!modalState.isOpen ? (
                       <Image
@@ -155,9 +159,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                       "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
                     }
                     onClick={() =>
-                      loadingWithHandler(
-                        () => deleteBlog2Result(i.id!)
-                      )
+                      loadingWithHandler(() => deleteBlog2Result(i.id!))
                     }
                   >
                     <FontAwesomeIcon

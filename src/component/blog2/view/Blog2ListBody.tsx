@@ -1,6 +1,6 @@
 import Blog2ListHeaderBarContainer from "../container/read/Blog2ListHeaderBarContainer";
 import Blog2ListFixedMenu from "../hybrid/read/Blog2ListFixedMenu";
-import Blog2List from "../hybrid/readList/Blog2ListBox";
+import Blog2List from "../hybrid/readList/Blog2ItemListContainer";
 
 interface IBlog2ListBody {
 

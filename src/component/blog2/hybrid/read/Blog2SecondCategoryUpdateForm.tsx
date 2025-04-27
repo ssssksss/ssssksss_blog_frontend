@@ -4,6 +4,7 @@ import Input from "@component/common/input/Input";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
+import useFetchCSR from "@hooks/useFetchCSR";
 import { Blog2SecondCategoryUpdateYup } from "@utils/validation/BlogCategoryYup";
 import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
@@ -25,6 +26,7 @@ const Blog2SecondCategoryUpdateForm = (
   const blog2Store = useBlog2Store();
   const toastifyStore = useToastifyStore();
   const [updateCategoryName, setUpdateCategoryName] = useState("");
+  const fetchCSR = useFetchCSR();
 
   const {register, handleSubmit, formState, watch, getValues, setValue} =
     useForm<Blog2SecondCategoryUpdateForm>({
@@ -57,31 +59,30 @@ const Blog2SecondCategoryUpdateForm = (
       );
     }
 
-    const response = await fetch("/api/blog2/second/category", {
-      method: "PUT",
-      body: formData,
-    });
+    const result: ISecondCategory | undefined =
+      await fetchCSR.requestWithHandler({
+        url: "/api/blog2/category/second",
+        method: "PUT",
+        formData: formData,
+        handleRevalidateTags: ["blog2CategoryList"],
+        showSuccessToast: true,
+        successMessage: "2번째 카테고리를 수정",
+      });
+    if (result == undefined) return;
 
-    if (response.ok) {
-      const result: responseUpdateBlog2SecondCategory = await response.json();
-      const temp = blog2Store.categoryList.map((i) => {
-        if (i.id == +searchParams.get("firstCategoryId")!) {
-          i.blog2SecondCategoryList?.map((j) => {
-            if (j.id == result.data.id) {
-              j.name = result.data.name;
-              j.thumbnailImageUrl = result.data.thumbnailImageUrl;
-            }
-          });
-        }
-        return i;
-      });
-      toastifyStore.setToastify({
-        type: "success",
-        message: "2번째 카테고리를 수정했습니다.",
-      });
-      blog2Store.setBlog2CategoryList(temp);
-      props.closeModal && props.closeModal();
-    }
+    const temp = blog2Store.categoryList.map((i) => {
+      if (i.id == +searchParams.get("firstCategoryId")!) {
+        i.blog2SecondCategoryList?.map((j) => {
+          if (j.id == result.id) {
+            j.name = result.name;
+            j.thumbnailImageUrl = result.thumbnailImageUrl;
+          }
+        });
+      }
+      return i;
+    });
+    blog2Store.setBlog2CategoryList(temp);
+    props.closeModal && props.closeModal();
   };
 
   const fakeImageUpload = ({file, url}: {file: File; url: string}) => {

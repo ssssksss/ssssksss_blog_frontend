@@ -6,10 +6,10 @@ import { default as useAuthStore } from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
-
+import React, { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { PiBookBookmarkFill } from "react-icons/pi";
 interface LeftNavItem {
-  icon: string;
+  icon: string | ReactNode;
   label: string;
   href: string;
   options: {
@@ -58,6 +58,24 @@ const LeftNavItems: LeftNavItem[] = [
     icon: "/images/icons/ic-setting.svg",
     label: "디자인",
     href: "/design",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-setting.svg",
+    label: "폴더구조",
+    href: "/tree",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: "/images/icons/ic-setting.svg",
+    label: "폴더변환",
+    href: "/switch",
+    options: {isRequiredAuth: false},
+  },
+  {
+    icon: <PiBookBookmarkFill size={"24"} />,
+    label: "즐겨찾기",
+    href: "/site-bookmark",
     options: {isRequiredAuth: false},
   },
   {
@@ -122,12 +140,16 @@ const SideBar = () => {
                 <div
                   className={`h-16 w-16 default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] && "animate-updown"}`}
                 >
-                  <Image
-                    src={item.icon}
-                    alt={item.label}
-                    width={24}
-                    height={24}
-                  />
+                  {
+                    typeof item.icon === "string" ?
+                      <Image
+                        src={item.icon}
+                        alt={item.label}
+                        width={24}
+                        height={24}
+                      /> : 
+                      item.icon
+                  }
                 </div>
                 <div
                   className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "primary-border-radius bg-primary-80 px-2 text-white-40" : "text-black-100"}`}

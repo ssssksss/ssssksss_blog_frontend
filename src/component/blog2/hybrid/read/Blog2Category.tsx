@@ -7,7 +7,7 @@ interface IBlog2Category {
 const Blog2Category = ({ categoryList }: IBlog2Category) => {
   // 카테고리 목록을 받아오고,
   return (
-    <div>
+    <div className="border-b-4 pb-2 border-b-primary-100">
       <Blog2FirstCategory categoryList={categoryList} />
       <Blog2SecondCategory categoryList={categoryList} />
     </div>

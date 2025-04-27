@@ -2,15 +2,15 @@ import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import { PanelBottomClose, PanelBottomOpen, Save } from "lucide-react";
 
-interface IBlog2SubCreateUpdateHeaderView {
+interface IBlog2SubCreateUpdateHeader {
   type: "basic" | "structure" | "result";
   saveHandler: () => void;
   saveDisabled: boolean;
   edit: boolean;
   modalState: IModalState;
 }
-const Blog2SubCreateUpdateHeaderView = (
-  props: IBlog2SubCreateUpdateHeaderView,
+const Blog2SubCreateUpdateHeader = (
+  props: IBlog2SubCreateUpdateHeader,
 ) => {
   return (
     <div
@@ -48,4 +48,4 @@ const Blog2SubCreateUpdateHeaderView = (
     </div>
   );
 };
-export default Blog2SubCreateUpdateHeaderView;
+export default Blog2SubCreateUpdateHeader;

@@ -6,10 +6,12 @@ interface IFetchCSR {
   url: string;
   body?: Record<string, any>;
   retry?: number;
-  contentType?: string;
+  contentType?: undefined | "application/x-www-form-urlencoded";
   next?: NextFetchRequestConfig;
   handleRevalidateTags?: string[];
   credentials?: boolean;
+  formData?: FormData;
+  isAuth?: boolean; // 쿠키를 담아서 보낼 필요가 없을때는 false
 }
 
 interface ResponseData {
@@ -18,6 +20,7 @@ interface ResponseData {
   statusCode: number;
 }
 
+// Next.js에 route.ts에 사용
 export const fetchCSR = async ({
   req,
   url,
@@ -26,44 +29,53 @@ export const fetchCSR = async ({
   credentials = false,
   retry = 1,
   next,
+  formData,
   handleRevalidateTags,
+  isAuth = true,
 }: IFetchCSR): Promise<any> => {
   try {
-    let accessToken = req.cookies.get("accessToken");
+    const accessToken = req.cookies.get("accessToken");
     const refreshToken = req.cookies.get("refreshToken");
+    // 기본은 json 형식, formData 인자를 받으면 multipart 형식
     const res = await fetch(url, {
-      method: req.method,
+      method: req.method || "GET",
       headers: {
-        "Content-Type": contentType || "application/json",
-        ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
-        ...(credentials ? {"Access-Control-Allow-Origin": "*"} : {}),
+        ...(formData
+          ? {}
+          : {"Content-Type": contentType || "application/json"}),
+        ...(isAuth && accessToken ? {Authorization: `Bearer ${accessToken.value}`} : {}),
       },
-      body: body ? JSON.stringify(body) : undefined,
+      body: formData ? formData : body ? JSON.stringify(body) : undefined,
       next: next,
     });
     if (res.status === 401 && refreshToken && retry > 0) {
+      // 리프레시 토큰을 이용하여 액세스 토큰을 재발급
       const refreshResponse = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
         {
           method: "GET",
           headers: {
-            Cookie: `${refreshToken?.name}=${refreshToken?.value}`,
+            Cookie: `refreshToken=${refreshToken.value}`,
           },
-          credentials: "include",
-        },
+        }
       );
-
       if (refreshResponse.ok) {
+        const setCookieHeader = refreshResponse.headers.get("Set-Cookie"); // 발급받은 액세스 토큰은 쿠키로 저장
         const data = await refreshResponse.json();
-        accessToken = data.data;
+        const newAccessToken = data.data; // 응답 데이터로 받은 액세스 토큰 값은 API 재요청에 사용
+        console.log("fetchCSR.ts 파일 : ", setCookieHeader);
+        console.log("fetchCSR.ts 파일 : ", newAccessToken);
         // 쿠키를 응답 헤더에서 추출
-        const setCookieHeader = refreshResponse.headers.get("Set-Cookie");
         if (setCookieHeader) {
           const newRes = await fetch(url, {
             method: req.method,
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`, // 새 액세스 토큰 사용
+              ...(formData
+                ? {}
+                : {"Content-Type": contentType || "application/json"}),
+              ...(isAuth && newAccessToken
+                ? {Authorization: `Bearer ${newAccessToken}`}
+                : {}),
             },
             credentials: "include",
             body:

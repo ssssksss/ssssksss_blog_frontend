@@ -84,7 +84,21 @@ const CustomEditor = (props: ICustomEditor) => {
       if (file) await handleFileUpload(file);
     } else {
       const paste = event.clipboardData.getData("text");
-      insertContentAtCursor(paste);
+
+      const urlRegex = /^(https?:\/\/[^\s]+)/;
+      if (urlRegex.test(paste)) {
+        try {
+          const url = new URL(paste);
+          const hostname = url.hostname.replace("www.", "");
+          const markdownLink = `[${hostname}](${paste})`;
+          insertContentAtCursor(markdownLink);
+        } catch (e) {
+          // URL로 변환 실패 시 일반 텍스트로 삽입
+          insertContentAtCursor(paste);
+        }
+      } else {
+        insertContentAtCursor(paste);
+      }
     }
   };
 

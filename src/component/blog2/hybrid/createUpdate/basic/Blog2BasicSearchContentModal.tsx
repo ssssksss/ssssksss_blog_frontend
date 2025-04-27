@@ -10,6 +10,7 @@ import {
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
+import clog from "@utils/logger/logger";
 import { useRef, useState } from "react";
 
 interface IBlog2BasicSearchContentModal extends IModalComponent {
@@ -31,14 +32,9 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     if (searchRef.current!.value == search) {
       return;
     }
+    clog.info("블로그 기초 글 검색 API 요청");
     const response = await fetch(
       `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      },
     );
 
     if (response.ok) {

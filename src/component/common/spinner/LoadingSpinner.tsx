@@ -11,7 +11,7 @@ const LoadingSpinner = ({ loading }: Props) => {
   }
 
   return (
-    <div style={{zIndex: 999}} className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-80/50">
+    <div style={{zIndex: 999}} className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-primary-80 opacity-60">
       <LottieComponent lottieFile={LottieFile} className="mr-5 w-[8rem]" />
     </div>
   );

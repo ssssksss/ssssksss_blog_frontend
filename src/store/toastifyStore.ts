@@ -16,7 +16,7 @@ interface ToastifyStoreActions {
 
 // 3. 초기 상태 정의
 const initialState: ToastifyStoreState = {
-  type: "success",
+  type: "",
   message: "",
 };
 

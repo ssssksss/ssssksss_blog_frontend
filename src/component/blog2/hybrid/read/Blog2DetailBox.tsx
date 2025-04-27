@@ -2,21 +2,20 @@
 
 import Blog2BasicContentViewBox from "@component/blog2/view/Blog2BasicContentViewBox";
 import Blog2ResultContentViewBox from "@component/blog2/view/Blog2ResultContentViewBox";
-import Button from "@component/common/button/hybrid/Button";
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useLoading from "@hooks/useLoading";
 import useModalState from "@hooks/useModalState";
 import useBlog2Store from "@store/blog2Store";
 import useToastifyStore from "@store/toastifyStore";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaArrowLeft, FaPencilAlt, FaTrash } from "react-icons/fa";
 import useUserStore from "src/store/userStore";
 import Blog2StructureContentViewBox from "./../../view/Blog2StructureContentViewBox";
 
@@ -30,21 +29,15 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   const toastifyStore = useToastifyStore();
   const modalState = useModalState();
   const blog2Store = useBlog2Store();
+  const fetchCSR = useFetchCSR();
   const { loading, startLoading, stopLoading } = useLoading();
   const deleteBlog2Handler = async () => {
-    startLoading();
     // 삭제 API
-    const response = await fetch(`/api/blog2?id=${props.data.blog2.id}`, {
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/blog2?id=${props.data.blog2.id}`,
       method: "DELETE",
     });
-    if (!response.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "블로그 삭제에 실패",
-      });
-      stopLoading();
-      return;
-    }
+    if (result == undefined) return;
     // 기존 리스트에서 블로그 항목 제거
     if (
       blog2Store.blog2List.blog2SecondCategoryId ==
@@ -59,7 +52,6 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         ],
       });
     }
-    stopLoading();
     await router.push(
       `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
     );
@@ -128,10 +120,22 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   }, []);
 
   const menuItems = [
-    {key: "기초", list: props.data.blog2BasicList},
-    {key: "구조", list: props.data.blog2StructureList},
-    {key: "결과", list: props.data.blog2ResultList},
+    {key: "기초", list: props.data?.blog2BasicList},
+    {key: "구조", list: props.data?.blog2StructureList},
+    {key: "결과", list: props.data?.blog2ResultList},
   ];
+
+  if (userStore.id == 0) {
+    return (
+      <section
+        className={
+          "mt-[.25rem] flex h-[calc(100vh-80px)] w-full flex-col gap-y-2 pb-[1rem] default-flex"
+        }
+      >
+        로딩중...
+      </section>
+    );
+  }
 
   return (
     <section
@@ -139,18 +143,16 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
     >
       <LoadingSpinner loading={loading} />
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
-        <Button
-          className={
-            "primary-border-radius aspect-square h-[2rem] bg-primary-20 default-flex"
-          }
+        <ThemeButton1
+          className={"aspect-square h-[2rem] default-flex"}
           onClick={() =>
             router.push(
               `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
             )
           }
         >
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Button>
+          <FaArrowLeft />
+        </ThemeButton1>
         <div
           className={
             "w-full break-words break-all rounded-[1rem] text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
@@ -160,25 +162,18 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         </div>
         {userStore.role == "ROLE_ADMIN" && (
           <div className={"flex gap-x-2"}>
-            <Button
-              className={
-                "primary-border-radius aspect-square h-[2rem] bg-primary-20 font-bold default-flex"
-              }
+            <ThemeButton1
+              className={"aspect-square h-[2rem] font-bold default-flex"}
               onClick={() => {
                 startLoading();
                 router.push(`/blog2/update/${props.data.blog2.id}`);
               }}
             >
-              <Image
-                alt=""
-                src={"/images/icons/ic-edit-black.svg"}
-                width={16}
-                height={16}
-              />
-            </Button>
+              <FaPencilAlt />
+            </ThemeButton1>
             <ModalButton
               buttonClassName={
-                "aspect-square h-[2rem] bg-primary-20 font-bold primary-border-radius default-flex"
+                "aspect-square h-[2rem] primary-set font-bold primary-border-radius default-flex"
               }
               modal={
                 <ConfirmModal
@@ -192,19 +187,14 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
                 />
               }
             >
-              <Image
-                alt=""
-                src={"/images/icons/ic-trash.svg"}
-                width={16}
-                height={16}
-              />
+              <FaTrash className="text-white-100" />
             </ModalButton>
           </div>
         )}
       </div>
       <div
         className={
-          "primary-border-radius flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2"
+          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 primary-border-radius"
         }
       >
         {menuItems.map(({key, list}) =>
@@ -232,7 +222,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           </div>
         )}
       </div>
-      <div className={"primary-border-radius flex h-auto w-full p-1"}>
+      <div className={"flex h-auto w-full p-1 primary-border-radius"}>
         {menu == "기초" && (
           <Blog2BasicContentViewBox data={props.data.blog2BasicList} />
         )}

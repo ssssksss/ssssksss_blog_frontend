@@ -1,6 +1,7 @@
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useBlog2Store from "@store/blog2Store";
 import { Blog2FirstCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
 import { useForm } from "react-hook-form";
@@ -9,10 +10,9 @@ interface IBlog2FirstCategoryCreateForm {
 
 }
 const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
-
   const blog2Store = useBlog2Store();
-  // const {fetchCSR} = useFetchCSRHandler();
-  const { register, handleSubmit, formState, setError } = useForm({
+  const fetchCSR = useFetchCSR();
+  const {register, handleSubmit, formState, setError} = useForm({
     resolver: yupResolver(Blog2FirstCategoryCreateYup),
     mode: "onChange",
     defaultValues: {
@@ -20,26 +20,22 @@ const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
     },
   });
 
-  const createFirstCategoryHandler = async (data: { createFirstCategoryName: string }) => {
-    const response = await fetch("/api/blog2/first/category", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-      body: JSON.stringify({
-        name: data.createFirstCategoryName,
-      }),
-    });
-
-    if (!response.ok) {
-      return;
-    }
-    const result: responseCreateBlog2FirstCategory = await response.json();
-    result.data.blog2SecondCategoryList = [];
-    blog2Store.setBlog2CategoryList(
-      [...blog2Store.categoryList, result.data]
-    );
+  // CHECK : fetchCSR.requestWithHandler 교체 =>  result.data.blog2SecondCategoryList 변경, 에러시 확인
+  const createFirstCategoryHandler = async (data: {
+    createFirstCategoryName: string;
+  }) => {
+    const result: IBlog2FirstCategory | undefined =
+      await fetchCSR.requestWithHandler({
+        url: "/api/blog2/first/category",
+        method: "POST",
+        body: {
+          name: data.createFirstCategoryName,
+        },
+        showSuccessToast: true,
+      });
+    if (result == undefined) return;
+    result.blog2SecondCategoryList = [];
+    blog2Store.setBlog2CategoryList([...blog2Store.categoryList, result]);
   };
 
   return (
@@ -51,9 +47,7 @@ const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
       <ThemeButton1
         onClick={handleSubmit(createFirstCategoryHandler)}
         disabled={!formState.isValid}
-        className={
-          "mt-[1rem] h-[3rem]"
-        }
+        className={"mt-[1rem] h-[3rem]"}
       >
         카테고리 1 추가하기
       </ThemeButton1>

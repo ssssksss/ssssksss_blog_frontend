@@ -1,12 +1,9 @@
-import ThemeButton1 from "@component/common/button/ThemeButton1";
-import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
-import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { timeFunction } from "@utils/timeFunction";
 import { useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import usePlayerStore from "src/store/playerStore";
+import YoutubePlayIconView from "../view/YoutubePlayIconView";
 import YoutubePlayerModal from "./YoutubePlayerModal";
 
 interface IMusicPlayerProps {
@@ -113,9 +110,9 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
   return (
     <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
-      <ThemeButton1
+      <button
         className={
-          "grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto] items-center transition-all duration-300"
+          "grid w-full cursor-pointer grid-cols-[3rem_auto] items-center transition-all duration-300 primary-border-radius"
         }
         onClick={() => {
           playerStore.setPlayer({
@@ -128,12 +125,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
         }}
         disabled={!playerStore.currentYoutube.id}
       >
-        <div className="h-full primary-border-radius default-flex">
-          {playerStore.youtubePlay ? (
-            <FontAwesomeIcon icon={faPause} />
-          ) : (
-            <FontAwesomeIcon icon={faPlay} />
-          )}
+        <div className="pl-1">
+          <YoutubePlayIconView youtubePlay={playerStore.youtubePlay} />
         </div>
         <div className="flex h-full flex-col justify-between px-1">
           <span className={"text-start text-[1rem]"}>
@@ -159,7 +152,9 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
               playerRef.current?.seekTo(storedPlayed, "fraction");
             }}
             onError={() => {
-              console.log("MusicPlayer.tsx 파일 : error1");
+              playerStore.setPlayer({
+                youtubePlay: false,
+              });
               ReactPlayerError();
             }}
             onEnded={() => ReactPlayerEnded()}
@@ -200,7 +195,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             disabled={!playerStore.currentYoutube.id}
           />
         </div>
-      </ThemeButton1>
+      </button>
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
         buttonClassName={

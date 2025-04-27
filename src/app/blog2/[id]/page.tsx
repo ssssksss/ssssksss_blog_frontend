@@ -1,64 +1,17 @@
 import Blog2DetailBox from "@component/blog2/hybrid/read/Blog2DetailBox";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { cookies } from "next/headers";
 import Template from "../template";
-
-async function getData(id: number) {
-  let accessToken = cookies().get("accessToken")?.value;
-  const refreshToken = cookies().get("refreshToken");
-
-  // 액세스 토큰을 가져오는 함수
-  const fetchAccessToken = async () => {
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/api/user/accessToken`,
-      {
-        method: "GET",
-        headers: {
-          Cookie: `${refreshToken?.name}=${refreshToken?.value}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to refresh access token");
-    }
-
-    const data = await response.json();
-    accessToken = data.accessToken;
-
-    // 새로운 accessToken을 쿠키에 저장
-    document.cookie = `accessToken=${accessToken}; path=/`;
-  };
-
-  // 데이터 가져오기 함수
-  const fetchData = async () => {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/blog2/${id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: {revalidate: 3600, tags: [`getBlog2/${id}`]},
-    });
-
-    if (!response.ok) {
-      // 401 Unauthorized 에러가 발생할 경우
-      if (response.status === 401 && refreshToken) {
-        await fetchAccessToken(); // 토큰 갱신
-        return fetchData(); // 갱신된 토큰으로 재요청
-      }
-      throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    return response.json() as Promise<any>;
-  };
-
-  return fetchData();
-}
 
 export async function generateMetadata({ params: { id } }: {params: { id: string }}) {
   const pageId = Number(id);
   if (pageId <= 0 || !Number.isSafeInteger(pageId)) {
-    throw Error("Not Found");
+    throw new Error(
+      JSON.stringify({
+        code: 400,
+        message: "잘못된 경로",
+      }),
+    );
   }
 
   return {
@@ -67,21 +20,32 @@ export async function generateMetadata({ params: { id } }: {params: { id: string
   };
 }
 
-export default async function page({ params: { id } }: { params: { id: string } }) {
-  const pageId = Number(id);
-  if (pageId < 1 || !Number.isSafeInteger(pageId)) {
-    throw Error("Not Found");
-  }
+async function getData(id: number) {
+  const accessToken = cookies().get("accessToken");
+  const refreshToken = cookies().get("refreshToken");
+  const response = await fetchApiRoutes(
+    {
+      url: `${process.env.BACKEND_URL}/api/blog2/${id}`,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    },
+  );
+  return response.json();
+}
 
+export default async function page({ params: { id } }: { params: { id: string } }) {
   const result: {
-        data: responseReadBlog2,
-            msg: string;    
-            statusCode: number;
-  } = await getData(pageId);
-  
+    data: responseReadBlog2,
+    msg: string;    
+    statusCode: number;
+  } = await getData(Number(id));
+
   return (
     <Template>
-      <Blog2DetailBox data={result.data} />
+      {
+        result.data &&
+        <Blog2DetailBox data={result?.data} />
+      }
     </Template>
   );
 }

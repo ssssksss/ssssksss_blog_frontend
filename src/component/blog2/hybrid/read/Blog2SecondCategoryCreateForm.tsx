@@ -3,6 +3,7 @@ import Input from "@component/common/input/Input";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
+import useFetchCSR from "@hooks/useFetchCSR";
 import { Blog2SecondCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +11,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
-import useToastifyStore from "src/store/toastifyStore";
 interface IBlog2SecondCategoryCreateForm {
   closeModal?: () => void;
 }
@@ -20,7 +20,7 @@ const Blog2SecondCategoryCreateForm = (
   const [imageUrl, setImageUrl] = useState<string>("");
   const searchParams = useSearchParams();
   const blog2Store = useBlog2Store();
-  const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
   const {register, handleSubmit, formState, setError, getValues, setValue} =
     useForm<Blog2SecondCategoryCreateForm>({
       resolver: yupResolver(Blog2SecondCategoryCreateYup),
@@ -44,28 +44,26 @@ const Blog2SecondCategoryCreateForm = (
       data.createSecondCategoryImageFile as File,
     );
 
-    const response = await fetch("/api/blog2/second/category", {
+    const result = await fetchCSR.requestWithHandler({
+      url: "/api/blog2/category/second",
       method: "POST",
-      body: formData,
+      formData: formData,
+      showSuccessToast: true,
+      handleRevalidateTags: ["blog2CategoryList"],
     });
 
-    if (response.ok) {
-      const result: responseCreateBlog2SecondCategory = await response.json();
-      const temp = blog2Store.categoryList.map((i) => {
-        if (i.id == +data.firstCategoryId) {
-          i.blog2SecondCategoryList?.push(
-            result.data.createBlog2SecondCategory,
-          );
-        }
-        return i;
-      });
-      toastifyStore.setToastify({
-        type: "success",
-        message: "2번째 카테고리를 생성했습니다.",
-      });
-      blog2Store.setBlog2CategoryList(temp);
-      props.closeModal && props.closeModal();
-    }
+    if (result == undefined) return;
+
+    const temp = blog2Store.categoryList.map((i) => {
+      if (i.id == +data.firstCategoryId) {
+        i.blog2SecondCategoryList?.push(
+          result.createBlog2SecondCategory,
+        );
+      }
+      return i;
+    });
+    blog2Store.setBlog2CategoryList(temp);
+      props.closeModal!();
   };
 
   // 이미지 업로드가 아닌 미리보기로 처리 후 API 요청할 때 업로드 처리 방식

@@ -1,6 +1,6 @@
 import Blog2ListContainer from "@component/blog2/container/read/Blog2ListContainer";
 import Blog2Category from "@component/blog2/hybrid/read/Blog2Category";
-import { fetchSSRWithAuthAndErrorProcess } from "@utils/api/fetchSSRWithAuthAndErrorProcess";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { Metadata } from "next";
 import Template from "./template";
 
@@ -10,15 +10,19 @@ export const metadata: Metadata = {
 };
 interface IPage {}
 
+// API 요청시 문제가 발생하면 error.tsx로 이동
 async function getData() {
-  const response = await fetchSSRWithAuthAndErrorProcess({
-    url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
-    method: "GET",
-    next: {
-      revalidate: 10,
-    },
-  });
 
+  const response = await fetchApiRoutes(
+    {
+      url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
+      next: {
+        revalidate: 3600,
+        tags: ["blog2CategoryList"],
+      },
+      isAuth: false,
+    },
+  );
   return response.json();
 }
 
