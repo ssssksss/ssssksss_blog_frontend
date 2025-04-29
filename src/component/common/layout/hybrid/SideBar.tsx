@@ -40,7 +40,7 @@ const LeftNavItems: LeftNavItem[] = [
     icon: "/images/icons/ic-list-check.svg",
     label: "일정",
     href: "/plan",
-    options: {isRequiredAuth: false},
+    options: {isRequiredAuth: true},
   },
   {
     icon: "/images/icons/ic-plane.svg",
@@ -76,7 +76,7 @@ const LeftNavItems: LeftNavItem[] = [
     icon: <PiBookBookmarkFill size={"24"} />,
     label: "즐겨찾기",
     href: "/site-bookmark",
-    options: {isRequiredAuth: false},
+    options: {isRequiredAuth: true},
   },
   {
     icon: "/images/icons/ic-setting.svg",
