@@ -13,6 +13,7 @@ import { useScrollHeader } from "@hooks/useScrollHeader";
 import useLoadingStore from "@store/loadingStore";
 import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
+import useSiteBookmarkStore from "@store/siteBookmarkStore";
 import useToastifyStore from "@store/toastifyStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -29,6 +30,7 @@ const Header = (props: IHeader) => {
   const planStore = usePlanStore();
   const memoStore = useMemoStore();
   const toastifyStore = useToastifyStore();
+  const siteBookmarkStore = useSiteBookmarkStore();
   const { userStore } = useInitGetUser(); // 유저정보 조회 API
   
   // 페이지 이동시 공통적으로 처리할 로직
@@ -49,6 +51,7 @@ const Header = (props: IHeader) => {
       userStore.initialize();
       planStore.initialize();
       memoStore.initialize();
+      siteBookmarkStore.initialize();
       toastifyStore.setToastify({
         type: "success",
         message: "로그아웃 되었습니다.",
