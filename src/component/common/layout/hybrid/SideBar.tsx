@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { FaFolderTree } from "react-icons/fa6";
 import { PiBookBookmarkFill } from "react-icons/pi";
 interface LeftNavItem {
   icon: string | ReactNode;
@@ -54,24 +55,24 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/board",
     options: {isRequiredAuth: false},
   },
+  // {
+  //   icon: "/images/icons/ic-setting.svg",
+  //   label: "디자인",
+  //   href: "/design",
+  //   options: {isRequiredAuth: false},
+  // },
   {
-    icon: "/images/icons/ic-setting.svg",
-    label: "디자인",
-    href: "/design",
-    options: {isRequiredAuth: false},
-  },
-  {
-    icon: "/images/icons/ic-setting.svg",
+    icon: <FaFolderTree size={"24"} />,
     label: "폴더구조",
     href: "/tree",
     options: {isRequiredAuth: false},
   },
-  {
-    icon: "/images/icons/ic-setting.svg",
-    label: "폴더변환",
-    href: "/switch",
-    options: {isRequiredAuth: false},
-  },
+  // {
+  //   icon: "/images/icons/ic-setting.svg",
+  //   label: "폴더변환",
+  //   href: "/switch",
+  //   options: {isRequiredAuth: false},
+  // },
   {
     icon: <PiBookBookmarkFill size={"24"} />,
     label: "즐겨찾기",
