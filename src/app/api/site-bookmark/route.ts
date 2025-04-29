@@ -25,11 +25,13 @@ export async function POST(request: NextRequest) {
 //   return result;
 // }
 
-// export async function DELETE(request: NextRequest) {
-//   const url = new URL(request.url);
-//   const id = url.searchParams.get("id");
-//   return await fetchCSR({
-//     url: `${process.env.BACKEND_URL}/api/blog2?id=${id}`,
-//     req: request,
-//   });
-// }
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+  const result = await fetchApiRoutes({
+    req: request,
+    url: `${process.env.BACKEND_URL}/api/site-bookmark/${id}`,
+    isFallbackToErrorPage: false,
+  });
+  return result;
+}

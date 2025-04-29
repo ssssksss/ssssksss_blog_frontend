@@ -1,12 +1,11 @@
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
-import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useSiteBookmarkStore from "@store/siteBookmarkStore";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
-import SiteBookmarkCategoryDeleteListModal from "./SiteBookmarkCategoryDeleteListModal";
 interface ISiteBookmarkModal extends IModalComponent {
   siteBookmarkCategoryId: number;
 }
@@ -14,6 +13,10 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef1 = useRef<HTMLInputElement>(null);
   const siteBookmarkStore = useSiteBookmarkStore();
+  const [deleteSiteBookmarkItem, setDeleteSiteBookmarkItem] = useState({
+    id: 0,
+    name: ""
+  });
   const fetchCSR = useFetchCSR();
   const createSiteBookmark = async () => {
     if (inputRef.current?.value == "" || inputRef1.current?.value == "") return;
@@ -34,14 +37,36 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
       name: result!.name,
       url: result!.url,
     });
+    props.closeModal!();
   };
   
   const updateSiteBookmarkCategory = () => {
     // name, isAuth
   };
 
-  const deleteSiteBookmarkCategory = () => {
-    // id, isAuth
+  const deleteSiteBookmark = async () => {
+    if (deleteSiteBookmarkItem.id <= 0) return;
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/site-bookmark?id=${deleteSiteBookmarkItem.id}`,
+      method: "DELETE",
+      showSuccessToast: true,
+      successMessage: "카테고리 삭제 했습니다.",
+    });
+    if (result == "success") {
+      const _temp = siteBookmarkStore.siteBookmarkCategoryList.map((i) => {
+        if (i.id == props.siteBookmarkCategoryId) {
+          return {
+            ...i,
+            siteBookmarkList: i.siteBookmarkList.filter(
+              (j) => deleteSiteBookmarkItem.id !== j.id,
+            ),
+          };
+        }
+        return i;
+      });
+      siteBookmarkStore.setInit(_temp);
+      props.closeModal!();
+    }
   };
 
   return (
@@ -75,19 +100,20 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
         <div className="mb-2 flex items-center">
           <IoIosRemoveCircleOutline size={28} className="mr-2 text-red-400" />
           <h2 className="text-xl font-bold text-primary-80">
-            링크 북마크 카테고리 삭제
+            북마크 삭제
           </h2>
         </div>
         <div className="relative w-full">
-          <ModalButton
-            buttonClassName={
-              "aspect-square h-[2rem] primary-set font-bold primary-border-radius default-flex w-full"
-            }
-            modal={<SiteBookmarkCategoryDeleteListModal />}
-          >
-            <ThemeButton1 className="w-full py-2"> 삭제할 카테고리 선택하기 </ThemeButton1>
-          </ModalButton>
+          {
+            siteBookmarkStore.siteBookmarkCategoryList.filter(i => i.id == props.siteBookmarkCategoryId)[0].siteBookmarkList.map(j =>
+              <ThemeActiveButton1 key={j.id} className={"px-3 py-2"} onClick={() => setDeleteSiteBookmarkItem({
+                id: j.id,
+                name: j.name
+              })} isActive={j.id == deleteSiteBookmarkItem.id} > {j.name} </ThemeActiveButton1>
+            )
+          }
         </div>
+        <ThemeButton1 className="w-full py-2" disabled={deleteSiteBookmarkItem.id <= 0} onClick={deleteSiteBookmark}> {deleteSiteBookmarkItem.id == 0 ? "삭제할 카테고리 선택하기" : `"${deleteSiteBookmarkItem.name}" 삭제하기`} </ThemeButton1>
       </section>
     </ModalTemplate>
   );
