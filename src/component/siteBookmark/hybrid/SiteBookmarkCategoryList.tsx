@@ -20,15 +20,15 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
   return (
     <div
       className={
-        "flex min-h-[calc(100vh-5rem)] w-full flex-col gap-1 rounded-2xl border-4 border-primary-80"
+        "flex min-h-[calc(100vh-5rem)] w-full flex-col gap-1 rounded-2xl"
       }
     >
       <section className="relative w-full px-2 pt-2 default-flex">
-        <h1 className="w-full rounded-2xl py-3 text-2xl outline default-flex">
+        <h1 className="w-full rounded-2xl py-3 text-2xl default-flex">
           ⭐ 사이트 링크 모음
         </h1>
         <NestedModalButton
-          buttonClassName="absolute right-4 p-2 default-flex"
+          buttonClassName="absolute right-4 p-2 default-flex outline outline-primary-80 rounded-2xl"
           modal={<SiteBookmarkCategoryModal />}
         >
           <IoIosSettings size={24} />
@@ -38,10 +38,10 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
         {siteBookmarkStore.siteBookmarkCategoryList?.map((i) => (
           <div
             key={i.id}
-            className="w-full rounded-2xl p-1 shadow-2xl outline outline-primary-80"
+            className="w-full rounded-2xl p-1 shadow-2xl outline outline-primary-80 outline-1"
           >
             <div className="flex flex-col gap-[0.125rem]">
-              <h3 className="relative w-full rounded-t-2xl px-1 font-DNFBitBitv2 text-[1.75rem] default-flex">
+              <h3 className="relative w-full rounded-t-2xl px-1 font-DNFBitBitv2 text-[1.5rem] default-flex">
                 {i.name}
                 <NestedModalButton
                   buttonClassName="absolute right-1 p-1 default-flex rounded-xl hover:bg-primary-60 hover:text-primary-contrast"
@@ -50,12 +50,12 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
                   <IoIosSettings size={24} />
                 </NestedModalButton>
               </h3>
-              <div className="flex min-h-[15rem] w-full flex-col gap-1 rounded-b-2xl bg-default-1 py-1">
+              <div className="flex min-h-[15rem] w-full flex-col gap-1 rounded-b-2xl bg-default-1 py-1 px-2">
                 {i.siteBookmarkList?.map((j) => (
                   <a
                     key={j.id}
                     target="_blank"
-                    className="cursor-pointer rounded-md bg-primary-20 py-2 default-flex hover:text-primary-contrast"
+                    className="cursor-pointer rounded-md bg-primary-20 py-2 default-flex hover:text-primary-contrast hover:bg-primary-80"
                     href={j.url}
                   >
                     {j.name}

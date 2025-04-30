@@ -55,8 +55,8 @@ const SiteBookmarkCategoryModal = (props: ISiteBookmarkCategoryModal) => {
       {props.closeButtonComponent}
       <section className="bg-white mb-6 w-full flex-col rounded-xl border-2 border-primary-80 p-4 pb-8 shadow-lg">
         <div className="mb-4 flex items-center">
-          <IoIosAddCircleOutline size={28} className="mr-2 text-primary-60" />
-          <h2 className="text-xl font-bold text-primary-80">
+          <IoIosAddCircleOutline size={28} className="mr-2 text-primary-80" />
+          <h2 className="text-xl font-bold">
             링크 북마크 카테고리 생성
           </h2>
         </div>
@@ -71,15 +71,15 @@ const SiteBookmarkCategoryModal = (props: ISiteBookmarkCategoryModal) => {
             className="ml-2 p-0 transition-transform"
             onClick={createSiteBookmarkCategory}
           >
-            <IoIosAddCircleOutline size={36} className="text-primary-60" />
+            <IoIosAddCircleOutline size={36} className="text-primary-20" />
           </ThemeButton1>
         </div>
       </section>
 
       <section className="bg-white flex w-full flex-col gap-2 rounded-xl border-2 border-primary-80 p-4 shadow-lg">
         <div className="mb-2 flex items-center">
-          <IoIosRemoveCircleOutline size={28} className="mr-2 text-red-400" />
-          <h2 className="text-xl font-bold text-primary-80">
+          <IoIosRemoveCircleOutline size={28} className="mr-2 text-red-80" />
+          <h2 className="text-xl font-bold">
             링크 북마크 카테고리 삭제
           </h2>
         </div>
