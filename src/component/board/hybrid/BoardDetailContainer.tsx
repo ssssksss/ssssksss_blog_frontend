@@ -38,7 +38,7 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
     const params = new URLSearchParams(url.search);
     params.delete("timestamp");
     url.search = params.toString();
-    window.history.pushState({}, "", url.toString());
+    window.history.replaceState({}, "", url.toString());
   }, []);
 
   return (

@@ -14,12 +14,12 @@ async function getData(searchParams: URLSearchParams) {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
   const queryString = new URLSearchParams(searchParams).toString();
-
   const response = await fetchApiRoutes({
     url: `${process.env.BACKEND_URL}/api/board/list?${queryString}`,
     accessToken: accessToken,
     refreshToken: refreshToken,
-    next: {revalidate: 60},
+    next: { revalidate: 60 },
+    isAuth: false,
   });
 
   const result = await response.json();
