@@ -66,7 +66,7 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
           </div>
         ))}
       </section>
-      {siteBookmarkStore.siteBookmarkCategoryList.length == 0 && (
+      {siteBookmarkStore.siteBookmarkCategoryList?.length == 0 && (
         <section className="h-full w-full flex-1 p-2 default-flex">
           <div className="h-full rounded-2xl p-2 shadow-2xl outline outline-primary-80 default-flex flex-col text-xl">
             <p> 아무런 카테고리가 존재하지 않습니다. </p>
