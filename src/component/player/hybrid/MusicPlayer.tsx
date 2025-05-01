@@ -1,3 +1,4 @@
+import { usePlayerControl } from "@hooks/usePlayerControl";
 import { timeFunction } from "@utils/timeFunction";
 import { useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
@@ -12,7 +13,7 @@ interface IMusicPlayerProps {
 const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
   const playerRef = useRef<ReactPlayer | null>(null);
-
+  const {requestPlay} = usePlayerControl();
   // 플레이어 작동시 약 1초마다 실행되는 함수
   const handleProgress = (state: { playedSeconds: number; played: number }) => {
     playerStore.setPlayer({
@@ -151,6 +152,9 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
               );
               playerRef.current?.seekTo(storedPlayed, "fraction");
             }}
+            onPlay={() => {
+              requestPlay();
+            }}
             onError={() => {
               playerStore.setPlayer({
                 youtubePlay: false,
@@ -165,29 +169,23 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             max="1"
             step="0.001"
             value={playerStore.progressRatio}
-            onChange={(e) =>
-            {
+            onChange={(e) => {
               playerStore.setPlayer({
                 progressRatio: parseFloat(e.target.value),
               });
-            }
-            }
-            onMouseUp={(e) =>
-            {
+            }}
+            onMouseUp={(e) => {
               playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
                 "fraction",
               );
-            }
-            }
-            onTouchEnd={(e) =>
-            {
+            }}
+            onTouchEnd={(e) => {
               playerRef.current?.seekTo(
                 parseFloat(e.currentTarget.value),
                 "fraction",
               );
-            }
-            }
+            }}
             onClick={(e) => {
               e.stopPropagation();
             }}
