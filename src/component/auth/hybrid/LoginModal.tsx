@@ -37,7 +37,6 @@ const LoginModal = (props: ILoginModal) => {
       userStore.setUser({
         ...result,
       });
-      window.location.reload();
       props.closeModal();
     }
   };
