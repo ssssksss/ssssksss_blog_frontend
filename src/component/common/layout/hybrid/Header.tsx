@@ -2,6 +2,8 @@
 
 import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
 import DarkmodeToggleButton from "@component/common/button/hybrid/DarkmodeToggleButton";
+import FallingEffectButton from "@component/common/button/hybrid/FallingEffectButton";
+import FallingEffectContainer from "@component/common/effect/FallingEffectContainer";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import AuthButton from "@component/header/view/AuthButtonView";
 import ProgressBarView from "@component/header/view/ProgressBarView";
@@ -15,6 +17,7 @@ import useMemoStore from "@store/memoStore";
 import usePlanStore from "@store/planStore";
 import useSiteBookmarkStore from "@store/siteBookmarkStore";
 import useToastifyStore from "@store/toastifyStore";
+import { useThemeStore } from "@store/useThemeStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import SideBar from "./SideBar";
@@ -32,6 +35,7 @@ const Header = (props: IHeader) => {
   const toastifyStore = useToastifyStore();
   const siteBookmarkStore = useSiteBookmarkStore();
   const { userStore } = useInitGetUser(); // 유저정보 조회 API
+  const themeStore = useThemeStore();
   
   // 페이지 이동시 공통적으로 처리할 로직
   useEffect(() => {
@@ -64,6 +68,10 @@ const Header = (props: IHeader) => {
     // 헤더 3.5rem = progreebar .5rem + header 3rem
     <div className="relative min-h-[3.5rem] w-full">
       <ReactToastifyComponents />
+      {
+        themeStore.isFallingEffectMode &&
+        <FallingEffectContainer />
+      }
       <LoadingSpinner loading={loadingStore.loading} />
       {/* header태그와 배경색은 동일 */}
       <ProgressBarView />
@@ -102,7 +110,10 @@ const Header = (props: IHeader) => {
             </div>
             <div className={"flex"}>
               {!!userStore.id ? (
-                <DarkmodeToggleButton />
+                <>
+                  <FallingEffectButton />
+                  <DarkmodeToggleButton />
+                </>
               ) : (
                 <div className="flex items-center justify-center gap-4 px-3">
                   <div className="relative flex h-8 w-16 animate-pulseSkeleton items-center rounded-full primary-border-radius"></div>
