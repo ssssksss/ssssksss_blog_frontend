@@ -1,4 +1,3 @@
-import FallingEffect from "@component/common/layout/hybrid/FallingEffect";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Header from "src/component/common/layout/hybrid/Header";
@@ -11,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{children: React.ReactNode}>) {
-
+}: Readonly<{ children: React.ReactNode }>) {
+  
   return (
     <html lang="ko" className="">
       <head>
@@ -44,8 +43,6 @@ export default function RootLayout({
       <body
         className={"flex min-h-full w-full flex-col items-center bg-default-1"}
       >
-        <FallingEffect type="❄️" />
-        <FallingEffect type="🌸" />
         <Suspense fallback={<div>Loading...</div>}>
           <Header />
         </Suspense>
