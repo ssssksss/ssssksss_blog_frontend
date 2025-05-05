@@ -1,11 +1,12 @@
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { PlanUpdateScheduleYup } from "@utils/validation/PlanScheduleYup";
-import { addHours, format, isSameDay, parse } from "date-fns";
+import { format, isSameDay, parse } from "date-fns";
 import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 import { RangeKeyDict } from "react-date-range";
@@ -27,6 +28,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
   const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
   const methods = useForm<{
     id: number;
     content: string;
@@ -82,56 +84,56 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     title: string;
     planScheduleCategory: number;
   }) => {
-    const response = await fetch("/api/plan/schedule", {
+    const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
+      url: "/api/plan/schedule",
       method: "PUT",
-      body: JSON.stringify({
+      body: {
         id: data.id,
         title: data.title,
         content: data.content,
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      }
     });
-    if (!response.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "서버 에러",
-      });
-      return;
-    }
-    const result: ResUpdatePlanSchedule = await response.json();
     // update 된 데이터를 형식에 맞게 변경
     const temp = {
-      scheduleCategoryName: result.data.planScheduleCategory.name,
+      scheduleCategoryName: result.planScheduleCategory.name,
       scheduleEndDate: format(
-        new Date(result.data.scheduleEndDate),
+        new Date(result.scheduleEndDate),
         "yyyy-MM-dd HH:mm:ss",
       ),
-      scheduleCategoryId: result.data.planScheduleCategory.id,
+      scheduleCategoryId: result.planScheduleCategory.id,
       scheduleStartDate: format(
-        new Date(result.data.scheduleStartDate),
+        new Date(result.scheduleStartDate),
         "yyyy-MM-dd HH:mm:ss",
       ),
-      id: result.data.id,
-      title: result.data.title,
-      content: result.data.content,
+      id: result.id,
+      title: result.title,
+      content: result.content,
       scheduleCategoryBackgroundColor:
-        result.data.planScheduleCategory.backgroundColor,
+        result.planScheduleCategory.backgroundColor,
     };
-    // 리스트에서 id값이 일치하는 요소의 데이터를 변경
-    const tempList = planStore.scheduleList.map((i) => {
-      if (i.id == temp.id) {
-        i = temp;
+    let flag = false;
+    const tempList: IPlanSchedule[] = planStore.scheduleList.reduce<
+      IPlanSchedule[]
+    >((acc, cur) => {
+      if (cur.id == temp.id) {
+      } else {
+        if (!flag) {
+          if (cur.scheduleStartDate >= temp.scheduleStartDate) {
+            flag = true;
+            acc.push(temp);
+          }
+        }
+        acc.push(cur);
       }
-      return i;
-    });
-    // 아래 과정은 새로운 달력을 만드는 로직
+      return acc;
+    }, []);
+    // 아래 과정은 새로운 달력을 만드는 로직, [15]는 이번달의 날짜를 가져와서 넣을뿐 의미는 없음
+    const {year, month, day} = planStore.calendar[15];
     const days: ICalendarItem[] = createScheduleCalendar(
-      new Date(planStore.calendar[15].date),
+      new Date(year, month - 1, day),
     );
     const scheduleStartDate = parse(
       days[0].year +
@@ -151,8 +153,8 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     const list = tempList;
     const t = scheduleSort(
       list,
-      format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
+      format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
+      format(new Date(scheduleEndDate), "yyyy-MM-dd HH:mm:ss"),
     );
     t.result.forEach((schedule) => {
       days[schedule.index].data.push(schedule);
