@@ -1,4 +1,5 @@
-import {useEffect, useState} from "react";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
 
 interface WeatherIconProps {
   weatherId: number;
@@ -78,10 +79,13 @@ const PlanHomeWeather = () => {
     const fetchWeather = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/plan/weather", {
-          credentials: "omit",
-          cache: "no-store",
-        });
+        const response = await fetch(
+          `/api/plan/weather?date=${format(new Date(), "yyyy-MM-dd")}`,
+          {
+            credentials: "omit",
+            cache: "force-cache",
+          },
+        );
         if (!response.ok) {
           return;
         }
@@ -173,9 +177,9 @@ const PlanHomeWeather = () => {
     );
 
   return (
-    <div className="sm:text-md grid h-[calc(100%-3rem)] w-full grid-cols-1 items-start gap-2 overflow-y-scroll rounded-[1rem] p-2 text-sm glassmorphism lg:grid-cols-3">
+    <div className="sm:text-md grid h-[calc(100%-3rem)] w-full grid-cols-1 items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism lg:grid-cols-3">
       {forecast.map((day, index) => (
-        <div key={index} className="rounded-2xl shadow-2xl glassmorphism">
+        <div key={index} className="rounded-2xl shadow-2xl">
           {/* 날짜 헤더 */}
           <div className="p-1">
             <h3 className="rounded-t-[.5rem] bg-green-80 py-[.25rem] text-center font-cookieRunRegular text-lg text-white-100">
@@ -184,9 +188,7 @@ const PlanHomeWeather = () => {
                 month: "long",
                 day: "numeric",
               })}
-              {/* {index === 0 && <span className={"text-sm"}> (오늘) </span>}
-              {index === 1 && <span className={"text-sm"}> (내일) </span>}
-              {index === 2 && <span className={"text-sm"}> (모레) </span>} */}
+
             </h3>
           </div>
 

@@ -1,5 +1,5 @@
 import usePlanStore from "@store/planStore";
-import {format} from "date-fns";
+import { format } from "date-fns-tz";
 
 interface IPlanHomeTodaySchedule {}
 const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
@@ -22,20 +22,24 @@ const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
           <li
             key={j.id}
             className="flex h-auto w-full flex-col gap-y-1 rounded-[1rem] p-2 shadow-xl glassmorphism">
-            <div
-              className={`text-white w-fit rounded-full ${j.scheduleCategoryBackgroundColor} text-md px-2 py-1 font-medium`}>
-              {j.scheduleCategoryName}
+            <div className="flex w-full justify-between">
+              <span className="text-sm text-black-80">
+                {format(j.scheduleStartDate, "yyyy-MM-dd")} ~
+                {format(j.scheduleEndDate, "yyyy-MM-dd")}
+              </span>
+              <span
+                className={`${j.scheduleCategoryBackgroundColor} rounded-2xl px-4 default-flex ${
+                  "text-" +
+                  j.scheduleCategoryBackgroundColor.split("-")[1] +
+                  "-contrast"
+                }`}
+              >
+                {j.scheduleCategoryName}
+              </span>
             </div>
-            <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg font-semibold text-gray-800">
+            <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-start">
               {j.title}
-            </div>
-            <div className="mt-2 flex items-center justify-between">
-              <div className="break-all text-sm text-gray-600 sm:flex sm:gap-x-2">
-                <div>{format(new Date(j.scheduleStartDate), "yyyy-MM-dd")}</div>
-                <div className="hidden sm:block"> ~ </div>
-                <div>{format(new Date(j.scheduleEndDate), "yyyy-MM-dd")}</div>
-              </div>
-            </div>
+            </p>
           </li>
         ))}
     </ul>

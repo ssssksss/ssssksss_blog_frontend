@@ -1,12 +1,13 @@
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/reactDataRange.css";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { PlanCreateScheduleYup } from "@utils/validation/PlanScheduleYup";
-import { addHours, format, isSameDay, parse } from "date-fns";
+import { format, isSameDay, parse } from "date-fns";
 import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 import { RangeKeyDict } from "react-date-range";
@@ -22,6 +23,7 @@ const PlanCreateScheduleModal = (props: any) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
   const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
   const [calendarDate, setCalendarDate] = useState<
       [
         {
@@ -102,43 +104,36 @@ const PlanCreateScheduleModal = (props: any) => {
     title: string;
     planScheduleCategory: number;
   }) => {
-    const response = await fetch("/api/plan/schedule", {
+    const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
+      url: "/api/plan/schedule",
       method: "POST",
-      body: JSON.stringify({
+      body: {
         title: data.title,
         content: data.content,
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
-      }),
-      headers: {
-        "Content-Type": "application/json",
       },
+      showSuccessToast: true,
+      successMessage: "일정 생성에 성공했습니다."
     });
-    if (!response.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "서버 에러",
-      });
-      return;
-    }
-    const result: ResCreatePlanSchedule = await response.json();
+    if (result == undefined) return;
     const temp = {
-      scheduleCategoryName: result.data.planScheduleCategory.name,
+      scheduleCategoryName: result.planScheduleCategory.name,
       scheduleEndDate: format(
-        addHours(new Date(result.data.scheduleEndDate), 9),
+        new Date(result.scheduleEndDate),
         "yyyy-MM-dd HH:mm:ss",
       ),
-      scheduleCategoryId: result.data.planScheduleCategory.id,
+      scheduleCategoryId: result.planScheduleCategory.id,
       scheduleStartDate: format(
-        addHours(new Date(result.data.scheduleStartDate), 9),
+        new Date(result.scheduleStartDate),
         "yyyy-MM-dd HH:mm:ss",
       ),
-      id: result.data.id,
-      title: result.data.title,
-      content: result.data.content,
+      id: result.id,
+      title: result.title,
+      content: result.content,
       scheduleCategoryBackgroundColor:
-        result.data.planScheduleCategory.backgroundColor,
+        result.planScheduleCategory.backgroundColor,
     };
     const index = planStore.scheduleList.findIndex(
       (i) => i.scheduleStartDate >= temp.scheduleStartDate,
@@ -169,8 +164,8 @@ const PlanCreateScheduleModal = (props: any) => {
     const list = tempList;
     const t = scheduleSort(
       list,
-      format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
+      format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
+      format(new Date(scheduleEndDate), "yyyy-MM-dd HH:mm:ss"),
     );
     t.result.forEach((schedule) => {
       days[schedule.index].data.push(schedule);
@@ -178,9 +173,6 @@ const PlanCreateScheduleModal = (props: any) => {
     planStore.setCalendar(days);
     planStore.setMaxLayer(t.maxLayer);
     planStore.setScheduleList(tempList);
-    toastifyStore.setToastify({
-      message: "일정이 추가되었습니다.",
-    });
     props.closeModal();
   };
 

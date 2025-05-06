@@ -1,6 +1,7 @@
 import AuthModal from "@component/auth/hybrid/AuthModal";
 import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
+import React from "react";
 
 interface IAuthButtonView {
   userId: number;
@@ -34,4 +35,4 @@ const AuthButtonView = (props: IAuthButtonView) => {
     </>
   );
 };
-export default AuthButtonView;
+export default React.memo(AuthButtonView);

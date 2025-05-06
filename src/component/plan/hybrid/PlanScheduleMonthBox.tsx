@@ -1,10 +1,9 @@
 import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import useLoading from "@hooks/useLoading";
+import useCalendarWorker from "@hooks/useCalendarWorker";
+import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
-import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { parse } from "date-fns";
 import { format } from "date-fns-tz";
@@ -20,53 +19,45 @@ import PlanScheduleCategoryModal from "./PlanScheduleCategoryModal";
 
 const PlanScheduleMonthBox = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const {calendarData} = useCalendarWorker(currentDate);
   const planStore = usePlanStore();
-  const {loading, startLoading, stopLoading} = useLoading(true);
-
+  const fetchCSR = useFetchCSR();
 
   const prevMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
     );
-    startLoading();
   };
 
   const nextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1),
     );
-    startLoading();
   };
 
   useEffect(() => {
     const temp = async () => {
-      const response = await fetch("/api/plan/schedule/category", {
+      const result = await fetchCSR.requestWithHandler({
+        url: "/api/plan/schedule/category",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
-      if (!response.ok) {
-        planStore.setScheduleCategory([]);
-        return;
-      }
-      const result: ResReadPlanScheduleCategoryList = await response.json();
-      planStore.setScheduleCategory(result.data);
+      planStore.setScheduleCategory(result ?? []);
     };
     temp();
   }, []);
 
   // 일정 리스트 조회
   useEffect(() => {
-    const days: ICalendarItem[] = createScheduleCalendar(currentDate);
-    const scheduleStartDate = parse(
+    const days: ICalendarItem[] = calendarData;
+    if (days.length == 0) return;
+    const calendarStartDate = parse(
       days[0].year +
         days[0].month.toString().padStart(2, "0") +
         days[0].day.toString().padStart(2, "0"),
       "yyyyMMdd",
       new Date(),
     ).toISOString();
-    const scheduleEndDate = parse(
+    const calendarEndDate = parse(
       days[days.length - 1].year +
         days[days.length - 1].month.toString().padStart(2, "0") +
         days[days.length - 1].day.toString().padStart(2, "0"),
@@ -75,43 +66,29 @@ const PlanScheduleMonthBox = () => {
     ).toISOString();
 
     const temp = async () => {
-      const response = await fetch(
-        `/api/plan/schedule?scheduleStartDate=${scheduleStartDate}&scheduleEndDate=${scheduleEndDate}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      if (!response.ok) {
+      const result: IPlanSchedule[] = await fetchCSR.requestWithHandler({
+        url: `/api/plan/schedule?scheduleStartDate=${calendarStartDate}&scheduleEndDate=${calendarEndDate}`,
+        method: "GET",
+      });
+      if (result == undefined) {
         planStore.setScheduleCategory([]);
-        planStore.setCalendar(createScheduleCalendar(currentDate));
-        stopLoading();
+        planStore.setCalendar(days);
         return;
       }
-      const result: ResReadPlanScheduleList = await response.json();
-      const data = result.data;
       const t = scheduleSort(
-        data,
-        format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
-        format(new Date(scheduleEndDate), "yyyy-MM-dd HH:mm:ss"),
+        result,
+        format(new Date(calendarStartDate), "yyyy-MM-dd HH:mm:ss"),
+        format(new Date(calendarEndDate), "yyyy-MM-dd HH:mm:ss"),
       );
-      // const t = scheduleSort(
-      //   data,
-      //   format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      //   format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      // );
       t.result.forEach((schedule) => {
         days[schedule.index].data.push(schedule);
       });
       planStore.setCalendar(days);
       planStore.setMaxLayer(t.maxLayer);
-      planStore.setScheduleList(data);
-      stopLoading();
+      planStore.setScheduleList(result);
     };
     temp();
-  }, [currentDate]);
+  }, [calendarData]);
 
   return (
     <div
@@ -119,8 +96,8 @@ const PlanScheduleMonthBox = () => {
         "-border-offset-[0.0625rem] mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-primary-20"
       }
     >
-      <LoadingSpinner loading={loading} />
-      <div className={"flex gap-x-2 border-b-[0.0625rem] pb-1"}>
+      {/* <LoadingSpinner loading={loading} /> */}
+      <section className={"flex gap-x-2 border-b-[0.0625rem] pb-1"}>
         <ModalButton
           modal={<PlanCreateScheduleModal />}
           buttonClassName={
@@ -128,7 +105,7 @@ const PlanScheduleMonthBox = () => {
           }
         >
           <div className={"relative h-6 w-6 default-flex"}>
-            <Image alt="" src="/images/icons/ic-calendar.svg" fill />
+            <Image alt="달력 아이콘" src="/images/icons/ic-calendar.svg" fill />
           </div>
           <span> + </span>
         </ModalButton>
@@ -139,12 +116,16 @@ const PlanScheduleMonthBox = () => {
           }
         >
           <div className={"relative h-4 w-4 default-flex"}>
-            <Image alt="" src="/images/icons/ic-list.svg" fill />
+            <Image
+              alt="카테고리 목록 아이콘"
+              src="/images/icons/ic-list.svg"
+              fill
+            />
           </div>
         </NestedModalButton>
-      </div>
+      </section>
       {/* 월간 달력 UI */}
-      <section className="mx-auto mt-2 w-full">
+      <section className="mx-auto mt-2 min-h-[41.25rem] w-full">
         <div className="mb-4 flex items-center justify-center gap-x-2">
           <Button
             onClick={prevMonth}
@@ -191,8 +172,9 @@ const PlanScheduleMonthBox = () => {
           ))}
         </ModalButton>
       </section>
+      {/* TODO : 이 부분은 Lazy Load해서 LCP 줄이기 */}
       {/* 하단에 일정 목록 보여주는 UI */}
-      <section className="mt-2 flex h-[25rem] max-h-[25rem] w-full flex-col gap-y-2 overflow-y-scroll p-2 primary-border-radius">
+      <section className="mt-2 flex h-[25rem] w-full flex-col gap-y-2 overflow-hidden overflow-y-scroll p-2 scrollbar-hide primary-border-radius">
         {planStore.scheduleList.map((i) => (
           <NestedModalButton
             key={i.id}
@@ -207,7 +189,11 @@ const PlanScheduleMonthBox = () => {
                 {format(i.scheduleEndDate, "yyyy-MM-dd")}
               </span>
               <span
-                className={`${i.scheduleCategoryBackgroundColor} rounded-2xl px-4`}
+                className={`${i.scheduleCategoryBackgroundColor} rounded-2xl px-4 default-flex ${
+                  "text-" +
+                  i.scheduleCategoryBackgroundColor.split("-")[1] +
+                  "-contrast"
+                }`}
               >
                 {i.scheduleCategoryName}
               </span>

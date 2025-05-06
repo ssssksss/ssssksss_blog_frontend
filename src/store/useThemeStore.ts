@@ -20,7 +20,7 @@ export const useThemeStore = create<ThemeState>((set) => ({
   theme2: "blue",
   theme3: "green",
   isDarkMode: false,
-  isFallingEffectMode: true,
+  isFallingEffectMode: false,
   setTheme1: (theme) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("theme1", theme); // 로컬스토리지에 저장

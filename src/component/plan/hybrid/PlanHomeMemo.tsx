@@ -68,16 +68,16 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
   }
 
   return (
-    <div className="h-[calc(100%-3rem)] w-full overflow-y-scroll rounded-[1rem]">
+    <div className="h-full w-full rounded-[1rem]">
       <div
-        className={`z-50 ${isHideAddMemo ? "hidden h-0 w-0" : "fixed h-[calc(100%-3.5rem)] w-[calc(100%-0.5rem)]"}`}>
+        className={`z-50 ${isHideAddMemo ? "hidden h-0 w-0" : "fixed h-full w-[calc(100%-0.5rem)]"}`}>
         <div
-          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-full bg-default-1 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
+          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-[calc(100%-0.25rem)] bg-default-1 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
           <textarea
-            placeholder="새로운 메모작성"
+            placeholder="새로운 메모작성를 작성해주세요. 좌측은 닫기, 우측은 추가하기"
             value={content} // Bind value to content state
             onChange={(e) => setContent(e.target.value)} // Update content state on change
-            className="h-[calc(100%-2.5rem)] w-full resize-none rounded-[.5rem] p-1"
+            className="h-[calc(100%-2.5rem)] w-full resize-none rounded-[.5rem] p-1 bg-default-1 placeholder:text-contrast-1"
           />
           <div className="flex h-[2rem] w-full justify-between pr-2">
             <button
@@ -94,12 +94,11 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
         </div>
       </div>
       <ul
-        className={`relative grid h-auto w-full max-w-full grid-cols-2 gap-2 ${isHideAddMemo ? "overflow-y-scroll" : "max-h-full overflow-hidden"} rounded-[1rem] px-2 pb-16 pt-2 text-sm glassmorphism`}>
+        className={`relative grid h-full w-full max-w-full grid-cols-2 gap-2 ${isHideAddMemo ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] px-2 pb-16 pt-2 text-sm glassmorphism`}>
         {memoStore.memoList.map((i) => (
           <li
             key={i.id}
-            style={{height: props.isActive ? "max(12rem, 25vh)" : "12rem"}}
-            className="min-w-[calc(50%-0.25rem)] overflow-y-scroll p-2 shadow-lg default-primary-outline-nocolor">
+            className="p-2 shadow-lg default-primary-outline-nocolor ">
             <PlanMemoTextarea data={i} />
           </li>
         ))}

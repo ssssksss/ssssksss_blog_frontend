@@ -1,6 +1,7 @@
 import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 
 interface IPlayIcon {
   youtubePlay: boolean;
@@ -16,4 +17,4 @@ const YoutubePlayIconView = (props: IPlayIcon) => {
     </div>
   );
 };
-export default YoutubePlayIconView;
+export default React.memo(YoutubePlayIconView);

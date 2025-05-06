@@ -60,19 +60,19 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
           : activeMenu.left == "left"
             ? "grid-cols-[1fr_0fr]"
             : "grid-cols-[0fr_1fr]"
-      } gap-x-2 transition-transform duration-500`}
+      } gap-x-2 transition-transform duration-300`}
     >
       <div
-        className={`grid h-full w-full ${
+        className={`h-full w-full ${
           activeMenu.top == "center"
-            ? "grid-rows-[3fr_2fr]"
+            ? "flex flex-col overflow-y-scroll"
             : activeMenu.top == "top"
-              ? "grid-rows-[1fr_0fr]"
-              : "grid-rows-[0fr_1fr]"
-        } gap-y-2 overflow-hidden transition-transform duration-500`}
+              ? "grid grid-rows-[1fr_0fr]"
+              : "grid grid-rows-[0fr_1fr]"
+        } gap-y-2 transition-transform duration-300`}
       >
         <article
-          className={`h-full max-h-[600px] w-full overflow-y-scroll rounded-[1rem] bg-red-20 dynamic-opacity ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
+          className={`overflow-y-scroll rounded-[1rem] bg-yellow-20 ${activeMenu.top == "bottom" ? "h-0 overflow-hidden" : "h-fit min-h-fit"} ${activeMenu.left == "right" ? "w-0" : "w-full"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -87,13 +87,13 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
               }))
             }
           >
-            오늘의 일정
+            달력
           </h2>
-          <PlanHomeTodaySchedule />
+          <PlanHomeCalendar />
         </article>
 
         <article
-          className={`h-full max-h-[400px] w-full overflow-y-scroll rounded-[1rem] bg-green-20 dynamic-opacity ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
+          className={`overflow-y-scroll rounded-[1rem] bg-red-20 ${activeMenu.top == "top" ? "h-0 overflow-hidden" : "h-full min-h-[17.5rem]"} ${activeMenu.left == "right" ? "w-0" : "w-full"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -108,23 +108,23 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
               }))
             }
           >
-            오늘의 날씨(서울)
+            오늘의 일정
           </h2>
-          <PlanHomeWeather />
+          <PlanHomeTodaySchedule />
         </article>
       </div>
 
       <div
-        className={`grid h-full w-full transition-transform duration-500 ${
+        className={`h-full w-full transition-transform duration-300 ${
           activeMenu.top == "center"
-            ? "grid-rows-[2fr_3fr]"
+            ? "flex flex-col overflow-y-scroll"
             : activeMenu.top == "top"
-              ? "grid-rows-[1fr_0fr]"
-              : "grid-rows-[0fr_1fr]"
-        } gap-y-2 overflow-hidden`}
+              ? "grid grid-rows-[1fr_0fr]"
+              : "grid grid-rows-[0fr_1fr]"
+        } gap-y-2`}
       >
         <article
-          className={`relative h-full max-h-[400px] w-full overflow-y-scroll rounded-[1rem] bg-blue-20 dynamic-opacity ${activeMenu.top == "bottom" ? "p-0" : "p-1"} shadow-md`}
+          className={`relative h-full overflow-y-scroll rounded-[1rem] bg-blue-20 scrollbar-hide ${activeMenu.left == "left" ? "w-0" : "w-full"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -147,7 +147,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
         </article>
 
         <article
-          className={`h-full max-h-[600px] w-full overflow-y-scroll rounded-[1rem] bg-yellow-20 dynamic-opacity ${activeMenu.top == "top" ? "p-0" : "p-1"} shadow-md`}
+          className={`rounded-[1rem] bg-green-20 ${activeMenu.top == "top" ? "h-0 overflow-hidden" : "h-fit min-h-fit"} ${activeMenu.left == "left" ? "w-0 overflow-hidden" : "w-full"} shadow-md`}
           style={{
             transform: activeMenu.left == "center" ? "scale(1)" : "scale(0.98)",
             transition: "transform 1.2s",
@@ -162,9 +162,9 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
               }))
             }
           >
-            달력
+            오늘의 날씨(서울)
           </h2>
-          <PlanHomeCalendar />
+          <PlanHomeWeather />
         </article>
       </div>
     </section>

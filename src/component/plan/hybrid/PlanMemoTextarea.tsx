@@ -1,9 +1,9 @@
 import useLoading from "@hooks/useLoading";
 import useMemoStore from "@store/memoStore";
 import useToastifyStore from "@store/toastifyStore";
-import {SendHorizontal} from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 import Image from "next/image";
-import {useState} from "react";
+import { useState } from "react";
 
 interface IPlanMemoTextarea {
   data: IMemo;
@@ -88,7 +88,7 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
         onChange={(e) => changeText(e.target.value)}
         maxLength={1023}
         className={
-          "h-[calc(100%-2.5rem)] w-full resize-none rounded-[.5rem] p-1"
+          "w-full resize-none rounded-[.5rem] p-1 min-h-[30rem]"
         }
       />
       <div className={"flex w-full justify-end"}>

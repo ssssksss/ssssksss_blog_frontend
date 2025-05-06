@@ -1,6 +1,7 @@
 "use client";
 
 import { useThemeStore } from "@store/useThemeStore";
+import React from "react";
 import { FaMoon, FaSun } from "react-icons/fa"; // 아이콘 추가
 
 const DarkmodeToggleButton = () => {
@@ -31,4 +32,4 @@ const DarkmodeToggleButton = () => {
   );
 };
 
-export default DarkmodeToggleButton;
+export default React.memo(DarkmodeToggleButton);

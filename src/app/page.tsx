@@ -24,14 +24,14 @@ const text = "DEV.AGE";
 
 export default async function Home() {
   return (
-    <div className="min-h-screen bg-default-1 p-8 text-contrast-1">
+    <div className="min-h-screen bg-default-1 p-4 min-[480px]:p-8 text-contrast-1">
       <div
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
         <nav className="mb-16 flex items-center justify-between">
           {/* <div className="glow-text text-xl font-bold">DEV.AGE</div> */}
-          <RiseAnimationText text="DEV.AGE" textClassName="text-xl font-bold" />
-          <div className="flex gap-6">
+          <RiseAnimationText text="DEV.AGE" textClassName="font-bold min-[480px]:text-[2rem]" />
+          <div className="flex gap-1 min-[480px]:text-lg text-sm">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -114,7 +114,6 @@ export default async function Home() {
                     <h3 className="text-xl font-semibold">{category.title}</h3>
                   </div>
                   <div className="mb-4 h-[0.0625rem] w-full bg-white-100">
-                    {" "}
                   </div>
                   <ul className="space-y-2">
                     {category.skills.map((skill, skillIndex) => (
@@ -150,7 +149,7 @@ export default async function Home() {
                 <section className="flex items-center gap-4 py-2">
                   {i.icon}
                   <div className="flex w-full justify-between">
-                    <h3 className="text-[2rem] font-semibold">{i.title}</h3>
+                    <h3 className="min-[480px]:text-[2rem] text-2xl font-semibold">{i.title}</h3>
                     <div className="flex gap-x-2">
                       <div className="text-md h-fit rounded-2xl bg-white-80 px-2 py-1 font-bold text-black-80 default-flex">
                         {i.workType}
@@ -245,7 +244,7 @@ const projects = [
   },
   {
     icon: <Disc3 size={32} />,
-    title: "음악 플레이어",
+    title: "유튜브 플리",
     workType: "개인",
     work: [
       "1. 유튜브 URL을 youtube data api v3로 정보 받아오기",

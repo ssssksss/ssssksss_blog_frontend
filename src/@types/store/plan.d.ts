@@ -11,27 +11,22 @@ declare interface ICalendarItem {
 declare interface ResCreatePlanSchedule {
   status: number;
   msg: string;
-  data: {
-    id: number;
-    title: string;
-    content: string;
-    scheduleStartDate: string;
-    scheduleEndDate: string;
-    planScheduleCategory: IPlanScheduleCategory;
-  };
+  data: IPlanScheduleDTO;
 }
 
 declare interface ResUpdatePlanSchedule {
   status: number;
   msg: string;
-  data: {
-    id: number;
-    title: string;
-    content: string;
-    scheduleStartDate: string;
-    scheduleEndDate: string;
-    planScheduleCategory: IPlanScheduleCategory;
-  };
+  data: IPlanScheduleDTO;
+}
+
+declare interface IPlanScheduleDTO {
+  id: number;
+  title: string;
+  content: string;
+  scheduleStartDate: string;
+  scheduleEndDate: string;
+  planScheduleCategory: IPlanScheduleCategory;
 }
 
 declare interface ResCreatePlanScheduleCategory {

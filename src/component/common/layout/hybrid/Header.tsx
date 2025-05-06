@@ -5,7 +5,7 @@ import DarkmodeToggleButton from "@component/common/button/hybrid/DarkmodeToggle
 import FallingEffectButton from "@component/common/button/hybrid/FallingEffectButton";
 import FallingEffectContainer from "@component/common/effect/FallingEffectContainer";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import AuthButton from "@component/header/view/AuthButtonView";
+import AuthButtonView from "@component/header/view/AuthButtonView";
 import ProgressBarView from "@component/header/view/ProgressBarView";
 import YoutubePlayIconView from "@component/player/view/YoutubePlayIconView";
 import { useInitGetUser } from "@hooks/useInitGetUser";
@@ -19,7 +19,7 @@ import useSiteBookmarkStore from "@store/siteBookmarkStore";
 import useToastifyStore from "@store/toastifyStore";
 import { useThemeStore } from "@store/useThemeStore";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import SideBar from "./SideBar";
 interface IHeader {}
 const Header = (props: IHeader) => {
@@ -46,7 +46,7 @@ const Header = (props: IHeader) => {
   }, [pathname]);
 
   //* 로그아웃 함수
-  const signOutHandler = async () => {
+  const signOutHandler = useCallback(async () => {
     const response = await fetch("/api/user", {
       method: "DELETE",
     });
@@ -62,16 +62,13 @@ const Header = (props: IHeader) => {
       });
       router.push("/");
     }
-  };
+  },[]);
 
   return (
     // 헤더 3.5rem = progreebar .5rem + header 3rem
     <div className="relative min-h-[3.5rem] w-full">
       <ReactToastifyComponents />
-      {
-        themeStore.isFallingEffectMode &&
-        <FallingEffectContainer />
-      }
+      {themeStore.isFallingEffectMode && <FallingEffectContainer />}
       <LoadingSpinner loading={loadingStore.loading} />
       {/* header태그와 배경색은 동일 */}
       <ProgressBarView />
@@ -119,7 +116,7 @@ const Header = (props: IHeader) => {
                   <div className="relative flex h-8 w-16 animate-pulseSkeleton items-center rounded-full primary-border-radius"></div>
                 </div>
               )}
-              <AuthButton
+              <AuthButtonView
                 signOutHandler={signOutHandler}
                 userId={userStore.id}
               />
@@ -128,9 +125,8 @@ const Header = (props: IHeader) => {
         </header>
       ) : (
         <div
-          className={"fixed z-50 h-[3.5rem] w-full pt-2 animate-pulseSkeleton"}
-        >
-        </div>
+          className={"fixed z-50 h-[3.5rem] w-full animate-pulseSkeleton pt-2"}
+        ></div>
       )}
     </div>
   );

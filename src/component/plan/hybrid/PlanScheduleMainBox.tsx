@@ -14,13 +14,6 @@ const LottieAuthLock = dynamic(
   },
 );
 
-const LoadingSpinner = dynamic(
-  () => import("@component/common/spinner/LoadingSpinner"),
-  {
-    ssr: false,
-  },
-);
-
 interface IPlanScheduleMainBox {}
 const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   const [dateType, setDateType] = useState("month");
@@ -39,7 +32,7 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   }
 
   return (
-    <div className={"flex h-full w-full flex-col pt-2 px-1 max-[440px]:text-xs"}>
+    <div className={"flex h-full w-full flex-col pt-2 px-1 max-[440px]:text-xs bg-default-1"}>
       <div className="flex h-[2rem] flex-shrink-0">
         <Button
           onClick={() => setDateType("year")}

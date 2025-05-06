@@ -54,16 +54,6 @@ const SubSideBar = (props: ITravelSideBar) => {
         <Link
           href={item.href}
           key={`sideBarItem${index}`}
-          onClick={(e) => {
-            if (loadingStore.loading) {
-              e.preventDefault();
-              return;
-            }
-            loadingStore.startLoading();
-            setTimeout(() => {
-              loadingStore.stopLoading();
-            }, 2000);
-          }}
           className={`flex animate-fadeIn ${toggleState.isHide ? "hover:bg-primary-20" : "relative hover:bg-secondary-20"}`}
         >
           <Button

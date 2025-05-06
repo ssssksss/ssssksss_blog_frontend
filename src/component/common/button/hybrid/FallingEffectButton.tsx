@@ -1,4 +1,5 @@
 import { useThemeStore } from "@store/useThemeStore";
+import React from "react";
 import { FaWandMagic, FaWandMagicSparkles } from "react-icons/fa6";
 
 interface IFallingEffectButton {
@@ -33,4 +34,4 @@ const FallingEffectButton = (props: IFallingEffectButton) => {
     </div>
   );
 };
-export default FallingEffectButton;
+export default React.memo(FallingEffectButton);
