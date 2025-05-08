@@ -88,7 +88,7 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
         onChange={(e) => changeText(e.target.value)}
         maxLength={1023}
         className={
-          "w-full resize-none rounded-[.5rem] p-1 min-h-[30rem]"
+          "w-full resize-none rounded-[.5rem] p-1 min-h-[30rem] max-[480px]:text-sm text-md"
         }
       />
       <div className={"flex w-full justify-end"}>

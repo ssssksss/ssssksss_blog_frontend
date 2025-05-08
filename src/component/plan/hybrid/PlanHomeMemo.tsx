@@ -1,9 +1,10 @@
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import useLoading from "@hooks/useLoading";
+import ModalButton from "@component/common/modal/hybrid/ModalButton";
+import useFetchCSR from "@hooks/useFetchCSR";
+import useModalState from "@hooks/useModalState";
 import useMemoStore from "@store/memoStore";
-import useToastifyStore from "@store/toastifyStore";
-import { ArrowDownLeft, DiamondPlus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { DiamondPlus } from "lucide-react";
+import { useEffect } from "react";
+import PlanMemoCreateModal from "./PlanMemoCreateModal";
 import PlanMemoTextarea from "./PlanMemoTextarea";
 
 interface IPlanHomeMemmo {
@@ -11,103 +12,39 @@ interface IPlanHomeMemmo {
 }
 
 const PlanHomeMemo = (props: IPlanHomeMemmo) => {
+  const modalState = useModalState();
+  const fetchCSR = useFetchCSR();
   const memoStore = useMemoStore();
-  const toastifyStore = useToastifyStore();
-  const [isHideAddMemo, setIsHideAddMemo] = useState(true);
-  const [content, setContent] = useState(""); // State for the textarea content
-  const {loading, startLoading, stopLoading} = useLoading(false);
-
-  const crateMemoHandler = async () => {
-    startLoading();
-    const res = await fetch("/api/plan/memo", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({content}),
-    });
-    if (!res.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "에러",
-      });
-      stopLoading();
-      return;
-    }
-    const result: IReqCreateMemo = await res.json();
-    setContent(""); // Clear the content state after adding a memo
-    memoStore.setMemoList([result.data, ...memoStore.memoList]);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "메모 추가",
-    });
-    stopLoading();
-    setIsHideAddMemo(true);
-  };
 
   useEffect(() => {
     const temp = async () => {
-      const res = await fetch("/api/plan/memo");
-      if (!res.ok) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "에러",
-        });
-        stopLoading();
-        return;
-      }
-      const result: IReqReadMemoList = await res.json();
-      memoStore.setMemoList(result.data);
-      stopLoading();
+      const result: IMemo[] = await fetchCSR.requestWithHandler({
+        url: "/api/plan/memo",
+      });
+      if (result == undefined) return;
+      memoStore.setMemoList(result);
     };
     temp();
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner loading={loading} />;
-  }
-
   return (
     <div className="h-full w-full rounded-[1rem]">
-      <div
-        className={`z-50 ${isHideAddMemo ? "hidden h-0 w-0" : "fixed h-full w-[calc(100%-0.5rem)]"}`}>
-        <div
-          className={`${isHideAddMemo ? "h-0 w-0" : "sticky h-full w-[calc(100%-0.25rem)] bg-default-1 p-2 shadow-2xl default-primary-outline-nocolor"}`}>
-          <textarea
-            placeholder="새로운 메모작성를 작성해주세요. 좌측은 닫기, 우측은 추가하기"
-            value={content} // Bind value to content state
-            onChange={(e) => setContent(e.target.value)} // Update content state on change
-            className="h-[calc(100%-2.5rem)] w-full resize-none rounded-[.5rem] p-1 bg-default-1 placeholder:text-contrast-1"
-          />
-          <div className="flex h-[2rem] w-full justify-between pr-2">
-            <button
-              onClick={() => setIsHideAddMemo(true)}
-              className="h-8 w-8 rounded-[1rem] outline outline-2 default-flex glassmorphism">
-              <ArrowDownLeft />
-            </button>
-            <button
-              onClick={() => crateMemoHandler()}
-              className="h-8 w-8 rounded-[1rem] outline outline-2 default-flex glassmorphism">
-              <DiamondPlus />
-            </button>
-          </div>
-        </div>
-      </div>
       <ul
-        className={`relative grid h-full w-full max-w-full grid-cols-2 gap-2 ${isHideAddMemo ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] px-2 pb-16 pt-2 text-sm glassmorphism`}>
-        {memoStore.memoList.map((i) => (
+        className={`relative grid h-full w-full max-w-full grid-cols-1 min-[960px]:grid-cols-2 gap-2 ${modalState.isOpen ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] px-2 pb-16 pt-2 text-sm glassmorphism`}>
+        {memoStore.memoList.map((i,index) => (
           <li
             key={i.id}
-            className="p-2 shadow-lg default-primary-outline-nocolor ">
+            className="p-2 shadow-lg default-primary-outline-nocolor">
             <PlanMemoTextarea data={i} />
           </li>
         ))}
       </ul>
-      <button
-        onClick={() => setIsHideAddMemo((prev) => !prev)}
-        className="fixed left-[calc(100%-3rem)] top-[calc(100%-3rem)] h-10 w-10 rounded-[1.5rem] bg-blue-60 p-1 outline outline-2">
+      <ModalButton
+        onClick={() => modalState.openModal()}
+        modal={<PlanMemoCreateModal />}
+        buttonClassName="fixed left-[calc(100%-3rem)] top-[calc(100%-3rem)] h-10 w-10 rounded-[1.5rem] bg-blue-60 p-1 outline outline-2">
         <DiamondPlus size={"full"} className="text-white-40" />
-      </button>
+      </ModalButton>
     </div>
   );
 };

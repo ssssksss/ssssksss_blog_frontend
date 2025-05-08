@@ -177,9 +177,9 @@ const PlanHomeWeather = () => {
     );
 
   return (
-    <div className="sm:text-md grid h-[calc(100%-3rem)] w-full grid-cols-1 items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism lg:grid-cols-3">
+    <div className="sm:text-md h-[calc(100%-3rem)] w-full flex flex-col min-[480px]:flex-row items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism">
       {forecast.map((day, index) => (
-        <div key={index} className="rounded-2xl shadow-2xl">
+        <div key={index} className="rounded-2xl shadow-2xl w-full">
           {/* 날짜 헤더 */}
           <div className="p-1">
             <h3 className="rounded-t-[.5rem] bg-green-80 py-[.25rem] text-center font-cookieRunRegular text-lg text-white-100">

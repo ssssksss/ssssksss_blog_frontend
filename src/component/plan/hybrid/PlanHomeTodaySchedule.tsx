@@ -7,7 +7,7 @@ const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
   const planStore = usePlanStore();
 
   return (
-    <ul className="flex h-[calc(100%-3rem)] w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
+    <ul className="flex w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
       {planStore.scheduleList
         .filter((i) => {
           if (

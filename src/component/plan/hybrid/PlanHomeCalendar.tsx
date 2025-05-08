@@ -1,6 +1,6 @@
 import usePlanStore from "@store/planStore";
-import {createScheduleCalendar} from "@utils/function/createScheduleCalendar";
-import {addDays, differenceInDays, format} from "date-fns";
+import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
+import { addDays, differenceInDays, format } from "date-fns";
 
 interface ISchedule {
   id: number;
@@ -43,10 +43,10 @@ const PlanHomeCalendar = (props: IPlanHomeCalendar) => {
   const schedulesGroupedByDate = groupSchedulesByDate(planStore.scheduleList);
 
   return (
-    <div className="flex h-[calc(100%-3rem)] w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
+    <div className="flex w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
       <div className="mx-auto mt-2 w-full p-1">
-        <div className="mb-4 flex items-center justify-center gap-x-2">
-          <h2 className="font-semibold max-[440px]:text-sm">
+        <div className="mb-2 flex items-center justify-center gap-x-2 ">
+          <h2 className="font-semibold max-[440px]:text-sm px-2 py-1">
             {new Date().toLocaleString("default", {
               month: "long",
               year: "numeric",
@@ -59,26 +59,28 @@ const PlanHomeCalendar = (props: IPlanHomeCalendar) => {
               key={day}
               className={`min-h-[2rem] rounded-[0.5rem] text-center font-bold outline outline-2 outline-offset-[-1px] outline-black-40 default-flex ${
                 day == "토" ? "text-blue-100" : day == "일" && "text-red-60"
-              }`}>
+              }`}
+            >
               {day}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1 rounded-[1rem] py-2 outline outline-2 outline-offset-[-1px] outline-black-40">
+        <div className="grid grid-cols-7 gap-1 rounded-[1rem] py-2 outline outline-1 outline-offset-[-1px] outline-black-40">
           {createScheduleCalendar(new Date()).map((i) => (
             <div
               key={i.key}
               className={`flex min-h-[2rem] flex-col items-center ${
                 i.date == format(new Date(), "yyyy-MM-dd") &&
-                "rounded-2xl outline glassmorphism"
+                "rounded-2xl outline outline-1 outline-black-40 glassmorphism"
               } ${
                 (i.index + 1) % 7 == 0
                   ? "text-blue-100"
                   : (i.index + 1) % 7 == 1 && "text-red-60"
-              }`}>
+              }`}
+            >
               <span className="mb-1">{i.day}</span>
               {schedulesGroupedByDate[i.date] && (
-                <div className="mt-1 flex h-[3rem] gap-1">
+                <div className="flex flex-wrap gap-1 px-2 pb-2">
                   {schedulesGroupedByDate[i.date].map((schedule, idx) => (
                     <div
                       key={schedule.id}
