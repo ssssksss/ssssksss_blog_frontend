@@ -41,7 +41,6 @@ const Header = (props: IHeader) => {
   useEffect(() => {
     if (previousPathname.current !== pathname) {
       previousPathname.current = pathname;
-      loadingStore.stopLoading();
     }
   }, [pathname]);
 

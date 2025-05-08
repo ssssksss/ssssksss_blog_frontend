@@ -130,9 +130,6 @@ const SideBar = () => {
                   ) {
                     e.preventDefault();
                   }
-                  if (previousPathname.current !== pathname) {
-                    loadingStore.startLoading();
-                  }
                   setIsNavbarOpen(false);
                   setActiveMenu(item.href.split("?")[0]);
                 }}
