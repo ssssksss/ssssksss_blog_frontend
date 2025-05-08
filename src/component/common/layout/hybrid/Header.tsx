@@ -105,17 +105,9 @@ const Header = (props: IHeader) => {
                 </button>
               )}
             </div>
-            <div className={"flex"}>
-              {!!userStore.id ? (
-                <>
-                  <FallingEffectButton />
-                  <DarkmodeToggleButton />
-                </>
-              ) : (
-                <div className="flex items-center justify-center gap-4 px-3">
-                  <div className="relative flex h-8 w-16 animate-pulseSkeleton items-center rounded-full primary-border-radius"></div>
-                </div>
-              )}
+            <div className={"flex "}>
+              <FallingEffectButton />
+              <DarkmodeToggleButton />
               <AuthButtonView
                 signOutHandler={signOutHandler}
                 userId={userStore.id}
