@@ -1,4 +1,5 @@
 import PlanHomeDashBoard from "@component/plan/hybrid/PlanHomeDashBoard";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { addDays, startOfMonth, subDays } from "date-fns";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -10,35 +11,24 @@ export const metadata: Metadata = {
 interface IPage {}
 
 async function getData() {
-  const cookie = cookies().get("accessToken");
+  const accessToken = cookies().get("accessToken");
+  const refreshToken = cookies().get("refreshToken");
   const date = new Date();
   const firstDate = subDays(startOfMonth(date), startOfMonth(date).getDay());
   const endDate = addDays(firstDate, 41);
   const scheduleStartDate = firstDate.toISOString();
   const scheduleEndDate = endDate.toISOString();
 
-  try {
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/api/plan/schedule?scheduleStartDate=${scheduleStartDate}&scheduleEndDate=${scheduleEndDate}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${cookie?.value}`,
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      },
-    );
-
-    if (!response.ok) {
-      return {
-        data: [],
-      };
+  const response = await fetchApiRoutes(
+    {
+      url: `${process.env.BACKEND_URL}/api/plan/schedule?scheduleStartDate=${scheduleStartDate}&scheduleEndDate=${scheduleEndDate}`,
+      method: "GET",
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     }
-    return response.json() as Promise<any>;
-  } catch {
-    throw new Error("일정을 받아오지 못했습니다.");
-  }
+  );
+  return response.json();
+
 }
 
 const Page = async (props: IPage) => {
