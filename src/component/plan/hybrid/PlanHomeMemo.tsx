@@ -30,7 +30,7 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
   return (
     <div className="h-full w-full rounded-[1rem]">
       <ul
-        className={`relative grid h-full w-full max-w-full grid-cols-1 min-[960px]:grid-cols-2 gap-2 ${modalState.isOpen ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] px-2 pb-16 pt-2 text-sm glassmorphism`}>
+        className={`relative grid h-full w-full max-w-full grid-cols-1 min-[960px]:grid-cols-2 gap-2 ${modalState.isOpen ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] p-2 text-sm glassmorphism`}>
         {memoStore.memoList.map((i,index) => (
           <li
             key={i.id}

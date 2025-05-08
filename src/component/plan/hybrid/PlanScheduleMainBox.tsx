@@ -5,10 +5,16 @@ import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import Loading from "src/app/loading";
-import PlanScheduleMonthBox from "./PlanScheduleMonthBox";
 
 const LottieAuthLock = dynamic(
   () => import("@component/common/lottie/LottieAuthLock"),
+  {
+    ssr: false,
+  },
+);
+
+const PlanScheduleMonthBox = dynamic(
+  () => import("@component/plan/hybrid/PlanScheduleMonthBox"),
   {
     ssr: false,
   },
