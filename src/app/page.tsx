@@ -28,10 +28,10 @@ export default async function Home() {
       <div
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
-        <nav className="mb-16 flex items-center justify-between">
+        <nav className="mb-16 flex flex-col justify-between gap-y-2">
           {/* <div className="glow-text text-xl font-bold">DEV.AGE</div> */}
           <RiseAnimationText text="DEV.AGE" textClassName="font-bold min-[480px]:text-[2rem]" />
-          <div className="flex gap-1 min-[480px]:text-lg text-sm">
+          <div className="flex gap-1 min-[480px]:text-lg text-sm self-end">
             {navItems.map((item) => (
               <a
                 key={item.href}
