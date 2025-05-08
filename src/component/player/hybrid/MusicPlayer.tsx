@@ -71,6 +71,8 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
                     ? 0
                     : index + 1
                 ],
+              playedSeconds: 0,
+              progressRatio: 0,
             });
             window.localStorage.setItem(
               "currentYoutube",

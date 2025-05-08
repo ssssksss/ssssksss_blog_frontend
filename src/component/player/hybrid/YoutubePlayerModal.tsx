@@ -3,10 +3,11 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
 import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useFetchCSR from "@hooks/useFetchCSR";
 import usePlayerStore from "@store/playerStore";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // src\component\common\layout\hybrid\Header.tsx 로컬에서 데이터를 받아옴
 
@@ -19,7 +20,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       : null,
   ); // 화면에 보이는 플레이리스트
   const toastifyStore = useToastifyStore();
-
+  const fetchCSR = useFetchCSR();
   const selectPlaylist = (item: IYoutubePlaylist) => {
     setOpenPlaylist((prev) => (prev != null ? null : item));
     inputRef.current!.value = ""; // input 값을 초기화
@@ -27,33 +28,17 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   const createPlaylist = async () => {
     const title = inputRef.current?.value;
-    const res = await fetch("/api/youtube/playlist", {
+    const result: IYoutubePlaylist = await fetchCSR.requestWithHandler({
+      url: "/api/youtube/playlist",
       method: "POST",
-      body: JSON.stringify({ playlistTitle: title }),
+      body: {playlistTitle: title},
     });
+    if (result == undefined) return;
 
-    if (res.status == 500) {
-      return {
-        type: "error",
-        message: "플리 생성 실패",
-      };
-    }
-
-    if (!res.ok) {
-      const result = await res.json();
-      return {
-        type: "error",
-        message: result.msg,
-      };
-    }
-    const result: createYoutubePlaylistResponse = await res.json();
     playerStore.setPlayer({
-      playlist: [...playerStore.playlist, result.data],
+      playlist: [...playerStore.playlist, result],
     });
     inputRef.current!.value = "";
-    return {
-      message: result.msg,
-    };
   };
 
   const selectMediaItem = (item: IYoutube) => {
@@ -73,20 +58,13 @@ const YoutubePlayerModal = (props: IModalComponent) => {
   };
 
   const deletePlaylist = async (id: number) => {
-    const res = await fetch(`/api/youtube/playlist?id=${id}`, {
-      headers: {
-        "Content-Type": "application/json",
+    const result = await fetchCSR.requestWithHandler(
+      {
+        url: `/api/youtube/playlist?id=${id}`,
+        method: "DELETE",
       },
-      method: "DELETE",
-    });
-
-    if (!res.ok) {
-      const result = await res.json();
-      return {
-        type: "error",
-        message: result.msg,
-      };
-    }
+    );
+    if (result == undefined) return;
     let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
       localStorage.getItem("currentYoutubePlaylist")!,
     );
@@ -121,32 +99,32 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     if (!regex.test(url || "")) {
       return;
     }
+    // 같은 플레이리스트에는 중복 URL 안되게 처리
+    if (playerStore.currentYoutubePlaylist.youtubeList.filter(i => i.youtubeUrl == url).length > 0) {
+      toastifyStore.setToastify({
+        type: "warning",
+        message: "중복된 URL이 존재합니다."
+      });
+      return;
+    }
     const v = _url.searchParams.get("v");
-    const res = await fetch("/api/youtube/url", {
+    const result: {youtube: IYoutube} = await fetchCSR.requestWithHandler({
+      url: "/api/youtube/url",
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+      body: {
         youtubePlaylistId: openPlaylist?.id,
         youtubeUrlKeyId: v,
         youtubeUrl: url,
-      }),
+      },
+      showSuccessToast: true,
+      successMessage: "노래가 추가 되었습니다."
     });
-
-    if (!res.ok) {
-      const result = await res.json();
-      return {
-        type: "error",
-        message: result.msg,
-      };
-    }
-    const result: createYoutubeUrlResponse = await res.json();
+    if (result == undefined) return;
     const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
       if (i.id == openPlaylist?.id) {
         return {
           ...i,
-          youtubeList: [...i.youtubeList, result.data.youtube], // youtubeList 업데이트
+          youtubeList: [...i.youtubeList, result.youtube], // youtubeList 업데이트
         };
       } else {
         return i; // 다른 항목은 그대로 반환
@@ -172,20 +150,11 @@ const YoutubePlayerModal = (props: IModalComponent) => {
   };
 
   const deleteYoutube = async (id: number) => {
-    const res = await fetch(`/api/youtube/url?id=${id}`, {
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/youtube/url?id=${id}`,
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-
-    if (!res.ok) {
-      const result = await res.json();
-      return {
-        type: "error",
-        message: result.msg,
-      };
-    }
+    if (result == undefined) return;
     const temp = playerStore.playlist.map((i) => {
       if (i.id == openPlaylist?.id) {
         return {
@@ -249,27 +218,48 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   const handlePlayForwardClick = () => {
     if (!playerStore.currentYoutubePlaylist.id) return;
-    playerStore.currentYoutubePlaylist.youtubeList.forEach((i, index) => {
-      if (i.id == playerStore.currentYoutube.id) {
-        const newCurrentYoutube =
-          playerStore.currentYoutubePlaylist.youtubeList[
-            index == playerStore.currentYoutubePlaylist.youtubeList.length - 1
-              ? index
-              : index + 1
-          ];
-        // store
-        playerStore.setPlayer({
-          currentYoutube: newCurrentYoutube,
-          playedSeconds: 0,
-          progressRatio: 0,
-        });
-        // localStorage
-        window.localStorage.setItem(
-          "currentYoutube",
-          JSON.stringify(newCurrentYoutube),
-        );
-      }
-    });
+    if (playerStore.isPlayRandom) {
+      let max = playerStore.currentYoutubePlaylist.youtubeList.length;
+      let num = Math.floor(Math.random() * max);
+      playerStore.setPlayer({
+        currentYoutube: playerStore.currentYoutubePlaylist.youtubeList[num],
+        playedSeconds: 0,
+        progressRatio: 0,
+      });
+      window.localStorage.setItem(
+        "currentYoutube",
+        JSON.stringify(playerStore.currentYoutubePlaylist.youtubeList[num]),
+      );
+    } else {
+      playerStore.currentYoutubePlaylist.youtubeList.forEach((i, index) => {
+        if (i.id == playerStore.currentYoutube.id) {
+          playerStore.setPlayer({
+            currentYoutube:
+              playerStore.currentYoutubePlaylist.youtubeList[
+                playerStore.currentYoutubePlaylist.youtubeList.length - 1 ==
+                index
+                  ? 0
+                  : index + 1
+              ],
+            playedSeconds: 0,
+            progressRatio: 0,
+          });
+          window.localStorage.setItem(
+            "currentYoutube",
+            JSON.stringify(
+              playerStore.currentYoutubePlaylist.youtubeList[
+                playerStore.currentYoutubePlaylist.youtubeList.length - 1 ==
+                index
+                  ? 0
+                  : index + 1
+              ],
+            ),
+          );
+        }
+      });
+    }
+    localStorage.setItem("progressRatio", "0");
+    localStorage.setItem("playSeconds", "0");
   };
 
   const copyLinkHandler = (youtubeUrl: string): void => {
@@ -308,25 +298,13 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   useEffect(() => {
     const getPlaylist = async () => {
-      const res = await fetch("/api/youtube/playlist", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: {tags: ["getPlaylist"]},
+      const result: IYoutubePlaylist[] = await fetchCSR.requestWithHandler({
+        url: "/api/youtube/playlist",
       });
-
-      if (!res.ok) {
-        const result = await res.json();
-        return {
-          type: "error",
-          message: result.msg,
-        };
-      }
-      const result: getYoutubePlaylistResponse = await res.json();
+      if (result == undefined) return;
       playerStore.setPlayer({
         isFetchYoutubePlaylist: true,
-        playlist: result.data,
+        playlist: result,
         playRepeatType: localStorage.getItem("playRepeatType"),
         isPlayRandom:
           localStorage.getItem("isPlayRandom") == "true" ? true : false,
@@ -338,15 +316,18 @@ const YoutubePlayerModal = (props: IModalComponent) => {
     }
   }, []);
 
+
   return (
     <ModalTemplate
-      className={"h-[calc(100vh-1rem)] w-[80vw] max-h-[60rem] min-w-[22.5rem] bg-gradient"}
+      className={
+        "h-[calc(100vh-1rem)] max-h-[60rem] w-[80vw] min-w-[22.5rem] bg-gradient"
+      }
     >
       {props.closeButtonComponent}
       <div className="relative z-0 flex h-full w-full justify-end gap-2">
         <div className="absolute left-0 top-1/2 w-full max-w-[37.5rem] -translate-y-1/2 default-flex">
           <div
-            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "outline outline-2 -border-offset-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}
+            className={`relative aspect-square w-[calc(100%-1rem)] max-w-[100vw] overflow-hidden rounded-[50%] will-change-transform default-flex ${playerStore.currentYoutube.id && "-border-offset-2 outline outline-2 outline-black-80/50"} ${playerStore.youtubePlay ? "animate-slowSpin" : "animate-none"}`}
           >
             {playerStore.currentYoutube?.imageUrl && (
               <Image src={playerStore.currentYoutube.imageUrl} alt={""} fill />
@@ -355,7 +336,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         </div>
         <div className="z-50 flex h-[100%-8.5rem] max-h-[100%-8rem] w-full max-w-[37.5rem] flex-col p-2">
           {/* z-50을 지우게 되면 플레이리스트가 삭제되는 문제가 발생 */}
-          <div className={"flex min-h-[3.75rem] w-full z-50"}>
+          <div className={"z-50 flex min-h-[3.75rem] w-full"}>
             <input
               ref={inputRef}
               placeholder={
@@ -370,9 +351,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             <Button
               className="relative aspect-square h-full flex-shrink-0 rounded-[1rem] bg-white-100/90"
               onClick={() =>
-                props.loadingWithHandler(()=>
-                  openPlaylist == null ? createPlaylist() : createYoutubeUrl(),
-                )
+                openPlaylist == null ? createPlaylist() : createYoutubeUrl()
               }
             >
               추가
@@ -385,7 +364,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "absolute left-0 top-0 mt-1 flex min-h-[4rem] animate-borderBlink outline" : "h-0 translate-y-[-10vh] opacity-0 -z-10") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center rounded-[1rem] bg-white-100/90 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "animate-borderBlink absolute left-0 top-0 mt-1 flex min-h-[4rem] outline" : "-z-10 h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
                 onClick={() => selectPlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
@@ -396,9 +375,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 </div>
                 <button
                   className="relative h-full w-[3.75rem] px-2 default-flex"
-                  onClick={() =>
-                    props.loadingWithHandler(() => deletePlaylist(i.id))
-                  }
+                  onClick={() => deletePlaylist(i.id)}
                 >
                   <Image
                     alt=""
@@ -460,7 +437,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                             height={48}
                             onClick={(e) => {
                               e.stopPropagation();
-                              props.loadingWithHandler(()=>deleteYoutube(i.id));
+                              deleteYoutube(i.id);
                             }}
                           />
                         </div>
@@ -599,4 +576,4 @@ const YoutubePlayerModal = (props: IModalComponent) => {
   );
 };
 
-export default YoutubePlayerModal;
+export default React.memo(YoutubePlayerModal);

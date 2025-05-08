@@ -9,7 +9,7 @@ declare interface YoutubeLink {
 declare interface createYoutubePlaylistResponse {
   msg: string;
   statusCode: number;
-  data: YoutubePlaylist;
+  data: IYoutubePlaylist;
 }
 
 declare interface IYoutubePlaylist {
@@ -21,7 +21,7 @@ declare interface IYoutubePlaylist {
 declare interface getYoutubePlaylistResponse {
   msg: string;
   statusCode: number;
-  data: YoutubePlaylist[];
+  data: IYoutubePlaylist[];
 }
 
 // ===========================================
