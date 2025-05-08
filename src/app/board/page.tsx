@@ -1,7 +1,6 @@
 import BoardMain from "@component/board/hybrid/BoardMain";
 import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { cookies } from "next/headers";
-import { Suspense } from "react";
 
 interface IBoard {
   id: number;
@@ -41,10 +40,8 @@ const Page = async ({searchParams}: {searchParams: URLSearchParams}) => {
   const initialData = await getData(searchParams);
 
   return (
-    <div className="flex h-[calc(100%-3rem)] w-full items-center p-4 text-[16px] sm:h-full">
-      <Suspense fallback={<div>Loading...</div>}>
-        <BoardMain initialData={initialData} />
-      </Suspense>
+    <div className="flex min-h-[calc(100%-3rem)] w-full items-center p-4 ">
+      <BoardMain initialData={initialData} />
     </div>
   );
 };

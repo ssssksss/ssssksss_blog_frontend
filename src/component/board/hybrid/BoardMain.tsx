@@ -142,7 +142,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
             containerClassName="min-h-[2.5rem] min-w-[6rem] p-1"
           />
         </div>
-        <div className="flex h-[3.5rem] w-full items-center gap-x-2 pb-1">
+        <div className="flex h-[4.25rem] w-full items-center justify-between gap-2 pb-1 max-[480px]:flex-col max-[480px]:items-start">
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 결과 수:
             <div className="h-full min-w-[4rem] p-1 primary-border-radius default-flex">
@@ -160,35 +160,48 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
       <div className={"flex-grow"}>
         <ul
           className={
-            "h-full max-h-[35rem] min-h-[35rem] w-full overflow-y-scroll py-2 primary-border-radius"
+            "flex h-full min-h-[35rem] w-full flex-col gap-y-1 py-2 primary-border-radius"
           }
         >
-          <div className="mb-[.5rem] grid w-full grid-cols-[3rem_auto_6rem_6rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px]">
+          <div className="grid w-full grid-cols-[3rem_auto_12rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px] max-[480px]:grid-cols-[3rem_auto]">
             <div className="font-bold text-primary-80 default-flex"> 번호 </div>
             <div className="font-bold text-primary-80 default-flex"> 제목 </div>
-            <div className="font-bold text-primary-80 default-flex"> 날짜 </div>
-            <div className="font-bold text-primary-80 default-flex">조회순</div>
+            <div className="grid grid-cols-2 max-[480px]:col-span-full">
+              <div className="font-bold text-primary-80 default-flex max-[480px]:hidden">
+                날짜
+              </div>
+              <div className="font-bold text-primary-80 default-flex max-[480px]:hidden">
+                조회순
+              </div>
+            </div>
           </div>
-          {boardList.map((i) => (
-            <Link
-              href={`board/${i.id}`}
-              key={i.id}
-              className="grid h-[3rem] w-full cursor-pointer grid-cols-[3rem_auto_6rem_6rem] items-center gap-x-1 gap-y-1 rounded-md px-2 hover:primary-set group"
-            >
-              <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex primary-border-radius group-hover:primary-set">
-                {i.id}
-              </div>
-              <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">
-                {i.title}
-              </div>
-              <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex">
-                {format(new Date(i.createdAt), "yyyy-MM-dd")}
-              </div>
-              <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center">
-                {i.views}
-              </div>
-            </Link>
-          ))}
+          <div className="overflow-y-scroll flex flex-col gap-2 p-1">
+            {boardList.map((i) => (
+              <Link
+                href={`board/${i.id}`}
+                key={i.id}
+                className="group text-md grid w-full cursor-pointer grid-cols-[3rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[3rem_auto] max-[480px]:text-sm"
+              >
+                <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap primary-border-radius default-flex">
+                  {i.id}
+                </div>
+                <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">
+                  {i.title}
+                </div>
+                <div className="grid grid-cols-2 px-2 font-cookieRunRegular text-black-40 group-hover:primary-set max-[480px]:col-span-full max-[480px]:flex max-[480px]:justify-between">
+                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex">
+                    {format(new Date(i.createdAt), "yyyy-MM-dd")}
+                  </div>
+                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center">
+                    <span className="min-[480px]:hidden min-[480px]:pr-2">
+                      조회수 :
+                    </span>
+                    {i.views}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </ul>
         <Pagination
           currentPage={page}
