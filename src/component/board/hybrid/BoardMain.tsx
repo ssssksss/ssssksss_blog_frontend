@@ -3,6 +3,7 @@
 import Dropdown from "@component/common/dropdown/Dropdown";
 import BasicInput from "@component/common/input/BasicInput";
 import Pagination from "@component/common/pagination/Pagination";
+import { formatViewCount } from "@utils/function/formatViewCount";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -120,7 +121,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
             생성하기
           </button>
         </div>
-        <div className={"flex w-full gap-x-2 py-2"}>
+        <div className={"flex w-full max-[480px]:gap-x-1 gap-x-2 py-2"}>
           <BasicInput
             type="search"
             placeholder={"검색어를 입력해주세요."}
@@ -139,10 +140,10 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
             value={sort}
             defaultValue={sortData[0].value}
             dropdownHandler={dropdownHandler}
-            containerClassName="min-h-[2.5rem] min-w-[6rem] p-1"
+            containerClassName="min-h-[2.5rem] p-1 max-[480px]:w-[4rem] w-[6rem] rounded-[.5rem]"
           />
         </div>
-        <div className="flex h-[4.25rem] w-full items-center justify-between gap-2 pb-1 max-[480px]:flex-col max-[480px]:items-start">
+        <div className="flex h-[2.5rem] w-full items-center justify-between gap-2 pb-3 max-[480px]:h-[4.25rem] max-[480px]:flex-col max-[480px]:items-start">
           <div className="flex h-[2rem] items-center gap-x-2">
             검색 결과 수:
             <div className="h-full min-w-[4rem] p-1 primary-border-radius default-flex">
@@ -175,12 +176,12 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
               </div>
             </div>
           </div>
-          <div className="overflow-y-scroll flex flex-col gap-2 p-1">
+          <div className="flex flex-col gap-2 overflow-y-scroll p-1">
             {boardList.map((i) => (
               <Link
                 href={`board/${i.id}`}
                 key={i.id}
-                className="group text-md grid w-full cursor-pointer grid-cols-[3rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[3rem_auto] max-[480px]:text-sm"
+                className="text-md group grid w-full cursor-pointer grid-cols-[3rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[3rem_auto] max-[480px]:text-sm"
               >
                 <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap primary-border-radius default-flex">
                   {i.id}
@@ -189,14 +190,14 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
                   {i.title}
                 </div>
                 <div className="grid grid-cols-2 px-2 font-cookieRunRegular text-black-40 group-hover:primary-set max-[480px]:col-span-full max-[480px]:flex max-[480px]:justify-between">
-                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap default-flex">
+                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-sm default-flex">
                     {format(new Date(i.createdAt), "yyyy-MM-dd")}
                   </div>
-                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center">
+                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm">
                     <span className="min-[480px]:hidden min-[480px]:pr-2">
                       조회수 :
                     </span>
-                    {i.views}
+                    {formatViewCount(i.views)}
                   </div>
                 </div>
               </Link>
