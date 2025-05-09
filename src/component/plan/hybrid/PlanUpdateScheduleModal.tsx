@@ -94,10 +94,12 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
-      }
+      },
+      showSuccessToast: true,
+      successMessage: "일정이 수정되었습니다."
     });
     // update 된 데이터를 형식에 맞게 변경
-    const temp = {
+    const scheduleDTO = {
       scheduleCategoryName: result.planScheduleCategory.name,
       scheduleEndDate: format(
         new Date(result.scheduleEndDate),
@@ -115,21 +117,26 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
         result.planScheduleCategory.backgroundColor,
     };
     let flag = false;
-    const tempList: IPlanSchedule[] = planStore.scheduleList.reduce<
+    const scheduleDTOList: IPlanSchedule[] = planStore.scheduleList.reduce<
       IPlanSchedule[]
-    >((acc, cur) => {
-      if (cur.id == temp.id) {
-      } else {
-        if (!flag) {
-          if (cur.scheduleStartDate >= temp.scheduleStartDate) {
-            flag = true;
-            acc.push(temp);
+      >((acc, cur) => {
+        if (cur.id == scheduleDTO.id) {
+        // 만일 수정한 id값과 일정에 있는 id값이 같으면 수정된 일정이므로 제외처리
+        } else {
+          if (!flag) {
+            if (cur.scheduleStartDate >= scheduleDTO.scheduleStartDate) {
+              flag = true;
+              acc.push(scheduleDTO);
+            }
           }
+          acc.push(cur);
         }
-        acc.push(cur);
-      }
-      return acc;
-    }, []);
+        return acc;
+      }, []);
+    // 일정이 다른 일정들보다 제일 뒤에 있으면 일정이 추가되지 않으므로 아래와 같은 작업 필요
+    if (!flag) {
+      scheduleDTOList.push(scheduleDTO);
+    }
     // 아래 과정은 새로운 달력을 만드는 로직, [15]는 이번달의 날짜를 가져와서 넣을뿐 의미는 없음
     const {year, month, day} = planStore.calendar[15];
     const days: ICalendarItem[] = createScheduleCalendar(
@@ -150,7 +157,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
       new Date(),
     ).toISOString();
 
-    const list = tempList;
+    const list = scheduleDTOList;
     const t = scheduleSort(
       list,
       format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
@@ -161,10 +168,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     });
     planStore.setCalendar(days);
     planStore.setMaxLayer(t.maxLayer);
-    planStore.setScheduleList(tempList);
-    toastifyStore.setToastify({
-      message: "일정이 수정되었습니다."
-    });
+    planStore.setScheduleList(scheduleDTOList);
     props.closeModal!();
   };
 
