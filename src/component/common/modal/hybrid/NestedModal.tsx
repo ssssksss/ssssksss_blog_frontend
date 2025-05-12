@@ -8,50 +8,37 @@ interface ModalProps extends React.PropsWithChildren {
   modalState: IModalState;
 }
 
-export const NestedModal = ({
-  children,
-  modalState,
-}: ModalProps) => {
-  const [documentBody, setDocumentBody] = useState<HTMLElement | null>(null);
+export const NestedModal = ({children, modalState}: ModalProps) => {
+  const [documentBody, setDocumentBody] = useState<HTMLElement | null>(
+    document.body,
+  );
   const ref = useRef<HTMLDivElement>(null);
-  let flag = modalState.isOpen;
   usePreventBodyScroll(modalState.isOpen);
-
-  useEffect(() => {
-    setDocumentBody(document.body);
-  }, []);
-
-  // useOutsideClick(ref, () => {
-  //     modalState.closeModal();
-  // });
+  const [isFirstNestedModal, setIsFirstNestedModal] = useState(false);
 
   const handlePopState = () => {
-    flag = false;
-    return;
     if (modalState.isOpen) {
       modalState.closeModal();
     }
   };
-  
+
   const handleBeforeUnload = () => {
-    return;
-    if (modalState.isOpen) {
+    if (isFirstNestedModal) {
       window.history.back();
-    //   localStorage.setItem("isModal", "true");
     }
   };
 
   useEffect(() => {
     if (modalState.isOpen) {
-      history.pushState({ isModal: true }, "");
+      if (!window.history.state.isModal) {
+        window.history.pushState({isModal: true}, "");
+        setIsFirstNestedModal(true);
+      }
       window.addEventListener("popstate", handlePopState);
       window.addEventListener("beforeunload", handleBeforeUnload);
     }
 
     return () => {
-      if (flag) {
-        window.history.back();
-      }
       window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -73,7 +60,12 @@ export const NestedModal = ({
           closeModal: modalState.closeModal,
           closeButtonComponent: (
             <button
-              onClick={() => modalState.closeModal()}
+              onClick={() => {
+                modalState.closeModal();
+                if (isFirstNestedModal) {
+                  history.back();
+                }
+              }}
               className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
               style={{zIndex: 200}}
             >
@@ -90,13 +82,21 @@ export const NestedModal = ({
     }
     return child;
   });
-  
+
   return createPortal(
     <div
       className="fixed inset-0 left-1/2 z-10 flex h-full w-full -translate-x-1/2 items-center justify-center"
       style={{zIndex: "100"}}
     >
-      <div className="fixed h-full w-full cursor-pointer bg-black-60/40"></div>
+      <div
+        onClick={() => {
+          modalState.closeModal();
+          if (isFirstNestedModal) {
+            history.back();
+          }
+        }}
+        className="fixed h-full w-full cursor-pointer bg-black-60/40"
+      ></div>
       <div
         ref={ref}
         className="-z-1 relative flex h-auto w-auto max-w-[75rem] items-center"

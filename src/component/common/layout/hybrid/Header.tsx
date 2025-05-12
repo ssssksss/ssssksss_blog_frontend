@@ -39,6 +39,10 @@ const Header = (props: IHeader) => {
   
   // 페이지 이동시 공통적으로 처리할 로직
   useEffect(() => {
+    // 모달창이 열려있는 상태로 새로고침이 되었을 때 스택 제거 용도
+    if (history.state.isModal) {
+      window.history.back();
+    }
     if (previousPathname.current !== pathname) {
       previousPathname.current = pathname;
     }
