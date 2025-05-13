@@ -2,7 +2,6 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
-import useToastifyStore from "@store/toastifyStore";
 import "@styles/reactDataRange.css";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
@@ -22,7 +21,6 @@ const PlanCreateScheduleModal = (props: any) => {
   const [selectCategoryId, setSelectCategoryId] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
-  const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const [calendarDate, setCalendarDate] = useState<
       [
@@ -46,6 +44,7 @@ const PlanCreateScheduleModal = (props: any) => {
       planScheduleCategory: 0,
       title: "",
       content: "",
+      status: "PLANNED",
     },
   });
 
@@ -103,6 +102,7 @@ const PlanCreateScheduleModal = (props: any) => {
     content: string;
     title: string;
     planScheduleCategory: number;
+    status: string;
   }) => {
     const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
       url: "/api/plan/schedule",
@@ -113,6 +113,7 @@ const PlanCreateScheduleModal = (props: any) => {
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
+        status: data.status
       },
       showSuccessToast: true,
       successMessage: "일정 생성에 성공했습니다."
@@ -134,6 +135,7 @@ const PlanCreateScheduleModal = (props: any) => {
       content: result.content,
       scheduleCategoryBackgroundColor:
         result.planScheduleCategory.backgroundColor,
+      status: result.status
     };
     const index = planStore.scheduleList.findIndex(
       (i) => i.scheduleStartDate >= temp.scheduleStartDate,
@@ -143,8 +145,9 @@ const PlanCreateScheduleModal = (props: any) => {
       temp,
       ...planStore.scheduleList.slice(index),
     ];
+    const {year, month, day} = planStore.calendar[15];
     const days: ICalendarItem[] = createScheduleCalendar(
-      new Date(planStore.calendar[15].date),
+      new Date(year, month - 1, day),
     );
     const scheduleStartDate = parse(
       days[0].year +

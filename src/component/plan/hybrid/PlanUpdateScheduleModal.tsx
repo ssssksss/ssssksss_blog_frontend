@@ -2,7 +2,6 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
-import useToastifyStore from "@store/toastifyStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { PlanUpdateScheduleYup } from "@utils/validation/PlanScheduleYup";
@@ -27,13 +26,13 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
   const [isFoldCalendar, setIsFoldCalendar] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const planStore = usePlanStore();
-  const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const methods = useForm<{
     id: number;
     content: string;
     title: string;
     planScheduleCategory: number;
+    status: string;
   }>({
     resolver: yupResolver(PlanUpdateScheduleYup),
     mode: "onChange",
@@ -42,6 +41,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
       id: props.data.id,
       title: props.data.title,
       content: props.data.content,
+      status: props.data.status,
     },
   });
 
@@ -83,6 +83,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     content: string;
     title: string;
     planScheduleCategory: number;
+    status: string;
   }) => {
     const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
       url: "/api/plan/schedule",
@@ -94,6 +95,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
+        status: data.status
       },
       showSuccessToast: true,
       successMessage: "일정이 수정되었습니다."
@@ -115,6 +117,7 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
       content: result.content,
       scheduleCategoryBackgroundColor:
         result.planScheduleCategory.backgroundColor,
+      status: result.status,
     };
     let flag = false;
     const scheduleDTOList: IPlanSchedule[] = planStore.scheduleList.reduce<

@@ -4,7 +4,6 @@ import Button from "@component/common/button/hybrid/Button";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Loading from "src/app/loading";
 
 const LottieAuthLock = dynamic(
   () => import("@component/common/lottie/LottieAuthLock"),
@@ -26,7 +25,7 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   const userStore = useUserStore();
 
   if (userStore.id == 0) {
-    return <Loading />;
+    return <></>;
   }
 
   if (userStore.id < 1) {

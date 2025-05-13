@@ -1,3 +1,4 @@
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import BasicInput from "@component/common/input/BasicInput";
 import BasicTextarea from "@component/common/textarea/BasicTextarea";
@@ -13,11 +14,13 @@ type SubmitDataWithId = {
   content: string;
   title: string;
   planScheduleCategory: number;
+  status: string;
 };
 type SubmitDataWithoutId = {
   content: string;
   title: string;
   planScheduleCategory: number;
+  status: string;
 };
 
 interface IPlanCreateUpdateScheduleModalViewBase<T extends boolean> {
@@ -48,7 +51,17 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
   props: IPlanCreateUpdateScheduleModalViewBase<T>,
 ) => {
   const [isFoldCalendar, setIsFoldCalendar] = useState(false);
-  const {formState, handleSubmit, setValue, getValues} = useFormContext();
+  const { formState, handleSubmit, setValue, getValues } = useFormContext();
+
+  const statuses = [
+    {value: "PLANNED", label: "예정"},
+    {value: "PROGRESS", label: "진행중"},
+    {value: "COMPLETED", label: "완료"},
+    {value: "HOLD", label: "보류"},
+    {value: "CANCELED", label: "취소"},
+    {value: "REVIEW", label: "검토중"},
+    {value: "DELAYED", label: "지연"},
+  ];
 
   return (
     <div className={"flex w-full flex-col gap-y-2"}>
@@ -68,6 +81,25 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             >
               {i.name}
             </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex min-h-[4rem] flex-col gap-y-2 p-2 primary-border-radius">
+        <div className="flex items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
+          진행 상황
+        </div>
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-3 md:grid-cols-4">
+          {statuses.map((statusOption) => (
+            <ThemeActiveButton1
+              key={statusOption.value}
+              onClick={() => setValue("status", statusOption.value, {shouldValidate: true})}
+              className={
+                "rounded-2xl border px-1 h-[2.75rem] text-sm font-medium transition"
+              }
+              isActive={statusOption.value === getValues("status")}
+            >
+              {statusOption.label}
+            </ThemeActiveButton1>
           ))}
         </div>
       </div>

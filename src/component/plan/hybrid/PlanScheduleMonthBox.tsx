@@ -9,6 +9,7 @@ import { format, parse } from "date-fns";
 import { format as formatTZ } from "date-fns-tz";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import PlanConvertStatus from "../view/PlanConvertStatus";
 import PlanCalendarItem from "./PlanCalendarItem";
 import PlanCalendarItemInfoModal from "./PlanCalendarItemInfoModal";
 import {
@@ -222,8 +223,11 @@ const PlanScheduleMonthBox = () => {
                   {i.scheduleCategoryName}
                 </span>
               </div>
-              <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-start">
-                {i.title}
+              <p className="grid w-full grid-cols-[auto_3rem] overflow-hidden text-ellipsis whitespace-nowrap text-start">
+                <span> {i.title} </span>
+                <div className="bg-contrast-1 rounded-2xl px-1 text-sm default-flex">
+                  <PlanConvertStatus status={i.status} />
+                </div>
               </p>
             </NestedModalButton>
           ))}
