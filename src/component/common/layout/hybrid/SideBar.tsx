@@ -43,12 +43,12 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/plan",
     options: {isRequiredAuth: true},
   },
-  {
-    icon: "/images/icons/ic-plane.svg",
-    label: "여행",
-    href: "/travel",
-    options: {isRequiredAuth: false},
-  },
+  // {
+  //   icon: "/images/icons/ic-plane.svg",
+  //   label: "여행",
+  //   href: "/travel",
+  //   options: {isRequiredAuth: false},
+  // },
   {
     icon: "/images/icons/ic-board.svg",
     label: "게시판",

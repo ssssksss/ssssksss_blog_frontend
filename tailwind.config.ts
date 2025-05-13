@@ -54,6 +54,12 @@ const config: Config = {
       fontFamily: {
         ...fonts, // 동적으로 가져온 폰트 추가
       },
+      height: {
+        "btn-sm": "40px", // small
+        "btn-md": "44px", // medium
+        "btn-lg": "48px", // large
+        "btn-xl": "56px", // extra large
+      },
       screens: {
         sm: "640px",
         md: "768px",
