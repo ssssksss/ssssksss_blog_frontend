@@ -177,7 +177,7 @@ const PlanHomeWeather = () => {
     );
 
   return (
-    <div className="sm:text-md h-[calc(100%-3rem)] w-full flex flex-col min-[480px]:flex-row items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism">
+    <div className="sm:text-md w-full flex flex-col min-[480px]:flex-row h-[39.5rem] min-[480px]:h-[13.5rem] items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism">
       {forecast.map((day, index) => (
         <div key={index} className="rounded-2xl shadow-2xl w-full">
           {/* 날짜 헤더 */}

@@ -1,6 +1,5 @@
-import useLoading from "@hooks/useLoading";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useMemoStore from "@store/memoStore";
-import useToastifyStore from "@store/toastifyStore";
 import { SendHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -11,8 +10,7 @@ interface IPlanMemoTextarea {
 const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
   const [active, setActive] = useState(false);
   const [content, setContent] = useState(props.data.content);
-  const {loading, startLoading, stopLoading} = useLoading();
-  const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
   const memoStore = useMemoStore();
 
   const changeText = (text: string) => {
@@ -26,23 +24,17 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
   };
 
   const updateMemoHandler = async () => {
-    const res = await fetch("/api/plan/memo", {
+    const result = await fetchCSR.requestWithHandler({
+      url: "/api/plan/memo",
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+      body: {
         id: props.data.id,
         content: content,
-      }),
+      },
+      showSuccessToast: true,
+      successMessage: "메모 수정 완료",
     });
-    if (!res.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "에러",
-      });
-      return;
-    }
+    if (result == undefined) return;
     const temp = memoStore.memoList.map((i) => {
       if (i.id == props.data.id) {
         i.content = content;
@@ -50,34 +42,22 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
       return i;
     });
     memoStore.setMemoList(temp);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "메모 수정",
-    });
     setActive(false);
   };
 
   const deleteMemoHandler = async () => {
-    const res = await fetch(`/api/plan/memo?id=${props.data.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
+    const result = await fetchCSR.requestWithHandler(
+      {
+        url: `/api/plan/memo?id=${props.data.id}`,
+        method: "DELETE",
+        showSuccessToast: true,
+        successMessage: "메모 삭제"
       },
-    });
-    if (!res.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "에러",
-      });
-      return;
-    }
+    );
+    if (result == undefined) return;
     memoStore.setMemoList(
       memoStore.memoList.filter((i) => i.id != props.data.id),
     );
-    toastifyStore.setToastify({
-      type: "success",
-      message: "메모 삭제",
-    });
   };
 
   return (

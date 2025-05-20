@@ -1,9 +1,7 @@
 "use client";
 
-import Button from "@component/common/button/hybrid/Button";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
-import { useState } from "react";
 
 const LottieAuthLock = dynamic(
   () => import("@component/common/lottie/LottieAuthLock"),
@@ -21,7 +19,6 @@ const PlanScheduleMonthBox = dynamic(
 
 interface IPlanScheduleMainBox {}
 const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
-  const [dateType, setDateType] = useState("month");
   const userStore = useUserStore();
 
   if (userStore.id == 0) {
@@ -37,37 +34,12 @@ const PlanScheduleMainBox = (props: IPlanScheduleMainBox) => {
   }
 
   return (
-    <div className={"flex h-full w-full flex-col pt-2 px-1 max-[440px]:text-xs bg-default-1"}>
-      <div className="flex h-[2rem] flex-shrink-0">
-        <Button
-          onClick={() => setDateType("year")}
-          disabled={true}
-          className={`h-full w-full primary-border-radius disabled:bg-gray-80 ${dateType == "year" && "primary-set"} hover:cursor-not-allowed`}
-        >
-          연
-        </Button>
-        <Button
-          onClick={() => setDateType("month")}
-          className={`h-full w-full primary-border-radius ${dateType == "month" && "primary-set"}`}
-        >
-          월
-        </Button>
-        <Button
-          disabled={true}
-          onClick={() => setDateType("week")}
-          className={`h-full w-full primary-border-radius disabled:bg-gray-80 ${dateType == "week" && "primary-set"} hover:cursor-not-allowed`}
-        >
-          주
-        </Button>
-        <Button
-          onClick={() => setDateType("day")}
-          disabled={true}
-          className={`h-full w-full primary-border-radius disabled:bg-gray-80 ${dateType == "day" && "primary-set"} hover:cursor-not-allowed`}
-        >
-          일
-        </Button>
-      </div>
-      {dateType == "month" && <PlanScheduleMonthBox />}
+    <div
+      className={
+        "flex h-full w-full flex-col bg-default-1 px-1 pt-2 max-[440px]:text-xs"
+      }
+    >
+      <PlanScheduleMonthBox />
     </div>
   );
 };

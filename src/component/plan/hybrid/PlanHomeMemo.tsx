@@ -34,7 +34,7 @@ const PlanHomeMemo = (props: IPlanHomeMemmo) => {
         {memoStore.memoList.map((i,index) => (
           <li
             key={i.id}
-            className="p-2 shadow-lg default-primary-outline-nocolor">
+            className="px-2 shadow-lg default-primary-outline-nocolor">
             <PlanMemoTextarea data={i} />
           </li>
         ))}

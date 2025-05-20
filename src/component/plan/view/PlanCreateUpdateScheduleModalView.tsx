@@ -69,15 +69,17 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
         일정 {props.isEdit ? "수정" : "생성"}
       </h2>
       <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
-        <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
+        <div className="flex h-[2.75rem] items-center rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           카테고리
         </div>
-        <div className="flex h-[3rem] items-center gap-x-2 rounded-[1rem] p-1 text-[1.2rem] font-bold">
+        <div className="flex items-center gap-x-2 rounded-[1rem] pt-2 text-[1.2rem]">
           {props.scheduleCategoryList.map((i) => (
             <button
               key={i.name}
               onClick={() => props.selectCalendarCategory(i)}
-              className={`${i.backgroundColor} h-[2rem] rounded-[1rem] p-2 default-flex ${props.selectCategoryId == i.id && "animate-updown"}`}
+              className={`${i.backgroundColor} h-btn-md rounded-[1rem] p-2 default-flex ${props.selectCategoryId == i.id && "animate-updown"} ${
+                "text-" + i.backgroundColor.split("-")[1] + "-contrast"
+              }`}
             >
               {i.name}
             </button>
@@ -85,16 +87,18 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
         </div>
       </div>
       <div className="flex min-h-[4rem] flex-col gap-y-2 p-2 primary-border-radius">
-        <div className="flex items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
+        <div className="flex h-[2.75rem] items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           진행 상황
         </div>
         <div className="grid grid-cols-4 gap-2 sm:grid-cols-3 md:grid-cols-4">
           {statuses.map((statusOption) => (
             <ThemeActiveButton1
               key={statusOption.value}
-              onClick={() => setValue("status", statusOption.value, {shouldValidate: true})}
+              onClick={() =>
+                setValue("status", statusOption.value, {shouldValidate: true})
+              }
               className={
-                "rounded-2xl border px-1 h-[2.75rem] text-sm font-medium transition"
+                "h-btn-md rounded-2xl border px-1 text-sm font-medium transition"
               }
               isActive={statusOption.value === getValues("status")}
             >
@@ -114,26 +118,29 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             )}
             )
           </div>
-          <button onClick={() => setIsFoldCalendar((prev) => !prev)}>
+          <button
+            onClick={() => setIsFoldCalendar((prev) => !prev)}
+            className="h-btn-md"
+          >
             {isFoldCalendar ? (
               <Image
                 alt="ic"
                 src={"/images/icons/ic-minimize.svg"}
-                width={22}
-                height={22}
+                width={28}
+                height={28}
               />
             ) : (
               <Image
                 alt="ic"
                 src={"/images/icons/ic-maximize.svg"}
-                width={22}
-                height={22}
+                width={28}
+                height={28}
               />
             )}
           </button>
         </div>
         <div
-          className={`mt-[1rem] flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "primary-border-radius"}`}
+          className={`flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "mt-[1rem] primary-border-radius"}`}
         >
           <div className="relative">
             <DateRangePicker
@@ -174,7 +181,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
         </div>
       </div>
       <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
-        <div className="flex items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
+        <div className="flex h-[2.75rem] items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 제목 </span>
           <span className="text-sm">{getValues("title").length} / 30</span>
         </div>
@@ -183,13 +190,13 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             setValue("title", e.target.value, {shouldValidate: true})
           }
           defaultValue={props.data?.title}
-          className={"mt-[1rem] h-[2rem] w-full rounded-[1rem] px-1"}
+          className={"mt-[1rem] h-[2.75rem] w-full rounded-[1rem] px-1"}
           maxLength={30}
           placeholder="제목"
         />
       </div>
       <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
-        <div className="flex items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
+        <div className="flex h-[2.75rem] items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 내용 </span>
           <span className="text-sm">{getValues("content").length} / 255</span>
         </div>
@@ -199,7 +206,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           }
           defaultValue={props.data?.content}
           className={
-            "mt-[1rem] min-h-[16rem] w-full resize-none rounded-[1rem] p-1 px-1 primary-border"
+            "mt-[1rem] min-h-[16rem] w-full rounded-[1rem] p-1 px-1 primary-border"
           }
           maxLength={255}
           placeholder="내용"

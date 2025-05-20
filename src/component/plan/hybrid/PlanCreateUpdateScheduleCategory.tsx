@@ -94,23 +94,21 @@ const PlanCreateUpdateScheduleCategory = (
           {props.data?.id ? "카테고리 수정" : "카테고리 생성"}
         </h2>
         <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
-          <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
+          <div className="rounded-[1rem] px-1 text-[1.2rem] font-bold">
             카테고리
           </div>
           <ThemeInput1
-            className={
-              "mt-[1rem] h-[2rem] w-full"
-            }
+            className={"mt-[1rem] h-btn-md w-full"}
             onChange={(e) => setName(e.target.value)}
             defaultValue={props.data?.name}
             placeholder="카테고리 이름 작성"
           />
         </div>
         <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
-          <div className="rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
+          <div className="rounded-[1rem] px-1 text-[1.2rem] font-bold">
             카테고리 색상 선택
           </div>
-          <div className={"grid grid-cols-4 flex-wrap gap-2 p-2"}>
+          <div className={"mt-[1rem] grid grid-cols-4 flex-wrap gap-2 p-2"}>
             {[
               "bg-red-100",
               "bg-red-80",
@@ -164,7 +162,7 @@ const PlanCreateUpdateScheduleCategory = (
               submitCreateUpdatePlanScheduleCategory(props.data?.id)
             }
             disabled={!color || !name}
-            className={"w-full py-2"}
+            className={"w-full h-btn-lg"}
           >
             {props.data?.id ? "카테고리 수정하기" : "카테고리 생성하기"}
           </ThemeButton1>

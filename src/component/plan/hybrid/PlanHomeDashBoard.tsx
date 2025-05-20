@@ -5,7 +5,6 @@ import usePlanStore from "@store/planStore";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
-import Loading from "src/app/loading";
 
 const PlanHomeCalendar = dynamic(() => import("./PlanHomeCalendar"), {
   ssr: false,
@@ -33,10 +32,9 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
   useEffect(() => {
     planStore.setScheduleList(props.data);
   }, []);
-
   if (userStore.id == 0) {
     return (
-      <Loading />
+      <> </>
     );
   }
 

@@ -43,6 +43,18 @@ const PlanScheduleMonthBox = () => {
     );
   };
 
+  const prevYear = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), 1),
+    );
+  };
+
+  const nextYear = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1),
+    );
+  };
+
   const fetchScheduleCategories = async () => {
     setIsLoadingCategories(true);
     const result = await fetchCSR.requestWithHandler({
@@ -110,7 +122,7 @@ const PlanScheduleMonthBox = () => {
       <section className="flex gap-x-2 border-b-[0.0625rem] pb-1">
         <ModalButton
           modal={<PlanCreateScheduleModal />}
-          buttonClassName="hover:bg-gradient primary-border-radius px-2 py-[0.125rem] flex items-center gap-x-1"
+          buttonClassName="hover:bg-gradient primary-border-radius h-btn-md px-2 py-[0.125rem] flex items-center gap-x-1"
         >
           <div className="relative h-6 w-6 default-flex">
             <Image alt="달력 아이콘" src="/images/icons/ic-calendar.svg" fill />
@@ -119,7 +131,7 @@ const PlanScheduleMonthBox = () => {
         </ModalButton>
         <NestedModalButton
           modal={<PlanScheduleCategoryModal />}
-          buttonClassName="hover:bg-gradient primary-border-radius px-2 py-[0.125rem]"
+          buttonClassName="hover:bg-gradient primary-border-radius h-btn-md  px-2 py-[0.125rem]"
         >
           <div className="relative h-4 w-4 default-flex">
             <Image
@@ -134,6 +146,12 @@ const PlanScheduleMonthBox = () => {
       {/* 월간 달력 UI */}
       <section className="mx-auto mt-2 min-h-[41.25rem] w-full">
         <div className="mb-4 flex items-center justify-center gap-x-2">
+          <Button
+            onClick={prevYear}
+            className="aspect-square w-[1.5rem] primary-border-radius"
+          >
+            {"<<"}
+          </Button>
           <Button
             onClick={prevMonth}
             className="aspect-square w-[1.5rem] primary-border-radius"
@@ -151,6 +169,12 @@ const PlanScheduleMonthBox = () => {
             className="aspect-square w-[1.5rem] primary-border-radius"
           >
             {">"}
+          </Button>
+          <Button
+            onClick={nextYear}
+            className="aspect-square w-[1.5rem] primary-border-radius"
+          >
+            {">>"}
           </Button>
         </div>
 
@@ -225,7 +249,7 @@ const PlanScheduleMonthBox = () => {
               </div>
               <p className="grid w-full grid-cols-[auto_3rem] overflow-hidden text-ellipsis whitespace-nowrap text-start">
                 <span> {i.title} </span>
-                <div className="bg-contrast-1 rounded-2xl px-1 text-sm default-flex">
+                <div className="rounded-2xl bg-contrast-1 px-1 text-sm default-flex">
                   <PlanConvertStatus status={i.status} />
                 </div>
               </p>
