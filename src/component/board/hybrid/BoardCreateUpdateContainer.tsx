@@ -3,20 +3,24 @@
 import BasicButton from "@component/common/button/hybrid/BasicButton";
 import Input from "@component/common/input/Input";
 import BasicTextarea from "@component/common/textarea/BasicTextarea";
+import useFetchCSR from "@hooks/useFetchCSR";
+import useRefreshStore from "@store/refreshStore";
 import useToastifyStore from "@store/toastifyStore";
 import { SquareArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 interface IBoardCreateUpdateContainer {
   isEdit?: boolean;
-  result?: IResponseReadBoard;
+  data?: IBoard;
 }
 const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
+  const refreshStore = useRefreshStore();
 
   const createUpdateBoardHandler = async () => {
     if (!titleRef.current?.value || !contentRef.current?.value) {
@@ -26,64 +30,29 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
       });
       return;
     }
-    const response = await fetch(
-      `/api/board${props.isEdit ? "?id=" + props.result?.data.id : ""}`,
-      {
-        method: props.isEdit ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: titleRef.current?.value,
-          content: contentRef.current?.value,
-          id: props.result?.data.id,
-        }),
+    const result: number = await fetchCSR.requestWithHandler({
+      url: `/api/board${props.isEdit ? "?id=" + props.data?.id : ""}`,
+      method: props.isEdit ? "PUT" : "POST",
+      body: {
+        title: titleRef.current?.value,
+        content: contentRef.current?.value,
+        id: props.data?.id,
       },
-    );
-    if (!response.ok) {
-      alert("에러 상단에서 처리하는 거 찾아보기");
-      return;
-    }
-    if (props.isEdit) {
-      toastifyStore.setToastify({
-        type: "success",
-        message: "게시글 수정에 성공",
-      });
-      router.replace(`/board/${props.result?.data.id}?timestamp=${new Date()}`);
-    } else {
-      const result: IResponseCreateBoard = await response.json();
-      toastifyStore.setToastify({
-        type: "success",
-        message: "게시글 작성에 성공",
-      });
-      router.replace(`/board/${result.data}`);
-    }
-  };
-
-  const deleteBoardHandler = async () => {
-    const response = await fetch(`/api/board?id=${props.result?.data.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      showSuccessToast: true,
+      successMessage: props.isEdit
+        ? "게시글 수정에 성공"
+        : "게시글 작성에 성공",
+      handleRevalidateTags: props.isEdit ? [`getBoard/${props.data?.id}`] : [],
     });
-    if (!response.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "게시글 삭제에 실패",
-      });
-      return;
+    if (result == undefined) return;
+    if (props.isEdit) {
+      refreshStore.setRefresh(true);
+      router.back();
+    } else {
+      refreshStore.setRefresh(true);
+      router.replace(`/board/${result}`);
     }
-    router.replace("/board");
   };
-
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    params.delete("timestamp");
-    url.search = params.toString();
-    window.history.pushState({}, "", url.toString());
-  }, []);
 
   return (
     <div className={"flex h-full w-full flex-col gap-y-2 py-4"}>
@@ -106,13 +75,13 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         className="max-h-[4rem] w-full p-4 primary-border-radius"
         placeholder="제목을 입력하세요"
         ref={titleRef}
-        defaultValue={props.result?.data.title || ""}
+        defaultValue={props.data?.title || ""}
       />
       <BasicTextarea
         className="h-full w-full flex-grow p-4 primary-border-radius"
         placeholder="내용을 입력하세요"
         ref={contentRef}
-        defaultValue={props.result?.data.content || ""}
+        defaultValue={props.data?.content || ""}
       />
     </div>
   );

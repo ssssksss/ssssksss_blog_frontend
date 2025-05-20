@@ -3,6 +3,7 @@
 import Dropdown from "@component/common/dropdown/Dropdown";
 import BasicInput from "@component/common/input/BasicInput";
 import Pagination from "@component/common/pagination/Pagination";
+import useUserStore from "@store/userStore";
 import { formatViewCount } from "@utils/function/formatViewCount";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -45,6 +46,7 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const router = useRouter();
   const hasFetched = useRef(false);
+  const userStore = useUserStore();
 
 
   const pageHandler = (page: number) => {
@@ -114,23 +116,26 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
       <div className="flex w-full flex-col gap-y-2 text-sm">
         <div className="relative w-full">
           <h1 className="text-2xl default-flex"> 게시판 </h1>
-          <button
-            onClick={() => router.push("board/create")}
-            className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 primary-border-radius hover:primary-set"
-          >
-            생성하기
-          </button>
+          {userStore.id > 0 && (
+            <button
+              onClick={() => router.push("board/create")}
+              className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 primary-border-radius hover:primary-set"
+            >
+              생성하기
+            </button>
+          )}
         </div>
-        <div className={"flex w-full max-[480px]:gap-x-1 gap-x-2 py-2"}>
+        <div className={"flex h-btn-md w-full gap-x-2 max-[480px]:gap-x-1"}>
           <BasicInput
             type="search"
             placeholder={"검색어를 입력해주세요."}
             className="h-[2.5rem] w-full px-2 py-1 text-sm primary-border-radius"
             ref={inputRef}
             maxLength={30}
+            onKeyPressAction={() => searchHandler()}
           />
           <button
-            className="h-[2.5rem] w-[4rem] p-1 text-sm primary-border-radius"
+            className="h-btn-md w-[4rem] p-1 text-sm primary-border-radius"
             onClick={() => searchHandler()}
           >
             검색
@@ -140,20 +145,20 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
             value={sort}
             defaultValue={sortData[0].value}
             dropdownHandler={dropdownHandler}
-            containerClassName="min-h-[2.5rem] p-1 max-[480px]:w-[4rem] w-[6rem] rounded-[.5rem]"
+            containerClassName=" h-btn-md p-1 max-[480px]:w-[4rem] w-[6rem] rounded-[.5rem]"
           />
         </div>
-        <div className="flex h-[2.5rem] w-full items-center justify-between gap-2 pb-3 max-[480px]:h-[4.25rem] max-[480px]:flex-col max-[480px]:items-start">
-          <div className="flex h-[2rem] items-center gap-x-2">
-            검색 결과 수:
-            <div className="h-full min-w-[4rem] p-1 primary-border-radius default-flex">
-              {resultCount}
+        <div className="flex h-btn-md w-full items-center gap-2 pb-3 max-[480px]:h-[4.25rem] max-[480px]:flex-col max-[480px]:items-start">
+          <div className="flex h-btn-md items-center gap-x-2">
+            검색 키워드 :
+            <div className="h-full min-w-[4rem] px-4 primary-border-radius default-flex">
+              {keyword || ""}
             </div>
           </div>
-          <div className="flex h-[2rem] items-center gap-x-2">
-            검색 키워드 :
-            <div className="h-full min-w-[8rem] p-1 primary-border-radius default-flex">
-              {keyword || ""}
+          <div className="flex h-btn-md items-center gap-x-2">
+            검색 결과 수:
+            <div className="h-full min-w-[4rem] px-4 primary-border-radius default-flex">
+              {resultCount}
             </div>
           </div>
         </div>
@@ -181,9 +186,9 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
               <Link
                 href={`board/${i.id}`}
                 key={i.id}
-                className="text-md group grid w-full cursor-pointer grid-cols-[3rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[3rem_auto] max-[480px]:text-sm"
+                className="text-md group grid w-full cursor-pointer grid-cols-[2.5rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[2.5rem_auto] max-[480px]:text-sm"
               >
-                <div className="max-w-[3rem] overflow-hidden text-ellipsis whitespace-nowrap primary-border-radius default-flex">
+                <div className="overflow-hidden whitespace-nowrap rounded-2xl bg-primary-contrast text-sm text-primary-80 default-flex">
                   {i.id}
                 </div>
                 <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">

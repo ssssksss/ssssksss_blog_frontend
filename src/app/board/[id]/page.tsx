@@ -1,20 +1,13 @@
 import BoardDetailContainer from "@component/board/hybrid/BoardDetailContainer";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 
 async function getData(id: number) {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/board?id=${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next: {revalidate: 3600, tags: [`getBoard/${id}`]},
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error("에러");
-  }
+  const response = await fetchApiRoutes({
+    url: `${process.env.BACKEND_URL}/api/board/${id}`,
+    method: "GET",
+    next: {revalidate: 3600, tags: [`getBoard/${id}`]},
+    isAuth: false,
+  });
 
   return response.json() as Promise<any>;
 }
@@ -41,7 +34,7 @@ export default async function page({params: {id}}: {params: {id: string}}) {
 
   return (
     <div className={"flex h-full w-full p-4 text-[16px]"}>
-      <BoardDetailContainer result={result} />
+      <BoardDetailContainer data={result?.data} />
     </div>
   );
 }

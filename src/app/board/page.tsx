@@ -17,8 +17,8 @@ async function getData(searchParams: URLSearchParams) {
     url: `${process.env.BACKEND_URL}/api/board/list?${queryString}`,
     accessToken: accessToken,
     refreshToken: refreshToken,
-    next: { revalidate: 60 },
     isAuth: false,
+    cache: "no-store"
   });
 
   const result = await response.json();

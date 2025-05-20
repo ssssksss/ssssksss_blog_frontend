@@ -1,31 +1,19 @@
 import BoardCreateUpdateContainer from "@component/board/hybrid/BoardCreateUpdateContainer";
-import {cookies} from "next/headers";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { cookies } from "next/headers";
 
 async function getData(id: number) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/board?id=${id}&isEdit=true`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken?.value}`,
-      },
-      cache: "no-store",
-    },
-  );
-
-  if (response.status == 403) {
-    throw new Error("접근 권한 없음");
-  }
-  if (!response.ok) {
-    throw new Error("에러");
-  }
+  const accessToken = cookies().get("accessToken");
+  const refreshToken = cookies().get("refreshToken");
+  const response = await fetchApiRoutes({
+    url: `${process.env.BACKEND_URL}/api/board/${id}?isEdit=true`,
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  });
 
   return response.json() as Promise<any>;
-}
+};
+
 
 export async function generateMetadata({params: {id}}: {params: {id: string}}) {
   const pageId = Number(id);
@@ -48,7 +36,7 @@ export default async function page({params: {id}}: {params: {id: string}}) {
   const result: IResponseReadBoard = await getData(pageId);
   return (
     <div className={"flex h-full w-full p-4 text-[16px]"}>
-      <BoardCreateUpdateContainer isEdit={true} result={result} />
+      <BoardCreateUpdateContainer isEdit={true} data={result?.data} />
     </div>
   );
 }
