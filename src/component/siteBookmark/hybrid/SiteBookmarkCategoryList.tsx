@@ -38,7 +38,7 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
         {siteBookmarkStore.siteBookmarkCategoryList?.map((i) => (
           <div
             key={i.id}
-            className="w-full rounded-2xl p-1 shadow-2xl outline outline-primary-80 outline-1"
+            className="w-full rounded-2xl p-1 shadow-2xl outline outline-1 outline-primary-80"
           >
             <div className="flex flex-col gap-[0.125rem]">
               <h3 className="relative w-full rounded-t-2xl px-1 font-DNFBitBitv2 text-[1.5rem] default-flex">
@@ -50,12 +50,13 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
                   <IoIosSettings size={24} />
                 </NestedModalButton>
               </h3>
-              <div className="flex min-h-[15rem] w-full flex-col gap-1 rounded-b-2xl bg-default-1 py-1 px-2">
+              <div className="h-1 w-full bg-primary-100">  </div>
+              <div className="flex min-h-[15rem] w-full flex-col gap-1 rounded-b-2xl bg-default-1 px-2 py-1">
                 {i.siteBookmarkList?.map((j) => (
                   <a
                     key={j.id}
                     target="_blank"
-                    className="cursor-pointer rounded-md bg-primary-20 py-2 default-flex hover:text-primary-contrast hover:bg-primary-80"
+                    className="cursor-pointer rounded-md py-2 default-flex hover:bg-primary-80 hover:text-primary-contrast"
                     href={j.url}
                   >
                     {j.name}
@@ -68,7 +69,7 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
       </section>
       {siteBookmarkStore.siteBookmarkCategoryList?.length == 0 && (
         <section className="h-full w-full flex-1 p-2 default-flex">
-          <div className="h-full rounded-2xl p-2 shadow-2xl outline outline-primary-80 default-flex flex-col text-xl">
+          <div className="h-full flex-col rounded-2xl p-2 text-xl shadow-2xl outline outline-primary-80 default-flex">
             <p> 아무런 카테고리가 존재하지 않습니다. </p>
             <p> 우측 상단에 아이콘을 클릭하여 추가해주세요. </p>
           </div>

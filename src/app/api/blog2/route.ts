@@ -16,8 +16,6 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const formData = await request.formData();
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id");
   const result = await fetchApiRoutes({
     req: request,
     url: `${process.env.BACKEND_URL}/api/blog2`,

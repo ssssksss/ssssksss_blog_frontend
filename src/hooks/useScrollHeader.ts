@@ -9,8 +9,8 @@ export const useScrollHeader = () => {
 
   const handleScroll = throttle((e: Event) => {
     if (window.scrollY > 300) {
-      if (headerRef.current!.contains(e.target as Node)) {
-        return ;
+      if (headerRef.current && headerRef.current.contains(e.target as Node)) {
+        return;
       }
       setIsHidden(true);
       setIsVisible(false);
@@ -26,9 +26,8 @@ export const useScrollHeader = () => {
       setIsHidden(false);
       setIsVisible(true);
     } else {
-      // 이 코드가 없으면 사이드바가 보이고, 사이드바 영역 내이고 헤더 영역 밖이면 사이드바가 사라짐
-      if (headerRef.current!.contains(e.target as Node)) {
-        return ;
+      if (headerRef.current && headerRef.current.contains(e.target as Node)) {
+        return;
       }
       setIsVisible(false);
     }

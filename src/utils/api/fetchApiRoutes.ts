@@ -75,8 +75,7 @@ export const fetchApiRoutes = async ({
         : {}),
     },
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
-    next: next,
-    ...(cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
+    ...(next ? {next} : cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
   });
   clog.info("fetchApiRoutes url: " + url);
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {

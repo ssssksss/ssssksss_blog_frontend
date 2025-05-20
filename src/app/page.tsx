@@ -24,19 +24,22 @@ const text = "DEV.AGE";
 
 export default async function Home() {
   return (
-    <div className="min-h-screen bg-default-1 p-4 min-[480px]:p-8 text-contrast-1">
+    <div className="min-h-screen bg-default-1 p-4 text-contrast-1 min-[480px]:p-8">
       <div
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
-        <nav className="mb-16 flex flex-col justify-between gap-y-2">
+        <nav className="mb-2 flex flex-col justify-between gap-y-2 min-[480px]:mb-16">
           {/* <div className="glow-text text-xl font-bold">DEV.AGE</div> */}
-          <RiseAnimationText text="DEV.AGE" textClassName="font-bold min-[480px]:text-[2rem]" />
-          <div className="flex gap-1 min-[480px]:text-lg text-sm self-end">
+          <RiseAnimationText
+            text="DEV.AGE"
+            textClassName="font-bold min-[480px]:text-[2rem]"
+          />
+          <div className="flex items-center gap-[0.375rem] self-end text-sm min-[480px]:text-lg">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-2xl bg-primary-80 p-2 text-primary-contrast transition-colors hover:scale-105"
+                className="h-btn-sm min-[480px]:h-btn-md content-center rounded-2xl bg-primary-80 px-2 py-1 text-primary-contrast transition-colors hover:scale-105"
               >
                 {item.label}
               </a>
@@ -44,8 +47,10 @@ export default async function Home() {
           </div>
         </nav>
 
-        <div className="space-y-6 text-center">
-          <h1 className="mb-4 text-5xl font-bold">Frontend Developer</h1>
+        <div className="space-y-2 text-center min-[480px]:space-y-6">
+          <h1 className="mb-4 text-2xl font-bold min-[480px]:text-5xl">
+            Frontend Developer
+          </h1>
           <div className="flex justify-center gap-4">
             <a
               href="https://github.com/ssssksss"
@@ -76,7 +81,7 @@ export default async function Home() {
 
         {/* Skills Section */}
         <section id="skills" className="flex flex-col gap-y-6 py-4">
-          <h2 className="rounded-2xl bg-secondary-80 py-4 text-center text-3xl font-bold text-secondary-contrast">
+          <h2 className="rounded-2xl bg-secondary-80 py-2 text-center text-2xl font-bold text-secondary-contrast">
             Skills
           </h2>
           <div className="grid grid-cols-1 gap-x-2 gap-y-6 md:grid-cols-3">
@@ -113,8 +118,7 @@ export default async function Home() {
                     {category.icon}
                     <h3 className="text-xl font-semibold">{category.title}</h3>
                   </div>
-                  <div className="mb-4 h-[0.0625rem] w-full bg-white-100">
-                  </div>
+                  <div className="mb-4 h-[0.0625rem] w-full bg-white-100"></div>
                   <ul className="space-y-2">
                     {category.skills.map((skill, skillIndex) => (
                       <li key={skillIndex}>{skill}</li>
@@ -137,8 +141,8 @@ export default async function Home() {
 
         {/* Project Section */}
         <section id="projects" className="flex flex-col gap-y-6 py-4">
-          <h2 className="rounded-2xl bg-secondary-80 py-4 text-center text-3xl font-bold text-secondary-contrast">
-            Projects ({projects.length})
+          <h2 className="rounded-2xl bg-secondary-80 py-2 text-center text-2xl font-bold text-secondary-contrast">
+            Projects <span className="text-xl"> ({projects.length}) </span>
           </h2>
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {projects.map((i, index) => (
@@ -149,7 +153,9 @@ export default async function Home() {
                 <section className="flex items-center gap-4 py-2">
                   {i.icon}
                   <div className="flex w-full justify-between">
-                    <h3 className="min-[480px]:text-[2rem] text-2xl font-semibold">{i.title}</h3>
+                    <h3 className="text-2xl font-semibold min-[480px]:text-[2rem]">
+                      {i.title}
+                    </h3>
                     <div className="flex gap-x-2">
                       <div className="text-md h-fit rounded-2xl bg-white-80 px-2 py-1 font-bold text-black-80 default-flex">
                         {i.workType}
@@ -166,7 +172,7 @@ export default async function Home() {
                   }
                 >
                   {i.work.map((j, index) => (
-                    <div key={index} className="pl-1 text-lg">
+                    <div key={index} className="pl-1 text-sm">
                       {j}
                     </div>
                   ))}
@@ -182,7 +188,7 @@ export default async function Home() {
 
         {/* Contact Section */}
         <section id="contact" className="flex flex-col gap-y-6 py-4">
-          <h2 className="rounded-2xl bg-secondary-80 py-4 text-center text-3xl font-bold text-secondary-contrast">
+          <h2 className="rounded-2xl bg-secondary-80 py-2 text-center text-2xl font-bold text-secondary-contrast">
             Contact
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

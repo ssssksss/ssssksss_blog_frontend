@@ -9,12 +9,14 @@ interface ModalProps extends React.PropsWithChildren {
 }
 
 export const NestedModal = ({children, modalState}: ModalProps) => {
-  const [documentBody, setDocumentBody] = useState<HTMLElement | null>(
-    document.body,
-  );
+  const [documentBody, setDocumentBody] = useState<HTMLElement | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   usePreventBodyScroll(modalState.isOpen);
   const [isFirstNestedModal, setIsFirstNestedModal] = useState(false);
+
+  useEffect(() => {
+    setDocumentBody(document.body);
+  }, []);
 
   const handlePopState = () => {
     if (modalState.isOpen) {

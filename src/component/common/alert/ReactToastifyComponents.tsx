@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useToastifyStore from "src/store/toastifyStore";
@@ -11,7 +11,7 @@ import useToastifyStore from "src/store/toastifyStore";
  */
 const ReactToastifyComponents = () => {
   const toastifyStore = useToastifyStore();
-  const isMounted = useRef(false);
+  // const isMounted = useRef(false);
   const notify = () => {
     switch (toastifyStore.type || "default") {
       case "success":
@@ -36,8 +36,9 @@ const ReactToastifyComponents = () => {
 
   useEffect(() => {
     if (!toastifyStore.message) return;
-    if (isMounted.current) notify();
-    else isMounted.current = true;
+    // if (isMounted.current)
+    notify();
+    // else isMounted.current = true;
   }, [toastifyStore]);
 
   return (

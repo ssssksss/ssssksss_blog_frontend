@@ -71,7 +71,7 @@ const LoginModal = (props: ILoginModal) => {
   // }, []);
 
   return (
-    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base w-full">
+    <div className="z-10 flex w-full flex-col gap-2 overflow-scroll p-2 text-base">
       <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">로그인</span>
       </header>
@@ -81,6 +81,7 @@ const LoginModal = (props: ILoginModal) => {
           type={"email"}
           placeholder="이메일"
           register={register("email")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.email?.message}
         />
@@ -88,6 +89,7 @@ const LoginModal = (props: ILoginModal) => {
           type={"password"}
           placeholder="패스워드"
           register={register("password")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.password?.message}
         />
@@ -97,7 +99,7 @@ const LoginModal = (props: ILoginModal) => {
           <span>아이디가 없으시다면?</span>
           <ThemeButton1
             onClickCapture={() => props.changeAuthScreen()}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="h-btn-sm flex items-center rounded-[1rem] p-2 py-1 outline-primary-20 hover:bg-primary-20"
           >
             회원가입
           </ThemeButton1>
@@ -141,7 +143,7 @@ const LoginModal = (props: ILoginModal) => {
           </Button> */}
         </div>
         <ThemeButton1
-          className="h-[2.4rem] w-full p-[.5rem]"
+          className="h-btn-lg w-full p-[.5rem]"
           onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >

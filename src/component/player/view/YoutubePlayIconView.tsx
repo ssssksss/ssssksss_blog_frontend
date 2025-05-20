@@ -10,9 +10,9 @@ const YoutubePlayIconView = (props: IPlayIcon) => {
   return (
     <div className="aspect-square h-[2.5rem] primary-border-radius default-flex">
       {props.youtubePlay ? (
-        <FontAwesomeIcon icon={faPause} width={40} height={40} />
+        <FontAwesomeIcon icon={faPause} width={36} height={36} />
       ) : (
-        <FontAwesomeIcon icon={faPlay} width={40} height={40} />
+        <FontAwesomeIcon icon={faPlay} width={36} height={36} />
       )}
     </div>
   );

@@ -12,6 +12,7 @@ interface IFetchCSR {
   credentials?: boolean;
   formData?: FormData;
   isAuth?: boolean; // 쿠키를 담아서 보낼 필요가 없을때는 false
+  cache?: RequestCache;
 }
 
 interface ResponseData {
@@ -32,6 +33,7 @@ export const fetchCSR = async ({
   formData,
   handleRevalidateTags,
   isAuth = true,
+  cache,
 }: IFetchCSR): Promise<any> => {
   try {
     const accessToken = req.cookies.get("accessToken");
@@ -43,10 +45,12 @@ export const fetchCSR = async ({
         ...(formData
           ? {}
           : {"Content-Type": contentType || "application/json"}),
-        ...(isAuth && accessToken ? {Authorization: `Bearer ${accessToken.value}`} : {}),
+        ...(isAuth && accessToken
+          ? {Authorization: `Bearer ${accessToken.value}`}
+          : {}),
       },
       body: formData ? formData : body ? JSON.stringify(body) : undefined,
-      next: next,
+      ...(next ? {next} : cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
     });
     if (res.status === 401 && refreshToken && retry > 0) {
       // 리프레시 토큰을 이용하여 액세스 토큰을 재발급
@@ -57,14 +61,12 @@ export const fetchCSR = async ({
           headers: {
             Cookie: `refreshToken=${refreshToken.value}`,
           },
-        }
+        },
       );
       if (refreshResponse.ok) {
         const setCookieHeader = refreshResponse.headers.get("Set-Cookie"); // 발급받은 액세스 토큰은 쿠키로 저장
         const data = await refreshResponse.json();
         const newAccessToken = data.data; // 응답 데이터로 받은 액세스 토큰 값은 API 재요청에 사용
-        console.log("fetchCSR.ts 파일 : ", setCookieHeader);
-        console.log("fetchCSR.ts 파일 : ", newAccessToken);
         // 쿠키를 응답 헤더에서 추출
         if (setCookieHeader) {
           const newRes = await fetch(url, {

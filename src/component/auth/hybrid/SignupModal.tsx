@@ -82,7 +82,7 @@ const SignupModal = (props: ISignupModal) => {
   }, [watch("password")]);
 
   return (
-    <div className="z-10 flex flex-col gap-2 overflow-scroll p-2 text-base w-full">
+    <div className="z-10 flex w-full flex-col gap-2 overflow-scroll p-2 text-base">
       <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">회원가입</span>
       </header>
@@ -91,6 +91,7 @@ const SignupModal = (props: ISignupModal) => {
           type={"email"}
           placeholder="이메일"
           register={register("email")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.email?.message}
         />
@@ -98,6 +99,7 @@ const SignupModal = (props: ISignupModal) => {
           type={"nickname"}
           placeholder="닉네임"
           register={register("nickname")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.nickname?.message}
         />
@@ -105,6 +107,7 @@ const SignupModal = (props: ISignupModal) => {
           type={"password"}
           placeholder="비밀번호"
           register={register("password")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.password?.message}
         />
@@ -112,6 +115,7 @@ const SignupModal = (props: ISignupModal) => {
           type={"passwordConfirm"}
           placeholder="비밀번호 확인"
           register={register("passwordConfirm")}
+          className="h-btn-md"
           // onKeyPressAction={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           // errorMessage={errors.passwordConfirm?.message}
         />
@@ -121,7 +125,7 @@ const SignupModal = (props: ISignupModal) => {
           <span>아이디가 있다면?</span>
           <ThemeButton1
             onClickCapture={props.changeAuthScreen}
-            className="flex h-[1.5rem] items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="h-btn-sm flex items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             로그인
           </ThemeButton1>
@@ -168,7 +172,7 @@ const SignupModal = (props: ISignupModal) => {
           </Button>
         </div>
         <ThemeButton1
-          className="h-[2.4rem] w-full p-[.5rem]"
+          className="h-btn-lg w-full p-[.5rem]"
           // onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
         >

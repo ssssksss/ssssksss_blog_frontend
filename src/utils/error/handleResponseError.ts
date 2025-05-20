@@ -18,7 +18,6 @@ export const handleResponseError = async (response: Response) => {
 
   if (!response?.ok) {
     const result = await response.json();
-    console.log("handleResponseError.ts 파일 : ",result);
     if (result?.msg) {
       // 예상 가능한 에외처리
       throw new Error(

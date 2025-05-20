@@ -24,9 +24,9 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
     <li
       className={EditorLiStyle}
     >
-      <h2 className={EditorTitleStyle}  id={props.data.blog2BasicContent.title.replace(/\s+/g, "-").toLowerCase()}>
+      <h1 className={EditorTitleStyle}  id={props.data.blog2BasicContent.title.replace(/\s+/g, "-").toLowerCase()}>
         {props.data.blog2BasicContent.title}
-      </h2>
+      </h1>
       {
         !isFold && <MarkdownPreview content={props.data.blog2BasicContent.content} />
       }

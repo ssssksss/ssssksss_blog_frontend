@@ -58,7 +58,6 @@ function useFetchCSR() {
         body: formData ? formData : body ? JSON.stringify(body) : undefined,
         ...(cache ? {cache} : {}),
       });
-
       if (!response.ok) {
         clog.info(
           "fetchCSR 에러: " + response.status + " : " + response.statusText,
@@ -67,7 +66,10 @@ function useFetchCSR() {
         await revalidateTags(handleRevalidateTags);
         throw new Error(response?.statusText);
       }
-      const result = await response.json();
+      let result = null;
+      if (response.status !== 204) {
+        result = await response.json();
+      }
       if (showSuccessToast) {
         await toastifyStore.setToastify({
           type: "success",
@@ -75,7 +77,7 @@ function useFetchCSR() {
         });
       }
       await revalidateTags(handleRevalidateTags);
-      return result.data || "success";
+      return result?.data || "success";
     } catch (error) {
       if (error instanceof Error) {
         clog.error(error.message);

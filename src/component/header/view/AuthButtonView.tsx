@@ -14,20 +14,20 @@ const AuthButtonView = (props: IAuthButtonView) => {
       {props.userId == 0 ? (
         <div
           className={
-            "h-[2.5rem] w-[5rem] animate-pulseSkeleton p-2 primary-border-radius"
+            "h-btn-md w-[5rem] animate-pulseSkeleton p-2 primary-border-radius"
           }
         ></div>
       ) : props.userId > 0 ? (
         <Button
           onClick={() => props.signOutHandler()}
-          className={"p-2 primary-border-radius"}
+          className={"px-2 h-btn-md primary-border-radius"}
         >
           로그아웃
         </Button>
       ) : (
         <ModalButton
           modal={<AuthModal />}
-          buttonClassName={"p-2 w-[78px] primary-border-radius hover:bg-primary-20"}
+          buttonClassName={"px-2 h-btn-md w-[78px] primary-border-radius hover:bg-primary-20"}
         >
           로그인
         </ModalButton>

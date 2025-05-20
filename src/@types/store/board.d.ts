@@ -23,8 +23,18 @@ declare interface IBoard {
   nickname: string; // 작성자 이름
   views: number; // 조회수
   createdAt: string;
+  boardCommentDtoList: IBoardComment[];
 }
-
+declare interface IBoardComment {
+  id: number;
+  content: string;
+  nickname: string;
+  parentId: number | undefined;
+  childComments?: IBoardComment[];
+  createdAt: string;
+  modifiedAt: string;
+  isDeleted: boolean;
+}
 interface BaseTimeEntity {
   createdAt: string; // ISO date string
   modifiedAt: string; // ISO date string

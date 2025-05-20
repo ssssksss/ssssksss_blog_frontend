@@ -73,7 +73,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
         item.id == data.id ? {...item, ...data} : item,
       );
     // 수정된 리스트를 다시 설정
-    blog2FormContext.setValue("blog2ResultList", updatedList);
+    blog2FormContext.setValue("blog2ResultList", updatedList, {shouldValidate: true});
   };
 
   return (

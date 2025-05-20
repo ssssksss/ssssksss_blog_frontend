@@ -14,7 +14,7 @@ const FallingEffectButton = (props: IFallingEffectButton) => {
         onClick={() =>
           themeStore.setFallingEffectMode(!themeStore.isFallingEffectMode)
         }
-        className="relative flex h-8 w-12 items-center rounded-full bg-gray-300 p-1 transition-all duration-300 ease-in-out primary-border-radius dark:bg-gray-700 min-[480px]:w-16"
+        className="relative flex h-btn-sm w-12 items-center rounded-2xl bg-gray-300 px-1 transition-all duration-300 ease-in-out primary-border-radius dark:bg-gray-700 min-[480px]:w-16"
         aria-label="Toggle dark mode"
       >
         {/* 원형 버튼 */}

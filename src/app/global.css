@@ -20,6 +20,9 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+text-rendering: optimizeLegibility;
   /* ::-webkit-scrollbar {
     display: none;
   } */
@@ -71,6 +74,7 @@ kbd,
 samp,
 pre {
   font: inherit;
+
 }
 
 hr {

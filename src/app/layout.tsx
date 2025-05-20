@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import Header from "src/component/common/layout/hybrid/Header";
 import "./global.css";
 
@@ -43,9 +42,7 @@ export default function RootLayout({
       <body
         className={"flex min-h-full w-full flex-col items-center bg-default-1"}
       >
-        <Suspense fallback={<div>Loading...</div>}>
-          <Header />
-        </Suspense>
+        <Header />
         <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem]"}>
           {children}
         </main>

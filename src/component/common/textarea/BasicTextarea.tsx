@@ -12,7 +12,7 @@ const BasicTextarea = React.forwardRef<HTMLTextAreaElement, BasicTextareaProps>(
     return (
       <textarea
         ref={ref}
-        className={`bg-default-1 focus:outline-none ${className ?? ""}`}
+        className={`resize-none bg-default-1 focus:outline-none ${className ?? ""}`}
         {...props}
       />
     );

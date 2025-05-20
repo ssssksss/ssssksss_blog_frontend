@@ -91,7 +91,7 @@ const Header = (props: IHeader) => {
               {userStore.id > 0 && (
                 <button
                   className={
-                    "ml-[3.25rem] aspect-square w-[2.5rem] default-flex"
+                    "ml-[3.25rem] aspect-square w-[2.5rem] h-btn-sm default-flex "
                   }
                   onClick={() => {
                     playerStore.setPlayer({

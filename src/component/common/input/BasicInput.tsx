@@ -3,6 +3,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   register?: UseFormRegisterReturn<string>; // react-hook-form을 사용할 경우
+  onKeyPressAction?: (_e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const BasicInput = React.forwardRef<HTMLInputElement, BasicInputProps>(
@@ -19,7 +20,12 @@ const BasicInput = React.forwardRef<HTMLInputElement, BasicInputProps>(
             props.onChange(e);
           }
         }}
-        className={`bg-default-1 p-2 placeholder:text-contrast-1 focus:outline-none disabled:bg-black-60 disabled:placeholder:text-primary-contrast ${className || ""}`}
+        onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" && props.onKeyPressAction) {
+            props.onKeyPressAction(e);
+          }
+        }}
+        className={`bg-default-1 p-2 placeholder:text-contrast-1 focus:outline-none disabled:bg-black-60 disabled:placeholder:text-primary-contrast cursor-pointer ${className || ""}`}
         {...register}
         {...props}
       />

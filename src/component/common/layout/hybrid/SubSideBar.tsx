@@ -1,8 +1,6 @@
 "use client";
 
 import Button from "@component/common/button/hybrid/Button";
-import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useToggleState from "@hooks/useToggle";
 import useLoadingStore from "@store/loadingStore";
 import useUserStore from "@store/userStore";
@@ -10,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { GoSidebarCollapse } from "react-icons/go";
 interface ITravelSideBar {
   LeftNavItems: {
     iconPath: string;
@@ -37,16 +35,14 @@ const SubSideBar = (props: ITravelSideBar) => {
 
   return (
     <div
-      className={`z-20 flex w-auto outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:top-[3.5rem] sm:h-[calc(100%-3.5rem)] sm:flex-col sm:py-2 sm:pt-10 ${toggleState.isHide ? "bg-default-1 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}
+      className={`border-r-2 border-r-primary-100 z-20 flex w-auto outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:gap-y-2 sm:top-[3.5rem] sm:h-[calc(100%-3.5rem)] sm:flex-col sm:py-2 sm:pt-16 ${toggleState.isHide ? "bg-default-1 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}
     >
       <button
-        className={`z-10 hidden h-[2.25rem] w-[2.25rem] -translate-x-1/2 -translate-y-8 bg-default-1 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[3.0625rem]" : "left-[22.5rem]"} primary-border-radius focus:primary-border-radius`}
+        className={`z-10 hidden h-btn-md aspect-square rounded-2xl -translate-x-1/2 -translate-y-12 bg-default-1 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[1.5rem]" : "left-[22.5rem]"} `}
         onClick={() => toggleState.toggleHide()}
       >
-        <FontAwesomeIcon
-          icon={faPlay}
-          width={16}
-          height={16}
+        <GoSidebarCollapse
+          size={32}
           className={`transition-all duration-[1200ms] ${toggleState.isHide ? "rotate-0" : "rotate-180"}`}
         />
       </button>
