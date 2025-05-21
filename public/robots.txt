@@ -1,4 +1,16 @@
+# *
 User-agent: *
 Allow: /
+Disallow: /age
+Disallow: /design
+Disallow: /plan
+Disallow: /site-bookmark
+Disallow: /switch
+Disallow: /travel
+Disallow: /tree
 
+# Host
+Host: https://blog.ssssksss.xyz
+
+# Sitemaps
 Sitemap: https://blog.ssssksss.xyz/sitemap.xml
