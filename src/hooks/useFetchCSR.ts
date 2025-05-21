@@ -1,10 +1,9 @@
+import * as Sentry from "@sentry/nextjs";
 import useLoadingStore from "@store/loadingStore";
 import useToastifyStore from "@store/toastifyStore";
 import { handleToastError } from "@utils/error/handleToastError";
 import clog from "@utils/logger/logger";
 import { useEffect } from "react";
-
-
 
 // fetch를 보내 toast 메시지를 보여주고, 성공시 data를 반환
 interface IFetchFn {
@@ -24,10 +23,8 @@ function useFetchCSR() {
   const toastifyStore = useToastifyStore();
   const loadingState = useLoadingStore();
 
-  
   // toast 메시지를 띄우기 위해서
-  useEffect(() => {
-  }, [toastifyStore.message]);
+  useEffect(() => {}, [toastifyStore.message]);
 
   /**
    * response 응답이 아닌 결과 데이터를 반환합니다.
@@ -42,12 +39,10 @@ function useFetchCSR() {
     cache,
     handleRevalidateTags,
     showSuccessToast = false,
-    successMessage
+    successMessage,
   }: IFetchFn) => {
-
     loadingState.startLoading();
 
-    
     try {
       // api route의 router handling을 사용해서 처리
       const response = await fetch(url, {
@@ -73,7 +68,7 @@ function useFetchCSR() {
       if (showSuccessToast) {
         await toastifyStore.setToastify({
           type: "success",
-          message: successMessage || result?.msg || "성공"
+          message: successMessage || result?.msg || "성공",
         });
       }
       await revalidateTags(handleRevalidateTags);
@@ -81,8 +76,10 @@ function useFetchCSR() {
     } catch (error) {
       if (error instanceof Error) {
         clog.error(error.message);
+        Sentry.captureException(error); // Sentry로 에러 전송
       } else {
         clog.error(error);
+        Sentry.captureException(new Error(String(error))); // 에러가 객체가 아닌 경우
       }
       return;
     } finally {
@@ -95,13 +92,15 @@ function useFetchCSR() {
 
 const revalidateTags = async (tags?: string[]) => {
   if (tags?.length) {
-    await Promise.all(tags.map(async (tag) => {
-      await fetch("/api/revalidate", {
-        method: "POST",
-        body: JSON.stringify({tags: tags}),
-        headers: {"Content-Type": "application/json"},
-      });
-    }));
+    await Promise.all(
+      tags.map(async (tag) => {
+        await fetch("/api/revalidate", {
+          method: "POST",
+          body: JSON.stringify({tags: tags}),
+          headers: {"Content-Type": "application/json"},
+        });
+      }),
+    );
   }
 };
 

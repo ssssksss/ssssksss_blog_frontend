@@ -1,5 +1,5 @@
-import {fetchCSR} from "@utils/api/fetchCSR";
-import {NextRequest} from "next/server";
+import { fetchCSR } from "@utils/api/fetchCSR";
+import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
