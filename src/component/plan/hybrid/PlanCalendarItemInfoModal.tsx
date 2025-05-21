@@ -1,8 +1,8 @@
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useLoading from "@hooks/useLoading";
 import usePlanStore from "@store/planStore";
-import useToastifyStore from "@store/toastifyStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { addHours, format, parse, parseISO } from "date-fns";
@@ -15,9 +15,9 @@ interface IPlanCalendarItemInfoModal extends INestedModalComponent {
 
 const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
   const {data} = props;
-  const toastifyStore = useToastifyStore();
   const planStore = usePlanStore();
-  const {loading, startLoading, stopLoading} = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
+  const fetchCSR = useFetchCSR();
 
   const formatDate = (dateStr: string) => {
     try {
@@ -29,20 +29,13 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
 
   const deleteScheduleCalendar = async () => {
     startLoading();
-    const response = await fetch(`/api/plan/schedule?id=${data.id}`, {
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/plan/schedule?id=${data.id}`,
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      successMessage: "일정 삭제에 성공했습니다.",
+      showSuccessToast: true
     });
-    if (!response.ok) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "서버 에러",
-      });
-      stopLoading();
-      return;
-    }
+    if (result == undefined) return;
     const tempList = planStore.scheduleList.filter((i) => i.id != data.id);
     const days: ICalendarItem[] = createScheduleCalendar(
       new Date(planStore.calendar[15].date),
@@ -75,9 +68,6 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
     planStore.setMaxLayer(t.maxLayer);
     planStore.setScheduleList(tempList);
     stopLoading();
-    toastifyStore.setToastify({
-      message: "일정이 삭제되었습니다."
-    });
     props.closeModal!();
   };
 
