@@ -1,6 +1,6 @@
 // app/api/route.ts
-import {fetchCSR} from "@utils/api/fetchCSR";
-import {NextRequest} from "next/server";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { NextRequest } from "next/server";
 
 // export async function GET(request: NextRequest) {
 //   return NextResponse.json({ message: 'Hello from GET' });
@@ -28,12 +28,12 @@ import {NextRequest} from "next/server";
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
-  const result = await fetchCSR({
+  return await fetchApiRoutes({
     req: request,
     url: `${process.env.BACKEND_URL}/api/blog2/category/first`,
     body: data,
+    isFallbackToErrorPage: false,
   });
-  return result;
 }
 
 // export async function UPDATE(request: NextRequest) {

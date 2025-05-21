@@ -1,6 +1,6 @@
 // app/api/route.ts
-import {fetchCSR} from "@utils/api/fetchCSR";
-import {NextRequest} from "next/server";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { NextRequest } from "next/server";
 
 // export async function GET(request: NextRequest) {
 //   return NextResponse.json({ message: 'Hello from GET' });
@@ -35,30 +35,25 @@ export async function GET(request: NextRequest) {
 
   let result;
   if (accessToken || refreshToken) {
-    result = await fetchCSR({
+    return await fetchApiRoutes({
       req: request,
       url: `${process.env.BACKEND_URL}/api/blog/list?secondCategoryId=${secondCategoryId + ""}`,
       next: {
         revalidate: 3600,
         tags: [`getBlog2List-${secondCategoryId}-${page}`],
       },
+      isFallbackToErrorPage: false,
     });
-  } else {
-    result = await fetch(
-      `${process.env.BACKEND_URL}/api/blog/list?secondCategoryId=${secondCategoryId + ""}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: {
-          revalidate: 3600,
-          tags: [`getBlog2List-${secondCategoryId}-${page}`],
-        },
-      },
-    );
   }
-  return result;
+    
+  return await fetchApiRoutes({
+    url: `${process.env.BACKEND_URL}/api/blog/list?secondCategoryId=${secondCategoryId + ""}`,
+    next: {
+      revalidate: 3600,
+      tags: [`getBlog2List-${secondCategoryId}-${page}`],
+    },
+    isFallbackToErrorPage: false,
+  });
 }
 
 // export async function UPDATE(request: NextRequest) {

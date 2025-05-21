@@ -1,5 +1,5 @@
 // app/api/route.ts
-import { fetchCSR } from "@utils/api/fetchCSR";
+import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
 import { fetchMultipartCSR } from "@utils/api/fetchMultipartCSR";
 import { NextRequest } from "next/server";
 
@@ -51,8 +51,9 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("deleteSecondCategoryId");
-  return await fetchCSR({
+  return await fetchApiRoutes({
     url: `${process.env.BACKEND_URL}/api/blog2/category/second?id=${id}`,
     req: request,
+    isFallbackToErrorPage: false,
   });
 }

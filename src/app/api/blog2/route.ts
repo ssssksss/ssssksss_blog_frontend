@@ -1,5 +1,4 @@
 import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
-import { fetchCSR } from "@utils/api/fetchCSR";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -28,8 +27,9 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-  return await fetchCSR({
+  return await fetchApiRoutes({
     url: `${process.env.BACKEND_URL}/api/blog2?id=${id}`,
     req: request,
+    isFallbackToErrorPage: false,
   });
 }
