@@ -1,6 +1,8 @@
 "use client";
 
+import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
+import useUserStore from "@store/userStore";
 import { useState } from "react";
 
 type SentryIssue = {
@@ -24,6 +26,7 @@ export default function SentryIssueList() {
   const [issues, setIssues] = useState<SentryIssue[]>([]);
   const [loading, setLoading] = useState(false);
   const fetchCSR = useFetchCSR();
+  const userStore = useUserStore();
 
   const fetchIssues = async () => {
     setLoading(true);
@@ -42,6 +45,10 @@ export default function SentryIssueList() {
     }
   };
 
+  if (userStore.id > 0 && userStore.role != "ROLE_ADMIN") {
+    return <LoadingSpinner loading={true} />;
+  }
+
   return (
     <div className="w-full max-w-2xl rounded-xl border p-4 shadow-md">
       <button
@@ -59,7 +66,7 @@ export default function SentryIssueList() {
               <strong>{issue.title}</strong>
               <div className="text-sm text-gray-600">{issue.culprit}</div>
               <div className="text-xs text-gray-500">
-                발생: {new Date(issue.firstSeen).toLocaleString()} / 마지막:{" "}
+                  발생: {new Date(issue.firstSeen).toLocaleString()} / 마지막:{" "}
                 {new Date(issue.lastSeen).toLocaleString()}
               </div>
             </li>

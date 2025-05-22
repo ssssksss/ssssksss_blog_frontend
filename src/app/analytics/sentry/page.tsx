@@ -5,9 +5,7 @@ interface IPage {
 }
 const Page = async (props: IPage) => {
   return (
-    <div>
-      <SentryIssueList />
-    </div>
+    <SentryIssueList />
   );
 };
 export default Page;

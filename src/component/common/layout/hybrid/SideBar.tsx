@@ -2,19 +2,21 @@ import Button from "@component/common/button/hybrid/Button";
 import HamburgerMenu from "@component/common/button/hybrid/HamburgerMenu";
 import MusicPlayer from "@component/player/hybrid/MusicPlayer";
 import useLoadingStore from "@store/loadingStore";
-import { default as useAuthStore } from "@store/userStore";
+import useUserStore from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { FaFolderTree } from "react-icons/fa6";
 import { PiBookBookmarkFill } from "react-icons/pi";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 interface LeftNavItem {
   icon: string | ReactNode;
   label: string;
   href: string;
   options: {
     isRequiredAuth: boolean;
+    isAdmin?: boolean;
   };
 }
 
@@ -29,7 +31,7 @@ const LeftNavItems: LeftNavItem[] = [
     icon: "/images/icons/ic-blog.svg",
     label: "블로그",
     href: "/blog",
-    options: {isRequiredAuth: false},
+    options: {isRequiredAuth: true, isAdmin: true},
   },
   {
     icon: "/images/icons/ic-blog.svg",
@@ -77,7 +79,13 @@ const LeftNavItems: LeftNavItem[] = [
     icon: <PiBookBookmarkFill size={"24"} />,
     label: "즐겨찾기",
     href: "/site-bookmark",
-    options: {isRequiredAuth: true},
+    options: { isRequiredAuth: true },
+  },
+  {
+    icon: <TbDeviceDesktopAnalytics size={"24"} />,
+    label: "분석 도구",
+    href: "/analytics/sentry",
+    options: { isRequiredAuth: true, isAdmin: true },
   },
   {
     icon: "/images/icons/ic-setting.svg",
@@ -89,7 +97,7 @@ const LeftNavItems: LeftNavItem[] = [
 
 const SideBar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  const userStore = useAuthStore();
+  const userStore = useUserStore();
   // const navStore = useNavStore();
   const [activeMenu, setActiveMenu] = useState("");
   const searchParams = useSearchParams();
@@ -101,6 +109,8 @@ const SideBar = () => {
     setActiveMenu(window.location.pathname);
   }, [searchParams]);
 
+  console.log("SideBar.tsx 파일 : ",userStore);
+
   return (
     <aside className={"z-200 absolute flex flex-col font-semibold"}>
       <HamburgerMenu
@@ -108,13 +118,17 @@ const SideBar = () => {
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
       />
       <div
-        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-default-1 ${isNavbarOpen ? "flex border-t-[0.25rem] border-r-[0.25rem] border-primary-80" : "hidden"} flex-col justify-start`}
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-default-1 ${isNavbarOpen ? "flex border-r-[0.25rem] border-t-[0.25rem] border-primary-80" : "hidden"} flex-col justify-start`}
       >
         <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
           {LeftNavItems.filter(
             (i) =>
               i.options.isRequiredAuth == false ||
-              (i.options.isRequiredAuth == true && userStore.id > 0),
+              (i.options.isRequiredAuth == true &&
+                userStore.id > 0 &&
+                ((i.options.isAdmin == true &&
+                  userStore.role == "ROLE_ADMIN") ||
+                  i.options.isAdmin == false)),
           ).map((item, index) => (
             <Link
               href={item.href}
@@ -138,19 +152,19 @@ const SideBar = () => {
                 <div
                   className={`h-16 w-16 default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] && "animate-updown"}`}
                 >
-                  {
-                    typeof item.icon === "string" ?
-                      <Image
-                        src={item.icon}
-                        alt={item.label}
-                        width={24}
-                        height={24}
-                      /> : 
-                      item.icon
-                  }
+                  {typeof item.icon === "string" ? (
+                    <Image
+                      src={item.icon}
+                      alt={item.label}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    item.icon
+                  )}
                 </div>
                 <div
-                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "primary-border-radius bg-primary-80 px-2 text-white-40" : "text-black-100"}`}
+                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "bg-primary-80 px-2 text-white-40 primary-border-radius" : "text-black-100"}`}
                 >
                   {item.label}
                 </div>
