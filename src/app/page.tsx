@@ -6,13 +6,13 @@ import {
   Code2,
   Contact2,
   Disc3,
-  Github,
   Globe,
   KeyRound,
   Mail,
   Map,
-  Terminal,
+  Terminal
 } from "lucide-react";
+import { FaGithub, FaHome } from "react-icons/fa";
 
 const navItems = [
   {href: "#skills", label: "Skills"},
@@ -39,7 +39,7 @@ export default async function Home() {
               <a
                 key={item.href}
                 href={item.href}
-                className="h-btn-sm min-[480px]:h-btn-md content-center rounded-2xl bg-primary-80 px-2 py-1 text-primary-contrast transition-colors hover:scale-105"
+                className="h-btn-sm content-center rounded-2xl bg-primary-80 px-2 py-1 text-primary-contrast transition-colors hover:scale-105 min-[480px]:h-btn-md"
               >
                 {item.label}
               </a>
@@ -57,14 +57,16 @@ export default async function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 transition-colors hover:text-blue-40"
+              aria-label="깃허브 이동"
             >
-              <Github size={24} />
+              <FaGithub size={24} />
             </a>
             <a
               href=""
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 transition-colors hover:text-blue-40"
+              aria-label="연락하기"
             >
               <Contact2 size={24} />
             </a>
@@ -73,6 +75,7 @@ export default async function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 transition-colors hover:text-blue-40"
+              aria-label="이메일 보내기"
             >
               <Mail size={24} />
             </a>
@@ -112,7 +115,10 @@ export default async function Home() {
                 etc: ["slack", "jira", "discord", "erdcloud"],
               },
             ].map((category, index) => (
-              <div className="flex flex-col gap-y-4 text-white-60" key={index}>
+              <div
+                className="flex flex-col gap-y-4 text-third-contrast"
+                key={index}
+              >
                 <div className="rounded-lg bg-third-80 p-6 transition-colors">
                   <div className="mb-4 flex items-center gap-4">
                     {category.icon}
@@ -147,7 +153,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {projects.map((i, index) => (
               <article
-                className="flex h-full flex-col gap-y-2 rounded-2xl bg-third-80 px-4 py-2 text-white-60 transition-colors"
+                className="flex h-full flex-col gap-y-2 rounded-2xl bg-third-80 px-4 py-2 text-third-contrast transition-colors"
                 key={index}
               >
                 <section className="flex items-center gap-4 py-2">
@@ -181,6 +187,14 @@ export default async function Home() {
                   {/* {i.term && <div> 기간: {i.term} </div>} */}
                   {i.etc && <div> 기타: {i.etc} </div>}
                 </div>
+                <div className="flex gap-x-2">
+                  {
+                    i.link &&
+                  <a href={i.link} className="rounded-2xl bg-secondary-contrast w-fit px-2 py-1" target="_blank">
+                    블로그 정리 링크
+                  </a>
+                  }
+                </div>
               </article>
             ))}
           </div>
@@ -193,7 +207,7 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* 이메일 */}
-            <div className="rounded-lg bg-third-80 p-6 text-white-60 transition-colors">
+            <div className="rounded-lg bg-third-80 p-6 text-third-contrast transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
                   이메일
@@ -202,7 +216,7 @@ export default async function Home() {
               </div>
             </div>
             {/* 학업 */}
-            <div className="rounded-lg bg-third-80 p-6 text-white-60 transition-colors">
+            <div className="rounded-lg bg-third-80 p-6 text-third-contrast transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
                   학업
@@ -214,7 +228,7 @@ export default async function Home() {
               </div>
             </div>
             {/* 자격증 */}
-            <div className="rounded-lg bg-third-80 p-6 text-white-60 transition-colors">
+            <div className="rounded-lg bg-third-80 p-6 text-third-contrast transition-colors">
               <div className="mb-4 flex flex-col items-center gap-4">
                 <h3 className="w-full text-xl font-semibold default-flex">
                   자격증
@@ -231,6 +245,18 @@ export default async function Home() {
 
 const projects = [
   {
+    icon: <FaHome size={32} />,
+    title: "홈(첫 페이지)",
+    workType: "개인",
+    work: ["1.개인 소개(업데이트 예정)"],
+    role: "FE",
+    stack: "",
+    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/140?menu=기초`,
+    term: "",
+    deploymentLink: "https://blog.ssssksss.xyz/blog2",
+    etc: "",
+  },
+  {
     icon: <BookMinus size={32} />,
     title: "개인 블로그",
     workType: "개인",
@@ -243,7 +269,7 @@ const projects = [
     ],
     role: "FE,BE",
     stack: "",
-    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/72`,
+    // link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/72`,
     term: "",
     deploymentLink: "https://blog.ssssksss.xyz/blog2",
     etc: "",
@@ -260,7 +286,7 @@ const projects = [
     ],
     role: "FE,BE",
     stack: "",
-    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/70`,
+    // link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/70`,
     term: "",
     deploymentLink: "",
     etc: "",
@@ -277,7 +303,7 @@ const projects = [
     ],
     role: "FE,BE",
     stack: "",
-    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/71`,
+    // link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/71`,
     term: "",
     deploymentLink: "https://blog.ssssksss.xyz/plan",
     etc: "",
@@ -313,7 +339,7 @@ const projects = [
     work: ["블로그 카테고리 CRUD", "블로그 에디터(기능 추가 및 수정 중)"],
     role: "FE",
     stack: "",
-    link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/105`,
+    // link: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog2/105`,
     term: "",
     deploymentLink: "",
     etc: "",
