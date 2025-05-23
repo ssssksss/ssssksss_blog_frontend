@@ -3,7 +3,7 @@ import Header from "src/component/common/layout/hybrid/Header";
 import "./global.css";
 
 export const metadata: Metadata = {
-  title: "가출한토토로의 사이트",
+  title: "에이지의 사이트",
   description: "블로그, 스케줄, 음악 플레이어 등등",
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({
         <meta property="og:image:height" content="630" />
       </head>
       <body
-        className={"flex min-h-full w-full flex-col items-center bg-default-1"}
+        className={"flex min-h-full w-full flex-col items-center bg-default-1 text-contrast-1"}
       >
         <Header />
         <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem]"}>

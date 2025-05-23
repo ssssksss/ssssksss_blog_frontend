@@ -8,6 +8,7 @@ Disallow: /site-bookmark
 Disallow: /switch
 Disallow: /travel
 Disallow: /tree
+Disallow: /board/update/
 
 # Host
 Host: https://blog.ssssksss.xyz

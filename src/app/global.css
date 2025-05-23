@@ -54,7 +54,6 @@ select {
 
 button {
   background: none;
-  border: none;
   cursor: pointer;
 }
 
@@ -103,7 +102,7 @@ legend {
 }
 @font-face {
   font-family: "cookieRunRegular";
-  src: url("/fonts/cookieRunRegular.ttf") format("truetype");
+  src: url("/fonts/CookieRunRegular.ttf") format("truetype");
   font-display: swap;
 }
 @font-face {
