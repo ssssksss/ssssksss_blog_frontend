@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 const sortData = [
   {value: "latest", name: "최신순"},
   {value: "views", name: "조회순"},
-  {value: "likes", name: "좋아요순"},
+  // {value: "likes", name: "좋아요순"},
 ];
 
 interface IBoard {
@@ -30,6 +30,18 @@ interface IBoardMainProps {
     page: number;
   };
 }
+
+const updateSearchParam = (key: string, value?: string | number) => {
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+  if (value !== undefined && value !== "") {
+    params.set(key, value.toString());
+  } else {
+    params.delete(key);
+  }
+  url.search = params.toString();
+  window.history.pushState({}, "", url.toString());
+};
 
 const BoardMain = ({ initialData }: IBoardMainProps) => {
   const searchParams = useSearchParams();
@@ -48,41 +60,25 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
   const hasFetched = useRef(false);
   const userStore = useUserStore();
 
-
   const pageHandler = (page: number) => {
     setPage(page);
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    params.set("page", page + "");
-    url.search = params.toString();
-    window.history.pushState({}, "", url.toString());
+    updateSearchParam("page", page);
+    document.title =
+      page === 1 ? "게시판" : `게시판 - ${page}페이지`;
   };
 
   const dropdownHandler = (value: string) => {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-
     setSort(value);
-    params.set("sort", value);
-    url.search = params.toString();
-    window.history.pushState({}, "", url.toString());
+    updateSearchParam("sort", value);
   };
   
   
   const searchHandler = () => {
+    const value = inputRef.current?.value || "";
     setKeyword(inputRef.current?.value || "");
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    params.set("page", "1");
     setPage(1);
-
-    if (inputRef.current?.value) {
-      params.set("keyword", inputRef.current?.value);
-    } else {
-      params.delete("keyword");
-    }
-    url.search = params.toString();
-    window.history.pushState({}, "", url.toString());
+    updateSearchParam("page", 1);
+    updateSearchParam("keyword", value);
   };
 
   const fetchBoardList = async () => {
@@ -108,35 +104,38 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
   }, [searchParams]);
 
   return (
-    <div
-      className={
-        "m-auto flex w-full flex-col rounded-2xl px-2 py-4 primary-border"
-      }
-    >
+    <div className="m-auto flex w-full flex-col rounded-2xl px-2 py-2">
       <div className="flex w-full flex-col gap-y-2 text-sm">
         <div className="relative w-full">
-          <h1 className="text-2xl default-flex"> 게시판 </h1>
+          <h1 className="text-2xl default-flex">게시판 목록</h1>
           {userStore.id > 0 && (
             <button
               onClick={() => router.push("board/create")}
               className="absolute right-0 top-1/2 h-[2rem] w-fit -translate-y-1/2 px-2 py-1 primary-border-radius hover:primary-set"
+              aria-label="게시글 작성"
             >
               생성하기
             </button>
           )}
         </div>
-        <div className={"flex h-btn-md w-full gap-x-2 max-[480px]:gap-x-1"}>
+
+        <div className="flex h-btn-md w-full gap-x-2 max-[480px]:gap-x-1">
+          <label htmlFor="board-search" className="sr-only">
+            검색어 입력
+          </label>
           <BasicInput
+            id="board-search"
             type="search"
-            placeholder={"검색어를 입력해주세요."}
-            className="h-[2.5rem] w-full px-2 py-1 text-sm primary-border-radius"
+            placeholder="검색어를 입력해주세요."
+            className="h-btn-md w-full px-2 py-1 text-sm primary-border-radius"
             ref={inputRef}
             maxLength={30}
-            onKeyPressAction={() => searchHandler()}
+            onKeyPressAction={searchHandler}
           />
           <button
             className="h-btn-md w-[4rem] p-1 text-sm primary-border-radius"
-            onClick={() => searchHandler()}
+            onClick={searchHandler}
+            aria-label="검색 실행"
           >
             검색
           </button>
@@ -145,76 +144,78 @@ const BoardMain = ({ initialData }: IBoardMainProps) => {
             value={sort}
             defaultValue={sortData[0].value}
             dropdownHandler={dropdownHandler}
-            containerClassName=" h-btn-md p-1 max-[480px]:w-[4rem] w-[6rem] rounded-[.5rem]"
+            containerClassName="h-btn-md p-1 max-[480px]:w-[4rem] w-[6rem] rounded-[.5rem]"
           />
         </div>
-        <div className="flex h-btn-md w-full items-center gap-2 pb-3 max-[480px]:h-[4.25rem] max-[480px]:flex-col max-[480px]:items-start">
-          <div className="flex h-btn-md items-center gap-x-2">
-            검색 키워드 :
+
+        <div className="mb-2 flex h-btn-sm w-full items-center gap-2 max-[480px]:h-[4.25rem] max-[480px]:flex-col max-[480px]:items-start">
+          <div className="flex h-btn-sm items-center gap-x-2">
+            검색 키워드:
             <div className="h-full min-w-[4rem] px-4 primary-border-radius default-flex">
               {keyword || ""}
             </div>
           </div>
-          <div className="flex h-btn-md items-center gap-x-2">
+          <div className="flex h-btn-sm items-center gap-x-2">
             검색 결과 수:
             <div className="h-full min-w-[4rem] px-4 primary-border-radius default-flex">
-              {resultCount}
+              {formatViewCount(resultCount || 0)}
             </div>
           </div>
         </div>
       </div>
-      <div className={"flex-grow"}>
-        <ul
-          className={
-            "flex h-full min-h-[35rem] w-full flex-col gap-y-1 py-2 primary-border-radius"
-          }
-        >
-          <div className="grid w-full grid-cols-[3rem_auto_12rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px] max-[480px]:grid-cols-[3rem_auto]">
-            <div className="font-bold text-primary-80 default-flex"> 번호 </div>
-            <div className="font-bold text-primary-80 default-flex"> 제목 </div>
-            <div className="grid grid-cols-2 max-[480px]:col-span-full">
-              <div className="font-bold text-primary-80 default-flex max-[480px]:hidden">
-                날짜
-              </div>
-              <div className="font-bold text-primary-80 default-flex max-[480px]:hidden">
-                조회순
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 overflow-y-scroll p-1">
-            {boardList.map((i) => (
-              <Link
-                href={`board/${i.id}`}
-                key={i.id}
-                className="text-md group grid w-full cursor-pointer grid-cols-[2.5rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl bg-primary-20 px-1 py-2 hover:primary-set max-[480px]:grid-cols-[2.5rem_auto] max-[480px]:text-sm"
-              >
-                <div className="overflow-hidden whitespace-nowrap rounded-2xl bg-primary-contrast text-sm text-primary-80 default-flex">
-                  {i.id}
+
+      {boardList.length > 0 ? (
+        <>
+          <div className="flex-grow">
+            <ul className="flex h-full min-h-[32rem] w-full flex-col gap-y-1 py-2 primary-border-radius">
+              <li className="grid w-full grid-cols-[3rem_auto_12rem] gap-x-1 border-b-2 border-primary-100 p-2 text-[20px] max-[480px]:grid-cols-[3rem_auto]">
+                <span className="font-bold default-flex">번호</span>
+                <span className="font-bold default-flex">제목</span>
+                <div className="grid grid-cols-2 max-[480px]:col-span-full">
+                  <span className="font-bold default-flex max-[480px]:hidden">
+                    날짜
+                  </span>
+                  <span className="font-bold default-flex max-[480px]:hidden">
+                    조회수
+                  </span>
                 </div>
-                <div className="max-w-[calc(100%-0.5rem)] items-center overflow-hidden text-ellipsis whitespace-nowrap">
-                  {i.title}
-                </div>
-                <div className="grid grid-cols-2 px-2 font-cookieRunRegular text-black-40 group-hover:primary-set max-[480px]:col-span-full max-[480px]:flex max-[480px]:justify-between">
-                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-sm default-flex">
-                    {format(new Date(i.createdAt), "yyyy-MM-dd")}
-                  </div>
-                  <div className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm">
-                    <span className="min-[480px]:hidden min-[480px]:pr-2">
-                      조회수 :
+              </li>
+              {boardList.map((i) => (
+                <li key={i.id}>
+                  <Link
+                    href={`board/${i.id}`}
+                    className="text-md group grid w-full cursor-pointer grid-cols-[2.5rem_auto_12rem] items-center gap-x-1 gap-y-1 rounded-2xl px-1 py-2 hover:bg-primary-80 hover:text-primary-contrast max-[480px]:grid-cols-[2.5rem_auto] max-[480px]:text-sm"
+                    aria-label={`게시글 ${i.title}로 이동`}
+                  >
+                    <span className="overflow-hidden whitespace-nowrap rounded-2xl border border-primary-contrast text-sm default-flex">
+                      {i.id}
                     </span>
-                    {formatViewCount(i.views)}
-                  </div>
-                </div>
-              </Link>
-            ))}
+                    <span className="truncate">{i.title}</span>
+                    <div className="grid grid-cols-2 px-2 font-cookieRunRegular max-[480px]:col-span-full max-[480px]:flex max-[480px]:justify-between">
+                      <span className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-sm default-flex">
+                        {format(new Date(i.createdAt), "yyyy-MM-dd")}
+                      </span>
+                      <span className="max-w-[6rem] overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm">
+                        <span className="pr-1 min-[480px]:hidden">조회수:</span>
+                        {formatViewCount(i.views)}
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(totalElements / 10)}
+              pageHandler={pageHandler}
+            />
           </div>
-        </ul>
-        <Pagination
-          currentPage={page}
-          totalPages={Math.ceil(totalElements / 10)}
-          pageHandler={pageHandler}
-        />
-      </div>
+        </>
+      ) : (
+        <div className="flex h-full min-h-[35rem] w-full flex-col gap-y-1 py-2 primary-border-radius default-flex">
+          아무런 내용이 없습니다.
+        </div>
+      )}
     </div>
   );
 };

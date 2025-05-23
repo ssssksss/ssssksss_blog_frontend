@@ -47,6 +47,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
                 : "primary-border hover:primary-set"
             }`}
             onClick={() => pageHandler(page)}
+            aria-label={`${page}번째 페이지 이동`}
           >
             {page}
           </Button>
@@ -62,6 +63,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         }`}
         onClick={() => pageHandler(1)}
         disabled={currentPage === 1}
+        aria-label="첫 페이지로 이동"
       >
         <ChevronsLeft size={16} />
       </Button>
@@ -74,6 +76,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         }`}
         onClick={() => pageHandler(currentPage - 1)}
         disabled={currentPage === 1}
+        aria-label="이전페이지 이동"
       >
         <ChevronLeft size={16} />
       </Button>
@@ -86,6 +89,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         }`}
         onClick={() => pageHandler(currentPage + 1)}
         disabled={currentPage === totalPages}
+        aria-label="다음페이지 이동"
       >
         <ChevronRight size={16} />
       </Button>
@@ -98,6 +102,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         }`}
         onClick={() => pageHandler(totalPages)}
         disabled={currentPage === totalPages}
+        aria-label="마지막 페이지로 이동"
       >
         <ChevronsRight size={16} />
       </Button>

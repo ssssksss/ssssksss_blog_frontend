@@ -7,9 +7,10 @@ import useUserStore from "@store/userStore";
 import { format } from "date-fns";
 import { SquareArrowLeft } from "lucide-react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const BoardCommentContainer = dynamic(() => import("./BoardCommentContainer"), {
   ssr: false,
@@ -53,30 +54,27 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
   }
 
   return (
-    <div className={"flex w-full flex-col gap-y-2 py-4 overflow-y-scroll scrollbar-hide"}>
-      <div className="relative min-h-[2rem] w-full default-flex">
+    <div
+      className={
+        "flex w-full flex-col gap-y-2 overflow-y-scroll py-4 scrollbar-hide"
+      }
+    >
+      <section className="relative min-h-[2rem] w-full default-flex">
         {userStore.nickname == props.data.nickname && (
           <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
             <button
-              onClick={() =>
-                router.push(
-                  `/board/update/${props.data.id}`,
-                )
-              }
-              className="px-4 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
+              onClick={() => router.push(`/board/update/${props.data.id}`)}
+              className="px-2 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80 default-flex"
+              aria-label="게시판 수정하기 버튼"
             >
-              수정 하기
+              <FaPencilAlt size="24" />
             </button>
             <button
               onClick={() => deleteBoardHandler()}
-              className="h-full px-4 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
+              className="h-full px-2 py-2 primary-border-radius default-flex hover:bg-primary-80 hover:text-white-80"
+              aria-label="게시판 삭제 버튼"
             >
-              <Image
-                alt=""
-                src={"/images/icons/ic-trash.svg"}
-                width={16}
-                height={16}
-              />
+              <MdDelete size="28" />
             </button>
           </div>
         )}
@@ -86,20 +84,18 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
         >
           <SquareArrowLeft />
         </button>
-      </div>
-      <div className="flex justify-between px-4 py-2 primary-border-radius">
+      </section>
+      <section className="flex justify-between px-4 py-2 primary-border-radius">
         <div> 게시판 번호 : {props.data.id} </div>
         <div> 게시판 작성자 : {props.data.nickname} </div>
         <div>
-          작성 날짜 :
-          {format(new Date(props.data.createdAt), "yyyy-MM-dd")}
+          작성 날짜 :{format(new Date(props.data.createdAt), "yyyy-MM-dd")}
         </div>
-      </div>
-      <div className="h-auto w-full whitespace-pre-wrap break-words break-all p-4 text-[24px] font-bold primary-border-radius default-flex">
+      </section>
+      <h1 className="h-auto w-full whitespace-pre-wrap break-words break-all p-4 text-[24px] font-bold primary-border-radius default-flex">
         {props.data.title}
-      </div>
-
-      <div className="mb-4 h-auto w-full min-h-[calc(100%-16rem)] p-4 primary-border-radius">
+      </h1>
+      <div className="mb-4 h-auto min-h-[calc(100%-16rem)] w-full p-4 primary-border-radius">
         {props.data.content}
       </div>
       <BoardCommentContainer
