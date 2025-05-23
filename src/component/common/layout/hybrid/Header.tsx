@@ -103,6 +103,7 @@ const Header = (props: IHeader) => {
                       !playerStore.youtubePlay ? "true" : "false",
                     );
                   }}
+                  aria-label={"유튜브 실행 버튼"}
                 >
                   <YoutubePlayIconView youtubePlay={playerStore.youtubePlay} />
                 </button>
