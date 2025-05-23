@@ -1,6 +1,6 @@
 import { usePlayerControl } from "@hooks/usePlayerControl";
-import { timeFunction } from "@utils/timeFunction";
-import { useEffect, useRef } from "react";
+import { timeFunction } from "@utils/function/timeFunction";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import ModalButton from "src/component/common/modal/hybrid/ModalButton";
 import usePlayerStore from "src/store/playerStore";
@@ -13,7 +13,8 @@ interface IMusicPlayerProps {
 const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
   const playerRef = useRef<ReactPlayer | null>(null);
-  const {requestPlay} = usePlayerControl();
+  const { requestPlay } = usePlayerControl();
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false); // facade 용도
   // 플레이어 작동시 약 1초마다 실행되는 함수
   const handleProgress = (state: { playedSeconds: number; played: number }) => {
     playerStore.setPlayer({
@@ -110,6 +111,12 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
     };
   }, [playerStore.progressRatio]);
 
+  useEffect(() => {
+    if (playerStore.youtubePlay) {
+      setIsIframeLoaded(true);
+    }
+  }, [playerStore.youtubePlay]);
+
   return (
     <section className="grid w-full grid-rows-[3rem_2rem] bg-default-1">
       {/* 플레이 바가 보이는 UI */}
@@ -136,35 +143,37 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             {timeFunction.secToTime(playerStore.playedSeconds)} [
             {Math.floor(playerStore.progressRatio * 100)}%]
           </span>
-          <ReactPlayer
-            width="0rem"
-            height="0rem"
-            url={
-              playerStore.currentYoutube.youtubeUrl
-                ? playerStore.currentYoutube.youtubeUrl
-                : "https://www.youtube.com/watch?v=eyyAUFxlnGg"
-            }
-            muted={playerStore.isMuted}
-            ref={playerRef}
-            playing={playerStore.youtubePlay}
-            onProgress={handleProgress}
-            onReady={() => {
-              const storedPlayed = parseFloat(
-                localStorage.getItem("progressRatio") || "0",
-              );
-              playerRef.current?.seekTo(storedPlayed, "fraction");
-            }}
-            onPlay={() => {
-              requestPlay();
-            }}
-            onError={() => {
-              playerStore.setPlayer({
-                youtubePlay: false,
-              });
-              ReactPlayerError();
-            }}
-            onEnded={() => ReactPlayerEnded()}
-          />
+          {isIframeLoaded &&
+            <ReactPlayer
+              width="0rem"
+              height="0rem"
+              url={
+                playerStore.currentYoutube.youtubeUrl
+                  ? playerStore.currentYoutube.youtubeUrl
+                  : "https://www.youtube.com/watch?v=eyyAUFxlnGg"
+              }
+              muted={playerStore.isMuted}
+              ref={playerRef}
+              playing={playerStore.youtubePlay}
+              onProgress={handleProgress}
+              onReady={() => {
+                const storedPlayed = parseFloat(
+                  localStorage.getItem("progressRatio") || "0",
+                );
+                playerRef.current?.seekTo(storedPlayed, "fraction");
+              }}
+              onPlay={() => {
+                requestPlay();
+              }}
+              onError={() => {
+                playerStore.setPlayer({
+                  youtubePlay: false,
+                });
+                ReactPlayerError();
+              }}
+              onEnded={() => ReactPlayerEnded()}
+            />
+          }
           <input
             type="range"
             min="0"
@@ -195,6 +204,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             disabled={!playerStore.currentYoutube.id}
           />
         </div>
+
       </button>
       {/* 하단에 어떤 음악인지 보여주는 UI */}
       <ModalButton
