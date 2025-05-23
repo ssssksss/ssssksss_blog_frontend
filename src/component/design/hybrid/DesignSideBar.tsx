@@ -8,14 +8,14 @@ const LeftNavItems = [
   {
     iconPath: "/images/icons/ic-home.svg",
     labelTitle: "홈",
-    href: "/Design",
+    href: "/design",
     options: {isRequiredAuth: false},
   },
   {
     iconPath: "/images/icons/ic-calendar.svg",
     labelTitle: "대비",
-    href: "/Design/",
-    options: {isRequiredAuth: true},
+    href: "/design/color-contrast",
+    options: {isRequiredAuth: false},
   },
 ];
 
