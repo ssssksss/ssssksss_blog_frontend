@@ -20,12 +20,10 @@ const navItems = [
   {href: "#contact", label: "Contact"},
 ];
 
-const text = "DEV.AGE";
-
 export default async function Home() {
   return (
-    <div className="min-h-screen bg-default-1 p-4 text-contrast-1 min-[480px]:p-8">
-      <div
+    <div className="min-h-screen bg-default-1 p-4 min-[480px]:p-8">
+      <article
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
         <nav className="mb-2 flex flex-col justify-between gap-y-2 min-[480px]:mb-16">
@@ -47,7 +45,7 @@ export default async function Home() {
           </div>
         </nav>
 
-        <div className="space-y-2 text-center min-[480px]:space-y-6">
+        <section className="space-y-2 text-center min-[480px]:space-y-6">
           <h1 className="mb-4 text-2xl font-bold min-[480px]:text-5xl">
             Frontend Developer
           </h1>
@@ -80,7 +78,7 @@ export default async function Home() {
               <Mail size={24} />
             </a>
           </div>
-        </div>
+        </section>
 
         {/* Skills Section */}
         <section id="skills" className="flex flex-col gap-y-6 py-4">
@@ -174,7 +172,7 @@ export default async function Home() {
                 </section>
                 <div
                   className={
-                    "mt-6 flex h-full flex-col rounded-[0.5rem] py-2 outline outline-white-80"
+                    "mt-6 flex h-full flex-col rounded-[0.5rem] py-2 outline"
                   }
                 >
                   {i.work.map((j, index) => (
@@ -188,12 +186,15 @@ export default async function Home() {
                   {i.etc && <div> 기타: {i.etc} </div>}
                 </div>
                 <div className="flex gap-x-2">
-                  {
-                    i.link &&
-                  <a href={i.link} className="rounded-2xl bg-secondary-contrast w-fit px-2 py-1" target="_blank">
-                    블로그 정리 링크
-                  </a>
-                  }
+                  {i.link && (
+                    <a
+                      href={i.link}
+                      className="w-fit rounded-2xl px-2 py-1 outline"
+                      target="_blank"
+                    >
+                      블로그 정리 링크
+                    </a>
+                  )}
                 </div>
               </article>
             ))}
@@ -238,7 +239,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-      </div>
+      </article>
     </div>
   );
 }

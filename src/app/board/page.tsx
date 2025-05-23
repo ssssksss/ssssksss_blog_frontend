@@ -1,24 +1,13 @@
 import BoardMain from "@component/board/hybrid/BoardMain";
-import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
-import { cookies } from "next/headers";
-
-interface IBoard {
-  id: number;
-  title: string;
-  createdAt: string;
-  views: number;
-}
+import PaginationSEOHead from "@component/common/seo/PaginationSEOHead";
+import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
 
 async function getData(searchParams: URLSearchParams) {
-  const accessToken = cookies().get("accessToken");
-  const refreshToken = cookies().get("refreshToken");
   const queryString = new URLSearchParams(searchParams).toString();
-  const response = await fetchApiRoutes({
+  const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/board/list?${queryString}`,
-    accessToken: accessToken,
-    refreshToken: refreshToken,
     isAuth: false,
-    cache: "no-store"
+    cache: "no-store",
   });
 
   const result = await response.json();
@@ -29,20 +18,36 @@ async function getData(searchParams: URLSearchParams) {
   };
 }
 
-export async function generateMetadata() {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: {[key: string]: string | string[] | undefined};
+}) {
+  const params = new URLSearchParams(searchParams as Record<string, string>);
+  const pageNum = Number(params.get("page") || "1");
+
   return {
-    title: "에이지의 게시판",
-    description: "게시판",
+    title: pageNum === 1 ? "게시판" : `게시판 - ${pageNum}페이지`,
+    description: "에이지의 게시판 글 목록입니다.",
   };
 }
 
-const Page = async ({searchParams}: {searchParams: URLSearchParams}) => {
-  const initialData = await getData(searchParams);
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: {[key: string]: string | string[] | undefined};
+}) => {
+  const params = new URLSearchParams(searchParams as Record<string, string>);
+  const pageNum = Number(params.get("page") || "1");
+  const initialData = await getData(params);
 
   return (
-    <div className="flex min-h-[calc(100%-3rem)] w-full items-center p-4 ">
-      <BoardMain initialData={initialData} />
-    </div>
+    <>
+      <PaginationSEOHead currentPage={pageNum} basePath="/board" />
+      <div className="flex min-h-[calc(100%-3rem)] w-full items-center p-4">
+        <BoardMain initialData={initialData} />
+      </div>
+    </>
   );
 };
 

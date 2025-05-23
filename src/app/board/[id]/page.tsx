@@ -1,8 +1,8 @@
 import BoardDetailContainer from "@component/board/hybrid/BoardDetailContainer";
-import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
 
 async function getData(id: number) {
-  const response = await fetchApiRoutes({
+  const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/board/${id}`,
     method: "GET",
     next: {revalidate: 3600, tags: [`getBoard/${id}`]},
@@ -19,8 +19,11 @@ export async function generateMetadata({params: {id}}: {params: {id: string}}) {
   }
 
   return {
-    title: "게시판 페이지",
+    title: "게시판 조회",
     description: "게시판 페이지",
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/board/${id}`,
+    },
   };
 }
 

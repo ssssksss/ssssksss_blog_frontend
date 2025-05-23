@@ -1,5 +1,5 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
-import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
 import { cookies } from "next/headers";
 import Template from "../../template";
 
@@ -18,7 +18,7 @@ export async function generateMetadata({ params: { id } }: {params: { id: string
 async function getData(id: number) {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
-  const response = await fetchApiRoutes({
+  const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/blog2/${id}?isEdit=true`,
     accessToken: accessToken,
     refreshToken: refreshToken,

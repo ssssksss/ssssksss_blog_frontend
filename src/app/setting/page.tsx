@@ -2,7 +2,7 @@ import ThemeSettingView from "@component/setting/view/ThemeSettingView";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "가출한토토로의 블로그",
+  title: "에이지의 블로그",
   description: "설정",
 };
 interface IPage {}

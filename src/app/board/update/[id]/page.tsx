@@ -1,11 +1,11 @@
 import BoardCreateUpdateContainer from "@component/board/hybrid/BoardCreateUpdateContainer";
-import { fetchApiRoutes } from "@utils/api/fetchApiRoutes";
+import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
 import { cookies } from "next/headers";
 
 async function getData(id: number) {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
-  const response = await fetchApiRoutes({
+  const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/board/${id}?isEdit=true`,
     accessToken: accessToken,
     refreshToken: refreshToken,
