@@ -1,12 +1,12 @@
 import Button from "@component/common/button/hybrid/Button";
 import HamburgerMenu from "@component/common/button/hybrid/HamburgerMenu";
 import MusicPlayer from "@component/player/hybrid/MusicPlayer";
-import useLoadingStore from "@store/loadingStore";
 import useUserStore from "@store/userStore";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import React, { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { MouseEvent, ReactNode, useEffect, useState } from "react";
+import { FaPaintBrush } from "react-icons/fa";
 import { FaFolderTree } from "react-icons/fa6";
 import { PiBookBookmarkFill } from "react-icons/pi";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
@@ -57,12 +57,12 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/board",
     options: {isRequiredAuth: false},
   },
-  // {
-  //   icon: "/images/icons/ic-setting.svg",
-  //   label: "디자인",
-  //   href: "/design",
-  //   options: {isRequiredAuth: false},
-  // },
+  {
+    icon: <FaPaintBrush size={"24"} />,
+    label: "디자인",
+    href: "/design",
+    options: {isRequiredAuth: true, isAdmin: true},
+  },
   {
     icon: <FaFolderTree size={"24"} />,
     label: "폴더구조",
@@ -79,13 +79,13 @@ const LeftNavItems: LeftNavItem[] = [
     icon: <PiBookBookmarkFill size={"24"} />,
     label: "즐겨찾기",
     href: "/site-bookmark",
-    options: { isRequiredAuth: true },
+    options: {isRequiredAuth: true},
   },
   {
     icon: <TbDeviceDesktopAnalytics size={"24"} />,
     label: "분석 도구",
     href: "/analytics/sentry",
-    options: { isRequiredAuth: true, isAdmin: true },
+    options: {isRequiredAuth: true, isAdmin: true},
   },
   {
     icon: "/images/icons/ic-setting.svg",
@@ -101,35 +101,32 @@ const SideBar = () => {
   // const navStore = useNavStore();
   const [activeMenu, setActiveMenu] = useState("");
   const searchParams = useSearchParams();
-  const loadingStore = useLoadingStore();
-  const pathname = usePathname();
-  const previousPathname = useRef(pathname);
   useEffect(() => {
     // 컴포넌트가 마운트될 때 현재 경로를 가져와서 상태에 저장
     setActiveMenu(window.location.pathname);
   }, [searchParams]);
-
-  console.log("SideBar.tsx 파일 : ",userStore);
 
   return (
     <aside className={"z-200 absolute flex flex-col font-semibold"}>
       <HamburgerMenu
         isHideMenu={isNavbarOpen}
         onClickHideMenu={() => setIsNavbarOpen((prev) => !prev)}
+        ariaLabel="사이드바 메뉴 버튼"
       />
       <div
         className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-default-1 ${isNavbarOpen ? "flex border-r-[0.25rem] border-t-[0.25rem] border-primary-80" : "hidden"} flex-col justify-start`}
       >
         <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
-          {LeftNavItems.filter(
-            (i) =>
-              i.options.isRequiredAuth == false ||
-              (i.options.isRequiredAuth == true &&
-                userStore.id > 0 &&
-                ((i.options.isAdmin == true &&
-                  userStore.role == "ROLE_ADMIN") ||
-                  i.options.isAdmin == false)),
-          ).map((item, index) => (
+          {LeftNavItems.filter((i) => {
+            const {isRequiredAuth, isAdmin} = i.options;
+            const isLoggedIn = userStore.id > 0;
+            const hasAdminAccess = isAdmin === undefined || (isAdmin === true && userStore.role == "ROLE_ADMIN");
+
+            return (
+              isRequiredAuth === false ||
+              (isRequiredAuth === true && isLoggedIn && hasAdminAccess)
+            );
+          }).map((item, index) => (
             <Link
               href={item.href}
               key={`sideBarItem${index}`}
