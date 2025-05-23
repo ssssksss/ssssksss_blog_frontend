@@ -10,6 +10,7 @@ export interface IButtonProps {
   buttonClassName?: string;
   modal?: React.ReactElement;
   style?: React.CSSProperties;
+  ariaLabel?: string;
 }
 
 const ModalButton: React.FC<IButtonProps> = ({
@@ -36,7 +37,9 @@ const ModalButton: React.FC<IButtonProps> = ({
       className={`${props.buttonClassName}`}
       onClick={onClick}
       disabled={props.disabled}
-      style={{...style}}>
+      style={{ ...style }}
+      aria-label={props.ariaLabel || "모달 열기 버튼"}
+    >
       {children}
       <Modal modalState={modalState}>{props.modal}</Modal>
     </button>
