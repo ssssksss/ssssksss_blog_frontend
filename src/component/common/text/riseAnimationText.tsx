@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 
 /**
  * @author Sukyung Lee <ssssksss@naver.com>
  * @file riseAnimationText.tsx
- * @version 0.0.1 "2025-05-03 17:54:02"
- * @description 설명
+ * @version 0.1.0 "2025-05-23"
+ * @description 성능 최적화된 텍스트 계단식 애니메이션
  */
 
 interface IRiseAnimationText {
@@ -21,24 +21,45 @@ const RiseAnimationText = ({
   textClassName = "",
   interval = 3000,
 }: IRiseAnimationText) => {
-  const [key, setKey] = useState(0);
   const letters = Array.from(text);
+  const controls = useAnimation();
 
   useEffect(() => {
+    const triggerAnimation = async () => {
+      await controls.start("visible");
+    };
+
+    triggerAnimation(); // 초기 실행
+
     const id = setInterval(() => {
-      setKey((prev) => prev + 1); // key를 변경하면 컴포넌트 리렌더링됨
+      controls.set("hidden"); // 초기 상태로 리셋
+      triggerAnimation(); // 다시 시작
     }, interval);
-    return () => clearInterval(id); // 컴포넌트 언마운트 시 정리
-  }, [interval]);
+
+    return () => clearInterval(id);
+  }, [interval, controls]);
+
+  const variants = {
+    hidden: {y: 20, opacity: 0},
+    visible: (i: number) => ({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.3,
+      },
+    }),
+  };
 
   return (
     <div className={`flex space-x-1 overflow-hidden ${textClassName}`}>
       {letters.map((char, i) => (
         <motion.span
-          key={`${key}-${i}`} // key에 key값 추가하여 매번 새로 애니메이션
-          initial={{y: 20, opacity: 0}}
-          animate={{y: 0, opacity: 1}}
-          transition={{delay: i * 0.05, duration: 0.3}}
+          key={i}
+          custom={i}
+          initial="hidden"
+          animate={controls}
+          variants={variants}
         >
           {char === " " ? "\u00A0" : char}
         </motion.span>

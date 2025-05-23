@@ -1,6 +1,5 @@
 "use client";
 
-import ReactToastifyComponents from "@component/common/alert/ReactToastifyComponents";
 import DarkmodeToggleButton from "@component/common/button/hybrid/DarkmodeToggleButton";
 import FallingEffectButton from "@component/common/button/hybrid/FallingEffectButton";
 import FallingEffectContainer from "@component/common/effect/FallingEffectContainer";
@@ -20,6 +19,15 @@ import useToastifyStore from "@store/toastifyStore";
 import { useThemeStore } from "@store/useThemeStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
+
+const ReactToastifyComponents = dynamic(
+  () => import("@component/common/alert/ReactToastifyComponents"),
+  {
+    ssr: false,
+  },
+);
+
+import dynamic from "next/dynamic";
 import SideBar from "./SideBar";
 interface IHeader {}
 const Header = (props: IHeader) => {
