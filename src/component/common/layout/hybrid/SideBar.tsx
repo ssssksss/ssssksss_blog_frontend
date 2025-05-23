@@ -6,10 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { MouseEvent, ReactNode, useEffect, useState } from "react";
-import { FaPaintBrush } from "react-icons/fa";
+import { AiOutlineSchedule } from "react-icons/ai";
+import { FaClipboardList, FaHome, FaPaintBrush } from "react-icons/fa";
 import { FaFolderTree } from "react-icons/fa6";
+import { IoSettingsOutline } from "react-icons/io5";
 import { PiBookBookmarkFill } from "react-icons/pi";
-import { TbDeviceDesktopAnalytics } from "react-icons/tb";
+import { TbBrandBlogger, TbDeviceDesktopAnalytics } from "react-icons/tb";
 interface LeftNavItem {
   icon: string | ReactNode;
   label: string;
@@ -22,25 +24,25 @@ interface LeftNavItem {
 
 const LeftNavItems: LeftNavItem[] = [
   {
-    icon: "/images/icons/ic-home.svg",
+    icon: <FaHome size={"24"} />,
     label: "홈",
     href: "/",
     options: {isRequiredAuth: false},
   },
   {
-    icon: "/images/icons/ic-blog.svg",
+    icon: <TbBrandBlogger size={"24"} />,
     label: "블로그",
     href: "/blog",
     options: {isRequiredAuth: true, isAdmin: true},
   },
   {
-    icon: "/images/icons/ic-blog.svg",
+    icon: <TbBrandBlogger size={"24"} />,
     label: "블로그2",
     href: "/blog2",
     options: {isRequiredAuth: false},
   },
   {
-    icon: "/images/icons/ic-list-check.svg",
+    icon: <AiOutlineSchedule size={"24"} />,
     label: "일정",
     href: "/plan",
     options: {isRequiredAuth: true},
@@ -52,7 +54,7 @@ const LeftNavItems: LeftNavItem[] = [
   //   options: {isRequiredAuth: false},
   // },
   {
-    icon: "/images/icons/ic-board.svg",
+    icon: <FaClipboardList size={"24"} />,
     label: "게시판",
     href: "/board",
     options: {isRequiredAuth: false},
@@ -88,7 +90,7 @@ const LeftNavItems: LeftNavItem[] = [
     options: {isRequiredAuth: true, isAdmin: true},
   },
   {
-    icon: "/images/icons/ic-setting.svg",
+    icon: <IoSettingsOutline size={"24"} />,
     label: "설정",
     href: "/setting",
     options: {isRequiredAuth: false},
@@ -133,7 +135,7 @@ const SideBar = () => {
               className={"flex animate-fadeIn"}
             >
               <Button
-                className={`flex h-16 w-16 flex-col items-center gap-3 rounded-none py-2 hover:bg-primary-20 ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "text-white" : "text-black bg-transparent"}`}
+                className={"flex h-16 w-16 flex-col items-center gap-3 rounded-none py-2 hover:bg-primary-20"}
                 onClick={(e: MouseEvent) => {
                   if (
                     item.href ===
@@ -161,7 +163,7 @@ const SideBar = () => {
                   )}
                 </div>
                 <div
-                  className={`py-1 font-cookieRunRegular text-xs default-flex ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "bg-primary-80 px-2 text-white-40 primary-border-radius" : "text-black-100"}`}
+                  className={`py-1 font-cookieRunRegular text-xs default-flex rounded-2xl px-1  ${"/" + activeMenu.split("/")[1] === item.href.split("?")[0] ? "primary-set" : "bg-transparent"}`}
                 >
                   {item.label}
                 </div>

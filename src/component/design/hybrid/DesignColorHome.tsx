@@ -19,24 +19,24 @@ const DesignColorHome = (props: IDesignColorHome) => {
   };
 
   return (
-    <main className="min-h-screen space-y-8 bg-gray-100 p-10">
-      <div>
-        <h1 className="text-2xl font-bold pb-2">🎨 WCAG 색상 대비 도우미</h1>
-
-        <button
-          onClick={() => handleRandomColors()}
-          className="rounded bg-[#010706] px-4 py-2 font-semibold text-[#e7bc93] shadow"
-        >
-          🎲 랜덤 색상 생성
-        </button>
+    <main className="min-h-screen space-y-8 p-10">
+      <div className="">
+        <h1 className="pb-2 text-2xl font-bold">🎨 WCAG 색상 대비 도우미</h1>
+        <div className="flex gap-x-8">
+          <button
+            onClick={() => handleRandomColors()}
+            className="rounded bg-[#010706] px-4 py-2 font-semibold text-[#e7bc93] shadow"
+          >
+            🎲 랜덤 색상 생성
+          </button>
+          <DesignColorInputPanel
+            textColor={textColor}
+            bgColor={bgColor}
+            setTextColor={setTextColor}
+            setBgColor={setBgColor}
+          />
+        </div>
       </div>
-
-      <DesignColorInputPanel
-        textColor={textColor}
-        bgColor={bgColor}
-        setTextColor={setTextColor}
-        setBgColor={setBgColor}
-      />
 
       <DesignContrastResult textColor={textColor} bgColor={bgColor} />
 

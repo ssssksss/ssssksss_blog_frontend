@@ -24,13 +24,13 @@ const HamburgerMenu = (props: IHamburgerMenuProps) => {
       aria-label={props.ariaLabel || "햄버거 버튼"}
     >
       <div
-        className={`absolute h-1 w-8 rounded-md bg-black-100 transition-all duration-300 ease-in-out ${props.isHideMenu ? "top-1/2 -translate-y-1/2 -rotate-45 transform" : "bottom-3"} `}
+        className={`absolute h-1 w-8 rounded-md bg-contrast-1 transition-all duration-300 ease-in-out ${props.isHideMenu ? "top-1/2 -translate-y-1/2 -rotate-45 transform" : "bottom-3"} `}
       />
       <div
-        className={`absolute h-[4px] w-8 rounded-md bg-black-100 transition-all duration-300 ease-in-out ${props.isHideMenu ? "hidden" : "top-1/2 -translate-y-1/2"} `}
+        className={`absolute h-[4px] w-8 rounded-md bg-contrast-1 transition-all duration-300 ease-in-out ${props.isHideMenu ? "hidden" : "top-1/2 -translate-y-1/2"} `}
       />
       <div
-        className={`absolute h-1 w-8 rounded-md bg-black-100 transition-all duration-300 ease-in-out ${props.isHideMenu ? "top-1/2 -translate-y-1/2 rotate-45 transform" : "top-3"} `}
+        className={`absolute h-1 w-8 rounded-md bg-contrast-1 transition-all duration-300 ease-in-out ${props.isHideMenu ? "top-1/2 -translate-y-1/2 rotate-45 transform" : "top-3"} `}
       />
     </button>
   );

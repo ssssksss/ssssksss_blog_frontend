@@ -38,9 +38,9 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
         {siteBookmarkStore.siteBookmarkCategoryList?.map((i) => (
           <div
             key={i.id}
-            className="w-full rounded-2xl p-1 shadow-2xl outline outline-1 outline-primary-80"
+            className="w-full rounded-2xl p-1 shadow-md outline outline-1 outline-primary-80"
           >
-            <div className="flex flex-col gap-[0.125rem]">
+            <div className="flex flex-col gap-[0.125rem] text-contrast-1">
               <h3 className="relative w-full rounded-t-2xl px-1 font-DNFBitBitv2 text-[1.5rem] default-flex">
                 {i.name}
                 <NestedModalButton
@@ -56,7 +56,7 @@ const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
                   <a
                     key={j.id}
                     target="_blank"
-                    className="cursor-pointer rounded-md py-2 default-flex hover:bg-primary-80 hover:text-primary-contrast"
+                    className="cursor-pointer rounded-2xl py-2 default-flex hover:bg-primary-80 hover:text-primary-contrast"
                     href={j.url}
                   >
                     {j.name}
