@@ -1,16 +1,18 @@
 "use client";
 
+import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
+import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
+import useLoadingStore from "@store/loadingStore";
 import useRefreshStore from "@store/refreshStore";
 import useUserStore from "@store/userStore";
 import { format } from "date-fns";
-import { SquareArrowLeft } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { FaPencilAlt } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const BoardCommentContainer = dynamic(() => import("./BoardCommentContainer"), {
   ssr: false,
@@ -23,16 +25,24 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
   const userStore = useUserStore();
   const fetchCSR = useFetchCSR();
   const refreshStore = useRefreshStore();
+  const loadingStore = useLoadingStore();
 
   const deleteBoardHandler = async () => {
-    const result = await fetchCSR.requestWithHandler({
-      url: `/api/board?id=${props.data.id}`,
-      method: "DELETE",
-      showSuccessToast: true,
-      successMessage: "게시글이 삭제되었습니다."
-    });
-    if (result == undefined) return;
-    router.replace("/board");
+    try {
+      const result = await fetchCSR.requestWithHandler({
+        url: `/api/board?id=${props.data.id}`,
+        method: "DELETE",
+        showSuccessToast: true,
+        successMessage: "게시글이 삭제되었습니다."
+      });
+      if (result == undefined) return;
+      refreshStore.setRefresh(true);
+      router.replace("/board");
+    } catch {
+      
+    } finally {
+      loadingStore.stopLoading();
+    }
   };
 
   useEffect(() => {
@@ -42,7 +52,10 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
     url.search = params.toString();
     window.history.replaceState({}, "", url.toString());
     if (refreshStore.isRefresh) {
+      // revalidate on demand 사용시 즉시 업데이트가 되지 않는 문제로 1초 후 새로고침 처리로 업데이트   
+      loadingStore.startLoading();
       setTimeout(() => {
+        loadingStore.stopLoading();
         refreshStore.setRefresh(false);
         router.refresh();
       }, 1000);
@@ -61,28 +74,42 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
     >
       <section className="relative min-h-[2rem] w-full default-flex">
         {userStore.nickname == props.data.nickname && (
-          <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
+          <div className="absolute right-0 top-1/2 flex -translate-y-[calc(50%+0.25rem)] gap-x-1">
             <button
               onClick={() => router.push(`/board/update/${props.data.id}`)}
-              className="px-2 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80 default-flex"
+              className="h-btn-md px-2 py-2 primary-border-radius default-flex hover:bg-primary-80 hover:text-white-80"
               aria-label="게시판 수정하기 버튼"
             >
-              <FaPencilAlt size="24" />
+              <MdEdit size="28" />
             </button>
-            <button
-              onClick={() => deleteBoardHandler()}
-              className="h-full px-2 py-2 primary-border-radius default-flex hover:bg-primary-80 hover:text-white-80"
+            <ModalButton
+              buttonClassName={
+                "h-full px-2 py-2 primary-border-radius h-btn-md default-flex hover:bg-primary-80 hover:text-white-80"
+              }
               aria-label="게시판 삭제 버튼"
+              modal={
+                <ConfirmModal
+                  loading={loadingStore.loading}
+                  onCancelClick={() => {
+                    loadingStore.stopLoading();
+                  }}
+                  onConfirmClick={() => {
+                    deleteBoardHandler();
+                  }}
+                  mainMessage={["게시판을 삭제하시겠습니까?"]}
+                />
+              }
             >
               <MdDelete size="28" />
-            </button>
+            </ModalButton>
           </div>
         )}
         <button
-          onClick={() => router.push("/board")}
-          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
+          onClick={() => router.back()}
+          className="absolute left-0 top-1/2 h-btn-md -translate-y-[calc(50%+0.25rem)] px-2 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
+          aria-label="뒤로가기 버튼"
         >
-          <SquareArrowLeft />
+          <FaRegArrowAltCircleLeft size="28" />
         </button>
       </section>
       <section className="flex justify-between px-4 py-2 primary-border-radius">
@@ -95,7 +122,7 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
       <h1 className="h-auto w-full whitespace-pre-wrap break-words break-all p-4 text-[24px] font-bold primary-border-radius default-flex">
         {props.data.title}
       </h1>
-      <div className="mb-4 h-auto min-h-[calc(100%-16rem)] w-full p-4 primary-border-radius">
+      <div className="mb-4 h-auto min-h-[calc(100%-10rem)] w-full p-4 primary-border-radius">
         {props.data.content}
       </div>
       <BoardCommentContainer
