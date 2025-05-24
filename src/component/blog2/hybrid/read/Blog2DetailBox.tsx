@@ -33,28 +33,32 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
   const { loading, startLoading, stopLoading } = useLoading();
   const deleteBlog2Handler = async () => {
     // 삭제 API
-    const result = await fetchCSR.requestWithHandler({
-      url: `/api/blog2?id=${props.data.blog2.id}`,
-      method: "DELETE",
-    });
-    if (result == undefined) return;
-    // 기존 리스트에서 블로그 항목 제거
-    if (
-      blog2Store.blog2List.blog2SecondCategoryId ==
-      props.data.blog2SecondCategory.id
-    ) {
-      blog2Store.setBlog2List({
-        id: blog2Store.blog2List.blog2SecondCategoryId,
-        list: [
-          ...blog2Store.blog2List.list.filter(
-            (i) => i.id !== props.data.blog2.id,
-          ),
-        ],
+    try {
+      const result = await fetchCSR.requestWithHandler({
+        url: `/api/blog2?id=${props.data.blog2.id}`,
+        method: "DELETE",
       });
+      if (result == undefined) return;
+      // 기존 리스트에서 블로그 항목 제거
+      if (
+        blog2Store.blog2List.blog2SecondCategoryId ==
+        props.data.blog2SecondCategory.id
+      ) {
+        blog2Store.setBlog2List({
+          id: blog2Store.blog2List.blog2SecondCategoryId,
+          list: [
+            ...blog2Store.blog2List.list.filter(
+              (i) => i.id !== props.data.blog2.id,
+            ),
+          ],
+        });
+      }
+      await router.push(
+        `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
+      );
+    } catch {
+      stopLoading();
     }
-    await router.push(
-      `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
-    );
   };
 
   useEffect(() => {
