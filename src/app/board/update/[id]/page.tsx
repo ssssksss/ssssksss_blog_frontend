@@ -22,15 +22,15 @@ export const metadata = {
   },
 };
 
-export default async function page({params: {id}}: {params: {id: string}}) {
-  if (!Number.isSafeInteger(id) || Number(id) < 1) {
+export default async function page({ params: { id } }: { params: { id: string } }) {
+  if (!Number.isSafeInteger(Number(id)) || Number(id) < 1) {
     throw Error("Not Found");
   }
   const pageId = Number(id);
   const result: IResponseReadBoard = await getData(pageId);
   
   return (
-    <div className={"flex h-full w-full p-4 text-[16px]"}>
+    <div className={"flex h-full w-full p-4"}>
       <BoardCreateUpdateContainer isEdit={true} data={result?.data} />
     </div>
   );

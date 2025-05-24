@@ -6,10 +6,10 @@ import BasicTextarea from "@component/common/textarea/BasicTextarea";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useRefreshStore from "@store/refreshStore";
 import useToastifyStore from "@store/toastifyStore";
-import { SquareArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-
+import { BsSend } from "react-icons/bs";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 interface IBoardCreateUpdateContainer {
   isEdit?: boolean;
   data?: IBoard;
@@ -61,18 +61,22 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
           <BasicButton
             onClick={() => createUpdateBoardHandler()}
-            className="h-full px-4 py-2 primary-border hover:primary-set rounded-2xl">
-            {props.isEdit ? "수정 완료" : "등록 하기"}
+            className="h-btn-md rounded-2xl p-2 primary-border hover:primary-set"
+            aria-label={props.isEdit ? "게시판 수정 완료" : "게시판 생성 완료"}
+          >
+            <BsSend size="28" />
           </BasicButton>
         </div>
         <button
-          onClick={() => router.push("/board")}
-          className="absolute left-0 top-1/2 -translate-y-[calc(50%+0.25rem)] px-4 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80">
-          <SquareArrowLeft />
+          onClick={() => router.back()}
+          className="absolute left-0 top-1/2 h-btn-md -translate-y-[calc(50%+0.25rem)] px-2 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
+          aria-label="뒤로가기"
+        >
+          <FaRegArrowAltCircleLeft size="28" />
         </button>
       </div>
       <Input
-        className="max-h-[4rem] w-full p-4 primary-border-radius"
+        className="max-h-[4rem] w-full p-4 text-center primary-border-radius"
         placeholder="제목을 입력하세요"
         ref={titleRef}
         defaultValue={props.data?.title || ""}

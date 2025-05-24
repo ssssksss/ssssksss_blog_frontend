@@ -29,10 +29,6 @@ export async function generateMetadata({params: {id}}: {params: {id: string}}) {
 
 export default async function page({params: {id}}: {params: {id: string}}) {
   const pageId = Number(id);
-  if (pageId < 1 || !Number.isSafeInteger(pageId)) {
-    throw Error("Not Found");
-  }
-
   const result: IResponseReadBoard = await getData(pageId);
 
   return (
