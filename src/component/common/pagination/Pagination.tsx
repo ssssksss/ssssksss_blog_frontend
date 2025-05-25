@@ -6,6 +6,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import { useCallback, useEffect } from "react";
 
 interface Props {
   currentPage: number;
@@ -13,12 +14,11 @@ interface Props {
   pageHandler: (currentPage: number) => void;
 }
 
-// 버튼 스타일을 공통으로 관리하기 위해 임시로 만든 버튼 컴포넌트
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
 };
 
-const Button = ({children, className, ...props}: ButtonProps) => {
+const Button = ({ children, className, ...props }: ButtonProps) => {
   return (
     <button
       className={`aspect-square w-[2.5rem] rounded-md default-flex ${className}`}
@@ -29,14 +29,31 @@ const Button = ({children, className, ...props}: ButtonProps) => {
   );
 };
 
-const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
-  const pageList = Array.from({length: totalPages}, (_, index) => index + 1);
+const Pagination = ({ currentPage, totalPages, pageHandler }: Props) => {
+  const pageList = Array.from({ length: totalPages }, (_, index) => index + 1);
   const leftPage = Math.max(currentPage - 2, 1);
   const rightPage = Math.min(leftPage + 4, totalPages);
 
+  // ⌨️ 방향키 이벤트 핸들러
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) {
+        pageHandler(currentPage - 1);
+      } else if (e.key === "ArrowRight" && currentPage < totalPages) {
+        pageHandler(currentPage + 1);
+      }
+    },
+    [currentPage, totalPages, pageHandler]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
   return (
     <div className="flex max-w-full flex-nowrap justify-center gap-2 py-4 text-sm max-[480px]:flex-wrap">
-      {/* 상단 중앙 페이지 번호 버튼 영역 */}
+      {/* 페이지 번호 버튼 */}
       <div className="order-3 flex justify-center gap-2 max-[480px]:order-none max-[480px]:w-full">
         {pageList.slice(leftPage - 1, rightPage).map((page) => (
           <Button
@@ -54,7 +71,7 @@ const Pagination = ({currentPage, totalPages, pageHandler}: Props) => {
         ))}
       </div>
 
-      {/* 하단 앞뒤 이동 버튼 영역 */}
+      {/* 앞뒤 이동 버튼 */}
       <Button
         className={`order-1 max-[480px]:order-none ${
           currentPage === 1
