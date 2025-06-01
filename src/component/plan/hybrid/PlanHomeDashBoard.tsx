@@ -49,7 +49,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
   return (
     <section
       className={
-        "grid h-full w-full gap-2 p-2 transition-transform duration-300"
+        "grid h-full w-full gap-2 p-2 transition-transform duration-300 text-black-80"
       }
     >
       <article className={"rounded-[1rem] bg-green-20 p-1 shadow-md"}>
