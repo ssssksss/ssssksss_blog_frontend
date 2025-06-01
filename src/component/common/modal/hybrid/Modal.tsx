@@ -2,9 +2,9 @@ import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
 import useLoadingStore from "@store/loadingStore";
 import useToastifyStore from "@store/toastifyStore";
-import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal, flushSync } from "react-dom";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 interface ModalProps extends React.PropsWithChildren {
   className?: React.HTMLProps<HTMLElement>["className"];
   modalState: IModalState;
@@ -105,15 +105,10 @@ export const Modal = ({children, modalState}: ModalProps) => {
                 }
                 modalState.closeModal();
               }}
-              className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
+              className="absolute right-[1.5rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform text-contrast-1 transition-transform duration-300"
               style={{zIndex: 200}}
             >
-              <Image
-                src={"/images/icons/ic-exit.svg"}
-                alt={"close-icon"}
-                width={48}
-                height={48}
-              />
+              <AiOutlineCloseCircle size={"48"} />
             </button>
           ),
         },

@@ -2,6 +2,7 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import usePlanStore from "@store/planStore";
+import "@styles/reactDataRange.css";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { PlanUpdateScheduleYup } from "@utils/validation/PlanScheduleYup";
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 import { RangeKeyDict } from "react-date-range";
 import { FormProvider, useForm } from "react-hook-form";
 import PlanCreateUpdateScheduleModalView from "../view/PlanCreateUpdateScheduleModalView";
-
 interface IPlanUpdateScheduleModal extends INestedModalComponent {
   data: IPlanScheduleObject | IPlanSchedule;
 }

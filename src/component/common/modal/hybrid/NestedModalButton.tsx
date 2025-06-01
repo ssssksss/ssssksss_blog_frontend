@@ -13,6 +13,7 @@ export interface IButtonProps {
   buttonClassName?: string;
   modal?: React.ReactElement;
   style?: React.CSSProperties;
+  ariaLabel?: string;
 }
 
 const NestedModalButton: React.FC<IButtonProps> = ({
@@ -40,11 +41,10 @@ const NestedModalButton: React.FC<IButtonProps> = ({
       onClick={onClick}
       disabled={props.disabled}
       style={{...style}}
+      aria-label={props.ariaLabel || "중복 모달 열기 버튼"}
     >
       {children}
-      <NestedModal modalState={modalState}>
-        {props.modal}
-      </NestedModal>
+      <NestedModal modalState={modalState}>{props.modal}</NestedModal>
     </button>
   );
 };

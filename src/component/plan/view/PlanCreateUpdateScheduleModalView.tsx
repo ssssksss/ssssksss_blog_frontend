@@ -2,6 +2,7 @@ import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import BasicInput from "@component/common/input/BasicInput";
 import BasicTextarea from "@component/common/textarea/BasicTextarea";
+import "@styles/reactDataRange.css";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import Image from "next/image";
@@ -68,7 +69,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
       <h2 className={"text-[1.5rem] font-bold default-flex"}>
         일정 {props.isEdit ? "수정" : "생성"}
       </h2>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
+      <section className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           카테고리
         </div>
@@ -85,8 +86,8 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             </button>
           ))}
         </div>
-      </div>
-      <div className="flex min-h-[4rem] flex-col gap-y-2 p-2 primary-border-radius">
+      </section>
+      <section className="flex min-h-[4rem] flex-col gap-y-2 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           진행 상황
         </div>
@@ -106,8 +107,8 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             </ThemeActiveButton1>
           ))}
         </div>
-      </div>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
+      </section>
+      <section className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex items-center gap-x-2 rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           기간
           <div className={"flex justify-center text-[1rem]"}>
@@ -140,7 +141,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           </button>
         </div>
         <div
-          className={`flex flex-col items-center gap-[1.875rem] bg-default-1 dynamic-opacity ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "mt-[1rem] primary-border-radius"}`}
+          className={`flex flex-col items-center gap-[1.875rem] bg-default-1 ${isFoldCalendar ? "h-0 overflow-hidden outline-none" : "mt-[1rem]"}`}
         >
           <div className="relative">
             <DateRangePicker
@@ -154,13 +155,14 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
               locale={ko}
               direction={props.windowWidth > 880 ? "horizontal" : "vertical"}
               rangeColors={["#00B488", "#F2FAF7"]}
-              color={"#ff0000"}
+              // color={"#ff0000"}
               onShownDateChange={(e) => {
                 props.changeShowDate({
                   year: e.getFullYear(),
                   month: e.getMonth() + 1,
                 });
               }}
+              className="[&_.rdrDayNumber_span]:text-contrast-1 [&_.rdrDayPassive_span]:!text-gray-40 [&_.rdrMonthAndYearWrapper]:bg-default-1 [&_.rdrMonth]:bg-default-1"
             />
             <div
               className={
@@ -179,7 +181,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             </div>
           </div>
         </div>
-      </div>
+      </section>
       <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 제목 </span>
@@ -195,7 +197,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           placeholder="제목"
         />
       </div>
-      <div className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
+      <section className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 내용 </span>
           <span className="text-sm">{getValues("content").length} / 255</span>
@@ -211,19 +213,17 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           maxLength={255}
           placeholder="내용"
         />
-      </div>
-      <div className="h-[3rem] default-flex">
-        <ThemeButton1
-          className={"px-8 py-2"}
-          disabled={!formState.isValid}
-          onClick={handleSubmit(
-            props.onClickSubmit as any,
-            props.onClickErrorSubmit,
-          )}
-        >
-          일정 {props.isEdit ? "수정하기" : "생성하기"}
-        </ThemeButton1>
-      </div>
+      </section>
+      <ThemeButton1
+        className={"h-[3rem] px-8 py-2 default-flex"}
+        disabled={!formState.isValid}
+        onClick={handleSubmit(
+          props.onClickSubmit as any,
+          props.onClickErrorSubmit,
+        )}
+      >
+        일정 {props.isEdit ? "수정하기" : "생성하기"}
+      </ThemeButton1>
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
+import EditButton from "@component/common/button/EditButton";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
 import useFetchCSR from "@hooks/useFetchCSR";
@@ -6,7 +8,6 @@ import usePlanStore from "@store/planStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { addHours, format, parse, parseISO } from "date-fns";
-import Image from "next/image";
 import PlanUpdateScheduleModal from "./PlanUpdateScheduleModal";
 
 interface IPlanCalendarItemInfoModal extends INestedModalComponent {
@@ -29,46 +30,49 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
 
   const deleteScheduleCalendar = async () => {
     startLoading();
-    const result = await fetchCSR.requestWithHandler({
-      url: `/api/plan/schedule?id=${data.id}`,
-      method: "DELETE",
-      successMessage: "일정 삭제에 성공했습니다.",
-      showSuccessToast: true
-    });
-    if (result == undefined) return;
-    const tempList = planStore.scheduleList.filter((i) => i.id != data.id);
-    const days: ICalendarItem[] = createScheduleCalendar(
-      new Date(planStore.calendar[15].date),
-    );
-    const scheduleStartDate = parse(
-      days[0].year +
-        days[0].month.toString().padStart(2, "0") +
-        days[0].day.toString().padStart(2, "0"),
-      "yyyyMMdd",
-      new Date(),
-    ).toISOString();
-    const scheduleEndDate = parse(
-      days[days.length - 1].year +
-        days[days.length - 1].month.toString().padStart(2, "0") +
-        days[days.length - 1].day.toString().padStart(2, "0"),
-      "yyyyMMdd",
-      new Date(),
-    ).toISOString();
-
-    const list = tempList;
-    const t = scheduleSort(
-      list,
-      format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
-    );
-    t.result.forEach((schedule) => {
-      days[schedule.index].data.push(schedule);
-    });
-    planStore.setCalendar(days);
-    planStore.setMaxLayer(t.maxLayer);
-    planStore.setScheduleList(tempList);
-    stopLoading();
-    props.closeModal!();
+    try {
+      const result = await fetchCSR.requestWithHandler({
+        url: `/api/plan/schedule?id=${data.id}`,
+        method: "DELETE",
+        successMessage: "일정 삭제에 성공했습니다.",
+        showSuccessToast: true
+      });
+      if (result == undefined) return;
+      const tempList = planStore.scheduleList.filter((i) => i.id != data.id);
+      const days: ICalendarItem[] = createScheduleCalendar(
+        new Date(planStore.calendar[15].date),
+      );
+      const scheduleStartDate = parse(
+        days[0].year +
+          days[0].month.toString().padStart(2, "0") +
+          days[0].day.toString().padStart(2, "0"),
+        "yyyyMMdd",
+        new Date(),
+      ).toISOString();
+      const scheduleEndDate = parse(
+        days[days.length - 1].year +
+          days[days.length - 1].month.toString().padStart(2, "0") +
+          days[days.length - 1].day.toString().padStart(2, "0"),
+        "yyyyMMdd",
+        new Date(),
+      ).toISOString();
+  
+      const list = tempList;
+      const t = scheduleSort(
+        list,
+        format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
+        format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
+      );
+      t.result.forEach((schedule) => {
+        days[schedule.index].data.push(schedule);
+      });
+      planStore.setCalendar(days);
+      planStore.setMaxLayer(t.maxLayer);
+      planStore.setScheduleList(tempList);
+      props.closeModal!();
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
@@ -77,56 +81,51 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
       <div className="bg-white outline-bg-gray-20 w-full rounded-lg p-6 shadow-2xl outline outline-1">
         {/* 제목 */}
         <div className="mb-6">
-          <h2 className="break-all text-2xl font-bold text-gray-800">
-            {data.title}
-          </h2>
+          <h2 className="break-all text-2xl font-bold">{data.title}</h2>
         </div>
 
         {/* 날짜 정보 */}
-        <div className="mb-4 text-gray-600">
+        <div className="mb-4">
           <div className={"relative flex items-center"}>
             <span
-              className={`inline-block h-4 w-4 flex-shrink-0 ${data.scheduleCategoryBackgroundColor} rounded-full`}></span>
+              className={`inline-block h-4 w-4 flex-shrink-0 ${data.scheduleCategoryBackgroundColor} rounded-full`}
+            ></span>
             <span> {data.scheduleCategoryName} </span>
             <div className="absolute right-0 top-0 flex h-[2rem] w-[4rem] gap-x-2">
               <NestedModalButton
                 buttonClassName={
-                  "w-full default-flex relative primary-border-radius hover:scale-[120%]"
+                  " aspect-square w-8 default-flex relative primary-border-radius hover:scale-[120%]"
                 }
-                modal={<PlanUpdateScheduleModal data={data} />}>
-                <Image
-                  alt=""
-                  src={"/images/icons/ic-edit-black.svg"}
-                  width={16}
-                  height={16}
-                />
+                modal={<PlanUpdateScheduleModal data={data} />}
+                ariaLabel="일정 수정하기 버튼"
+              >
+                <EditButton className="" />
               </NestedModalButton>
-              <button
-                className={
-                  "relative w-full primary-border-radius default-flex hover:scale-[120%]"
-                }
-                disabled={loading}
-                onClick={() => deleteScheduleCalendar()}>
-                {loading ? (
-                  <Image alt="" src={"/images/gif/totoro-left-move.gif"} fill />
-                ) : (
-                  <Image
-                    alt=""
-                    src={"/images/icons/ic-trash.svg"}
-                    width={16}
-                    height={16}
-                  />
-                )}
-              </button>
+              {loading ? (
+                <div className="h-6 w-6 animate-spin rounded-full border-b-2"></div>
+              ) : (
+                <DeleteConfirmButton
+                  className={
+                    "relative aspect-square w-8 primary-border-radius default-flex hover:scale-[120%]"
+                  }
+                  ariaLabel="게시판 삭제 버튼"
+                  onCancelClick={() => {
+                    stopLoading();
+                  }}
+                  onConfirmClick={() => deleteScheduleCalendar()}
+                  mainMessage={["게시판을 삭제하시겠습니까?"]}
+                  loading={loading}
+                />
+              )}
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <span className="flex flex-col">
-              <p className="flex text-sm text-gray-500">
+              <p className="flex text-sm">
                 <span className="min-w-[2rem] font-semibold">시작:</span>
                 <span>{formatDate(data.scheduleStartDate)}</span>
               </p>
-              <p className="flex text-sm text-gray-500">
+              <p className="flex text-sm">
                 <span className="min-w-[2rem] font-semibold">종료:</span>
                 <span>{formatDate(data.scheduleEndDate)}</span>
               </p>
@@ -139,7 +138,7 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
 
         {/* 내용 */}
         <div className="mt-4">
-          <p className="whitespace-pre-wrap break-all leading-relaxed text-gray-700">
+          <p className="whitespace-pre-wrap break-all leading-relaxed">
             {data.content}
           </p>
         </div>

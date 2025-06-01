@@ -17,7 +17,7 @@ const PlanCalendarItem = (props: IPlanCalendarItem) => {
     <div className="h-full w-full outline outline-2 outline-offset-[-2px] outline-gray-60">
       <div className={"mb-1 flex justify-start px-1 pt-1"}>
         <span
-          className={`${props.state ? "text-black-60" : format(new Date(), "yyyy-MM-dd") == props.date ? "rounded-md px-1 primary-set" : "text-black-80"}`}
+          className={`${props.state ? "" : format(new Date(), "yyyy-MM-dd") == props.date ? "rounded-md px-1 primary-set" : ""}`}
         >
           {props.day}
         </span>

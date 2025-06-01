@@ -7,8 +7,9 @@ import usePlanStore from "@store/planStore";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { format, parse } from "date-fns";
 import { format as formatTZ } from "date-fns-tz";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { FaRegCalendarPlus } from "react-icons/fa";
+import { FaRegRectangleList } from "react-icons/fa6";
 import PlanConvertStatus from "../view/PlanConvertStatus";
 import PlanCalendarItem from "./PlanCalendarItem";
 import PlanCalendarItemInfoModal from "./PlanCalendarItemInfoModal";
@@ -123,23 +124,16 @@ const PlanScheduleMonthBox = () => {
         <ModalButton
           modal={<PlanCreateScheduleModal />}
           buttonClassName="hover:bg-gradient primary-border-radius h-btn-md px-2 py-[0.125rem] flex items-center gap-x-1"
+          ariaLabel="달력카테고리 추가 아이콘"
         >
-          <div className="relative h-6 w-6 default-flex">
-            <Image alt="달력 아이콘" src="/images/icons/ic-calendar.svg" fill />
-          </div>
-          <span> + </span>
+          <FaRegCalendarPlus size={"24"} />
         </ModalButton>
         <NestedModalButton
           modal={<PlanScheduleCategoryModal />}
           buttonClassName="hover:bg-gradient primary-border-radius h-btn-md  px-2 py-[0.125rem]"
+          ariaLabel="카테고리 목록 아이콘"
         >
-          <div className="relative h-4 w-4 default-flex">
-            <Image
-              alt="카테고리 목록 아이콘"
-              src="/images/icons/ic-list.svg"
-              fill
-            />
-          </div>
+          <FaRegRectangleList size={"24"} />
         </NestedModalButton>
       </section>
 
@@ -233,7 +227,7 @@ const PlanScheduleMonthBox = () => {
               modal={<PlanCalendarItemInfoModal data={i} />}
             >
               <div className="flex w-full justify-between">
-                <span className="text-sm text-black-80">
+                <span className="text-sm ">
                   {formatTZ(i.scheduleStartDate, "yyyy-MM-dd")} ~
                   {formatTZ(i.scheduleEndDate, "yyyy-MM-dd")}
                 </span>

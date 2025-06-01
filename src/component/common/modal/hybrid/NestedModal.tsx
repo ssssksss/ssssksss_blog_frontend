@@ -1,7 +1,7 @@
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
-import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface ModalProps extends React.PropsWithChildren {
   className?: React.HTMLProps<HTMLElement>["className"];
@@ -68,15 +68,10 @@ export const NestedModal = ({children, modalState}: ModalProps) => {
                   history.back();
                 }
               }}
-              className="absolute right-[1rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform transition-transform duration-300"
+              className="absolute right-[1.5rem] top-[1rem] h-[2rem] w-[2rem] scale-100 transform text-contrast-1 transition-transform duration-300"
               style={{zIndex: 200}}
             >
-              <Image
-                src={"/images/icons/ic-exit.svg"}
-                alt={"close-icon"}
-                width={48}
-                height={48}
-              />
+              <AiOutlineCloseCircle size={"44"} />
             </button>
           ),
         },
