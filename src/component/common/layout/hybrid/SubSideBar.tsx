@@ -4,14 +4,13 @@ import Button from "@component/common/button/hybrid/Button";
 import useToggleState from "@hooks/useToggle";
 import useLoadingStore from "@store/loadingStore";
 import useUserStore from "@store/userStore";
-import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { GoSidebarCollapse } from "react-icons/go";
 interface ITravelSideBar {
   LeftNavItems: {
-    iconPath: string;
+    icon: string | ReactNode;
     labelTitle: string;
     href: string;
     options: {
@@ -69,12 +68,9 @@ const SubSideBar = (props: ITravelSideBar) => {
                 {loadingStore.loading ? (
                   <div> .. </div>
                 ) : (
-                  <Image
-                    src={item.iconPath}
-                    alt={item.labelTitle}
-                    width={24}
-                    height={24}
-                  />
+                  <>
+                    {item.icon}
+                  </>
                 )}
               </div>
               <span
