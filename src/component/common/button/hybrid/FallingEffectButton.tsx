@@ -19,7 +19,7 @@ const FallingEffectButton = (props: IFallingEffectButton) => {
       >
         {/* 원형 버튼 */}
         <div
-          className={`flex h-6 w-6 transform items-center justify-center rounded-full bg-white-80 transition-transform duration-300 ease-in-out ${
+          className={`text-black-80 flex h-6 w-6 transform items-center justify-center rounded-full bg-white-80 transition-transform duration-300 ease-in-out ${
             themeStore.isFallingEffectMode
               ? "translate-x-4 min-[480px]:translate-x-8"
               : "translate-x-0"
