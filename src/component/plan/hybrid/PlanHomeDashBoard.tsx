@@ -10,10 +10,6 @@ const PlanHomeCalendar = dynamic(() => import("./PlanHomeCalendar"), {
   ssr: false,
 });
 
-const PlanHomeMemo = dynamic(() => import("./PlanHomeMemo"), {
-  ssr: false,
-});
-
 const PlanHomeTodaySchedule = dynamic(() => import("./PlanHomeTodaySchedule"), {
   ssr: false,
 });
@@ -65,17 +61,6 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
 
       <article className={"rounded-[1rem] bg-red-20 p-1 shadow-md"}>
         <PlanHomeTodaySchedule />
-      </article>
-
-      <article
-        className={
-          "h-full rounded-[1rem] bg-blue-20 shadow-md scrollbar-hide"
-        }
-      >
-        <h2 className="h-[3rem] py-2 text-center font-gmarketSansBold text-lg">
-          메모장
-        </h2>
-        <PlanHomeMemo isActive={false} />
       </article>
     </section>
   );

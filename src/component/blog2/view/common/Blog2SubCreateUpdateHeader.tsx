@@ -1,7 +1,7 @@
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
-import { PanelBottomClose, PanelBottomOpen, Save } from "lucide-react";
-
+import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
+import { FiSave } from "react-icons/fi";
 interface IBlog2SubCreateUpdateHeader {
   type: "basic" | "structure" | "result";
   saveHandler: () => void;
@@ -15,17 +15,17 @@ const Blog2SubCreateUpdateHeader = (
   return (
     <div
       className={
-        "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] primary-border relative gap-x-2 py-2 font-bold default-flex"
+        "max-w-[576px]:text-[2rem] min-w-[576px]:text-[3rem] relative gap-x-2 py-2 font-bold primary-border default-flex"
       }
     >
       {props.type == "basic" && (
-        <h2> 블로그 기초 글 {props.edit ? "수정" : "생성"} </h2>
+        <h2> {props.edit ? "블로그 기초 글 수정" : "블로그 기초 글 생성"} </h2>
       )}
       {props.type == "structure" && (
-        <h2> 블로그 구조 글 {props.edit ? "수정" : "생성"} </h2>
+        <h2> {props.edit ? "블로그 구조 글 수정" : "블로그 구조 글 생성"} </h2>
       )}
       {props.type == "result" && (
-        <h2> 블로그 결과 글 {props.edit ? "수정" : "생성"} </h2>
+        <h2> {props.edit ? "블로그 결과 글 수정" : "블로그 결과 글 생성"} </h2>
       )}
       <ThemeActiveButton1
         isActive={!props.modalState.isOpen}
@@ -41,9 +41,11 @@ const Blog2SubCreateUpdateHeader = (
       <ThemeButton1
         onClick={() => props.saveHandler()}
         disabled={props.saveDisabled}
-        className={"absolute right-[.5rem] h-[2.5rem] w-[2.5rem] default-flex"}
+        className={
+          "absolute right-[.5rem] h-[2.5rem] w-[2.5rem] default-flex"
+        }
       >
-        <Save />
+        <FiSave size="28" className="text-contrast-1" />
       </ThemeButton1>
     </div>
   );

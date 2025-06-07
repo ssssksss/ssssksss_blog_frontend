@@ -94,19 +94,19 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
             <div className="absolute right-0 top-0 flex h-[2rem] w-[4rem] gap-x-2">
               <NestedModalButton
                 buttonClassName={
-                  " aspect-square w-8 default-flex relative primary-border-radius hover:scale-[120%]"
+                  " aspect-square w-8 default-flex relative"
                 }
                 modal={<PlanUpdateScheduleModal data={data} />}
                 ariaLabel="일정 수정하기 버튼"
               >
-                <EditButton className="" />
+                <EditButton />
               </NestedModalButton>
               {loading ? (
                 <div className="h-6 w-6 animate-spin rounded-full border-b-2"></div>
               ) : (
                 <DeleteConfirmButton
                   className={
-                    "relative aspect-square w-8 primary-border-radius default-flex hover:scale-[120%]"
+                    "w-8"
                   }
                   ariaLabel="게시판 삭제 버튼"
                   onCancelClick={() => {

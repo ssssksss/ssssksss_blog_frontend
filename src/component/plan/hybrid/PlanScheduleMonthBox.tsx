@@ -119,7 +119,7 @@ const PlanScheduleMonthBox = () => {
   }, [calendarData]);
 
   return (
-    <div className="-border-offset-[0.0625rem] mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-primary-20">
+    <div className="-border-offset-[0.0625rem] mt-2 flex h-auto w-full flex-col rounded-t-[1rem] p-2 outline outline-primary-100">
       <section className="flex gap-x-2 border-b-[0.0625rem] pb-1">
         <ModalButton
           modal={<PlanCreateScheduleModal />}

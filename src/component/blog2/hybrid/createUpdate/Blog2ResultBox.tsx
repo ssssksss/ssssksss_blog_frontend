@@ -12,8 +12,8 @@ import {
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
-import Image from "next/image";
 import { useFormContext } from "react-hook-form";
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 import Blog2ResultCreateUpdateModal from "./Blog2ResultCreateUpdateModal";
 
 interface IBlog2ResultBox {
@@ -120,21 +120,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                         : modalState.openModal()
                     }
                   >
-                    {!modalState.isOpen ? (
-                      <Image
-                        alt="ic"
-                        src={"/images/icons/ic-maximize.svg"}
-                        width={28}
-                        height={28}
-                      />
-                    ) : (
-                      <Image
-                        alt="ic"
-                        src={"/images/icons/ic-minimize.svg"}
-                        width={28}
-                        height={28}
-                      />
-                    )}
+                    {!modalState.isOpen ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
                   </button>
                   <ModalButton
                     buttonClassName={

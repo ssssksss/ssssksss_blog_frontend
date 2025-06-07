@@ -7,7 +7,7 @@ import useFetchCSR from "@hooks/useFetchCSR";
 import useRefreshStore from "@store/refreshStore";
 import useToastifyStore from "@store/toastifyStore";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { BsSend } from "react-icons/bs";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 interface IBoardCreateUpdateContainer {
@@ -21,6 +21,7 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
   const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const refreshStore = useRefreshStore();
+
 
   const createUpdateBoardHandler = async () => {
     if (!titleRef.current?.value || !contentRef.current?.value) {
@@ -54,10 +55,20 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
     }
   };
 
+  // 자동 포커싱
+  useEffect(() => {
+    const el = contentRef.current;
+    if (el) {
+      el.focus();
+      const length = el.value.length;
+      el.setSelectionRange(length, length);
+    }
+  }, []);
+
   return (
     <div className={"flex h-full w-full flex-col gap-y-2 py-4"}>
       <div className="relative w-full default-flex">
-        <h1 className="text-2xl"> 게시판 {props.isEdit ? "수정" : "생성"} </h1>
+        <h1 className="text-2xl"> {props.isEdit ? "게시판 수정" : "게시판 생성"} </h1>
         <div className="absolute right-0 top-1/2 flex h-[2.5rem] -translate-y-[calc(50%+0.25rem)] gap-x-1">
           <BasicButton
             onClick={() => createUpdateBoardHandler()}
@@ -76,7 +87,7 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         </button>
       </div>
       <Input
-        className="max-h-[4rem] w-full p-4 text-center primary-border-radius"
+        className="max-h-[4rem] w-full p-4 text-center primary-border-radius text-[1.5rem]"
         placeholder="제목을 입력하세요"
         ref={titleRef}
         defaultValue={props.data?.title || ""}

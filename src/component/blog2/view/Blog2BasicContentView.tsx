@@ -9,14 +9,14 @@ import {
 } from "@utils/editor/EditorTailwindcssStyle";
 import React, { useRef } from "react";
 import Blog2BasicContentViewItem from "./Blog2BasicContentViewItem";
-import Blog2ContentIndexBox from "./Blog2ContentIndexBox";
 import Blog2ContentIndexButton from "./Blog2ContentIndexButton";
+import Blog2ContentIndexContainer from "./Blog2ContentIndexContainer";
 
-interface IBlog2BasicContentViewBox {
+interface IBlog2BasicContentView {
   data: IBlog2Basic[];
 }
 
-const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
+const Blog2BasicContentView = (props: IBlog2BasicContentView) => {
   const modalState = useModalState();
   const ref = useRef<HTMLDivElement>(null);
   useScrollToHash();
@@ -37,15 +37,14 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
 
   return (
     <div className="relative flex w-full flex-col rounded-[1rem] p-0">
-      {modalState.isOpen && (
-        <Blog2ContentIndexBox
+      {modalState.isOpen ? 
+        <Blog2ContentIndexContainer
           data={props.data}
           closeModal={() => modalState.closeModal()}
         />
-      )}
-      {!modalState.isOpen && (
+        :
         <Blog2ContentIndexButton openModal={() => modalState.openModal()} />
-      )}
+      }
       <ul className={EditorUlStyle}>
         {props.data.map((i) => (
           <li key={i.id} className={EditorLiStyle}>
@@ -57,4 +56,4 @@ const Blog2BasicContentViewBox = (props: IBlog2BasicContentViewBox) => {
   );
 };
 
-export default React.memo(Blog2BasicContentViewBox);
+export default React.memo(Blog2BasicContentView);

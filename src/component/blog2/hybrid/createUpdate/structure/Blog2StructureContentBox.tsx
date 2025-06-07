@@ -1,12 +1,10 @@
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
-import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   EditorLiStyle,
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext } from "react-hook-form";
+import { FaRegPlusSquare, FaSearchPlus } from "react-icons/fa";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
 import Blog2StructureContentItem from "./Blog2StructureContentItem";
 import Blog2StructureSearchContentModal from "./Blog2StructureSearchContentModal";
@@ -39,10 +37,11 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
 
   return (
     <div className={"relative flex w-full flex-col rounded-[1rem] p-0"}>
-      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 primary-border-radius hover:opacity-100">
+      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 p-1 text-contrast-1 opacity-80 primary-border-radius hover:opacity-100">
+        {/* 블로그 구조 내용을 세롭게 생성하는 버튼 */}
         <ModalButton
           buttonClassName={
-            "primary-border-radius px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "px-2 font-bold h-[2.5rem] hover:bg-primary-80 rounded-2xl"
           }
           modal={
             <Blog2StructureContentCreateUpdateModal
@@ -51,14 +50,11 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
             />
           }
         >
-          <FontAwesomeIcon
-            icon={faSquarePlus}
-            style={{width: "24px", height: "24px"}}
-          />
+          <FaRegPlusSquare size="28" />
         </ModalButton>
         <ModalButton
           buttonClassName={
-            "primary-border-radius px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "px-2 font-bold h-[2.5rem] hover:bg-primary-80 rounded-2xl"
           }
           modal={
             <Blog2StructureSearchContentModal
@@ -66,10 +62,7 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
             />
           }
         >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlassPlus}
-            style={{width: "24px", height: "24px"}}
-          />
+          <FaSearchPlus size={"24"} />
         </ModalButton>
       </article>
       <ul className={EditorUlStyle}>

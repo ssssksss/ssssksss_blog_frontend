@@ -1,12 +1,12 @@
 "use client";
 
-import Blog2BasicContentViewBox from "@component/blog2/view/Blog2BasicContentViewBox";
-import Blog2ResultContentViewBox from "@component/blog2/view/Blog2ResultContentViewBox";
+import Blog2BasicContentView from "@component/blog2/view/Blog2BasicContentView";
+import Blog2ResultContentView from "@component/blog2/view/Blog2ResultContentView";
+import BackButton from "@component/common/button/BackButton";
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
+import EditButton from "@component/common/button/EditButton";
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
-import ThemeButton1 from "@component/common/button/ThemeButton1";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
-import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useLoading from "@hooks/useLoading";
@@ -15,14 +15,13 @@ import useBlog2Store from "@store/blog2Store";
 import useToastifyStore from "@store/toastifyStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaPencilAlt, FaTrash } from "react-icons/fa";
 import useUserStore from "src/store/userStore";
-import Blog2StructureContentViewBox from "./../../view/Blog2StructureContentViewBox";
+import Blog2StructureContentView from "../../view/Blog2StructureContentView";
 
-interface IBlog2DetailBox {
+interface IBlog2DetailContainer {
   data: responseReadBlog2;
 }
-const Blog2DetailBox = (props: IBlog2DetailBox) => {
+const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
   const [menu, setMenu] = useState("");
   const router = useRouter();
   const userStore = useUserStore();
@@ -147,7 +146,7 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
     >
       <LoadingSpinner loading={loading} />
       <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
-        <ThemeButton1
+        {/* <ThemeButton1
           className={"aspect-square h-[2rem] default-flex"}
           onClick={() =>
             router.push(
@@ -156,7 +155,8 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
           }
         >
           <FaArrowLeft />
-        </ThemeButton1>
+        </ThemeButton1> */}
+        <BackButton className="aspect-square h-[2rem] default-flex" />
         <div
           className={
             "w-full break-words break-all rounded-[1rem] text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
@@ -166,33 +166,29 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
         </div>
         {userStore.role == "ROLE_ADMIN" && (
           <div className={"flex gap-x-2"}>
-            <ThemeButton1
-              className={"aspect-square h-[2rem] font-bold default-flex"}
+            <EditButton
               onClick={() => {
                 startLoading();
                 router.push(`/blog2/update/${props.data.blog2.id}`);
               }}
-            >
-              <FaPencilAlt />
-            </ThemeButton1>
-            <ModalButton
-              buttonClassName={
-                "aspect-square h-[2rem] primary-set font-bold primary-border-radius default-flex"
-              }
-              modal={
-                <ConfirmModal
-                  loading={loading}
-                  onCancelClick={() => modalState.closeModal()}
-                  onConfirmClick={() => {
-                    startLoading();
-                    deleteBlog2Handler();
-                  }}
-                  mainMessage={["블로그를 삭제하시겠습니까?"]}
-                />
-              }
-            >
-              <FaTrash className="text-white-100" />
-            </ModalButton>
+              className="h-[2rem]"
+              size={"24"}
+              aria-label="블로그 수정하기 버튼"
+            />
+            <DeleteConfirmButton
+              className="h-[2rem]"
+              ariaLabel="게시판 삭제 버튼"
+              size={"24"}
+              onCancelClick={() => {
+                modalState.closeModal();
+              }}
+              onConfirmClick={() => {
+                startLoading();
+                deleteBlog2Handler();
+              }}
+              mainMessage={["블로그를 삭제하시겠습니까?"]}
+              loading={loading}
+            />
           </div>
         )}
       </div>
@@ -228,13 +224,13 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
       </div>
       <div className={"flex h-auto w-full p-1 primary-border-radius"}>
         {menu == "기초" && (
-          <Blog2BasicContentViewBox data={props.data.blog2BasicList} />
+          <Blog2BasicContentView data={props.data.blog2BasicList} />
         )}
         {menu == "구조" && (
-          <Blog2StructureContentViewBox data={props.data.blog2StructureList} />
+          <Blog2StructureContentView data={props.data.blog2StructureList} />
         )}
         {menu == "결과" && (
-          <Blog2ResultContentViewBox data={props.data.blog2ResultList} />
+          <Blog2ResultContentView data={props.data.blog2ResultList} />
         )}
         {menu == "" && (
           <div className="w-full default-flex">
@@ -245,4 +241,4 @@ const Blog2DetailBox = (props: IBlog2DetailBox) => {
     </section>
   );
 };
-export default Blog2DetailBox;
+export default Blog2DetailContainer;

@@ -6,7 +6,7 @@ import useFetchCSR from "@hooks/useFetchCSR";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
-
+import { FaPlane } from "react-icons/fa6";
 export interface Test {
   addr1: string;
   addr2: string;
@@ -65,7 +65,11 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
         </button>
       </div>
 
-      <ul className={"grid w-full flex-grow grid-cols-2 p-4 primary-border-radius"}>
+      <ul
+        className={
+          "grid w-full flex-grow grid-cols-2 p-4 primary-border-radius"
+        }
+      >
         {data.map((i, index) => (
           <li
             key={i.contentid}
@@ -82,11 +86,11 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
                 </Button>
               </h2>
               <div className="relative aspect-square w-[10rem]">
-                <Image
-                  alt=""
-                  src={i.firstimage || "/images/icons/ic-plane.svg"}
-                  fill
-                />
+                {i.firstimage ? (
+                  <Image alt="" src={i.firstimage} fill />
+                ) : (
+                  <FaPlane size="48" />
+                )}
               </div>
             </div>
           </li>

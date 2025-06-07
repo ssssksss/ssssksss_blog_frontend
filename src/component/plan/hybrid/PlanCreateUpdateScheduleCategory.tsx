@@ -151,7 +151,7 @@ const PlanCreateUpdateScheduleCategory = (
               <button
                 key={i}
                 onClick={() => setColor(i)}
-                className={`h-10 w-10 flex-shrink-0 rounded-[2.5rem] hover:outline ${i} ${i == color && "outline outline-offset-1 focus:outline"}`}
+                className={`h-10 w-10 flex-shrink-0 rounded-2xl border-2 border-contrast-1 ${i} ${i == color && "focus:outline"}`}
               ></button>
             ))}
           </div>

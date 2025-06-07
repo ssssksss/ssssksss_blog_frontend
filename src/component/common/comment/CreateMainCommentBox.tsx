@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import ThemeButton1 from "../button/ThemeButton1";
+import SubmitButton from "../button/SubmitButton";
 import AutoHeightTextarea from "../textarea/AutoHeightTextarea";
 
 /**
@@ -37,7 +37,10 @@ const CreateMainCommentBox = (props: ICreateMainCommentBox) => {
       />
       <div className={"flex justify-end gap-2"}>
         <div className={"flex justify-end gap-2"}>
-          <ThemeButton1
+          <SubmitButton
+            className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+            isActive={true}
+            aria-label="댓글 작성 제출 버튼"
             onClick={async () => {
               try {
                 await props.createBoardCommentHandler!({
@@ -48,10 +51,7 @@ const CreateMainCommentBox = (props: ICreateMainCommentBox) => {
                 }
               } catch (error) {}
             }}
-            className="h-btn-md px-4"
-          >
-            제출
-          </ThemeButton1>
+          />
         </div>
       </div>
     </div>

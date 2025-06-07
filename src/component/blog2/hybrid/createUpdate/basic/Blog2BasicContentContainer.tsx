@@ -1,13 +1,10 @@
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlassPlus";
-import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
 import { useFormContext, useWatch } from "react-hook-form";
+import { FaRegPlusSquare, FaSearchPlus } from "react-icons/fa";
 import Blog2BasicContentItem from "./Blog2BasicContentItem";
 import Blog2BasicCreateUpdateContentModal from "./Blog2BasicCreateUpdateContentModal";
 import Blog2BasicSearchContentModal from "./Blog2BasicSearchContentModal";
-
 // 블로그 내용에서 기초 섹션의 내용만 보여지는 부분
 const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
   
@@ -33,11 +30,11 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
 
   return (
     <div className={"relative flex w-full flex-col rounded-[1rem] p-0"}>
-      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 bg-primary-60 p-1 opacity-80 primary-border-radius hover:opacity-100">
+      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 p-1 text-contrast-1 opacity-80 primary-border-radius hover:opacity-100">
         {/* 블로그 기초 내용을 세롭게 생성하는 버튼 */}
         <ModalButton
           buttonClassName={
-            "primary-border-radius px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "px-2 font-bold h-[2.5rem] hover:bg-primary-80 rounded-2xl"
           }
           modal={
             <Blog2BasicCreateUpdateContentModal
@@ -46,15 +43,12 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
             />
           }
         >
-          <FontAwesomeIcon
-            icon={faSquarePlus}
-            style={{width: "24px", height: "24px"}}
-          />
+          <FaRegPlusSquare size="28" />
         </ModalButton>
         {/* 블로그 기초 리스트에 검색해서 기초글을 추가하는 버튼 */}
         <ModalButton
           buttonClassName={
-            "primary-border-radius px-4 font-bold h-[2.5rem] bg-white-80  hover:bg-primary-20"
+            "px-2 font-bold h-[2.5rem] hover:bg-primary-80 rounded-2xl"
           }
           modal={
             <Blog2BasicSearchContentModal
@@ -62,10 +56,7 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
             />
           }
         >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlassPlus}
-            style={{width: "24px", height: "24px"}}
-          />
+          <FaSearchPlus size={"24"} />
         </ModalButton>
       </article>
       <ul className={EditorUlStyle}>

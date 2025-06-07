@@ -6,8 +6,8 @@ import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useLoading from "@hooks/useLoading";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { FaPlane } from "react-icons/fa6";
 import { travelContentTypeId } from "./TravelCreateUpdateContainer";
-
 interface ITravelCreateUpdateSchedule {
   addTravelLocation: (data: IKeywordTravel) => void;
 }
@@ -87,11 +87,16 @@ const TravelCreateUpdateSchedule = (props: ITravelCreateUpdateSchedule) => {
               >
                 <h2 className="mb-4 text-xl font-bold">{i?.title}</h2>
                 <div className="relative aspect-square w-[10rem] mx-auto">
-                  <Image
-                    alt=""
-                    src={i.firstimage || "/images/icons/ic-plane.svg"}
-                    fill
-                  />
+                  {
+                    i.firstimage ?
+                      <Image
+                        alt=""
+                        src={i.firstimage}
+                        fill
+                      />
+                      :
+                      <FaPlane size="48"/>
+                  }
                 </div>
                 <div className="pt-1"> 주소 : {i.addr1}</div>
                 <div> 분류 : {travelContentTypeId[+i.contenttypeid]}</div>

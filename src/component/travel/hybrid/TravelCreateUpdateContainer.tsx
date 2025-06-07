@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
 import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
@@ -11,11 +12,11 @@ import { addDays, differenceInDays, format, isSameDay } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Calendar, Info } from "lucide-react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // 기본 스타일
 import "react-date-range/dist/theme/default.css"; // 기본 테마
+import { FaPlane } from "react-icons/fa";
 import PlanTravelKakaoMap from "./PlanTravelKakaoMap";
 import TravelItemInfonModal from "./TravelItemInfonModal";
 
@@ -167,7 +168,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
               className="absolute right-1 top-1/2 -translate-y-1/2 bg-default-1 px-2 py-1 shadow-2xl primary-border-radius disabled:bg-gray-60"
               disabled={group == undefined}
             >
-                일정 등록
+              일정 등록
             </button>
           </div>
           <div className="h-full p-2 primary-border-radius">
@@ -271,11 +272,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                         className={"flex w-full p-2 primary-border-radius"}
                       >
                         <div className="relative mx-auto aspect-square w-[5rem]">
-                          <Image
-                            alt=""
-                            src={i.firstimage || "/images/icons/ic-plane.svg"}
-                            fill
-                          />
+                          <FaPlane size="48" />
                         </div>
                         <div className="flex h-auto w-full flex-col justify-between gap-x-2">
                           <div className="grid w-full grid-cols-[auto_2rem]">
@@ -296,31 +293,21 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                               {i.title}
                             </div>
                             <div className="flex gap-x-2">
-                              <button
+                              <DeleteConfirmButton
                                 className={
-                                  "relative aspect-square w-[2rem] default-flex hover:scale-[120%]"
+                                  "w-[2rem]"
                                 }
-                                disabled={loading}
-                                onClick={() =>
-                                  deleteTravelLocation(+i.contentid)
-                                }
-                              >
-                                {loading ? (
-                                  <Image
-                                    alt=""
-                                    src={"/images/gif/totoro-left-move.gif"}
-                                    fill
-                                    style={{objectFit: "cover"}}
-                                  />
-                                ) : (
-                                  <Image
-                                    alt=""
-                                    src={"/images/icons/ic-trash.svg"}
-                                    width={16}
-                                    height={16}
-                                  />
-                                )}
-                              </button>
+                                size="16"
+                                ariaLabel="여행 삭제 버튼"
+                                onCancelClick={() => {
+                                  stopLoading();
+                                }}
+                                onConfirmClick={() => {
+                                  deleteTravelLocation(+i.contentid);
+                                }}
+                                mainMessage={["게시판을 삭제하시겠습니까?"]}
+                                loading={loading}
+                              />
                             </div>
                           </div>
                         </div>

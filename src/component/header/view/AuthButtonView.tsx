@@ -1,5 +1,4 @@
 import AuthModal from "@component/auth/hybrid/AuthModal";
-import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import React from "react";
 
@@ -18,13 +17,13 @@ const AuthButtonView = (props: IAuthButtonView) => {
           }
         ></div>
       ) : props.userId > 0 ? (
-        <ThemeButton1
+        <button
           onClick={() => props.signOutHandler()}
-          className={"h-btn-md px-2 primary-border-radius"}
+          className={"h-btn-md px-2 primary-border-radius hover:bg-primary-80"}
           aria-label="로그아웃 버튼"
         >
           로그아웃
-        </ThemeButton1>
+        </button>
       ) : (
         <ModalButton
           modal={<AuthModal />}

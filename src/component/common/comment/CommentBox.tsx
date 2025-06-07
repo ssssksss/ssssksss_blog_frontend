@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUserStore from "@store/userStore";
 import { timeFunction } from "@utils/function/timeFunction";
 import { useEffect, useReducer, useRef, useState } from "react";
-import ThemeButton1 from "../button/ThemeButton1";
-import ThemeButton2 from "../button/ThemeButton2";
-import ThemeButton3 from "../button/ThemeButton3";
+import { BiCommentAdd, BiCommentX } from "react-icons/bi";
+import DeleteConfirmButton from "../button/DeleteConfirmButton";
+import EditToggleButton from "../button/EditToggleButton";
+import SubmitButton from "../button/SubmitButton";
 import AutoHeightTextarea from "../textarea/AutoHeightTextarea";
 
 type ICommentBox = {
@@ -42,7 +43,6 @@ const CommentBox = (props: ICommentBox) => {
   const userStore = useUserStore();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const [isModifyStatus, setIsModifyStatus] = useState(false);
-
   const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, true);
   const [isShowChildrenReply, toggleShowChildrenReply] = useReducer(
     (s) => !s,
@@ -110,43 +110,51 @@ const CommentBox = (props: ICommentBox) => {
           className={`flex ${isParentComment ? "justify-between" : "justify-end"} gap-2`}
         >
           {isParentComment && (
-            <div className="flex h-[1.75rem] items-center gap-x-2">
+            <div className="flex h-btn-md items-center gap-x-2">
               {props.boardComment?.childComments?.length != 0 && (
                 <button
                   onClick={toggleShowChildren}
-                  className="flex items-center gap-1 px-2 primary-border-radius"
+                  className="flex h-btn-md items-center gap-1 rounded-2xl border border-contrast-1 px-2"
                 >
                   <FontAwesomeIcon
                     icon={isShowChildren ? faArrowUp : faArrowDown}
-                    className={`${props.boardComment?.childComments?.length != 0 && "text-primary-80"}`}
+                    className={`${props.boardComment?.childComments?.length != 0 && ""}`}
                   />
                   <span
-                    className={`${props.boardComment?.childComments?.length != 0 && "text-primary-80"}`}
+                    className={`${props.boardComment?.childComments?.length != 0 && ""}`}
                   >
                     답글 {props.boardComment.childComments?.length || 0}
                   </span>
                 </button>
               )}
-              {userStore.id > 0 && (
-                <ThemeButton2
+              {/* 댓글 작성 접기, 펼치기 */}
+              {userStore.id > 0 && !props.boardComment?.isDeleted && (
+                <button
                   onClick={toggleShowChildrenReply}
-                  className="flex h-[1.75rem] items-center gap-1 px-2"
+                  className="h-btn-md gap-1 rounded-2xl border border-contrast-1 px-2 default-flex"
+                  aria-label={
+                    isShowChildrenReply ? "댓글 작성 접기" : "댓글 작성 펼치기"
+                  }
                 >
-                  {isShowChildrenReply ? "답글 작성접기" : "답글 작성하기"}
-                </ThemeButton2>
+                  {isShowChildrenReply ? (
+                    <BiCommentX size={"28"} />
+                  ) : (
+                    <BiCommentAdd size={"28"} />
+                  )}
+                </button>
               )}
             </div>
           )}
-
           {/* 댓글인 경우와 답글인 경우 */}
           {isParentComment ? (
             <div className="flex gap-2">
-              {isOwner &&
-                !props.boardComment.isDeleted && (
+              {isOwner && !props.boardComment.isDeleted && (
                 <>
                   {isModifyStatus && !props.boardComment.isDeleted && (
-                    <ThemeButton2
-                      className="h-[1.75rem] px-4"
+                    <SubmitButton
+                      className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                      isActive={true}
+                      aria-label="댓글 수정 제출 버튼"
                       onClick={async () => {
                         await props.updateBoardCommentHandler({
                           id: props.boardComment.id,
@@ -155,34 +163,35 @@ const CommentBox = (props: ICommentBox) => {
                         });
                         await setIsModifyStatus(false);
                       }}
-                    >
-                        수정완료
-                    </ThemeButton2>
+                    />
                   )}
-                  <ThemeButton2
-                    className="h-[1.75rem] px-4"
+                  <EditToggleButton
                     onClick={() => {
                       setIsModifyStatus((prev) => !prev);
                       if (isModifyStatus)
                         (textRef.current as any).value =
-                            props.boardComment?.content;
+                          props.boardComment?.content;
                       if (isModifyStatus)
                         (textRef.current as any).style.height = "auto";
                     }}
-                  >
-                    {isModifyStatus ? "수정취소" : "수정하기"}
-                  </ThemeButton2>
-                  <ThemeButton2
-                    className="h-[1.75rem] px-4 hover:font-bold"
-                    onClick={async () => {
+                    className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                    isModifyStatus={isModifyStatus}
+                  />
+                  <DeleteConfirmButton
+                    className={
+                      "h-btn-md px-2"
+                    }
+                    aria-label="댓글 삭제 버튼"
+                    onCancelClick={() => {}}
+                    onConfirmClick={async () => {
                       await props.deleteBoardCommentHandler({
                         id: props.boardComment.id,
                       });
                       await setIsModifyStatus(false);
                     }}
-                  >
-                      댓글삭제
-                  </ThemeButton2>
+                    mainMessage={["댓글을 삭제하시겠습니까?"]}
+                    loading={false}
+                  />
                 </>
               )}
             </div>
@@ -191,8 +200,10 @@ const CommentBox = (props: ICommentBox) => {
               {isOwner && !props.boardComment.isDeleted && (
                 <>
                   {isModifyStatus && (
-                    <ThemeButton3
-                      className="h-[1.75rem] px-4"
+                    <SubmitButton
+                      className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                      isActive={true}
+                      aria-label="답글 제출 버튼"
                       onClick={async () => {
                         await props.updateBoardCommentHandler({
                           id: props.boardComment.id,
@@ -201,12 +212,9 @@ const CommentBox = (props: ICommentBox) => {
                         });
                         await setIsModifyStatus(false);
                       }}
-                    >
-                      수정완료
-                    </ThemeButton3>
+                    />
                   )}
-                  <ThemeButton3
-                    className="h-[1.75rem] px-4"
+                  <EditToggleButton
                     onClick={() => {
                       setIsModifyStatus((prev) => !prev);
                       if (isModifyStatus)
@@ -217,21 +225,25 @@ const CommentBox = (props: ICommentBox) => {
                       if (!isModifyStatus)
                         (textRef.current as HTMLTextAreaElement).focus();
                     }}
-                  >
-                    {isModifyStatus ? "수정취소" : "수정하기"}
-                  </ThemeButton3>
-                  <ThemeButton3
-                    className="h-[1.75rem] px-4 hover:font-bold"
-                    onClick={async () => {
+                    className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                    isModifyStatus={isModifyStatus}
+                  />
+                  <DeleteConfirmButton
+                    className={
+                      "h-btn-md px-2"
+                    }
+                    ariaLabel="댓글 삭제 버튼"
+                    onCancelClick={() => {}}
+                    onConfirmClick={async () => {
                       await props.deleteBoardCommentHandler({
                         id: props.boardComment.id,
                         parentId: props.boardComment.parentId,
                       });
                       await setIsModifyStatus(false);
                     }}
-                  >
-                    답글삭제
-                  </ThemeButton3>
+                    mainMessage={["댓글을 삭제하시겠습니까?"]}
+                    loading={false}
+                  />
                 </>
               )}
             </div>
@@ -253,7 +265,10 @@ const CommentBox = (props: ICommentBox) => {
             maxLength={255}
           />
           <div className="flex justify-end gap-2">
-            <ThemeButton1
+            <SubmitButton
+              className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+              isActive={true}
+              aria-label="답글 제출 버튼"
               onClick={async () => {
                 try {
                   await props.createBoardCommentHandler!({
@@ -266,10 +281,7 @@ const CommentBox = (props: ICommentBox) => {
                   await toggleShowChildrenReply(); // 대댓글 토글
                 } catch (error) {}
               }}
-              className="h-[1.75rem] px-4"
-            >
-                제출
-            </ThemeButton1>
+            />
           </div>
         </div>
       )}

@@ -27,7 +27,7 @@ export default async function Home() {
         className={"mx-auto max-w-4xl space-y-8 transition-all duration-1000"}
       >
         <nav className="mb-2 flex flex-col justify-between gap-y-2 min-[480px]:mb-16">
-          {/* <div className="glow-text text-xl font-bold">DEV.AGE</div> */}
+          {/* Achieve. Goal. Evolve */}
           <RiseAnimationText
             text="DEV.AGE"
             textClassName="font-bold min-[480px]:text-[2rem]"

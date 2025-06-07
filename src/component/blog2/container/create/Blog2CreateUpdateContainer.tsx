@@ -53,14 +53,15 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
       );
       blog2Store.setBlog2ActiveSecondCategoryId(
         props.data.blog2SecondCategory.id,
-    
       );
     }
   }, []);
     
   return (
     <FormProvider {...methods}>
+      {/* 블로그 카테고리,제목,내용, 뒤로가기 제출 버튼 있는 UI */}
       <Blog2CreateUpdateHeader isEdit={"isEdit" in props && props.isEdit} />
+      {/* 기초, 구조, 결과 있는 UI */}
       <Blog2CreateUpdateBody isEdit={"isEdit" in props && props.isEdit} />
     </FormProvider>
   );

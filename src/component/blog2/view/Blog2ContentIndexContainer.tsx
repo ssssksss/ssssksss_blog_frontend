@@ -3,11 +3,11 @@ import useOutsideClick from "@hooks/useOutsideClick";
 import { convertMarkdownToHtml } from "@utils/editor/MarkdownPreview";
 import { useRef } from "react";
 
-interface IBlog2ContentIndexBox {
+interface IBlog2ContentIndexContainer {
   closeModal: () => void;
   data: IBlog2Result[] | IBlog2Basic[];
 }
-const Blog2ContentIndexBox = (props: IBlog2ContentIndexBox) => {
+const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
   const ref = useRef<HTMLDivElement>(null);
   const handleLinkClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
@@ -100,4 +100,4 @@ const Blog2ContentIndexBox = (props: IBlog2ContentIndexBox) => {
     </div>
   );
 };
-export default Blog2ContentIndexBox;
+export default Blog2ContentIndexContainer;

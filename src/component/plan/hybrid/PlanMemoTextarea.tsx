@@ -1,7 +1,7 @@
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useMemoStore from "@store/memoStore";
 import { SendHorizontal } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 
 interface IPlanMemoTextarea {
@@ -68,30 +68,32 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
         onChange={(e) => changeText(e.target.value)}
         maxLength={1023}
         className={
-          "w-full resize-none rounded-[.5rem] p-1 min-h-[30rem] max-[480px]:text-sm text-md"
+          "text-md min-h-[30rem] w-full resize-none rounded-[.5rem] bg-default-1 p-1 text-contrast-1 max-[480px]:text-sm"
         }
       />
       <div className={"flex w-full justify-end"}>
         <div className="w-18 grid grid-cols-2 items-center justify-end gap-x-4">
-          <button
-            onClick={() => deleteMemoHandler()}
+          <DeleteConfirmButton
             className={
-              "start-1 h-8 w-8 rounded-[1rem] outline outline-2 default-flex glassmorphism"
-            }>
-            <Image
-              alt=""
-              src={"/images/icons/ic-trash.svg"}
-              width={16}
-              height={16}
-            />
-          </button>
+              "start-1 h-8 w-8 glassmorphism"
+            }
+            ariaLabel="게시판 삭제 버튼"
+            onCancelClick={() => {}}
+            onConfirmClick={() => {
+              () => deleteMemoHandler();
+            }}
+            mainMessage={["게시판을 삭제하시겠습니까?"]}
+            loading={false}
+            size="16"
+          />
           {active && (
             <button
               disabled={!active}
               onClick={() => updateMemoHandler()}
               className={
                 "h-8 w-8 rounded-[1rem] outline outline-2 default-flex glassmorphism"
-              }>
+              }
+            >
               <SendHorizontal />
             </button>
           )}

@@ -1,11 +1,12 @@
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
+import EditButton from "@component/common/button/EditButton";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import usePlanStore from "@store/planStore";
-import Image from "next/image";
+import { CiSquarePlus } from "react-icons/ci";
 import PlanCreateUpdateScheduleCategory from "./PlanCreateUpdateScheduleCategory";
-
 const PlanScheduleCategoryModal = (props: any) => {
   const planStore = usePlanStore();
   const { loadingWithHandler } = useLoadingHandler();
@@ -38,7 +39,7 @@ const PlanScheduleCategoryModal = (props: any) => {
     <ModalTemplate className="h-full w-full max-w-[30rem]">
       {props.closeButtonComponent}
       {/* 목록 */}
-      <div className="w-full flex-col gap-y-2 flex p-2 primary-border-radius">
+      <div className="flex w-full flex-col gap-y-2 p-2 primary-border-radius">
         <div className="relative mb-1 h-[2.75rem] w-full rounded-[1rem] bg-primary-20 px-1 text-center text-[1.2rem] font-bold default-flex">
           카테고리
           <NestedModalButton
@@ -47,7 +48,7 @@ const PlanScheduleCategoryModal = (props: any) => {
             }
             modal={<PlanCreateUpdateScheduleCategory />}
           >
-            <Image alt="" src={"/images/icons/ic-plus-black.svg"} fill />
+            <CiSquarePlus size="44" />
           </NestedModalButton>
         </div>
         {planStore.scheduleCategory.map((i) => (
@@ -72,32 +73,25 @@ const PlanScheduleCategoryModal = (props: any) => {
             <div className="flex justify-between">
               <NestedModalButton
                 buttonClassName={
-                  "w-full default-flex relative h-btn-sm aspect-square hover:scale-105"
+                  "w-full default-flex relative h-btn-sm aspect-square"
                 }
                 modal={<PlanCreateUpdateScheduleCategory data={i} />}
               >
-                <Image
-                  alt=""
-                  src={"/images/icons/ic-edit-black.svg"}
-                  width={24}
-                  height={24}
-                />
+                <EditButton />
               </NestedModalButton>
-              <button
+              <DeleteConfirmButton
                 className={
-                  "relative aspect-square h-btn-sm w-full default-flex hover:scale-105"
+                  "h-btn-sm"
                 }
-                onClick={() =>
-                  loadingWithHandler(() => deleteScheduleCategoryHandler(i.id))
-                }
-              >
-                <Image
-                  alt=""
-                  src={"/images/icons/ic-trash.svg"}
-                  width={24}
-                  height={24}
-                />
-              </button>
+                ariaLabel="게시판 삭제 버튼"
+                onCancelClick={() => {
+                }}
+                onConfirmClick={() => {
+                  loadingWithHandler(() => deleteScheduleCategoryHandler(i.id));
+                }}
+                loading={false}
+                mainMessage={["게시판을 삭제하시겠습니까?"]}
+              />
             </div>
           </div>
         ))}

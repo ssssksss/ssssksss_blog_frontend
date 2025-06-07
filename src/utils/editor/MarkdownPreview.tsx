@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import java from "highlight.js/lib/languages/java";
@@ -5,7 +6,6 @@ import javascript from "highlight.js/lib/languages/javascript";
 import "highlight.js/styles/panda-syntax-light.css"; // 코드 블록 스타일
 import React from "react";
 import { EditorPreviewStyle } from "./EditorTailwindcssStyle";
-
 // 언어 등록
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("java", java);
@@ -20,6 +20,11 @@ hljs.registerLanguage("css", css);
 export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): string => {
   let h2Count = 0;
   let html = markdown
+    // 이미지 업로드 시 로딩을 보여주는 방법
+    .replace(
+      /!\[image\]\(blob:.*?\)/g,
+      "<div class=\"w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mt-10\"></div>",
+    )
     .replace(/```table\r?\n([\s\S]*?)\r?\n```/g, (match, tableContent) => {
       const lines = tableContent.trim().split("\n");
       if (lines.length < 2) return match;
@@ -49,7 +54,6 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
 
       // 이 코드 여러줄로 되어있으면 제대로 작동을 하지 않음 주의!!
       return `<table class="table-auto border-collapse border border-black-80 my-4"><thead><tr>${headers}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
-
     })
     .replace(
       /^>! (.*$)/gim,
@@ -111,6 +115,10 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
         </pre>`;
       },
     )
+    .replace(
+      /<iframe[^>]*src="https:\/\/www\.youtube\.com\/embed\/[^"]+"[^>]*><\/iframe>/g,
+      (match) => `<div class="flex justify-center my-4">${match}</div>`,
+    )
     .replace(/<br12345>/g, "<br>");
   // .replace(/(<br>\s*){2,}/g, "<br>");
   html = html.replace(/<\/h1>\s*<br\s*\/?>/g, "</h1>");
@@ -129,7 +137,9 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
       return match;
     },
   );
-  return html;
+  return DOMPurify.sanitize(html, {
+    USE_PROFILES: {html: true},
+  });
 };
 
 /**

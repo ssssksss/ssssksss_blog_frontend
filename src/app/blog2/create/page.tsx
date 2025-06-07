@@ -12,7 +12,7 @@ async function getData() {
   const res = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
     next: {
-      revalidate: 3600,
+      revalidate: 86400,
       tags: ["blog2CategoryList"],
     },
     isAuth: false,

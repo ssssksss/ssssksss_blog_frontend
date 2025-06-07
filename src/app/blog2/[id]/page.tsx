@@ -1,4 +1,4 @@
-import Blog2DetailBox from "@component/blog2/hybrid/read/Blog2DetailBox";
+import Blog2DetailContainer from "@component/blog2/hybrid/read/Blog2DetailContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
 import { cookies } from "next/headers";
 import Template from "../template";
@@ -42,7 +42,7 @@ export default async function page({ params: { id } }: { params: { id: string } 
     <Template>
       {
         result.data &&
-        <Blog2DetailBox data={result?.data} />
+        <Blog2DetailContainer data={result?.data} />
       }
     </Template>
   );

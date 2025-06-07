@@ -7,17 +7,8 @@ import { EditorCreateUpdateTitleStyle } from "@utils/editor/EditorTailwindcssSty
 import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-interface IFormContext {
-  title: string;
-  content: string;
-  firstCategoryId: number;
-  secondCategoryId: number;
-  blobImageList: {url: string; file: File}[];
-  deleteImageBucketDirectory?: string[];
-}
-
 interface IBlog2BasicCreateUpdateCategoryAndTitleForm {
-  formContext: UseFormReturn<IFormContext>;
+  formContext: UseFormReturn<IBlog2BasicFormContext>;
   isEdit?: boolean;
   blog2BasicContentItem?: IBlog2BasicContent;
 }

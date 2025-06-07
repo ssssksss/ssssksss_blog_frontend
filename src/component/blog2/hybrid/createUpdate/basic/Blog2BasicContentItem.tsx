@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import { EditorLiStyle, EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
-import Image from "next/image";
 import { useState } from "react";
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 import Blog2BasicCreateUpdateContentModal from "./Blog2BasicCreateUpdateContentModal";
 
 interface IBlog2BasicContentItem {
@@ -32,7 +32,7 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
       }
       {/* 수정 버튼과 닫기 제거 버튼 */}
       <div className={"absolute right-2 top-2 flex h-[2rem] items-center"}>
-        <Button className={"relative w-[2.25rem] rounded-2xl p-1 aspect-square default-flex"} onClick={()=>setIsFold(prev=>!prev)}> {isFold ? <Image alt="ic" src={"/images/icons/ic-maximize.svg"} width={28} height={28} /> : <Image alt="ic" src={"/images/icons/ic-minimize.svg"} width={28} height={28}/>} </Button>
+        <Button className={"relative w-[2.25rem] rounded-2xl p-1 aspect-square default-flex"} onClick={()=>setIsFold(prev=>!prev)}> {isFold ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />} </Button>
         
         {/* basic 글을 수정하는 버튼 */}
         <ModalButton

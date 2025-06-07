@@ -1,7 +1,8 @@
 "use client";
 
-import ConfirmModal from "@component/common/modal/hybrid/ConfirmModal";
-import ModalButton from "@component/common/modal/hybrid/ModalButton";
+import BackButton from "@component/common/button/BackButton";
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
+import EditButton from "@component/common/button/EditButton";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useLoadingStore from "@store/loadingStore";
@@ -11,8 +12,6 @@ import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
-import { MdDelete, MdEdit } from "react-icons/md";
 
 const BoardCommentContainer = dynamic(() => import("./BoardCommentContainer"), {
   ssr: false,
@@ -33,7 +32,7 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
         url: `/api/board?id=${props.data.id}`,
         method: "DELETE",
         showSuccessToast: true,
-        successMessage: "게시글이 삭제되었습니다."
+        successMessage: "게시글이 삭제되었습니다.",
       });
       if (result == undefined) return;
       refreshStore.setRefresh(true);
@@ -75,42 +74,28 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
       <section className="relative min-h-[2rem] w-full default-flex">
         {userStore.nickname == props.data.nickname && (
           <div className="absolute right-0 top-1/2 flex -translate-y-[calc(50%+0.25rem)] gap-x-1">
-            <button
+            <EditButton
               onClick={() => router.push(`/board/update/${props.data.id}`)}
-              className="h-btn-md px-2 py-2 primary-border-radius default-flex hover:bg-primary-80 hover:text-white-80"
+              className="h-btn-md px-2 py-2 default-flex"
               aria-label="게시판 수정하기 버튼"
-            >
-              <MdEdit size="28" />
-            </button>
-            <ModalButton
-              buttonClassName={
-                "h-full px-2 py-2 primary-border-radius h-btn-md default-flex hover:bg-primary-80 hover:text-white-80"
+            />
+            <DeleteConfirmButton
+              className={
+                "px-2 py-2 h-btn-md default-flex"
               }
-              aria-label="게시판 삭제 버튼"
-              modal={
-                <ConfirmModal
-                  loading={loadingStore.loading}
-                  onCancelClick={() => {
-                    loadingStore.stopLoading();
-                  }}
-                  onConfirmClick={() => {
-                    deleteBoardHandler();
-                  }}
-                  mainMessage={["게시판을 삭제하시겠습니까?"]}
-                />
-              }
-            >
-              <MdDelete size="28" />
-            </ModalButton>
+              ariaLabel="게시판 삭제 버튼"
+              onCancelClick={() => {
+                loadingStore.stopLoading();
+              }}
+              onConfirmClick={() => {
+                deleteBoardHandler();
+              }}
+              mainMessage={["게시판을 삭제하시겠습니까?"]}
+              loading={loadingStore.loading}
+            />
           </div>
         )}
-        <button
-          onClick={() => router.back()}
-          className="absolute left-0 top-1/2 h-btn-md -translate-y-[calc(50%+0.25rem)] px-2 py-2 primary-border-radius hover:bg-primary-80 hover:text-white-80"
-          aria-label="뒤로가기 버튼"
-        >
-          <FaRegArrowAltCircleLeft size="28" />
-        </button>
+        <BackButton className="absolute left-0 top-1/2 h-btn-md -translate-y-[calc(50%+0.25rem)] px-2 py-2" />
       </section>
       <section className="flex justify-between px-4 py-2 primary-border-radius">
         <div> 게시판 번호 : {props.data.id} </div>
@@ -119,7 +104,7 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
           작성 날짜 :{format(new Date(props.data.createdAt), "yyyy-MM-dd")}
         </div>
       </section>
-      <h1 className="h-auto w-full whitespace-pre-wrap break-words break-all p-4 text-[24px] font-bold primary-border-radius default-flex">
+      <h1 className="h-auto w-full whitespace-pre-wrap break-words break-all p-4 text-[1.5rem] font-bold primary-border-radius default-flex">
         {props.data.title}
       </h1>
       <div className="mb-4 h-auto min-h-[calc(100%-10rem)] w-full p-4 primary-border-radius">

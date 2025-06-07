@@ -13,7 +13,7 @@ import Blog2ContentIndexButton from "./Blog2ContentIndexButton";
 import Blog2StructureContentViewItem from "./Blog2StructureContentViewItem";
 import Blog2StructureIndexTree from "./Blog2StructureIndexTree";
 
-interface IBlog2StructureContentViewBox {
+interface IBlog2StructureContentView {
   data: IBlog2Structure[];
 }
 
@@ -28,7 +28,7 @@ interface DirectoryTreeProps {
   paths: string[];
 }
 
-const Blog2StructureContentViewBox = (props: IBlog2StructureContentViewBox) => {
+const Blog2StructureContentView = (props: IBlog2StructureContentView) => {
   const modalState = useModalState();
   const ref = useRef<HTMLDivElement>(null);
   useScrollToHash();
@@ -121,4 +121,4 @@ const Blog2StructureContentViewBox = (props: IBlog2StructureContentViewBox) => {
     </div>
   );
 };
-export default Blog2StructureContentViewBox;
+export default Blog2StructureContentView;

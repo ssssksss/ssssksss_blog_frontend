@@ -11,13 +11,13 @@ export async function POST(request: NextRequest) {
   });
 }
 
-export async function GET(request: NextRequest) {
-  return await fetchApiRoutes({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plan/memo`,
-    req: request,
-    isFallbackToErrorPage: false,
-  });
-}
+// export async function GET(request: NextRequest) {
+//   return await fetchApiRoutes({
+//     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plan/memo`,
+//     req: request,
+//     isFallbackToErrorPage: false,
+//   });
+// }
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();

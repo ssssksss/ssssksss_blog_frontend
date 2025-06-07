@@ -1,3 +1,4 @@
+import BackButton from "@component/common/button/BackButton";
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import Button from "@component/common/button/hybrid/Button";
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
@@ -5,8 +6,6 @@ import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useLoadingHandler from "@hooks/useLoadingHandler";
@@ -285,17 +284,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       <LoadingSpinner loading={loading} />
       <div className="mb-2 flex w-full justify-between">
         <div className="grid w-full grid-cols-[2.75rem_calc(100%-5.5em)_2.75rem] items-center">
-          <Button
-            className={
-              "primary-border-radius aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 default-flex"
-            }
-            onClick={() => router.back()}
-          >
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              style={{width: "24px", height: "24px"}}
-            />
-          </Button>
+          <BackButton className="aspect-square h-[2.75rem] min-h-[2.75rem] p-2 default-flex" />
           <div
             className={
               "w-full break-words break-all rounded-[1rem] p-2 text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
@@ -305,7 +294,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
           </div>
           <Button
             className={
-              "primary-border-radius aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold default-flex"
+              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold primary-border-radius default-flex"
             }
             onClick={() =>
               loadingWithHandler(() => blog2CreateUpdateSubmitHandler())
@@ -316,7 +305,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         </div>
       </div>
       <Button
-        className={"primary-border-radius w-full p-2 hover:bg-primary-20"}
+        className={"w-full p-2 primary-border-radius hover:bg-primary-20"}
         onClick={() => modalState.openModal()}
       >
         {formContext.getValues("title") ? (
@@ -378,7 +367,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </ThemeActiveButton1>
             <label
               className={
-                "primary-border-radius relative h-[16rem] w-full cursor-pointer"
+                "relative h-[16rem] w-full cursor-pointer primary-border-radius"
               }
               htmlFor={"imageUpload"}
               // onDragEnter={onDragEnter}
@@ -402,7 +391,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                 onChange={onDropOrInputEvent}
               /> */}
             </label>
-            <div className="primary-border-radius flex h-[3rem]">
+            <div className="flex h-[3rem] primary-border-radius">
               <ThemeActiveButton1
                 isActive={blog2Status == "PUBLIC"}
                 className={"h-full w-full rounded-none rounded-l-2xl"}
@@ -426,9 +415,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               </ThemeActiveButton1>
             </div>
             <ThemeButton1
-              className={
-                "h-[3rem] w-full p-2"
-              }
+              className={"h-[3rem] w-full p-2"}
               onClick={() => loadingWithHandler(() => handleSaveClick())}
               disabled={
                 !(title && description && firstCategory.id && secondCategory.id)
@@ -457,7 +444,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                           })
                         }
                         key={i.id}
-                        className={`primary-border-radius h-[3rem] min-w-[3rem] bg-primary-20 p-2 ${firstCategory.id == i.id && "bg-primary-20"}`}
+                        className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 primary-border-radius ${firstCategory.id == i.id && "bg-primary-20"}`}
                       >
                         {i.name}
                       </Button>
@@ -490,7 +477,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                               })
                             }
                             key={j.id}
-                            className={`primary-border-radius h-[3rem] min-w-[3rem] bg-primary-20 p-2 ${secondCategory.id == j.id && "bg-primary-20"}`}
+                            className={`h-[3rem] min-w-[3rem] bg-primary-20 p-2 primary-border-radius ${secondCategory.id == j.id && "bg-primary-20"}`}
                           >
                             {j.name}
                           </Button>

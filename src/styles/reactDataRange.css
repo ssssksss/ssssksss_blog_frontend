@@ -21,7 +21,6 @@
 }
 .rdrWeekDays {
   .rdrWeekDay {
-    color: #111;
     font-weight: 600;
   }
   .rdrWeekDay:nth-of-type(1) {
@@ -32,8 +31,6 @@
     color: blue;
     font-weight: 600;
   }
-}
-.rdrDay {
 }
 .rdrDayToday {
 }

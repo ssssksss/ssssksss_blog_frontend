@@ -6,14 +6,14 @@ import {
   EditorLiStyle,
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
-import Blog2ContentIndexBox from "./Blog2ContentIndexBox";
 import Blog2ContentIndexButton from "./Blog2ContentIndexButton";
+import Blog2ContentIndexBox from "./Blog2ContentIndexContainer";
 import Blog2ResultContentViewItem from "./Blog2ResultContentViewItem";
 
-interface IBlog2ResultContentViewBox {
+interface IBlog2ResultContentView {
   data: IBlog2Result[];
 }
-const Blog2ResultContentViewBox = (props: IBlog2ResultContentViewBox) => {
+const Blog2ResultContentView = (props: IBlog2ResultContentView) => {
   const modalState = useModalState();
   useScrollToHash();
 
@@ -52,4 +52,4 @@ const Blog2ResultContentViewBox = (props: IBlog2ResultContentViewBox) => {
     </div>
   );
 };
-export default Blog2ResultContentViewBox;
+export default Blog2ResultContentView;

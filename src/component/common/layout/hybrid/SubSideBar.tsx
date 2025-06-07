@@ -34,7 +34,7 @@ const SubSideBar = (props: ITravelSideBar) => {
 
   return (
     <div
-      className={`border-r-2 border-r-primary-100 z-20 flex w-auto outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:gap-y-2 sm:top-[3.5rem] sm:h-[calc(100%-3.5rem)] sm:flex-col sm:py-2 sm:pt-16 ${toggleState.isHide ? "bg-default-1 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}
+      className={`border-r-2 border-r-primary-100 z-20 flex w-auto outline-primary-60 transition-all duration-[800ms] sm:fixed sm:left-0 sm:gap-y-2 sm:top-[0rem] sm:h-full sm:flex-col sm:py-2 sm:pt-28 ${toggleState.isHide ? "bg-default-1 sm:w-[3rem]" : "animate-fill glassmorphism sm:w-[22.5rem]"}`}
     >
       <button
         className={`z-10 hidden h-btn-md aspect-square rounded-2xl -translate-x-1/2 -translate-y-12 bg-default-1 transition-all duration-[800ms] sm:absolute sm:default-flex ${toggleState.isHide ? "left-[1.5rem]" : "left-[22.5rem]"} `}

@@ -1,8 +1,8 @@
 import CustomEditor from "@component/common/editor/CustomEditor";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
-import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import clog from "@utils/logger/logger";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
 import {
@@ -13,121 +13,109 @@ import {
 import Blog2SubCreateUpdateHeader from "../../../view/common/Blog2SubCreateUpdateHeader";
 import Blog2BasicCreateUpdateCategoryAndTitleForm from "./Blog2BasicCreateUpdateCategoryAndTitleForm";
 
-interface IFormContext {
-  title: string;
-  content: string;
-  firstCategoryId: number;
-  secondCategoryId: number;
-  blobImageList: {url: string; file: File}[];
-  deleteImageBucketDirectory?: string[];
-}
-
 const Blog2BasicCreateUpdateContentModal = (
   props: IBlog2BasicCreateUpdateContentModal,
 ) => {
 
   const modalState = useModalState(props.edit ? true : false);
-  const blog2ContentFormContext = useForm<IFormContext>({
+  const fetchCSR = useFetchCSR();
+  const blog2BasicContentFormContext = useForm<IBlog2BasicFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
     mode: "onChange",
     defaultValues: {
       title: props.edit ? props.blog2BasicContentItem?.title : "",
       content: props.edit ? props.blog2BasicContentItem?.content : "",
-      firstCategoryId: props.edit ? props.blog2BasicContentItem?.blog2FirstCategoryId : 0,
-      secondCategoryId: props.edit ? props.blog2BasicContentItem?.blog2SecondCategoryId : 0,
-      blobImageList: [],
+      firstCategoryId: props.edit
+        ? props.blog2BasicContentItem?.blog2FirstCategoryId
+        : 0,
+      secondCategoryId: props.edit
+        ? props.blog2BasicContentItem?.blog2SecondCategoryId
+        : 0,
+      s3ImageUrlList: [],
     },
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    clog.info(`블로그 기초 글 ${props.edit ? "수정 시작" : "생성 시작"}`);
-    const imageUrlList: string[] = [];
-    const imageFileList: File[] = [];
-    const deleteImageBucketDirectory: string[] = []; // edit에서 삭제에 필요한 이미지 s3 버킷 경로 수집
-    const formData = new FormData();
+    clog.info(
+      `${props.edit ? "블로그 기초 글 수정 시작" : "블로그 기초 글 생성 시작"}`,
+    );
 
-    // 미리보기 이미지들 중에 내용에 남아있는 미리보기 이미지들의 경로를 탐색
-    blog2ContentFormContext.getValues("blobImageList").map((i) => {
-      if (blog2ContentFormContext.getValues("content").search(i.url) != -1) {
-        imageUrlList.push(i.url);
-        imageFileList.push(i.file);
+    const addImageUrlList: string[] = [];
+    const deleteImageBucketDirectory: string[] = [];
+
+    // [1] 추가된 이미지 처리(글 작성 중에 사용하지 않는 이미지는 등록하지 않음, 사용중인 이미지만 필터링)
+    blog2BasicContentFormContext.getValues("s3ImageUrlList").forEach((i) => {
+      if (
+        blog2BasicContentFormContext.getValues("content").includes(i.keyPath)
+      ) {
+        addImageUrlList.push(i.keyPath);
       }
     });
 
-    // 이전 내용 안에 삭제할 이미지가 있나 탐색 => 삭제할 이미지는 deleteImageBucketDirectory에 보관
+    // [2] 안쓰는 이미지 삭제 (edit 모드)
     if (props.edit) {
       const regex =
-        /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
+        /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s\?\#]+?\.(webp|svg|jpg|gif|png|jpeg))(?![\?\#])/g;
       let matches;
-      const prevBlog2ContentImageList = [];
-      while ((matches = regex.exec(props.blog2BasicContentItem!.content)) !== null) {
-        prevBlog2ContentImageList.push(matches[1]);
+      const prevBlog2ContentImageUrlList: string[] = [];
+
+      while (
+        (matches = regex.exec(props.blog2BasicContentItem!.content)) !== null
+      ) {
+        prevBlog2ContentImageUrlList.push(matches[1]);
       }
 
-      // 내용에서 기존 이미지 URL을 검색을 해보았는데 없다고 판단이 되면 삭제해도 되는 URL로 판단
-      prevBlog2ContentImageList?.map((i) => {
-        if (blog2ContentFormContext.getValues("content").search(i) === -1) {
+      prevBlog2ContentImageUrlList.forEach((i) => {
+        if (!blog2BasicContentFormContext.getValues("content").includes(i)) {
           deleteImageBucketDirectory.push(i);
-          formData.append("deleteImageBucketDirectory", i);
         }
       });
     }
 
-    // API 공통 작업
-    if (props.edit) {
-      formData.append("id", props.blog2BasicContentItem!.id + "");
-    }
-    formData.append("title", blog2ContentFormContext.getValues("title"));
-    formData.append("content", blog2ContentFormContext.getValues("content"));
+    // [3] FormData로 변환
+    const formData = new FormData();
+    if (props.edit) formData.append("id", props.blog2BasicContentItem!.id + "");
+    formData.append("title", blog2BasicContentFormContext.getValues("title"));
+    formData.append(
+      "content",
+      blog2BasicContentFormContext.getValues("content"),
+    );
     formData.append(
       "firstCategoryId",
-      blog2ContentFormContext.getValues("firstCategoryId") + "",
+      blog2BasicContentFormContext.getValues("firstCategoryId") + "",
     );
     formData.append(
       "secondCategoryId",
-      blog2ContentFormContext.getValues("secondCategoryId") + "",
+      blog2BasicContentFormContext.getValues("secondCategoryId") + "",
     );
-    imageUrlList.map((i) => {
-      formData.append("imageUrlList", i);
-    });
-    imageFileList.map((i) => {
-      formData.append("imageFileList", i);
+
+    addImageUrlList.forEach((url) => {
+      formData.append("imageUrlList", url);
     });
 
-    clog.info("API 요청");
-    const response: Response = await fetchMultipartRetry({
+    if (props.edit) {
+      deleteImageBucketDirectory.forEach((path) => {
+        formData.append("deleteImageBucketDirectory", path);
+      });
+    }
+
+    // [4] 요청
+    const result: IBlog2BasicContent = await fetchCSR.requestWithHandler({
       url: "/api/blog2/basic",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
     });
-    clog.info(`API 응답 ${response.status}`);
 
-    // 모달 컴포넌트로 감싸져 있어서 자동으로 toast 메시지 출력
-    if (!response.ok) {
-      return {
-        type: "error",
-        message: props.edit ? "수정 실패" : "생성 실패",
-      };
-    }
-    
+    if (result == undefined) return;
+
     if (props.edit) {
       // 블로그 기초 수정 성공시
-      const result: responseCreateUpdateBlog2BasicContent =
-      await response.json();
-      props.updateBlog2BasicContent!(result.data.blog2BasicContent);
+      props.updateBlog2BasicContent!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     } else {
       // 블로그 기초 생성 성공시
-      const result: responseCreateUpdateBlog2BasicContent =
-      await response.json();
-      props.addBlog2BasicContent!(result.data.blog2BasicContent);
+      props.addBlog2BasicContent!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     }
   };
 
@@ -136,15 +124,15 @@ const Blog2BasicCreateUpdateContentModal = (
   };
 
   const handleContentChange = (value: string) => {
-    blog2ContentFormContext.setValue("content", value, {shouldValidate: true});
+    blog2BasicContentFormContext.setValue("content", value, {shouldValidate: true});
   };
 
-  const handleFileChange = (url: string, file: File) => {
+  const addS3ImageUrl = (keyPath: string) => {
     const currentList =
-      blog2ContentFormContext.getValues("blobImageList") || [];
-    blog2ContentFormContext.setValue(
-      "blobImageList",
-      [...currentList, {url, file}],
+      blog2BasicContentFormContext.getValues("s3ImageUrlList") || [];
+    blog2BasicContentFormContext.setValue(
+      "s3ImageUrlList",
+      [...currentList, {keyPath}],
       {shouldValidate: true},
     );
   };
@@ -160,27 +148,29 @@ const Blog2BasicCreateUpdateContentModal = (
         type={"basic"}
         saveHandler={() =>
           props.loadingWithHandler(
-            blog2ContentFormContext.handleSubmit(
+            blog2BasicContentFormContext.handleSubmit(
               handleSubmitClick,
               onClickErrorSubmit,
             ),
           )
         }
-        saveDisabled={!blog2ContentFormContext.formState.isValid}
+        saveDisabled={!blog2BasicContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}
       />
+      {/* 블로그 기초의 제목이나 카테고리1,2를 설정 하는 공간 */}
       {!modalState.isOpen && (
         <Blog2BasicCreateUpdateCategoryAndTitleForm
-          formContext={blog2ContentFormContext}
+          formContext={blog2BasicContentFormContext}
           isEdit={props.edit}
           blog2BasicContentItem={props.blog2BasicContentItem}
         />
       )}
+      {/* 블로그 글 작성하는 공간 */}
       <CustomEditor
         defaultValue={props.edit ? props.blog2BasicContentItem!.content : ""}
         handleContentChange={handleContentChange}
-        handleFileChange={handleFileChange}
+        addS3ImageUrl={addS3ImageUrl}
       />
     </ModalTemplate>
   );

@@ -1,8 +1,7 @@
 import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
-import Image from "next/image";
 import { useState } from "react";
-
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 interface IBlog2BasicContentViewItem {
   data: IBlog2Basic;
 }
@@ -14,21 +13,7 @@ const Blog2BasicContentViewItem = (props: IBlog2BasicContentViewItem) => {
         className="absolute -right-2 top-2 h-8 w-12"
         onClick={() => setIsCollapsed((prev) => !prev)}
       >
-        {isCollapsed ? (
-          <Image
-            alt="ic"
-            src={"/images/icons/ic-maximize.svg"}
-            width={28}
-            height={28}
-          />
-        ) : (
-          <Image
-            alt="ic"
-            src={"/images/icons/ic-minimize.svg"}
-            width={28}
-            height={28}
-          />
-        )}
+        {isCollapsed ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
       </button>
       <h2
         className={EditorTitleStyle}

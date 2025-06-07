@@ -2,7 +2,7 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import useLoading from "@hooks/useLoading";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import { FaPlane } from "react-icons/fa6";
 interface ITravelItemInfonModal extends IModalComponent {
   data: IKeywordTravel;
 }
@@ -52,11 +52,16 @@ const TravelItemInfonModal = (props: ITravelItemInfonModal) => {
       </h2>
       <div className="mt-2 w-full p-2 primary-border-radius default-flex">
         <div className="relative aspect-square w-[14rem]">
-          <Image
-            alt=""
-            src={props.data.firstimage || "/images/icons/ic-plane.svg"}
-            fill
-          />
+          {
+            props.data.firstimage ?
+              <Image
+                alt=""
+                src={props.data.firstimage}
+                fill
+              />
+              :
+              <FaPlane size="48"/>
+          }
         </div>
       </div>
       <div className="my-4 h-[0.0625rem] w-full border border-gray-60"> </div>

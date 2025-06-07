@@ -27,6 +27,7 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
       const result: IBoardComment[] = await fetchCSR.requestWithHandler({
         url: `/api/board/comment?boardId=${props.boardId}`,
         method: "GET",
+        showLoading: false
       });
       if (result == undefined) return;
       boardCommentStore.setBoardCommentList(result);

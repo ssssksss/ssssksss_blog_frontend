@@ -3,21 +3,12 @@ import CustomEditor from "@component/common/editor/CustomEditor";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
-import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-
-interface IFormContext {
-  id: number;
-  position: number;
-  title: string;
-  content: string;
-  blobImageList: {url: string; file: File}[];
-  deleteImageBucketDirectory?: string[];
-}
 
 interface IBlog2ResultCreateUpdateModal extends IModalComponent {
   edit?: boolean;
@@ -29,8 +20,9 @@ interface IBlog2ResultCreateUpdateModal extends IModalComponent {
 const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   const { id: blogId } = useParams();
   const modalState = useModalState(props.edit ? true : false);
+  const fetchCSR = useFetchCSR();
   
-  const blog2ContentFormContext = useForm<IFormContext>({
+  const blog2ResultContentFormContext = useForm<IBlog2ResultFormContext>({
     resolver: yupResolver(Blog2ResultYup),
     mode: "onChange",
     defaultValues: {
@@ -38,43 +30,42 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       title: props.edit ? props.item?.title : "",
       content: props.edit ? props.item?.content : "",
       position: props.edit ? props.item?.position : 0,
-      blobImageList: [],
+      s3ImageUrlList: [],
     },
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    // store.dispatch(setIsLoading(true));
-    const imageUrlList: string[] = [];
-    const imageFileList: File[] = [];
-    const formData = new FormData();
+    const addImageUrlList: string[] = [];
+    const deleteImageBucketDirectory: string[] = [];
 
-    // 미리보기 이미지에서 실제 이미지로 저장하기 위해서 이미지들의 경로를 탐색
-    blog2ContentFormContext.getValues("blobImageList").map((i) => {
-      if (blog2ContentFormContext.getValues("content").search(i.url) != -1) {
-        imageUrlList.push(i.url);
-        imageFileList.push(i.file);
+    // [1] 추가된 이미지 처리(글 작성 중에 사용하지 않는 이미지는 등록하지 않음, 사용중인 이미지만 필터링)
+    blog2ResultContentFormContext.getValues("s3ImageUrlList").map((i) => {
+      if (
+        blog2ResultContentFormContext.getValues("content").search(i.keyPath) !=
+        -1
+      ) {
+        addImageUrlList.push(i.keyPath);
       }
     });
 
-    // 이전 내용 안에 삭제할 이미지가 있나 탐색 => 삭제할 이미지는 deleteImageBucketDirectory에 보관
+    // [2] 안쓰는 이미지 삭제 (edit 모드)
     if (props.edit) {
       const regex =
-        /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s]+?\.(webp|svg|jpg|gif|png|jpeg))/g;
+        /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s\?\#]+?\.(webp|svg|jpg|gif|png|jpeg))(?![\?\#])/g;
       let matches;
-      const prevBlog2ContentImageList = [];
+      const prevBlog2ContentImageUrlList: string[] = [];
       while ((matches = regex.exec(props.item!.content)) !== null) {
-        prevBlog2ContentImageList.push(matches[1]);
+        prevBlog2ContentImageUrlList.push(matches[1]);
       }
 
-      // 내용에서 기존 이미지 URL을 검색을 해보았는데 없다고 판단이 되면 삭제해도 되는 URL로 판단
-      prevBlog2ContentImageList?.map((i) => {
-        if (blog2ContentFormContext.getValues("content").search(i) === -1) {
-          formData.append("deleteImageBucketDirectory", i);
+      prevBlog2ContentImageUrlList.forEach((i) => {
+        if (!blog2ResultContentFormContext.getValues("content").includes(i)) {
+          deleteImageBucketDirectory.push(i);
         }
       });
     }
-
-    // API 공통 작업
+    // [3] FormData로 변환
+    const formData = new FormData();
     if (props.edit) {
       formData.append("id", props.item!.id + "");
     }
@@ -82,47 +73,41 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       formData.append("blogId", blogId + "");
       formData.append(
         "position",
-        blog2ContentFormContext.getValues("position") + "",
+        blog2ResultContentFormContext.getValues("position") + "",
       );
     }
-    formData.append("title", blog2ContentFormContext.getValues("title"));
-    formData.append("content", blog2ContentFormContext.getValues("content"));
-    imageUrlList.map((i) => {
-      formData.append("imageUrlList", i);
-    });
-    imageFileList.map((i) => {
-      formData.append("imageFileList", i);
+    formData.append("title", blog2ResultContentFormContext.getValues("title"));
+    formData.append(
+      "content",
+      blog2ResultContentFormContext.getValues("content"),
+    );
+    addImageUrlList.forEach((url) => {
+      formData.append("imageUrlList", url);
     });
 
-    const response: Response = await fetchMultipartRetry({
+    if (props.edit) {
+      deleteImageBucketDirectory.forEach((path) => {
+        formData.append("deleteImageBucketDirectory", path);
+      });
+    }
+
+    const result: IBlog2Result = await fetchCSR.requestWithHandler({
       url: "/api/blog2/result",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
     });
-  
-    if (!response.ok) {
-      return {
-        type: "error",
-        message: props.edit ? "수정 실패" : "생성 실패",
-      };
-    }
+
+    if (result == undefined) return;
+
+
     if (props.edit) {
-      // 블로그 결과 수정 성공시
-      const result: responseCreateUpdateBlog2Result = await response.json();
-      props.updateBlog2Result!(result.data.blog2Result);
+      // 블로그 기초 수정 성공시
+      props.updateBlog2Result!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     } else {
-      // 블로그 결과 생성 성공시
-      const result: responseCreateUpdateBlog2Result =
-        await response.json();
-      props.addBlog2Result!(result.data.blog2Result);
+      // 블로그 기초 생성 성공시
+      props.addBlog2Result!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     }
   };
 
@@ -131,25 +116,25 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   };
 
   const handleContentChange = (value: string) => {
-    blog2ContentFormContext.setValue("content", value, {shouldValidate: true});
+    blog2ResultContentFormContext.setValue("content", value, {shouldValidate: true});
   };
 
-  const handleFileChange = (url: string, file: File) => {
+  const addS3ImageUrl = (keyPath: string) => {
     const currentList =
-      blog2ContentFormContext.getValues("blobImageList") || [];
-    blog2ContentFormContext.setValue(
-      "blobImageList",
-      [...currentList, {url, file}],
+      blog2ResultContentFormContext.getValues("s3ImageUrlList") || [];
+    blog2ResultContentFormContext.setValue(
+      "s3ImageUrlList",
+      [...currentList, {keyPath}],
       {shouldValidate: true},
     );
   };
 
   useEffect(() => {
     if (props.edit) {
-      blog2ContentFormContext.setValue("title", props.item!.title);
-      blog2ContentFormContext.setValue("content", props.item!.content);
-      blog2ContentFormContext.setValue("position", props.item!.position);
-      blog2ContentFormContext.watch();
+      blog2ResultContentFormContext.setValue("title", props.item!.title);
+      blog2ResultContentFormContext.setValue("content", props.item!.content);
+      blog2ResultContentFormContext.setValue("position", props.item!.position);
+      blog2ResultContentFormContext.watch();
     }
   }, []);
 
@@ -164,22 +149,22 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         type={"result"}
         saveHandler={() =>
           props.loadingWithHandler(
-            blog2ContentFormContext.handleSubmit(
+            blog2ResultContentFormContext.handleSubmit(
               handleSubmitClick,
               onClickErrorSubmit,
             ),
           )
         }
-        saveDisabled={!blog2ContentFormContext.formState.isValid}
+        saveDisabled={!blog2ResultContentFormContext.formState.isValid}
         edit={props.edit ?? false}
         modalState={modalState}
       />
       {!modalState.isOpen && (
-        <div className="primary-border absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4">
+        <div className="absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4 primary-border">
           <ThemeInput1
             type={"text"}
-            register={blog2ContentFormContext.register("title")}
-            className={"primary-border-radius flex h-[3rem] items-center px-2"}
+            register={blog2ResultContentFormContext.register("title")}
+            className={"flex h-[3rem] items-center px-2 primary-border-radius"}
             placeholder="제목 입력"
           />
         </div>
@@ -187,7 +172,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       <CustomEditor
         defaultValue={props.edit ? props.item!.content : ""}
         handleContentChange={handleContentChange}
-        handleFileChange={handleFileChange}
+        addS3ImageUrl={addS3ImageUrl}
       />
     </ModalTemplate>
   );

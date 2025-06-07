@@ -5,7 +5,7 @@ async function getData(id: number) {
   const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/board/${id}`,
     method: "GET",
-    next: {revalidate: 3600, tags: [`getBoard/${id}`]},
+    next: {revalidate: 86400, tags: [`getBoard/${id}`]},
     isAuth: false,
   });
 

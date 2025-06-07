@@ -232,3 +232,22 @@ declare interface IBlog2BasicCreateUpdateContentModal extends IModalComponent {
   updateBlog2BasicContent?: (data: IBlog2BasicContent) => void;
   addBlog2BasicContent?: (data: IBlog2BasicContent) => void;
 }
+
+// 블로그 기초 글 작성에 사용하는 formContext
+interface IBlog2BasicFormContext {
+  title: string;
+  content: string;
+  firstCategoryId: number;
+  secondCategoryId: number;
+  s3ImageUrlList: {keyPath: string}[];
+  deleteImageBucketDirectory?: string[];
+}
+
+interface IBlog2ResultFormContext {
+  id: number;
+  position: number;
+  title: string;
+  content: string;
+  s3ImageUrlList: {keyPath: string}[];
+  deleteImageBucketDirectory?: string[];
+}

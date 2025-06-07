@@ -5,11 +5,10 @@ import BasicTextarea from "@component/common/textarea/BasicTextarea";
 import "@styles/reactDataRange.css";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import Image from "next/image";
 import { useState } from "react";
 import { DateRangePicker, RangeKeyDict } from "react-date-range";
 import { useFormContext } from "react-hook-form";
-
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 type SubmitDataWithId = {
   id: number;
   content: string;
@@ -123,21 +122,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             onClick={() => setIsFoldCalendar((prev) => !prev)}
             className="h-btn-md"
           >
-            {isFoldCalendar ? (
-              <Image
-                alt="ic"
-                src={"/images/icons/ic-minimize.svg"}
-                width={28}
-                height={28}
-              />
-            ) : (
-              <Image
-                alt="ic"
-                src={"/images/icons/ic-maximize.svg"}
-                width={28}
-                height={28}
-              />
-            )}
+            {isFoldCalendar ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
           </button>
         </div>
         <div
@@ -222,7 +207,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           props.onClickErrorSubmit,
         )}
       >
-        일정 {props.isEdit ? "수정하기" : "생성하기"}
+        {props.isEdit ? "일정 수정하기" : "일정 생성하기"}
       </ThemeButton1>
     </div>
   );

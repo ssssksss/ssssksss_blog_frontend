@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // fetch를 보내 toast 메시지를 보여주고, 성공시 data를 반환
 interface IFetchFn {
   url: string;
-  method?: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE" ;
   formData?: FormData;
   body?: Record<string, any>;
   contentType?: undefined | "application/x-www-form-urlencoded";
@@ -16,6 +16,7 @@ interface IFetchFn {
   handleRevalidateTags?: string[];
   showSuccessToast?: boolean;
   successMessage?: string;
+  showLoading?: boolean;
 }
 // fetch를 요청하고 액세스 재발급까지는 안되는 로직, 인증 처리도 없음
 // 단 fetch를 route.ts로 보내면 인증처리가 가능할 수도 있음
@@ -40,8 +41,11 @@ function useFetchCSR() {
     handleRevalidateTags,
     showSuccessToast = false,
     successMessage,
+    showLoading = true,
   }: IFetchFn) => {
-    loadingState.startLoading();
+    if (showLoading) {
+      loadingState.startLoading();
+    }
 
     try {
       // api route의 router handling을 사용해서 처리
@@ -53,6 +57,7 @@ function useFetchCSR() {
         body: formData ? formData : body ? JSON.stringify(body) : undefined,
         ...(cache ? {cache} : {}),
       });
+      console.log("useFetchCSR.ts 파일 : ",response);
       if (!response.ok) {
         clog.info(
           "fetchCSR 에러: " + response.status + " : " + response.statusText,
@@ -83,7 +88,7 @@ function useFetchCSR() {
       }
       return;
     } finally {
-      loadingState.stopLoading();
+      if(showLoading) loadingState.stopLoading();
     }
   };
 

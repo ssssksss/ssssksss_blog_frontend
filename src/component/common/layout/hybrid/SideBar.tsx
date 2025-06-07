@@ -48,7 +48,7 @@ const LeftNavItems: LeftNavItem[] = [
     options: {isRequiredAuth: true},
   },
   // {
-  //   icon: "/images/icons/ic-plane.svg",
+  //   icon: "",
   //   label: "여행",
   //   href: "/travel",
   //   options: {isRequiredAuth: false},
@@ -72,7 +72,7 @@ const LeftNavItems: LeftNavItem[] = [
     options: {isRequiredAuth: false},
   },
   // {
-  //   icon: "/images/icons/ic-setting.svg",
+  //   icon: "",
   //   label: "폴더변환",
   //   href: "/switch",
   //   options: {isRequiredAuth: false},

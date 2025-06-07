@@ -1,13 +1,13 @@
+import EditButton from "@component/common/button/EditButton";
 import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
-import Image from "next/image";
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 import Blog2StructureContentCreateUpdateModal from "./Blog2StructureContentCreateUpdateModal";
 
 interface IBlog2StructureContentItem {
@@ -39,25 +39,11 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
           className="h-8 w-8"
           onClick={() => modalState.isOpen ? modalState.closeModal() : modalState.openModal()}
         >
-          {!modalState.isOpen ? (
-            <Image
-              alt="ic"
-              src={"/images/icons/ic-maximize.svg"}
-              width={28}
-              height={28}
-            />
-          ) : (
-            <Image
-              alt="ic"
-              src={"/images/icons/ic-minimize.svg"}
-              width={28}
-              height={28}
-            />
-          )}
+          {!modalState.isOpen ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
         </button>
         <ModalButton
           buttonClassName={
-            "font-bold rounded-2xl hover:bg-primary-20 p-1 w-[2.25rem] default-flex"
+            "font-bold p-1 w-[2.25rem] default-flex"
           }
           modal={
             <Blog2StructureContentCreateUpdateModal
@@ -68,10 +54,7 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
             />
           }
         >
-          <FontAwesomeIcon
-            icon={faPenToSquare}
-            style={{width: "28px", height: "28px"}}
-          />
+          <EditButton />
         </ModalButton>
         <Button
           className={
