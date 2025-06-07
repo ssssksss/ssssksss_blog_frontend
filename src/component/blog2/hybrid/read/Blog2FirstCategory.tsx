@@ -49,7 +49,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
     });
     if (!params.get("secondCategoryId")) {
-      blog2Store.setBlog2List({
+      blog2Store.setBlogItem({
         id: 0,
         list: [],
       });

@@ -40,13 +40,13 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
       if (result == undefined) return;
       // 기존 리스트에서 블로그 항목 제거
       if (
-        blog2Store.blog2List.blog2SecondCategoryId ==
+        blog2Store.blogItem.blog2SecondCategoryId ==
         props.data.blog2SecondCategory.id
       ) {
-        blog2Store.setBlog2List({
-          id: blog2Store.blog2List.blog2SecondCategoryId,
+        blog2Store.setBlogItem({
+          id: blog2Store.blogItem.blog2SecondCategoryId,
           list: [
-            ...blog2Store.blog2List.list.filter(
+            ...blog2Store.blogItem.list.filter(
               (i) => i.id !== props.data.blog2.id,
             ),
           ],

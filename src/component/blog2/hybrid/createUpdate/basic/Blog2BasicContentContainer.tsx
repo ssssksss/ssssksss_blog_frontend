@@ -1,5 +1,6 @@
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
+import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { FaRegPlusSquare, FaSearchPlus } from "react-icons/fa";
 import Blog2BasicContentItem from "./Blog2BasicContentItem";
@@ -74,4 +75,4 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
     </div>
   );
 };
-export default Blog2BasicContentContainer; 
+export default React.memo(Blog2BasicContentContainer); 

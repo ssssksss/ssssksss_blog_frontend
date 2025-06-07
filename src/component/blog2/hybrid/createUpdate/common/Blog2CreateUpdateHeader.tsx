@@ -29,7 +29,6 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const modalState1 = useModalState();
   const modalState2 = useModalState();
   const ref = useRef<any>();
-  const blog2Store = useBlog2Store();
   const formContext = useFormContext();
   const [title, setTitle] = useState(formContext.getValues("title") || "");
   const { loadingWithHandler } = useLoadingHandler();
@@ -37,6 +36,9 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const [description, setDescription] = useState(
     formContext.getValues("description") || "",
   );
+  const blogCategoryList = useBlog2Store((state) => state.categoryList);
+  const blogItem = useBlog2Store((state) => state.blogItem);
+  const setBlogItem = useBlog2Store((state) => state.setBlogItem);
   const [imageUrl, setImageUrl] = useState<string>(
     formContext.getValues("thumbnailImageUrl")
       ? AWSS3Prefix + "" + formContext.getValues("thumbnailImageUrl")
@@ -167,12 +169,12 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       });
       if (result == undefined) return;
       if (
-        blog2Store.blog2List.blog2SecondCategoryId ==
+        blogItem.blog2SecondCategoryId ==
         formContext.getValues("secondCategoryId")
       ) {
-        blog2Store.setBlog2List({
-          id: blog2Store.blog2List.blog2SecondCategoryId,
-          list: [result, ...blog2Store.blog2List.list],
+        setBlogItem({
+          id: blogItem.blog2SecondCategoryId,
+          list: [result, ...blogItem.list],
         });
       }
       router.replace(
@@ -192,8 +194,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         showSuccessToast: true
       });
       if (result == undefined) return;
+      // TODO : router back이 필요한데 그렇게 되면 수정한 값이 안나올 수 있어서 조치 필요
       router.replace(
-        // `/blog2/${formContext.getValues("id")}?timestamp=${new Date()}`,
         `/blog2/${formContext.getValues("id")}`,
       );
       router.refresh();
@@ -206,7 +208,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       id,
       name,
     });
-    blog2Store.categoryList.map((i) => {
+    blogCategoryList.map((i) => {
       if (i.id == id) {
         if (i.blog2SecondCategoryList!.length > 0) {
           setSecondCategory({
@@ -239,7 +241,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       id,
       name,
     });
-    blog2Store.categoryList
+    blogCategoryList
       .filter((i) => i.id == firstCategory.id)[0]
       .blog2SecondCategoryList?.map((j) => {
         if (j.id == id) {
@@ -379,8 +381,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                 <Image
                   src={imageUrl}
                   alt={"image"}
-                  layout="fill"
                   className="rounded-[1rem] p-2"
+                  fill
                 />
               )}
               {/* <Input
@@ -435,7 +437,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                       "flex h-full w-full flex-wrap gap-2 rounded-[1rem] p-8"
                     }
                   >
-                    {blog2Store.categoryList.map((i) => (
+                    {blogCategoryList.map((i) => (
                       <Button
                         onClick={() =>
                           handleFirstCategory({
@@ -466,7 +468,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                     }
                   >
                     {firstCategory.id > 0 &&
-                      blog2Store.categoryList
+                      blogCategoryList
                         .filter((i) => i.id == firstCategory.id)[0]
                         .blog2SecondCategoryList?.map((j) => (
                           <Button

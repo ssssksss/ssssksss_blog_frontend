@@ -33,7 +33,7 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
       loadingState.startLoading();
       const list = blog2Store.activeBlog2SecondCategoryId ? await fetchBlogList() : [];
       
-      blog2Store.setBlog2List({
+      blog2Store.setBlogItem({
         id: Number(blog2Store.activeBlog2SecondCategoryId) || 0,
         list,
         isDataFetched: true,
@@ -50,7 +50,7 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
         <LoadingSpinner loading={loadingState.loading} />
         {blog2Store.isDataFetched &&
           !loadingState.loading &&
-          blog2Store.blog2List.list.map((i, index) => (
+          blog2Store.blogItem.list.map((i, index) => (
             <Link
               href={`/blog2/${i.id}`}
               key={i.id}
@@ -100,7 +100,7 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
           ))}
         {blog2Store.isDataFetched &&
           !loadingState.loading &&
-          blog2Store.blog2List.list.length == 0 && (
+          blog2Store.blogItem.list.length == 0 && (
           <div className={"w-full default-flex"}>
             <LottieNotFound text={"블로그 글이 없습니다."} />
           </div>

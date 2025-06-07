@@ -5,6 +5,7 @@ import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
 import clog from "@utils/logger/logger";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
+import { useCallback } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
@@ -123,19 +124,19 @@ const Blog2BasicCreateUpdateContentModal = (
     alert("잘못 입력된 값이 존재합니다.");
   };
 
-  const handleContentChange = (value: string) => {
+  const handleContentChange = useCallback((value: string) => {
     blog2BasicContentFormContext.setValue("content", value, {shouldValidate: true});
-  };
+  },[]);
 
-  const addS3ImageUrl = (keyPath: string) => {
+  const addS3ImageUrl = useCallback((keyPath: string) => {
     const currentList =
       blog2BasicContentFormContext.getValues("s3ImageUrlList") || [];
     blog2BasicContentFormContext.setValue(
       "s3ImageUrlList",
-      [...currentList, {keyPath}],
-      {shouldValidate: true},
+      [...currentList, { keyPath }],
+      { shouldValidate: true },
     );
-  };
+  }, []);
 
   return (
     <ModalTemplate
@@ -171,6 +172,7 @@ const Blog2BasicCreateUpdateContentModal = (
         defaultValue={props.edit ? props.blog2BasicContentItem!.content : ""}
         handleContentChange={handleContentChange}
         addS3ImageUrl={addS3ImageUrl}
+        isPreview={true}
       />
     </ModalTemplate>
   );

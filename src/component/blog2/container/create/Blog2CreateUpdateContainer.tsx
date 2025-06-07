@@ -17,7 +17,13 @@ interface IBlog2UpdateContainer {
 }
 
 const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateContainer) => {
-  const blog2Store = useBlog2Store();
+  const setBlog2CategoryList = useBlog2Store(
+    (state) => state.setBlog2CategoryList,
+  );
+  const setBlog2ActiveFirstCategoryId = useBlog2Store((state) => state.setBlog2ActiveFirstCategoryId);
+  const setBlog2ActiveSecondCategoryId = useBlog2Store(
+    (state) => state.setBlog2ActiveSecondCategoryId,
+  );
   const methods = useForm({
     mode: "onChange", 
     resolver: yupResolver(Blog2CreateYup),
@@ -46,12 +52,12 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   }); 
 
   useEffect(() => {
-    blog2Store.setBlog2CategoryList("categoryList" in props ? props.categoryList : props.data.categoryList);
+    setBlog2CategoryList("categoryList" in props ? props.categoryList : props.data.categoryList);
     if ("isEdit" in props) {
-      blog2Store.setBlog2ActiveFirstCategoryId( 
+      setBlog2ActiveFirstCategoryId( 
         props.data.blog2.firstCategoryId,
       );
-      blog2Store.setBlog2ActiveSecondCategoryId(
+      setBlog2ActiveSecondCategoryId(
         props.data.blog2SecondCategory.id,
       );
     }

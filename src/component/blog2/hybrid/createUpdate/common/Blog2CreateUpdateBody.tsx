@@ -1,6 +1,6 @@
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import useToastifyStore from "@store/toastifyStore";
-import { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import Blog2BasicContentContainer from "../basic/Blog2BasicContentContainer";
 import Blog2ResultBox from "../Blog2ResultBox";
@@ -22,7 +22,7 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
     type: "blog2BasicContent" | "blog2StructureContent",
   ) => list.some((item) => item[type].id === id);
 
-  const addBlog2Content = (data: any, type: "basic" | "structure") => {
+  const addBlog2Content = useCallback((data: any, type: "basic" | "structure") => {
     const listName = type === "basic" ? "blog2BasicList" : "blog2StructureList";
     const contentKey =
       type === "basic" ? "blog2BasicContent" : "blog2StructureContent";
@@ -44,9 +44,9 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
       true,
     );
     toastifyStore.setToastify({type: "success", message: "추가"});
-  };
+  },[]);
 
-  const updateBlog2Content = (data: any, type: "basic" | "structure") => {
+  const updateBlog2Content = useCallback((data: any, type: "basic" | "structure") => {
     const listName = type === "basic" ? "blog2BasicList" : "blog2StructureList";
     const contentKey =
       type === "basic" ? "blog2BasicContent" : "blog2StructureContent";
@@ -66,9 +66,9 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
       formContext.setValue(deleteListName, _deletedList);
     }
     toastifyStore.setToastify({type: "success", message: "수정 완료"});
-  };
+  },[]);
 
-  const removeBlog2Content = (type: "basic" | "structure", id: number) => {
+  const removeBlog2Content = useCallback((type: "basic" | "structure", id: number) => {
     const listName = type === "basic" ? "blog2BasicList" : "blog2StructureList";
     const deleteListName = `delete${listName.charAt(0).toUpperCase() + listName.slice(1)}`;
 
@@ -92,7 +92,7 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
       ]);
     }
     toastifyStore.setToastify({type: "success", message: "삭제 완료"});
-  };
+  },[]);
 
   const blog2SectionList = [
     {menu: "기초", name: "blog2BasicList"},
@@ -132,4 +132,4 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
   );
 };
 
-export default Blog2CreateUpdateBody;
+export default React.memo(Blog2CreateUpdateBody);
