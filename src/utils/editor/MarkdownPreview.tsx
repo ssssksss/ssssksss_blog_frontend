@@ -3,7 +3,6 @@ import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import java from "highlight.js/lib/languages/java";
 import javascript from "highlight.js/lib/languages/javascript";
-import "highlight.js/styles/panda-syntax-dark.css"; // 코드 블록 스타일
 import "highlight.js/styles/panda-syntax-light.css"; // 코드 블록 스타일
 import React from "react";
 import { EditorPreviewStyle } from "./EditorTailwindcssStyle";
@@ -135,8 +134,8 @@ export const convertMarkdownToHtml = (
     const {lang, code} = codeBlocks[Number(index)];
     const highlighted = highlightSyntax(code, lang || "plaintext").trim();
     return isPreview
-      ? `<pre class="flex relative text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-40 primary-border break-all"><code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code></pre>`
-      : `<pre class="click-to-copy relative text-white overflow-x-scroll p-4 rounded-[1rem] bg-gray-40 primary-border break-all"><button class="absolute hover:scale-105 top-2 right-2">...</button><code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code></pre>`;
+      ? `<pre class="flex relative text-black-100 overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all"><code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code></pre>`
+      : `<pre class="click-to-copy  text-black-100 relative overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all"><button class="absolute hover:scale-105 top-2 right-2">...</button><code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code></pre>`;
   });
 
   let DOMPurify = null;
