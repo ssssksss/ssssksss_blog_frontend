@@ -2,18 +2,18 @@ import { useCursor } from "@hooks/useCursor";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useFetchCSR from "@hooks/useFetchCSR";
 import { useUndoRedo } from "@hooks/useUndoRedo";
-import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { convertToObjectUrl } from "@utils/function/convertToObjectUrl";
 import { AWSS3Prefix } from "@utils/variables/s3url";
-import { ClipboardEvent, useEffect, useRef, useState } from "react";
+import React, { ClipboardEvent, useEffect, useRef, useState } from "react";
 import BasicTextarea from "../textarea/BasicTextarea";
 
 interface ICustomEditor {
   handleContentChange: (content: string) => void;
   addS3ImageUrl?: (keyPath: string) => void;
   defaultValue?: string;
+  isPreview?: boolean;
 }
 
 const CustomEditor = (props: ICustomEditor) => {
@@ -22,7 +22,6 @@ const CustomEditor = (props: ICustomEditor) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { moveCursor } = useCursor({ ref: textareaRef });
   const fetchCSR = useFetchCSR();
-  const toastifyStore = useToastifyStore();
   const {handleRedoSave} = useUndoRedo({
     content: content,
     changeContent: (value: string) => {
@@ -95,10 +94,6 @@ const CustomEditor = (props: ICustomEditor) => {
     if (result === undefined) {
       // 업로드 실패: 기존 임시 이미지 마크다운 제거
       setContent?.((prev) => prev.replace(`![image](${url})`, "이미지 업로드 실패"));
-      toastifyStore.setToastify({
-        type: "error",
-        message: "이미지 업로드에 실패했습니다."
-      });
       return;
     }
 
@@ -290,6 +285,7 @@ const CustomEditor = (props: ICustomEditor) => {
         </h3>
         <MarkdownPreview
           content={content}
+          isPreview={props.isPreview}
           className={
             "h-full max-h-full w-full overflow-scroll break-all rounded-2xl border-2 border-primary-80 p-2"
           }
@@ -299,4 +295,4 @@ const CustomEditor = (props: ICustomEditor) => {
   );
 };
 
-export default CustomEditor;
+export default React.memo(CustomEditor);

@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import java from "highlight.js/lib/languages/java";
@@ -17,7 +17,10 @@ hljs.registerLanguage("css", css);
  * @param isPreview - Whether the output is for preview mode.
  * @returns The converted HTML string.
  */
-export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): string => {
+export const convertMarkdownToHtml = (
+  markdown: string,
+  isPreview?: boolean,
+): string => {
   let h2Count = 0;
   let html = markdown
     // 이미지 업로드 시 로딩을 보여주는 방법
@@ -119,6 +122,7 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
       /<iframe[^>]*src="https:\/\/www\.youtube\.com\/embed\/[^"]+"[^>]*><\/iframe>/g,
       (match) => `<div class="flex justify-center my-4">${match}</div>`,
     )
+    .replace(/<iframe/g, isPreview ? "<!iframe" : "<iframe")
     .replace(/<br12345>/g, "<br>");
   // .replace(/(<br>\s*){2,}/g, "<br>");
   html = html.replace(/<\/h1>\s*<br\s*\/?>/g, "</h1>");
@@ -137,29 +141,37 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
       return match;
     },
   );
-  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-    if (data.tagName === "iframe" && node instanceof Element) {
-      const src = node.getAttribute("src") || "";
-      if (!src.startsWith("https://www.youtube.com/embed/")) {
-        node.parentNode?.removeChild(node);
-      }
-    }
-  });
+  let DOMPurify = null;
+  if (typeof window !== "undefined") {
+    const createDOMPurify = require("dompurify");
+    DOMPurify = createDOMPurify(window); // 또는 globalThis
 
-  return DOMPurify.sanitize(html, {
-    ADD_TAGS: ["iframe"],
-    ADD_ATTR: [
-      "allow",
-      "allowfullscreen",
-      "frameborder",
-      "scrolling",
-      "src",
-      "height",
-      "width",
-      "title",
-      "referrerpolicy",
-    ],
-  });
+    DOMPurify.addHook("uponSanitizeElement", (node: any, data: any) => {
+      if (data.tagName === "iframe" && node instanceof Element) {
+        const src = node.getAttribute("src") || "";
+        if (!src.startsWith("https://www.youtube.com/embed/")) {
+          node.parentNode?.removeChild(node);
+        }
+      }
+    });
+
+    return DOMPurify.sanitize(html, {
+      ADD_TAGS: ["iframe"],
+      ADD_ATTR: [
+        "allow",
+        "allowfullscreen",
+        "frameborder",
+        "scrolling",
+        "src",
+        "height",
+        "width",
+        "title",
+        "referrerpolicy",
+      ],
+    });
+  } else {
+    return html;
+  }
 };
 
 /**
@@ -170,7 +182,7 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
  */
 const highlightSyntax = (code: string, language: string): string => {
   if (hljs.getLanguage(language)) {
-    return hljs.highlight(code, { language }).value;
+    return hljs.highlight(code, {language}).value;
   }
   // Fallback for unsupported languages
   return hljs.highlightAuto(code).value;
@@ -184,18 +196,21 @@ function slugify(text: string): string {
     .replace(/\s+/g, "-"); // 공백은 하이픈으로
 }
 
-
 /**
  * Add a click event listener to handle copy functionality for code blocks.
  */
 
-const MarkdownPreview: React.FC<{ content: string, className?: string }> = ({ content, className }) => {
+const MarkdownPreview: React.FC<{
+  content: string;
+  className?: string;
+  isPreview?: boolean;
+}> = ({content, className, isPreview}) => {
   return (
     <div
-      id= "preview"
+      id="preview"
       className={className || EditorPreviewStyle}
       dangerouslySetInnerHTML={{
-        __html: convertMarkdownToHtml(content, true),
+        __html: convertMarkdownToHtml(content, isPreview),
       }}
     />
   );
