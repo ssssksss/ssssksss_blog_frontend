@@ -15,6 +15,14 @@ export const handleResponseError = async (response: Response) => {
       }),
     );
   }
+  if (response.status == 401) {
+    throw new Error(
+      JSON.stringify({
+        code: 401,
+        message: "인증이 필요합니다.",
+      }),
+    );
+  }
 
   if (!response?.ok) {
     const result = await response.json();

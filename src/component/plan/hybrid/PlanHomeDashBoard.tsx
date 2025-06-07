@@ -1,6 +1,5 @@
 "use client";
 
-import LottieAuthLock from "@component/common/lottie/LottieAuthLock";
 import usePlanStore from "@store/planStore";
 import useUserStore from "@store/userStore";
 import dynamic from "next/dynamic";
@@ -28,20 +27,7 @@ const PlanHomeDashBoard = (props: IPlanDashBoard) => {
   useEffect(() => {
     planStore.setScheduleList(props.data);
   }, []);
-  if (userStore.id == 0) {
-    return (
-      <> </>
-    );
-  }
-
-  if (userStore.id < 1) {
-    return (
-      <div className="h-full w-full default-flex">
-        <LottieAuthLock text={"로그인이 필요합니다."} />
-      </div>
-    );
-  }
-
+  
   return (
     <section
       className={
