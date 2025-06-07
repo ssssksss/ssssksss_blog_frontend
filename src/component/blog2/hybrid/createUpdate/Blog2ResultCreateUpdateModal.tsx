@@ -173,6 +173,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         defaultValue={props.edit ? props.item!.content : ""}
         handleContentChange={handleContentChange}
         addS3ImageUrl={addS3ImageUrl}
+        isPreview={true}
       />
     </ModalTemplate>
   );
