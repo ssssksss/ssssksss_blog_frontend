@@ -137,8 +137,28 @@ export const convertMarkdownToHtml = (markdown: string, isPreview?: boolean): st
       return match;
     },
   );
+  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+    if (data.tagName === "iframe" && node instanceof Element) {
+      const src = node.getAttribute("src") || "";
+      if (!src.startsWith("https://www.youtube.com/embed/")) {
+        node.parentNode?.removeChild(node);
+      }
+    }
+  });
+
   return DOMPurify.sanitize(html, {
-    USE_PROFILES: {html: true},
+    ADD_TAGS: ["iframe"],
+    ADD_ATTR: [
+      "allow",
+      "allowfullscreen",
+      "frameborder",
+      "scrolling",
+      "src",
+      "height",
+      "width",
+      "title",
+      "referrerpolicy",
+    ],
   });
 };
 
