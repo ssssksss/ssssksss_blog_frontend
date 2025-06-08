@@ -57,7 +57,6 @@ function useFetchCSR() {
         body: formData ? formData : body ? JSON.stringify(body) : undefined,
         ...(cache ? {cache} : {}),
       });
-      console.log("useFetchCSR.ts 파일 : ",response);
       if (!response.ok) {
         clog.info(
           "fetchCSR 에러: " + response.status + " : " + response.statusText,
