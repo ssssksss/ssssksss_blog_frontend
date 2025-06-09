@@ -23,6 +23,14 @@ export const handleResponseError = async (response: Response) => {
       }),
     );
   }
+  if (response.status == 404) {
+    throw new Error(
+      JSON.stringify({
+        code: 404,
+        message: "잘못된 요청",
+      }),
+    );
+  }
 
   if (!response?.ok) {
     const result = await response.json();
