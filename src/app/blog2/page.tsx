@@ -26,8 +26,6 @@ async function getData() {
 const Page = async (props: IPage) => {
   const initData = await getData();
 
-  console.log("page.tsx 파일 : ",initData);
-
   return (
     <Template>
       {/* <Blog2SearchContainer /> */}
