@@ -12,7 +12,6 @@ interface IPage {}
 
 // API 요청시 문제가 발생하면 error.tsx로 이동
 async function getData() {
-
   const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
     next: {
@@ -30,7 +29,7 @@ const Page = async (props: IPage) => {
   return (
     <Template>
       {/* <Blog2SearchContainer /> */}
-      <Blog2Category categoryList={initData.data.categoryList} />
+      <Blog2Category categoryList={initData.data} />
       <Blog2ListContainer />
     </Template>
   );

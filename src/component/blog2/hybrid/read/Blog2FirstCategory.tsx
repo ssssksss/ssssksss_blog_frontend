@@ -14,7 +14,20 @@ import Blog2FirstCategoryModal from "./Blog2FirstCategoryModal";
 const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const blogFirstCategoryVerticalScrollRef = useRef<HTMLDivElement>(null);
   const userStore = useUserStore();
-  const blog2Store = useBlog2Store();
+  const setBlog2ActiveFirstCategoryId = useBlog2Store(
+    (state) => state.setBlog2ActiveFirstCategoryId,
+  );
+  const setBlog2ActiveSecondCategoryId = useBlog2Store(
+    (state) => state.setBlog2ActiveSecondCategoryId,
+  );
+  const activeBlog2FirstCategoryId = useBlog2Store(
+    (state) => state.activeBlog2FirstCategoryId,
+  );
+  const setBlogItem = useBlog2Store((state) => state.setBlogItem);
+  const setBlog2CategoryList = useBlog2Store(
+    (state) => state.setBlog2CategoryList,
+  );
+  const categoryList = useBlog2Store((state) => state.categoryList);
   const searchParams = useSearchParams();
 
   // 카테고리 중 버튼을 클릭하게 되면 버튼이 브라우저의 중앙으로 위치하게 해준다.
@@ -37,19 +50,19 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     params.set("firstCategoryId", id + "");
-    blog2Store.setBlog2ActiveFirstCategoryId(id);
-    blog2Store.categoryList.map(i => {
+    setBlog2ActiveFirstCategoryId(id);
+    categoryList.map(i => {
       if (i.id == id) {
         if (i.blog2SecondCategoryList!.length > 0) {
           params.set("secondCategoryId", i.blog2SecondCategoryList![0].id + "");
-          blog2Store.setBlog2ActiveSecondCategoryId(i.blog2SecondCategoryList![0].id);
+          setBlog2ActiveSecondCategoryId(i.blog2SecondCategoryList![0].id);
         } else {
           params.delete("secondCategoryId");
         }
       }
     });
     if (!params.get("secondCategoryId")) {
-      blog2Store.setBlogItem({
+      setBlogItem({
         id: 0,
         list: [],
       });
@@ -59,7 +72,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   };
 
   useEffect(() => {
-    blog2Store.setBlog2CategoryList(props.categoryList);
+    setBlog2CategoryList(props.categoryList);
     if (!searchParams.get("firstCategoryId")) {
       if (props.categoryList.length > 0) {
         handleFirstCategoryClick(props.categoryList[0].id);
@@ -78,10 +91,10 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
       ref={blogFirstCategoryVerticalScrollRef}
     >
-      {blog2Store.categoryList?.map((el) => (
+      {categoryList?.map((el) => (
         <ThemeActiveButton1
           className={"h-[3rem] px-4 py-2"}
-          isActive={el.id == blog2Store.activeBlog2FirstCategoryId}
+          isActive={el.id == activeBlog2FirstCategoryId}
           key={el.id}
           onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
             onClickAdjustHorizontalScroll(

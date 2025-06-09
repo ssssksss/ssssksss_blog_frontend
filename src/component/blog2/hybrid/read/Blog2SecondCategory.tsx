@@ -13,7 +13,18 @@ import Blog2SecondCategoryModal from "./Blog2SecondCategoryModal";
 const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const blogSecondCategoryVerticalScrollRef = useRef<HTMLDivElement>(null);
   const userStore = useUserStore();
-  const blog2Store = useBlog2Store();
+  // const blog2Store = useBlog2Store();
+  const setBlog2ActiveSecondCategoryId = useBlog2Store((state) => state.setBlog2ActiveSecondCategoryId);
+  const activeBlog2FirstCategoryId = useBlog2Store(
+    (state) => state.activeBlog2FirstCategoryId,
+  );
+  const activeBlog2SecondCategoryId = useBlog2Store(
+    (state) => state.activeBlog2SecondCategoryId,
+  );
+  const setBlog2CategoryList = useBlog2Store(state => state.setBlog2CategoryList);
+  const categoryList = useBlog2Store(state => state.categoryList);
+
+  
   const searchParams = useSearchParams();
 
   // 카테고리 중 버튼을 클릭하게 되면 버튼이 브라우저의 중앙으로 위치하게 해준다.
@@ -36,13 +47,13 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     params.set("secondCategoryId", id + "");
-    blog2Store.setBlog2ActiveSecondCategoryId(id);
+    setBlog2ActiveSecondCategoryId(id);
     url.search = params.toString();
     window.history.pushState({}, "", url.toString());
   };
 
   useEffect(() => {
-    blog2Store.setBlog2CategoryList(props.categoryList);
+    setBlog2CategoryList(props.categoryList);
     if (!searchParams.get("firstCategoryId")) {
       if (props.categoryList.length > 0) {
         if (props.categoryList[0].blog2SecondCategoryList!.length > 0) {
@@ -73,13 +84,13 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
       ref={blogSecondCategoryVerticalScrollRef}
     >
-      {blog2Store.categoryList.map(
+      {categoryList?.map(
         (el) =>
-          el.id == blog2Store.activeBlog2FirstCategoryId &&
+          el.id == activeBlog2FirstCategoryId &&
           el.blog2SecondCategoryList?.map((el2) => (
             <ThemeActiveButton1
               className={"h-[3rem] px-4 py-2"}
-              isActive={el2.id == blog2Store.activeBlog2SecondCategoryId}
+              isActive={el2.id == activeBlog2SecondCategoryId}
               key={el2.id}
               onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
                 onClickAdjustHorizontalScroll(
