@@ -3,7 +3,6 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
-import clog from "@utils/logger/logger";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
 import { useCallback } from "react";
 import {
@@ -37,10 +36,6 @@ const Blog2BasicCreateUpdateContentModal = (
   });
 
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-    clog.info(
-      `${props.edit ? "블로그 기초 글 수정 시작" : "블로그 기초 글 생성 시작"}`,
-    );
-
     const addImageUrlList: string[] = [];
     const deleteImageBucketDirectory: string[] = [];
 

@@ -1,6 +1,5 @@
 
 import { handleResponseError } from "@utils/error/handleResponseError";
-import clog from "@utils/logger/logger";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -58,7 +57,6 @@ export const fetchServerSideInServerComponent = async ({
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
     ...(next ? {next} : cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
   });
-  clog.info("fetchServerSideInServerComponent url: " + url);
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
@@ -95,7 +93,6 @@ export const fetchServerSideInServerComponent = async ({
         });
       }
     } else {
-      clog.info("토큰 발급 실패 이후 초기 API 토큰 없이 재요청");
       // 리프레시 토큰으로 성공하지 못했다면 기존 요청을 쿠키 없이 보내고 쿠키를 제거
       const initRes = NextResponse.json(await res.json(), {
         status: res.status,

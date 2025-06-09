@@ -17,7 +17,6 @@ interface Props {
 }
 
 const Error = ({ error, reset }: Props) => {
-  console.log("error.tsx 파일 : ",error);
   const toastifyStore = useToastifyStore();
   useEffect(() => {
     try {

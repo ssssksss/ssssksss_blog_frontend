@@ -1,4 +1,3 @@
-import clog from "@utils/logger/logger";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -37,7 +36,6 @@ export const fetchMultipartCSR = async ({
     body: formData,
     cache: "no-store",
   });
-  clog.info(res);
 
   // Handle 401 error and token refresh
   if (res.status === 401 && refreshToken && retry > 0) {
