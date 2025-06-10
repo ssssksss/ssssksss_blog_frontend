@@ -14,10 +14,10 @@ interface IPage {}
 async function getData() {
   const response = await fetchServerSideInServerComponent({
     url: `${process.env.BACKEND_URL}/api/blog2/category/list`,
-    // next: {
-    //   revalidate: 86400,
-    //   tags: ["blog2CategoryList"],
-    // },
+    next: {
+      revalidate: 3600,
+      tags: ["blog2CategoryList"],
+    },
     isAuth: false,
   });
   return response.json();
