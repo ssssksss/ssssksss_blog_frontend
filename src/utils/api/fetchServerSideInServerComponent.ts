@@ -38,7 +38,7 @@ export const fetchServerSideInServerComponent = async ({
   cache,
   accessToken,
   refreshToken,
-  setCookieHeader,
+  setCookieHeader = undefined,
   method,
 }: IFetchServerSideInServerComponent): Promise<any> => {
   const _accessToken = accessToken || req?.cookies.get("accessToken");
