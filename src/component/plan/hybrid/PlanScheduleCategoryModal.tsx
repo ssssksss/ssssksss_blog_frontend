@@ -3,13 +3,11 @@ import EditButton from "@component/common/button/EditButton";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
 import useFetchCSR from "@hooks/useFetchCSR";
-import useLoadingHandler from "@hooks/useLoadingHandler";
 import usePlanStore from "@store/planStore";
 import { CiSquarePlus } from "react-icons/ci";
 import PlanCreateUpdateScheduleCategory from "./PlanCreateUpdateScheduleCategory";
 const PlanScheduleCategoryModal = (props: any) => {
   const planStore = usePlanStore();
-  const { loadingWithHandler } = useLoadingHandler();
   const fetchCSR = useFetchCSR();
 
   const deleteScheduleCategoryHandler = async (id: number) => {
@@ -87,7 +85,7 @@ const PlanScheduleCategoryModal = (props: any) => {
                 onCancelClick={() => {
                 }}
                 onConfirmClick={() => {
-                  loadingWithHandler(() => deleteScheduleCategoryHandler(i.id));
+                  () => deleteScheduleCategoryHandler(i.id);
                 }}
                 loading={false}
                 mainMessage={["게시판을 삭제하시겠습니까?"]}

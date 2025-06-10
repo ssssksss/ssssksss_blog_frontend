@@ -4,7 +4,6 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons/faSquarePlus";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import {
   EditorLiStyle,
@@ -22,7 +21,6 @@ interface IBlog2ResultBox {
 const Blog2ResultBox = (props: IBlog2ResultBox) => {
   const blog2FormContext = useFormContext();
   const modalState = useModalState();
-  const { loadingWithHandler } = useLoadingHandler();
 
   const addBlog2Result = (data: IBlog2Result) => {
     // 생성
@@ -120,7 +118,11 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                         : modalState.openModal()
                     }
                   >
-                    {!modalState.isOpen ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
+                    {!modalState.isOpen ? (
+                      <FiMaximize2 size="28" />
+                    ) : (
+                      <FiMinimize2 size="28" />
+                    )}
                   </button>
                   <ModalButton
                     buttonClassName={
@@ -144,9 +146,7 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
                     className={
                       "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
                     }
-                    onClick={() =>
-                      loadingWithHandler(() => deleteBlog2Result(i.id!))
-                    }
+                    onClick={() => () => deleteBlog2Result(i.id!)}
                   >
                     <FontAwesomeIcon
                       icon={faXmark}

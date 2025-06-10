@@ -1,6 +1,5 @@
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
-import useLoadingStore from "@store/loadingStore";
 import useToastifyStore from "@store/toastifyStore";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal, flushSync } from "react-dom";
@@ -13,7 +12,6 @@ interface ModalProps extends React.PropsWithChildren {
 export const Modal = ({children, modalState}: ModalProps) => {
   const [documentBody, setDocumentBody] = useState<HTMLElement | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const loadingStore = useLoadingStore();
   const toastifyStore = useToastifyStore();
   let flag = modalState.isOpen;
   usePreventBodyScroll(modalState.isOpen);
@@ -42,9 +40,6 @@ export const Modal = ({children, modalState}: ModalProps) => {
   };
 
   const loadingWithHandler = async (handler: any) => {
-    await flushSync(() => {
-      loadingStore.startLoading(); // 상태값 변경
-    });
     await flushSync(async () => {
       try {
         const result: { type: string, message: string } = await handler(); // handler 실행
@@ -56,8 +51,6 @@ export const Modal = ({children, modalState}: ModalProps) => {
           type: "error",
           message: "예상치 못한 에러"
         });
-      } finally {
-        loadingStore.stopLoading(); // 항상 실행
       }
     });
   };

@@ -3,7 +3,6 @@ import Button from "@component/common/button/hybrid/Button";
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import { EditorTitleStyle } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
@@ -18,7 +17,6 @@ interface IBlog2StructureContentItem {
 }
 const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
   const modalState = useModalState();
-  const { loadingWithHandler } = useLoadingHandler();
   return (
     <div className="h-full w-full">
       <h2
@@ -37,14 +35,18 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
       >
         <button
           className="h-8 w-8"
-          onClick={() => modalState.isOpen ? modalState.closeModal() : modalState.openModal()}
+          onClick={() =>
+            modalState.isOpen ? modalState.closeModal() : modalState.openModal()
+          }
         >
-          {!modalState.isOpen ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
+          {!modalState.isOpen ? (
+            <FiMaximize2 size="28" />
+          ) : (
+            <FiMinimize2 size="28" />
+          )}
         </button>
         <ModalButton
-          buttonClassName={
-            "font-bold p-1 w-[2.25rem] default-flex"
-          }
+          buttonClassName={"font-bold p-1 w-[2.25rem] default-flex"}
           modal={
             <Blog2StructureContentCreateUpdateModal
               edit={true}
@@ -61,11 +63,8 @@ const Blog2StructureContentItem = (props: IBlog2StructureContentItem) => {
             "w-[2.25rem] rounded-2xl p-1 opacity-40 default-flex hover:bg-primary-20 hover:opacity-100"
           }
           onClick={() =>
-            loadingWithHandler(
-              () => 
-                props.removeBlog2StructureContent(
-                  props.data.blog2StructureContent.id,
-                )
+            props.removeBlog2StructureContent(
+              props.data.blog2StructureContent.id,
             )
           }
         >

@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/nextjs";
-import useLoadingStore from "@store/loadingStore";
 import useToastifyStore from "@store/toastifyStore";
 import { handleToastError } from "@utils/error/handleToastError";
 import clog from "@utils/logger/logger";
@@ -22,7 +21,6 @@ interface IFetchFn {
 // 단 fetch를 route.ts로 보내면 인증처리가 가능할 수도 있음
 function useFetchCSR() {
   const toastifyStore = useToastifyStore();
-  const loadingState = useLoadingStore();
 
   // toast 메시지를 띄우기 위해서
   useEffect(() => {}, [toastifyStore.message]);
@@ -43,10 +41,6 @@ function useFetchCSR() {
     successMessage,
     showLoading = true,
   }: IFetchFn) => {
-    if (showLoading) {
-      loadingState.startLoading();
-    }
-
     try {
       // api route의 router handling을 사용해서 처리
       const response = await fetch(url, {
@@ -86,12 +80,10 @@ function useFetchCSR() {
         Sentry.captureException(new Error(String(error))); // 에러가 객체가 아닌 경우
       }
       return;
-    } finally {
-      if(showLoading) loadingState.stopLoading();
     }
   };
 
-  return {toastifyStore, loadingState, requestWithHandler};
+  return {toastifyStore, requestWithHandler};
 }
 
 const revalidateTags = async (tags?: string[]) => {

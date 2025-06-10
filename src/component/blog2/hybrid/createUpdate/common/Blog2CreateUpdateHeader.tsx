@@ -8,7 +8,6 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useFetchCSR from "@hooks/useFetchCSR";
-import useLoadingHandler from "@hooks/useLoadingHandler";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
@@ -31,7 +30,6 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const ref = useRef<any>();
   const formContext = useFormContext();
   const [title, setTitle] = useState(formContext.getValues("title") || "");
-  const { loadingWithHandler } = useLoadingHandler();
   const fetchCSR = useFetchCSR();
   const [description, setDescription] = useState(
     formContext.getValues("description") || "",
@@ -298,9 +296,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             className={
               "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold primary-border-radius default-flex"
             }
-            onClick={() =>
-              loadingWithHandler(() => blog2CreateUpdateSubmitHandler())
-            }
+            onClick={() => blog2CreateUpdateSubmitHandler()}
           >
             <SendHorizontal />
           </Button>
@@ -418,7 +414,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </div>
             <ThemeButton1
               className={"h-[3rem] w-full p-2"}
-              onClick={() => loadingWithHandler(() => handleSaveClick())}
+              onClick={() => handleSaveClick()}
               disabled={
                 !(title && description && firstCategory.id && secondCategory.id)
               }
