@@ -27,7 +27,7 @@ const Page = async () => {
 
   return (
     <Template>
-      <Blog2CreateUpdateContainer categoryList={initData.data.categoryList} />
+      <Blog2CreateUpdateContainer categoryList={initData.data} />
     </Template>
   );
 };
