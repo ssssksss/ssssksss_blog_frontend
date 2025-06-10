@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/nextjs";
+
 export const handleResponseError = async (response: Response) => {
   if (!response.status) {
     throw new Error(
@@ -31,9 +33,20 @@ export const handleResponseError = async (response: Response) => {
       }),
     );
   }
+  if (response.status == 403) {
+    throw new Error(
+      JSON.stringify({
+        code: 403,
+        message: "잘못된 요청",
+      }),
+    );
+  }
 
   if (!response?.ok) {
     const result = await response.json();
+    if (result) {
+      Sentry.captureException(new Error(String(response.url + result.status + result?.msg)));
+    }
     if (result?.msg) {
       // 예상 가능한 에외처리
       throw new Error(
