@@ -56,13 +56,13 @@ export const handleResponseError = async (response: Response) => {
         }),
       );
     } else {
-      console.log("error : ", response);
+      console.log("예상치 못한 에러 : ", response);
       // 예상치 못한 에러
       throw new Error(
         JSON.stringify({
           code: result.status, 
           // message: result?.message || result?.error,
-          message: "서버 에러",
+          message: "🐶 서버 에러",
         }),
       );
     }
