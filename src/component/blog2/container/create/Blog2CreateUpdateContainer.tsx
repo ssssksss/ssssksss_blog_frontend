@@ -24,6 +24,7 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   const setBlog2ActiveSecondCategoryId = useBlog2Store(
     (state) => state.setBlog2ActiveSecondCategoryId,
   );
+  console.log("Blog2CreateUpdateContainer.tsx 파일 : ",props);
   const methods = useForm({
     mode: "onChange", 
     resolver: yupResolver(Blog2CreateYup),
