@@ -149,8 +149,6 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
               height="0rem"
               url={
                 playerStore.currentYoutube.youtubeUrl
-                  ? playerStore.currentYoutube.youtubeUrl
-                  : "https://www.youtube.com/watch?v=eyyAUFxlnGg"
               }
               muted={playerStore.isMuted}
               ref={playerRef}
