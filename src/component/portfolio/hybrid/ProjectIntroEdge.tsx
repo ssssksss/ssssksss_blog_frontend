@@ -50,15 +50,16 @@ function ProjectNode({
       </mesh>
 
       <Text
-        position={[0, 0.5, 0]}
-        fontSize={0.3}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-        font="/fonts/CookieRunRegular.ttf"
-      >
-        {label}
-      </Text>
+        {...({
+          position: [0, 0.5, 0],
+          fontSize: 0.3,
+          color: "white",
+          anchorX: "center",
+          anchorY: "middle",
+          font: "/fonts/CookieRunRegular.ttf",
+          children: label,
+        } as any)}
+      />
     </group>
   );
 }
@@ -79,9 +80,14 @@ function ProjectEdge({
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
   return (
-    <line geometry={geometry as any}>
-      <lineBasicMaterial color={color ?? "gray"} />
-    </line>
+    <primitive
+      object={
+        new THREE.Line(
+          geometry,
+          new THREE.LineBasicMaterial({color: color ?? "gray"}),
+        )
+      }
+    />
   );
 }
 
