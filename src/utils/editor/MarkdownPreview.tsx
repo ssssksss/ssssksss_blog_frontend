@@ -66,7 +66,7 @@ export const convertMarkdownToHtml = (
     })
     .replace(
       /^>! (.*$)/gim,
-      "📌 <span class=\"py-1 font-bold text-sm font-GangwonEduHyeonokT text-gradient1 rounded-[1rem]\">$1</span>",
+      "📌 <span class=\"py-1 font-bold font-cookieRunRegular text-lg text-gradient1 leading-8 rounded-[1rem]\">$1</span>",
     )
     .replace(
       /^>tip (.*$)/gim,
@@ -99,7 +99,7 @@ export const convertMarkdownToHtml = (
     )
     .replace(
       /!\[([^\]]+)\]\(([^)]+)\)/g,
-      "<div class=\"flex justify-center px-8 my-[1rem]\"> <img src=\"$2\" alt=\"$1\" class=\"max-w-full h-auto rounded-[1rem]\" /> </div>",
+      "<div class=\"flex justify-center px-8 my-[1rem]\"> <img src=\"$2\" alt=\"$1\" class=\"border border-2 border-black-80 max-w-full h-auto rounded-[1rem]\" /> </div>",
     )
     .replace(
       /\[([^\]]+)\]\(([^)]+)\)/g,
