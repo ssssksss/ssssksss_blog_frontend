@@ -23,7 +23,10 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
   const fetchBlogList = async () => {
     const url = new URL(window.location.href);
     const result = await fetchCSR.requestWithHandler({
-      url: `/api/blog2/list${url.search}`,
+      url:
+        userStore.role == "ROLE_ADMIN"
+          ? `/api/blog2/list/admin${url.search}`
+          : `/api/blog2/list${url.search}`,
     });
     return result == undefined ? [] : result;
   };

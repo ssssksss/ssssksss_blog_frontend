@@ -35,6 +35,7 @@ export async function GET(request: NextRequest) {
     url: `${process.env.BACKEND_URL}/api/blog2/list${url.search}`,
     req: request,
     isFallbackToErrorPage: false,
+    isAuth: false,
   });
   return result;
 }
