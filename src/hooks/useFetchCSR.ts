@@ -16,6 +16,7 @@ interface IFetchFn {
   showSuccessToast?: boolean;
   successMessage?: string;
   showLoading?: boolean;
+  hideError?: boolean;
 }
 // fetch를 요청하고 액세스 재발급까지는 안되는 로직, 인증 처리도 없음
 // 단 fetch를 route.ts로 보내면 인증처리가 가능할 수도 있음
@@ -40,6 +41,7 @@ function useFetchCSR() {
     showSuccessToast = false,
     successMessage,
     showLoading = true,
+    hideError,
   }: IFetchFn) => {
     try {
       // api route의 router handling을 사용해서 처리
@@ -55,6 +57,9 @@ function useFetchCSR() {
         clog.info(
           "fetchCSR 에러: " + response.status + " : " + response.statusText,
         );
+        if (hideError) {
+          return;
+        }
         toastifyStore.setToastify(await handleToastError(response));
         await revalidateTags(handleRevalidateTags);
         throw new Error(response?.statusText);
@@ -72,6 +77,7 @@ function useFetchCSR() {
       await revalidateTags(handleRevalidateTags);
       return result?.data || "success";
     } catch (error) {
+      if (hideError) return;
       if (error instanceof Error) {
         clog.error(error.message);
         Sentry.captureException(error); // Sentry로 에러 전송
