@@ -369,7 +369,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
               <li
                 key={index}
                 id={i.id + ""}
-                className={`flex w-full flex-shrink-0 cursor-pointer items-center border-y-2 pl-1 duration-1000 ease-in-out ${openPlaylist != null ? (openPlaylist.id == i.id ? "animate-borderBlink absolute left-0 top-0 mt-1 flex min-h-[4rem]" : "-z-10 h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
+                className={`flex w-full flex-shrink-0 cursor-pointer items-center border-y-2 pl-1 duration-1000 ease-in-out glassmorphism ${openPlaylist != null ? (openPlaylist.id == i.id ? "animate-borderBlink absolute left-0 top-0 mt-1 flex min-h-[4rem]" : "-z-10 h-0 translate-y-[-10vh] opacity-0") : "h-[4rem]"}`}
                 onClick={() => selectPlaylist(i)}
               >
                 <div className="flex w-full items-center justify-start pl-1">
@@ -418,10 +418,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                               playerStore.setPlayer({
                                 youtubePlay: true,
                               });
-                              window.localStorage.setItem(
-                                "isPlay",
-                                "true"
-                              );
+                              window.localStorage.setItem("isPlay", "true");
                             }
                           }}
                           onKeyDown={(e) => {
@@ -495,7 +492,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             }
           </ul>
           <div
-            className={"mt-auto h-[3rem] w-full flex-shrink-0 py-1 sm:h-[4rem]"}
+            className={"mt-auto h-[3rem] w-full flex-shrink-0 py-1 sm:h-[4rem] glassmorphism"}
           >
             {/* 버튼 5개 */}
             <div className="h-full w-full gap-x-4 default-flex">
