@@ -28,6 +28,7 @@ const ReactToastifyComponents = dynamic(
 );
 
 import dynamic from "next/dynamic";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import SideBar from "./SideBar";
 interface IHeader {}
 const Header = (props: IHeader) => {
@@ -99,7 +100,7 @@ const Header = (props: IHeader) => {
               {userStore.id > 0 && (
                 <button
                   className={
-                    "ml-[3.25rem] aspect-square w-[2.5rem] h-btn-sm default-flex "
+                    "ml-[3.25rem] aspect-square w-[2.5rem] h-btn-sm default-flex rounded-2xl border disabled:cursor-not-allowed border-black-80 disabled:bg-gray-40"
                   }
                   onClick={() => {
                     playerStore.setPlayer({
@@ -111,9 +112,14 @@ const Header = (props: IHeader) => {
                       !playerStore.youtubePlay ? "true" : "false",
                     );
                   }}
+                  disabled={!playerStore.currentYoutube.youtubeUrl}
                   aria-label={"유튜브 실행 버튼"}
                 >
-                  <YoutubePlayIconView youtubePlay={playerStore.youtubePlay} />
+                  {
+                    playerStore.currentYoutube.youtubeUrl ? 
+                      <YoutubePlayIconView youtubePlay={playerStore.youtubePlay} />
+                      : <AiOutlineCloseCircle size={"36"} />
+                  }
                 </button>
               )}
             </div>
