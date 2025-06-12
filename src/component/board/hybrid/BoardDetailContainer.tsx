@@ -71,7 +71,7 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
         "flex w-full flex-col gap-y-2 overflow-y-scroll py-4 scrollbar-hide"
       }
     >
-      <section className="relative min-h-[2rem] w-full default-flex">
+      <section className="relative min-h-[2rem] w-full">
         {userStore.nickname == props.data.nickname && (
           <div className="absolute right-0 top-1/2 flex -translate-y-[calc(50%+0.25rem)] gap-x-1">
             <EditButton
