@@ -84,7 +84,7 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
             }}
             mainMessage={["게시판을 삭제하시겠습니까?"]}
             loading={false}
-            size="16"
+            size="28"
           />
           {active && (
             <button
