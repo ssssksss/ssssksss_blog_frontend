@@ -50,7 +50,6 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
           <Link
             href={"/blog2/create"}
             className="flex h-11 w-11 items-center justify-center rounded-2xl hover:bg-primary-20 max-[440px]:h-8 max-[440px]:w-8"
-            // onClick={() => loadingStore.startLoading()}
           >
             <FontAwesomeIcon icon={faEdit} width={44} height={44} />
           </Link>

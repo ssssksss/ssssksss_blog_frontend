@@ -365,7 +365,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </ThemeActiveButton1>
             <label
               className={
-                "relative h-[16rem] w-full cursor-pointer primary-border-radius"
+                "default-flex h-[16rem] w-full cursor-pointer primary-border-radius"
               }
               htmlFor={"imageUpload"}
               // onDragEnter={onDragEnter}
@@ -374,12 +374,14 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               // onDrop={onDropOrInputEvent}
             >
               {imageUrl && (
-                <Image
-                  src={imageUrl}
-                  alt={"image"}
-                  className="rounded-[1rem] p-2"
-                  fill
-                />
+                <div className="relative h-full aspect-square">
+                  <Image
+                    src={imageUrl}
+                    alt={"image"}
+                    className="rounded-[1rem] p-2"
+                    fill
+                  />
+                </div>
               )}
               {/* <Input
                 id="imageUpload"
