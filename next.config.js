@@ -13,7 +13,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com",
         port: "", // 포트는 생략
-        pathname: "/private/**", // 경로 패턴 설정 (와일드카드 사용 가능)
+        pathname: "/**", // 경로 패턴 설정 (와일드카드 사용 가능)
       },
       {
         protocol: "https",
