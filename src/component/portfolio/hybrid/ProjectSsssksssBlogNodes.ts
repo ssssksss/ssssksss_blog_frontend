@@ -12,8 +12,8 @@ type ProjectEdge = {
 };
 
 const green = "#00C851";
-const orange = "#EC5800";
-const red = "#FF4444";
+const orange = "#F5721A";
+const red = "#CC2222";
 const purple = "#9370DB";
 
 // 노드 및 엣지 정의
@@ -67,8 +67,8 @@ export const ssssksssBlogProjectNodes: ProjectNode[] = [
   {id: "폴링효과", position: [3, 6, 0], color: red},
   {id: "인증", position: [3, 9, 0], color: purple},
   {id: "사이드바", position: [3, 12, 0], color: green},
-  {id: "음악 플레이어", position: [5, 12, 0], color: red},
-  {id: "플레이리스트 생성", position: [7, 11, 0], color: red},
+  {id: "음악 플레이어", position: [5, 12, 0], color: orange},
+  {id: "플레이리스트 생성", position: [7, 11, 0], color: orange},
   {id: "플레이리스트 목록 조회", position: [7, 13, 0], color: red},
   {id: "플레이리스트 삭제", position: [7, 15, 0], color: red},
   {id: "유튜브 URL 삭제", position: [10, 11, 0], color: red},

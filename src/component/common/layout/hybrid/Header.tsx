@@ -55,6 +55,7 @@ const Header = (props: IHeader) => {
     if (previousPathname.current !== pathname) {
       previousPathname.current = pathname;
     }
+    loadingStore.stopLoading();
   }, [pathname]);
 
   //* 로그아웃 함수
