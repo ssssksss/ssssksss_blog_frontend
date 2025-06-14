@@ -137,90 +137,116 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       });
       return;
     }
-    const v = _url.searchParams.get("v");
-    const result: {youtube: IYoutube} = await fetchCSR.requestWithHandler({
-      url: "/api/youtube/url",
-      method: "POST",
-      body: {
-        youtubePlaylistId: openPlaylist?.id,
-        youtubeUrlKeyId: v,
-        youtubeUrl: url,
-      },
-      showSuccessToast: true,
-      successMessage: "노래가 추가 되었습니다."
-    });
-    if (result == undefined) return;
-    const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
-      if (i.id == openPlaylist?.id) {
-        return {
-          ...i,
-          youtubeList: [...i.youtubeList, result.youtube], // youtubeList 업데이트
-        };
-      } else {
-        return i; // 다른 항목은 그대로 반환
+    loadingStore.startLoading();
+    try {
+      const v = _url.searchParams.get("v");
+      const result: {youtube: IYoutube} = await fetchCSR.requestWithHandler({
+        url: "/api/youtube/url",
+        method: "POST",
+        body: {
+          youtubePlaylistId: openPlaylist?.id,
+          youtubeUrlKeyId: v,
+          youtubeUrl: url,
+        },
+        showSuccessToast: true,
+        successMessage: "노래가 추가 되었습니다.",
+      });
+      if (result === undefined) {
+        toastifyStore.setToastify({
+          type: "error",
+          message: "유튜브 URL 추가에 실패했습니다.",
+        });
+        return;
       }
-    });
-    playerStore.setPlayer({
-      playlist: temp,
-    });
-    if (playerStore.currentYoutubePlaylist.id == openPlaylist?.id) {
+      const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
+        if (i.id == openPlaylist?.id) {
+          return {
+            ...i,
+            youtubeList: [...i.youtubeList, result.youtube], // youtubeList 업데이트
+          };
+        } else {
+          return i; // 다른 항목은 그대로 반환
+        }
+      });
       playerStore.setPlayer({
         playlist: temp,
-        currentYoutubePlaylist: temp.filter((i) => i.id == openPlaylist.id)[0],
       });
-      localStorage.setItem(
-        "currentYoutubePlaylist",
-        JSON.stringify(temp.filter((i) => i.id == openPlaylist.id)[0]),
-      );
+      if (playerStore.currentYoutubePlaylist.id == openPlaylist?.id) {
+        playerStore.setPlayer({
+          playlist: temp,
+          currentYoutubePlaylist: temp.filter(
+            (i) => i.id == openPlaylist.id,
+          )[0],
+        });
+        localStorage.setItem(
+          "currentYoutubePlaylist",
+          JSON.stringify(temp.filter((i) => i.id == openPlaylist.id)[0]),
+        );
+      }
+      inputRef.current!.value = "";
+      toastifyStore.setToastify({
+        type: "success",
+        message: "유튜브 URL이 추가되었습니다.",
+      });
+    } finally {
+      loadingStore.stopLoading();
     }
-    inputRef.current!.value = "";
-    return {
-      message: "음악 추가"
-    };
   };
 
   const deleteYoutube = async (id: number) => {
-    const result = await fetchCSR.requestWithHandler({
-      url: `/api/youtube/url?id=${id}`,
-      method: "DELETE",
-    });
-    if (result == undefined) return;
-    const temp = playerStore.playlist.map((i) => {
-      if (i.id == openPlaylist?.id) {
-        return {
-          ...i,
-          youtubeList: i.youtubeList.filter((j) => j.id != id),
-        };
-      } else {
-        return i;
-      }
-    });
-    playerStore.setPlayer({
-      playlist: temp,
-    });
-    const currentYoutube: IYoutube = playerStore.currentYoutube;
-    if (currentYoutube.id == id) {
-      localStorage.removeItem("currentYoutube");
-      let currentYoutubePlaylist: IYoutubePlaylist =
-        playerStore.currentYoutubePlaylist;
-      currentYoutubePlaylist.youtubeList =
-        currentYoutubePlaylist.youtubeList.filter(
-          (youtube) => youtube.id != id,
-        );
-      localStorage.setItem(
-        "currentYoutubePlaylist",
-        JSON.stringify(currentYoutubePlaylist),
-      );
-      playerStore.removeCurrentYoutube();
-      playerStore.setPlayer({
-        currentYoutubePlaylist: currentYoutubePlaylist,
-        playedSeconds: 0,
-        progressRatio: 0,
+    loadingStore.startLoading();
+    try {
+      const result = await fetchCSR.requestWithHandler({
+        url: `/api/youtube/url?id=${id}`,
+        method: "DELETE",
       });
+      if (result === undefined) {
+        toastifyStore.setToastify({
+          type: "error",
+          message: "유튜브 URL 삭제에 실패했습니다.",
+        });
+        return;
+      }
+      const temp = playerStore.playlist.map((i) => {
+        if (i.id == openPlaylist?.id) {
+          return {
+            ...i,
+            youtubeList: i.youtubeList.filter((j) => j.id != id),
+          };
+        } else {
+          return i;
+        }
+      });
+      playerStore.setPlayer({
+        playlist: temp,
+      });
+      const currentYoutube: IYoutube = playerStore.currentYoutube;
+      if (currentYoutube.id == id) {
+        localStorage.removeItem("currentYoutube");
+        let currentYoutubePlaylist: IYoutubePlaylist =
+          playerStore.currentYoutubePlaylist;
+        currentYoutubePlaylist.youtubeList =
+          currentYoutubePlaylist.youtubeList.filter(
+            (youtube) => youtube.id != id,
+          );
+        localStorage.setItem(
+          "currentYoutubePlaylist",
+          JSON.stringify(currentYoutubePlaylist),
+        );
+        playerStore.removeCurrentYoutube();
+        playerStore.setPlayer({
+          currentYoutubePlaylist: currentYoutubePlaylist,
+          playedSeconds: 0,
+          progressRatio: 0,
+        });
+        toastifyStore.setToastify({
+          type: "success",
+          message: "유튜브 URL이 삭제되었습니다.",
+        });
+      }
+    } finally {
+      loadingStore.stopLoading();
     }
-    return {
-      message: "삭제 성공"
-    };
   };
 
   const handlePlayBackwardClick = () => {
