@@ -5,7 +5,6 @@ import { useUndoRedo } from "@hooks/useUndoRedo";
 import "@styles/customEditor.css";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { convertToObjectUrl } from "@utils/function/convertToObjectUrl";
-import { AWSS3Prefix } from "@utils/variables/s3url";
 import React, { ClipboardEvent, useEffect, useRef, useState } from "react";
 import BasicTextarea from "../textarea/BasicTextarea";
 
@@ -100,7 +99,7 @@ const CustomEditor = (props: ICustomEditor) => {
     // 업로드 성공: 이미지 URL을 실제 S3 경로로 교체
     const uploadedUrl = `${result}`;
     setContent?.((prev) =>
-      prev.replace(`![image](${url})`, `![image](${AWSS3Prefix}${uploadedUrl})`),
+      prev.replace(`![image](${url})`, `![image](${uploadedUrl})`),
     );
 
     // BE에서 임시 이미지 DB에서 제거
