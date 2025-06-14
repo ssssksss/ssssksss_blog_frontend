@@ -2,6 +2,7 @@ import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useFetchCSR from "@hooks/useFetchCSR";
+import useLoadingStore from "@store/loadingStore";
 import usePlayerStore from "@store/playerStore";
 import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
@@ -16,12 +17,13 @@ import { MdContentCopy, MdDelete } from "react-icons/md";
 const YoutubePlayerModal = (props: IModalComponent) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const playerStore = usePlayerStore();
+  const loadingStore = useLoadingStore();
+  const toastifyStore = useToastifyStore();
   const [openPlaylist, setOpenPlaylist] = useState<IYoutubePlaylist | null>(
     playerStore.currentYoutubePlaylist.id
       ? playerStore.currentYoutubePlaylist
       : null,
   ); // 화면에 보이는 플레이리스트
-  const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const selectPlaylist = (item: IYoutubePlaylist) => {
     setOpenPlaylist((prev) => (prev != null ? null : item));
@@ -30,18 +32,37 @@ const YoutubePlayerModal = (props: IModalComponent) => {
 
   const createPlaylist = async () => {
     const title = inputRef.current?.value;
-    const result: IYoutubePlaylist = await fetchCSR.requestWithHandler({
-      url: "/api/youtube/playlist",
-      method: "POST",
-      body: {playlistTitle: title},
-    });
-    if (result == undefined) return;
+    if (!title) return;
+    loadingStore.startLoading();
+    try {
+      const result: IYoutubePlaylist = await fetchCSR.requestWithHandler({
+        url: "/api/youtube/playlist",
+        method: "POST",
+        body: { playlistTitle: title },
+      });
 
-    playerStore.setPlayer({
-      playlist: [...playerStore.playlist, result],
-    });
-    inputRef.current!.value = "";
+      if (result === undefined) { 
+        toastifyStore.setToastify({
+          type: "error",
+          message: "플레이리스트에 추가에 실패했습니다.",
+        });
+        return;
+      }
+
+      playerStore.setPlayer({
+        playlist: [...playerStore.playlist, result],
+      });
+
+      inputRef.current!.value = "";
+      toastifyStore.setToastify({
+        type: "success",
+        message: "플레이리스트가 추가되었습니다."
+      });
+    } finally {
+      loadingStore.stopLoading();
+    }
   };
+
 
   const selectMediaItem = (item: IYoutube) => {
     playerStore.setPlayer({
@@ -66,7 +87,13 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         method: "DELETE",
       },
     );
-    if (result == undefined) return;
+    if (result === undefined) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "플레이리스트에 삭제에 실패했습니다.",
+      });
+      return;
+    }
     let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
       localStorage.getItem("currentYoutubePlaylist")!,
     );
@@ -87,9 +114,10 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       playlist: playerStore.playlist.filter((i) => i.id != id),
     });
     setOpenPlaylist(null);
-    return {
-      message: "플리 삭제 성공"
-    };
+    toastifyStore.setToastify({
+      type: "success",
+      message: "플레이리스트가 삭제되었습니다.",
+    });
   };
 
   // ==================================================================
