@@ -81,43 +81,48 @@ const YoutubePlayerModal = (props: IModalComponent) => {
   };
 
   const deletePlaylist = async (id: number) => {
-    const result = await fetchCSR.requestWithHandler(
-      {
-        url: `/api/youtube/playlist?id=${id}`,
-        method: "DELETE",
-      },
-    );
-    if (result === undefined) {
-      toastifyStore.setToastify({
-        type: "error",
-        message: "플레이리스트에 삭제에 실패했습니다.",
-      });
-      return;
-    }
-    let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
-      localStorage.getItem("currentYoutubePlaylist")!,
-    );
-    if (currentYoutubePlaylist) {
-      if (currentYoutubePlaylist.id == id) {
-        localStorage.removeItem("currentYoutubePlaylist");
-        localStorage.removeItem("currentYoutube");
-        playerStore.setPlayer({
-          progressRatio: 0,
-          playedSeconds: 0,
+    loadingStore.startLoading();
+    try {
+      const result = await fetchCSR.requestWithHandler(
+        {
+          url: `/api/youtube/playlist?id=${id}`,
+          method: "DELETE",
+        },
+      );
+      if (result === undefined) {
+        toastifyStore.setToastify({
+          type: "error",
+          message: "플레이리스트에 삭제에 실패했습니다.",
         });
+        return;
       }
+      let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
+        localStorage.getItem("currentYoutubePlaylist")!,
+      );
+      if (currentYoutubePlaylist) {
+        if (currentYoutubePlaylist.id == id) {
+          localStorage.removeItem("currentYoutubePlaylist");
+          localStorage.removeItem("currentYoutube");
+          playerStore.setPlayer({
+            progressRatio: 0,
+            playedSeconds: 0,
+          });
+        }
+      }
+      if (openPlaylist != null) {
+        inputRef.current!.value = "";
+      }
+      playerStore.setPlayer({
+        playlist: playerStore.playlist.filter((i) => i.id != id),
+      });
+      setOpenPlaylist(null);
+      toastifyStore.setToastify({
+        type: "success",
+        message: "플레이리스트가 삭제되었습니다.",
+      });
+    } finally {
+      loadingStore.stopLoading();
     }
-    if (openPlaylist != null) {
-      inputRef.current!.value = "";
-    }
-    playerStore.setPlayer({
-      playlist: playerStore.playlist.filter((i) => i.id != id),
-    });
-    setOpenPlaylist(null);
-    toastifyStore.setToastify({
-      type: "success",
-      message: "플레이리스트가 삭제되었습니다.",
-    });
   };
 
   // ==================================================================
