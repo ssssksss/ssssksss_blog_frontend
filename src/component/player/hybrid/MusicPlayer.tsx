@@ -88,6 +88,11 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
             );
           }
         });
+        playerStore.setPlayer({
+          youtubePlay: false,
+          playedSeconds: 0,
+          progressRatio: 0,
+        });
       }
       playerRef.current!.seekTo(0);
     }
