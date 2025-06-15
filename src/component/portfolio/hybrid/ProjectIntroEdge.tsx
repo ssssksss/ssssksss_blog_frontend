@@ -106,7 +106,7 @@ const ProjectIntroEdge = (props: IProjectIntroEdge) => {
   };
 
   return (
-    <div className="relative aspect-square h-[45rem] primary-border-radius">
+    <div className="relative aspect-square h-[40rem] primary-border-radius">
       <Canvas
         className="h-full w-full bg-black-80"
         camera={{position: [0, 0, 36], fov: 50}}
