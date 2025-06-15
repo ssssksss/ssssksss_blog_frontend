@@ -39,25 +39,17 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         url: "/api/youtube/playlist",
         method: "POST",
         body: { playlistTitle: title },
+        showSuccessToast: true,
+        successMessage: "플레이리스트가 추가되었습니다."
       });
 
-      if (result === undefined) { 
-        toastifyStore.setToastify({
-          type: "error",
-          message: "플레이리스트에 추가에 실패했습니다.",
-        });
-        return;
-      }
+      if (result === undefined) return;
 
       playerStore.setPlayer({
         playlist: [...playerStore.playlist, result],
       });
 
       inputRef.current!.value = "";
-      toastifyStore.setToastify({
-        type: "success",
-        message: "플레이리스트가 추가되었습니다."
-      });
     } finally {
       loadingStore.stopLoading();
     }
@@ -87,15 +79,11 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         {
           url: `/api/youtube/playlist?id=${id}`,
           method: "DELETE",
+          showSuccessToast: true,
+          successMessage: "플레이리스트가 삭제되었습니다."
         },
       );
-      if (result === undefined) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "플레이리스트에 삭제에 실패했습니다.",
-        });
-        return;
-      }
+      if (result === undefined) return ;
       let currentYoutubePlaylist: IYoutubePlaylist | null = JSON.parse(
         localStorage.getItem("currentYoutubePlaylist")!,
       );
@@ -116,10 +104,6 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         playlist: playerStore.playlist.filter((i) => i.id != id),
       });
       setOpenPlaylist(null);
-      toastifyStore.setToastify({
-        type: "success",
-        message: "플레이리스트가 삭제되었습니다.",
-      });
     } finally {
       loadingStore.stopLoading();
     }
@@ -156,13 +140,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         showSuccessToast: true,
         successMessage: "노래가 추가 되었습니다.",
       });
-      if (result === undefined) {
-        toastifyStore.setToastify({
-          type: "error",
-          message: "유튜브 URL 추가에 실패했습니다.",
-        });
-        return;
-      }
+      if (result === undefined) return;
       const temp: IYoutubePlaylist[] = playerStore.playlist.map((i) => {
         if (i.id == openPlaylist?.id) {
           return {
@@ -189,10 +167,6 @@ const YoutubePlayerModal = (props: IModalComponent) => {
         );
       }
       inputRef.current!.value = "";
-      toastifyStore.setToastify({
-        type: "success",
-        message: "유튜브 URL이 추가되었습니다.",
-      });
     } finally {
       loadingStore.stopLoading();
     }
@@ -204,6 +178,8 @@ const YoutubePlayerModal = (props: IModalComponent) => {
       const result = await fetchCSR.requestWithHandler({
         url: `/api/youtube/url?id=${id}`,
         method: "DELETE",
+        showSuccessToast: true,
+        successMessage: "유튜브 URL이 삭제되었습니다."
       });
       if (result === undefined) {
         toastifyStore.setToastify({
@@ -243,10 +219,6 @@ const YoutubePlayerModal = (props: IModalComponent) => {
           currentYoutubePlaylist: currentYoutubePlaylist,
           playedSeconds: 0,
           progressRatio: 0,
-        });
-        toastifyStore.setToastify({
-          type: "success",
-          message: "유튜브 URL이 삭제되었습니다.",
         });
       }
     } finally {
@@ -551,7 +523,9 @@ const YoutubePlayerModal = (props: IModalComponent) => {
             }
           </ul>
           <div
-            className={"mt-auto h-[3rem] w-full flex-shrink-0 py-1 sm:h-[4rem] glassmorphism"}
+            className={
+              "mt-auto h-[3rem] w-full flex-shrink-0 py-1 glassmorphism sm:h-[4rem]"
+            }
           >
             {/* 버튼 5개 */}
             <div className="h-full w-full gap-x-4 default-flex">
@@ -575,6 +549,7 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
                 aria-label="뒤로가기 버튼"
               >
+                <title> {playerStore.isPlayRandom ? "이전 곡 임의재생" : "이전 곡 재생"} </title>
                 <IoMdSkipBackward size={"24"} />
               </button>
               <button
@@ -597,12 +572,14 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                 ) : (
                   <FaPlay size={"28"} className="ml-1" />
                 )}
+                <title> {playerStore.youtubePlay ? "노래 재생 중" : "노래 중단"} </title>
               </button>
               <button
                 onClick={() => handlePlayForwardClick()}
                 className="relative flex aspect-square h-[80%] items-center justify-center rounded-[50%] outline outline-2 outline-offset-[-0.125rem] outline-gray-60 hover:bg-primary-20 focus:outline"
                 aria-label="앞으로 가기 버튼"
               >
+                <title> {playerStore.isPlayRandom ? "다음 곡 임의재생" : "다음 곡 재생"} </title>
                 <IoMdSkipForward size={"24"} />
               </button>
               <button
@@ -616,6 +593,13 @@ const YoutubePlayerModal = (props: IModalComponent) => {
                       : "노래 반복 하지 않는 버튼"
                 }
               >
+                <title> {
+                  playerStore.playRepeatType == null
+                    ? "노래 반복재생 하지 않음"
+                    : playerStore.playRepeatType == "one"
+                      ? "노래 1개 반복 버튼"
+                      : "전체 노래 반복"
+                } </title>
                 <FaArrowsRotate size={"24"} />
                 {playerStore.playRepeatType == null && (
                   <div
