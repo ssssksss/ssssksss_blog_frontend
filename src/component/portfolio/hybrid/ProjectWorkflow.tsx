@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import * as THREE from "three";
 
-interface IProjectIntroEdge {
+interface IProjectWorkflow {
   json: string;
 }
 
@@ -31,7 +31,7 @@ type ProjectEdge = {
   color?: string;
 };
 
-const ProjectIntroEdge = (props: IProjectIntroEdge) => {
+const ProjectWorkflow = (props: IProjectWorkflow) => {
   const [nodes, setNodes] = useState<ProjectNode[]>([]);
   const [edges, setEdges] = useState<ProjectEdge[]>([]);
   const [selectedNode, setSelectedNode] = useState<ProjectNode | null>(null);
@@ -144,7 +144,7 @@ const ProjectIntroEdge = (props: IProjectIntroEdge) => {
             <AiOutlineCloseCircle size={"48"} />
           </button>
           <div
-            className="bg-white relative h-full w-full overflow-y-auto rounded-lg border border-gray-300 p-4 shadow-lg"
+            className="bg-default-1 relative h-full w-full overflow-y-auto rounded-lg border border-gray-300 p-4 shadow-lg"
             style={{overscrollBehavior: "contain"}}
           >
             <MarkdownPreview content={content || "내용이 없습니다."} />
@@ -155,7 +155,7 @@ const ProjectIntroEdge = (props: IProjectIntroEdge) => {
   );
 };
 
-export default ProjectIntroEdge;
+export default ProjectWorkflow;
 
 function ProjectNode({
   position,
