@@ -19,8 +19,8 @@ const navItems = [
   {href: "#contact", label: "Contact"},
 ];
 
-const ProjectIntroEdge = dynamic(
-  () => import("@component/portfolio/hybrid/ProjectIntroEdge"),
+const ProjectWorkflow = dynamic(
+  () => import("@component/portfolio/hybrid/ProjectWorkflow"),
   {
     ssr: false,
   },
@@ -94,7 +94,7 @@ export default async function Home() {
           <h2 className="rounded-2xl bg-secondary-80 py-2 text-center text-2xl font-bold text-secondary-contrast">
             Projects <span className="text-xl"> ({projects.length}) </span>
           </h2>
-          <ProjectIntroEdge json={json} />
+          <ProjectWorkflow json={json} />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {projects.map((i) => (
               <article
