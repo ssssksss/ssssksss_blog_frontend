@@ -34,7 +34,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+li,
 ul,
 ol {
   list-style: none;
