@@ -17,8 +17,13 @@ import usePlanStore from "@store/planStore";
 import useSiteBookmarkStore from "@store/siteBookmarkStore";
 import useToastifyStore from "@store/toastifyStore";
 import { useThemeStore } from "@store/useThemeStore";
+import { auth } from "@utils/lib/firebaseConfig";
+import { signOut } from "firebase/auth";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import SideBar from "./SideBar";
 
 const ReactToastifyComponents = dynamic(
   () => import("@component/common/alert/ReactToastifyComponents"),
@@ -27,9 +32,6 @@ const ReactToastifyComponents = dynamic(
   },
 );
 
-import dynamic from "next/dynamic";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import SideBar from "./SideBar";
 interface IHeader {}
 const Header = (props: IHeader) => {
   const router = useRouter();
@@ -39,10 +41,12 @@ const Header = (props: IHeader) => {
   const {isHidden, isVisible, headerRef} = useScrollHeader(); // 스크롤 위치와 마우스의 위치에 따라 헤더를 감추고 보여주는 hook
   const {playerStore} = useInitYoutubePlayer();
   useInitTheme(); // 초기에 theme 관련 설정을 해주는 hook
-  const planStore = usePlanStore();
-  const memoStore = useMemoStore();
+  const initializePlanStore = usePlanStore((state) => state.initialize);
+  const initializeMemoStore = useMemoStore((state) => state.initialize);
   const toastifyStore = useToastifyStore();
-  const siteBookmarkStore = useSiteBookmarkStore();
+  const initializeSiteBookmarkStore = useSiteBookmarkStore(
+    (state) => state.initialize,
+  );
   const { userStore } = useInitGetUser(); // 유저정보 조회 API
   const themeStore = useThemeStore();
   
@@ -65,10 +69,13 @@ const Header = (props: IHeader) => {
     });
 
     if (response.ok) {
+      if (userStore.role == "ROLE_ADMIN") {
+        await signOut(auth);
+      }
       userStore.initialize();
-      planStore.initialize();
-      memoStore.initialize();
-      siteBookmarkStore.initialize();
+      initializePlanStore();
+      initializeMemoStore();
+      initializeSiteBookmarkStore();
       toastifyStore.setToastify({
         type: "success",
         message: "로그아웃 되었습니다.",

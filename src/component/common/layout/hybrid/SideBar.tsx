@@ -95,6 +95,12 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/setting",
     options: {isRequiredAuth: false},
   },
+  {
+    icon: <IoSettingsOutline size={"24"} />,
+    label: "흐름",
+    href: "/workflow",
+    options: {isRequiredAuth: true, isAdmin: true},
+  },
 ];
 
 const SideBar = () => {

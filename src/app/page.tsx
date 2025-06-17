@@ -1,9 +1,10 @@
 import RiseAnimationText from "@component/common/text/riseAnimationText";
+import { firebaseDB } from "@utils/lib/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 import {
   BookMinus,
   CalendarFold,
   ClipboardList,
-  Contact2,
   Disc3,
   KeyRound,
   Mail,
@@ -27,13 +28,21 @@ const ProjectIntroEdge = dynamic(
 
 
 export default async function Home() {
+  const docRef = doc(firebaseDB, "workflow", "ssssksssBlog");
+  const docSnap = await getDoc(docRef);
+
+  let json = "{}"; // 빈 객체로 기본 설정
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    json = JSON.stringify(data, null, 2);
+  }
+
   return (
     <div className="min-h-screen bg-default-1 p-4 min-[480px]:p-8">
       <article
         className={"mx-auto w-full space-y-8 transition-all duration-1000"}
       >
         <nav className="mb-2 flex flex-col justify-between gap-y-2 min-[480px]:mb-16">
-          {/* Achieve. Goal. Evolve */}
           <RiseAnimationText
             text="DEV.AGE"
             textClassName="font-bold min-[480px]:text-[2rem]"
@@ -65,17 +74,11 @@ export default async function Home() {
             >
               <FaGithub size={24} />
             </a>
+            {/* Contact2 아이콘은 링크 없으면 제거 권장 */}
+            {/* <Contact2 size={24} /> */}
+
             <a
-              href=""
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 transition-colors hover:text-blue-40"
-              aria-label="연락하기"
-            >
-              <Contact2 size={24} />
-            </a>
-            <a
-              href=""
+              href="mailto:ssssksss@naver.com"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 transition-colors hover:text-blue-40"
@@ -86,20 +89,17 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Skills Section */}
-        {/* <StackSkillContainer /> */}
-
         {/* Project Section */}
         <section id="projects" className="flex flex-col gap-y-6 py-4">
           <h2 className="rounded-2xl bg-secondary-80 py-2 text-center text-2xl font-bold text-secondary-contrast">
             Projects <span className="text-xl"> ({projects.length}) </span>
           </h2>
-          <ProjectIntroEdge />
+          <ProjectIntroEdge json={json} />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-            {projects.map((i, index) => (
+            {projects.map((i) => (
               <article
                 className="flex h-full flex-col gap-y-2 rounded-2xl bg-third-80 px-4 py-2 text-third-contrast transition-colors"
-                key={index}
+                key={i.title} // index 대신 title로 변경
               >
                 <section className="flex items-center gap-4 py-2">
                   {i.icon}
@@ -129,7 +129,6 @@ export default async function Home() {
                   ))}
                 </div>
                 <div className="pb-1 pt-2">
-                  {/* {i.term && <div> 기간: {i.term} </div>} */}
                   {i.etc && <div> 기타: {i.etc} </div>}
                 </div>
                 <div className="flex gap-x-2">
@@ -138,6 +137,7 @@ export default async function Home() {
                       href={i.link}
                       className="w-fit rounded-2xl px-2 py-1 outline"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       블로그 정리 링크
                     </a>
