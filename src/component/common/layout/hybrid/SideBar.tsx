@@ -9,6 +9,7 @@ import React, { MouseEvent, ReactNode, useEffect, useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { FaClipboardList, FaHome, FaPaintBrush } from "react-icons/fa";
 import { FaFolderTree } from "react-icons/fa6";
+import { GoWorkflow } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiBookBookmarkFill } from "react-icons/pi";
 import { TbBrandBlogger, TbDeviceDesktopAnalytics } from "react-icons/tb";
@@ -96,7 +97,7 @@ const LeftNavItems: LeftNavItem[] = [
     options: {isRequiredAuth: false},
   },
   {
-    icon: <IoSettingsOutline size={"24"} />,
+    icon: <GoWorkflow size={"24"} />,
     label: "흐름",
     href: "/workflow",
     options: {isRequiredAuth: true, isAdmin: true},
