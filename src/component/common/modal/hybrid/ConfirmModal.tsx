@@ -37,7 +37,10 @@ const ConfirmModal = ({
         <div className="flex flex-row gap-4">
           <button
             className="h-10 w-20 rounded-full bg-blue-60 text-white-80 shadow-md hover:scale-105"
-            onClick={() => onConfirmClick()}
+            onClick={() => {
+              onConfirmClick();
+              props.closeModal!();
+            }}
             aria-label="확인 버튼"
           >
             확인

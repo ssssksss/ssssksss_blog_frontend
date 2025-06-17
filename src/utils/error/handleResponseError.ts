@@ -56,7 +56,6 @@ export const handleResponseError = async (response: Response) => {
         }),
       );
     } else {
-      console.log("예상치 못한 에러 : ", response);
       // 예상치 못한 에러
       throw new Error(
         JSON.stringify({
