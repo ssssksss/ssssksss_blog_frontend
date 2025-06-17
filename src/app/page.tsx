@@ -26,7 +26,7 @@ const ProjectWorkflow = dynamic(
   },
 );
 
-
+export const revalidate = 86400;
 export default async function Home() {
   const docRef = doc(firebaseDB, "workflow", "ssssksssBlog");
   const docSnap = await getDoc(docRef);

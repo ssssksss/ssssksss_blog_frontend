@@ -59,6 +59,12 @@ export default function WorkflowEditor({json}: IWorkflowEditor) {
       }
 
       await setDoc(doc(firebaseDB, "workflow", "ssssksssBlog"), parsed);
+      await fetch(
+        `/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_SECRET}&path=/`,
+        {
+          method: "GET",
+        },
+      );
       toastifyStore.setToastify({
         type: "success",
         message: "업로드에 성공했습니다.",
