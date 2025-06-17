@@ -85,7 +85,7 @@ export const convertMarkdownToHtml = (
       const id = slugify(title);
       const isFirst = h2Count === 0;
       h2Count++;
-      return `<h2 class="text-[1.5rem] ${isFirst ? "my-4" : "mt-12 mb-4"} border-y-4 border-primary-80 font-DNFBitBitv2 text-contrast-1 py-1 px-2 w-fit" data-index="true" id="${id}"> <span class="text-primary-80"> # </span> ${title}</h2>`;
+      return `<h2 class="text-[1.5rem] ${isFirst ? "my-4" : "mt-12 mb-4"} border-y-4 border-primary-80 font-DNFBitBitv2 text-primary-80 py-1 px-2 w-fit" data-index="true" id="${id}"> <span> # </span> ${title}</h2>`;
     })
     .replace(
       /^## (.*$)/gim,
