@@ -18,7 +18,7 @@ export function extractFontFamilies(
 
 const fonts = extractFontFamilies(`
   font-family: "gmarketSansBold";
-  font-family: "cyarn ookieRunRegular";
+  font-family: "cookieRunRegular";
   font-family: "typoHelloPOP";
   font-family: "yanoljaYacheBold";
   font-family: "yanoljaYacheRegular";
@@ -36,9 +36,7 @@ const config: Config = {
   mode: "jit",
   darkMode: "class",
   content: [
-    "./src/component/**/view/**/*.{ts,tsx}",
-    "./src/component/**/hybrid/**/*.{ts,tsx}",
-    "./src/component/common/**/*.{ts,tsx}",
+    "./src/component/**/*.{ts,tsx}",
     "./src/app/**/*.{ts,tsx}",
     "./src/app/*.{ts,tsx}",
     "./src/utils/**/*.{ts,tsx}",
