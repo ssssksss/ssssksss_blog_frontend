@@ -45,11 +45,6 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
   };
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    params.delete("timestamp");
-    url.search = params.toString();
-    window.history.replaceState({}, "", url.toString());
     if (refreshStore.isRefresh) {
       // revalidate on demand 사용시 즉시 업데이트가 되지 않는 문제로 1초 후 새로고침 처리로 업데이트   
       loadingStore.startLoading();
