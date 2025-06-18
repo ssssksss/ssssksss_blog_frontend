@@ -1,5 +1,25 @@
-import { revalidateTag } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
+
+export async function GET(request: Request) {
+  const {searchParams} = new URL(request.url);
+  const path = searchParams.get("path");
+
+  if (!path) {
+    return NextResponse.json({message: "Missing path"}, {status: 400});
+  }
+
+  try {
+    // 홈 페이지면 path는 "/" 로 지정
+    revalidatePath(path);
+    return NextResponse.json({revalidated: true, path});
+  } catch (error) {
+    return NextResponse.json(
+      {message: "Revalidation error", error},
+      {status: 500},
+    );
+  }
+}
 
 export async function POST(req: Request) {
   const {tags} = await req.json();
@@ -14,26 +34,4 @@ export async function POST(req: Request) {
   tags.forEach((tag) => revalidateTag(tag));
 
   return NextResponse.json({message: `Revalidated tags: ${tags.join(", ")}`});
-}
-
-export async function GET(req: NextRequest) {
-  const secret = req.nextUrl.searchParams.get("secret");
-  const path = req.nextUrl.searchParams.get("path");
-
-  if (secret !== process.env.NEXT_PUBLIC_REVALIDATE_SECRET || !path) {
-    return new Response("Unauthorized", {status: 401});
-  }
-
-  try {
-    // 페이지 프리렌더링 재요청
-    await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URL}${path}`, {
-      headers: {
-        "x-prerender-revalidate": process.env.NEXT_PUBLIC_REVALIDATE_SECRET!,
-      },
-    });
-
-    return new Response("Revalidated", {status: 200});
-  } catch (err) {
-    return new Response("Error revalidating", {status: 500});
-  }
 }
