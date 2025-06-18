@@ -303,20 +303,30 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         </div>
       </div>
       <Button
-        className={"w-full p-2 primary-border-radius hover:bg-primary-20"}
+        className={"group w-full p-2 primary-border-radius"}
         onClick={() => modalState.openModal()}
       >
         {formContext.getValues("title") ? (
           <div className="gap-x-1 break-keep default-flex">
-            <span className={"font-bold text-primary-100"}>
+            <span
+              className={
+                "font-bold text-primary-100 group-hover:text-contrast-1"
+              }
+            >
               {formContext.getValues("title")}
             </span>
-            <span className={"font-bold"}> - </span>
-            <span className={"font-bold text-secondary-100"}>
+            <span className={"font-bold group-hover:text-contrast-1"}> - </span>
+            <span
+              className={
+                "font-bold text-secondary-100 group-hover:text-contrast-1"
+              }
+            >
               {formContext.getValues("firstCategoryName")}
             </span>
-            <span className={"font-bold"}> - </span>
-            <span className={"font-bold text-third-100"}>
+            <span className={"font-bold group-hover:text-contrast-1"}> - </span>
+            <span
+              className={"font-bold text-third-100 group-hover:text-contrast-1"}
+            >
               {formContext.getValues("secondCategoryName")}
             </span>
           </div>
@@ -365,7 +375,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </ThemeActiveButton1>
             <label
               className={
-                "default-flex h-[16rem] w-full cursor-pointer primary-border-radius"
+                "h-[16rem] w-full cursor-pointer primary-border-radius default-flex"
               }
               htmlFor={"imageUpload"}
               // onDragEnter={onDragEnter}
@@ -374,7 +384,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               // onDrop={onDropOrInputEvent}
             >
               {imageUrl && (
-                <div className="relative h-full aspect-square">
+                <div className="relative aspect-square h-full">
                   <Image
                     src={imageUrl}
                     alt={"image"}
