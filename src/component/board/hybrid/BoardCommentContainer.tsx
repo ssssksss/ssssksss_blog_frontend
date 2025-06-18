@@ -5,7 +5,9 @@
  * @description 댓글 작성 컴포넌트 + 댓글 갯수 UI + 댓글 리스트 UI
  */
 
+import LoadingCommentSpinner from "@component/common/spinner/LoadingCommentSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
+import useLoading from "@hooks/useLoading";
 import useBoardCommentStore from "@store/useBoardComment";
 import useUserStore from "@store/userStore";
 import { useEffect } from "react";
@@ -21,19 +23,26 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
   const userStore = useUserStore();
   const boardCommentStore = useBoardCommentStore();
   const fetchCSR = useFetchCSR();
+  const loadingFunc = useLoading();
 
   useEffect(() => {
     const temp = async () => {
-      const result: IBoardComment[] = await fetchCSR.requestWithHandler({
-        url: `/api/board/comment?boardId=${props.boardId}`,
-        method: "GET",
-        showLoading: false
-      });
-      if (result == undefined) return;
-      boardCommentStore.setBoardCommentList(result);
+      loadingFunc.startLoading(); // 로딩 시작
+      try {
+        const result: IBoardComment[] = await fetchCSR.requestWithHandler({
+          url: `/api/board/comment?boardId=${props.boardId}`,
+          method: "GET",
+          showLoading: false,
+        });
+        if (result !== undefined) {
+          boardCommentStore.setBoardCommentList(result);
+        }
+      } finally {
+        loadingFunc.stopLoading(); // 로딩 종료
+      }
     };
     temp();
-  }, []);
+  }, [props.boardId]);
 
 
   const createBoardCommentHandler = async ({
@@ -191,7 +200,9 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
 
   return (
     <div className={"flex animate-fadeUp flex-col gap-2"}>
-      {userStore.id < 0 ? "" : userStore.id > 0 ? (
+      {userStore.id < 0 ? (
+        ""
+      ) : userStore.id > 0 ? (
         <CreateMainCommentBox
           boardId={props.boardId}
           createBoardCommentHandler={createBoardCommentHandler}
@@ -199,26 +210,34 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
       ) : (
         <div className="h-[7rem] w-full animate-pulseSkeleton rounded-2xl"></div>
       )}
-      <div className={"px-2 pb-[1rem]"}>
-        <div className="flex h-btn-md items-center rounded-2xl text-lg">
-          댓글 {boardCommentStore.boardCommentList.length} 개
+      {loadingFunc.loading ? (
+        <div className="bg-gray-30 default-flex">
+          <div className="w-[15rem]">
+            <LoadingCommentSpinner loading={true} />
+          </div>
         </div>
-        <div className={"flex flex-col gap-y-1 pb-1"}>
-          {boardCommentStore.boardCommentList?.map(
-            (parentComment: IBoardComment) => (
-              <CommentBox
-                key={parentComment.id}
-                writer={props.boardUserNickname}
-                boardId={props.boardId}
-                boardComment={parentComment}
-                createBoardCommentHandler={createBoardCommentHandler}
-                updateBoardCommentHandler={updateBoardCommentHandler}
-                deleteBoardCommentHandler={deleteBoardCommentHandler}
-              />
-            ),
-          )}
+      ) : (
+        <div className={"px-2 pb-[1rem]"}>
+          <div className="flex h-btn-md items-center rounded-2xl text-lg">
+            댓글 {boardCommentStore.boardCommentList.length} 개
+          </div>
+          <div className={"flex flex-col gap-y-1 pb-1"}>
+            {boardCommentStore.boardCommentList?.map(
+              (parentComment: IBoardComment) => (
+                <CommentBox
+                  key={parentComment.id}
+                  writer={props.boardUserNickname}
+                  boardId={props.boardId}
+                  boardComment={parentComment}
+                  createBoardCommentHandler={createBoardCommentHandler}
+                  updateBoardCommentHandler={updateBoardCommentHandler}
+                  deleteBoardCommentHandler={deleteBoardCommentHandler}
+                />
+              ),
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
