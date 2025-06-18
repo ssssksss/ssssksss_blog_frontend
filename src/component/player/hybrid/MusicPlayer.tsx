@@ -13,7 +13,7 @@ interface IMusicPlayerProps {
 const MusicPlayer = (props: IMusicPlayerProps) => {
   const playerStore = usePlayerStore();
   const playerRef = useRef<ReactPlayer | null>(null);
-  const { requestPlay } = usePlayerControl();
+  const { requestPlay } = usePlayerControl(); // 여러개의 탭 화면에서 재생/정지 공유
   const [isIframeLoaded, setIsIframeLoaded] = useState(false); // facade 용도
   // 플레이어 작동시 약 1초마다 실행되는 함수
   const handleProgress = (state: { playedSeconds: number; played: number }) => {
@@ -166,7 +166,7 @@ const MusicPlayer = (props: IMusicPlayerProps) => {
                 playerRef.current?.seekTo(storedPlayed, "fraction");
               }}
               onPlay={() => {
-                requestPlay();
+                requestPlay(); // 다른 탭에서 실행되고 있는 player 중단
               }}
               onError={() => {
                 playerStore.setPlayer({
