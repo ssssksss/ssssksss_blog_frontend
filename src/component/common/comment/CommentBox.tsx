@@ -14,6 +14,7 @@ type ICommentBox = {
   boardId: number; // 게시판 id
   writer: string; // 글 작성자 확인용
   boardComment: IBoardComment;
+  isLastChildComment?: boolean;
   createBoardCommentHandler?: ({
     text,
     parentId,
@@ -43,7 +44,7 @@ const CommentBox = (props: ICommentBox) => {
   const userStore = useUserStore();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const [isModifyStatus, setIsModifyStatus] = useState(false);
-  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, true);
+  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, false);
   const [isShowChildrenReply, toggleShowChildrenReply] = useReducer(
     (s) => !s,
     false,
@@ -72,15 +73,34 @@ const CommentBox = (props: ICommentBox) => {
   
   return (
     <div
-      className={`flex flex-col gap-1 ${isParentComment ? "" : "ml-2"} rounded-2xl`}
+      className={`relative flex flex-col gap-1 ${isParentComment ? "" : "ml-4"} rounded-2xl`}
     >
+      {/* 왼쪽에 댓글 이어주는 선 표시 */}
+      {isParentComment || (
+        <div className="absolute left-[-1rem] h-full w-[1rem] flex pl-[0.125rem]">
+          {/* 세로선 */}
+          {
+            props.isLastChildComment ? 
+              <div className="h-[calc(50%+0.125rem)] w-[0.1875rem] bg-contrast-1"> </div>
+              :
+              <div className="h-full w-[0.1875rem] bg-contrast-1 relative">
+                <div className="h-[0.25rem] top-full left-0 w-[0.1875rem] bg-contrast-1 absolute">
+                </div>
+              </div>
+          }
+          {/* 가로선 */}
+          <div className="h-full flex items-center">
+            <div className="h-[0.1875rem] w-[0.6875rem] bg-contrast-1"> </div>
+          </div>
+        </div>
+      )}
       <div
         className={`flex flex-col gap-y-1 p-1 ${isParentComment ? "secondary-border-radius" : "third-border-radius"}`}
       >
         {/* 헤더 */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm">{props.boardComment.nickname}</span>
-          <span className="text-sm text-black-80">
+        <div className="flex items-center gap-2 text-sm">
+          <span className="">{props.boardComment.nickname}</span>
+          <span className="">
             {timeFunction.timeFromToday(
               new Date(props.boardComment.modifiedAt),
             )}
@@ -89,7 +109,7 @@ const CommentBox = (props: ICommentBox) => {
               : "(수정됨)"}
           </span>
           {isWriter && (
-            <span className="rounded-2xl px-2 font-typoHelloPOP text-sm font-bold primary-border-radius">
+            <span className="rounded-2xl px-2 font-typoHelloPOP font-bold primary-border-radius">
               작성자
             </span>
           )}
@@ -98,7 +118,7 @@ const CommentBox = (props: ICommentBox) => {
         {/* 내용 */}
         <AutoHeightTextarea
           // className={`w-full rounded-2xl text-sm ${isParentComment ? "bg-secondary-80 text-secondary-contrast" : "bg-third-80 text-third-contrast"} px-2 py-1`}
-          className={`w-full rounded-2xl text-sm ${isModifyStatus && (isParentComment ? "bg-secondary-80 text-secondary-contrast" : "bg-third-80 text-third-contrast")} px-2 py-1`}
+          className={`text-md w-full rounded-2xl border border-contrast-1 ${isModifyStatus && (isParentComment ? "bg-secondary-80 text-secondary-contrast" : "bg-third-80 text-third-contrast")} px-2 py-1`}
           ref={textRef}
           defaultValue={props.boardComment.content}
           disabled={!isModifyStatus}
@@ -110,15 +130,19 @@ const CommentBox = (props: ICommentBox) => {
           className={`flex ${isParentComment ? "justify-between" : "justify-end"} gap-2`}
         >
           {isParentComment && (
-            <div className="flex h-btn-md items-center gap-x-2">
+            <div
+              className="flex h-btn-sm items-center gap-x-2"
+              title={isShowChildren ? "답글 보인 상태" : "답글 접은 상태"}
+            >
+              {/* 화살표 + 답글 갯수 버튼 */}
               {props.boardComment?.childComments?.length != 0 && (
                 <button
                   onClick={toggleShowChildren}
-                  className="flex h-btn-md items-center gap-1 rounded-2xl border border-contrast-1 px-2"
+                  className="flex h-btn-sm items-center gap-1 rounded-2xl border border-contrast-1 px-2"
                 >
                   <FontAwesomeIcon
                     icon={isShowChildren ? faArrowUp : faArrowDown}
-                    className={`${props.boardComment?.childComments?.length != 0 && ""}`}
+                    className={`${props.boardComment?.childComments?.length != 0 && ""} `}
                   />
                   <span
                     className={`${props.boardComment?.childComments?.length != 0 && ""}`}
@@ -131,28 +155,29 @@ const CommentBox = (props: ICommentBox) => {
               {userStore.id > 0 && !props.boardComment?.isDeleted && (
                 <button
                   onClick={toggleShowChildrenReply}
-                  className="h-btn-md gap-1 rounded-2xl border border-contrast-1 px-2 default-flex"
+                  className="h-btn-sm gap-1 rounded-2xl border border-contrast-1 px-2 default-flex"
                   aria-label={
                     isShowChildrenReply ? "댓글 작성 접기" : "댓글 작성 펼치기"
                   }
                 >
                   {isShowChildrenReply ? (
-                    <BiCommentX size={"28"} />
+                    <BiCommentX size={"24"} />
                   ) : (
-                    <BiCommentAdd size={"28"} />
+                    <BiCommentAdd size={"24"} />
                   )}
                 </button>
               )}
             </div>
           )}
-          {/* 댓글인 경우와 답글인 경우 */}
+
+          {/* 댓글인 경우와 답글인 경우 수정 및 삭제 버튼 */}
           {isParentComment ? (
             <div className="flex gap-2">
               {isOwner && !props.boardComment.isDeleted && (
                 <>
                   {isModifyStatus && !props.boardComment.isDeleted && (
                     <SubmitButton
-                      className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                      className="h-btn-sm rounded-2xl border border-contrast-1 px-2"
                       isActive={true}
                       aria-label="댓글 수정 제출 버튼"
                       onClick={async () => {
@@ -174,13 +199,11 @@ const CommentBox = (props: ICommentBox) => {
                       if (isModifyStatus)
                         (textRef.current as any).style.height = "auto";
                     }}
-                    className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                    className="h-btn-sm px-1"
                     isModifyStatus={isModifyStatus}
                   />
                   <DeleteConfirmButton
-                    className={
-                      "h-btn-md px-2"
-                    }
+                    className={"h-btn-sm px-1"}
                     aria-label="댓글 삭제 버튼"
                     onCancelClick={() => {}}
                     onConfirmClick={async () => {
@@ -201,7 +224,7 @@ const CommentBox = (props: ICommentBox) => {
                 <>
                   {isModifyStatus && (
                     <SubmitButton
-                      className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                      className="h-btn-sm rounded-2xl border border-contrast-1 px-1"
                       isActive={true}
                       aria-label="답글 제출 버튼"
                       onClick={async () => {
@@ -225,13 +248,11 @@ const CommentBox = (props: ICommentBox) => {
                       if (!isModifyStatus)
                         (textRef.current as HTMLTextAreaElement).focus();
                     }}
-                    className="h-btn-md rounded-2xl border border-contrast-1 px-2"
+                    className="h-btn-sm px-1"
                     isModifyStatus={isModifyStatus}
                   />
                   <DeleteConfirmButton
-                    className={
-                      "h-btn-md px-2"
-                    }
+                    className={"h-btn-sm px-1"}
                     ariaLabel="댓글 삭제 버튼"
                     onCancelClick={() => {}}
                     onConfirmClick={async () => {
@@ -261,7 +282,7 @@ const CommentBox = (props: ICommentBox) => {
           <AutoHeightTextarea
             placeholder="답글 작성을 해주세요."
             ref={textRef}
-            className={`rounded-2xl bg-primary-60 px-2 py-1 text-primary-contrast primary-border-radius placeholder:text-primary-contrast ${isModifyStatus && ""}`}
+            className={`rounded-2xl bg-primary-60 px-2 text-primary-contrast primary-border-radius placeholder:text-primary-contrast ${isModifyStatus && ""}`}
             maxLength={255}
           />
           <div className="flex justify-end gap-2">
@@ -288,7 +309,7 @@ const CommentBox = (props: ICommentBox) => {
 
       {/* 자식 댓글 */}
       {isShowChildren &&
-        props.boardComment.childComments?.map((childComment) => (
+        props.boardComment.childComments?.map((childComment,index) => (
           <CommentBox
             key={childComment.id}
             writer={props.writer}
@@ -296,6 +317,7 @@ const CommentBox = (props: ICommentBox) => {
             boardComment={childComment}
             updateBoardCommentHandler={props.updateBoardCommentHandler}
             deleteBoardCommentHandler={props.deleteBoardCommentHandler}
+            isLastChildComment={index == Number(props.boardComment.childComments?.length)-1}
           />
         ))}
     </div>

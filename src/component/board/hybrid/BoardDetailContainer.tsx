@@ -71,17 +71,18 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
         "flex w-full flex-col gap-y-2 overflow-y-scroll py-4 scrollbar-hide"
       }
     >
-      <section className="relative min-h-[2rem] w-full">
+      <section className="justify-between flex items-center w-full">
+        <BackButton className="h-btn-md px-1 py-1" />
         {userStore.nickname == props.data.nickname && (
-          <div className="absolute right-0 top-1/2 flex -translate-y-[calc(50%+0.25rem)] gap-x-1">
+          <div className="flex gap-x-1">
             <EditButton
               onClick={() => router.push(`/board/update/${props.data.id}`)}
-              className="h-btn-md px-2 py-2 default-flex"
+              className="h-btn-md px-1 py-1 default-flex"
               aria-label="게시판 수정하기 버튼"
             />
             <DeleteConfirmButton
               className={
-                "px-2 py-2 h-btn-md default-flex"
+                "px-1 py-1 h-btn-md default-flex"
               }
               ariaLabel="게시판 삭제 버튼"
               onCancelClick={() => {
@@ -95,7 +96,6 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
             />
           </div>
         )}
-        <BackButton className="absolute left-0 top-1/2 h-btn-md -translate-y-[calc(50%+0.25rem)] px-2 py-2" />
       </section>
       <section className="flex justify-between px-4 py-2 primary-border-radius">
         <div> 게시판 번호 : {props.data.id} </div>

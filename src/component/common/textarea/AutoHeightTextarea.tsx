@@ -40,7 +40,7 @@ const AutoHeightTextarea = forwardRef<
     <textarea
       // ${ props.disabled ? "bg-transparent" : props.activeBg || "bg-white"}
       {...props} // ✅ HTML 속성들 자동 전달
-      className={`h-auto resize-none overflow-hidden border-0 !outline-none scrollbar-hide ${props.className || ""}`}
+      className={`h-auto resize-none overflow-hidden !outline-none scrollbar-hide ${props.className || ""}`}
       ref={innerRef}
       rows={1}
       onInput={handleResizeHeight}
