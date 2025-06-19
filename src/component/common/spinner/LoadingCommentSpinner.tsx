@@ -1,4 +1,4 @@
-import LottieFile from "@/../public/lottie/loading-comment.json";
+import LottieFile from "@lottie/loading-comment.json";
 import LottieComponent from "../lottie/LottieComponent";
 
 interface Props {
