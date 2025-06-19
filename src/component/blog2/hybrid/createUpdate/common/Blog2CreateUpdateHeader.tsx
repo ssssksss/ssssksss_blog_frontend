@@ -1,24 +1,21 @@
-import BackButton from "@component/common/button/BackButton";
+import CreateButtonGroupWithTitle from "@component/common/button/CreateButtonGroupWithTitle";
 import AbsoluteCloseButton from "@component/common/button/hybrid/AbsoluteCloseButton";
 import Button from "@component/common/button/hybrid/Button";
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
 import useOutsideClick from "@hooks/useOutsideClick";
 import usePreventBodyScroll from "@hooks/usePreventBodyScroll";
 import { AWSS3Prefix } from "@utils/variables/s3url";
-import { SendHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import useBlog2Store from "src/store/blog2Store";
-import useLoading from "../../../../../hooks/useLoading";
 
 interface IBlog2CreateUpdateHeader {
   isEdit: boolean;
@@ -43,7 +40,6 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
       : "",
   );
   const router = useRouter();
-  const {loading, startLoading, stopLoading} = useLoading();
   const [blog2Status, setBlog2Status] = useState(
     formContext.getValues("blog2Status"),
   );
@@ -281,26 +277,11 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
 
   return (
     <>
-      <LoadingSpinner loading={loading} />
       <div className="mb-2 flex w-full justify-between">
-        <div className="grid w-full grid-cols-[2.75rem_calc(100%-5.5em)_2.75rem] items-center">
-          <BackButton className="aspect-square h-[2.75rem] min-h-[2.75rem] p-2 default-flex" />
-          <div
-            className={
-              "w-full break-words break-all rounded-[1rem] p-2 text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
-            }
-          >
-            {formContext.getValues("title")}
-          </div>
-          <Button
-            className={
-              "aspect-square h-[2.75rem] min-h-[2.75rem] bg-primary-20 p-2 font-bold primary-border-radius default-flex"
-            }
-            onClick={() => blog2CreateUpdateSubmitHandler()}
-          >
-            <SendHorizontal />
-          </Button>
-        </div>
+        <CreateButtonGroupWithTitle
+          title={formContext.getValues("title")}
+          submitHandler={() => blog2CreateUpdateSubmitHandler()}
+        />
       </div>
       <Button
         className={"group w-full p-2 primary-border-radius"}

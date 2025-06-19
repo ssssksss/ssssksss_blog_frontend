@@ -2,10 +2,8 @@
 
 import Blog2BasicContentView from "@component/blog2/view/Blog2BasicContentView";
 import Blog2ResultContentView from "@component/blog2/view/Blog2ResultContentView";
-import BackButton from "@component/common/button/BackButton";
-import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
-import EditButton from "@component/common/button/EditButton";
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
+import UpdateButtonGroupWithTitle from "@component/common/button/UpdateButtonGroupWithTitle";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
@@ -145,53 +143,13 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
       className={"mt-[.25rem] flex h-auto w-full flex-col gap-y-2 pb-[1rem]"}
     >
       <LoadingSpinner loading={loading} />
-      <div className="grid w-full grid-cols-[2rem_calc(100%-7.5rem)_4.5rem] items-center gap-x-2">
-        {/* <ThemeButton1
-          className={"aspect-square h-[2rem] default-flex"}
-          onClick={() =>
-            router.push(
-              `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
-            )
-          }
-        >
-          <FaArrowLeft />
-        </ThemeButton1> */}
-        <BackButton className="aspect-square h-[2rem] default-flex" />
-        <div
-          className={
-            "w-full break-words break-all rounded-[1rem] text-center font-SDSamliphopangche_Outline text-[1.5rem] font-bold"
-          }
-        >
-          {props.data.blog2.title}
-        </div>
-        {userStore.role == "ROLE_ADMIN" && (
-          <div className={"flex gap-x-2"}>
-            <EditButton
-              onClick={() => {
-                startLoading();
-                router.push(`/blog2/update/${props.data.blog2.id}`);
-              }}
-              className="h-[2rem]"
-              size={"24"}
-              aria-label="블로그 수정하기 버튼"
-            />
-            <DeleteConfirmButton
-              className="h-[2rem]"
-              ariaLabel="게시판 삭제 버튼"
-              size={"24"}
-              onCancelClick={() => {
-                modalState.closeModal();
-              }}
-              onConfirmClick={() => {
-                startLoading();
-                deleteBlog2Handler();
-              }}
-              mainMessage={["블로그를 삭제하시겠습니까?"]}
-              loading={loading}
-            />
-          </div>
-        )}
-      </div>
+      <UpdateButtonGroupWithTitle
+        isAdmin={userStore.role == "ROLE_ADMIN"}
+        title={props.data.blog2.title}
+        deleteHandler={deleteBlog2Handler}
+        deleteInfoMessage={["블로그를 삭제하시겠습니까?"]}
+        routeEditURL={`/blog2/update/${props.data.blog2.id}`}
+      />
       <div
         className={
           "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 primary-border-radius"
