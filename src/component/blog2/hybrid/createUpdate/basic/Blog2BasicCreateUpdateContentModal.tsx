@@ -8,10 +8,17 @@ import { useCallback } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
-  useForm
+  useForm,
+  useFormContext
 } from "react-hook-form";
 import Blog2SubCreateUpdateHeader from "../../../view/common/Blog2SubCreateUpdateHeader";
 import Blog2BasicCreateUpdateCategoryAndTitleForm from "./Blog2BasicCreateUpdateCategoryAndTitleForm";
+
+/**
+ * 
+ * @description 블로그 기초 내용을 작성하는 공간  
+ * 
+ */
 
 const Blog2BasicCreateUpdateContentModal = (
   props: IBlog2BasicCreateUpdateContentModal,
@@ -19,6 +26,7 @@ const Blog2BasicCreateUpdateContentModal = (
 
   const modalState = useModalState(props.edit ? true : false);
   const fetchCSR = useFetchCSR();
+  const formContext = useFormContext();
   const blog2BasicContentFormContext = useForm<IBlog2BasicFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
     mode: "onChange",
@@ -27,10 +35,10 @@ const Blog2BasicCreateUpdateContentModal = (
       content: props.edit ? props.blog2BasicContentItem?.content : "",
       firstCategoryId: props.edit
         ? props.blog2BasicContentItem?.blog2FirstCategoryId
-        : 0,
+        : formContext.getValues("firstCategoryId") || 0,
       secondCategoryId: props.edit
         ? props.blog2BasicContentItem?.blog2SecondCategoryId
-        : 0,
+        : formContext.getValues("secondCategoryId") || 0,
       s3ImageUrlList: [],
     },
   });
