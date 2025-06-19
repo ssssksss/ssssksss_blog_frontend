@@ -44,7 +44,7 @@ const CommentBox = (props: ICommentBox) => {
   const userStore = useUserStore();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const [isModifyStatus, setIsModifyStatus] = useState(false);
-  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, true);
+  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, false);
   const [isShowReply, toggleShowReply] = useReducer(
     (s) => !s,
     false,
