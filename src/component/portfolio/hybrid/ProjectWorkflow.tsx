@@ -77,9 +77,9 @@ const ProjectWorkflow = (props: IProjectWorkflow) => {
   };
 
   return (
-    <div className="relative w-[calc(100%-1rem)] aspect-square h-[calc(100%-4rem)]">
+    <div className="relative aspect-square h-[calc(100vh-4rem)]">
       <Canvas
-        className="h-full bg-black-80 rounded-2xl"
+        className="h-full rounded-2xl bg-black-80"
         camera={{position: [0, 0, 36], fov: 50}}
       >
         <ambientLight />
@@ -144,7 +144,7 @@ const ProjectWorkflow = (props: IProjectWorkflow) => {
             <AiOutlineCloseCircle size={"48"} />
           </button>
           <div
-            className="bg-default-1 relative h-full w-full overflow-y-auto rounded-lg border border-gray-300 p-4 shadow-lg"
+            className="relative h-full w-full overflow-y-auto rounded-lg border border-gray-300 bg-default-1 p-4 shadow-lg"
             style={{overscrollBehavior: "contain"}}
           >
             <MarkdownPreview content={content || "내용이 없습니다."} />
