@@ -74,19 +74,21 @@ export default function WorkflowEditor({json}: IWorkflowEditor) {
 
   return (
     <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col space-y-4 p-4">
-      <h1 className="text-2xl font-bold default-flex">워크플로우 관리</h1>
+      <div className="relative w-full">
+        <h1 className="text-2xl font-bold default-flex">워크플로우 관리</h1>
+        <ThemeActiveButton1
+          isActive={jsonText != ""}
+          className="h-full px-2 text-md absolute right-0 top-0"
+          onClick={handleSave}
+        >
+          저장
+        </ThemeActiveButton1>
+      </div>
       <BasicTextarea
-        className="h-full w-full flex-1 resize-none p-4 font-sans text-xl font-bold text-contrast-1 primary-border-radius"
+        className="h-full w-full flex-1 resize-none px-2 font-sans text-sm font-bold text-contrast-1 primary-border-radius"
         value={jsonText}
         onChange={(e) => setJsonText(e.target.value)}
       />
-      <ThemeActiveButton1
-        isActive={jsonText != ""}
-        className="h-[3.75rem] text-lg"
-        onClick={handleSave}
-      >
-        저장
-      </ThemeActiveButton1>
     </div>
   );
 }
