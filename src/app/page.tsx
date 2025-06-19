@@ -1,3 +1,4 @@
+import HomeFloatButton from "@component/common/button/HomeFloatButton";
 import RiseAnimationText from "@component/common/text/riseAnimationText";
 import { firebaseDB } from "@utils/lib/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
@@ -38,7 +39,8 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-default-1 p-4 min-[480px]:p-8">
+    <div className="relative min-h-screen bg-default-1 p-2 min-[480px]:p-4">
+      <HomeFloatButton />
       <article
         className={"mx-auto w-full space-y-8 transition-all duration-1000"}
       >
