@@ -44,8 +44,8 @@ const CommentBox = (props: ICommentBox) => {
   const userStore = useUserStore();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const [isModifyStatus, setIsModifyStatus] = useState(false);
-  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, false);
-  const [isShowChildrenReply, toggleShowChildrenReply] = useReducer(
+  const [isShowChildren, toggleShowChildren] = useReducer((s) => !s, true);
+  const [isShowReply, toggleShowReply] = useReducer(
     (s) => !s,
     false,
   );
@@ -132,7 +132,7 @@ const CommentBox = (props: ICommentBox) => {
           {isParentComment && (
             <div
               className="flex h-btn-sm items-center gap-x-2"
-              title={isShowChildren ? "답글 보인 상태" : "답글 접은 상태"}
+              title={isShowChildren ? "답글 펼치기 버튼" : "답글 접기 버튼"}
             >
               {/* 화살표 + 답글 갯수 버튼 */}
               {props.boardComment?.childComments?.length != 0 && (
@@ -154,13 +154,13 @@ const CommentBox = (props: ICommentBox) => {
               {/* 댓글 작성 접기, 펼치기 */}
               {userStore.id > 0 && !props.boardComment?.isDeleted && (
                 <button
-                  onClick={toggleShowChildrenReply}
+                  onClick={toggleShowReply}
                   className="h-btn-sm gap-1 rounded-2xl border border-contrast-1 px-2 default-flex"
                   aria-label={
-                    isShowChildrenReply ? "댓글 작성 접기" : "댓글 작성 펼치기"
+                    isShowReply ? "댓글 작성 접기" : "댓글 작성 펼치기"
                   }
                 >
-                  {isShowChildrenReply ? (
+                  {isShowReply ? (
                     <BiCommentX size={"24"} />
                   ) : (
                     <BiCommentAdd size={"24"} />
@@ -274,8 +274,7 @@ const CommentBox = (props: ICommentBox) => {
 
       {/* 대댓글 작성창 */}
       {isParentComment &&
-        isShowChildren &&
-        isShowChildrenReply &&
+        isShowReply &&
         userStore.id > 0 && (
         <div className="ml-2 flex flex-col gap-1 rounded-2xl px-2 py-1 primary-border-radius">
           <div> {userStore.nickname} </div>
@@ -299,7 +298,7 @@ const CommentBox = (props: ICommentBox) => {
                   if (textRef.current) {
                     textRef.current.value = ""; // 입력값 초기화
                   }
-                  await toggleShowChildrenReply(); // 대댓글 토글
+                  await toggleShowReply(); // 대댓글 토글
                 } catch (error) {}
               }}
             />
