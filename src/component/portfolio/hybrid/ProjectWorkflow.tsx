@@ -77,9 +77,9 @@ const ProjectWorkflow = (props: IProjectWorkflow) => {
   };
 
   return (
-    <div className="relative aspect-square h-[40rem] primary-border-radius">
+    <div className="relative w-[calc(100%-1rem)] aspect-square h-[calc(100%-4rem)]">
       <Canvas
-        className="h-full w-full bg-black-80"
+        className="h-full bg-black-80 rounded-2xl"
         camera={{position: [0, 0, 36], fov: 50}}
       >
         <ambientLight />
