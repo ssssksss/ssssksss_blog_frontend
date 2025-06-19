@@ -1,4 +1,3 @@
-import usePlanStore from "@store/planStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { addDays, differenceInDays, format } from "date-fns";
 
@@ -13,10 +12,11 @@ interface ISchedule {
   title: string;
 }
 
-interface IPlanHomeCalendar {}
+interface IPlanHomeCalendar {
+  scheduleList: IPlanSchedule[];
+}
 
 const PlanHomeCalendar = (props: IPlanHomeCalendar) => {
-  const planStore = usePlanStore();
   // 날짜별 일정을 그룹화하는 함수
   const groupSchedulesByDate = (schedules: ISchedule[]) => {
     const grouped: {[key: string]: ISchedule[]} = {};
@@ -40,10 +40,10 @@ const PlanHomeCalendar = (props: IPlanHomeCalendar) => {
     return grouped;
   };
 
-  const schedulesGroupedByDate = groupSchedulesByDate(planStore.scheduleList);
+  const schedulesGroupedByDate = groupSchedulesByDate(props.scheduleList);
 
   return (
-    <div className="flex w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
+    <div className="flex w-full flex-col gap-y-2 overflow-y-scroll min-h-[13.5rem] rounded-[1rem] glassmorphism">
       <div className="mx-auto mt-2 w-full p-1">
         <div className="mb-2 flex items-center justify-center gap-x-2 ">
           <h2 className="font-semibold max-[440px]:text-sm px-2 py-1">

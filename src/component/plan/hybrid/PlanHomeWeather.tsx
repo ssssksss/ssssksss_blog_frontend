@@ -1,3 +1,5 @@
+"use client";
+
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
@@ -177,7 +179,7 @@ const PlanHomeWeather = () => {
     );
 
   return (
-    <div className="sm:text-md w-full flex flex-col min-[480px]:flex-row h-[39.5rem] min-[480px]:h-[13.5rem] items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism">
+    <div className="sm:text-md w-full flex flex-col min-[480px]:flex-row items-start gap-2 rounded-[1rem] p-2 text-sm glassmorphism">
       {forecast.map((day, index) => (
         <div key={index} className="rounded-2xl shadow-2xl w-full">
           {/* 날짜 헤더 */}
@@ -188,12 +190,11 @@ const PlanHomeWeather = () => {
                 month: "long",
                 day: "numeric",
               })}
-
             </h3>
           </div>
 
           {/* 날씨 정보 */}
-          <div className="h-auto max-h-[13.125rem] p-2">
+          <article className="h-auto max-h-[13.125rem] p-2">
             {/* 온도 및 날씨 아이콘 */}
             <div className="flex h-full items-center justify-center space-x-1">
               <div className={"flex h-full w-12 items-center"}>
@@ -224,7 +225,7 @@ const PlanHomeWeather = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       ))}
     </div>

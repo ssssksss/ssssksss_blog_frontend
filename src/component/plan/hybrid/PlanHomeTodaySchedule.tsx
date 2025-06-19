@@ -1,12 +1,12 @@
-import usePlanStore from "@store/planStore";
 import { format } from "date-fns-tz";
 
-interface IPlanHomeTodaySchedule {}
+interface IPlanHomeTodaySchedule {
+  scheduleList: IPlanSchedule[];
+}
 const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
   const todayString = format(new Date(), "yyyy-MM-dd");
-  const planStore = usePlanStore();
 
-  const todayScheduleList = planStore.scheduleList.filter((i) => {
+  const todayScheduleList = props.scheduleList.filter((i) => {
     if (
       i.scheduleStartDate.substring(0, 10) <= todayString &&
       i.scheduleEndDate.substring(0, 10) >= todayString
@@ -16,8 +16,15 @@ const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
     return false;
   });
 
+  if (todayScheduleList.length == 0) {
+    return (
+      <div className="h-[10rem] w-full default-flex">
+          오늘은 일정이 없습니다.
+      </div>)
+    ;
+  }
   return (
-    <ul className="flex min-h-[5rem] h-full w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] glassmorphism">
+    <ul className=" flex h-full w-full flex-col gap-y-2 overflow-y-scroll rounded-[1rem] ">
       {todayScheduleList?.map((j) => (
         <li
           key={j.id}
@@ -43,7 +50,6 @@ const PlanHomeTodaySchedule = (props: IPlanHomeTodaySchedule) => {
           </p>
         </li>
       ))}
-      {todayScheduleList.length == 0 && <div className="w-full h-full default-flex"> 오늘은 일정이 없습니다. </div>}
     </ul>
   );
 };
