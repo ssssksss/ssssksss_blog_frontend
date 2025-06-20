@@ -74,14 +74,10 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
       <div className={"flex w-full justify-end"}>
         <div className="w-18 grid grid-cols-2 items-center justify-end gap-x-4">
           <DeleteConfirmButton
-            className={
-              "start-1 h-8 w-8 glassmorphism"
-            }
+            className={"start-1 h-8 w-8 glassmorphism"}
             ariaLabel="메모 삭제 버튼"
             onCancelClick={() => {}}
-            onConfirmClick={() => {
-              () => deleteMemoHandler();
-            }}
+            onConfirmClick={() => deleteMemoHandler()}
             mainMessage={["메모를 삭제하시겠습니까?"]}
             loading={false}
             size="28"
