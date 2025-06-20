@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
+import { redirect } from "next/navigation";
 
 export const handleResponseError = async (response: Response) => {
   if (!response.status) {
@@ -18,25 +19,15 @@ export const handleResponseError = async (response: Response) => {
     );
   }
   if (response.status == 401) {
-    throw new Error(
-      JSON.stringify({
-        code: 401,
-        message: "인증이 필요합니다.",
-      }),
-    );
+    redirect("/not-auth");
+  }
+  if (response.status == 403) {
+    redirect("/not-auth");
   }
   if (response.status == 404) {
     throw new Error(
       JSON.stringify({
         code: 404,
-        message: "잘못된 요청",
-      }),
-    );
-  }
-  if (response.status == 403) {
-    throw new Error(
-      JSON.stringify({
-        code: 403,
         message: "잘못된 요청",
       }),
     );
