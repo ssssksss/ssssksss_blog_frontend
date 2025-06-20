@@ -77,12 +77,12 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
             className={
               "start-1 h-8 w-8 glassmorphism"
             }
-            ariaLabel="게시판 삭제 버튼"
+            ariaLabel="메모 삭제 버튼"
             onCancelClick={() => {}}
             onConfirmClick={() => {
               () => deleteMemoHandler();
             }}
-            mainMessage={["게시판을 삭제하시겠습니까?"]}
+            mainMessage={["메모를 삭제하시겠습니까?"]}
             loading={false}
             size="28"
           />

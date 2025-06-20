@@ -305,7 +305,7 @@ const TravelCreateUpdateContainer = (props: ITravelCreateUpdateContainer) => {
                                 onConfirmClick={() => {
                                   deleteTravelLocation(+i.contentid);
                                 }}
-                                mainMessage={["게시판을 삭제하시겠습니까?"]}
+                                mainMessage={["여행을 삭제하시겠습니까?"]}
                                 loading={loading}
                               />
                             </div>

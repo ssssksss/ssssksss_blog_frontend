@@ -108,12 +108,12 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
                   className={
                     "w-8"
                   }
-                  ariaLabel="게시판 삭제 버튼"
+                  ariaLabel="일정 삭제 버튼"
                   onCancelClick={() => {
                     stopLoading();
                   }}
                   onConfirmClick={() => deleteScheduleCalendar()}
-                  mainMessage={["게시판을 삭제하시겠습니까?"]}
+                  mainMessage={["일정을 삭제하시겠습니까?"]}
                   loading={loading}
                 />
               )}

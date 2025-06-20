@@ -81,14 +81,14 @@ const PlanScheduleCategoryModal = (props: any) => {
                 className={
                   "h-btn-sm"
                 }
-                ariaLabel="게시판 삭제 버튼"
+                ariaLabel="일정 카테고리 삭제 버튼"
                 onCancelClick={() => {
                 }}
                 onConfirmClick={() => {
                   () => deleteScheduleCategoryHandler(i.id);
                 }}
                 loading={false}
-                mainMessage={["게시판을 삭제하시겠습니까?"]}
+                mainMessage={["일정 카테고리를 삭제하시겠습니까?"]}
               />
             </div>
           </div>
