@@ -57,7 +57,6 @@ export const fetchServerSideInServerComponent = async ({
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
     ...(next ? {next} : cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
   });
-  console.log("fetchServerSideInServerComponent.ts 파일 : ",res);
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
