@@ -1,5 +1,6 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { Metadata } from "next";
 import Template from "../template";
 
@@ -23,11 +24,15 @@ async function getData() {
 
 const Page = async () => {
 
-  const initData: {statusCode: number, msg: string, data: any} = await getData();
+  const result = await getData();
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
 
   return (
     <Template>
-      <Blog2CreateUpdateContainer categoryList={initData.data} />
+      <Blog2CreateUpdateContainer categoryList={result.data} />
     </Template>
   );
 };

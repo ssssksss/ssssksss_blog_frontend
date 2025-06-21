@@ -1,60 +1,88 @@
-import * as Sentry from "@sentry/nextjs";
-import { redirect } from "next/navigation";
 
 export const handleResponseError = async (response: Response) => {
-  if (!response.status) {
-    throw new Error(
-      JSON.stringify({
-        code: 500,
-        message: "네트워크오류 혹은 CORS 문제",
-      }),
-    );
-  }
-  if (response.status == 400) {
-    throw new Error(
-      JSON.stringify({
-        code: 400,
-        message: "잘못된 요청",
-      }),
-    );
-  }
-  if (response.status == 401) {
-    redirect("/not-auth");
-  }
-  if (response.status == 403) {
-    redirect("/not-auth");
-  }
-  if (response.status == 404) {
-    throw new Error(
-      JSON.stringify({
-        code: 404,
-        message: "잘못된 요청",
-      }),
-    );
+  try {
+    if (response.status === 400) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "잘못된 요청",
+            code: 400,
+          },
+        }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+    if (response.status === 401) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "인증에 실패했습니다.",
+            code: 401,
+          },
+        }),
+        {
+          status: 401,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+    if (response.status === 403) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "권한이 없습니다.",
+            code: 403,
+          },
+        }),
+        {
+          status: 403,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+    if (response.status === 404) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "잘못된 요청",
+            code: 404,
+          },
+        }),
+        {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+    if (response.status === 500) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "서버 요청 문제",
+            code: 500,
+          },
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+  } catch {
+    throw new Error("서버 에러");
   }
 
-  if (!response?.ok) {
-    const result = await response.json();
-    if (result) {
-      Sentry.captureException(new Error(String(response.url + result.status + result?.msg)));
-    }
-    if (result?.msg) {
-      // 예상 가능한 에외처리
-      throw new Error(
-        JSON.stringify({
-          code: result.statusCode, // BE서버상태코드
-          message: result?.msg, // BE서버상태메시지
-        }),
-      );
-    } else {
-      // 예상치 못한 에러
-      throw new Error(
-        JSON.stringify({
-          code: result.status, 
-          // message: result?.message || result?.error,
-          message: "🐶 서버 에러",
-        }),
-      );
-    }
-  }
 };

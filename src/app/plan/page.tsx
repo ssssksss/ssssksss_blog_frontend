@@ -1,5 +1,6 @@
 import PlanHomeDashBoard from "@component/plan/hybrid/PlanHomeDashBoard";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { addDays, startOfMonth, subDays } from "date-fns";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -30,7 +31,12 @@ async function getData() {
 }
 
 const Page = async (props: IPage) => {
-  const result: ResReadPlanScheduleList = await getData();
+  const result = await getData();
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
+
   return (
     <PlanHomeDashBoard data={result.data} />
   );

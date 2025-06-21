@@ -1,5 +1,6 @@
 import Blog2CreateUpdateContainer from "@component/blog2/container/create/Blog2CreateUpdateContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { cookies } from "next/headers";
 import Template from "../../template";
 
@@ -32,8 +33,12 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   if (pageId < 1 || !Number.isSafeInteger(pageId)) {
     throw Error("Not Found");
   }
+  const result = await getData(pageId);
 
-  const result: { statusCode: number, msg: string, data: ResBlog2Update } = await getData(pageId);
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
+
   return (
     <Template>
       <Blog2CreateUpdateContainer data={result.data} isEdit={true} />

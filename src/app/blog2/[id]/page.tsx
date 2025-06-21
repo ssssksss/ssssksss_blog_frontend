@@ -1,5 +1,6 @@
 import Blog2DetailContainer from "@component/blog2/hybrid/read/Blog2DetailContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { cookies } from "next/headers";
 import Template from "../template";
 
@@ -32,11 +33,11 @@ async function getData(id: number) {
 }
 
 export default async function page({ params: { id } }: { params: { id: string } }) {
-  const result: {
-    data: responseReadBlog2,
-    msg: string;    
-    statusCode: number;
-  } = await getData(Number(id));
+  const result = await getData(Number(id));
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
 
   return (
     <Template>

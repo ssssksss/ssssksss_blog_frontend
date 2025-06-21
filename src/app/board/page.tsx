@@ -1,6 +1,7 @@
 import BoardMain from "@component/board/hybrid/BoardMain";
 import PaginationSEOHead from "@component/common/seo/PaginationSEOHead";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 
 async function getData(searchParams: URLSearchParams) {
   const queryString = new URLSearchParams(searchParams).toString();
@@ -11,6 +12,11 @@ async function getData(searchParams: URLSearchParams) {
   });
 
   const result = await response.json();
+
+  if (result?.error) {
+    return result;
+  }
+
   return {
     data: result.data.content,
     totalElements: result.data.totalElements,
@@ -39,13 +45,17 @@ const Page = async ({
 }) => {
   const params = new URLSearchParams(searchParams as Record<string, string>);
   const pageNum = Number(params.get("page") || "1");
-  const initialData = await getData(params);
+  const result = await getData(params);
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
 
   return (
     <>
       <PaginationSEOHead currentPage={pageNum} basePath="/board" />
       <div className="flex min-h-[calc(100%-3rem)] w-full items-center p-4">
-        <BoardMain initialData={initialData} />
+        <BoardMain initialData={result} />
       </div>
     </>
   );

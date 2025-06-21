@@ -1,5 +1,6 @@
 import BoardCreateUpdateContainer from "@component/board/hybrid/BoardCreateUpdateContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { cookies } from "next/headers";
 
 async function getData(id: number) {
@@ -27,7 +28,11 @@ export default async function page({ params: { id } }: { params: { id: string } 
     throw Error("Not Found");
   }
   const pageId = Number(id);
-  const result: IResponseReadBoard = await getData(pageId);
+  const result = await getData(pageId);
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
   
   return (
     <div className={"flex h-full w-full p-4"}>

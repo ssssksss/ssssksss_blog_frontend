@@ -1,5 +1,6 @@
 import PlanMemoContainer from "@component/plan/hybrid/PlanMemoContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
@@ -24,6 +25,11 @@ async function getData() {
 
 const Page = async (props: IPage) => {
   const result = await getData();
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
+
   return (
     <PlanMemoContainer data={result.data} />
   );

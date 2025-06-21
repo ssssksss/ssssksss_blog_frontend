@@ -111,7 +111,7 @@ export const fetchServerSideInServerComponent = async ({
     });
   }
   if (isFallbackToErrorPage) {
-    await handleResponseError(res);
+    return handleResponseError(res);
   }
   await revalidateTags(handleRevalidateTags);
   return res;

@@ -1,16 +1,7 @@
 import BoardDetailContainer from "@component/board/hybrid/BoardDetailContainer";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 
-async function getData(id: number) {
-  const response = await fetchServerSideInServerComponent({
-    url: `${process.env.BACKEND_URL}/api/board/${id}`,
-    method: "GET",
-    next: {revalidate: 86400, tags: [`getBoard/${id}`]},
-    isAuth: false,
-  });
-
-  return response.json() as Promise<any>;
-}
 
 export async function generateMetadata({params: {id}}: {params: {id: string}}) {
   const pageId = Number(id);
@@ -27,9 +18,25 @@ export async function generateMetadata({params: {id}}: {params: {id: string}}) {
   };
 }
 
+async function getData(id: number) {
+  const response = await fetchServerSideInServerComponent({
+    url: `${process.env.BACKEND_URL}/api/board/${id}`,
+    method: "GET",
+    next: {revalidate: 86400, tags: [`getBoard/${id}`]},
+    isAuth: false,
+  });
+
+  return response.json() as Promise<any>;
+}
+
+
 export default async function page({params: {id}}: {params: {id: string}}) {
   const pageId = Number(id);
-  const result: IResponseReadBoard = await getData(pageId);
+  const result = await getData(pageId);
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
 
   return (
     <div className={"flex h-full w-full p-4 text-[16px]"}>

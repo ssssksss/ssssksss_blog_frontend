@@ -1,6 +1,7 @@
 import Blog2ListContainer from "@component/blog2/container/read/Blog2ListContainer";
 import Blog2Category from "@component/blog2/hybrid/read/Blog2Category";
 import { fetchServerSideInServerComponent } from "@utils/api/fetchServerSideInServerComponent";
+import ErrorPage from "@utils/error/ErrorPage";
 import { Metadata } from "next";
 import Template from "./template";
 
@@ -24,12 +25,16 @@ async function getData() {
 }
 
 const Page = async (props: IPage) => {
-  const initData = await getData();
+  const result = await getData();
+
+  if (result?.error) {
+    return <ErrorPage error={result.error} />;
+  }
 
   return (
     <Template>
       {/* <Blog2SearchContainer /> */}
-      <Blog2Category categoryList={initData.data} />
+      <Blog2Category categoryList={result.data} />
       <Blog2ListContainer />
     </Template>
   );
