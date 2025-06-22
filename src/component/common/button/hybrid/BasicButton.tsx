@@ -35,8 +35,8 @@ const BasicButton: React.FC<IBasicButton> = ({
       {...props}
     >
       {loading ? (
-        <div className="flex h-full py-1 items-center justify-center">
-          <div className="h-full aspect-square animate-spin rounded-full border-b-2 border-white-500"></div>
+        <div className="h-full py-1 default-flex">
+          <div className="border-white-500 aspect-square h-full animate-spin rounded-full border-b-2"></div>
         </div>
       ) : (
         children

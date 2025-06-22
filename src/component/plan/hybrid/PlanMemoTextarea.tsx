@@ -1,4 +1,5 @@
 import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useMemoStore from "@store/memoStore";
 import { SendHorizontal } from "lucide-react";
@@ -83,15 +84,15 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
             size="28"
           />
           {active && (
-            <button
-              disabled={!active}
+            <ThemeActiveButton1
+              isActive={active}
               onClick={() => updateMemoHandler()}
               className={
-                "h-8 w-8 rounded-[1rem] outline outline-2 default-flex glassmorphism"
+                "h-8 w-8"
               }
             >
               <SendHorizontal />
-            </button>
+            </ThemeActiveButton1>
           )}
         </div>
       </div>
