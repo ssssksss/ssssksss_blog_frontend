@@ -1,6 +1,6 @@
 import BasicButton from "./hybrid/BasicButton";
 
-const ThemeActiveButton3 = ({
+const ThemeActiveButton2 = ({
   className,
   isActive,
   ...props
@@ -9,10 +9,10 @@ const ThemeActiveButton3 = ({
     <BasicButton
       role="button"
       aria-pressed={isActive}
-      className={`disabled:cursor-not-allowed disabled:bg-black-40 ${className} ${className?.includes("rounded") ? "third-border" : "third-border-radius"} ${isActive ? "font-bold third-set" : "hover:scale-105"}`}
+      className={`disabled:cursor-not-allowed disabled:bg-black-40 ${className} ${className?.includes("rounded") ? "seconde-border" : "seconde-border-radius"} ${isActive ? "font-bold seconde-set" : "hover:scale-105"}`}
       {...props}
     />
   );
 };
 
-export default ThemeActiveButton3;
+export default ThemeActiveButton2;
