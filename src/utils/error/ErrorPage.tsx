@@ -47,7 +47,10 @@ const ErrorPage = ({error}: IErrorPage) => {
         className="w-full max-w-[16rem]"
       />
       <p className="absolute bottom-1/2 left-1/2 flex w-full -translate-x-1/2 translate-y-[6.375rem] justify-center gap-x-1">
-        <span>{error.message}</span>
+        {
+          error.code == 404 ? "" : 
+            <span>{error.message}</span>
+        }
       </p>
       {(error.code == 401 || error.code == 500) ? (
         <button
