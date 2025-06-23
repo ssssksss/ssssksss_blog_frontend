@@ -11,8 +11,15 @@ import {
   Mail,
   Map
 } from "lucide-react";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { FaGithub, FaHome } from "react-icons/fa";
+
+export const metadata: Metadata = {
+  title: "에이지의 홈",
+  description: "프로젝트 워크플로우나 자기소개",
+};
+
 
 const navItems = [
   {href: "#skills", label: "Skills"},
