@@ -1,10 +1,10 @@
 "use client";
 
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
+import { useInitialThenStore } from "@hooks/useInitialThenStore";
 import useModalState from "@hooks/useModalState";
 import useMemoStore from "@store/memoStore";
 import { DiamondPlus } from "lucide-react";
-import { useEffect } from "react";
 import PlanMemoCreateModal from "./PlanMemoCreateModal";
 import PlanMemoTextarea from "./PlanMemoTextarea";
 
@@ -13,11 +13,12 @@ interface IPlanMemoContainer {
 }
 const PlanMemoContainer = (props: IPlanMemoContainer) => {
   const modalState = useModalState();
-  const memoStore = useMemoStore();
 
-  useEffect(() => {
-    memoStore.setMemoList(props.data);
-  }, []);
+  const memoList = useInitialThenStore({
+    initialData: props.data,
+    store: useMemoStore,
+    selector: (state) => state.memoList,
+  });
 
   return (
     <div
@@ -35,7 +36,7 @@ const PlanMemoContainer = (props: IPlanMemoContainer) => {
           <ul
             className={`relative grid h-full w-full max-w-full grid-cols-1 gap-2 min-[960px]:grid-cols-2 ${modalState.isOpen ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] p-2 text-sm glassmorphism`}
           >
-            {memoStore.memoList.map((i, index) => (
+            {memoList.map((i, index) => (
               <li
                 key={i.id}
                 className="default-primary-outline-nocolor px-2 shadow-lg"
