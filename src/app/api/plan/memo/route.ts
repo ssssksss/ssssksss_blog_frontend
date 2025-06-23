@@ -21,8 +21,10 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
   return await fetchApiRoutes({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plan/memo`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plan/memo/${id}`,
     body: data,
     req: request,
     isFallbackToErrorPage: false,
