@@ -26,10 +26,9 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
 
   const updateMemoHandler = async () => {
     const result = await fetchCSR.requestWithHandler({
-      url: "/api/plan/memo",
+      url: `/api/plan/memo?id=${props.data.id}`,
       method: "PUT",
       body: {
-        id: props.data.id,
         content: content,
       },
       showSuccessToast: true,

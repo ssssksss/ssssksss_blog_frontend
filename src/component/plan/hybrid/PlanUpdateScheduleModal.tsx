@@ -86,10 +86,9 @@ const PlanUpdateScheduleModal = (props: IPlanUpdateScheduleModal) => {
     status: string;
   }) => {
     const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
-      url: "/api/plan/schedule",
+      url: `/api/plan/schedule?id=${data.id}`,
       method: "PUT",
       body: {
-        id: data.id,
         title: data.title,
         content: data.content,
         categoryId: data.planScheduleCategory,
