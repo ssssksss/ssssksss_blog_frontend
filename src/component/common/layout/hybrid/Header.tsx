@@ -49,7 +49,6 @@ const Header = (props: IHeader) => {
   );
   const { userStore } = useInitGetUser(); // 유저정보 조회 API
   const themeStore = useThemeStore();
-  
   // 페이지 이동시 공통적으로 처리할 로직
   useEffect(() => {
     // 모달창이 열려있는 상태로 새로고침이 되었을 때 스택 제거 용도
@@ -81,6 +80,7 @@ const Header = (props: IHeader) => {
         message: "로그아웃 되었습니다.",
       });
       router.push("/");
+      router.refresh();
     }
   },[]);
 
