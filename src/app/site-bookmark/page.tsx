@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description: "자주 가는 사이트 목록",
 };
 interface IPage {}
-
 async function getData() {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
@@ -21,7 +20,6 @@ async function getData() {
   return response.json();
 }
 
-
 const Page = async (props: IPage) => {
   const result = await getData();
 
@@ -29,8 +27,6 @@ const Page = async (props: IPage) => {
     return <ErrorPage error={result.error} />;
   }
 
-  return (
-    <SiteBookmarkCategoryList data={result?.data} />
-  ); 
+  return <SiteBookmarkCategoryList data={result?.data} />;
 };
 export default Page;

@@ -29,7 +29,7 @@ const PlanScheduleMonthBox = () => {
   const planStore = usePlanStore();
   const fetchCSR = useFetchCSR();
 
-  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [_, setIsLoadingCategories] = useState(false);
   const [isLoadingSchedules, setIsLoadingSchedules] = useState(false);
 
   const prevMonth = () => {
@@ -70,6 +70,7 @@ const PlanScheduleMonthBox = () => {
     if (!days.length) return;
     setIsLoadingSchedules(true);
 
+    // 현재 보이는 날짜를 UTC로 맞추어서 시작날짜와 마지막 날짜를 찾음
     const getISODate = (item: ICalendarItem) =>
       parse(
         `${item.year}${item.month.toString().padStart(2, "0")}${item.day

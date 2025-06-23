@@ -32,7 +32,7 @@ const PlanMemoCreateModal = (props: IPlanMemoCreateModal) => {
         placeholder="새로운 메모작성를 작성해주세요. 좌측은 닫기, 우측은 추가하기"
         value={content} // Bind value to content state
         onChange={(e) => setContent(e.target.value)} // Update content state on change
-        className="h-[calc(100%-2.5rem)] min-h-[480px] w-full resize-none rounded-[.5rem] bg-default-1 p-2 outline placeholder:text-contrast-1"
+        className="h-[calc(100%-4rem)] w-full resize-none rounded-[.5rem] bg-default-1 p-2 outline placeholder:text-contrast-1"
       />
       <ThemeActiveButton1
         onClick={() => crateMemoHandler()}
