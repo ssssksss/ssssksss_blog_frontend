@@ -77,7 +77,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             <button
               key={i.name}
               onClick={() => props.selectCalendarCategory(i)}
-              className={` ${i.backgroundColor} h-btn-md rounded-[1rem] p-2 default-flex hover:scale-105 ${props.selectCategoryId == i.id && "animate-updown"} ${"text-" + i.backgroundColor.split("-")[1] + "-contrast"} overflow-hidden text-ellipsis whitespace-nowrap`}
+              className={` ${i.backgroundColor} h-btn-md rounded-[1rem] p-2 transition default-flex hover:scale-105 ${props.selectCategoryId == i.id && "animate-updown"} ${"text-" + i.backgroundColor.split("-")[1] + "-contrast"} overflow-hidden text-ellipsis whitespace-nowrap`}
             >
               {i.name}
             </button>
