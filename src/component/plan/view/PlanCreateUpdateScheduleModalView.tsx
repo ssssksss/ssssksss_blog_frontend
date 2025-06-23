@@ -185,7 +185,7 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
       <section className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center justify-between rounded-[1rem] bg-primary-20 pl-1 pr-2 text-[1.2rem] font-bold">
           <span> 내용 </span>
-          <span className="text-sm">{getValues("content").length} / 255</span>
+          {/* <span className="text-sm">{getValues("content").length} / 255</span> */}
         </div>
         <BasicTextarea
           onChange={(e) =>
@@ -195,7 +195,6 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
           className={
             "mt-[1rem] min-h-[16rem] w-full rounded-[1rem] p-1 px-1 primary-border"
           }
-          maxLength={255}
           placeholder="내용"
         />
       </section>
