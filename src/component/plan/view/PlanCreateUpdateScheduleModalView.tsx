@@ -66,20 +66,18 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
   return (
     <div className={"flex w-full flex-col gap-y-2"}>
       <h2 className={"text-[1.5rem] font-bold default-flex"}>
-        일정 {props.isEdit ? "수정" : "생성"}
+        {props.isEdit ? "일정 수정" : "일정 생성"}
       </h2>
       <section className="min-h-[4rem] flex-shrink-0 p-2 primary-border-radius">
         <div className="flex h-[2.75rem] items-center rounded-[1rem] bg-primary-20 px-1 text-[1.2rem] font-bold">
           카테고리
         </div>
-        <div className="flex items-center gap-x-2 rounded-[1rem] pt-2 text-[1.2rem]">
+        <div className="flex flex-wrap items-center gap-2 rounded-[1rem] pt-2 text-[1.2rem]">
           {props.scheduleCategoryList.map((i) => (
             <button
               key={i.name}
               onClick={() => props.selectCalendarCategory(i)}
-              className={`${i.backgroundColor} h-btn-md rounded-[1rem] p-2 default-flex ${props.selectCategoryId == i.id && "animate-updown"} ${
-                "text-" + i.backgroundColor.split("-")[1] + "-contrast"
-              }`}
+              className={` ${i.backgroundColor} h-btn-md rounded-[1rem] p-2 default-flex ${props.selectCategoryId == i.id && "animate-updown"} ${"text-" + i.backgroundColor.split("-")[1] + "-contrast"} overflow-hidden text-ellipsis whitespace-nowrap`}
             >
               {i.name}
             </button>
@@ -122,7 +120,11 @@ const PlanCreateUpdateScheduleModalView = <T extends boolean>(
             onClick={() => setIsFoldCalendar((prev) => !prev)}
             className="h-btn-md"
           >
-            {isFoldCalendar ? <FiMaximize2 size="28" /> : <FiMinimize2 size="28" />}
+            {isFoldCalendar ? (
+              <FiMaximize2 size="28" />
+            ) : (
+              <FiMinimize2 size="28" />
+            )}
           </button>
         </div>
         <div
