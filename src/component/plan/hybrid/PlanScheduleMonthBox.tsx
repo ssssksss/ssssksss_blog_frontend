@@ -84,7 +84,7 @@ const PlanScheduleMonthBox = () => {
     const calendarEndDate = getISODate(days[days.length - 1]);
 
     const result: IPlanSchedule[] = await fetchCSR.requestWithHandler({
-      url: `/api/plan/schedule?scheduleStartDate=${calendarStartDate}&scheduleEndDate=${calendarEndDate}`,
+      url: `/api/plan/schedule/list?scheduleStartDate=${calendarStartDate}&scheduleEndDate=${calendarEndDate}`,
       method: "GET",
     });
 

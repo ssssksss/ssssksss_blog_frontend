@@ -21,7 +21,7 @@ async function getData() {
   const scheduleEndDate = endDate.toISOString();
 
   const response = await fetchServerSideInServerComponent({
-    url: `${process.env.BACKEND_URL}/api/plan/schedule?scheduleStartDate=${scheduleStartDate}&scheduleEndDate=${scheduleEndDate}`,
+    url: `${process.env.BACKEND_URL}/api/plan/schedule/list?scheduleStartDate=${scheduleStartDate}&scheduleEndDate=${scheduleEndDate}`,
     method: "GET",
     accessToken: accessToken,
     refreshToken: refreshToken,
