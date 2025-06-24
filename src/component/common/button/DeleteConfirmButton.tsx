@@ -7,7 +7,7 @@ import ModalButton from "../modal/hybrid/ModalButton";
 
 interface IDeleteConfirmButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  loading: boolean;
+  loading?: boolean;
   onConfirmClick: () => void;
   onCancelClick: () => void;
   mainMessage?: string[];
