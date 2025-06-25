@@ -14,6 +14,7 @@ const PlanScheduleCategoryModal = (props: any) => {
     const result = await fetchCSR.requestWithHandler({
       url: `/api/plan/schedule/category?id=${id}`,
       method: "DELETE",
+      showSuccessToast: true,
     });
     if (result == undefined) return;
     if (id) {
@@ -75,20 +76,16 @@ const PlanScheduleCategoryModal = (props: any) => {
                 }
                 modal={<PlanCreateUpdateScheduleCategory data={i} />}
               >
-                <EditButton />
+                <EditButton size={"24"} className="h-btn-sm" />
               </NestedModalButton>
               <DeleteConfirmButton
-                className={
-                  "h-btn-sm"
-                }
+                className={"h-btn-sm"}
                 ariaLabel="일정 카테고리 삭제 버튼"
-                onCancelClick={() => {
-                }}
-                onConfirmClick={() => {
-                  () => deleteScheduleCategoryHandler(i.id);
-                }}
+                onCancelClick={() => {}}
+                onConfirmClick={() => deleteScheduleCategoryHandler(i.id)}
                 loading={false}
                 mainMessage={["일정 카테고리를 삭제하시겠습니까?"]}
+                size="24"
               />
             </div>
           </div>
