@@ -7,6 +7,7 @@ import usePlanStore from "@store/planStore";
 import { createScheduleCalendar } from "@utils/function/createScheduleCalendar";
 import { scheduleSort } from "@utils/function/scheduleSort";
 import { addHours, format, parse, parseISO } from "date-fns";
+import PlanConvertStatus from "../view/PlanConvertStatus";
 import PlanUpdateScheduleModal from "./PlanUpdateScheduleModal";
 
 interface IPlanCalendarItemInfoModal extends INestedModalComponent {
@@ -14,7 +15,6 @@ interface IPlanCalendarItemInfoModal extends INestedModalComponent {
 }
 
 const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
-  const {data} = props;
   const planStore = usePlanStore();
   const fetchCSR = useFetchCSR();
 
@@ -28,14 +28,14 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
 
   const deleteScheduleCalendar = async () => {
     const result = await fetchCSR.requestWithHandler({
-      url: `/api/plan/schedule?id=${data.id}`,
+      url: `/api/plan/schedule?id=${props.data.id}`,
       method: "DELETE",
       successMessage: "일정 삭제에 성공했습니다.",
       showSuccessToast: true
     });
     if (result == undefined) return;
     try {
-      const tempList = planStore.scheduleList.filter((i) => i.id != data.id);
+      const tempList = planStore.scheduleList.filter((i) => i.id != props.data.id);
       const {year, month, day} = planStore.calendar[15];
       const days: ICalendarItem[] = createScheduleCalendar(
         new Date(year, month - 1, day)
@@ -78,30 +78,30 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
       <div className="bg-white outline-bg-gray-20 w-full rounded-lg p-6 shadow-2xl outline outline-1">
         {/* 제목 */}
         <div className="mb-6">
-          <h2 className="break-all text-2xl font-bold">{data.title}</h2>
+          <h2 className="break-all text-2xl font-bold">{props.data.title}</h2>
         </div>
 
         {/* 날짜 정보 */}
         <div className="mb-4">
           <div className={"relative flex items-center"}>
             <span
-              className={`inline-block h-4 w-4 flex-shrink-0 ${data.scheduleCategoryBackgroundColor} rounded-full`}
+              className={`inline-block h-4 w-4 flex-shrink-0 ${props.data.scheduleCategoryBackgroundColor} rounded-full`}
             ></span>
-            <span> {data.scheduleCategoryName} </span>
+            <span> {props.data.scheduleCategoryName} </span>
+            <div className="ml-2 rounded-2xl bg-contrast-1 px-2 text-sm default-flex">
+              <PlanConvertStatus status={props.data.status} />
+            </div>
             <div className="absolute right-0 top-0 flex h-[2rem] w-[4rem] gap-x-2">
               <NestedModalButton
-                buttonClassName={
-                  " aspect-square w-8 default-flex relative"
-                }
-                modal={<PlanUpdateScheduleModal data={data} />}
+                buttonClassName={" aspect-square w-8 default-flex relative"}
+                modal={<PlanUpdateScheduleModal data={props.data} />}
                 ariaLabel="일정 수정하기 버튼"
               >
-                <EditButton />
+                <EditButton size="24" className={"w-8"} />
               </NestedModalButton>
               <DeleteConfirmButton
-                className={
-                  "w-8"
-                }
+                size="24"
+                className={"w-8"}
                 ariaLabel="일정 삭제 버튼"
                 onCancelClick={() => {}}
                 onConfirmClick={() => deleteScheduleCalendar()}
@@ -113,11 +113,11 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
             <span className="flex flex-col">
               <p className="flex text-sm">
                 <span className="min-w-[2rem] font-semibold">시작:</span>
-                <span>{formatDate(data.scheduleStartDate)}</span>
+                <span>{formatDate(props.data.scheduleStartDate)}</span>
               </p>
               <p className="flex text-sm">
                 <span className="min-w-[2rem] font-semibold">종료:</span>
-                <span>{formatDate(data.scheduleEndDate)}</span>
+                <span>{formatDate(props.data.scheduleEndDate)}</span>
               </p>
             </span>
           </div>
@@ -129,7 +129,7 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
         {/* 내용 */}
         <div className="mt-4">
           <p className="whitespace-pre-wrap break-all leading-relaxed">
-            {data.content}
+            {props.data.content}
           </p>
         </div>
       </div>
