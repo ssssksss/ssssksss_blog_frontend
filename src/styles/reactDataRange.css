@@ -37,13 +37,13 @@
 }
 .rdrInRange {
 }
-.rdrMonthAndYearWrapper .rdrNextPrevButton {
+.rdrMonthAndYearWrapper .rdrNextPrevButton .rdrNextButton {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: none;
+  /* background: none; */
   i {
-    visibility: hidden;
+    /* visibility: hidden; */
   }
 }
 .rdrMonthAndYearWrapper .rdrNextPrevButton:hover {
