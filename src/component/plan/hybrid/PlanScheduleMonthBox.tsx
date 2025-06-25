@@ -29,7 +29,6 @@ const PlanScheduleMonthBox = () => {
   const planStore = usePlanStore();
   const fetchCSR = useFetchCSR();
 
-  const [_, setIsLoadingCategories] = useState(false);
   const [isLoadingSchedules, setIsLoadingSchedules] = useState(false);
 
   const prevMonth = () => {
@@ -57,13 +56,15 @@ const PlanScheduleMonthBox = () => {
   };
 
   const fetchScheduleCategories = async () => {
-    setIsLoadingCategories(true);
     const result = await fetchCSR.requestWithHandler({
       url: "/api/plan/schedule/category",
       method: "GET",
     });
-    planStore.setScheduleCategory(result ?? []);
-    setIsLoadingCategories(false);
+    if (result == undefined) {
+      planStore.setScheduleCategory([]);
+      return;
+    }
+    planStore.setScheduleCategory(result);
   };
 
   const fetchSchedules = async (days: ICalendarItem[]) => {
@@ -88,7 +89,7 @@ const PlanScheduleMonthBox = () => {
       method: "GET",
     });
 
-    if (!result) {
+    if (result == undefined) {
       planStore.setScheduleCategory([]);
       planStore.setCalendar(days);
       setIsLoadingSchedules(false);
