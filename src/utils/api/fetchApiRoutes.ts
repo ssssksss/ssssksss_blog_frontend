@@ -66,7 +66,7 @@ export const fetchApiRoutes = async ({
   let _setCookieHeader = setCookieHeader;
 
   // 기본은 json 형식, formData 인자를 받으면 multipart 형식
-  let res = await fetch(url, {
+  const fetchOptions: RequestInit = {
     method: method || req?.method || "GET",
     headers: {
       ...(formData ? {} : {"Content-Type": contentType || "application/json"}),
@@ -75,8 +75,18 @@ export const fetchApiRoutes = async ({
         : {}),
     },
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
-    ...(next ? {next} : cache ? {cache} : isAuth ? {cache: "no-store"} : {}),
-  });
+  };
+
+  // 캐시 옵션 명확하게 처리
+  if (next) {
+    fetchOptions.next = next;
+  } else if (cache) {
+    fetchOptions.cache = cache;
+  } else if (isAuth) {
+    fetchOptions.cache = "no-store";
+  }
+
+  let res = await fetch(url, fetchOptions);
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
