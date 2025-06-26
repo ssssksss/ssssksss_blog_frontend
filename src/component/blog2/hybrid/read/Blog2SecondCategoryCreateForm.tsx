@@ -79,7 +79,7 @@ const Blog2SecondCategoryCreateForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "primary-border flex h-[3rem] items-center justify-center primary-set"
+          "flex h-[3rem] items-center justify-center primary-border primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -93,7 +93,7 @@ const Blog2SecondCategoryCreateForm = (
         className="min-h-[3rem]"
       />
       <label
-        className={`primary-border-radius relative h-[16rem] w-full cursor-pointer ${isDragging && "bg-primary-20"}`}
+        className={`relative h-[16rem] w-full cursor-pointer primary-border-radius ${isDragging && "bg-primary-20"}`}
         htmlFor={"imageUpload"}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
@@ -102,10 +102,10 @@ const Blog2SecondCategoryCreateForm = (
       >
         {imageUrl ? (
           <Image
-            src={imageUrl} 
-            alt={"image"}
+            src={imageUrl}
+            alt="image"
             layout="fill"
-            className="rounded-[1rem]"
+            className="rounded-[1rem] object-contain" // object-cover vs object-contain
           />
         ) : (
           <div className="h-full w-full flex-col default-flex">
@@ -125,9 +125,7 @@ const Blog2SecondCategoryCreateForm = (
       <ThemeButton1
         onClick={handleSubmit(createSecondCategoryHandler)}
         disabled={!formState.isValid}
-        className={
-          "mt-[1rem] h-[3rem]"
-        }
+        className={"mt-[1rem] h-[3rem]"}
       >
         2번째 카테고리 추가하기
       </ThemeButton1>

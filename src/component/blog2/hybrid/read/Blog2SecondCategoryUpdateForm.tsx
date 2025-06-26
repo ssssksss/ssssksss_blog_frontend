@@ -13,7 +13,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
-import useToastifyStore from "src/store/toastifyStore";
 
 interface IBlog2SecondCategoryUpdateForm {
   closeModal: () => void;
@@ -24,7 +23,6 @@ const Blog2SecondCategoryUpdateForm = (
   const [imageUrl, setImageUrl] = useState<string>("");
   const searchParams = useSearchParams();
   const blog2Store = useBlog2Store();
-  const toastifyStore = useToastifyStore();
   const [updateCategoryName, setUpdateCategoryName] = useState("");
   const fetchCSR = useFetchCSR();
 
@@ -111,7 +109,7 @@ const Blog2SecondCategoryUpdateForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "primary-border flex h-[3rem] items-center justify-center primary-set"
+          "flex h-[3rem] items-center justify-center primary-border primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -147,7 +145,7 @@ const Blog2SecondCategoryUpdateForm = (
         }}
       />
       <label
-        className={`primary-border relative z-50 h-[16rem] w-full rounded-2xl ${imageUrl ? "cursor-pointer" : "cursor-not-allowed"}`}
+        className={`relative z-50 h-[16rem] w-full rounded-2xl primary-border ${imageUrl ? "cursor-pointer" : "cursor-not-allowed"}`}
         htmlFor={"imageUpload"}
         onDragEnter={imageUrl ? undefined : onDragEnter}
         onDragLeave={imageUrl ? undefined : onDragLeave}
@@ -157,9 +155,9 @@ const Blog2SecondCategoryUpdateForm = (
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt={"image"}
+            alt="image"
             layout="fill"
-            className="rounded-[1rem] p-1"
+            className="rounded-[1rem] object-contain p-1"
           />
         ) : (
           <div className="h-full w-full flex-col default-flex">
@@ -180,9 +178,7 @@ const Blog2SecondCategoryUpdateForm = (
       <ThemeButton1
         onClick={handleSubmit(updateSecondCategoryHandler)}
         disabled={!formState.isValid}
-        className={
-          "h-[3rem]"
-        }
+        className={"h-[3rem]"}
       >
         추가
       </ThemeButton1>
