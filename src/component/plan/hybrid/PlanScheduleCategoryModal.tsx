@@ -39,7 +39,6 @@ const PlanScheduleCategoryModal = (props: any) => {
         }
         return acc;
       }, []);
-    console.log("PlanScheduleCategoryModal.tsx 파일 : ",temp1);
     planStore.setScheduleList([...temp1]);
   };
 
