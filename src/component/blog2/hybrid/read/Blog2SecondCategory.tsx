@@ -56,7 +56,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
     setBlog2CategoryList(props.categoryList);
     if (!searchParams.get("firstCategoryId")) {
       if (props.categoryList.length > 0) {
-        if (props.categoryList[0].blog2SecondCategoryList!.length > 0) {
+        if (props.categoryList[0]?.blog2SecondCategoryList!.length > 0) {
           handleSecondCategoryClick(
             props.categoryList[0].blog2SecondCategoryList![0].id,
           );
@@ -67,7 +67,7 @@ const Blog2SecondCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
         if (
           props.categoryList.filter(
             (i) => i.id == Number(searchParams.get("firstCategoryId")),
-          )[0].blog2SecondCategoryList!.length > 0
+          )[0]?.blog2SecondCategoryList!.length > 0
         ) {
           handleSecondCategoryClick(
             Number(searchParams.get("secondCategoryId")),
