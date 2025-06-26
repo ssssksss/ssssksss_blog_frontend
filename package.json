@@ -35,7 +35,6 @@
     "@types/gsap": "^3.0.0",
     "@types/react": "^18.2.64",
     "@types/three": "^0.144.0",
-    "@uiw/react-md-editor": "4.0.4",
     "axios": "^0.26.1",
     "babel-plugin-styled-components": "^2.0.6",
     "date-fns": "^4.1.0",
