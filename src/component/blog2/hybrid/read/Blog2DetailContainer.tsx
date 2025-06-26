@@ -5,10 +5,7 @@ import Blog2ResultContentView from "@component/blog2/view/Blog2ResultContentView
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import UpdateButtonGroupWithTitle from "@component/common/button/UpdateButtonGroupWithTitle";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import useFetchCSR from "@hooks/useFetchCSR";
-import useLoading from "@hooks/useLoading";
-import useModalState from "@hooks/useModalState";
 import useBlog2Store from "@store/blog2Store";
 import useToastifyStore from "@store/toastifyStore";
 import { useRouter } from "next/navigation";
@@ -24,38 +21,32 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
   const router = useRouter();
   const userStore = useUserStore();
   const toastifyStore = useToastifyStore();
-  const modalState = useModalState();
   const blog2Store = useBlog2Store();
   const fetchCSR = useFetchCSR();
-  const { loading, startLoading, stopLoading } = useLoading();
   const deleteBlog2Handler = async () => {
     // 삭제 API
-    try {
-      const result = await fetchCSR.requestWithHandler({
-        url: `/api/blog2?id=${props.data.blog2.id}`,
-        method: "DELETE",
-      });
-      if (result == undefined) return;
-      // 기존 리스트에서 블로그 항목 제거
-      if (
-        blog2Store.blogItem.blog2SecondCategoryId ==
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/blog2?id=${props.data.blog2.id}`,
+      method: "DELETE",
+    });
+    if (result == undefined) return;
+    // 기존 리스트에서 블로그 항목 제거
+    if (
+      blog2Store.blogItem.blog2SecondCategoryId ==
         props.data.blog2SecondCategory.id
-      ) {
-        blog2Store.setBlogItem({
-          id: blog2Store.blogItem.blog2SecondCategoryId,
-          list: [
-            ...blog2Store.blogItem.list.filter(
-              (i) => i.id !== props.data.blog2.id,
-            ),
-          ],
-        });
-      }
-      await router.push(
-        `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
-      );
-    } catch {
-      stopLoading();
+    ) {
+      blog2Store.setBlogItem({
+        id: blog2Store.blogItem.blog2SecondCategoryId,
+        list: [
+          ...blog2Store.blogItem.list.filter(
+            (i) => i.id !== props.data.blog2.id,
+          ),
+        ],
+      });
     }
+    await router.push(
+      `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
+    );
   };
 
   useEffect(() => {
@@ -100,10 +91,10 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
     let _menu = "";
     if (props.data.blog2ResultList.length > 0) {
       _menu = "결과";
-    } else if (props.data.blog2StructureList.length > 0) {
-      _menu = "구조";
     } else if (props.data.blog2BasicList.length > 0) {
       _menu = "기초";
+    } else if (props.data.blog2StructureList.length > 0) {
+      _menu = "구조";
     }
     setMenu(isMenuInURL ? params.get("menu")! : _menu);
       
@@ -142,7 +133,6 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
     <section
       className={"mt-[.25rem] flex h-auto w-full flex-col gap-y-2 pb-[1rem]"}
     >
-      <LoadingSpinner loading={loading} />
       <UpdateButtonGroupWithTitle
         isAdmin={userStore.role == "ROLE_ADMIN"}
         title={props.data.blog2.title}
