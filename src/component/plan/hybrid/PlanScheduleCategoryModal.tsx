@@ -17,21 +17,30 @@ const PlanScheduleCategoryModal = (props: any) => {
       showSuccessToast: true,
     });
     if (result == undefined) return;
-    if (id) {
-      // delete
-      // 일정 카테고리에서 제외
-      planStore.setScheduleCategory(
-        planStore.scheduleCategory.filter((i) => i.id != id),
-      );
-      // 일정에서 카테고리 id와 일치하는 일정들 전부 제외
-      const temp = planStore.calendar.map((i) => {
-        if (i.data.length > 0) {
-          i.data = i.data.filter((j) => j.scheduleCategoryId != id);
+    // delete
+    // 일정 카테고리에서 제외
+    planStore.setScheduleCategory(
+      planStore.scheduleCategory.filter((i) => i.id != id),
+    );
+    // 달력에 보이는 일정 목록에서 제외
+    const temp = planStore.calendar.map((i) => {
+      if (i.data.length > 0) {
+        i.data = i.data.filter((j) => j.scheduleCategoryId != id);
+      }
+      return i;
+    });
+    planStore.setCalendar(temp);
+    // 하단에 보이는 일정 목록
+    const temp1: IPlanSchedule[] = planStore.scheduleList.reduce<
+        IPlanSchedule[]
+      >((acc, cur) => {
+        if (cur.scheduleCategoryId !== id) {
+          acc.push(cur); // id가 다를 때만 포함
         }
-        return i;
-      });
-      planStore.setCalendar(temp);
-    }
+        return acc;
+      }, []);
+    console.log("PlanScheduleCategoryModal.tsx 파일 : ",temp1);
+    planStore.setScheduleList([...temp1]);
   };
 
   return (
