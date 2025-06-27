@@ -63,7 +63,7 @@ const Blog2SecondCategoryCreateForm = (
       return i;
     });
     blog2Store.setBlog2CategoryList(temp);
-      props.closeModal!();
+    props.closeModal!();
   };
 
   // 이미지 업로드가 아닌 미리보기로 처리 후 API 요청할 때 업로드 처리 방식

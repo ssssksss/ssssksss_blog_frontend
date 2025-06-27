@@ -1,4 +1,4 @@
-import Button from "@component/common/button/hybrid/Button";
+import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
@@ -44,29 +44,32 @@ const Blog2SecondCategoryDeleteForm = (
     if (result == undefined) return;
 
     // 카테고리2 리스트에서 삭제한 카테고리2 id를 찾아서 제거
-    const temp = blog2Store.categoryList.map((i) => {
-      if (i.id == +searchParams.get("firstCategoryId")!) {
-        i.blog2SecondCategoryList = i.blog2SecondCategoryList?.filter(
-          (j) => j.id != getValues("deleteSecondCategoryId"),
-        );
-      }
-      return i;
-    });
-    blog2Store.setBlog2CategoryList(temp);
-    // 만일 삭제한 카테고리2가 현재 화면에 보이는 카테고리와 동일하다면 보이지 않게 처리한다.
-    if (
-      +searchParams.get("secondCategoryId")! ==
-        getValues("deleteSecondCategoryId")
-    ) {
-      // 모달창이 열린 상태에서 router를 이용할 경우에는 아래와 같이 처리
-      if (history.state.isModal) {
-        router.back();
-        router.replace(
-          `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
-        );
-      }
+    try {
+      const temp = blog2Store.categoryList.map((i) => {
+        if (i.id == +searchParams.get("firstCategoryId")!) {
+          i.blog2SecondCategoryList = i.blog2SecondCategoryList?.filter(
+            (j) => j.id != getValues("deleteSecondCategoryId"),
+          );
+        }
+        return i;
+      });
+      blog2Store.setBlog2CategoryList(temp);
+      // 만일 삭제한 카테고리2가 현재 화면에 보이는 카테고리와 동일하다면 보이지 않게 처리한다.
+      if (
+        +searchParams.get("secondCategoryId")! ==
+          getValues("deleteSecondCategoryId")
+      ) {
+        // 모달창이 열린 상태에서 router를 이용할 경우에는 아래와 같이 처리
+        if (history.state.isModal) {
+          router.back();
+          router.replace(
+            `/blog2?firstCategoryId=${+searchParams.get("firstCategoryId")!}`,
+          );
+        }
+      } 
+    } finally {
+      props.closeModal()!;
     }
-    props.closeModal()!;
   };
 
   const dropdownHandler = (id: number) => {
@@ -117,7 +120,7 @@ const Blog2SecondCategoryDeleteForm = (
             src={imageUrl}
             alt={"image"}
             layout="fill"
-            className="rounded-[1rem] p-1"
+            className="rounded-[1rem] object-contain p-1"
           />
         ) : (
           <div className="h-full w-full flex-col default-flex">
@@ -127,15 +130,14 @@ const Blog2SecondCategoryDeleteForm = (
         )}
       </label>
       {/* TODO : confirm 버튼으로 변경 필요 */}
-      <Button
+      <ThemeActiveButton1
         onClick={handleSubmit(deleteSecondCategoryHandler)}
         disabled={!formState.isValid}
-        className={
-          "h-[3rem] rounded-2xl primary-border primary-set hover:bg-primary-20 disabled:bg-gray-60"
-        }
+        className={"h-[3rem] rounded-2xl"}
+        isActive={formState.isValid}
       >
         삭제
-      </Button>
+      </ThemeActiveButton1>
     </div>
   );
 };
