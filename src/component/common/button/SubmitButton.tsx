@@ -1,19 +1,44 @@
+"use client";
+
 import { SendHorizontal } from "lucide-react";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 
 interface ISubmitButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   isActive: boolean;
+  size?: string;
+  disabled?: boolean;
 }
-const SubmitButton = (props: ISubmitButton) => {
+const SubmitButton = ({ isActive, className, size = "24", onClick, disabled, ...rest }: ISubmitButton) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleConfirm = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (loading) return;
+    try {
+      setLoading(true);
+      if (onClick) await onClick(e); // ✅ 이벤트 전달
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <button
       role="button"
-      aria-pressed={props.isActive}
-      className={`disabled:cursor-not-allowed disabled:bg-black-40 ${props.className} ${props.className?.includes("rounded") ? "primary-border" : "primary-border-radius"} ${props.isActive ? "font-bold primary-set" : "hover:bg-primary-20"}`}
-      {...props}
+      aria-pressed={isActive}
+      aria-busy={loading}
+      className={`disabled:cursor-not-allowed disabled:bg-black-40 ${className} ${className?.includes("rounded") ? "primary-border" : "primary-border-radius"} ${isActive ? "font-bold primary-set" : "hover:bg-primary-20"}`}
+      disabled={loading}
+      onClick={handleConfirm}
+      {...rest}
     >
-      <SendHorizontal size="24" />
+      {loading ? (
+        <div className="h-full py-1 default-flex">
+          <div className="border-white-500 aspect-square h-full animate-spin rounded-full border-2 border-t-transparent"></div>
+        </div>
+      ) : (
+        <SendHorizontal size={`${size || "24"}`} />
+      )}
     </button>
   );
 };
