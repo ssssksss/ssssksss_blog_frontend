@@ -32,8 +32,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     formContext.getValues("description") || "",
   );
   const blogCategoryList = useBlog2Store((state) => state.categoryList);
-  const blogItem = useBlog2Store((state) => state.blogItem);
-  const setBlogItem = useBlog2Store((state) => state.setBlogItem);
+  const blogItemList = useBlog2Store((state) => state.blogItemList);
+  const setBlogItemList = useBlog2Store((state) => state.setBlogItemList);
   const [imageUrl, setImageUrl] = useState<string>(
     formContext.getValues("thumbnailImageUrl")
       ? AWSS3Prefix + "" + formContext.getValues("thumbnailImageUrl")
@@ -63,138 +63,100 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   // 최종적으로 블로그 저장하는 API 핸들러
   const blog2CreateUpdateSubmitHandler = async () => {
     const formData = new FormData();
-    formData.append("blog2Status", formContext.getValues("blog2Status"));
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2Header")) {
-      formData.append("title", formContext.getValues("title"));
-      formData.append("description", formContext.getValues("description"));
-      formData.append(
-        "firstCategoryId",
-        formContext.getValues("firstCategoryId"),
-      );
-      formData.append(
-        "secondCategoryId",
-        formContext.getValues("secondCategoryId"),
-      );
-    }
-    // ? [1] 기초 내용
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2BasicList")) {
-      // 불필요한 데이터는 요청을 보내지 않는다. 그래서 id 값만을 보낸다.
-      const _blog2BasicList = formContext
-        .getValues("blog2BasicList")
-        .map((i: IBlog2Basic) => {
-          return {
-            id: i.id,
-            position: i.position,
-            blog2BasicContent: {
-              id: i.blog2BasicContent.id,
-            },
-          };
-        });
-      if (_blog2BasicList.length > 0) {
-        formData.append("blog2BasicList", JSON.stringify(_blog2BasicList));
-      }
-      // ? 기초 목록 삭제
-      if (props.isEdit) {
-        const deleteBlog2BasicList = formContext.getValues(
-          "deleteBlog2BasicList",
-        );
-        deleteBlog2BasicList.forEach((item: number) => {
-          formData.append("deleteBlog2BasicList", item + "");
-        });
-      }
-    }
-    // ? [2] 구조
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2StructureList")) {
-      const _blog2StructureList = formContext
-        .getValues("blog2StructureList")
-        .map((i: IBlog2Structure) => {
-          return {
+
+    // ✅ [1] reqCreateBlog2 객체 생성
+    const reqCreateBlog2 = {
+      title: formContext.getValues("title"),
+      description: formContext.getValues("description"),
+      firstCategoryId: formContext.getValues("firstCategoryId"),
+      secondCategoryId: formContext.getValues("secondCategoryId"),
+      blog2Status: formContext.getValues("blog2Status"),
+      blog2BasicList: JSON.stringify(
+        formContext.getValues("blog2BasicList").map((i: IBlog2Basic) => ({
+          id: i.id,
+          position: i.position,
+          blog2BasicContent: {
+            id: i.blog2BasicContent.id,
+          },
+        })),
+      ),
+      blog2StructureList: JSON.stringify(
+        formContext
+          .getValues("blog2StructureList")
+          .map((i: IBlog2Structure) => ({
             id: i.id,
             position: i.position,
             blog2StructureContent: {
               id: i.blog2StructureContent.id,
             },
-          };
-        });
-      if (_blog2StructureList.length > 0) {
-        formData.append(
-          "blog2StructureList",
-          JSON.stringify(_blog2StructureList),
-        );
-      }
-      // ? 구조 글 삭제
-      if (props.isEdit) {
-        const deleteBlog2StructureList = formContext.getValues(
-          "deleteBlog2StructureList",
-        );
-        deleteBlog2StructureList.forEach((item: number) => {
-          formData.append("deleteBlog2StructureList", item + "");
-        });
-      }
-    }
-    // ? [3] 결과
+          })),
+      ),
+      blog2ResultList: JSON.stringify(formContext.getValues("blog2ResultList")),
+    };
 
-    if (!props.isEdit || formContext.getValues("isUpdateBlog2ResultList")) {
-      const _blog2ResultList = formContext.getValues("blog2ResultList");
-      if (_blog2ResultList.length > 0) {
-        formData.append(
-          "blog2ResultList",
-          JSON.stringify(formContext.getValues("blog2ResultList")),
-        );
-      }
-      // ? 결과 목록 삭제
-      if (props.isEdit) {
-        const deleteBlog2ResultList = formContext.getValues(
-          "deleteBlog2ResultList",
-        );
-        if (deleteBlog2ResultList.length > 0) {
-          formData.append("deleteBlog2ResultList", deleteBlog2ResultList);
-        }
-      }
+    // ✅ [2] FormData에 JSON 데이터 추가
+    formData.append(
+      "reqCreateBlog2",
+      new Blob([JSON.stringify(reqCreateBlog2)], {type: "application/json"}),
+    );
+
+    // ✅ [3] 삭제 목록 추가 (수정 시에만)
+    if (props.isEdit) {
+      formContext.getValues("deleteBlog2BasicList").forEach((id: number) => {
+        formData.append("deleteBlog2BasicList", id.toString());
+      });
+
+      formContext
+        .getValues("deleteBlog2StructureList")
+        .forEach((id: number) => {
+          formData.append("deleteBlog2StructureList", id.toString());
+        });
+
+      formData.append("id", formContext.getValues("id"));
     }
 
-    // * 블로그 생성 API
+    // ✅ [5] 서버 요청 전송
     if (!props.isEdit) {
+      // 생성
       const result = await fetchCSR.requestWithHandler({
         url: "/api/blog2",
         method: "POST",
-        formData: formData,
-        showSuccessToast: true
+        formData,
+        showSuccessToast: true,
       });
-      if (result == undefined) return;
+
+      if (!result) return;
+
+      // 현재 
       if (
-        blogItem.blog2SecondCategoryId ==
+        blogItemList.blog2SecondCategoryId ===
         formContext.getValues("secondCategoryId")
       ) {
-        setBlogItem({
-          id: blogItem.blog2SecondCategoryId,
-          list: [result, ...blogItem.list],
+        setBlogItemList({
+          id: blogItemList.blog2SecondCategoryId,
+          list: [result, ...blogItemList.list],
         });
       }
+
       router.replace(
         `/blog2?firstCategoryId=${formContext.getValues("firstCategoryId")}&secondCategoryId=${formContext.getValues("secondCategoryId")}`,
       );
-      router.refresh();
-    }
-
-    // * 블로그 수정 API
-    if (props.isEdit) {
-      formData.append("id", formContext.getValues("id"));
+    } else {
+      // 수정
       const blog2Id = formContext.getValues("id");
       const result = await fetchCSR.requestWithHandler({
         url: `/api/blog2?id=${blog2Id}`,
         method: "PUT",
-        formData: formData,
-        showSuccessToast: true
+        formData,
+        showSuccessToast: true,
       });
-      if (result == undefined) return;
-      // TODO : router back이 필요한데 그렇게 되면 수정한 값이 안나올 수 있어서 조치 필요
-      router.replace(
-        `/blog2/${formContext.getValues("id")}`,
-      );
-      router.refresh();
+
+      if (!result) return;
+
+      router.replace(`/blog2/${formContext.getValues("id")}`);
     }
   };
+  
 
   // 첫번째 카테고리 클릭시 자동으로 2번째 카테고리 선택되게 하는 함수
   const handleFirstCategory = ({id, name}: {id: number; name: string}) => {
@@ -325,19 +287,21 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         >
           <div
             ref={ref}
-            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[3rem_3rem_3rem_3rem_18rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-default-1 px-[2.25rem] pb-[1.75rem] pt-[5rem] scrollbar-hide"
+            className="relative grid h-[calc(100%-2rem)] max-h-[46rem] w-full max-w-[37.5rem] grid-rows-[3rem_3rem_3rem_3rem_16rem] gap-y-2 overflow-y-scroll rounded-[1rem] bg-default-1 px-[2.25rem] pb-[1.75rem] pt-[5rem] scrollbar-hide"
           >
             <ThemeInput1
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className={"flex items-center p-2 text-[1.5rem] font-bold"}
-              placeholder={"제목"}
+              placeholder={"제목 (최대 60자)"}
+              maxLength={60}
             />
             <ThemeInput1
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className={"flex items-center p-2 text-[1.25rem]"}
-              placeholder={"설명"}
+              placeholder={"설명 (최대 60자)"}
+              maxLength={60}
             />
             <ThemeActiveButton1
               isActive={firstCategory.name}
@@ -356,13 +320,9 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
             </ThemeActiveButton1>
             <label
               className={
-                "h-[16rem] w-full cursor-pointer primary-border-radius default-flex"
+                "h-[16rem] w-full primary-border-radius default-flex"
               }
-              htmlFor={"imageUpload"}
-              // onDragEnter={onDragEnter}
-              // onDragLeave={onDragLeave}
-              // onDragOver={onDragOver}
-              // onDrop={onDropOrInputEvent}
+              htmlFor={"image"}
             >
               {imageUrl && (
                 <div className="relative aspect-square h-full">
@@ -374,15 +334,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
                   />
                 </div>
               )}
-              {/* <Input
-                id="imageUpload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={onDropOrInputEvent}
-              /> */}
             </label>
-            <div className="flex h-[3rem] primary-border-radius">
+            <div className="flex h-[3rem] gap-x-2">
               <ThemeActiveButton1
                 isActive={blog2Status == "PUBLIC"}
                 className={"h-full w-full rounded-none rounded-l-2xl"}
