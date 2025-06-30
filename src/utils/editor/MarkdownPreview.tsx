@@ -21,6 +21,7 @@ hljs.registerLanguage("css", css);
 export const convertMarkdownToHtml = (
   markdown: string,
   isPreview?: boolean,
+  parentId?: number
 ): string => {
   // Step 1: 코드블록 임시 저장
   const codeBlocks: {lang: string; code: string}[] = [];
@@ -33,6 +34,8 @@ export const convertMarkdownToHtml = (
   );
 
   let h2Count = 0;
+  let h3CountForId = 0;
+  let h4CountForId = 0;
   let html = markdown
     .replace(
       /!\[image\]\(blob:.*?\)/g,
@@ -85,17 +88,17 @@ export const convertMarkdownToHtml = (
       const id = slugify(title);
       const isFirst = h2Count === 0;
       h2Count++;
-      return `<h2 class="text-[1.5rem] ${isFirst ? "my-4" : "mt-12 mb-4"} border-y-4 border-primary-80 font-DNFBitBitv2 text-primary-80 py-1 px-2 w-fit" data-index="true" id="${id}"> <span> # </span> ${title}</h2>`;
+      return `<h2 class="text-[1.5rem] ${isFirst ? "my-4" : "mt-12 mb-4"} border-y-4 border-primary-80 font-DNFBitBitv2 text-primary-80 py-1 px-2 w-fit" data-index="true" id="${parentId}-H2-${h2Count}-${id}"> <span> # </span> ${title}</h2>`;
     })
     .replace(
       /^## (.*$)/gim,
       (_, title) =>
-        `<h3 class="text-[1.125rem] my-4 bg-secondary-80 text-secondary-contrast font-cookieRunRegular font-bold secondary-border-radius py-1 px-2 w-fit" data-index="true" id="${slugify(title)}">## ${title}</h3>`,
+        `<h3 class="text-[1.125rem] my-4 bg-secondary-80 text-secondary-contrast font-cookieRunRegular font-bold secondary-border-radius py-1 px-2 w-fit" data-index="true" id="${parentId}-H3-${h3CountForId++}-${slugify(title)}">## ${title}</h3>`,
     )
     .replace(
       /^### (.*$)/gim,
       (_, title) =>
-        `<h4 class="bg-third-80 my-4 text-third-contrast third-border-radius py-1 px-2 w-fit" data-index="true" id="${slugify(title)}">### ${title}</h4>`,
+        `<h4 class="bg-third-80 my-4 text-third-contrast third-border-radius py-1 px-2 w-fit" data-index="true" id="${parentId}-H4-${h4CountForId++}-${slugify(title)}">### ${title}</h4>`,
     )
     .replace(
       /!\[([^\]]+)\]\(([^)]+)\)/g,
@@ -202,13 +205,14 @@ const MarkdownPreview: React.FC<{
   content: string;
   className?: string;
   isPreview?: boolean;
-}> = ({content, className, isPreview}) => {
+  parentId?: number;
+}> = ({content, className, isPreview, parentId}) => {
   return (
     <div
       id="preview"
       className={className || EditorPreviewStyle}
       dangerouslySetInnerHTML={{
-        __html: convertMarkdownToHtml(content, isPreview),
+        __html: convertMarkdownToHtml(content, isPreview, parentId),
       }}
     />
   );

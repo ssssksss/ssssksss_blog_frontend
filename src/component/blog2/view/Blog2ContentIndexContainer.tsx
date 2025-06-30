@@ -3,6 +3,17 @@ import useOutsideClick from "@hooks/useOutsideClick";
 import { convertMarkdownToHtml } from "@utils/editor/MarkdownPreview";
 import { useRef } from "react";
 
+interface Heading {
+  tagName: "H2" | "H3" | "H4";
+  id: string;
+}
+
+interface HeadingResult {
+  id: string;
+  htag: Heading["tagName"];
+  name: string;
+}
+
 interface IBlog2ContentIndexContainer {
   closeModal: () => void;
   data: IBlog2Result[] | IBlog2Basic[];
@@ -25,32 +36,45 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
     window.history.replaceState(null, "", `#${targetId}`);
   };
 
-  const generateLink = (text: string) => {
+  const generateLink = (text: string, parentId: number) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(
-      convertMarkdownToHtml(text),
+      convertMarkdownToHtml(text, false, parentId),
       "text/html",
     );
+
     const headings = doc.querySelectorAll(
       "h1[data-index='true'], h2[data-index='true'], h3[data-index='true']",
     );
-    const idsArray = Array.from(headings, (heading) => {
-      return {
-        id: heading.id,
-        htag: heading.tagName,
-      };
-    });
+
+    const idsArray: HeadingResult[] = Array.from(headings)
+      .filter((el): el is HTMLElement => el instanceof HTMLElement)
+      .filter((el): el is HTMLElement & {tagName: Heading["tagName"]} =>
+        ["H2", "H3", "H4"].includes(el.tagName),
+      )
+      .map((heading) => {
+        const tag = heading.tagName as Heading["tagName"];
+
+        return {
+          id: heading.id,
+          htag: tag,
+          name: heading.id,
+        };
+      });
+    
     return idsArray.map((i) => (
       <label
         key={i.id}
         className={
-          "relative flex items-center justify-start p-1 text-[1rem] hover:bg-primary-20"
-        }>
+          "relative flex items-center justify-start p-1 text-[1rem] hover:scale-105"
+        }
+      >
         <a
-          className={`w-full font-DNFBitBitv2 ${i.htag == "H1" ? "pl-1 text-primary-80" : i.htag == "H2" ? "pl-2 text-secondary-80" : "pl-3 text-third-80"}`}
+          className={`w-full font-DNFBitBitv2 ${i.htag == "H2" ? "pl-2 text-secondary-80" : "pl-3 text-third-80"}`}
           href={`#${i.id}`}
-          onClick={(event) => handleLinkClick(event, i.id)}>
-          {i.id}
+          onClick={(event) => handleLinkClick(event, i.id)}
+        >
+          {i.name.replace(/^\d+-H\d-\d+-/, "")}
         </a>
       </label>
     ));
@@ -79,7 +103,7 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
 
             return (
               <div key={i.id}>
-                <label className="relative flex items-center justify-start p-1 font-bold hover:bg-primary-20">
+                <label className="relative flex items-center justify-start p-1 font-bold text-primary-80 hover:bg-primary-20">
                   <a
                     className="w-full"
                     href={`#${title.replace(/\s+/g, "-").toLowerCase()}`}
@@ -88,7 +112,7 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
                       const id = title.replace(/\s+/g, "-").toLowerCase();
                       const targetElement = document.getElementById(id);
                       if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: "smooth" });
+                        targetElement.scrollIntoView({behavior: "smooth"});
                         history.replaceState(null, "", `#${id}`);
                       }
                     }}
@@ -96,7 +120,7 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
                     {title}
                   </a>
                 </label>
-                {generateLink(content)}
+                {generateLink(content, i.id)}
               </div>
             );
           })}

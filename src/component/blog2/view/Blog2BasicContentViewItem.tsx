@@ -24,7 +24,7 @@ const Blog2BasicContentViewItem = (props: IBlog2BasicContentViewItem) => {
         {props.data.blog2BasicContent.title}
       </h2>
       {isCollapsed || (
-        <MarkdownPreview content={props.data.blog2BasicContent.content} />
+        <MarkdownPreview content={props.data.blog2BasicContent.content} parentId={props.data.id} />
       )}
     </>
   );

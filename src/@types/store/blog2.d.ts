@@ -174,7 +174,7 @@ declare interface responseCreateUpdateBlog2StructureContent {
 // result
 
 declare interface IBlog2Result {
-  id?: number;
+  id: number;
   position: number;
   content: string;
   title: string;
