@@ -69,8 +69,9 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
         <AbsoluteCloseButton
           className={"right-[0.25rem] top-[0.25rem]"}
           onClick={() => props.closeModal()}
+          size="32"
         />
-        <div className="overflow-y-scroll rounded-lg bg-default-2">
+        <div className="overflow-y-scroll rounded-lg">
           {props.data.map((i) => {
             const title = "content" in i ? i.title : i.blog2BasicContent.title;
             const content =
@@ -85,7 +86,11 @@ const Blog2ContentIndexContainer = (props: IBlog2ContentIndexContainer) => {
                     onClick={(e) => {
                       e.preventDefault();
                       const id = title.replace(/\s+/g, "-").toLowerCase();
-                      history.replaceState(null, "", `#${id}`);
+                      const targetElement = document.getElementById(id);
+                      if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: "smooth" });
+                        history.replaceState(null, "", `#${id}`);
+                      }
                     }}
                   >
                     {title}
