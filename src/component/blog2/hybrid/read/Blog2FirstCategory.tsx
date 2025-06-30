@@ -23,7 +23,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
   const activeBlog2FirstCategoryId = useBlog2Store(
     (state) => state.activeBlog2FirstCategoryId,
   );
-  const setBlogItem = useBlog2Store((state) => state.setBlogItem);
+  const setBlogItemList = useBlog2Store((state) => state.setBlogItemList);
   const setBlog2CategoryList = useBlog2Store(
     (state) => state.setBlog2CategoryList,
   );
@@ -62,7 +62,7 @@ const Blog2FirstCategory = (props: {categoryList: IBlog2FirstCategory[]}) => {
       }
     });
     if (!params.get("secondCategoryId")) {
-      setBlogItem({
+      setBlogItemList({
         id: 0,
         list: [],
       });

@@ -102,7 +102,7 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
 
   return (
     <section className="mt-[.5rem] flex h-full w-full flex-col gap-y-2">
-      <div className="flex h-[2.75rem] min-h-[2.75rem] w-full primary-border-radius">
+      <div className="flex h-[2.75rem] min-h-[2.75rem] w-full gap-x-2">
         {blog2SectionList.map((i) => (
           <ThemeActiveButton1
             key={i.name}

@@ -32,13 +32,13 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
     if (result == undefined) return;
     // 기존 리스트에서 블로그 항목 제거
     if (
-      blog2Store.blogItem.blog2SecondCategoryId ==
+      blog2Store.blogItemList.blog2SecondCategoryId ==
         props.data.blog2SecondCategory.id
     ) {
-      blog2Store.setBlogItem({
-        id: blog2Store.blogItem.blog2SecondCategoryId,
+      blog2Store.setBlogItemList({
+        id: blog2Store.blogItemList.blog2SecondCategoryId,
         list: [
-          ...blog2Store.blogItem.list.filter(
+          ...blog2Store.blogItemList.list.filter(
             (i) => i.id !== props.data.blog2.id,
           ),
         ],
@@ -142,7 +142,7 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
       />
       <div
         className={
-          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2 primary-border-radius"
+          "flex min-h-[2.75rem] w-full flex-shrink-0 gap-x-2"
         }
       >
         {menuItems.map(({key, list}) =>

@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 // 1. 상태 인터페이스 정의
 interface Blog2State {
   categoryList: IBlog2FirstCategory[];
-  blogItem: {
+  blogItemList: {
     blog2SecondCategoryId: number;
     list: IBlog2[];
   };
@@ -16,7 +16,7 @@ interface Blog2State {
 // 2. 액션 인터페이스 정의
 interface BlogActions {
   initialize: () => void;
-  setBlogItem: (data: {id: number; list: IBlog2[], isDataFetched?: boolean}) => void;
+  setBlogItemList: (data: {id: number; list: IBlog2[], isDataFetched?: boolean}) => void;
   setBlog2CategoryList: (data: IBlog2FirstCategory[]) => void;
   setBlog2ActiveFirstCategoryId: (id: number) => void;
   setBlog2ActiveSecondCategoryId: (id: number) => void;
@@ -25,7 +25,7 @@ interface BlogActions {
 // 3. 초기 상태 정의
 const initialState: Blog2State = {
   categoryList: [],
-  blogItem: {
+  blogItemList: {
     blog2SecondCategoryId: 0,
     list: [],
   },
@@ -52,9 +52,9 @@ const blog2Store: StateCreator<Blog2State & BlogActions> = (set, get) => ({
     set({
       ...initialState,
     }),
-  setBlogItem: (data) =>
+  setBlogItemList: (data) =>
     set(() => ({
-      blogItem: {
+      blogItemList: {
         blog2SecondCategoryId: data.id,
         list: data.list,
       },
