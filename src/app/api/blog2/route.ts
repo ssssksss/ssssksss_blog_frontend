@@ -14,10 +14,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
   const formData = await request.formData();
   const result = await fetchApiRoutes({
     req: request,
-    url: `${process.env.BACKEND_URL}/api/blog2`,
+    url: `${process.env.BACKEND_URL}/api/blog2/${id}`,
     formData: formData,
     isFallbackToErrorPage: false,
   });
