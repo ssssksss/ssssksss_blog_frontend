@@ -64,55 +64,49 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
   const blog2CreateUpdateSubmitHandler = async () => {
     const formData = new FormData();
 
-    // ✅ [1] reqCreateBlog2 객체 생성
-    const reqCreateBlog2 = {
+    const reqTempBlog2: any = {
       title: formContext.getValues("title"),
       description: formContext.getValues("description"),
       firstCategoryId: formContext.getValues("firstCategoryId"),
       secondCategoryId: formContext.getValues("secondCategoryId"),
       blog2Status: formContext.getValues("blog2Status"),
-      blog2BasicList: JSON.stringify(
-        formContext.getValues("blog2BasicList").map((i: IBlog2Basic) => ({
+      blog2BasicList: formContext
+        .getValues("blog2BasicList")
+        .map((i: IBlog2Basic) => ({
           id: i.id,
           position: i.position,
           blog2BasicContent: {
             id: i.blog2BasicContent.id,
           },
         })),
-      ),
-      blog2StructureList: JSON.stringify(
-        formContext
-          .getValues("blog2StructureList")
-          .map((i: IBlog2Structure) => ({
-            id: i.id,
-            position: i.position,
-            blog2StructureContent: {
-              id: i.blog2StructureContent.id,
-            },
-          })),
-      ),
-      blog2ResultList: JSON.stringify(formContext.getValues("blog2ResultList")),
+      blog2StructureList: formContext
+        .getValues("blog2StructureList")
+        .map((i: IBlog2Structure) => ({
+          id: i.id,
+          position: i.position,
+          blog2StructureContent: {
+            id: i.blog2StructureContent.id,
+          },
+        })),
     };
 
-    // ✅ [2] FormData에 JSON 데이터 추가
     formData.append(
-      "reqCreateBlog2",
-      new Blob([JSON.stringify(reqCreateBlog2)], {type: "application/json"}),
+      props.isEdit ? "reqUpdateBlog2" : "reqCreateBlog2",
+      new Blob([JSON.stringify(reqTempBlog2)], {type: "application/json"}),
     );
 
     // ✅ [3] 삭제 목록 추가 (수정 시에만)
     if (props.isEdit) {
-      formContext.getValues("deleteBlog2BasicList").forEach((id: number) => {
-        formData.append("deleteBlog2BasicList", id.toString());
-      });
 
-      formContext
-        .getValues("deleteBlog2StructureList")
+      formContext.getValues("deleteBlog2BasicList")
+        .forEach((id: number) => {
+          formData.append("deleteBlog2BasicList", id.toString());
+        });
+
+      formContext.getValues("deleteBlog2StructureList")
         .forEach((id: number) => {
           formData.append("deleteBlog2StructureList", id.toString());
         });
-
-      formData.append("id", formContext.getValues("id"));
     }
 
     // ✅ [5] 서버 요청 전송
@@ -153,7 +147,8 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
 
       if (!result) return;
 
-      router.replace(`/blog2/${formContext.getValues("id")}`);
+      router.replace(`/blog2/${blog2Id}`);
+      router.refresh();
     }
   };
   
