@@ -46,7 +46,6 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
       isUpdateBlog2ResultList: false,
       deleteBlog2BasicList: [],
       deleteBlog2StructureList: [],
-      deleteBlog2ResultList: [],
       blog2Status: "isEdit" in props ? props.data.blog2.blog2Status : "PUBLIC",
     }, 
   }); 
