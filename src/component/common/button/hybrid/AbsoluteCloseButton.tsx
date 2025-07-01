@@ -9,7 +9,7 @@ const AbsoluteCloseButton = (props: IAbsoluteCloseButton) => {
   return (
     <button
       onClick={() => props.onClick()}
-      className={`absolute scale-100 transform transition-transform duration-300 ${props.className || ""}`}
+      className={`absolute scale-100 transform transition-transform duration-300 right-2 top-2 ${props.className || ""}`}
       style={{ zIndex: 200 }}
     >
       <AiOutlineCloseCircle size={props.size || "48"} />
