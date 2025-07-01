@@ -51,10 +51,6 @@ const Blog2ResultBox = (props: IBlog2ResultBox) => {
       } else {
         if (props.isEdit) {
           blog2FormContext.setValue("isUpdateBlog2ResultList", true);
-          blog2FormContext.setValue("deleteBlog2ResultList", [
-            ...blog2FormContext.getValues("deleteBlog2ResultList"),
-            id,
-          ]);
         }
       }
     });
