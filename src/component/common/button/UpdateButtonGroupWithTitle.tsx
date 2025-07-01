@@ -47,7 +47,7 @@ const UpdateButtonGroupWithTitle = (props: IUpdateButtonGroupWithTitle) => {
             <EditButton
               onClick={() => {
                 loadingFunc.startLoading();
-                router.push(`${props.routeEditURL}`);
+                router.replace(`${props.routeEditURL}`);
               }}
               className="h-[2.75rem]"
               size={"24"}
