@@ -20,7 +20,7 @@ async function getData(id: number) {
   const accessToken = cookies().get("accessToken");
   const refreshToken = cookies().get("refreshToken");
   const response = await fetchServerSideInServerComponent({
-    url: `${process.env.BACKEND_URL}/api/blog2/${id}?isEdit=true`,
+    url: `${process.env.BACKEND_URL}/api/blog2/${id}/admin?isEdit=true`,
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
