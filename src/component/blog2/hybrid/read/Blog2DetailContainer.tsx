@@ -50,36 +50,50 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
   };
 
   useEffect(() => {
-    const preElements = document.querySelectorAll(".click-to-copy");
+    const handlerMap = new WeakMap<Element, EventListener>();
 
-    preElements.forEach((pre) => {
-      const button = pre.querySelector("button"); // 버튼 요소를 명확히 선택
-      if (button) {
-        button.addEventListener("click", (event) => {
-          event.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 방지
+    const observer = new MutationObserver(() => {
+      const preElements = document.querySelectorAll(".click-to-copy");
+
+      preElements.forEach((pre) => {
+        const button = pre.querySelector("button");
+        if (!button) return;
+
+        // 기존 핸들러 제거 (있다면)
+        const oldHandler = handlerMap.get(button);
+        if (oldHandler) {
+          button.removeEventListener("click", oldHandler);
+        }
+
+        // 새 핸들러 정의
+        const newHandler = (e: Event) => {
+          e.stopPropagation();
           const code = pre.querySelector("code");
           if (code) {
             const textToCopy = code.textContent || "";
             navigator.clipboard
               .writeText(textToCopy)
               .then(() => {
-                // alert("코드가 복사되었습니다!");
-                toastifyStore.setToastify({
-                  message: "코드가 복사되었습니다."
-                });
+                toastifyStore.setToastify({message: "코드가 복사되었습니다."});
               })
               .catch((err) => {
                 console.error("복사 실패:", err);
               });
           }
-        });
-      }
+        };
+
+        button.addEventListener("click", newHandler);
+        handlerMap.set(button, newHandler); // 새 핸들러 저장
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
     });
 
     return () => {
-      preElements.forEach((pre) => {
-        pre.removeEventListener("click", () => {});
-      });
+      observer.disconnect();
     };
   }, [menu]);
 
