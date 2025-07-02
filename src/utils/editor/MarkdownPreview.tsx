@@ -5,7 +5,7 @@ import css from "highlight.js/lib/languages/css";
 import java from "highlight.js/lib/languages/java";
 import javascript from "highlight.js/lib/languages/javascript";
 import "highlight.js/styles/panda-syntax-light.css"; // 코드 블록 스타일
-import React from "react";
+import React, { useEffect } from "react";
 import { EditorPreviewStyle } from "./EditorTailwindcssStyle";
 // 언어 등록
 hljs.registerLanguage("javascript", javascript);
@@ -38,8 +38,15 @@ export const convertMarkdownToHtml = (
   let h4CountForId = 0;
   let html = markdown
     .replace(
-      /!\[image\]\(blob:.*?\)/g,
-      "<div class=\"w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mt-10\"></div>",
+      /!\[image\]\((blob:([^)\s]+))\)/g,
+      (match, fullBlobUrl) => `
+      <div class="inline-flex relative default-flex items-center p-2">
+        <img data-blob-src="${fullBlobUrl}" alt="image" class="max-w-full h-auto block" />
+        <div class="absolute top-[calc(100%-3rem)] right-[calc(50%-2.5rem)] text-[0.75rem] bg-contrast-1 text-default-1 whitespace-nowrap overflow-hidden default-flex rounded-2xl w-20 h-8">
+          <div class="animate-marquee pl-[4rem]"> 실제 이미지로 변환중... </div>
+        </div>
+      </div>
+    `,
     )
     .replace(/```table\r?\n([\s\S]*?)\r?\n```/g, (match, tableContent) => {
       const lines = tableContent.trim().split("\n");
@@ -219,7 +226,27 @@ const MarkdownPreview: React.FC<{
   className?: string;
   isPreview?: boolean;
   parentId?: number;
-}> = ({content, className, isPreview, parentId}) => {
+}> = ({ content, className, isPreview, parentId }) => {
+  
+  useEffect(() => {
+    if (isPreview) {
+      const target = document.getElementById("preview");
+      if (!target) return;
+
+      const observer = new MutationObserver(() => {
+        const imgs = target.querySelectorAll("img[data-blob-src]");
+        imgs.forEach((img) => {
+          const src = img.getAttribute("data-blob-src");
+          if (src) img.setAttribute("src", src);
+        });
+      });
+
+      observer.observe(target, {childList: true, subtree: true});
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
   return (
     <div
       id="preview"
