@@ -143,6 +143,7 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
         method: "PUT",
         formData,
         showSuccessToast: true,
+        handleRevalidateTags: [`blog2-${blog2Id}`]
       });
 
       if (!result) return;
