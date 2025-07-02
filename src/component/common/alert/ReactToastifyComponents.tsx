@@ -15,19 +15,27 @@ const ReactToastifyComponents = () => {
   const notify = () => {
     switch (toastifyStore.type || "default") {
       case "success":
-        toast.success(toastifyStore.message);
+        toast.success(toastifyStore.message, {autoClose: toastifyStore?.duration || 1000});
         break;
       case "error":
-        toast.error(toastifyStore.message);
+        toast.error(toastifyStore.message, {
+          autoClose: toastifyStore?.duration || 1000,
+        });
         break;
       case "warning":
-        toast.warning(toastifyStore.message);
+        toast.warning(toastifyStore.message, {
+          autoClose: toastifyStore?.duration || 1000,
+        });
         break;
       case "info":
-        toast.info(toastifyStore.message);
+        toast.info(toastifyStore.message, {
+          autoClose: toastifyStore?.duration || 1000,
+        });
         break;
       case "default":
-        toast(toastifyStore.message);
+        toast(toastifyStore.message, {
+          autoClose: toastifyStore?.duration || 1000,
+        });
         break;
       default:
         break;
