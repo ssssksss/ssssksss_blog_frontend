@@ -2,7 +2,9 @@ import { useCursor } from "@hooks/useCursor";
 import { useDragAndDropBlob } from "@hooks/useDragAndDropBlob";
 import useFetchCSR from "@hooks/useFetchCSR";
 import { useUndoRedo } from "@hooks/useUndoRedo";
+import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
+import { waitForImage } from "@utils/editor/CheckImageUrl";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import { convertToObjectUrl } from "@utils/function/convertToObjectUrl";
 import { AWSS3Prefix } from "@utils/variables/s3url";
@@ -21,6 +23,7 @@ const CustomEditor = (props: ICustomEditor) => {
   const [mode, setMode] = useState("all");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { moveCursor } = useCursor({ ref: textareaRef });
+  const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const {handleRedoSave} = useUndoRedo({
     content: content,
@@ -96,9 +99,34 @@ const CustomEditor = (props: ICustomEditor) => {
       setContent?.((prev) => prev.replace(`![image](${url})`, "이미지 업로드 실패"));
       return;
     }
+    
+    toastifyStore.setToastify({
+      message: "이미지를 변환중입니다. 최대 15초까지 걸릴 수 있습니다.",
+      duration: 5000,
+    });
 
     // 업로드 성공: 이미지 URL을 실제 S3 경로로 교체
     const uploadedUrl = `${result}`;
+    const isImageReady = await waitForImage(`${AWSS3Prefix}${uploadedUrl}`); // 15초동안 1초마다 이미지 URL이 유효한지 확인하는 함수
+
+    if (!isImageReady) {
+      setContent?.((prev) =>
+        prev.replace(`![image](${url})`, "이미지 업로드 실패(시간 초과)"),
+      );
+      toastifyStore.setToastify({
+        type: "error",
+        message: "이미지를 변환에 실패했습니다.",
+        duration: 2000,
+      });
+      return ;
+    }
+    
+    toastifyStore.setToastify({
+      message: "이미지를 변환이 완료되었습니다.",
+      duration: 2000,
+    });
+
+
     setContent?.((prev) =>
       prev.replace(`![image](${url})`, `![image](${AWSS3Prefix}${uploadedUrl})`),
     );
@@ -198,51 +226,6 @@ const CustomEditor = (props: ICustomEditor) => {
     }
   };
   
-  
-  // const onPasteHandler = async (event: ClipboardEvent<HTMLTextAreaElement>) => {
-  //   event.preventDefault();
-
-  //   handleRedoSave();
-  //   // 붙여넣기를 했을 때 드래그 된 요소가 있다면 드래그 된 요소는 제거해주고 붙여넣기를 해주는 로직
-  //   const start = textareaRef.current!.selectionStart;
-  //   const end = textareaRef.current!.selectionEnd;
-  //   const currentValue = textareaRef.current!.value;
-  //   const newValue = currentValue.slice(0, start) + currentValue.slice(end);
-  //   textareaRef.current!.value = newValue;
-  //   textareaRef.current!.selectionStart = start;
-
-  //   // if (textareaRef.current == null) return;
-  //   const item = event.clipboardData.items[0];
-  //   // image로 판단된다면
-  //   if (item.type.indexOf("image") === 0) {
-  //     const file = item.getAsFile();
-  //     if (file) {
-  //       if (props.addS3ImageUrl) {
-  //         const url = await convertToObjectUrl(file);
-  //         fakeImageUpload({file, url});
-  //       }
-  //     }
-  //   } else {
-  //     const paste = event.clipboardData.getData("text");
-
-  //     const urlRegex = /^(https?:\/\/[^\s]+)/;
-  //     // https로 시작하면 링크 URL로 판단하여 링크로 변경해 줌
-  //     if (urlRegex.test(paste)) {
-  //       try {
-  //         const url = new URL(paste);
-  //         const hostname = url.hostname.replace("www.", "");
-  //         const markdownLink = `[${hostname}](${paste})`;
-  //         insertContentAtCursor(markdownLink);
-  //       } catch (e) {
-  //         // URL로 변환 실패 시 일반 텍스트로 삽입
-  //         insertContentAtCursor(paste);
-  //       }
-  //     } else {
-  //       insertContentAtCursor(paste);
-  //     }
-  //   }
-  // };
-
   return (
     <div
       className={`grid h-[calc(100vh-10rem)] w-full max-w-[75rem] gap-x-2 pt-1 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
