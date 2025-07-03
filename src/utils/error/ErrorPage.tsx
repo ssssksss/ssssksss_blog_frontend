@@ -63,7 +63,7 @@ const ErrorPage = ({error}: IErrorPage) => {
         </button>
       ) : (
         <button
-          className="p-2 primary-border-radius"
+          className="p-2 mt-12 primary-border-radius"
           onClick={() => {
             router.back();
           }}
