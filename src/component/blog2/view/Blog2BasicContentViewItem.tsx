@@ -7,6 +7,7 @@ interface IBlog2BasicContentViewItem {
 }
 const Blog2BasicContentViewItem = (props: IBlog2BasicContentViewItem) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  
   return (
     <>
       <button
