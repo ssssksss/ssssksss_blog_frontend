@@ -1,5 +1,8 @@
 "use client";
 
+
+
+
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import java from "highlight.js/lib/languages/java";
@@ -16,6 +19,7 @@ hljs.registerLanguage("css", css);
  * Convert Markdown to HTML with syntax highlighting and copy button for code blocks.
  * @param markdown - The Markdown string to convert.
  * @param isPreview - Whether the output is for preview mode.
+ * @warning 여기 안에 이는 코드 절대 띄워쓰기 하지 말것, 한줄 코드 안하면 br태그 들어가서 띄어쓰기발생!!
  * @returns The converted HTML string.
  */
 export const convertMarkdownToHtml = (
@@ -40,12 +44,7 @@ export const convertMarkdownToHtml = (
     .replace(
       /!\[image\]\((blob:([^)\s]+))\)/g,
       (match, fullBlobUrl) => `
-      <div class="inline-flex relative default-flex items-center p-2">
-        <img data-blob-src="${fullBlobUrl}" alt="image" class="max-w-full h-auto block" />
-        <div class="absolute top-[calc(100%-3rem)] right-[calc(50%-2.5rem)] text-[0.75rem] bg-contrast-1 text-default-1 whitespace-nowrap overflow-hidden default-flex rounded-2xl w-20 h-8">
-          <div class="animate-marquee pl-[4rem]"> 실제 이미지로 변환중... </div>
-        </div>
-      </div>
+      <div class="inline-flex relative default-flex items-center p-2"><img data-blob-src="${fullBlobUrl}" alt="image" class="cursor-pointer max-w-full h-auto block" /><div class="absolute top-[calc(100%-3rem)] right-[calc(50%-2.5rem)] text-[0.75rem] bg-contrast-1 text-default-1 whitespace-nowrap overflow-hidden default-flex rounded-2xl w-20 h-8"><div class="animate-marquee pl-[4rem]"> 실제 이미지로 변환중... </div></div></div>
     `,
     )
     .replace(/```table\r?\n([\s\S]*?)\r?\n```/g, (match, tableContent) => {
@@ -145,21 +144,8 @@ export const convertMarkdownToHtml = (
     const {lang, code} = codeBlocks[Number(index)];
     const highlighted = highlightSyntax(code, lang || "plaintext").trim();
     return isPreview
-      ? `<pre class="flex relative text-black-100 overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all">
-           <code class="text-[0.875rem] whitespace-pre-wrap leading-4">${highlighted}</code>
-         </pre>`
-      : `<pre class="click-to-copy text-black-100 relative overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all">
-          <button 
-            class="absolute top-2 right-2 flex items-center justify-center p-1 rounded-md hover:scale-105 transition-all"
-            aria-label="복사하기"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-            </svg>
-          </button>
-          <code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code>
-        </pre>`;
+      ? `<pre class="flex relative text-black-100 overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all"><code class="text-[0.875rem] whitespace-pre-wrap leading-4">${highlighted}</code></pre>`
+      : `<pre class="click-to-copy text-black-100 relative overflow-x-scroll p-4 rounded-[1rem] bg-gray-10 primary-border break-all"><code class="text-[0.875rem] whitespace-pre-wrap leading-6">${highlighted}</code><button class="absolute top-2 right-2 flex items-center justify-center p-1 rounded-md hover:scale-105 transition-all"aria-label="복사하기"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg></button></pre>`;
   });
 
   let DOMPurify = null;
