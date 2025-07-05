@@ -65,6 +65,8 @@ const CustomEditor = (props: ICustomEditor) => {
       // 에디터 커서 위치에 임시 이미지 삽입
       insertContentAtCursor(markdownImage);
 
+      return;
+
       // 업로드 처리 및 content 수정
       uploadImageAndReplaceContent({
         file,
@@ -99,12 +101,13 @@ const CustomEditor = (props: ICustomEditor) => {
       setContent?.((prev) => prev.replace(`![image](${url})`, "이미지 업로드 실패"));
       return;
     }
+
     
     toastifyStore.setToastify({
       message: "이미지를 변환중입니다. 최대 30초까지 걸릴 수 있습니다.",
       duration: 5000,
     });
-
+    
     // 업로드 성공: 이미지 URL을 실제 S3 경로로 교체
     const uploadedUrl = `${result}`;
     const isImageReady = await waitForImage(`${AWSS3Prefix}${uploadedUrl}`); // 15초동안 1초마다 이미지 URL이 유효한지 확인하는 함수
