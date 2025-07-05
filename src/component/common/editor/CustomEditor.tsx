@@ -101,7 +101,7 @@ const CustomEditor = (props: ICustomEditor) => {
     }
     
     toastifyStore.setToastify({
-      message: "이미지를 변환중입니다. 최대 15초까지 걸릴 수 있습니다.",
+      message: "이미지를 변환중입니다. 최대 30초까지 걸릴 수 있습니다.",
       duration: 5000,
     });
 

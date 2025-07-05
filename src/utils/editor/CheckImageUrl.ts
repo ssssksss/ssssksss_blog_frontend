@@ -9,7 +9,7 @@ function checkImageLoaded(url: string): Promise<boolean> {
 
 export async function waitForImage(
   url: string,
-  maxAttempts = 15,
+  maxAttempts = 30,
   delay = 1000,
 ): Promise<boolean> {
   for (let i = 0; i < maxAttempts; i++) {
