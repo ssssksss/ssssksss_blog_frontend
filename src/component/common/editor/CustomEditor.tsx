@@ -82,6 +82,21 @@ const CustomEditor = (props: ICustomEditor) => {
     url: string;
     setContent?: (value: (prev: string) => string) => void;
     }) => {
+    const MAX_SIZE = 4.8 * 1024 * 1024; // 4.8MB
+
+    // 👉 파일 용량 제한
+    if (file.size > MAX_SIZE) {
+      toastifyStore.setToastify({
+        type: "error",
+        message: "이미지 용량은 최대 4.8MB까지 업로드할 수 있습니다.",
+        duration: 3000,
+      });
+      setContent?.((prev) =>
+        prev.replace(`![image](${url})`, "❌ 이미지 용량 초과로 업로드 실패"),
+      );
+      return;
+    }
+    
     const formData = new FormData();
     formData.append("file", file);
     formData.append("directory", "blog2/basic");
