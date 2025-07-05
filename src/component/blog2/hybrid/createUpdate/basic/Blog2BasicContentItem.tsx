@@ -29,7 +29,7 @@ const Blog2BasicContentItem = (props: IBlog2BasicContentItem) => {
         {props.data.blog2BasicContent.title}
       </h1>
       {!isFold && (
-        <MarkdownPreview content={props.data.blog2BasicContent.content} />
+        <MarkdownPreview parentId={props.data.blog2BasicContent.id} content={props.data.blog2BasicContent.content} />
       )}
       {/* 수정 버튼과 닫기 제거 버튼 */}
       <div className={"absolute right-2 top-2 flex h-[2rem] items-center"}>

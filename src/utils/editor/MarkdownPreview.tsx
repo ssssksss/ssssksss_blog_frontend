@@ -18,7 +18,7 @@ hljs.registerLanguage("css", css);
 /**
  * Convert Markdown to HTML with syntax highlighting and copy button for code blocks.
  * @param markdown - The Markdown string to convert.
- * @param isPreview - Whether the output is for preview mode.
+ * @param isPreview - 유튜브 링크를 넣었을 때 계속 깜빡이는 문제 때문에 추가한 props
  * @warning 여기 안에 이는 코드 절대 띄워쓰기 하지 말것, 한줄 코드 안하면 br태그 들어가서 띄어쓰기발생!!
  * @returns The converted HTML string.
  */
@@ -212,11 +212,10 @@ const MarkdownPreview: React.FC<{
   className?: string;
   isPreview?: boolean;
   parentId?: number;
-}> = ({ content, className, isPreview, parentId }) => {
-  
+}> = ({content, className, isPreview, parentId}) => {
   useEffect(() => {
     if (isPreview) {
-      const target = document.getElementById("preview");
+      const target = document.getElementById("preview" + parentId);
       if (!target) return;
 
       const observer = new MutationObserver(() => {
@@ -235,7 +234,7 @@ const MarkdownPreview: React.FC<{
 
   return (
     <div
-      id="preview"
+      id={"preview" + parentId}
       className={className || EditorPreviewStyle}
       dangerouslySetInnerHTML={{
         __html: convertMarkdownToHtml(content, isPreview, parentId),

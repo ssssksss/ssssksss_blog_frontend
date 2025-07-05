@@ -64,9 +64,6 @@ const CustomEditor = (props: ICustomEditor) => {
 
       // 에디터 커서 위치에 임시 이미지 삽입
       insertContentAtCursor(markdownImage);
-
-      return;
-
       // 업로드 처리 및 content 수정
       uploadImageAndReplaceContent({
         file,
@@ -238,7 +235,7 @@ const CustomEditor = (props: ICustomEditor) => {
         className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "preview" && "hidden"}`}
       >
         <h3
-          className="primary-border-radius py-2 rounded-[1rem] text-2xl font-bold default-flex"
+          className="rounded-[1rem] py-2 text-2xl font-bold primary-border-radius default-flex"
           onClick={() => setMode(mode === "all" ? "markdown" : "all")}
         >
           내용작성
