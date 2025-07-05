@@ -12,8 +12,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "ssssksssblogbucket.s3.ap-northeast-2.amazonaws.com",
-        port: "", // 포트는 생략
-        pathname: "/**", // 경로 패턴 설정 (와일드카드 사용 가능)
+        pathname: "/**",
       },
       {
         protocol: "https",
@@ -27,6 +26,20 @@ const nextConfig = {
   },
   reactStrictMode: false,
   swcMinify: true,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; img-src 'self' blob: data: https:; script-src 'self'; style-src 'self' 'unsafe-inline';",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
