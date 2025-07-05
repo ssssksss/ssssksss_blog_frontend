@@ -25,7 +25,7 @@ export const fetchMultipartRetry = async ({
     });
   } else {
     const refreshResponse = await fetch("/api/user/accessToken", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

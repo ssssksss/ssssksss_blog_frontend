@@ -71,7 +71,7 @@ export const fetchServerSideInServerComponent = async ({
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
       {
-        method: "GET",
+        method: "POSt",
         headers: {
           Cookie: `refreshToken=${_refreshToken.value}`,
         },

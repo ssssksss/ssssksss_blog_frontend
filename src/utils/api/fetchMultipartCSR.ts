@@ -40,7 +40,7 @@ export const fetchMultipartCSR = async ({
   // Handle 401 error and token refresh
   if (res.status === 401 && refreshToken && retry > 0) {
     const refreshResponse = await fetch("/api/user/accessToken", {
-      method: "GET",
+      method: "POST",
       headers: {
         Cookie: `refreshToken=${refreshToken?.value}`,
       },

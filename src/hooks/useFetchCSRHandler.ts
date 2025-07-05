@@ -60,7 +60,12 @@ export function useFetchCSRHandler() {
         cache: cache || "no-store",
       });
       if (response.status === 401 && isRefreshNeeded && retries > 0) {
-        const response1 = await fetch("/api/user/accessToken");
+        const response1 = await fetch("/api/user/accessToken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response1.json();
         // userStore.setUser({accessToken: data.accessToken});
 
@@ -157,7 +162,12 @@ export const baseFetchHandler1 = async ({
       cache: cache || "no-store",
     });
     if (response.status === 401 && isRefreshNeeded && retries > 0) {
-      const response1 = await fetch("/api/user/accessToken");
+      const response1 = await fetch("/api/user/accessToken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const result = await response1.json();
 
       return await baseFetchHandler1({
