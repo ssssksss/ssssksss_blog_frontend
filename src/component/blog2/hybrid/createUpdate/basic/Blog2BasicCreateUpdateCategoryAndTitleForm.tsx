@@ -116,7 +116,7 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
             blog2ChoiceSecondCategory.templateContent,
           )
         }
-        disabled={!(blog2ChoiceSecondCategory.templateContent.length > 0)}
+        disabled={!(blog2ChoiceSecondCategory.templateContent)}
       >
           템플릿 적용(현재 내용은 전부 제거)
       </ThemeButton1>
