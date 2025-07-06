@@ -25,7 +25,7 @@ const BasicInput = React.forwardRef<HTMLInputElement, BasicInputProps>(
             props.onKeyPressAction(e);
           }
         }}
-        className={`bg-default-1 p-2 placeholder:text-contrast-1 focus:outline-none disabled:bg-black-60 disabled:placeholder:text-primary-contrast cursor-pointer ${className || ""}`}
+        className={`bg-default-1 p-2 placeholder:text-contrast-1 focus:outline-none disabled:disabled-set disabled:placeholder:text-primary-contrast cursor-pointer ${className || ""}`}
         {...register}
         {...props}
       />
