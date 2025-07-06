@@ -18,17 +18,22 @@ interface IBlog2BasicCreateUpdateCategoryAndTitleForm {
 const Blog2BasicCreateUpdateCategoryAndTitleForm = (
   props: IBlog2BasicCreateUpdateCategoryAndTitleForm,
 ) => {
-  const blog2Store = useBlog2Store();
   const [secondCategoryList, setSecondCategoryList] = useState<
     IBlog2SecondCategoryList[]
     >([]);
+  const blog2CategoryList = useBlog2Store(
+    (state) => state.categoryList,
+  );
   const blog2ChoiceSecondCategory = useBlog2Store(
     (state) => state.blog2ChoiceSecondCategory,
+  );
+  const setBlog2ChoiceSecondCategory = useBlog2Store(
+    (state) => state.setBlog2ChoiceSecondCategory,
   );
 
   const handleClickFirstCategory = (value: number) => {
     props.formContext.setValue("firstCategoryId", value);
-    blog2Store.categoryList.map((i) => {
+    blog2CategoryList.map((i) => {
       if (i.id == value) {
         setSecondCategoryList([]);
         if (i.blog2SecondCategoryList?.length) {
@@ -43,14 +48,14 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
     props.formContext.setValue("secondCategoryId", value, {
       shouldValidate: true,
     });
-    blog2Store.categoryList.map(i => {
+    blog2CategoryList.map(i => {
       if (i.id == props.formContext.getValues("firstCategoryId")) {
         i.blog2SecondCategoryList?.map(j => {
           if (j.id == value) {
-            blog2Store.setBlog2ChoiceSecondCategory({
+            setBlog2ChoiceSecondCategory({
               id: j.id,
               name: j.name,
-              templateContent: j.templateContent
+              templateContent: j.templateContent,
             }); 
           }
         });
@@ -62,7 +67,7 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
   useEffect(() => {
     if (!props.isEdit) return;
 
-    const firstCategory = blog2Store.categoryList.find(
+    const firstCategory = blog2CategoryList.find(
       (i) => i.id === props.blog2BasicContentItem!.blog2FirstCategoryId,
     );
 
@@ -72,7 +77,7 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
   return (
     <div className="absolute left-[1rem] top-[7.325rem] z-10 flex w-[calc(100%-2rem)] grid-rows-3 flex-col gap-y-2 bg-default-1 p-4 primary-border">
       <Dropdown
-        options={blog2Store.categoryList.map((i) => ({
+        options={blog2CategoryList.map((i) => ({
           value: i.id,
           name: i.name,
         }))}
@@ -84,7 +89,7 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
       />
       <Dropdown
         options={
-          blog2Store.categoryList
+          blog2CategoryList
             .find(
               (i) => i.id === props.formContext.getValues("firstCategoryId"),
             )
@@ -99,7 +104,7 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
         placeholder={"카테고리2"}
         disabled={
           !props.formContext.getValues("firstCategoryId") ||
-          blog2Store.categoryList.length < 1
+          blog2CategoryList.length < 1
         }
         containerClassName={"min-h-12 bg-default-1 rounded-2xl"}
       />
@@ -116,9 +121,9 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
             blog2ChoiceSecondCategory.templateContent,
           )
         }
-        disabled={!(blog2ChoiceSecondCategory.templateContent)}
+        disabled={!blog2ChoiceSecondCategory.templateContent}
       >
-          템플릿 적용(현재 내용은 전부 제거)
+        템플릿 적용(현재 내용은 전부 제거)
       </ThemeButton1>
     </div>
   );

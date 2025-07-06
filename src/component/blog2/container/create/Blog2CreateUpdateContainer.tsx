@@ -24,6 +24,10 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
   const setBlog2ActiveSecondCategoryId = useBlog2Store(
     (state) => state.setBlog2ActiveSecondCategoryId,
   );
+  const setBlog2ChoiceSecondCategory = useBlog2Store(
+    (state) => state.setBlog2ChoiceSecondCategory,
+  );
+
   const methods = useForm({
     mode: "onChange", 
     resolver: yupResolver(Blog2CreateYup),
@@ -59,6 +63,11 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
       setBlog2ActiveSecondCategoryId(
         props.data.blog2SecondCategory.id,
       );
+      setBlog2ChoiceSecondCategory({
+        id: props.data.blog2SecondCategory.id,
+        name: props.data.blog2SecondCategory.name,
+        templateContent: props.data.blog2SecondCategory.templateContent,
+      });
     }
   }, []);
     
