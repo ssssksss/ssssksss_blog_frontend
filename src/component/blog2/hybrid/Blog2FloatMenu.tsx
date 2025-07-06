@@ -8,7 +8,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import useUserStore from "src/store/userStore";
 
 interface IBlog2FloatMenu {}
@@ -18,25 +18,24 @@ const Blog2FloatMenu = (props: IBlog2FloatMenu) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname(); // 현재 경로 가져오기
 
-  useEffect(() => {
-    const keyDownEventFunc = (e: KeyboardEvent) => {
-      // shift + Space를 누르게 되면 글 작성하는 화면으로 이동
-      if (
-        e.code === "Space" &&
-        e.shiftKey &&
-        new URL(window.location.href).pathname == "/blog2" &&
-        userStore.role == "ROLE_ADMIN"
-      ) {
-        router.push("/blog2/create");
-      }
-    };
+  // useEffect(() => {
+  //   const keyDownEventFunc = (e: KeyboardEvent) => {
+  //     // shift + Alt를 누르면 /blog2/create로 이동
+  //     if (
+  //       e.code === "KeyC" &&
+  //       e.shiftKey &&
+  //       new URL(window.location.href).pathname === "/blog2" &&
+  //       userStore.role === "ROLE_ADMIN"
+  //     ) {
+  //       router.push("/blog2/create");
+  //     }
+  //   };
 
-    window.addEventListener("keydown", keyDownEventFunc);
-
-    return () => {
-      window.removeEventListener("keydown", keyDownEventFunc);
-    };
-  }, [userStore.role]);
+  //   window.addEventListener("keydown", keyDownEventFunc);
+  //   return () => {
+  //     window.removeEventListener("keydown", keyDownEventFunc);
+  //   };
+  // }, [userStore.role]);
 
   return (
     <div
