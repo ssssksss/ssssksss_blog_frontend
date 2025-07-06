@@ -1,5 +1,6 @@
 "use client";
 
+import ThemeButton1 from "@component/common/button/ThemeButton1";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import useBlog2Store from "@store/blog2Store";
@@ -11,6 +12,7 @@ interface IBlog2BasicCreateUpdateCategoryAndTitleForm {
   formContext: UseFormReturn<IBlog2BasicFormContext>;
   isEdit?: boolean;
   blog2BasicContentItem?: IBlog2BasicContent;
+  changeContentUsingTemplate: (value: string) => void;
 }
 
 const Blog2BasicCreateUpdateCategoryAndTitleForm = (
@@ -19,7 +21,10 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
   const blog2Store = useBlog2Store();
   const [secondCategoryList, setSecondCategoryList] = useState<
     IBlog2SecondCategoryList[]
-  >([]);
+    >([]);
+  const blog2ChoiceSecondCategory = useBlog2Store(
+    (state) => state.blog2ChoiceSecondCategory,
+  );
 
   const handleClickFirstCategory = (value: number) => {
     props.formContext.setValue("firstCategoryId", value);
@@ -37,6 +42,19 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
   const handleClickSecondCategory = (value: number) => {
     props.formContext.setValue("secondCategoryId", value, {
       shouldValidate: true,
+    });
+    blog2Store.categoryList.map(i => {
+      if (i.id == props.formContext.getValues("firstCategoryId")) {
+        i.blog2SecondCategoryList?.map(j => {
+          if (j.id == value) {
+            blog2Store.setBlog2ChoiceSecondCategory({
+              id: j.id,
+              name: j.name,
+              templateContent: j.templateContent
+            }); 
+          }
+        });
+      }
     });
     props.formContext.watch();
   };
@@ -91,6 +109,17 @@ const Blog2BasicCreateUpdateCategoryAndTitleForm = (
         className={EditorCreateUpdateTitleStyle}
         placeholder="제목"
       />
+      <ThemeButton1
+        className="h-12"
+        onClick={() =>
+          props.changeContentUsingTemplate(
+            blog2ChoiceSecondCategory.templateContent,
+          )
+        }
+        disabled={!(blog2ChoiceSecondCategory.templateContent.length > 0)}
+      >
+          템플릿 적용(현재 내용은 전부 제거)
+      </ThemeButton1>
     </div>
   );
 };

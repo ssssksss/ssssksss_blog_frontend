@@ -45,23 +45,9 @@ export const Blog2SecondCategoryUpdateYup = yup
   .object()
   .shape({
     id: yup.number().min(1),
-    updateSecondCategoryName: yup.string(),
+    updateSecondCategoryName: yup.string().min(1),
     updateSecondCategoryImageFile: yup.mixed(),
-  })
-  .test(
-    "custom-validation",
-    "이름과 이미지 파일 중 하나는 필수입니다",
-    function (values) {
-      const {updateSecondCategoryName, updateSecondCategoryImageFile} = values;
-      if (!updateSecondCategoryName && !updateSecondCategoryImageFile) {
-        return this.createError({
-          path: "updateSecondCategoryName",
-          message: "이름과 이미지 파일 중 하나는 필수입니다",
-        });
-      }
-      return true;
-    },
-  );
+  });
 
 export const Blog2SecondCategoryDeleteYup = yup.object().shape({
   deleteSecondCategoryId: yup.number().min(1).required("필수 입력"),

@@ -1,5 +1,6 @@
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import Dropdown from "@component/common/dropdown/Dropdown";
+import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,7 +10,7 @@ import { Blog2SecondCategoryUpdateYup } from "@utils/validation/BlogCategoryYup"
 import { AWSS3Prefix } from "@utils/variables/s3url";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
@@ -25,6 +26,7 @@ const Blog2SecondCategoryUpdateForm = (
   const blog2Store = useBlog2Store();
   const [updateCategoryName, setUpdateCategoryName] = useState("");
   const fetchCSR = useFetchCSR();
+  const [templateContent, setTemplateContent] = useState("");
 
   const {register, handleSubmit, formState, watch, getValues, setValue} =
     useForm<Blog2SecondCategoryUpdateForm>({
@@ -34,6 +36,8 @@ const Blog2SecondCategoryUpdateForm = (
         id: 0,
         updateSecondCategoryName: "",
         updateSecondCategoryImageFile: undefined,
+        templateContent: "",
+        s3ImageUrlList: [],
       },
     });
 
@@ -41,6 +45,31 @@ const Blog2SecondCategoryUpdateForm = (
     data: Blog2SecondCategoryUpdateForm,
   ) => {
     const formData = new FormData();
+    const s3ImageUrlDeleteList: {keyPath: string}[] = [];
+    // 지울 이미지가 있는지 확인
+    const initTemplateContent = templateContent;
+
+    const regex =
+      /https:\/\/ssssksssblogbucket\.s3\.ap-northeast-2\.amazonaws\.com\/([^\s\?\#]+?\.(webp|svg|jpg|gif|png|jpeg))(?![\?\#])/g;
+    let matches;
+    const prevBlog2ContentImageUrlList: string[] = [];
+
+    // 기존 내용에서 이미지 경로를 전부 추출
+    while ((matches = regex.exec(initTemplateContent)) !== null) {
+      prevBlog2ContentImageUrlList.push(matches[1]);
+    }
+
+    // 새로운 내용에 이미지 경로가 안보이면 지울 경로로 판단
+    prevBlog2ContentImageUrlList.forEach((i) => {
+      if (!data.templateContent.includes(i)) {
+        s3ImageUrlDeleteList.push({
+          keyPath: i
+        });
+      }
+    });
+
+    // 이후 작업
+    
     formData.append("id", data.id + "");
 
     if (data.updateSecondCategoryName) {
@@ -57,15 +86,24 @@ const Blog2SecondCategoryUpdateForm = (
       );
     }
 
+    if (s3ImageUrlDeleteList.length > 0) {
+      formData.append(
+        "s3ImageUrlDeleteList",
+        JSON.stringify(s3ImageUrlDeleteList),
+      );
+    }
+    formData.append("s3ImageUrlList", JSON.stringify(data.s3ImageUrlList));
+    formData.append("templateContent", data.templateContent);
+
     const result: ISecondCategory | undefined =
-      await fetchCSR.requestWithHandler({
-        url: "/api/blog2/category/second",
-        method: "PUT",
-        formData: formData,
-        handleRevalidateTags: ["blog2CategoryList"],
-        showSuccessToast: true,
-        successMessage: "2번째 카테고리를 수정",
-      });
+        await fetchCSR.requestWithHandler({
+          url: "/api/blog2/category/second",
+          method: "PUT",
+          formData: formData,
+          handleRevalidateTags: ["blog2CategoryList"],
+          showSuccessToast: true,
+          successMessage: "2번째 카테고리를 수정",
+        });
     if (result == undefined) return;
 
     const temp = blog2Store.categoryList.map((i) => {
@@ -74,6 +112,7 @@ const Blog2SecondCategoryUpdateForm = (
           if (j.id == result.id) {
             j.name = result.name;
             j.thumbnailImageUrl = result.thumbnailImageUrl;
+            j.templateContent = result.templateContent;
           }
         });
       }
@@ -98,18 +137,34 @@ const Blog2SecondCategoryUpdateForm = (
         if (j.id == id) {
           setImageUrl(AWSS3Prefix + "" + j.thumbnailImageUrl);
           setValue("updateSecondCategoryImageFile", undefined);
-          setValue("updateSecondCategoryName", "");
-          setValue("id", j.id, {shouldValidate: true});
+          setValue("updateSecondCategoryName", j.name);
+          setValue("id", j.id, { shouldValidate: true });
+          setValue("templateContent", j.templateContent || "");
           setUpdateCategoryName(j.name);
+          setTemplateContent(j.templateContent);
         }
       });
   };
+
+  const handleContentChange = useCallback((value: string) => {
+    setValue("templateContent", value, { shouldValidate: true });
+  },[]);
+    
+  const addS3ImageUrl = useCallback((keyPath: string) => {
+    const currentList =
+        getValues("s3ImageUrlList") || [];
+    setValue(
+      "s3ImageUrlList",
+      [...currentList, {keyPath}],
+      {shouldValidate: true},
+    );
+  }, []);
 
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-border primary-set"
+          "flex h-[3rem] items-center justify-center rounded-2xl primary-border primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -174,6 +229,25 @@ const Blog2SecondCategoryUpdateForm = (
         onChange={onDropOrInputEvent}
         disabled={!imageUrl}
       />
+      <div className="h-[40rem]">
+        <div
+          className={
+            "mb-2 flex h-[3rem] items-center justify-center rounded-2xl primary-border primary-set"
+          }
+        >
+          템플릿
+        </div>
+        <div className="h-[calc(100%-1rem)]">
+          <CustomEditor
+            defaultValue={""}
+            handleContentChange={handleContentChange}
+            addS3ImageUrl={addS3ImageUrl}
+            isPreview={true}
+            refreshValue={templateContent}
+            s3DirectoryPath="blog2/second-category-template"
+          />
+        </div>
+      </div>
       {/* TODO : 다시 처음 값으로 돌아올 경우 유효하지 않게 수정 */}
       <ThemeButton1
         onClick={handleSubmit(updateSecondCategoryHandler)}

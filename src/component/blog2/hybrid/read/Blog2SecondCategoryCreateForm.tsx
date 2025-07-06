@@ -1,4 +1,5 @@
 import ThemeButton1 from "@component/common/button/ThemeButton1";
+import CustomEditor from "@component/common/editor/CustomEditor";
 import Input from "@component/common/input/Input";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,7 +8,7 @@ import useFetchCSR from "@hooks/useFetchCSR";
 import { Blog2SecondCategoryCreateYup } from "@utils/validation/BlogCategoryYup";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
 import useBlog2Store from "src/store/blog2Store";
@@ -29,6 +30,8 @@ const Blog2SecondCategoryCreateForm = (
         createSecondCategoryName: "",
         firstCategoryId: searchParams.get("firstCategoryId") ?? undefined,
         createSecondCategoryImageFile: undefined,
+        templateContent: "",
+        s3ImageUrlList: [],
       },
     });
 
@@ -43,6 +46,11 @@ const Blog2SecondCategoryCreateForm = (
       "createSecondCategoryImageFile",
       data.createSecondCategoryImageFile as File,
     );
+    formData.append(
+      "templateContent",
+      data.templateContent
+    );
+    formData.append("s3ImageUrlList", JSON.stringify(data.s3ImageUrlList));
 
     const result = await fetchCSR.requestWithHandler({
       url: "/api/blog2/category/second",
@@ -73,13 +81,27 @@ const Blog2SecondCategoryCreateForm = (
   };
 
   const {isDragging, onDragEnter, onDragLeave, onDragOver, onDropOrInputEvent} =
-    useDragAndDropBlob({fakeImageUpload});
+    useDragAndDropBlob({ fakeImageUpload });
+  
+  const handleContentChange = useCallback((value: string) => {
+    setValue("templateContent", value, {shouldValidate: true});
+  },[]);
+  
+  const addS3ImageUrl = useCallback((keyPath: string) => {
+    const currentList =
+      getValues("s3ImageUrlList") || [];
+    setValue(
+      "s3ImageUrlList",
+      [...currentList, {keyPath}],
+      {shouldValidate: true},
+    );
+  }, []);
 
   return (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-border primary-set"
+          "flex h-[3rem] items-center justify-center rounded-2xl primary-border primary-set"
         }
       >
         {blog2Store.categoryList.map(
@@ -121,6 +143,22 @@ const Blog2SecondCategoryCreateForm = (
           onChange={onDropOrInputEvent}
         />
       </label>
+      <div className="h-[40rem]">
+        <div
+          className={
+            "mb-2 flex h-[3rem] items-center justify-center rounded-2xl primary-border primary-set"
+          }
+        >
+          템플릿
+        </div>
+        <CustomEditor
+          defaultValue={""}
+          handleContentChange={handleContentChange}
+          addS3ImageUrl={addS3ImageUrl}
+          isPreview={true}
+          s3DirectoryPath="blog2/second-category-template"
+        />
+      </div>
       {/* TODO : 유효성 처리가 제대로 안되는 것 같다. */}
       <ThemeButton1
         onClick={handleSubmit(createSecondCategoryHandler)}

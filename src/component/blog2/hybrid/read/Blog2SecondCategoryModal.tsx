@@ -19,7 +19,7 @@ const Blog2SecondCategoryModal = (props: IBlog2SecondCategoryModal) => {
   return (
     <ModalTemplate
       className={
-        "flex w-[calc(100vw-2rem)] max-w-[33.5rem] flex-col overflow-y-scroll rounded-b-[1rem] bg-default-1 px-[2.75rem] pb-8 pt-[3rem]"
+        "flex w-[calc(100vw-2rem)] flex-col overflow-y-scroll rounded-b-[1rem] bg-default-1 px-[2.75rem] pb-8 pt-[3rem]"
       }
     >
       {props.closeButtonComponent}

@@ -11,15 +11,29 @@ interface Blog2State {
   activeBlog2FirstCategoryId: number;
   activeBlog2SecondCategoryId: number;
   isDataFetched: boolean;
+  blog2ChoiceSecondCategory: {
+    id: number;
+    name: string;
+    templateContent: string;
+  };
 }
 
 // 2. 액션 인터페이스 정의
 interface BlogActions {
   initialize: () => void;
-  setBlogItemList: (data: {id: number; list: IBlog2[], isDataFetched?: boolean}) => void;
+  setBlogItemList: (data: {
+    id: number;
+    list: IBlog2[];
+    isDataFetched?: boolean;
+  }) => void;
   setBlog2CategoryList: (data: IBlog2FirstCategory[]) => void;
   setBlog2ActiveFirstCategoryId: (id: number) => void;
   setBlog2ActiveSecondCategoryId: (id: number) => void;
+  setBlog2ChoiceSecondCategory: (data: {
+    id: number;
+    name: string;
+    templateContent: string;
+  }) => void;
 }
 
 // 3. 초기 상태 정의
@@ -32,17 +46,12 @@ const initialState: Blog2State = {
   isDataFetched: false,
   activeBlog2FirstCategoryId: 0,
   activeBlog2SecondCategoryId: 0,
+  blog2ChoiceSecondCategory: {
+    id: 0,
+    name: "",
+    templateContent: "",
+  },
 };
-
-// const resetStore = (keys: (keyof Blog2State)[]) =>
-//   set((state) => {
-//     const resetData = keys.reduce((acc, key) => {
-//       acc[key] = initialState[key]; // 해당 key만 초기화
-//       return acc;
-//     }, {} as Partial<Blog2State>);
-
-//     return {...state, ...resetData};
-//   });
 
 
 // 4. 상태 및 액션 생성
@@ -71,6 +80,14 @@ const blog2Store: StateCreator<Blog2State & BlogActions> = (set, get) => ({
   setBlog2ActiveSecondCategoryId: (id: number) =>
     set(() => ({
       activeBlog2SecondCategoryId: id,
+    })),
+  setBlog2ChoiceSecondCategory: (data) =>
+    set(() => ({
+      blog2ChoiceSecondCategory: {
+        id: data.id,
+        name: data.name,
+        templateContent: data.templateContent,
+      },
     })),
 });
 

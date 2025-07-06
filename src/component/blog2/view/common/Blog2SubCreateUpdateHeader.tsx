@@ -1,4 +1,3 @@
-import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import { PanelBottomClose, PanelBottomOpen } from "lucide-react";
 import { FiSave } from "react-icons/fi";
@@ -27,8 +26,7 @@ const Blog2SubCreateUpdateHeader = (
       {props.type == "result" && (
         <h2> {props.edit ? "블로그 결과 글 수정" : "블로그 결과 글 생성"} </h2>
       )}
-      <ThemeActiveButton1
-        isActive={!props.modalState.isOpen}
+      <ThemeButton1
         className={"p-2 default-flex"}
         onClick={() =>
           props.modalState.isOpen
@@ -37,7 +35,7 @@ const Blog2SubCreateUpdateHeader = (
         }
       >
         {props.modalState.isOpen ? <PanelBottomClose /> : <PanelBottomOpen />}
-      </ThemeActiveButton1>
+      </ThemeButton1>
       <ThemeButton1
         onClick={() => props.saveHandler()}
         disabled={props.saveDisabled}

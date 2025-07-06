@@ -174,6 +174,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
         handleContentChange={handleContentChange}
         addS3ImageUrl={addS3ImageUrl}
         isPreview={true}
+        s3DirectoryPath="blog2/result"
       />
     </ModalTemplate>
   );

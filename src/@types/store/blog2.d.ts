@@ -10,6 +10,7 @@ declare interface IBlog2SecondCategoryList {
   name: string;
   thumbnailImageUrl: string;
   userId: number;
+  templateContent: string;
 }
 
 declare interface responseCreateBlog2FirstCategory {
@@ -37,6 +38,7 @@ declare interface ISecondCategory {
   id: number;
   name: string;
   thumbnailImageUrl: string;
+  templateContent;
 }
 
 declare interface responseCreateUpdateBlog2BasicContent {

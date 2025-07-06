@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
 import { Blog2CreateBasicContentYup } from "@utils/validation/BlogYup";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import {
   SubmitErrorHandler,
   SubmitHandler,
@@ -27,6 +27,7 @@ const Blog2BasicCreateUpdateContentModal = (
   const modalState = useModalState(props.edit ? true : false);
   const fetchCSR = useFetchCSR();
   const formContext = useFormContext();
+  const [templateContent ,setTemplateContent] = useState("");
   const blog2BasicContentFormContext = useForm<IBlog2BasicFormContext>({
     resolver: yupResolver(Blog2CreateBasicContentYup),
     mode: "onChange",
@@ -141,6 +142,10 @@ const Blog2BasicCreateUpdateContentModal = (
     );
   }, []);
 
+  const changeContentUsingTemplate = (value: string) => {
+    setTemplateContent(value);
+  };
+
   return (
     <ModalTemplate
       className={
@@ -168,6 +173,7 @@ const Blog2BasicCreateUpdateContentModal = (
           formContext={blog2BasicContentFormContext}
           isEdit={props.edit}
           blog2BasicContentItem={props.blog2BasicContentItem}
+          changeContentUsingTemplate={changeContentUsingTemplate}
         />
       )}
       {/* 블로그 글 작성하는 공간 */}
@@ -176,6 +182,7 @@ const Blog2BasicCreateUpdateContentModal = (
         handleContentChange={handleContentChange}
         addS3ImageUrl={addS3ImageUrl}
         isPreview={true}
+        refreshValue={templateContent}
       />
     </ModalTemplate>
   );

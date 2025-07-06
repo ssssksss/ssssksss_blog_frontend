@@ -87,7 +87,7 @@ const Blog2SecondCategoryDeleteForm = (
     <div className={"flex w-full flex-col gap-y-4"}>
       <div
         className={
-          "flex h-[3rem] items-center justify-center primary-border primary-set"
+          "flex h-[3rem] items-center justify-center primary-border primary-set rounded-2xl"
         }
       >
         {blog2Store.categoryList.map(
