@@ -16,6 +16,8 @@ interface ICustomEditor {
   addS3ImageUrl?: (keyPath: string) => void;
   defaultValue?: string;
   isPreview?: boolean;
+  refreshValue?: string;
+  s3DirectoryPath?: string;
 }
 
 const CustomEditor = (props: ICustomEditor) => {
@@ -42,6 +44,12 @@ const CustomEditor = (props: ICustomEditor) => {
   useEffect(() => {
     props.handleContentChange(content);
   }, [content]);
+
+  useEffect(() => {
+    if (props.refreshValue) {
+      setContent(props.refreshValue);
+    }
+  }, [props.refreshValue]);
 
   // 붙여넣기하면 과정을 거쳐 최종으로 나온 텍스트 만큼 커서의 위치를 이동시킴
   const insertContentAtCursor = (textToInsert: string) => {
@@ -99,7 +107,7 @@ const CustomEditor = (props: ICustomEditor) => {
     
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("directory", "blog2/basic");
+    formData.append("directory", props.s3DirectoryPath || "blog2/basic");
 
     const result = await fetchCSR.requestWithHandler({
       url: "/api/image",
@@ -243,7 +251,7 @@ const CustomEditor = (props: ICustomEditor) => {
   
   return (
     <div
-      className={`grid h-[calc(100vh-10rem)] w-full max-w-[75rem] gap-x-2 pt-1 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
+      className={`grid h-[calc(100%-2rem)] w-full max-w-[75rem] gap-x-2 pt-1 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
     >
       {/* 내용작성 */}
       <article
