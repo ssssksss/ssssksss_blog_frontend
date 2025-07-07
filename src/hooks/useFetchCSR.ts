@@ -100,6 +100,7 @@ const revalidateTags = async (tags?: string[]) => {
           method: "POST",
           body: JSON.stringify({tags: tags}),
           headers: {"Content-Type": "application/json"},
+          credentials: "omit",
         });
       }),
     );

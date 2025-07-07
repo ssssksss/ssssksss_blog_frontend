@@ -55,6 +55,7 @@ export const fetchServerSideInServerComponent = async ({
         : {}),
     },
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
+    credentials: "omit"
   };
 
   // 캐시 옵션 명확하게 처리
