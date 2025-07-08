@@ -23,7 +23,7 @@ export async function DELETE(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
   return await fetchApiRoutes({
-    url: `${process.env.BACKEND_URL}/api/blog2/basic?id=${id}`,
+    url: `${process.env.BACKEND_URL}/api/blog2/basic/${id}`,
     req: request,
     isFallbackToErrorPage: false,
   });
