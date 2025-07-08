@@ -248,13 +248,12 @@ const Blog2SecondCategoryUpdateForm = (
           />
         </div>
       </div>
-      {/* TODO : 다시 처음 값으로 돌아올 경우 유효하지 않게 수정 */}
       <ThemeButton1
         onClick={handleSubmit(updateSecondCategoryHandler)}
         disabled={!formState.isValid}
         className={"h-[3rem]"}
       >
-        추가
+        수정
       </ThemeButton1>
     </div>
   );
