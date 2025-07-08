@@ -38,7 +38,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     }
     clog.info("블로그 기초 글 검색 API 요청");
     const result = await fetchCSR.requestWithHandler({
-      url: `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`
+      url: `/api/blog2/basic/list?search=${encodeURIComponent(searchRef.current!.value)}&page=${page}`
     });
 
     if (result == undefined) {
