@@ -91,7 +91,7 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
         id,
       ]);
     }
-    toastifyStore.setToastify({type: "success", message: "삭제 완료"});
+    toastifyStore.setToastify({type: "success", message: "목록에서 제거 완료"});
   },[]);
 
   const blog2SectionList = [

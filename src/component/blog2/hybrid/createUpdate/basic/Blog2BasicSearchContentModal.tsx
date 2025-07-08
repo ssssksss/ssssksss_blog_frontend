@@ -1,7 +1,8 @@
 import ThemeButton1 from "@component/common/button/ThemeButton1";
-import ThemeInput1 from "@component/common/input/ThemeInput1";
+import SearchInputGroup from "@component/common/input/SearchInputGroup";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useToastifyStore from "@store/toastifyStore";
 import "@styles/customEditor.css";
 import {
@@ -25,6 +26,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
   >([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const toastifyStore = useToastifyStore();
+  const fetchCSR = useFetchCSR();
 
   // 블로그 기초 글 검색 api
   const blog2BasicSearchHandler = async () => {
@@ -33,36 +35,34 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
       return;
     }
     clog.info("블로그 기초 글 검색 API 요청");
-    const response = await fetch(
-      `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`,
-    );
+    const result = await fetchCSR.requestWithHandler({
+      url: `/api/blog2/basic/list?search=${searchRef.current!.value}&page=${page}`
+    });
 
-    if (response.ok) {
-      const result: responseSearchBlog2BasicContentList = await response.json();
-      setBlog2BasicContentList(result.data.blog2BasicList.content);
-      setSearch(searchRef.current!.value);
-      toastifyStore.setToastify({
-        message: `${result.data.blog2BasicList.content.length}개의 검색 결과`,
-      });
-    } else if (!response.ok) {
+    if (result == undefined) {
       setBlog2BasicContentList([]);
-    }
+      return;
+    };
+    setBlog2BasicContentList(result.blog2BasicList.content);
+    setSearch(searchRef.current!.value);
+    toastifyStore.setToastify({
+      message: `${result.blog2BasicList.content.length}개의 검색 결과`,
+    });
   };
 
   const deleteBlog2BasicContentHandler = async (id: number) => {
-    const response = await fetch(`/api/blog2/basic?id=${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const result = await fetchCSR.requestWithHandler(
+      {
+        url: `/api/blog2/basic?id=${id}`,
+        method: "DELETE"
+      });
+    
+    if (result == undefined) {
+      return;
+    };
 
-    if (response.ok) {
-      setBlog2BasicContentList(blog2BasicContentList.filter((i) => i.id != id));
+    setBlog2BasicContentList(blog2BasicContentList.filter((i) => i.id != id));
       props.closeModal!();
-    } else {
-      alert("삭제 실패");
-    }
   };
 
   return (
@@ -72,37 +72,24 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
       }
     >
       {props.closeButtonComponent}
-      <div className="relative flex min-h-[4rem] w-full items-center py-2">
-        {/* TODO : onKeyPressAction 쓸 수 있게 컴포넌트 수정 */}
-        <ThemeInput1
-          type={"text"}
-          className={"h-[4rem] w-full outline-none"}
-          placeholder={"블로그 기초 검색어를 입력해주세요"}
-          maxLength={50}
-          // onKeyPressAction={(e) => blog2BasicSearchHandler()}
-          ref={searchRef}
-        />
-        <ThemeButton1
-          className={"absolute right-1 top-1/2 -translate-y-1/2 px-4 py-2"}
-          onClick={() => blog2BasicSearchHandler()}
-        >
-          검색
-        </ThemeButton1>
-      </div>
+      <SearchInputGroup
+        wrapperClassName="h-[4rem]"
+        onSearch={blog2BasicSearchHandler}
+        ref={searchRef}
+      />
       <div className={"flex w-full gap-x-4 pb-4"}>
-        검색어({blog2BasicContentList.length}) : {search}
+        🔎({blog2BasicContentList.length}개), 검색내용: {search}
       </div>
-      <div className="primary-border-radius w-full p-2">
+      <div className="w-full p-2 primary-border-radius">
         <ul className={`${EditorUlStyle} mt-0 gap-y-4 pt-0`}>
           <>
             {blog2BasicContentList?.map((i) => (
               <li
                 key={i.id}
-                className={`${EditorLiStyle} max-h-[16rem] overflow-y-scroll`}
-                // className={"relative outline outline-gray-80 outline-offset-[-.25rem] outline-[.5rem] rounded-[1rem] bg-white-80 p-[1rem] max-h-[16rem] overflow-y-scroll"}
+                className={`${EditorLiStyle} max-h-[16rem] overflow-y-scroll py-4`}
               >
                 <div className="sticky top-0 z-10">
-                  <div className={"absolute right-2 top-2 flex gap-x-2"}>
+                  <div className={"absolute right-0 top-[-12px] flex gap-x-1"}>
                     {/* TODO : confirm으로 바꾸기 */}
                     <ThemeButton1
                       className={"p-2 opacity-40 hover:opacity-100"}
@@ -117,7 +104,6 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                     >
                       선택
                     </ThemeButton1>
-                    {/* <Button className={"p-2 primary-border-radius opacity-40 hover:opacity-100 hover:bg-primary-20"} onClick={()=>deleteBlog2BasicContentHandler(i.id)}> 삭제 </Button> */}
                   </div>
                 </div>
                 <h2
