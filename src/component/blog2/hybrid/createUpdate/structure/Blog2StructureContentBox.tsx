@@ -37,7 +37,7 @@ const Blog2StructureContentBox = (props: IBlog2StructureContentBox) => {
 
   return (
     <div className={"relative flex w-full flex-col rounded-[1rem] p-0"}>
-      <article className="sticky left-2 top-[4.5rem] z-10 flex w-fit -translate-x-2 -translate-y-2 gap-2 p-1 text-contrast-1 opacity-80 primary-border-radius hover:opacity-100">
+      <article className="sticky left-[1.5rem] top-[4.5rem] z-10 flex w-fit -translate-x-2 gap-2 p-1 text-contrast-1 opacity-80 primary-border-radius hover:opacity-100">
         {/* 블로그 구조 내용을 세롭게 생성하는 버튼 */}
         <ModalButton
           buttonClassName={
