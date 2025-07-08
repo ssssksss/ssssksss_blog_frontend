@@ -1,4 +1,5 @@
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
+import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
 import { EditorUlStyle } from "@utils/editor/EditorTailwindcssStyle";
 import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -47,7 +48,7 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
           <FaRegPlusSquare size="28" />
         </ModalButton>
         {/* 블로그 기초 리스트에 검색해서 기초글을 추가하는 버튼 */}
-        <ModalButton
+        <NestedModalButton
           buttonClassName={
             "px-2 font-bold h-[2.5rem] hover:bg-primary-80 rounded-2xl"
           }
@@ -58,7 +59,7 @@ const Blog2BasicContentContainer = (props: IBlog2BasicContentContainer) => {
           }
         >
           <FaSearchPlus size={"24"} />
-        </ModalButton>
+        </NestedModalButton>
       </article>
       <ul className={EditorUlStyle}>
         <>

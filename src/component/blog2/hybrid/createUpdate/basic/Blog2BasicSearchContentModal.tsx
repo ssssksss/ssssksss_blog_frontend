@@ -1,3 +1,4 @@
+import DeleteConfirmButton from "@component/common/button/DeleteConfirmButton";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import SearchInputGroup from "@component/common/input/SearchInputGroup";
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
@@ -13,6 +14,7 @@ import {
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import clog from "@utils/logger/logger";
 import { useRef, useState } from "react";
+import { FaHandPointUp } from "react-icons/fa";
 
 interface IBlog2BasicSearchContentModal extends IModalComponent {
   addBlog2BasicContent: (data: IBlog2BasicContent) => void;
@@ -92,18 +94,24 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                   <div className={"absolute right-0 top-[-12px] flex gap-x-1"}>
                     {/* TODO : confirm으로 바꾸기 */}
                     <ThemeButton1
-                      className={"p-2 opacity-40 hover:opacity-100"}
-                      onClick={() => deleteBlog2BasicContentHandler(i.id)}
-                    >
-                      삭제
-                    </ThemeButton1>
-                    {/* TODO : 선택하고 나서 모달을 닫을지 고민 그리고 닫힌후 바로 렌더링 되는지 확인 */}
-                    <ThemeButton1
-                      className={"p-2 opacity-40 hover:opacity-100"}
+                      className={
+                        "aspect-square p-2 opacity-40 hover:opacity-100"
+                      }
                       onClick={() => props.addBlog2BasicContent(i)}
                     >
-                      선택
+                      <FaHandPointUp size={"28"} />
                     </ThemeButton1>
+                    <DeleteConfirmButton
+                      className={"p-2 opacity-40 primary-set hover:opacity-100"}
+                      ariaLabel="기초 글 삭제 버튼"
+                      onCancelClick={() => {}}
+                      onConfirmClick={() => {
+                        deleteBlog2BasicContentHandler(i.id);
+                      }}
+                      mainMessage={["게시판을 삭제하시겠습니까?"]}
+                      loading={false}
+                    />
+                    {/* TODO : 선택하고 나서 모달을 닫을지 고민 그리고 닫힌후 바로 렌더링 되는지 확인 */}
                   </div>
                 </div>
                 <h2

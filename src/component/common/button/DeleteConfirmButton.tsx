@@ -3,7 +3,7 @@
 import { ButtonHTMLAttributes, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import ConfirmModal from "../modal/hybrid/ConfirmModal";
-import ModalButton from "../modal/hybrid/ModalButton";
+import NestedModalButton from "../modal/hybrid/NestedModalButton";
 
 interface IDeleteConfirmButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
@@ -34,8 +34,8 @@ const DeleteConfirmButton = ({
   };
 
   return (
-    <ModalButton
-      buttonClassName={`relative aspect-square default-flex text-contrast-1 disabled:bg-black-40 primary-border-radius hover:bg-primary-80 ${className || ""}`}
+    <NestedModalButton
+      buttonClassName={`relative aspect-square default-flex text-contrast-1 disabled:disabled-set primary-border-radius hover:bg-primary-80 ${className || ""}`}
       aria-label={props.ariaLabel}
       disabled={loading}
       modal={
@@ -54,7 +54,7 @@ const DeleteConfirmButton = ({
       ) : (
         <MdDelete size={`${size || "28"}`} />
       )}
-    </ModalButton>
+    </NestedModalButton>
   );
 };
 
