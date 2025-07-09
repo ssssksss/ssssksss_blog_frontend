@@ -1,7 +1,7 @@
 import ThemeActiveButton1 from "@component/common/button/ThemeActiveButton1";
 import useToastifyStore from "@store/toastifyStore";
 import React, { useCallback, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import Blog2BasicContentContainer from "../basic/Blog2BasicContentContainer";
 import Blog2ResultBox from "../Blog2ResultBox";
 import Blog2StructureContentBox from "../structure/Blog2StructureContentBox";
@@ -92,7 +92,14 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
       ]);
     }
     toastifyStore.setToastify({type: "success", message: "목록에서 제거 완료"});
-  },[]);
+  }, []);
+  
+  const Blog2ContentCount = ({name}: {name: string}) => {
+    const {control} = useFormContext();
+    const list = useWatch({name, control});
+
+    return <span>{list?.length || 0}</span>;
+  };
 
   const blog2SectionList = [
     {menu: "기초", name: "blog2BasicList"},
@@ -111,7 +118,9 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
             onClick={() => setMenu(i.menu)}
           >
             <span>{i.menu}</span>
-            <span>{formContext.getValues(i.name)?.length || 0}</span>
+            <span>
+              <Blog2ContentCount name={i.name} />
+            </span>
           </ThemeActiveButton1>
         ))}
       </div>
