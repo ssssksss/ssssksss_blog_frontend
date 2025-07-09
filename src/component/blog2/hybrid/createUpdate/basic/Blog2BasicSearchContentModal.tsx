@@ -14,6 +14,7 @@ import {
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
 import clog from "@utils/logger/logger";
 import { useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { FaHandPointUp } from "react-icons/fa";
 
 interface IBlog2BasicSearchContentModal extends IModalComponent {
@@ -29,6 +30,7 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
   const searchRef = useRef<HTMLInputElement>(null);
   const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
+  const blog2FormContext = useFormContext();
 
   // 블로그 기초 글 검색 api
   const blog2BasicSearchHandler = async () => {
@@ -59,12 +61,12 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
         method: "DELETE"
       });
     
-    if (result == undefined) {
-      return;
-    };
+    if (result == undefined) return;
 
-    setBlog2BasicContentList(blog2BasicContentList.filter((i) => i.id != id));
-      props.closeModal!();
+    const _basicList = blog2BasicContentList.filter((i) => i.id != id);
+    setBlog2BasicContentList(_basicList); // 찾기 목록에서 제거
+    blog2FormContext.setValue("blog2BasicList", _basicList);
+    props.closeModal!();
   };
 
   return (
@@ -108,7 +110,8 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
                       onConfirmClick={() => {
                         deleteBlog2BasicContentHandler(i.id);
                       }}
-                      mainMessage={["게시판을 삭제하시겠습니까?"]}
+                      mainMessage={["기초 글을 삭제하시겠습니까?"]}
+                      subMessage={["다른 블로그 글에서도 전부 제거됩니다."]}
                       loading={false}
                     />
                     {/* TODO : 선택하고 나서 모달을 닫을지 고민 그리고 닫힌후 바로 렌더링 되는지 확인 */}
