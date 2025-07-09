@@ -58,7 +58,8 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     const result = await fetchCSR.requestWithHandler(
       {
         url: `/api/blog2/basic?id=${id}`,
-        method: "DELETE"
+        method: "DELETE",
+        showSuccessToast: true,
       });
     
     if (result == undefined) return;
