@@ -249,14 +249,6 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
           <div className="gap-x-1 break-keep default-flex">
             <span
               className={
-                "font-bold text-primary-100 group-hover:text-contrast-1"
-              }
-            >
-              {formContext.getValues("title")}
-            </span>
-            <span className={"font-bold group-hover:text-contrast-1"}> - </span>
-            <span
-              className={
                 "font-bold text-secondary-100 group-hover:text-contrast-1"
               }
             >
@@ -267,6 +259,14 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
               className={"font-bold text-third-100 group-hover:text-contrast-1"}
             >
               {formContext.getValues("secondCategoryName")}
+            </span>
+            <span className={"font-bold group-hover:text-contrast-1"}> - </span>
+            <span
+              className={
+                "font-bold text-primary-100 group-hover:text-contrast-1"
+              }
+            >
+              {formContext.getValues("title")}
             </span>
           </div>
         ) : (
