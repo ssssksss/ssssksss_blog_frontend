@@ -11,6 +11,7 @@ export const Blog2CreateStructureContentYup = yup.object().shape({
   directory: yup.string().required("필수 입력"),
   content: yup.string().required("필수 입력"),
   project: yup.string().required("필수 입력"),
+  version: yup.string().required("필수 입력"),
 });
 
 export const Blog2ResultYup = yup.object().shape({

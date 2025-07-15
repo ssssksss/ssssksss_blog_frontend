@@ -70,7 +70,7 @@ const Blog2CreateUpdateContainer = (props: IBlog2CreateContainer | IBlog2UpdateC
       });
     }
   }, []);
-    
+
   return (
     <FormProvider {...methods}>
       {/* 블로그 카테고리,제목,내용, 뒤로가기 제출 버튼 있는 UI */}

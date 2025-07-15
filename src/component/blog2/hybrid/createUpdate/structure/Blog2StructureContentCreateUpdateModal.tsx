@@ -1,10 +1,11 @@
+import Blog2SubCreateUpdateHeaderView from "@component/blog2/view/common/Blog2SubCreateUpdateHeader";
 import Dropdown from "@component/common/dropdown/Dropdown";
 import CustomEditor from "@component/common/editor/CustomEditor";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
-import { fetchMultipartRetry } from "@utils/api/fetchMultipartRetry";
 import { Blog2CreateStructureContentYup } from "@utils/validation/BlogYup";
 import { useEffect, useState } from "react";
 import {
@@ -13,12 +14,12 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import Blog2SubCreateUpdateHeaderView from "../../../view/common/Blog2SubCreateUpdateHeader";
 
 interface IFormContext {
   directory: string;
   content: string;
   project: string;
+  version: string;
 }
 
 interface IBlog2StructureContentCreateUpdateModal extends IModalComponent {
@@ -31,7 +32,8 @@ interface IBlog2StructureContentCreateUpdateModal extends IModalComponent {
 const Blog2StructureContentCreateUpdateModal = (
   props: IBlog2StructureContentCreateUpdateModal,
 ) => {
-  const [projectName, setProjectName] = useState("");
+  const fetchCSR = useFetchCSR();
+  const [projectName, setProjectName] = useState(props.item?.project || "");
   const modalState = useModalState(props.edit ? true : false);
   const blog2ContentFormContext = useForm<IFormContext>({
     resolver: yupResolver(Blog2CreateStructureContentYup),
@@ -40,6 +42,7 @@ const Blog2StructureContentCreateUpdateModal = (
       directory: props.edit ? props.item?.directory : "",
       content: props.edit ? props.item?.content : "",
       project: props.edit ? props.item?.project : "",
+      version: props.edit ? props.item?.version : "",
     },
   });
   const [projectList, setProjectList] = useState<
@@ -48,51 +51,38 @@ const Blog2StructureContentCreateUpdateModal = (
 
   const blog2FormContext = useFormContext();
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
-
     // API 공통 작업
-    const formData = new FormData();
-    if (props.edit) {
-      formData.append("id", props.item!.id + "");
-    }
-    formData.append(
-      "directory",
-      blog2ContentFormContext.getValues("directory"),
-    );
-    formData.append("content", blog2ContentFormContext.getValues("content"));
-    formData.append("project", blog2ContentFormContext.getValues("project"));
+    const result: IBlog2StructureContent =
+      await fetchCSR.requestWithHandler({
+        url: props.edit
+          ? `/api/blog2/structure?id=${props.item!.id}`
+          : "/api/blog2/structure",
+        method: props.edit ? "PUT" : "POST",
+        body: {
+          directory: blog2ContentFormContext.getValues("directory"),
+          content: blog2ContentFormContext.getValues("content"),
+          project: blog2ContentFormContext.getValues("project"),
+          version: blog2ContentFormContext.getValues("version"),
+        },
+        showSuccessToast: true,
+        successMessage: props.edit
+          ? "구조글 수정에 성공"
+          : "구조글 생성에 성공",
+      });
 
- 
-    const response: Response = await fetchMultipartRetry({
-      url: "/api/blog2/structure",
-      method: props.edit ? "PUT" : "POST",
-      formData: formData,
-    });
-    if (!response.ok) {
-      return {
-        type: "error",
-        message: props.edit ? "수정 실패" : "생성 실패",
-      };
+    if (result == undefined) {
+      return;
     }
+
     if (props.edit) {
       // 블로그 구조 수정 성공시
-      const result: responseCreateUpdateBlog2StructureContent =
-      await response.json();
-      props.updateBlog2StructureContent!(result.data.blog2StructureContent);
+      props.updateBlog2StructureContent!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     } else {
       // 블로그 구조 생성 성공시
-      const result: responseCreateUpdateBlog2StructureContent =
-      await response.json();
-      props.addBlog2StructureContent!(result.data.blog2StructureContent);
+      props.addBlog2StructureContent!(result);
       props.closeModalAfterSuccess!();
-      return {
-        message: result.msg,
-      };
     }
-
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
@@ -108,6 +98,7 @@ const Blog2StructureContentCreateUpdateModal = (
       blog2ContentFormContext.setValue("directory", props.item!.directory);
       blog2ContentFormContext.setValue("content", props.item!.content);
       blog2ContentFormContext.setValue("project", props.item!.project);
+      blog2ContentFormContext.setValue("version", props.item!.version);
       blog2ContentFormContext.watch();
     }
     const temp: string[] = [];
@@ -135,13 +126,12 @@ const Blog2StructureContentCreateUpdateModal = (
       {props.closeButtonComponent}
       <Blog2SubCreateUpdateHeaderView
         type={"structure"}
-        saveHandler={() =>
-          props.loadingWithHandler(
-            blog2ContentFormContext.handleSubmit(
-              handleSubmitClick,
-              onClickErrorSubmit,
-            ),
-          )
+        saveHandler={async () => {
+          blog2ContentFormContext.handleSubmit(
+            handleSubmitClick,
+            onClickErrorSubmit,
+          )();
+        }
         }
         saveDisabled={!blog2ContentFormContext.formState.isValid}
         edit={props.edit ?? false}
@@ -154,9 +144,8 @@ const Blog2StructureContentCreateUpdateModal = (
           >
             <ThemeInput1
               type={"text"}
-              // register={blog2ContentFormContext.register("project")}
               className={"flex h-[3rem] min-h-12 w-full items-center px-2"}
-              placeholder="프로젝트명 스네이크케이스(_)를 이용해서 표기"
+              placeholder="프로젝트명을 입력하세요."
               value={projectName}
               onChange={(e) => {
                 setProjectName(e.target.value);
@@ -168,8 +157,13 @@ const Blog2StructureContentCreateUpdateModal = (
             {projectList?.length > 0 && (
               <Dropdown
                 options={projectList}
-                value={projectList.filter(i=> i.name == projectName).length > 0 ? projectName : ""}
-                defaultValue=""
+                value={
+                  projectList.filter((i) => i.name == projectName).length > 0
+                    ? projectName
+                    : ""
+                }
+                placeholder="프로젝트명"
+                defaultValue={""}
                 containerClassName={"min-h-12 bg-default-1 "}
                 dropdownHandler={(value) => {
                   setProjectName(value);
@@ -183,10 +177,14 @@ const Blog2StructureContentCreateUpdateModal = (
           <ThemeInput1
             type={"text"}
             register={blog2ContentFormContext.register("directory")}
-            className={
-              "flex h-[3rem] min-h-12 items-center px-2"
-            }
-            placeholder="경로의 시작은 /로 시작하지 않습니다. ex) src/..."
+            className={"flex h-[3rem] min-h-12 items-center px-2"}
+            placeholder="경로 입력 ex) src/..."
+          />
+          <ThemeInput1
+            type={"text"}
+            register={blog2ContentFormContext.register("version")}
+            className={"flex h-[3rem] min-h-12 items-center px-2"}
+            placeholder="version 입력, 입력하지 않을 경우 최신 버전으로 처리"
           />
         </div>
       )}

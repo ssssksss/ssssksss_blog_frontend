@@ -43,7 +43,6 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
       `isUpdate${listName.charAt(0).toUpperCase() + listName.slice(1)}`,
       true,
     );
-    toastifyStore.setToastify({type: "success", message: "추가"});
   },[]);
 
   const updateBlog2Content = useCallback((data: any, type: "basic" | "structure") => {
@@ -72,11 +71,26 @@ const Blog2CreateUpdateBody = ({isEdit}: IBlog2CreateUpdateBody) => {
     const listName = type === "basic" ? "blog2BasicList" : "blog2StructureList";
     const deleteListName = `delete${listName.charAt(0).toUpperCase() + listName.slice(1)}`;
 
-    formContext.setValue(
-      listName,
-      formContext
-        .getValues(listName)
-        ?.filter((i: any) => i.blog2BasicContent.id !== id),
+    if (type == "basic") {
+      formContext.setValue(
+        "blog2BasicList",
+        formContext
+          .getValues("blog2BasicList")
+          ?.filter((i: any) => i.blog2BasicContent.id !== id),
+      );
+    }
+    if (type == "structure") {
+      formContext.setValue(
+        "blog2StructureList",
+        formContext
+          .getValues("blog2StructureList")
+          ?.filter((i: any) => i.blog2StructureContent.id !== id),
+      );
+    }
+
+    console.log(
+      "Blog2CreateUpdateBody.tsx 파일 : ",
+      formContext.getValues("blog2StructureList"),
     );
 
     if (isEdit) {

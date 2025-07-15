@@ -128,6 +128,7 @@ declare interface ResBlog2Update {
   blog2StructureList: IBlog2Structure[];
   blog2ResultList: IBlog2Result[];
   categoryList: IBlog2FirstCategory[];
+  isEdit: boolean;
 }
 
 // structure
@@ -142,35 +143,21 @@ declare interface IBlog2StructureContent {
   content: string;
   directory: string;
   project: string;
-  // 내용 추가 필요
+  version: string;
 }
 
-declare interface responseSearchBlog2StructureContentList {
-  status: number;
-  msg: string;
-  data: {
-    blog2StructureContentList: {
-      content: IBlog2StructureContent[];
-      pageable: Pageable;
-      last: boolean;
-      totalElements: number;
-      totalPages: number;
-      first: boolean;
-      size: number;
-      number: number;
-      sort: Sort;
-      numberOfElements: number;
-      empty: boolean;
-    };
-  };
-}
-
-declare interface responseCreateUpdateBlog2StructureContent {
-  status: number;
-  msg: string;
-  data: {
-    blog2StructureContent: IBlog2StructureContent;
-  };
+declare interface IResultSearchBlog2StructureContentList {
+    content: IBlog2StructureContent[];
+    pageable: Pageable;
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    first: boolean;
+    size: number;
+    number: number;
+    sort: Sort;
+    numberOfElements: number;
+    empty: boolean;
 }
 
 // result
