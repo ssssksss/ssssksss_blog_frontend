@@ -11,7 +11,13 @@ export const Blog2CreateStructureContentYup = yup.object().shape({
   directory: yup.string().required("필수 입력"),
   content: yup.string().required("필수 입력"),
   project: yup.string().required("필수 입력"),
-  version: yup.string().required("필수 입력"),
+  version: yup
+    .string()
+    .required("필수 입력")
+    .matches(
+      /^\d+\.\d+\.\d+$/,
+      "버전 형식은 0.0.0과 같이 숫자.숫자.숫자 형식이어야 합니다.",
+    ),
 });
 
 export const Blog2ResultYup = yup.object().shape({
