@@ -186,6 +186,7 @@ const Blog2StructureContentCreateUpdateModal = (
             className={"flex h-[3rem] min-h-12 items-center px-2"}
             placeholder="version 입력, 입력하지 않을 경우 최신 버전으로 처리"
           />
+          <div className="text-xs"> 📌 버전과 경로가 동일한 경우 덮어쓰기가 됩니다. </div>
         </div>
       )}
       <CustomEditor
