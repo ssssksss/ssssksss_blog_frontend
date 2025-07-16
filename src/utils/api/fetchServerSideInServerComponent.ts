@@ -67,12 +67,24 @@ export const fetchServerSideInServerComponent = async ({
     fetchOptions.cache = "no-store";
   }
 
-  let res = await fetch(url, fetchOptions);
+  let res: Response;
+  try {
+    res = await fetch(url, fetchOptions);
+  } catch (e) {
+    res = NextResponse.json(
+      {
+        error: true,
+        status: 500,
+        message: "네트워크 혹은 서버 오류",
+      },
+      {status: 500},
+    );
+  }
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
       {
-        method: "POSt",
+        method: "POST",
         headers: {
           Cookie: `refreshToken=${_refreshToken.value}`,
         },
