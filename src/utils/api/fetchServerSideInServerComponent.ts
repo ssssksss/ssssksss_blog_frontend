@@ -41,6 +41,10 @@ export const fetchServerSideInServerComponent = async ({
   setCookieHeader = undefined,
   method,
 }: IFetchServerSideInServerComponent): Promise<any> => {
+  const controller = new AbortController();
+  const timeout = 5000; // 5초
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
   const _accessToken = accessToken || req?.cookies.get("accessToken");
   const _refreshToken = refreshToken || req?.cookies.get("refreshToken");
   let _setCookieHeader = setCookieHeader;
@@ -55,7 +59,8 @@ export const fetchServerSideInServerComponent = async ({
         : {}),
     },
     body: formData ? formData : body ? JSON.stringify(body) : undefined,
-    credentials: "omit"
+    credentials: "omit",
+    signal: controller.signal,
   };
 
   // 캐시 옵션 명확하게 처리
@@ -70,8 +75,20 @@ export const fetchServerSideInServerComponent = async ({
   let res: Response;
   try {
     res = await fetch(url, fetchOptions);
-  } catch (e) {
-    res = NextResponse.json(
+  } catch (e: any) {
+    if (e.name === "AbortError") {
+      console.error("요청이 timeout으로 인해 중단되었습니다.");
+      return NextResponse.json(
+        {
+          error: true,
+          status: 408,
+          message: "요청 시간이 초과되었습니다.",
+        },
+        {status: 408},
+      );
+    }
+
+    return NextResponse.json(
       {
         error: true,
         status: 500,
@@ -79,7 +96,10 @@ export const fetchServerSideInServerComponent = async ({
       },
       {status: 500},
     );
+  } finally {
+    clearTimeout(timeoutId); // 타이머 해제
   }
+  
   if (res.status == 401 && _refreshToken && retry > 0 && isAuth) {
     const refreshResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/accessToken`,
