@@ -1,7 +1,7 @@
 "use client";
 
 import NestedModalButton from "@component/common/modal/hybrid/NestedModalButton";
-import { useInitialThenStore } from "@hooks/useInitialThenStore";
+import { useInitialThenStoreWithSync } from "@hooks/useInitialThenStoreWithSync";
 import useSiteBookmarkStore from "@store/siteBookmarkStore";
 import { IoIosSettings } from "react-icons/io";
 import SiteBookmarkCategoryModal from "./SiteBookmarkCategoryModal";
@@ -11,10 +11,11 @@ interface ISiteBookmarkCategoryList {
 }
 
 const SiteBookmarkCategoryList = (props: ISiteBookmarkCategoryList) => {
-  const siteBookmarkCategoryList = useInitialThenStore({
+  const siteBookmarkCategoryList = useInitialThenStoreWithSync({
     initialData: props.data,
     store: useSiteBookmarkStore,
     selector: (state) => state.siteBookmarkCategoryList,
+    setSelector: (state) => state.setInit,
   });
 
   return (

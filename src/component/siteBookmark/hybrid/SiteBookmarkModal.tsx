@@ -105,7 +105,7 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
         </div>
         <div className="relative w-full">
           {
-            siteBookmarkStore.siteBookmarkCategoryList.filter(i => i.id == props.siteBookmarkCategoryId)[0].siteBookmarkList.map(j =>
+            siteBookmarkStore.siteBookmarkCategoryList.filter(i => i.id == props.siteBookmarkCategoryId)[0]?.siteBookmarkList.map(j =>
               <ThemeActiveButton1 key={j.id} className={"px-3 py-2"} onClick={() => setDeleteSiteBookmarkItem({
                 id: j.id,
                 name: j.name
