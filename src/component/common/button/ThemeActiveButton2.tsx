@@ -9,7 +9,7 @@ const ThemeActiveButton2 = ({
     <BasicButton
       role="button"
       aria-pressed={isActive}
-      className={`disabled:cursor-not-allowed disabled:bg-black-40 ${className} ${className?.includes("rounded") ? "seconde-border" : "seconde-border-radius"} ${isActive ? "font-bold seconde-set" : "hover:scale-105"}`}
+      className={`default-flex disabled:cursor-not-allowed disabled:disabled-set ${className} ${className?.includes("rounded") ? "seconde-border" : "seconde-border-radius"} ${isActive ? "bg-secondary-80 font-bold" : "hover:scale-105"}`}
       {...props}
     />
   );

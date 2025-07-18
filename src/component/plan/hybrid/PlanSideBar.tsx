@@ -3,7 +3,7 @@
 import SubSideBar from "@component/common/layout/hybrid/SubSideBar";
 import { CalendarFold } from "lucide-react";
 import { CiMemoPad } from "react-icons/ci";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaRegLightbulb } from "react-icons/fa";
 
 interface IPlanSideBar {}
 
@@ -24,6 +24,12 @@ const LeftNavItems = [
     icon: <CiMemoPad size={32} />,
     labelTitle: "메모",
     href: "/plan/memo",
+    options: {isRequiredAuth: true},
+  },
+  {
+    icon: <FaRegLightbulb size={32} />,
+    labelTitle: "슬롯머신",
+    href: "/plan/slot-machine",
     options: {isRequiredAuth: true},
   },
 ];

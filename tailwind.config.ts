@@ -365,6 +365,10 @@ const config: Config = {
           }, // 애니메이션 시작과 끝 색상
           "50%": {outlineColor: "transparent"}, // 중간에 투명하게
         },
+        fadeIn1: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
         fadeIn: {
           "0%": {
             opacity: "0",
