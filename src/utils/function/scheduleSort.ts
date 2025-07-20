@@ -1,22 +1,6 @@
-import {addDays, differenceInDays, format} from "date-fns";
+import { addDays, differenceInDays, format } from "date-fns";
 
 export const scheduleSort = (
-  // data: [
-  //   {
-  //     id: number;
-  //     title: string;
-  //     content: string;
-  //      scheduleStartDate: string;
-  //     scheduleEndDate: string;
-  //     isChecked: false;
-  //     scheduleCategory: {
-  //       id: number;
-  //       name: string;
-  //       backgroundColor: string;
-  //       userId: number;
-  //     };
-  //   },
-  // ],
   data: IPlanSchedule[],
   startDateOfMonth: string,
   endDateOfMonth: string,
@@ -33,22 +17,20 @@ export const scheduleSort = (
   };
   data.map((i) => {
     let step = 0;
-    // console.log("scheduleSort.ts 파일 : %c%s", "color: red", i.title);
+    const _scheduleStartDate = format(new Date(i.scheduleStartDate), "yyyy-MM-dd");
+    const _scheduleEndDate = format(new Date(i.scheduleEndDate), "yyyy-MM-dd");
     let layer = 1; // 1일 칸에 grid로 위치를 잡기 위해서 사용, 일정 막대바가 4개이면 grid-template-rows의 값이 4이상이어야 문제 없이 UI가 표시된다.
     let whichFloor = 0; // 현재 일정이 몇번째 층에서 작업이 되고 있는지를 결정하는 변수
     for (let j = 0; ; j++) {
       // 1-1. 일정의 시작날짜가 각 층의 기준날짜보다 뒤에 있는지 판단
-      if (eachFloorBaseDate[j] <= i.scheduleStartDate) {
+      if (eachFloorBaseDate[j] <= _scheduleStartDate) {
         whichFloor = j;
-        eachFloorBaseDate[j] = format(
-          new Date(i.scheduleStartDate),
-          "yyyy-MM-dd",
-        );
+        eachFloorBaseDate[j] = _scheduleStartDate;
         break;
       }
       // 1-2. 일정의 시작날짜가 달력의 1번째 날짜보다 작고 층의 기준날짜가 달력의 1번째 날짜와 같다면 => 그 층의 일정은 현재 아무것도 없는 상태이다. 그러므로 일정을 추가한다.
       else if (
-        startDateOfMonth > i.scheduleStartDate &&
+        startDateOfMonth > _scheduleStartDate &&
         eachFloorBaseDate[j] == format(new Date(startDateOfMonth), "yyyy-MM-dd")
       ) {
         whichFloor = j;
@@ -66,13 +48,13 @@ export const scheduleSort = (
 
     // 2-1. 첫번쨰 일정이 현재 보이는 달력날짜의 첫째날보다 작은지 판단, 일정의 시작이 달력의 첫번째 날짜보다 더 앞에 있을 수도 있으니까 잘라버려야한다.
     // 10.29일이 달력의 첫번째 날인데 일정이 10.20 ~ 12.20일 수 도 있다. => 10.29 ~ 11.9일(6주)까지로 잘라버리기 위한 과정
-    if (startDateOfMonth > i.scheduleStartDate) {
+    if (startDateOfMonth > _scheduleStartDate) {
       let remainDays = dayIntervalCalc(
         new Date(startDateOfMonth),
         new Date(
-          i.scheduleEndDate > endDateOfMonth
+          _scheduleEndDate > endDateOfMonth
             ? endDateOfMonth
-            : i.scheduleEndDate,
+            : _scheduleEndDate,
         ),
       );
       // 반복문을 돌면서 남은날짜들을 각 층의 기준날짜를 바꿔주면서 점차 줄여나간다. 예를 들어 남은 날짜가 10일이고 1번째 층의 처음부터라면
@@ -91,9 +73,9 @@ export const scheduleSort = (
               dayIntervalCalc(
                 new Date(startDateOfMonth),
                 new Date(
-                  i.scheduleEndDate > endDateOfMonth
+                  _scheduleEndDate > endDateOfMonth
                     ? endDateOfMonth
-                    : i.scheduleEndDate,
+                    : _scheduleEndDate,
                 ),
               ) - 1,
             isFirst: step == 0 ? true : false,
@@ -102,7 +84,7 @@ export const scheduleSort = (
           };
           result.push(obj);
           eachFloorBaseDate[whichFloor] = format(
-            addDays(new Date(i.scheduleEndDate), 1),
+            addDays(new Date(_scheduleEndDate), 1),
             "yyyy-MM-dd",
           );
           remainDays = 0;
@@ -137,11 +119,11 @@ export const scheduleSort = (
     // 2-2. 첫번쨰 일정이 현재 보이는 달력날짜의 첫째날보다 크다면 앞에 날짜를 자를필요없이 그냥 계산하면 된다. 뒤에 날짜는 달력의 마지막날짜보다 큰지는 계산해야한다.
     else {
       let remainDays = dayIntervalCalc(
-        new Date(i.scheduleStartDate),
+        new Date(_scheduleStartDate),
         new Date(
-          i.scheduleEndDate > endDateOfMonth
+          _scheduleEndDate > endDateOfMonth
             ? endDateOfMonth
-            : i.scheduleEndDate,
+            : _scheduleEndDate,
         ),
       );
       // console.log("scheduleSort.ts 파일 : 2-2 남은 날짜", remainDays);
@@ -170,7 +152,7 @@ export const scheduleSort = (
           };
           result.push(obj);
           eachFloorBaseDate[whichFloor] = format(
-            addDays(new Date(i.scheduleEndDate), 1),
+            addDays(new Date(_scheduleEndDate), 1),
             "yyyy-MM-dd",
           );
           remainDays = 0;
