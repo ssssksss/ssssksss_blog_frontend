@@ -1,8 +1,7 @@
 "use client";
 
 import ModalButton from "@component/common/modal/hybrid/ModalButton";
-import { useInitialThenStore } from "@hooks/useInitialThenStore";
-import useModalState from "@hooks/useModalState";
+import { useInitialThenStoreWithSync } from "@hooks/useInitialThenStoreWithSync";
 import useMemoStore from "@store/memoStore";
 import { DiamondPlus } from "lucide-react";
 import PlanMemoCreateModal from "./PlanMemoCreateModal";
@@ -12,12 +11,11 @@ interface IPlanMemoContainer {
   data: IMemo[];
 }
 const PlanMemoContainer = (props: IPlanMemoContainer) => {
-  const modalState = useModalState();
-
-  const memoList = useInitialThenStore({
+  const memoList = useInitialThenStoreWithSync({
     initialData: props.data,
     store: useMemoStore,
     selector: (state) => state.memoList,
+    setSelector: (state) => state.setMemoList,
   });
 
   return (
@@ -34,7 +32,7 @@ const PlanMemoContainer = (props: IPlanMemoContainer) => {
         </h2>
         <div className="h-full w-full rounded-[1rem]">
           <ul
-            className={`relative grid h-full w-full max-w-full grid-cols-1 gap-2 min-[960px]:grid-cols-2 ${modalState.isOpen ? "overflow-scroll" : "overflow-hidden"} rounded-[1rem] p-2 text-sm glassmorphism`}
+            className={"relative grid h-full w-full max-w-full grid-cols-1 gap-2 min-[960px]:grid-cols-2 rounded-[1rem] p-2 text-sm glassmorphism"}
           >
             {memoList.map((i, index) => (
               <li
@@ -46,7 +44,6 @@ const PlanMemoContainer = (props: IPlanMemoContainer) => {
             ))}
           </ul>
           <ModalButton
-            onClick={() => modalState.openModal()}
             modal={<PlanMemoCreateModal />}
             buttonClassName="fixed left-[calc(100%-3rem)] top-[calc(100%-3rem)] h-10 w-10 rounded-[1.5rem] bg-blue-60 p-1 outline outline-2"
           >
