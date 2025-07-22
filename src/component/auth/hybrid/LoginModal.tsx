@@ -1,5 +1,6 @@
 "use client";
 
+import SubmitButton from "@component/common/button/SubmitButton";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -156,13 +157,15 @@ const LoginModal = (props: ILoginModal) => {
             />
           </Button> */}
         </div>
-        <ThemeButton1
+        <SubmitButton
+          text="로그인"
           className="h-btn-lg w-full p-[.5rem]"
-          onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
           disabled={!formState.isValid}
+          isActive={formState.isValid}
         >
           로그인
-        </ThemeButton1>
+        </SubmitButton>
       </div>
     </div>
   );

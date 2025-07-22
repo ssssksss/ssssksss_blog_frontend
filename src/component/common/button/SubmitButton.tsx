@@ -8,8 +8,9 @@ interface ISubmitButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
   size?: string;
   disabled?: boolean;
+  text?: string; // 아이콘 대신에 텍스트로 사용하려면
 }
-const SubmitButton = ({ isActive, className, size = "24", onClick, disabled, ...rest }: ISubmitButton) => {
+const SubmitButton = ({ isActive, className, size = "24", onClick, disabled, text, ...rest }: ISubmitButton) => {
   const [loading, setLoading] = useState(false);
 
   const handleConfirm = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +38,8 @@ const SubmitButton = ({ isActive, className, size = "24", onClick, disabled, ...
           <div className="border-white-500 aspect-square h-full animate-spin rounded-full border-2 border-t-transparent"></div>
         </div>
       ) : (
-        <SendHorizontal size={`${size || "24"}`} />
+        text ??
+            <SendHorizontal size={`${size || "24"}`} />
       )}
     </button>
   );
