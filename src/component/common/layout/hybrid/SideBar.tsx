@@ -1,7 +1,9 @@
+"use client";
+
 import Button from "@component/common/button/hybrid/Button";
 import HamburgerMenu from "@component/common/button/hybrid/HamburgerMenu";
-import MusicPlayer from "@component/player/hybrid/MusicPlayer";
 import useUserStore from "@store/userStore";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -12,7 +14,16 @@ import { FaFolderTree } from "react-icons/fa6";
 import { GoWorkflow } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiBookBookmarkFill } from "react-icons/pi";
+import { RiTeamFill } from "react-icons/ri";
 import { TbBrandBlogger, TbDeviceDesktopAnalytics } from "react-icons/tb";
+
+const MusicPlayer = dynamic(
+  () => import("@component/player/hybrid/MusicPlayer"),
+  {
+    ssr: false,
+  },
+);
+
 interface LeftNavItem {
   icon: string | ReactNode;
   label: string;
@@ -102,6 +113,12 @@ const LeftNavItems: LeftNavItem[] = [
     href: "/workflow",
     options: {isRequiredAuth: true, isAdmin: true},
   },
+  {
+    icon: <RiTeamFill size={"24"} />,
+    label: "협업공간",
+    href: "/team-space",
+    options: {isRequiredAuth: true},
+  },
 ];
 
 const SideBar = () => {
@@ -123,9 +140,9 @@ const SideBar = () => {
         ariaLabel="사이드바 메뉴 버튼"
       />
       <div
-        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll bg-default-1 ${isNavbarOpen ? "flex border-r-[0.25rem] border-t-[0.25rem] border-primary-80" : "hidden"} flex-col justify-start`}
+        className={`absolute top-12 h-[calc(100vh-3.5rem)] overflow-y-scroll scrollbar-hide bg-default-1 ${isNavbarOpen ? "flex border-r-[0.25rem] border-t-[0.25rem] border-primary-80" : "hidden"} flex-col justify-start`}
       >
-        <nav className="flex h-16 w-[20rem] flex-wrap gap-y-4">
+        <nav className="flex h-auto max-h-[calc(100%-5rem)] overflow-y-scroll scrollbar-hide w-[20rem] flex-wrap gap-y-4">
           {LeftNavItems.filter((i) => {
             const {isRequiredAuth, isAdmin} = i.options;
             const isLoggedIn = userStore.id > 0;
@@ -177,12 +194,12 @@ const SideBar = () => {
               </Button>
             </Link>
           ))}
-          {userStore.id > 0 && (
-            <div className="absolute bottom-0 h-[5rem] w-[20rem] bg-gray-20">
-              <MusicPlayer />
-            </div>
-          )}
         </nav>
+        {userStore.id > 0 && (
+          <div className="absolute bottom-0 h-[5rem] w-[20rem] bg-gray-20">
+            <MusicPlayer />
+          </div>
+        )}
       </div>
     </aside>
   );

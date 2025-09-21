@@ -24,18 +24,22 @@ const Blog2FirstCategoryCreateForm = (props: IBlog2FirstCategoryCreateForm) => {
   const createFirstCategoryHandler = async (data: {
     createFirstCategoryName: string;
   }) => {
-    const result: IBlog2FirstCategory | undefined =
-      await fetchCSR.requestWithHandler({
-        url: "/api/blog2/first/category",
-        method: "POST",
-        body: {
-          name: data.createFirstCategoryName,
-        },
-        showSuccessToast: true,
-      });
-    if (result == undefined) return;
-    result.blog2SecondCategoryList = [];
-    blog2Store.setBlog2CategoryList([...blog2Store.categoryList, result]);
+    await fetchCSR.requestWithHandler({
+      url: "/api/blog2/first/category",
+      method: "POST",
+      body: {
+        name: data.createFirstCategoryName,
+      },
+      showSuccessToast: true,
+      handleSuccess: (result: IBlog2FirstCategory) => {
+        result.blog2SecondCategoryList = [];
+        blog2Store.setBlog2CategoryList([...blog2Store.categoryList, result]);
+      },
+      handleFail: () => {
+        return;
+      },
+    });
+    
   };
 
   return (

@@ -29,17 +29,17 @@ const BasicButton: React.FC<IBasicButton> = ({
 
   return (
     <button
-      className={className}
+      className={className + " relative"}
       onClick={handleClick}
       disabled={loading || props.disabled}
       {...props}
     >
-      {loading ? (
-        <div className="h-full py-1 default-flex">
-          <div className="border-white-500 aspect-square h-full animate-spin rounded-full border-b-2"></div>
+      <span className={loading ? "invisible" : ""}>{children}</span>
+
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="aspect-square h-4 animate-spin rounded-full border-b-4 border-blue-500"></div>
         </div>
-      ) : (
-        children
       )}
     </button>
   );

@@ -22,32 +22,30 @@ const SiteBookmarkCategoryModal = (props: ISiteBookmarkCategoryModal) => {
       method: "POST",
       body: { name: inputRef.current?.value },
       showSuccessToast: true,
-      successMessage: "카테고리 생성에 성공했습니다."
+      successMessage: "카테고리 생성에 성공했습니다.",
+      handleSuccess: () => {
+        siteBookmarkStore.setSiteBookmarkCategory({
+          id: result.id,
+          name: result.name,
+          siteBookmark: [],
+        });
+            props.closeModal!();
+      },
     });
-    siteBookmarkStore.setSiteBookmarkCategory({
-      id: result.id,
-      name: result.name,
-      siteBookmark: [],
-    });
-    props.closeModal!();
   };
   
-  const updateSiteBookmarkCategory = () => {
-    // name, isAuth
-  };
-
   const deleteSiteBookmarkCategory = async (siteBookmarkCategoryId: number) => {
     if (siteBookmarkCategoryId <= 0) return;
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/site-bookmark/category?id=${siteBookmarkCategoryId}`,
       method: "DELETE",
       showSuccessToast: true,
       successMessage: "카테고리 삭제 했습니다.",
+      handleSuccess: () => {
+        const _temp = siteBookmarkStore.siteBookmarkCategoryList.filter(i=>i.id != siteBookmarkCategoryId);
+        siteBookmarkStore.setInit(_temp);
+      }
     });
-    if (result == "success") {
-      const _temp = siteBookmarkStore.siteBookmarkCategoryList.filter(i=>i.id != siteBookmarkCategoryId);
-      siteBookmarkStore.setInit(_temp);
-    }
   };
 
   return (

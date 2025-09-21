@@ -25,28 +25,33 @@ const Blog2DetailContainer = (props: IBlog2DetailContainer) => {
   const fetchCSR = useFetchCSR();
   const deleteBlog2Handler = async () => {
     // 삭제 API
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/blog2?id=${props.data.blog2.id}`,
       method: "DELETE",
+      handleSuccess: () => {
+        // 기존 리스트에서 블로그 항목 제거
+        if (
+          blog2Store.blogItemList.blog2SecondCategoryId ==
+          props.data.blog2SecondCategory.id
+        ) {
+          blog2Store.setBlogItemList({
+            id: blog2Store.blogItemList.blog2SecondCategoryId,
+            list: [
+              ...blog2Store.blogItemList.list.filter(
+                (i) => i.id !== props.data.blog2.id,
+              ),
+            ],
+          });
+        }
+        router.push(
+          `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
+        );
+      },
+      handleFail: () => {
+        return;
+      }
     });
-    if (result == undefined) return;
-    // 기존 리스트에서 블로그 항목 제거
-    if (
-      blog2Store.blogItemList.blog2SecondCategoryId ==
-        props.data.blog2SecondCategory.id
-    ) {
-      blog2Store.setBlogItemList({
-        id: blog2Store.blogItemList.blog2SecondCategoryId,
-        list: [
-          ...blog2Store.blogItemList.list.filter(
-            (i) => i.id !== props.data.blog2.id,
-          ),
-        ],
-      });
-    }
-    await router.push(
-      `/blog2?firstCategoryId=${props.data.blog2.firstCategoryId}&secondCategoryId=${props.data.blog2SecondCategory.id}`,
-    );
+    
   };
 
   useEffect(() => {

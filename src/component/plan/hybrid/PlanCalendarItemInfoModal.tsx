@@ -27,49 +27,59 @@ const PlanCalendarItemInfoModal = (props: IPlanCalendarItemInfoModal) => {
   };
 
   const deleteScheduleCalendar = async () => {
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/plan/schedule?id=${props.data.id}`,
       method: "DELETE",
       successMessage: "일정 삭제에 성공했습니다.",
-      showSuccessToast: true
+      showSuccessToast: true,
+      handleSuccess: (result) => {
+        try {
+          const tempList = planStore.scheduleList.filter(
+            (i) => i.id != props.data.id,
+          );
+          const {year, month, day} = planStore.calendar[15];
+          const days: ICalendarItem[] = createScheduleCalendar(
+            new Date(year, month - 1, day),
+          );
+          const scheduleStartDate = parse(
+            days[0].year +
+              days[0].month.toString().padStart(2, "0") +
+              days[0].day.toString().padStart(2, "0"),
+            "yyyyMMdd",
+            new Date(),
+          ).toISOString();
+          const scheduleEndDate = parse(
+            days[days.length - 1].year +
+              days[days.length - 1].month.toString().padStart(2, "0") +
+              days[days.length - 1].day.toString().padStart(2, "0"),
+            "yyyyMMdd",
+            new Date(),
+          ).toISOString();
+
+          const list = tempList;
+          const t = scheduleSort(
+            list,
+            format(
+              addHours(new Date(scheduleStartDate), 9),
+              "yyyy-MM-dd HH:mm:ss",
+            ),
+            format(
+              addHours(new Date(scheduleEndDate), 9),
+              "yyyy-MM-dd HH:mm:ss",
+            ),
+          );
+          t.result.forEach((schedule) => {
+            days[schedule.index].data.push(schedule);
+          });
+          planStore.setCalendar(days);
+          planStore.setMaxLayer(t.maxLayer);
+          planStore.setScheduleList(tempList);
+        } finally {
+          props.closeModal!();
+        }
+      }
     });
-    if (result == undefined) return;
-    try {
-      const tempList = planStore.scheduleList.filter((i) => i.id != props.data.id);
-      const {year, month, day} = planStore.calendar[15];
-      const days: ICalendarItem[] = createScheduleCalendar(
-        new Date(year, month - 1, day)
-      );
-      const scheduleStartDate = parse(
-        days[0].year +
-        days[0].month.toString().padStart(2, "0") +
-        days[0].day.toString().padStart(2, "0"),
-        "yyyyMMdd",
-        new Date(),
-      ).toISOString();
-      const scheduleEndDate = parse(
-        days[days.length - 1].year +
-        days[days.length - 1].month.toString().padStart(2, "0") +
-        days[days.length - 1].day.toString().padStart(2, "0"),
-        "yyyyMMdd",
-        new Date(),
-      ).toISOString();
-      
-      const list = tempList;
-      const t = scheduleSort(
-        list,
-        format(addHours(new Date(scheduleStartDate), 9), "yyyy-MM-dd HH:mm:ss"),
-        format(addHours(new Date(scheduleEndDate), 9), "yyyy-MM-dd HH:mm:ss"),
-      );
-      t.result.forEach((schedule) => {
-        days[schedule.index].data.push(schedule);
-      });
-      planStore.setCalendar(days);
-      planStore.setMaxLayer(t.maxLayer);
-      planStore.setScheduleList(tempList);
-    } finally {
-      props.closeModal!();
-    }
+    
   };
 
   return (

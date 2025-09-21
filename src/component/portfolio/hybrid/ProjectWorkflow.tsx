@@ -64,12 +64,14 @@ const ProjectWorkflow = (props: IProjectWorkflow) => {
           "[개인프로젝트] " + title,
         )}`,
         hideError: true,
+        handleSuccess: (result: {content: string}) => {
+          setContent(result.content);
+        },
+        handleFail: () => {
+          setContent("");
+          return;
+        }
       });
-      if (!result) {
-        setContent("");
-        return;
-      }
-      setContent(result.content);
     } catch (error) {
       setContent("");
       console.error("Failed to fetch portfolio content:", error);

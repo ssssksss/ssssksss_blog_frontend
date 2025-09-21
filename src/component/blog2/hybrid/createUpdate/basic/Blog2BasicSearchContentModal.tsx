@@ -12,7 +12,6 @@ import {
   EditorUlStyle
 } from "@utils/editor/EditorTailwindcssStyle";
 import MarkdownPreview from "@utils/editor/MarkdownPreview";
-import clog from "@utils/logger/logger";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FaHandPointUp } from "react-icons/fa";
@@ -38,36 +37,42 @@ const Blog2BasicSearchContentModal = (props: IBlog2BasicSearchContentModal) => {
     if (searchRef.current!.value == search) {
       return;
     }
-    clog.info("블로그 기초 글 검색 API 요청");
-    const result = await fetchCSR.requestWithHandler({
-      url: `/api/blog2/basic/list?search=${encodeURIComponent(searchRef.current!.value)}&page=${page}`
+    await fetchCSR.requestWithHandler({
+      url: `/api/blog2/basic/list?search=${encodeURIComponent(searchRef.current!.value)}&page=${page}`,
+      handleSuccess: (result: {
+        blog2BasicList: ISearchBlog2BasicContentList;
+      }) => {
+        setBlog2BasicContentList(result.blog2BasicList.content);
+        setSearch(searchRef.current!.value);
+        toastifyStore.setToastify({
+          message: `${result.blog2BasicList.content.length}개의 검색 결과`,
+        });
+      },
+      handleFail: () => {
+        setBlog2BasicContentList([]);
+        return;
+      },
     });
 
-    if (result == undefined) {
-      setBlog2BasicContentList([]);
-      return;
-    };
-    setBlog2BasicContentList(result.blog2BasicList.content);
-    setSearch(searchRef.current!.value);
-    toastifyStore.setToastify({
-      message: `${result.blog2BasicList.content.length}개의 검색 결과`,
-    });
+
+
   };
 
   const deleteBlog2BasicContentHandler = async (id: number) => {
-    const result = await fetchCSR.requestWithHandler(
-      {
-        url: `/api/blog2/basic?id=${id}`,
-        method: "DELETE",
-        showSuccessToast: true,
-      });
-    
-    if (result == undefined) return;
-
-    const _basicList = blog2BasicContentList.filter((i) => i.id != id);
-    setBlog2BasicContentList(_basicList); // 찾기 목록에서 제거
-    blog2FormContext.setValue("blog2BasicList", _basicList);
-    props.closeModal!();
+    await fetchCSR.requestWithHandler({
+      url: `/api/blog2/basic?id=${id}`,
+      method: "DELETE",
+      showSuccessToast: true,
+      handleSuccess: () => {
+        const _basicList = blog2BasicContentList.filter((i) => i.id != id);
+        setBlog2BasicContentList(_basicList); // 찾기 목록에서 제거
+        blog2FormContext.setValue("blog2BasicList", _basicList);
+        props.closeModal!();
+      },
+      handleFail: () => {
+        return;
+      },
+    });
   };
 
   return (

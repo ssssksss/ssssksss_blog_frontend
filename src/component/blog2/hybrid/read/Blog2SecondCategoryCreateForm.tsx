@@ -52,26 +52,28 @@ const Blog2SecondCategoryCreateForm = (
     );
     formData.append("s3ImageUrlList", JSON.stringify(data.s3ImageUrlList));
 
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/blog2/category/second",
       method: "POST",
       formData: formData,
       showSuccessToast: true,
       handleRevalidateTags: ["blog2CategoryList"],
+      handleSuccess: (result: {createBlog2SecondCategory: ISecondCategory}) => {
+        const temp = blog2Store.categoryList.map((i) => {
+          if (i.id == +data.firstCategoryId) {
+            i.blog2SecondCategoryList?.push(result.createBlog2SecondCategory);
+          }
+          return i;
+        });
+        blog2Store.setBlog2CategoryList(temp);
+        props.closeModal!();
+      },
+      handleFail: () => {
+        return;
+      },
     });
 
-    if (result == undefined) return;
-
-    const temp = blog2Store.categoryList.map((i) => {
-      if (i.id == +data.firstCategoryId) {
-        i.blog2SecondCategoryList?.push(
-          result.createBlog2SecondCategory,
-        );
-      }
-      return i;
-    });
-    blog2Store.setBlog2CategoryList(temp);
-    props.closeModal!();
+    
   };
 
   // 이미지 업로드가 아닌 미리보기로 처리 후 API 요청할 때 업로드 처리 방식

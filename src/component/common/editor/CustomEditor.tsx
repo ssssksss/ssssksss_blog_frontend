@@ -18,6 +18,7 @@ interface ICustomEditor {
   isPreview?: boolean;
   refreshValue?: string;
   s3DirectoryPath?: string;
+  textSpaceMaxHeightTailWindText?: string;
 }
 
 const CustomEditor = (props: ICustomEditor) => {
@@ -114,48 +115,54 @@ const CustomEditor = (props: ICustomEditor) => {
       method: "POST",
       formData: formData,
       showLoading: false,
+      handleFail: () => {
+        setContent?.((prev) => prev.replace(`![image](${url})`, "이미지 업로드 실패"));
+        return;
+      },
+      handleSuccess: async (result: string) => {
+        toastifyStore.setToastify({
+          message:
+                  "이미지를 변환중입니다. 최대 30초까지 걸릴 수 있습니다.",
+          duration: 5000,
+        });
+
+        // 업로드 성공: 이미지 URL을 실제 S3 경로로 교체
+        const uploadedUrl = `${result}`;
+        const isImageReady = await waitForImage(
+          `${AWSS3Prefix}${uploadedUrl}`,
+        ); // 15초동안 1초마다 이미지 URL이 유효한지 확인하는 함수
+
+        if (!isImageReady) {
+          setContent?.((prev) =>
+            prev.replace(
+              `![image](${url})`,
+              "이미지 업로드 실패(시간 초과)",
+            ),
+          );
+          toastifyStore.setToastify({
+            type: "error",
+            message: "이미지를 변환에 실패했습니다.",
+            duration: 2000,
+          });
+          return;
+        }
+
+        toastifyStore.setToastify({
+          message: "이미지를 변환이 완료되었습니다.",
+          duration: 2000,
+        });
+
+        setContent?.((prev) =>
+          prev.replace(
+            `![image](${url})`,
+            `![image](${AWSS3Prefix}${uploadedUrl})`,
+          ),
+        );
+
+        // BE에서 임시 이미지 DB에서 제거
+        props.addS3ImageUrl!(result);
+      },
     });
-
-    if (result === undefined) {
-      // 업로드 실패: 기존 임시 이미지 마크다운 제거
-      setContent?.((prev) => prev.replace(`![image](${url})`, "이미지 업로드 실패"));
-      return;
-    }
-
-    
-    toastifyStore.setToastify({
-      message: "이미지를 변환중입니다. 최대 30초까지 걸릴 수 있습니다.",
-      duration: 5000,
-    });
-    
-    // 업로드 성공: 이미지 URL을 실제 S3 경로로 교체
-    const uploadedUrl = `${result}`;
-    const isImageReady = await waitForImage(`${AWSS3Prefix}${uploadedUrl}`); // 15초동안 1초마다 이미지 URL이 유효한지 확인하는 함수
-
-    if (!isImageReady) {
-      setContent?.((prev) =>
-        prev.replace(`![image](${url})`, "이미지 업로드 실패(시간 초과)"),
-      );
-      toastifyStore.setToastify({
-        type: "error",
-        message: "이미지를 변환에 실패했습니다.",
-        duration: 2000,
-      });
-      return ;
-    }
-    
-    toastifyStore.setToastify({
-      message: "이미지를 변환이 완료되었습니다.",
-      duration: 2000,
-    });
-
-
-    setContent?.((prev) =>
-      prev.replace(`![image](${url})`, `![image](${AWSS3Prefix}${uploadedUrl})`),
-    );
-
-    // BE에서 임시 이미지 DB에서 제거
-    props.addS3ImageUrl!(result);
   };
 
   const {onDragEnter, onDragLeave, onDragOver, onDropOrInputEvent} =
@@ -251,11 +258,11 @@ const CustomEditor = (props: ICustomEditor) => {
   
   return (
     <div
-      className={`grid h-[calc(100%-2rem)] w-full max-w-[75rem] gap-x-2 pt-1 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
+      className={`grid h-[calc(100%-2rem)] w-full flex-1 max-w-[75rem] gap-x-2 pt-1 ${mode == "markdown" ? "" : mode == "preview" ? "" : "grid-cols-[1fr_1fr]"}`}
     >
       {/* 내용작성 */}
       <article
-        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "preview" && "hidden"}`}
+        className={`flex h-full w-full flex-1 min-w-full max-w-full flex-col gap-y-2 overflow-scroll scrollbar-hide ${mode == "preview" && "hidden"}`}
       >
         <h3
           className="rounded-[1rem] py-2 text-2xl font-bold primary-border-radius default-flex"
@@ -267,7 +274,7 @@ const CustomEditor = (props: ICustomEditor) => {
           id="editor"
           placeholder="여기에 마크다운을 입력하세요..."
           className={
-            "h-full w-full resize-none overflow-scroll rounded-2xl border-2 border-primary-80 p-2"
+            `h-full ${props.textSpaceMaxHeightTailWindText ?? "max-h-[100vh]"} w-full resize-none overflow-y-scroll rounded-2xl border-2 border-primary-80 p-2`
           }
           onChange={(e) => handleTextareaChange(e.target.value)}
           value={content}
@@ -281,7 +288,7 @@ const CustomEditor = (props: ICustomEditor) => {
       </article>
       {/* 미리보기 */}
       <article
-        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll ${mode == "markdown" && "hidden"}`}
+        className={`flex h-full w-full min-w-full max-w-full flex-col gap-y-2 overflow-scroll scrollbar-hide ${mode == "markdown" && "hidden"}`}
       >
         <h3
           className="rounded-[1rem] py-2 text-2xl font-bold primary-border-radius default-flex"
@@ -293,7 +300,7 @@ const CustomEditor = (props: ICustomEditor) => {
           content={content}
           isPreview={props.isPreview}
           className={
-            "h-full max-h-full w-full overflow-scroll break-all rounded-2xl border-2 border-primary-80 p-2"
+            `h-full ${props.textSpaceMaxHeightTailWindText ?? "max-h-[100vh]"} w-full overflow-y-scroll break-all rounded-2xl border-2 border-primary-80 p-2`
           }
         />
       </article>

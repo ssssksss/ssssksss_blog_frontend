@@ -1,9 +1,13 @@
-// import UseDragAndDropBlogTestComponent from "@component/common/test/UseDragAndDropBlogTestComponent";
+"use client";
 
-export default async function page() {
+export default function Page() {
+
+
   return (
-    <div>
-      {/* <UseDragAndDropBlogTestComponent /> */}
+    <div className="h-full w-full">
+      {/* <Test /> */}
     </div>
   );
 }
+
+

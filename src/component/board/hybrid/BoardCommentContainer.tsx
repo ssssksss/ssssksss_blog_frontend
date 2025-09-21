@@ -33,10 +33,10 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
           url: `/api/board/comment?boardId=${props.boardId}`,
           method: "GET",
           showLoading: false,
+          handleSuccess: () => {
+            boardCommentStore.setBoardCommentList(result);
+          },
         });
-        if (result !== undefined) {
-          boardCommentStore.setBoardCommentList(result);
-        }
       } finally {
         loadingFunc.stopLoading(); // 로딩 종료
       }
@@ -62,34 +62,36 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
       },
       showSuccessToast: true,
       successMessage: `${parentId == undefined ? "댓글" : "답글"} 등록에 성공했습니다.`,
+      handleSuccess: () => {
+        if (parentId == undefined) {
+          boardCommentStore.setBoardCommentList([
+            result,
+            ...boardCommentStore.boardCommentList,
+          ]);
+        } else {
+          // 답글 로직
+          const updatedList = boardCommentStore.boardCommentList.map(
+            (comment) => {
+              if (comment.id === result.parentId) {
+                const updatedChildren = comment.childComments
+                  ? [...comment.childComments]
+                  : [];
+                updatedChildren.unshift(result);
+                return {
+                  ...comment,
+                  childComments: updatedChildren,
+                };
+              }
+              return comment;
+            },
+          );
+          boardCommentStore.setBoardCommentList(updatedList);
+        }
+      }
     });
 
-    if (result == undefined) {
-      throw new Error("result is undefined");
-    }
 
-    if (parentId == undefined) {
-      boardCommentStore.setBoardCommentList([
-        result,
-        ...boardCommentStore.boardCommentList,
-      ]);
-    } else {
-      // 답글 로직
-      const updatedList = boardCommentStore.boardCommentList.map((comment) => {
-        if (comment.id === result.parentId) {
-          const updatedChildren = comment.childComments
-            ? [...comment.childComments]
-            : [];
-          updatedChildren.unshift(result);
-          return {
-            ...comment,
-            childComments: updatedChildren,
-          };
-        }
-        return comment;
-      });
-      boardCommentStore.setBoardCommentList(updatedList);
-    }
+    
   };
 
   const updateBoardCommentHandler = async ({
@@ -101,7 +103,7 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
     text: string;
     parentId?: number;
   }) => {
-    const result: IBoardComment = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/board/comment",
       method: "PUT",
       body: {
@@ -111,44 +113,43 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
       },
       showSuccessToast: true,
       successMessage: `${parentId == undefined ? "댓글" : "답글"} 수정에 성공했습니다.`,
-    });
-
-    if (result == undefined) {
-      throw new Error("result is undefined");
-    }
-
-    const updatedList = boardCommentStore.boardCommentList.map((comment) => {
-      if (comment.id === id) {
-        // 최상위 댓글 수정
-        return {
-          ...comment,
-          content: text,
-          modifiedAt: new Date().toString(),
-        };
-      } else if (comment.id === parentId) {
-        const _childComments = Array.isArray(comment.childComments)
-          ? comment.childComments
-          : [];
-        // 답글 수정
-        const updatedChildComments = _childComments.map((child) =>
-          child.id === id
-            ? {
-              ...child,
-              content: text,
-              modifiedAt: new Date().toString(),
+      handleSuccess: () => {
+        const updatedList = boardCommentStore.boardCommentList.map(
+          (comment) => {
+            if (comment.id === id) {
+              // 최상위 댓글 수정
+              return {
+                ...comment,
+                content: text,
+                modifiedAt: new Date().toString(),
+              };
+            } else if (comment.id === parentId) {
+              const _childComments = Array.isArray(comment.childComments)
+                ? comment.childComments
+                : [];
+              // 답글 수정
+              const updatedChildComments = _childComments.map((child) =>
+                child.id === id
+                  ? {
+                    ...child,
+                    content: text,
+                    modifiedAt: new Date().toString(),
+                  }
+                  : child,
+              );
+              return {
+                ...comment,
+                childComments: updatedChildComments,
+              };
             }
-            : child,
+
+            return comment;
+          },
         );
-        return {
-          ...comment,
-          childComments: updatedChildComments,
-        };
+
+        boardCommentStore.setBoardCommentList([...updatedList]);
       }
-
-      return comment;
     });
-
-    boardCommentStore.setBoardCommentList([...updatedList]);
   };
 
   const deleteBoardCommentHandler = async ({
@@ -158,44 +159,41 @@ const BoardCommentContainer = (props: IBoardCommentContainerType) => {
     id: number;
     parentId?: number;
   }) => {
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/board/comment?id=${id}`,
       method: "DELETE",
       showSuccessToast: true,
       successMessage: `${parentId == undefined ? "댓글" : "답글"} 삭제에 성공했습니다.`,
+      handleSuccess: () => {
+        const updatedList = boardCommentStore.boardCommentList.map((comment) => {
+          if (comment.id === id) {
+            return {
+              ...comment,
+              content: "삭제된 댓글입니다.",
+              isDeleted: true,
+            };
+          } else if (comment.id === parentId) {
+            const _childComments = Array.isArray(comment.childComments)
+              ? comment.childComments
+              : [];
+
+            const updatedChildComments = _childComments.map((child) =>
+              child.id === id
+                ? {...child, content: "삭제된 댓글입니다.", isDeleted: true}
+                : child,
+            );
+            return {
+              ...comment,
+              childComments: [...updatedChildComments],
+            };
+          }
+          return comment;
+        });
+        boardCommentStore.setBoardCommentList([...updatedList]);
+      },
     });
 
-    if (result == undefined) {
-      throw new Error("result is undefined");
-    }
-
-    const updatedList = boardCommentStore.boardCommentList.map((comment) => {
-      if (comment.id === id) {
-        return {
-          ...comment,
-          content: "삭제된 댓글입니다.",
-          isDeleted: true,
-        };
-      } else if (comment.id === parentId) {
-        const _childComments = Array.isArray(comment.childComments)
-          ? comment.childComments
-          : [];
-
-        const updatedChildComments = _childComments.map((child) =>
-          child.id === id
-            ? {...child, content: "삭제된 댓글입니다.", isDeleted: true}
-            : child,
-        );
-        return {
-          ...comment,
-          childComments: [...updatedChildComments],
-        };
-      }
-
-      
-      return comment;
-    });
-    boardCommentStore.setBoardCommentList([...updatedList]);
+    
   };
 
   return (

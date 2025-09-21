@@ -31,7 +31,7 @@ const NestedModalButton: React.FC<IButtonProps> = ({
         event.stopPropagation();
         modalState.openModal();
       }
-      event.preventDefault();
+      // event.preventDefault();
       _onClick?.(event);
     };
   

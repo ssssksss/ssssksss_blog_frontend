@@ -104,7 +104,7 @@ const PlanCreateScheduleModal = (props: any) => {
     planScheduleCategory: number;
     status: string;
   }) => {
-    const result: IPlanScheduleDTO = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/plan/schedule",
       method: "POST",
       body: {
@@ -113,70 +113,71 @@ const PlanCreateScheduleModal = (props: any) => {
         categoryId: data.planScheduleCategory,
         scheduleStartDate: new Date(calendarDate[0].startDate).toISOString(),
         scheduleEndDate: new Date(calendarDate[0].endDate).toISOString(),
-        status: data.status
+        status: data.status,
       },
       showSuccessToast: true,
-      successMessage: "일정 생성에 성공했습니다."
-    });
-    if (result == undefined) return;
-    const temp = {
-      scheduleCategoryName: result.planScheduleCategory.name,
-      scheduleEndDate: format(
-        new Date(result.scheduleEndDate),
-        "yyyy-MM-dd HH:mm:ss",
-      ),
-      scheduleCategoryId: result.planScheduleCategory.id,
-      scheduleStartDate: format(
-        new Date(result.scheduleStartDate),
-        "yyyy-MM-dd HH:mm:ss",
-      ),
-      id: result.id,
-      title: result.title,
-      content: result.content,
-      scheduleCategoryBackgroundColor:
-        result.planScheduleCategory.backgroundColor,
-      status: result.status
-    };
-    const index = planStore.scheduleList.findIndex(
-      (i) => i.scheduleStartDate >= temp.scheduleStartDate,
-    );
-    const tempList = [
-      ...planStore.scheduleList.slice(0, index),
-      temp,
-      ...planStore.scheduleList.slice(index),
-    ];
-    const {year, month, day} = planStore.calendar[15];
-    const days: ICalendarItem[] = createScheduleCalendar(
-      new Date(year, month - 1, day),
-    );
-    const scheduleStartDate = parse(
-      days[0].year +
-        days[0].month.toString().padStart(2, "0") +
-        days[0].day.toString().padStart(2, "0"),
-      "yyyyMMdd",
-      new Date(),
-    ).toISOString();
-    const scheduleEndDate = parse(
-      days[days.length - 1].year +
-        days[days.length - 1].month.toString().padStart(2, "0") +
-        days[days.length - 1].day.toString().padStart(2, "0"),
-      "yyyyMMdd",
-      new Date(),
-    ).toISOString();
+      successMessage: "일정 생성에 성공했습니다.",
+      handleSuccess: (result: IPlanScheduleDTO) => {
+        const temp = {
+          scheduleCategoryName: result.planScheduleCategory.name,
+          scheduleEndDate: format(
+            new Date(result.scheduleEndDate),
+            "yyyy-MM-dd HH:mm:ss",
+          ),
+          scheduleCategoryId: result.planScheduleCategory.id,
+          scheduleStartDate: format(
+            new Date(result.scheduleStartDate),
+            "yyyy-MM-dd HH:mm:ss",
+          ),
+          id: result.id,
+          title: result.title,
+          content: result.content,
+          scheduleCategoryBackgroundColor:
+            result.planScheduleCategory.backgroundColor,
+          status: result.status,
+        };
+        const index = planStore.scheduleList.findIndex(
+          (i) => i.scheduleStartDate >= temp.scheduleStartDate,
+        );
+        const tempList = [
+          ...planStore.scheduleList.slice(0, index),
+          temp,
+          ...planStore.scheduleList.slice(index),
+        ];
+        const {year, month, day} = planStore.calendar[15];
+        const days: ICalendarItem[] = createScheduleCalendar(
+          new Date(year, month - 1, day),
+        );
+        const scheduleStartDate = parse(
+          days[0].year +
+            days[0].month.toString().padStart(2, "0") +
+            days[0].day.toString().padStart(2, "0"),
+          "yyyyMMdd",
+          new Date(),
+        ).toISOString();
+        const scheduleEndDate = parse(
+          days[days.length - 1].year +
+            days[days.length - 1].month.toString().padStart(2, "0") +
+            days[days.length - 1].day.toString().padStart(2, "0"),
+          "yyyyMMdd",
+          new Date(),
+        ).toISOString();
 
-    const list = tempList;
-    const t = scheduleSort(
-      list,
-      format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
-      format(new Date(scheduleEndDate), "yyyy-MM-dd HH:mm:ss"),
-    );
-    t.result.forEach((schedule) => {
-      days[schedule.index].data.push(schedule);
+        const list = tempList;
+        const t = scheduleSort(
+          list,
+          format(new Date(scheduleStartDate), "yyyy-MM-dd HH:mm:ss"),
+          format(new Date(scheduleEndDate), "yyyy-MM-dd HH:mm:ss"),
+        );
+        t.result.forEach((schedule) => {
+          days[schedule.index].data.push(schedule);
+        });
+        planStore.setCalendar(days);
+        planStore.setMaxLayer(t.maxLayer);
+        planStore.setScheduleList(tempList);
+        props.closeModal();
+      },
     });
-    planStore.setCalendar(days);
-    planStore.setMaxLayer(t.maxLayer);
-    planStore.setScheduleList(tempList);
-    props.closeModal();
   };
 
   const onClickErrorSubmit = (error: any) => {

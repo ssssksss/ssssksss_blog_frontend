@@ -33,10 +33,12 @@ const BoardDetailContainer = (props: IBoardDetailContainer) => {
         method: "DELETE",
         showSuccessToast: true,
         successMessage: "게시글이 삭제되었습니다.",
+        handleSuccess: () => {
+          refreshStore.setRefresh(true);
+          router.replace("/board");
+        }
       });
       if (result == undefined) return;
-      refreshStore.setRefresh(true);
-      router.replace("/board");
     } catch {
       
     } finally {

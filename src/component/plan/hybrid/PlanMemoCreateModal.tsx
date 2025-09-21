@@ -12,17 +12,18 @@ const PlanMemoCreateModal = (props: IPlanMemoCreateModal) => {
   const fetchCSR = useFetchCSR();
   const [content, setContent] = useState(""); // State for the textarea content
   const crateMemoHandler = async () => {
-    const result: IMemo = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/plan/memo",
       method: "POST",
       body: { content },
       showSuccessToast: true,
-      successMessage: "메모 생성 성공"
+      successMessage: "메모 생성 성공",
+      handleSuccess: (result: IMemo) => {
+        setContent(""); // Clear the content state after adding a memo
+        memoStore.setMemoList([result, ...memoStore.memoList]);
+        props.closeModal!();
+      }
     });
-    if (result == undefined) return;
-    setContent(""); // Clear the content state after adding a memo
-    memoStore.setMemoList([result, ...memoStore.memoList]);
-    props.closeModal!();
   };
 
   return (

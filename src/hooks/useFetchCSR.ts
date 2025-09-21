@@ -5,9 +5,9 @@ import clog from "@utils/logger/logger";
 import { useEffect } from "react";
 
 // fetch를 보내 toast 메시지를 보여주고, 성공시 data를 반환
-interface IFetchFn {
+interface IFetchFn<T> {
   url: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE" ;
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" ;
   formData?: FormData;
   body?: Record<string, any>;
   contentType?: undefined | "application/x-www-form-urlencoded";
@@ -17,6 +17,8 @@ interface IFetchFn {
   successMessage?: string;
   showLoading?: boolean;
   hideError?: boolean;
+  handleSuccess?: (result: T) => void;
+  handleFail?: () => void;
 }
 // fetch를 요청하고 액세스 재발급까지는 안되는 로직, 인증 처리도 없음
 // 단 fetch를 route.ts로 보내면 인증처리가 가능할 수도 있음
@@ -30,7 +32,7 @@ function useFetchCSR() {
    * response 응답이 아닌 결과 데이터를 반환합니다.
    * @returns result.data(성공) || "success"(성공 반환데이터가 없는 경우) || undefined(실패)
    */
-  const requestWithHandler = async ({
+  const requestWithHandler = async <T>({
     url,
     method,
     formData,
@@ -42,7 +44,9 @@ function useFetchCSR() {
     successMessage,
     showLoading = true,
     hideError,
-  }: IFetchFn) => {
+    handleSuccess,
+    handleFail,
+  }: IFetchFn<T>) => {
     try {
       // api route의 router handling을 사용해서 처리
       const response = await fetch(url, {
@@ -58,6 +62,9 @@ function useFetchCSR() {
           "fetchCSR 에러: " + response.status + " : " + response.statusText,
         );
         if (hideError) {
+          if (handleFail) {
+            await handleFail();
+          }
           return;
         }
         toastifyStore.setToastify(await handleToastError(response));
@@ -75,15 +82,23 @@ function useFetchCSR() {
         });
       }
       await revalidateTags(handleRevalidateTags);
+      if (handleSuccess) {
+        await handleSuccess(result?.data || "success");
+      }
       return result?.data || "success";
     } catch (error) {
-      if (hideError) return;
+      if (hideError) {
+        return;
+      }
       if (error instanceof Error) {
         clog.error(error.message);
         Sentry.captureException(error); // Sentry로 에러 전송
       } else {
         clog.error(error);
         Sentry.captureException(new Error(String(error))); // 에러가 객체가 아닌 경우
+      }
+      if (handleFail) {
+        await handleFail();
       }
       return;
     }

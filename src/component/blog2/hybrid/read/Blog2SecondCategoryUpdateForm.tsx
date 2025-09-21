@@ -95,31 +95,32 @@ const Blog2SecondCategoryUpdateForm = (
     formData.append("s3ImageUrlList", JSON.stringify(data.s3ImageUrlList));
     formData.append("templateContent", data.templateContent);
 
-    const result: ISecondCategory | undefined =
-        await fetchCSR.requestWithHandler({
-          url: "/api/blog2/category/second",
-          method: "PUT",
-          formData: formData,
-          handleRevalidateTags: ["blog2CategoryList"],
-          showSuccessToast: true,
-          successMessage: "2번째 카테고리를 수정",
-        });
-    if (result == undefined) return;
-
-    const temp = blog2Store.categoryList.map((i) => {
-      if (i.id == +searchParams.get("firstCategoryId")!) {
-        i.blog2SecondCategoryList?.map((j) => {
-          if (j.id == result.id) {
-            j.name = result.name;
-            j.thumbnailImageUrl = result.thumbnailImageUrl;
-            j.templateContent = result.templateContent;
+    await fetchCSR.requestWithHandler({
+      url: "/api/blog2/category/second",
+      method: "PUT",
+      formData: formData,
+      handleRevalidateTags: ["blog2CategoryList"],
+      showSuccessToast: true,
+      successMessage: "2번째 카테고리를 수정",
+      handleSuccess: (result: ISecondCategory) => {
+        const temp = blog2Store.categoryList.map((i) => {
+          if (i.id == +searchParams.get("firstCategoryId")!) {
+            i.blog2SecondCategoryList?.map((j) => {
+              if (j.id == result.id) {
+                j.name = result.name;
+                j.thumbnailImageUrl = result.thumbnailImageUrl;
+                j.templateContent = result.templateContent;
+              }
+            });
           }
+          return i;
         });
-      }
-      return i;
+        blog2Store.setBlog2CategoryList(temp);
+        props.closeModal && props.closeModal();
+      },
     });
-    blog2Store.setBlog2CategoryList(temp);
-    props.closeModal && props.closeModal();
+
+    
   };
 
   const fakeImageUpload = ({file, url}: {file: File; url: string}) => {

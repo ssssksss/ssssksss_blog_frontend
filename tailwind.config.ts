@@ -309,6 +309,10 @@ const config: Config = {
         "gradient-purple-40-blue-40-70deg":
           "linear-gradient(70deg, #D7B9F3 0%, #AEBBFF 100%)",
       },
+      writingMode: {
+        "vertical-rl": "vertical-rl",
+        "vertical-lr": "vertical-lr",
+      },
       boxShadow: {
         up: "0 -4px 6px -1px rgba(195, 151, 236, 0.4), 0 -2px 4px -1px rgba(195, 151, 236, 0.2), 0 2px 2px 1px rgba(195, 151, 236, 0.25)",
         "top-md":
@@ -366,8 +370,8 @@ const config: Config = {
           "50%": {outlineColor: "transparent"}, // 중간에 투명하게
         },
         fadeIn1: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+          "0%": {opacity: "0"},
+          "100%": {opacity: "1"},
         },
         fadeIn: {
           "0%": {
@@ -491,7 +495,7 @@ const config: Config = {
         "@media (prefers-color-scheme: light)": {
           ":root": {
             "--bg-default-1": `${theme("colors.gray.20")}`,
-            "--bg-default-2": `${theme("colors.black.40")}`,
+            "--bg-default-2": `${theme("colors.black.30")}`,
             "--bg-disabled": `${theme("colors.gray.40")}`,
             "--bg-text-contrast-1": `${theme("colors.black.80")}`,
             "--bg-text-contrast-2": `${theme("colors.white.80")}`,
@@ -978,10 +982,14 @@ const config: Config = {
         // ".scrollbar-hide": {
         //   "-ms-overflow-style": "none" /* IE and Edge */,
         //   "scrollbar-width": "none" /* Firefox */,
+        //   "scrollbar-gutter": "stable",
         //   "&::-webkit-scrollbar": {
         //     display: "none" /* Chrome, Safari, and Opera */,
+        //     overflow: "hidden"
         //   },
         // },
+        ".writing-vertical-rl": {writingMode: "vertical-rl"},
+        ".writing-vertical-lr": {writingMode: "vertical-lr"},
         ".primary-border-radius": {
           "border-width": "0.0625rem", // 기존 두께
           "border-style": "solid",

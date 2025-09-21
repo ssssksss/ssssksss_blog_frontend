@@ -25,7 +25,7 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
   };
 
   const updateMemoHandler = async () => {
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/plan/memo?id=${props.data.id}`,
       method: "PUT",
       body: {
@@ -33,30 +33,32 @@ const PlanMemoTextarea = (props: IPlanMemoTextarea) => {
       },
       showSuccessToast: true,
       successMessage: "메모 수정 완료",
-    });
-    if (result == undefined) return;
-    const temp = memoStore.memoList.map((i) => {
-      if (i.id == props.data.id) {
-        i.content = content;
+      handleSuccess: () => {
+        const temp = memoStore.memoList.map((i) => {
+          if (i.id == props.data.id) {
+            i.content = content;
+          }
+          return i;
+        });
+        memoStore.setMemoList(temp);
+        setActive(false);
       }
-      return i;
     });
-    memoStore.setMemoList(temp);
-    setActive(false);
   };
 
   const deleteMemoHandler = async () => {
-    const result = await fetchCSR.requestWithHandler(
+    await fetchCSR.requestWithHandler(
       {
         url: `/api/plan/memo?id=${props.data.id}`,
         method: "DELETE",
         showSuccessToast: true,
-        successMessage: "메모 삭제"
+        successMessage: "메모 삭제",
+        handleSuccess: () => {
+          memoStore.setMemoList(
+            memoStore.memoList.filter((i) => i.id != props.data.id),
+          );      
+        }
       },
-    );
-    if (result == undefined) return;
-    memoStore.setMemoList(
-      memoStore.memoList.filter((i) => i.id != props.data.id),
     );
   };
 

@@ -20,7 +20,7 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
   const fetchCSR = useFetchCSR();
   const createSiteBookmark = async () => {
     if (inputRef.current?.value == "" || inputRef1.current?.value == "") return;
-    const result: ISiteBookmark | undefined = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/site-bookmark",
       method: "POST",
       body: {
@@ -30,43 +30,41 @@ const SiteBookmarkModal = (props: ISiteBookmarkModal) => {
       },
       showSuccessToast: true,
       successMessage: "카테고리 생성에 성공했습니다.",
+      handleSuccess: (result: ISiteBookmark) => {
+        siteBookmarkStore.setSiteBookmark({
+          categoryId: props.siteBookmarkCategoryId,
+          id: result!.id,
+          name: result!.name,
+          url: result!.url,
+        });
+            props.closeModal!();
+      }
     });
-    siteBookmarkStore.setSiteBookmark({
-      categoryId: props.siteBookmarkCategoryId,
-      id: result!.id,
-      name: result!.name,
-      url: result!.url,
-    });
-    props.closeModal!();
   };
   
-  const updateSiteBookmarkCategory = () => {
-    // name, isAuth
-  };
-
   const deleteSiteBookmark = async () => {
     if (deleteSiteBookmarkItem.id <= 0) return;
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/site-bookmark?id=${deleteSiteBookmarkItem.id}`,
       method: "DELETE",
       showSuccessToast: true,
       successMessage: "카테고리 삭제 했습니다.",
-    });
-    if (result == "success") {
-      const _temp = siteBookmarkStore.siteBookmarkCategoryList.map((i) => {
-        if (i.id == props.siteBookmarkCategoryId) {
-          return {
-            ...i,
-            siteBookmarkList: i.siteBookmarkList.filter(
-              (j) => deleteSiteBookmarkItem.id !== j.id,
-            ),
-          };
-        }
-        return i;
-      });
-      siteBookmarkStore.setInit(_temp);
+      handleSuccess: () => {
+        const _temp = siteBookmarkStore.siteBookmarkCategoryList.map((i) => {
+          if (i.id == props.siteBookmarkCategoryId) {
+            return {
+              ...i,
+              siteBookmarkList: i.siteBookmarkList.filter(
+                (j) => deleteSiteBookmarkItem.id !== j.id,
+              ),
+            };
+          }
+          return i;
+        });
+        siteBookmarkStore.setInit(_temp);
       props.closeModal!();
-    }
+      }
+    });
   };
 
   return (

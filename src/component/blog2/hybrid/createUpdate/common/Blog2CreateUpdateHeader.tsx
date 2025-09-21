@@ -112,45 +112,51 @@ const Blog2CreateUpdateHeader = (props: IBlog2CreateUpdateHeader) => {
     // ✅ [5] 서버 요청 전송
     if (!props.isEdit) {
       // 생성
-      const result = await fetchCSR.requestWithHandler({
+      await fetchCSR.requestWithHandler({
         url: "/api/blog2",
         method: "POST",
         formData,
         showSuccessToast: true,
+        handleSuccess: (result: IBlog2) => {
+          // 현재
+          if (
+            blogItemList.blog2SecondCategoryId ===
+            formContext.getValues("secondCategoryId")
+          ) {
+            setBlogItemList({
+              id: blogItemList.blog2SecondCategoryId,
+              list: [result, ...blogItemList.list],
+            });
+          }
+
+          router.replace(
+            `/blog2?firstCategoryId=${formContext.getValues("firstCategoryId")}&secondCategoryId=${formContext.getValues("secondCategoryId")}`,
+          );
+        },
+        handleFail: () => {
+          return;
+        }
       });
-
-      if (!result) return;
-
-      // 현재 
-      if (
-        blogItemList.blog2SecondCategoryId ===
-        formContext.getValues("secondCategoryId")
-      ) {
-        setBlogItemList({
-          id: blogItemList.blog2SecondCategoryId,
-          list: [result, ...blogItemList.list],
-        });
-      }
-
-      router.replace(
-        `/blog2?firstCategoryId=${formContext.getValues("firstCategoryId")}&secondCategoryId=${formContext.getValues("secondCategoryId")}`,
-      );
     } else {
       // 수정
       const blog2Id = formContext.getValues("id");
-      const result = await fetchCSR.requestWithHandler({
+      await fetchCSR.requestWithHandler({
         url: `/api/blog2?id=${blog2Id}`,
         method: "PUT",
         formData,
         showSuccessToast: true,
-        handleRevalidateTags: [`blog2-${blog2Id}`]
+        handleRevalidateTags: [`blog2-${blog2Id}`],
+        handleSuccess: () => {
+          router.replace(`/blog2/${blog2Id}`);
+          router.refresh();
+        },
+        handleFail: () => {
+          return;
+        },
       });
-
-      if (!result) return;
-
-      router.replace(`/blog2/${blog2Id}`);
-      router.refresh();
     }
+
+
   };
   
 

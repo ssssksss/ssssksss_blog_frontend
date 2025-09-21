@@ -131,6 +131,20 @@ declare interface ResBlog2Update {
   isEdit: boolean;
 }
 
+declare interface ISearchBlog2BasicContentList {
+  content: IBlog2BasicContent[];
+  pageable: Pageable;
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  size: number;
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 // structure
 
 declare interface IBlog2Structure {

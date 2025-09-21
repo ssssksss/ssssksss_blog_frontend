@@ -11,35 +11,36 @@ const PlanScheduleCategoryModal = (props: any) => {
   const fetchCSR = useFetchCSR();
 
   const deleteScheduleCategoryHandler = async (id: number) => {
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/plan/schedule/category?id=${id}`,
       method: "DELETE",
       showSuccessToast: true,
-    });
-    if (result == undefined) return;
-    // delete
-    // 일정 카테고리에서 제외
-    planStore.setScheduleCategory(
-      planStore.scheduleCategory.filter((i) => i.id != id),
-    );
-    // 달력에 보이는 일정 목록에서 제외
-    const temp = planStore.calendar.map((i) => {
-      if (i.data.length > 0) {
-        i.data = i.data.filter((j) => j.scheduleCategoryId != id);
+      handleSuccess: () => {
+        // delete
+        // 일정 카테고리에서 제외
+        planStore.setScheduleCategory(
+          planStore.scheduleCategory.filter((i) => i.id != id),
+        );
+        // 달력에 보이는 일정 목록에서 제외
+        const temp = planStore.calendar.map((i) => {
+          if (i.data.length > 0) {
+            i.data = i.data.filter((j) => j.scheduleCategoryId != id);
+          }
+          return i;
+        });
+        planStore.setCalendar(temp);
+        // 하단에 보이는 일정 목록
+        const temp1: IPlanSchedule[] = planStore.scheduleList.reduce<
+          IPlanSchedule[]
+        >((acc, cur) => {
+          if (cur.scheduleCategoryId !== id) {
+            acc.push(cur); // id가 다를 때만 포함
+          }
+          return acc;
+        }, []);
+        planStore.setScheduleList([...temp1]);
       }
-      return i;
     });
-    planStore.setCalendar(temp);
-    // 하단에 보이는 일정 목록
-    const temp1: IPlanSchedule[] = planStore.scheduleList.reduce<
-        IPlanSchedule[]
-      >((acc, cur) => {
-        if (cur.scheduleCategoryId !== id) {
-          acc.push(cur); // id가 다를 때만 포함
-        }
-        return acc;
-      }, []);
-    planStore.setScheduleList([...temp1]);
   };
 
   return (

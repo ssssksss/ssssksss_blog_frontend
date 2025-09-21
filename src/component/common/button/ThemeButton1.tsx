@@ -6,7 +6,7 @@ const ThemeButton1 = ({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {className?: string}) => {
   return (
     <BasicButton
-      className={`primary-border-radius primary-set hover:scale-105 disabled:cursor-not-allowed disabled:disabled-set ${className}`}
+      className={`primary-border-radius primary-set disabled:cursor-not-allowed disabled:disabled-set ${className}`}
       {...props}
     />
   );

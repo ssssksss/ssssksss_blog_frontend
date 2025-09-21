@@ -30,7 +30,7 @@ export const convertMarkdownToHtml = (
   // Step 1: 코드블록 임시 저장
   const codeBlocks: {lang: string; code: string}[] = [];
   markdown = markdown.replace(
-    /```(js|ts|tsx|html|css|java|py|jpql|ex)?\s*([\s\S]*?)\s*```/g,
+    /```(js|ts|tsx|html|css|java|py|jpql|ex)?([\s\S]*?)\s*```/g,
     (_, lang = "", code) => {
       codeBlocks.push({lang, code});
       return `@@CODEBLOCK_${codeBlocks.length - 1}@@`;
@@ -47,6 +47,8 @@ export const convertMarkdownToHtml = (
       <div class="inline-flex relative default-flex items-center p-2"><img data-blob-src="${fullBlobUrl}" alt="image" class="cursor-pointer max-w-full h-auto block" /><div class="absolute top-[calc(100%-3rem)] right-[calc(50%-2.5rem)] text-[0.75rem] bg-contrast-1 text-default-1 whitespace-nowrap overflow-hidden default-flex rounded-2xl w-20 h-8"><div class="animate-marquee pl-[4rem]"> 실제 이미지로 변환중... </div></div></div>
     `,
     )
+    .replace(/^\s*-\s\[ \]\s(.*)$/gim, "<li class=\"py-3 rounded-[1rem]\"><label class=\"flex items-center gap-3 text-lg\"><input type=\"checkbox\" class=\"peer hidden\" disabled><span class=\"w-6 h-6 rounded-md border-2 border-gray-400 flex items-center justify-center peer-checked:bg-gradient-to-r peer-checked:from-indigo-500 peer-checked:to-blue-500 peer-checked:border-transparent relative\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"absolute w-4 h-4 opacity-0 peer-checked:opacity-100\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\"/></svg></span><span class=\"peer-checked:line-through peer-checked:text-gray-400\">$1</span></label></li>")
+    .replace(/^\s*-\s\[x\]\s(.*)$/gim, "<li class=\"py-3 rounded-[1rem]\"><label class=\"flex items-center gap-3 text-lg\"><input type=\"checkbox\" class=\"peer hidden\" disabled checked><span class=\"w-6 h-6 rounded-md border-2 border-gray-400 flex items-center justify-center peer-checked:bg-gradient-to-r peer-checked:from-indigo-500 peer-checked:to-blue-500 peer-checked:border-transparent relative\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"absolute w-4 h-4 opacity-100\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\"/></svg></span><span class=\"line-through text-gray-400\">$1</span></label></li>")
     .replace(/```table\r?\n([\s\S]*?)\r?\n```/g, (match, tableContent) => {
       const lines = tableContent.trim().split("\n");
       if (lines.length < 2) return match;

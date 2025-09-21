@@ -5,6 +5,7 @@ import ModalTemplate from "@component/common/modal/hybrid/ModalTemplate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
 import useModalState from "@hooks/useModalState";
+import useToastifyStore from "@store/toastifyStore";
 import { Blog2ResultYup } from "@utils/validation/BlogYup";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
@@ -21,6 +22,7 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
   const { id: blogId } = useParams();
   const modalState = useModalState(props.edit ? true : false);
   const fetchCSR = useFetchCSR();
+  const toastifyStore = useToastifyStore();
   
   const blog2ResultContentFormContext = useForm<IBlog2ResultFormContext>({
     resolver: yupResolver(Blog2ResultYup),
@@ -91,24 +93,25 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
       });
     }
 
-    const result: IBlog2Result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/blog2/result",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
+      handleSuccess: (result: IBlog2Result) => {
+        if (props.edit) {
+          // 블로그 기초 수정 성공시
+          props.updateBlog2Result!(result);
+          props.closeModalAfterSuccess!();
+        } else {
+          // 블로그 기초 생성 성공시
+          props.addBlog2Result!(result);
+          props.closeModalAfterSuccess!();
+        }
+      },
+      handleFail: () => {
+        return;
+      }
     });
-
-    if (result == undefined) return;
-
-
-    if (props.edit) {
-      // 블로그 기초 수정 성공시
-      props.updateBlog2Result!(result);
-      props.closeModalAfterSuccess!();
-    } else {
-      // 블로그 기초 생성 성공시
-      props.addBlog2Result!(result);
-      props.closeModalAfterSuccess!();
-    }
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
@@ -151,7 +154,12 @@ const Blog2ResultCreateUpdateModal = (props: IBlog2ResultCreateUpdateModal) => {
           props.loadingWithHandler(
             blog2ResultContentFormContext.handleSubmit(
               handleSubmitClick,
-              onClickErrorSubmit,
+              () => {
+                toastifyStore.setToastify({
+                  type: "error",
+                  message: "잘못 입력된 값이 존재합니다."
+                });
+              },
             ),
           )
         }

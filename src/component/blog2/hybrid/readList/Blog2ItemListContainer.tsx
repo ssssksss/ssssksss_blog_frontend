@@ -1,5 +1,4 @@
 import LottieNotFound from "@component/common/lottie/LottieNotFound";
-import LoadingSpinner from "@component/common/spinner/LoadingSpinner";
 import { faBolt } from "@fortawesome/free-solid-svg-icons/faBolt";
 import { faGhost } from "@fortawesome/free-solid-svg-icons/faGhost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,6 +19,7 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
   const fetchCSR = useFetchCSR();
   const userStore = useUserStore();
 
+  // TODO : 나중에 useQuery로 변경할 것 캐시데이터 필요
   const fetchBlogList = async () => {
     const url = new URL(window.location.href);
     const result = await fetchCSR.requestWithHandler({
@@ -48,9 +48,8 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
   }, [blog2Store.activeBlog2SecondCategoryId, userStore.id]);
 
   return (
-    <div className="mt-[.5rem] flex w-full flex-col pb-[.5rem]">
+    <div className="mt-[.5rem] flex min-h-[calc(100vh-12rem)] flex-col pb-[.5rem]">
       <ul className="flex max-w-full flex-col gap-y-2">
-        <LoadingSpinner loading={loadingState.loading} />
         {blog2Store.isDataFetched &&
           !loadingState.loading &&
           blog2Store.blogItemList.list.map((i, index) => (
@@ -109,6 +108,11 @@ const Blog2ItemListContainer = (props: IBlog2ItemListContainer) => {
           </div>
         )}
       </ul>
+      {loadingState.loading && (
+        <div className="h-full w-full flex-1 py-1 default-flex">
+          <div className="aspect-square w-full max-w-[5rem] animate-spin rounded-full border-b-4 border-blue-500"></div>
+        </div>
+      )}
     </div>
   );
 };

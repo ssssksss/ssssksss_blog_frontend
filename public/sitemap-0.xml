@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://blog.ssssksss.xyz/analytics/sentry</loc><lastmod>2025-06-11T01:32:12.626Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/design/color-contrast</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/setting</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/plan/schedule</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/blog2/create</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/blog2</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz/travel/schedule/create</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://blog.ssssksss.xyz</loc><lastmod>2025-06-11T01:32:12.627Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/analytics/sentry</loc><lastmod>2025-09-21T17:29:03.922Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/blog2</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/design/color-contrast</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/not-auth</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/plan/process</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/setting</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/blog2/create</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/plan/schedule</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/plan/slot-machine</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/travel/schedule/create</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz/team-space</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://blog.ssssksss.xyz</loc><lastmod>2025-09-21T17:29:03.923Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

@@ -31,7 +31,7 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
       });
       return;
     }
-    const result: number = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/board${props.isEdit ? "?id=" + props.data?.id : ""}`,
       method: props.isEdit ? "PUT" : "POST",
       body: {
@@ -44,15 +44,16 @@ const BoardCreateUpdateContainer = (props: IBoardCreateUpdateContainer) => {
         ? "게시글 수정에 성공"
         : "게시글 작성에 성공",
       handleRevalidateTags: props.isEdit ? [`getBoard/${props.data?.id}`] : [],
+      handleSuccess: (result: number) => {
+        if (props.isEdit) {
+          refreshStore.setRefresh(true);
+          router.back();
+        } else {
+          refreshStore.setRefresh(true);
+          router.replace(`/board/${result}`);
+        }
+      }
     });
-    if (result == undefined) return;
-    if (props.isEdit) {
-      refreshStore.setRefresh(true);
-      router.back();
-    } else {
-      refreshStore.setRefresh(true);
-      router.replace(`/board/${result}`);
-    }
   };
 
   // 자동 포커싱

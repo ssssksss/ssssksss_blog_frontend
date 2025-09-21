@@ -105,23 +105,25 @@ const Blog2BasicCreateUpdateContentModal = (
     }
 
     // [4] 요청
-    const result: IBlog2BasicContent = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: "/api/blog2/basic",
       method: props.edit ? "PUT" : "POST",
       formData: formData,
+      handleSuccess: (result: IBlog2BasicContent) => {
+        if (props.edit) {
+          // 블로그 기초 수정 성공시
+          props.updateBlog2BasicContent!(result);
+          props.closeModalAfterSuccess!();
+        } else {
+          // 블로그 기초 생성 성공시
+          props.addBlog2BasicContent!(result);
+          props.closeModalAfterSuccess!();
+        }
+      },
+      handleFail: () => {
+        return;
+      },
     });
-
-    if (result == undefined) return;
-
-    if (props.edit) {
-      // 블로그 기초 수정 성공시
-      props.updateBlog2BasicContent!(result);
-      props.closeModalAfterSuccess!();
-    } else {
-      // 블로그 기초 생성 성공시
-      props.addBlog2BasicContent!(result);
-      props.closeModalAfterSuccess!();
-    }
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {
@@ -183,6 +185,7 @@ const Blog2BasicCreateUpdateContentModal = (
         addS3ImageUrl={addS3ImageUrl}
         isPreview={true}
         refreshValue={templateContent}
+        textSpaceMaxHeightTailWindText="max-h-[calc(100vh-12rem)]"
       />
     </ModalTemplate>
   );

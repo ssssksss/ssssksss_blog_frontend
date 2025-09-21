@@ -1,5 +1,7 @@
+import Header from "@component/common/layout/hybrid/Header";
 import type { Metadata } from "next";
-import Header from "src/component/common/layout/hybrid/Header";
+import { Suspense } from "react";
+import { ReactQueryProvider } from "./CustomReactQueryProvider";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -48,15 +50,18 @@ export default function RootLayout({
           "flex min-h-full w-full flex-col items-center bg-default-1 text-contrast-1"
         }
       >
-        <Header />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Header />
+        </Suspense>
         <main className={"h-[calc(100%-3.5rem)] w-full max-w-[75rem]"}>
-          {children}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
         </main>
-        {/* <main className={"w-full h-full max-w-[75rem] overflow-y-scroll scrollbar-hide"}>{children}</main> */}
-        {/* <Footer /> */}
         <div id="modal-root"></div>
         <div id="modal-root1"></div>
+        {/* <Footer /> */}
       </body>
     </html>
   );
 }
+
+

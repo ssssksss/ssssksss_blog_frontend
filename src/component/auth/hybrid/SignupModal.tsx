@@ -1,10 +1,13 @@
+import SubmitButton from "@component/common/button/SubmitButton";
 import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useFetchCSR from "@hooks/useFetchCSR";
+import useToastifyStore from "@store/toastifyStore";
 import { UserSignupYup } from "@utils/validation/UserSignupYup";
 import Image from "next/image";
 import { useEffect } from "react";
-import { SubmitErrorHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Button from "src/component/common/button/hybrid/Button";
 
 interface ISignupModal {
@@ -22,7 +25,8 @@ interface ISignupFormData {
 }
 
 const SignupModal = (props: ISignupModal) => {
-
+  const fetchCSR = useFetchCSR();
+  const toastifyStore = useToastifyStore();
   const {register, handleSubmit, formState, watch, trigger} =
     useForm<ISignupFormData>({
       resolver: yupResolver(UserSignupYup),
@@ -36,38 +40,26 @@ const SignupModal = (props: ISignupModal) => {
         birthDate: "",
       },
     });
-  const {errors} = formState;
-
-  // const onClickSubmit: SubmitHandler<ISignupFormData> = async (data) => {
-  //   await AxiosInstance({
-  //     url: "/api/user",
-  //     method: "POST",
-  //     data: {
-  //       nickname: data.nickname,
-  //       password: data.password,
-  //       email: data.email,
-  //       gender: "m",
-  //       birthDate: "20000101",
-  //     },
-  //   })
-  //     .then(() => {
-  //       toastifyStore.setToastify({
-  //         type: "success",
-  //         message: "회원가입을 완료했습니다.",
-  //       });
-  //       props.closeModal();
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //       toastifyStore.setToastify({
-  //         type: "error",
-  //         message: "회원가입에 실패했습니다.",
-  //       });
-  //     });
-  // };
-
-  const onClickErrorSubmit: SubmitErrorHandler<ISignupFormData> = () => {
-    alert("잘못 입력된 값이 존재합니다.");
+  const logoutHandler = async (data: {email: string; password: string, nickname: string}) => {
+    await fetchCSR.requestWithHandler({
+      url: "/api/user",
+      method: "POST",
+      body: {
+        nickname: data.nickname,
+        password: data.password,
+        email: data.email,
+        gender: "m",
+        birthDate: "20000101",
+      },
+      successMessage: "회원가입에 성공했습니다.",
+      showSuccessToast: true,
+      handleSuccess: () => {
+        props.closeModal();
+      },
+      handleFail: () => {
+        return;
+      }
+    });
   };
 
   const oauthLogin = async (oauthService: string) => {
@@ -125,7 +117,7 @@ const SignupModal = (props: ISignupModal) => {
           <span>아이디가 있다면?</span>
           <ThemeButton1
             onClickCapture={props.changeAuthScreen}
-            className="h-btn-sm flex items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
+            className="flex h-btn-sm items-center rounded-[1rem] p-2 py-[.5rem] outline-primary-20 hover:bg-primary-20"
           >
             로그인
           </ThemeButton1>
@@ -171,13 +163,18 @@ const SignupModal = (props: ISignupModal) => {
             />
           </Button>
         </div>
-        <ThemeButton1
+        <SubmitButton
           className="h-btn-lg w-full p-[.5rem]"
-          // onClickCapture={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          onClick={handleSubmit(logoutHandler, () => {
+            toastifyStore.setToastify({
+              type: "error",
+              message: "회원가입 실패",
+            });
+          })}
           disabled={!formState.isValid}
-        >
-          회원가입
-        </ThemeButton1>
+          isActive={formState.isValid}
+          text="회원가입"
+        />
       </div>
     </div>
   );

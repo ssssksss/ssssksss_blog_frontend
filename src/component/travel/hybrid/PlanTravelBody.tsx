@@ -3,7 +3,6 @@
 import Button from "@component/common/button/hybrid/Button";
 import Input from "@component/common/input/Input";
 import useFetchCSR from "@hooks/useFetchCSR";
-import useToastifyStore from "@store/toastifyStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { FaPlane } from "react-icons/fa6";
@@ -36,15 +35,15 @@ const PlanTravelBody = (props: IPlanTravelBody) => {
   const [keyword, setKeyword] = useState("");
   const [list, setList] = useState<Test[]>([]);
   const keywordRef = useRef<HTMLInputElement>(null);
-  const toastifyStore = useToastifyStore();
   const fetchCSR = useFetchCSR();
   const fetchTouristInfo = async () => {
-    const data = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/publicAPI/B551011/KorService1/searchKeyword11?keyword=${keyword}`,
+      handleSuccess: (result: any) => {
+        const items = result.response?.body.items.item;
+        setData(items);
+      }
     });
-    if (data == undefined) return;
-    const items = data.response.body.items.item;
-    setData(items);
   };
 
   return (

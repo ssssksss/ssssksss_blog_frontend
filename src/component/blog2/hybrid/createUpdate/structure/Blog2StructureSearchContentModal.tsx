@@ -38,36 +38,39 @@ const Blog2StructureSearchContentModal = (
     if (searchRef.current!.value == search) {
       return;
     }
-    const result: IResultSearchBlog2StructureContentList =
-      await fetchCSR.requestWithHandler({
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/structure/list?search=${encodeURIComponent(searchRef.current!.value)}&page=${page}`,
-      });
-    if (result == undefined) {
-      setBlog2StructureContentList([]);
-      return;
-    }
-    setBlog2StructureContentList(
-      result.content,
-    );
-    setSearch(searchRef.current!.value);
-    toastifyStore.setToastify({
-      message: `${result.content.length}개의 검색 결과`,
+    
+    await fetchCSR.requestWithHandler({
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog2/structure/list?search=${encodeURIComponent(searchRef.current!.value)}&page=${page}`,
+      handleSuccess: (result: IResultSearchBlog2StructureContentList) => {
+        setBlog2StructureContentList(result.content);
+        setSearch(searchRef.current!.value);
+        toastifyStore.setToastify({
+          message: `${result.content.length}개의 검색 결과`,
+        });
+      },
+      handleFail: () => {
+        setBlog2StructureContentList([]);
+        return;
+      },
     });
+    
   };
 
   const deleteBlog2StructureContentHandler = async (id: number) => {
-    const result = await fetchCSR.requestWithHandler({
+    await fetchCSR.requestWithHandler({
       url: `/api/blog2/structure?id=${id}`,
       method: "DELETE",
       showSuccessToast: true,
-      successMessage: "구조글이 삭제 되었습니다."
-    });
-
-    if (result == undefined) return;
-
-    const _structureList = (blog2FormContext.getValues("blog2StructureList") as IBlog2Structure[]).filter((i) => i.blog2StructureContent.id != id);
-    blog2FormContext.setValue("blog2StructureList", _structureList);
+      successMessage: "구조글이 삭제 되었습니다.",
+      handleSuccess: () => {
+        const _structureList = (blog2FormContext.getValues("blog2StructureList") as IBlog2Structure[]).filter((i) => i.blog2StructureContent.id != id);
+        blog2FormContext.setValue("blog2StructureList", _structureList);
     props.closeModal!();
+      },
+      handleFail: () => {
+        return;
+      },
+    });
   };
 
   return (

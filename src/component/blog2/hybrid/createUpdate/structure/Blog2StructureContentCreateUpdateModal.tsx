@@ -52,37 +52,34 @@ const Blog2StructureContentCreateUpdateModal = (
   const blog2FormContext = useFormContext();
   const handleSubmitClick: SubmitHandler<any> = async (data) => {
     // API 공통 작업
-    const result: IBlog2StructureContent =
-      await fetchCSR.requestWithHandler({
-        url: props.edit
-          ? `/api/blog2/structure?id=${props.item!.id}`
-          : "/api/blog2/structure",
-        method: props.edit ? "PUT" : "POST",
-        body: {
-          directory: blog2ContentFormContext.getValues("directory"),
-          content: blog2ContentFormContext.getValues("content"),
-          project: blog2ContentFormContext.getValues("project"),
-          version: blog2ContentFormContext.getValues("version"),
-        },
-        showSuccessToast: true,
-        successMessage: props.edit
-          ? "구조글 수정에 성공"
-          : "구조글 생성에 성공",
-      });
-
-    if (result == undefined) {
-      return;
-    }
-
-    if (props.edit) {
-      // 블로그 구조 수정 성공시
-      props.updateBlog2StructureContent!(result);
-      props.closeModalAfterSuccess!();
-    } else {
-      // 블로그 구조 생성 성공시
-      props.addBlog2StructureContent!(result);
-      props.closeModalAfterSuccess!();
-    }
+    await fetchCSR.requestWithHandler({
+      url: props.edit
+        ? `/api/blog2/structure?id=${props.item!.id}`
+        : "/api/blog2/structure",
+      method: props.edit ? "PUT" : "POST",
+      body: {
+        directory: blog2ContentFormContext.getValues("directory"),
+        content: blog2ContentFormContext.getValues("content"),
+        project: blog2ContentFormContext.getValues("project"),
+        version: blog2ContentFormContext.getValues("version"),
+      },
+      showSuccessToast: true,
+      successMessage: props.edit ? "구조글 수정에 성공" : "구조글 생성에 성공",
+      handleSuccess: (result: IBlog2StructureContent) => {
+        if (props.edit) {
+          // 블로그 구조 수정 성공시
+          props.updateBlog2StructureContent!(result);
+          props.closeModalAfterSuccess!();
+        } else {
+          // 블로그 구조 생성 성공시
+          props.addBlog2StructureContent!(result);
+          props.closeModalAfterSuccess!();
+        }
+      },
+      handleFail: () => {
+        return;
+      },
+    });
   };
 
   const onClickErrorSubmit: SubmitErrorHandler<any> = () => {

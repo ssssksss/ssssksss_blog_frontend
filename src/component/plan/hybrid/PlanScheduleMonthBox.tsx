@@ -59,12 +59,13 @@ const PlanScheduleMonthBox = () => {
     const result = await fetchCSR.requestWithHandler({
       url: "/api/plan/schedule/category",
       method: "GET",
+      handleSuccess: () => {
+        planStore.setScheduleCategory(result);
+      },
+      handleFail: () => {
+        planStore.setScheduleCategory([]);
+      }
     });
-    if (result == undefined) {
-      planStore.setScheduleCategory([]);
-      return;
-    }
-    planStore.setScheduleCategory(result);
   };
 
   const fetchSchedules = async (days: ICalendarItem[]) => {

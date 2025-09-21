@@ -5,6 +5,7 @@ import ThemeButton1 from "@component/common/button/ThemeButton1";
 import ThemeInput1 from "@component/common/input/ThemeInput1";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFetchCSR from "@hooks/useFetchCSR";
+import useToastifyStore from "@store/toastifyStore";
 import useUserStore from "@store/userStore";
 import { UserLoginYup } from "@utils/validation/UserLoginYup";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -18,6 +19,7 @@ interface ILoginModal {
 const LoginModal = (props: ILoginModal) => {
   const userStore = useUserStore();
   const fetchCSR = useFetchCSR();
+  const toastifyStore = useToastifyStore();
   const {register, handleSubmit, formState} = useForm({
     resolver: yupResolver(UserLoginYup),
     mode: "onChange",
@@ -26,39 +28,42 @@ const LoginModal = (props: ILoginModal) => {
       email: "test@naver.com",
     },
   });
-  const onClickSubmit = async (data: {email: string; password: string}) => {
-    const result: IUser | undefined = await fetchCSR.requestWithHandler({
+
+  const loginHandler = async (data: {email: string; password: string}) => {
+    await fetchCSR.requestWithHandler({
       url: "/api/user",
       method: "PUT",
       body: {
         email: data.email,
         password: data.password,
       },
-    });
-
-    if (!result) return;
-
-    if (result.role === "ROLE_ADMIN") {
-      try {
-        const auth = getAuth();
-        await signInWithEmailAndPassword(auth, data.email, data.password);
-        // Firebase 로그인 성공!
-      } catch (error) {
-        console.error("Firebase 로그인 실패:", error);
-        // 실패 처리 (토스트, 에러 메시지 등)
+      handleSuccess: async (result: IUser) => {
+        if (result.role === "ROLE_ADMIN") {
+          try {
+            const auth = getAuth();
+            await signInWithEmailAndPassword(auth, data.email, data.password);
+            // Firebase 로그인 성공!
+          } catch (error) {
+            console.error("Firebase 로그인 실패:", error);
+            // 실패 처리 (토스트, 에러 메시지 등)
+            return;
+          }
+        }
+        userStore.setUser({
+          ...result,
+        });
+        toastifyStore.setToastify({
+          message: "로그인 성공",
+        });
+        props.closeModal();
+      },
+      handleFail: () => {
         return;
       }
-    }
-
-    userStore.setUser({
-      ...result,
     });
-    props.closeModal();
+    
   };
 
-  const onClickErrorSubmit = () => {
-    alert("잘못 입력된 값이 존재합니다.");
-  };
   // const _func = async (event: Event) => {
   //   const customEvent = event as CustomEvent<{accessToken: string}>;
   //   AxiosInstance({
@@ -86,7 +91,7 @@ const LoginModal = (props: ILoginModal) => {
   // }, []);
 
   return (
-    <div className="z-10 flex w-full flex-col gap-2 overflow-scroll p-2 text-base">
+    <div className="z-10 flex w-full flex-col gap-2 overflow-scroll p-2 text-base scrollbar-hide">
       <header className="flex flex-col items-center gap-2 self-stretch p-2">
         <span className="text-3xl">로그인</span>
       </header>
@@ -114,7 +119,7 @@ const LoginModal = (props: ILoginModal) => {
           <span>아이디가 없으시다면?</span>
           <ThemeButton1
             onClickCapture={() => props.changeAuthScreen()}
-            className="h-btn-sm flex items-center rounded-[1rem] p-2 py-1 outline-primary-20 hover:bg-primary-20"
+            className="flex h-btn-sm items-center rounded-[1rem] p-2 py-1 outline-primary-20 hover:bg-primary-20"
           >
             회원가입
           </ThemeButton1>
@@ -160,7 +165,14 @@ const LoginModal = (props: ILoginModal) => {
         <SubmitButton
           text="로그인"
           className="h-btn-lg w-full p-[.5rem]"
-          onClick={handleSubmit(onClickSubmit, onClickErrorSubmit)}
+          onClick={async () =>
+            await handleSubmit(loginHandler, () => {
+              toastifyStore.setToastify({
+                type: "error",
+                message: "로그인 실패",
+              });
+            })()
+          }
           disabled={!formState.isValid}
           isActive={formState.isValid}
         >
